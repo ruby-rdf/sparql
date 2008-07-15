@@ -63,7 +63,7 @@ Anyway, you can get started by doing the following in IRB.
 
   > irb(main):004:0> parser = SparqlParser.new
 
-  > => #<SparqlParser:0x1270bcc @consume_all_input=true>
+  > => #SparqlParser:0x1270bcc @consume_all_input=true
 
   > irb(main):005:0> syntaxtree = parser.parse('SELECT ?foo ?bar WHERE { ?x foaf:knows ?y . ?z foaf:name ?y . }')
 
