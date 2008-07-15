@@ -18,7 +18,7 @@ FEATURE LIST
                                                                               
 1. **As of right now (09:44 EST, July 15, 2008) can parse a SELECT statement of the form "SELECT ?foo ?bar WHERE { ?x foaf:knows ?y . ?z foaf:name ?y . }"**: When finished, this library will be able to parse arbitrary SPARQL queries and can serve as a maintainable reference implementation in Ruby.
 
-2.  **Starting point for providing SPARQL endpoints for arbitrary datastores** When completed, this library will provide hooks that allow a Ruby developer to easily define a translation from SPARQL to another query language or API of their choosing.  Ideally, this will be done using a simple YAML configuration file.
+2.  **Starting point for providing SPARQL endpoints for arbitrary datastores**: When completed, this library will provide hooks that allow a Ruby developer to easily define a translation from SPARQL to another query language or API of their choosing.  Ideally, this will be done using a simple YAML configuration file.
 
 3. **Fully Composable**: Because parsing expression grammars are closed under composition, you can compose this grammar with other Treetop grammars with relative ease.
 
@@ -50,13 +50,21 @@ As of this minute, the code won't be that useful to you, as it can only parse a 
 Anyway, you can get started by doing the following in IRB.
 
   > irb(main):001:0> require 'rubygems'
+
   > => true
+
   > irb(main):002:0> gem 'pius-sparql'
+
   > => true
+
   > irb(main):003:0> require 'sparql'
+
   > => true
+
   > irb(main):004:0> parser = SparqlParser.new
+
   > => #<SparqlParser:0x1270bcc @consume_all_input=true>
+
   > irb(main):005:0> syntaxtree = parser.parse('SELECT ?foo ?bar WHERE { ?x foaf:knows ?y . ?z foaf:name ?y . }')
 
 
