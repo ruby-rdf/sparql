@@ -1,0 +1,60 @@
+# sparql.treetop
+
+grammar Sparql
+
+	rule expression
+	   select
+	end
+
+	rule select
+	   'SELECT' space series_of_variables space where
+	end
+	
+	rule series_of_variables
+		variable space series_of_variables / variable
+	end
+	
+	rule series_of_triple_patterns
+		triple_pattern space series_of_triple_patterns / triple_pattern
+	end
+	
+	rule where
+		'WHERE' space '{' space series_of_triple_patterns space '}'
+	end
+	
+	rule triple_pattern
+		subject space predicate space object space '.'
+	end
+	
+	rule subject
+		variable
+	end
+	
+	rule object
+		variable
+	end
+	
+	rule predicate
+		variable / iriref
+	end
+	
+	rule iriref
+		iri_ref / curie
+	end
+	
+	rule iri_ref
+		"uri"
+	end
+	
+	rule curie
+		[a-z]+ ':' [a-z]+
+	end
+	
+	rule variable
+	  '?' [a-z]+
+	end
+	
+	rule space
+    	' '*
+  	end
+end
