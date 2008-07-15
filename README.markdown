@@ -1,7 +1,7 @@
 sparql Release 0.0.1 (July 15th 2008) 
 ===================================
 
-**Git**:  [http://github.com/pius/dm-semantic](http://github.com/pius/dm-semantic)   
+**Git**:  [http://github.com/pius/sparql](http://github.com/pius/sparql)   
 **Author**:    Pius Uzamere, [The Uyiosa Corporation](http://www.uyiosa.com)
 
 **Copyright**: 2008
