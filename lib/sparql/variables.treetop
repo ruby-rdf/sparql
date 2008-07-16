@@ -11,6 +11,10 @@ grammar Variables
 		'$' varname
 	end
 	
+	rule varname
+		( pn_chars_u / [0-9] ) ( pn_chars_u / [0-9] / '#x00B7' )*
+	end
+	
 	rule prefixed_name
 		pname_ln / pname_ns
 	end
@@ -41,9 +45,5 @@ grammar Variables
 	
 	rule pn_local
 		( pn_chars_u / [0-9] ) ((pn_chars / '.')* pn_chars)?
-	end
-	
-	rule varname
-		( pn_chars_u / [0-9] ) ( pn_chars_u / [0-9] / '#x00B7' )*
 	end
 end
