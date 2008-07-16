@@ -3,7 +3,11 @@
 grammar Sparql
 
 	rule query
-	   prologue space ( select / construct / describe / ask )
+	   prologue space query_part:( select_query / construct_query / describe_query / ask_query ) {
+		def well_formed?
+			true #=> if a node has been identified as a query, it's well-formed by definition.
+		end
+	}
 	end
 	
 	rule prologue
@@ -15,24 +19,58 @@ grammar Sparql
 	end
 	
 	rule prefix_decl
-		'PREFIX' pname_ns iri_ref
+		'PREFIX' space pname_ns space iri_ref
 	end
 	
-	rule select
-	   'SELECT' space (( 'DISTINCT' / 'REDUCED' ) space)? ( series_of_variables / '*' ) space series_of_dataset_clauses? space where space solution_modifier
+	rule select_query
+	   'SELECT' space (( 'DISTINCT' / 'REDUCED' ) space)? ( series_of_variables / '*' ) space series_of_dataset_clauses? space where space solution_modifier {
+		def query_type
+			"SELECT"
+		end
+	}
 	end
 	
-	rule ask
-		'ASK' space (series_of_dataset_clauses space)? where
+	rule ask_query
+		'ASK' space (series_of_dataset_clauses space)? where {
+			def query_type
+				"ASK"
+			end
+		}
 	end
 	
-	rule describe
-		'DESCRIBE' space ( series_of_var_or_irirefs / '*' ) space (series_of_dataset_clauses space)? (where space)? solution_modifier
+	rule describe_query
+		'DESCRIBE' space ( series_of_var_or_irirefs / '*' ) space (series_of_dataset_clauses space)? (where space)? solution_modifier {
+			def query_type
+				"DESCRIBE"
+			end
+		}
 	end
 	
-	rule construct
-		'CONSTRUCT' space construct_template space (dataset_clause space)* (where space) solution_modifier
+	rule construct_query
+		'CONSTRUCT' space construct_template space (dataset_clause space)* (where space) solution_modifier {
+			def query_type
+				"CONSTRUCT"
+			end
+		}
 	end
+	
+
+	rule iriref
+		iri_ref / curie
+	end
+
+	rule iri_ref
+		'<' irirefchars+ '>'
+	end
+	
+	rule irirefchars
+		'http://xmlns.com/foaf/0.1/'
+	end
+
+	rule curie
+		[a-zA-Z]+ ':' [a-zA-Z]+
+	end
+
 	
 	rule expression
 		conditional_or_expression
@@ -131,11 +169,11 @@ grammar Sparql
 	end
 	
 	rule pn_chars
-		pn_chars_u / '-' / [0-9] / '#x00B7' / [#x0300-#x036F] / [#x203F-#x2040]
+		pn_chars_u / '-' / [0-9] / '#x00B7'
 	end
 	
 	rule pn_chars_base
-	 	[A-Z] / [a-z] / [#x00C0-#x00D6] / [#x00D8-#x00F6] / [#x00F8-#x02FF] / [#x0370-#x037D] / [#x037F-#x1FFF] / [#x200C-#x200D] / [#x2070-#x218F] / [#x2C00-#x2FEF] / [#x3001-#xD7FF] / [#xF900-#xFDCF] / [#xFDF0-#xFFFD] / [#x10000-#xEFFFF]
+	 	[A-Z]+ / [a-z]+
 	end
 	
 	rule pn_chars_u
@@ -358,18 +396,6 @@ grammar Sparql
 	
 	rule predicate
 		variable / iriref
-	end
-	
-	rule iriref
-		iri_ref / curie
-	end
-	
-	rule iri_ref
-		"uri"
-	end
-	
-	rule curie
-		[a-z]+ ':' [a-z]+
 	end
 	
 	rule variable
