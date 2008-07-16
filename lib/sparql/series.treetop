@@ -1,3 +1,8 @@
+#!/usr/bin/env tt
+# Author::    Pius Uzamere, The Uyiosa Corporation (http://uyiosa.com/)
+# Copyright:: 2008 Pius Uzamere
+# License::   MIT
+
 grammar Series
 	rule series_of_var_or_irirefs
 		var_or_iriref space series_of_var_or_irirefs / var_or_iriref

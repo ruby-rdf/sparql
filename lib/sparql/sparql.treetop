@@ -1,4 +1,7 @@
-# sparql.treetop
+#!/usr/bin/env tt
+# Author::    Pius Uzamere, The Uyiosa Corporation (http://uyiosa.com/)
+# Copyright:: 2008 Pius Uzamere
+# License::   MIT
 
 grammar Sparql
 	include Primitives
@@ -71,10 +74,6 @@ grammar Sparql
 	
 	rule construct_triples
 		triples_same_subject space ( '.' construct_triples? )?
-	end
-	
-	rule object_list
-		object (',' space object)*
 	end
 
 	rule solution_modifier

@@ -1,7 +1,28 @@
+#!/usr/bin/env tt
+# Author::    Pius Uzamere, The Uyiosa Corporation (http://uyiosa.com/)
+# Copyright:: 2008 Pius Uzamere
+# License::   MIT
+
+
 grammar Graph
 	include Primitives
 	include Variables
 	include LogicalExpressions
+	
+	rule a_graph_or_triple_or_something
+		graph_graph_pattern / 
+		group_graph_pattern / 
+		triple_pattern / 
+		triples_block / 
+		blank_node / 
+		collection / 
+		graph_pattern_not_triples /
+		triples_same_subject / 
+		group_or_union_graph_pattern /
+		property_list /
+		verb / 
+		object_list
+	end
 		
 	rule graph_graph_pattern
 		'GRAPH' space var_or_iriref space group_graph_pattern
@@ -16,7 +37,11 @@ grammar Graph
 	end
 
 	rule triple_pattern
-		subject space predicate space object space '.'
+		subject space predicate space object space '.' {
+			def subject
+				subject
+			end
+		}
 	end
 	
 	rule blank_node
@@ -93,5 +118,9 @@ grammar Graph
 	
 	rule verb
 		var_or_iriref / 'a'
+	end
+	
+	rule object_list
+		object (',' space object)*
 	end
 end

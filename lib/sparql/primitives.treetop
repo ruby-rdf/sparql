@@ -1,3 +1,8 @@
+#!/usr/bin/env tt
+# Author::    Pius Uzamere, The Uyiosa Corporation (http://uyiosa.com/)
+# Copyright:: 2008 Pius Uzamere
+# License::   MIT
+
 grammar Primitives
 	
 	rule var_or_iriref
