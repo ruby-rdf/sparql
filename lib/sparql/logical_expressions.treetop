@@ -1,0 +1,49 @@
+grammar LogicalExpressions
+	include Primitives
+	include Variables
+	
+	rule expression
+		conditional_or_expression
+	end
+
+	rule conditional_or_expression
+	 	conditional_and_expression space ( '//' series_of_conditional_and_expression )*
+	end
+
+	rule conditional_and_expression
+		value_logical space ( '&&' space value_logical )*
+	end
+
+	rule series_of_conditional_and_expressions
+		conditional_and_expression space series_of_conditional_and_expressions / conditional_and_expression
+	end
+	
+	rule value_logical
+		 relational_expression
+	end
+
+	rule relational_expression
+		numeric_expression space ( '=' space numeric_expression / '!=' space numeric_expression / '<' space numeric_expression / '>' space numeric_expression / '<=' space numeric_expression / '>=' space numeric_expression )?
+	end
+	
+	rule numeric_expression
+		additive_expression
+	end
+	
+	rule additive_expression
+		multiplicative_expression ( '+' space multiplicative_expression / '-' space multiplicative_expression / numerical_literal_positive / numerical_literal_negative )*
+	end
+	
+	rule multiplicative_expression
+		unary_expression space ( '*' space unary_expression / '/' space unary_expression )*
+	end
+	
+	rule unary_expression
+		'!' primary_expression / '+' primary_expression / '-' primary_expression / primary_expression
+	end
+
+	rule primary_expression
+		bracketted_expression / built_in_call / iriref_or_function / rdf_literal / numerical_literal / boolean_literal / var
+	end
+	
+end

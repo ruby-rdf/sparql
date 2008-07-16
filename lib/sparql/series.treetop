@@ -1,0 +1,21 @@
+grammar Series
+	rule series_of_var_or_irirefs
+		var_or_iriref space series_of_var_or_irirefs / var_or_iriref
+	end
+
+	rule series_of_order_conditions
+		order_condition space series_of_order_conditions / order_condition
+	end
+
+	rule series_of_dataset_clauses
+		dataset_clause space series_of_dataset_clauses / dataset_clause
+	end
+
+	rule series_of_variables
+		variable space series_of_variables / variable
+	end
+
+	rule series_of_triple_patterns
+		triple_pattern space series_of_triple_patterns / triple_pattern
+	end
+end

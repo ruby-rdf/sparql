@@ -1,0 +1,49 @@
+grammar Variables
+	rule var
+		var1 / var2
+	end
+	
+	rule var1
+		'?' varname
+	end
+	
+	rule var2
+		'$' varname
+	end
+	
+	rule prefixed_name
+		pname_ln / pname_ns
+	end
+	
+	rule pname_ln
+		pname_ns pn_local
+	end
+	
+	rule pname_ns
+		pn_prefix? ':'
+	end
+	
+	rule pn_prefix
+		pn_chars_base ((pn_chars / '.')* pn_chars)?
+	end
+	
+	rule pn_chars
+		pn_chars_u / '-' / [0-9] / '#x00B7'
+	end
+	
+	rule pn_chars_base
+	 	[A-Z]+ / [a-z]+
+	end
+	
+	rule pn_chars_u
+		pn_chars_base / '_'
+	end
+	
+	rule pn_local
+		( pn_chars_u / [0-9] ) ((pn_chars / '.')* pn_chars)?
+	end
+	
+	rule varname
+		( pn_chars_u / [0-9] ) ( pn_chars_u / [0-9] / '#x00B7' )*
+	end
+end

@@ -1,0 +1,97 @@
+grammar Graph
+	include Primitives
+	include Variables
+	include LogicalExpressions
+		
+	rule graph_graph_pattern
+		'GRAPH' space var_or_iriref space group_graph_pattern
+	end
+	
+	rule group_graph_pattern
+		 '{' space (triples_block space)? ( ( graph_pattern_not_triples / filter ) space ('.' space)? triples_block? space)* '}'
+	end
+	
+	rule triples_block
+		triples_same_subject ( space '.' space triples_block? )?
+	end
+
+	rule triple_pattern
+		subject space predicate space object space '.'
+	end
+	
+	rule blank_node
+		blank_node_label / anon
+	end
+	
+	rule collection
+		'(' space series_of_graph_nodes space ')'
+	end
+	
+	rule subject
+		variable
+	end
+	
+	rule object
+		graph_node
+	end
+	
+	rule predicate
+		variable / iriref
+	end
+	
+	rule variable
+	  '?' [a-z]+
+	end
+	
+	rule graph_pattern_not_triples
+		optional_graph_pattern / group_or_union_graph_pattern / graph_graph_pattern
+	end
+	
+	rule optional_graph_pattern
+		'OPTIONAL' space group_graph_pattern
+	end
+	
+	rule triples_same_subject
+	  var_or_term space property_list_not_empty / triples_node space property_list
+	end
+	
+	rule triples_node
+		 collection / blank_node_property_list
+	end
+	
+	rule group_or_union_graph_pattern
+		group_graph_pattern ( space 'UNION' group_graph_pattern )*
+	end
+	
+	rule graph_node
+		var_or_term / triples_node
+	end
+	
+	rule var_or_term
+		var / graph_term
+	end
+	
+	rule series_of_graph_nodes
+		graph_node space series_of_graph_nodes / graph_node
+	end
+	
+	rule graph_term
+		iriref / rdf_literal / numerical_literal / boolean_literal / blank_node / nil
+	end
+	
+	rule property_list
+		property_list_not_empty?
+	end
+	
+	rule blank_node_property_list
+		'[' property_list_not_empty ']'
+	end
+	
+	rule property_list_not_empty
+		verb space object_list space ( ';' ( verb object_list )? )*
+	end
+	
+	rule verb
+		var_or_iriref / 'a'
+	end
+end

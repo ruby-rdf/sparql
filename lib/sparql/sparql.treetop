@@ -1,6 +1,13 @@
 # sparql.treetop
 
 grammar Sparql
+	include Primitives
+	include Variables
+	include LogicalExpressions
+	include Graph
+	include Series
+	
+	# 	'SELECT ?v WHERE { ?v ?p "cat"@en }'
 
 	rule query
 	   prologue space query_part:( select_query / construct_query / describe_query / ask_query ) {
@@ -53,54 +60,9 @@ grammar Sparql
 			end
 		}
 	end
-
-	rule iriref
-		iri_ref / curie
-	end
-
-	rule iri_ref
-		'<' irirefchars+ '>'
-	end
 	
-	rule irirefchars
-		'http://xmlns.com/foaf/0.1/' / 'foaf:knows' / 'foaf:name'
-	end
-
-	rule curie
-		[a-zA-Z]+ ':' [a-zA-Z]+
-	end
-
-	
-	rule expression
-		conditional_or_expression
-	end
-	
-	rule conditional_or_expression
-	 	conditional_and_expression space ( '//' series_of_conditional_and_expression )*
-	end
-
-	rule conditional_and_expression
-		value_logical space ( '&&' space value_logical )*
-	end
-	
-	rule series_of_conditional_and_expressions
-		conditional_and_expression space series_of_conditional_and_expressions / conditional_and_expression
-	end
-	
-	rule graph_node
-		var_or_term / triples_node
-	end
-	
-	rule series_of_graph_nodes
-		graph_node space series_of_graph_nodes / graph_node
-	end
-	
-	rule var_or_term
-		var / graph_term
-	end
-	
-	rule graph_term
-		iriref / rdf_literal / numerical_literal / boolean_literal / blank_node / nil
+	rule where
+		('WHERE' space)? group_graph_pattern
 	end
 	
 	rule construct_template
@@ -114,51 +76,7 @@ grammar Sparql
 	rule object_list
 		object (',' space object)*
 	end
-	
-	rule object
-		graph_node
-	end
-	
-	rule collection
-		'(' space series_of_graph_nodes space ')'
-	end
-	
-	rule prefixed_name
-		pname_ln / pname_ns
-	end
-	
-	rule pname_ln
-		pname_ns pn_local
-	end
-	
-	rule pname_ns
-		pn_prefix? ':'
-	end
-	
-	rule pn_prefix
-		pn_chars_base ((pn_chars / '.')* pn_chars)?
-	end
-	
-	rule pn_chars
-		pn_chars_u / '-' / [0-9] / '#x00B7'
-	end
-	
-	rule pn_chars_base
-	 	[A-Z]+ / [a-z]+
-	end
-	
-	rule pn_chars_u
-		pn_chars_base / '_'
-	end
-	
-	rule pn_local
-		( pn_chars_u / [0-9] ) ((pn_chars / '.')* pn_chars)?
-	end
-	
-	rule varname
-		( pn_chars_u / [0-9] ) ( pn_chars_u / [0-9] / '#x00B7' )*
-	end
-	
+
 	rule solution_modifier
 		(order_clause? space limit_offset_clauses?) / order_clause? / limit_offset_clauses?
 	end
@@ -204,66 +122,6 @@ grammar Sparql
 		'REGEX' space '(' expression ',' expression ( ',' expression )? ')'
 	end
 	
-	rule rdf_literal
-	 	string ( langtag / ( '^^' iriref ) )?
-	end
-	
-	rule langtag
-		'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*
-	end
-	
-	rule value_logical
-		relational_expression
-	end
-
-	rule relational_expression
-		numeric_expression space ( '=' space numeric_expression / '!=' space numeric_expression / '<' space numeric_expression / '>' space numeric_expression / '<=' space numeric_expression / '>=' space numeric_expression )?
-	end
-
-	rule numerical_expression
-		additive_expression
-	end
-	
-	rule additive_expression
-		multiplicative_expression ( '+' space multiplicative_expression / '-' space multiplicative_expression / numerical_literal_positive / numerical_literal_negative )*
-	end
-	
-	rule multiplicative_expression
-		unary_expression space ( '*' space unary_expression / '/' space unary_expression )*
-	end
-	
-	rule unary_expression
-		'!' primary_expression / '+' primary_expression / '-' primary_expression / primary_expression
-	end
-	
-	rule primary_expression
-		bracketted_expression / built_in_call / iriref_or_function / rdf_literal / numerical_literal / boolean_literal / var
-	end
-	
-	rule iriref_or_function
-	   	iriref arg_list?
-	end
-	
-	rule numerical_literal
-		numerical_literal_unsigned / numerical_literal_positive / numerical_literal_negative
-	end
-	
-	rule numerical_literal_unsigned
-		integer / decimal / double
-	end
-	
-	rule numerical_literal_negative
-		integer_negative / decimal_negative / double_negative
-	end
-
-	rule numerical_literal_positive
-		integer_positive / decimal_positive / double_positive
-	end
-	
-	rule boolean_literal
-		'true' / 'false'
-	end
-	
 	rule function_call
 		iriref arg_list
 	end
@@ -272,87 +130,9 @@ grammar Sparql
 		'FILTER' space constraint
 	end
 	
-	rule graph_pattern_not_triples
-		optional_graph_pattern / group_or_union_graph_pattern / graph_graph_pattern
-	end
-	
-	rule optional_graph_pattern
-		'OPTIONAL' space group_graph_pattern
-	end
-	
-	rule graph_graph_pattern
-		'GRAPH' space var_or_iriref space group_graph_pattern
-	end
-	
-	rule group_graph_pattern
-		 '{' space (triples_block space)? ( ( graph_pattern_not_triples / filter ) space ('.' space)? triples_block? space)* '}'
-	end
-	'SELECT ?v WHERE { ?v ?p "cat"@en }'
-	
-	rule triples_block
-		triples_same_subject ( space '.' space triples_block? )?
-	end
-	
-	rule triples_same_subject
-	  var_or_term space property_list_not_empty / triples_node space property_list
-	end
-	
-	rule triples_node
-		 collection / blank_node_property_list
-	end
-	
-	rule group_or_union_graph_pattern
-		group_graph_pattern ( space 'UNION' group_graph_pattern )*
-	end
-	
-	rule property_list
-		property_list_not_empty?
-	end
-	
-	rule blank_node_property_list
-		'[' property_list_not_empty ']'
-	end
-	
-	rule property_list_not_empty
-		verb space object_list space ( ';' ( verb object_list )? )*
-	end
-	
-	rule verb
-		var_or_iriref / 'a'
-	end
-	
-	rule var_or_iriref
-		var / iriref
-	end
-
-	rule arg_list
-		( nil / '(' expression ( ',' space expression )* ')' )
-	end
-	
-	rule nil
-		'(' ws* ')'
-	end
-	
-	rule ws
-	 	"#x20" / "#x9" / "#xD" / "#xA"
-	end
-	
-	rule series_of_var_or_irirefs
-		var_or_iriref space series_of_var_or_irirefs / var_or_iriref
-	end
-	
-	rule series_of_order_conditions
-		order_condition space series_of_order_conditions / order_condition
-	end
-	
 	rule dataset_clause
 		'FROM' space ( default_graph_clause / named_graph_clause )
 	end
-	
-	rule series_of_dataset_clauses
-		dataset_clause space series_of_dataset_clauses / dataset_clause
-	end
-	
 	
 	rule default_graph_clause
 		source_selector
@@ -366,127 +146,4 @@ grammar Sparql
 	 	'NAMED' space SourceSelector
 	end
 	
-	rule series_of_variables
-		variable space series_of_variables / variable
-	end
-	
-	rule series_of_triple_patterns
-		triple_pattern space series_of_triple_patterns / triple_pattern
-	end
-	
-	rule where
-		('WHERE' space)? group_graph_pattern
-	end
-	
-	rule blank_node
-		blank_node_label / anon
-	end
-	
-	rule triple_pattern
-		subject space predicate space object space '.'
-	end
-	
-	rule subject
-		variable
-	end
-	
-	rule object
-		variable
-	end
-	
-	rule predicate
-		variable / iriref
-	end
-	
-	rule variable
-	  '?' [a-z]+
-	end
-	
-	rule space
-    	' '*
-  	end
-
-	rule anon
-		'[' ws* ']'
-	end
-	
-	rule var
-		var1 / var2
-	end
-	
-	rule var1
-		'?' varname
-	end
-	
-	rule var2
-		'$' varname
-	end
-	
-	rule integer_positive
-		'+' integer
-	end
-
-	rule decimal_positive
-		'+' decimal
-	end
-	
-	rule double_positive
-		'+' double
-	end
-	
-	rule integer_negative
-		'-' integer
-	end
-	
-	rule decimal_negative
-		'-' decimal
-	end
-
-	rule double_negative
-		'-' double
-	end
-	
-	rule blank_node_label
-		'_:' pn_local
-	end
-	
-	rule integer
-		[0-9]+
-	end
-	
-	rule decimal
-		[0-9]+ '.' [0-9]* / '.' [0-9]+
-	end
-	
-	rule double
-		[0-9]+ '.' [0-9]* exponent / '.' ([0-9])+ exponent / ([0-9])+ exponent
-	end
-	
-	rule exponent
-		[eE] [+-]? [0-9]+
-	end
-	
-	rule string
-		'"' (string_literal1 / string_literal2 / string_literal_long1 / string_literal_long2) '"'
-	end
-	
-	rule string_literal1
-		[^a-zA-Z0-9_]
-	end
-	
-	rule string_literal2
-		[^a-zA-Z0-9_]
-	end
-	
-	rule echar
-		 [tbnrf\"']
-	end
-
-	rule string_literal_long1
-		[^a-zA-Z0-9_]
-	end
-	
-	rule string_literal_long2
-		[^a-zA-Z0-9_]
-	end
 end

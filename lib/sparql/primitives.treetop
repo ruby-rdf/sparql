@@ -1,0 +1,142 @@
+grammar Primitives
+	
+	rule var_or_iriref
+		var / iriref
+	end
+
+	rule arg_list
+		( nil / '(' expression ( ',' space expression )* ')' )
+	end
+
+	rule space
+    	' '*
+  	end
+	
+	rule integer_positive
+		'+' integer
+	end
+
+	rule decimal_positive
+		'+' decimal
+	end
+	
+	rule double_positive
+		'+' double
+	end
+	
+	rule integer_negative
+		'-' integer
+	end
+	
+	rule decimal_negative
+		'-' decimal
+	end
+
+	rule double_negative
+		'-' double
+	end
+	
+	rule blank_node_label
+		'_:' pn_local
+	end
+	
+	rule integer
+		[0-9]+
+	end
+	
+	rule decimal
+		[0-9]+ '.' [0-9]* / '.' [0-9]+
+	end
+	
+	rule double
+		[0-9]+ '.' [0-9]* exponent / '.' ([0-9])+ exponent / ([0-9])+ exponent
+	end
+	
+	rule exponent
+		[eE] [+-]? [0-9]+
+	end
+	
+	rule string
+		'"' (string_literal1 / string_literal2 / string_literal_long1 / string_literal_long2) '"'
+	end
+	
+	rule string_literal1
+		[^a-zA-Z0-9_]
+	end
+	
+	rule string_literal2
+		[^a-zA-Z0-9_]
+	end
+	
+	rule echar
+		 [tbnrf\"']
+	end
+
+	rule string_literal_long1
+		[^a-zA-Z0-9_]
+	end
+	
+	rule string_literal_long2
+		[^a-zA-Z0-9_]
+	end
+	
+	rule rdf_literal
+	 	string ( langtag / ( '^^' iriref ) )?
+	end
+	
+	rule iriref
+		iri_ref / curie
+	end
+
+	rule iri_ref
+		'<' irirefchars+ '>'
+	end
+	
+	rule irirefchars
+		'http://xmlns.com/foaf/0.1/' / 'foaf:knows' / 'foaf:name'
+	end
+
+	rule curie
+		[a-zA-Z]+ ':' [a-zA-Z]+
+	end
+	
+	rule langtag
+		'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*
+	end
+	
+	rule iriref_or_function
+	   	iriref arg_list?
+	end
+	
+	rule numerical_literal
+		numerical_literal_unsigned / numerical_literal_positive / numerical_literal_negative
+	end
+	
+	rule numerical_literal_unsigned
+		integer / decimal / double
+	end
+	
+	rule numerical_literal_negative
+		integer_negative / decimal_negative / double_negative
+	end
+
+	rule numerical_literal_positive
+		integer_positive / decimal_positive / double_positive
+	end
+	
+	rule anon
+		'[' ws* ']'
+	end
+	
+	rule nil
+		'(' ws* ')'
+	end
+	
+	rule ws
+	 	"#x20" / "#x9" / "#xD" / "#xA"
+	end
+	
+	rule boolean_literal
+		'true' / 'false'
+	end
+end
