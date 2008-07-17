@@ -1,0 +1,83 @@
+commit 1963c6139e1177378b38d6a5034b02fc723d154e
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Thu Jul 17 00:38:59 2008 -0400
+
+    the library is finally ready for other folks to start hacking on it
+
+commit f8092083d88cba2505854a02afcfd61b5866d34c
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Wed Jul 16 22:51:55 2008 -0400
+
+    yes! got the basic IRI parsing working
+
+commit eae9930176d41a809f9a4ed91a1a8df51e3091de
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Wed Jul 16 22:18:25 2008 -0400
+
+    extracted PrefixedNamesParser and added two test cases
+
+commit 40f360361ba4838b332ef19a79ca8ffa18a72dea
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Wed Jul 16 02:16:17 2008 -0400
+
+    more tests
+
+commit 479315f0dff0e512f1f91a05bba566c5f911141e
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Wed Jul 16 01:07:42 2008 -0400
+
+    added tests for the Variables grammar
+
+commit 3ff183b23ad1a2aa4240aeb4bd69efa5208b9dd4
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Wed Jul 16 00:44:03 2008 -0400
+
+    modularized the SPARQL grammars
+
+commit afbb205d065dc58430bf668ffd55a670d0b238d8
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 22:59:20 2008 -0400
+
+    added support for more complex SELECT statements
+
+commit 9f21cbea56123bb0ee735353feb7a8c43202c624
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 20:30:39 2008 -0400
+
+    call for help on parsing IRI_REFs
+
+commit 0c598e557cb053268ad5a6dcadf01465dacc4f00
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 20:27:47 2008 -0400
+
+    added another test case plus an awful hack for getting around my trouble with parsing IRIs
+
+commit cdc8f6f2d98926c875cbf51fcaafccad2b6505e2
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 15:11:10 2008 -0400
+
+    ported entire BNF grammar to Treetop.  time to write test cases now.
+
+commit 91147568d605cc0a13b21099578ea1584ad9e28e
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 10:55:45 2008 -0400
+
+    darned typos
+
+commit b155b0401f9bd41d162a98abfe13628e57d376ef
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 10:08:26 2008 -0400
+
+    another quick tweak to the README
+
+commit c70ecebe8fc50e1d16d56a31b986f20eb370b880
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 10:07:28 2008 -0400
+
+    tweaked the README file
+
+commit e5089ac1190ae7d853070300f31999a1788f7307
+Author: Pius Uzamere <pius+git@alum.mit.edu>
+Date:   Tue Jul 15 10:04:27 2008 -0400
+
+    initial commit with basic SELECT parsing support
