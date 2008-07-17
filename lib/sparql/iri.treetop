@@ -1,0 +1,14 @@
+#!/usr/bin/env tt
+# Author::    Pius Uzamere, The Uyiosa Corporation (http://uyiosa.com/)
+# Copyright:: 2008 Pius Uzamere
+# License::   MIT
+
+grammar Iri
+	include Primitives
+	include Variables
+	
+	rule an_iriref
+		iriref
+	end
+
+end

@@ -553,7 +553,7 @@ span.run100 {
 </style>
     </head>
   <body><h3>C0 code coverage information</h3>
-    <p>Generated on Wed Jul 16 01:36:18 -0400 2008 with <a href='http://eigenclass.org/hiki/rcov'>rcov 0.8.1.2</a>
+    <p>Generated on Wed Jul 16 22:11:10 -0400 2008 with <a href='http://eigenclass.org/hiki/rcov'>rcov 0.8.1.2</a>
       </p>
     <hr/>
     <pre><span class='marked0'>Code reported as executed by Ruby looks like this...
@@ -571,9 +571,9 @@ span.run100 {
     </thead>
   <tbody><tr class='light'><td><a href='lib-sparql-execute_sparql_rb.html'>lib/sparql/execute_sparql.rb</a>
         </td>
-      <td class='lines_total'><tt>9</tt>
+      <td class='lines_total'><tt>11</tt>
         </td>
-      <td class='lines_code'><tt>8</tt>
+      <td class='lines_code'><tt>10</tt>
         </td>
       <td><table cellspacing='0' cellpadding='0' align='right'><tr><td><tt class='coverage_total'>100.0%</tt>
               &nbsp;</td>
@@ -598,15 +598,17 @@ span.run100 {
       </tr>
     </tbody>
   </table>
-<pre><span class="marked1"><a name="line1"></a>1 require 'rubygems'
-</span><span class="marked0"><a name="line2"></a>2 require 'treetop'
-</span><span class="inferred1"><a name="line3"></a>3 
-</span><span class="marked0"><a name="line4"></a>4 Treetop.load &quot;lib/sparql/primitives&quot;
-</span><span class="marked1"><a name="line5"></a>5 Treetop.load &quot;lib/sparql/variables&quot;
-</span><span class="marked0"><a name="line6"></a>6 Treetop.load &quot;lib/sparql/logical_expressions&quot;
-</span><span class="marked1"><a name="line7"></a>7 Treetop.load &quot;lib/sparql/graph&quot;
-</span><span class="marked0"><a name="line8"></a>8 Treetop.load &quot;lib/sparql/series&quot;
-</span><span class="marked1"><a name="line9"></a>9 Treetop.load &quot;lib/sparql/sparql&quot;
+<pre><span class="marked1"><a name="line1"></a> 1 require 'rubygems'
+</span><span class="marked0"><a name="line2"></a> 2 require 'treetop'
+</span><span class="inferred1"><a name="line3"></a> 3 
+</span><span class="marked0"><a name="line4"></a> 4 Treetop.load &quot;lib/sparql/primitives&quot;
+</span><span class="marked1"><a name="line5"></a> 5 Treetop.load &quot;lib/sparql/prefixed_names&quot;
+</span><span class="marked0"><a name="line6"></a> 6 Treetop.load &quot;lib/sparql/variables&quot;
+</span><span class="marked1"><a name="line7"></a> 7 Treetop.load &quot;lib/sparql/iri&quot;
+</span><span class="marked0"><a name="line8"></a> 8 Treetop.load &quot;lib/sparql/logical_expressions&quot;
+</span><span class="marked1"><a name="line9"></a> 9 Treetop.load &quot;lib/sparql/graph&quot;
+</span><span class="marked0"><a name="line10"></a>10 Treetop.load &quot;lib/sparql/series&quot;
+</span><span class="marked1"><a name="line11"></a>11 Treetop.load &quot;lib/sparql/sparql&quot;
 </span></pre><hr/>
     <p>Generated using the <a href='http://eigenclass.org/hiki.rb?rcov'>rcov code coverage analysis tool for Ruby</a>
    version 0.8.1.2.</p>

@@ -4,6 +4,10 @@
 # License::   MIT
 
 grammar Primitives
+
+	rule var_or_iriref_or_literal
+		var_or_iriref / string
+	end
 	
 	rule var_or_iriref
 		var / iriref
@@ -89,22 +93,6 @@ grammar Primitives
 	 	string ( langtag / ( '^^' iriref ) )?
 	end
 	
-	rule iriref
-		iri_ref / curie
-	end
-
-	rule iri_ref
-		'<' irirefchars+ '>'
-	end
-	
-	rule irirefchars
-		'http://xmlns.com/foaf/0.1/' / 'foaf:knows' / 'foaf:name'
-	end
-
-	rule curie
-		[a-zA-Z]+ ':' [a-zA-Z]+
-	end
-	
 	rule langtag
 		'@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*
 	end
@@ -143,5 +131,22 @@ grammar Primitives
 	
 	rule boolean_literal
 		'true' / 'false'
+	end
+	
+	rule iriref
+		iri_ref / prefixed_name
+	end
+
+	rule iri_ref
+		'<' irirefchars+ '>'
+	end
+	
+	rule irirefchars
+		'http://xmlns.com/foaf/0.1/' / 'foaf:knows' / 'foaf:name'
+	end
+	
+	rule prefixed_name
+		pname_ln / pname_ns
+		#[a-zA-Z]+ ':' [a-zA-Z]+
 	end
 end
