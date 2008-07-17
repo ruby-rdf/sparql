@@ -1,4 +1,4 @@
-sparql Release 0.0.1 (July 15th 2008) 
+sparql Release 0.0.1 (July 17th 2008) 
 ===================================
 
 **Git**:  [http://github.com/pius/sparql](http://github.com/pius/sparql)   
@@ -16,16 +16,17 @@ sparql is a library for Ruby that formally implements the [SPARQL grammar](http:
 FEATURE LIST
 ------------
                                                                               
-1. **As of right now (20:28 EST, July 15, 2008) can parse basic SPARQL statements**: When finished, this library will be able to parse arbitrary SPARQL queries and can serve as a maintainable reference implementation in Ruby.
+1. **As of right now (00:10 EST, July 17, 2008) can parse basic SPARQL statements, check the test cases for precisely what it can support**: When finished, this library will be able to parse arbitrary SPARQL queries and can serve as a maintainable reference implementation in Ruby.
 
 2.  **Starting point for providing SPARQL endpoints for arbitrary datastores**: When completed, this library will provide hooks that allow a Ruby developer to easily define a translation from SPARQL to another query language or API of their choosing.  Ideally, this will be done using a simple YAML configuration file.
 
 3. **Fully Composable**: Because parsing expression grammars are closed under composition, you can compose this grammar with other Treetop grammars with relative ease.
 
+
 USAGE
 -----
 
-First of all, it's worth noting that this library isn't ready to use.  If you insist on using it, then you'll need to do the following:
+Though this library only parses a small subset of SPARQL and I've not added all of the API methods yet, it **is** ready to start playing with.
 
 1. **Install the Gem**
 
@@ -70,13 +71,13 @@ Anyway, you can get started by doing the following in IRB.
 
 4. **Read the documentation**
 
-Actually, scratch that.  I don't have very good documentation yet.  :(  But I do encourage you to take a look at lib/sparql/sparql.treetop and get a sense of the grammar.  In addition, check out the [formal specification of the SPARQL grammar](http://www.w3.org/TR/rdf-sparql-query/#grammar) so you can see how the Treetop grammar relates to it.
+Actually, read the tests -- they will show you the forms that are supported.  Take a look at lib/sparql/sparql.treetop and get a sense of the grammar.  In addition, check out the [formal specification of the SPARQL grammar](http://www.w3.org/TR/rdf-sparql-query/#grammar) so you can see how the Treetop grammar relates to it.
 
 5. **Contribute!**
 
 Fork my repository (http://github.com/pius/sparql), make some changes, and send along a pull request!
 
-**I need help with IRIs.**  If you could take a look at the RDF grammar and write the code for parsing [70] (IRI_REF) in Treetop, that would be a great help.
+The best way to contribute is to add a test case for a specific SPARQL query that does not parse and then tweak the grammar such that your new test case plus all the others pass.
                                                                               
 
 COPYRIGHT

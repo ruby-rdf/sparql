@@ -11,8 +11,7 @@ grammar Graph
 	
 	rule a_graph_or_triple_or_something
 		graph_graph_pattern / 
-		group_graph_pattern / 
-		triple_pattern / 
+		group_graph_pattern /
 		triples_block / 
 		blank_node / 
 		collection / 
@@ -23,27 +22,11 @@ grammar Graph
 		verb / 
 		object_list
 	end
-		
-	rule graph_graph_pattern
-		'GRAPH' space var_or_iriref space group_graph_pattern
-	end
-	
-	rule group_graph_pattern
-		 '{' space (triples_block space)? ( ( graph_pattern_not_triples / filter ) space ('.' space)? triples_block? space)* '}'
-	end
 	
 	rule triples_block
 		triples_same_subject ( space '.' space triples_block? )?
 	end
 
-	rule triple_pattern
-		subject space predicate space object space '.' {
-			def subject
-				subject
-			end
-		}
-	end
-	
 	rule blank_node
 		blank_node_label / anon
 	end
@@ -52,16 +35,8 @@ grammar Graph
 		'(' space series_of_graph_nodes space ')'
 	end
 	
-	rule subject
-		variable
-	end
-	
 	rule object
 		graph_node
-	end
-	
-	rule predicate
-		variable / iriref
 	end
 	
 	rule variable
@@ -76,16 +51,25 @@ grammar Graph
 		'OPTIONAL' space group_graph_pattern
 	end
 	
+	rule graph_graph_pattern
+		'GRAPH' space var_or_iriref space group_graph_pattern
+	end
+	
+	rule group_or_union_graph_pattern
+		group_graph_pattern ( space 'UNION' group_graph_pattern )*
+	end
+	
+	# '{ ?v ?p "cat" }'
+	rule group_graph_pattern
+		 '{' space (triples_block space)? ( ( graph_pattern_not_triples / filter ) space ('.' space)? (triples_block space)?)* '}'
+	end
+	
 	rule triples_same_subject
 	  var_or_term space property_list_not_empty / triples_node space property_list
 	end
 	
 	rule triples_node
 		 collection / blank_node_property_list
-	end
-	
-	rule group_or_union_graph_pattern
-		group_graph_pattern ( space 'UNION' group_graph_pattern )*
 	end
 	
 	rule graph_node
@@ -122,5 +106,9 @@ grammar Graph
 	
 	rule object_list
 		object (',' space object)*
+	end
+	
+	rule filter
+		'FILTER' space constraint
 	end
 end

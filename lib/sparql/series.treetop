@@ -19,8 +19,4 @@ grammar Series
 	rule series_of_variables
 		variable space series_of_variables / variable
 	end
-
-	rule series_of_triple_patterns
-		triple_pattern space series_of_triple_patterns / triple_pattern
-	end
 end

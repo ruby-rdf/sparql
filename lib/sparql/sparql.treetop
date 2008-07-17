@@ -2,6 +2,7 @@
 # Author::    Pius Uzamere, The Uyiosa Corporation (http://uyiosa.com/)
 # Copyright:: 2008 Pius Uzamere
 # License::   MIT
+# query = 'SELECT ?v WHERE { ?v ?p "cat" }'
 
 grammar Sparql
 	include Primitives
@@ -33,7 +34,8 @@ grammar Sparql
 	end
 	
 	rule select_query
-	   'SELECT' space (( 'DISTINCT' / 'REDUCED' ) space)? ( series_of_variables / '*' ) space series_of_dataset_clauses? space where space solution_modifier {
+	   'SELECT' space (( 'DISTINCT' / 'REDUCED' ) space)? ( series_of_variables / '*' ) space (series_of_dataset_clauses space)? where space solution_modifier 
+	{
 		def query_type
 			"SELECT"
 		end
@@ -77,7 +79,7 @@ grammar Sparql
 	end
 
 	rule solution_modifier
-		(order_clause? space limit_offset_clauses?) / order_clause? / limit_offset_clauses?
+		(order_clause space limit_offset_clauses)? / order_clause? / limit_offset_clauses?
 	end
 	
 	rule order_clause
@@ -123,10 +125,6 @@ grammar Sparql
 	
 	rule function_call
 		iriref arg_list
-	end
-	
-	rule filter
-		'FILTER' space constraint
 	end
 	
 	rule dataset_clause
