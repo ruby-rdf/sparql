@@ -13,6 +13,6 @@ grammar Variables
 	end
 	
 	rule varname
-		( pn_chars_u / [0-9] ) ( pn_chars_u / [0-9] / '#x00B7' )*
+		( pn_chars_u / [0-9] ) ( pn_chars_u / [0-9] / '#x00B7' / [/#x0300/-/#x036F/] / [/#x203F/-/#x2040/] )*
 	end
 end

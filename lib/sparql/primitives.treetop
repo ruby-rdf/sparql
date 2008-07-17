@@ -142,7 +142,8 @@ grammar Primitives
 	end
 	
 	rule irirefchars
-		'http://xmlns.com/foaf/0.1/' / 'foaf:knows' / 'foaf:name'
+	# not complete, need to introduce some additional restrictions
+		([/#x00/-/#x20/] / [A-Za-z0-9] / '.' / "/" / ":")
 	end
 	
 	rule prefixed_name
