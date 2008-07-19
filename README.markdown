@@ -4,7 +4,8 @@ sparql Release 0.0.1 (July 17th 2008)
 **Git**:  [http://github.com/pius/sparql](http://github.com/pius/sparql)   
 **Author**:    Pius Uzamere, [The Uyiosa Corporation](http://www.uyiosa.com)
 
-**Copyright**: 2008
+**Copyright**: Pius Uzamere © 2008
+**License**:  The Lesser GNU Public License
 
 
 SYNOPSIS
@@ -84,4 +85,4 @@ COPYRIGHT
 ---------                                                                 
 
 sparql was created in 2008 by Pius Uzamere (pius -AT- alum -DOT- mit -DOT- edu) and is    
-licensed under the MIT license.
+licensed under the LGPL.
