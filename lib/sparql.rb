@@ -1,28 +1,12 @@
-# This file is part of Sparql.rb.
-# 
-# Sparql.rb is free software: you can redistribute it and/or modify
-# it under the terms of the GNU Lesser General Public License as published by
-# the Free Software Foundation, either version 3 of the License, or
-# (at your option) any later version.
-# 
-# Sparql.rb is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
-# GNU Lesser General Public License for more details.
-# 
-# You should have received a copy of the GNU Lesser General Public License
-# along with Sparql.rb.  If not, see <http://www.gnu.org/licenses/>.
-
-
-require 'rubygems'
-require 'pathname'
-
-class Pathname
-  def /(path)
-    (self + path).expand_path
-  end
-end # class Pathname
-
-dir = Pathname(__FILE__).dirname.expand_path / 'sparql'
-
-require dir / 'execute_sparql'
+##
+# A SPARQL for RDF.rb.
+#
+# @see http://www.w3.org/TR/rdf-sparql-query
+module SPARQL
+  # @see http://rubygems.org/gems/sparql-algebra
+  autoload :Algebra, 'sparql/algebra'
+  # @see http://rubygems.org/gems/sparql-grammar
+  autoload :Grammar, 'sparql/grammar'
+  # @see http://rubygems.org/gems/sparql-client
+  autoload :Client,  'sparql/client'
+end
