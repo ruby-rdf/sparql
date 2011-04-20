@@ -9,8 +9,11 @@ Features
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
 * [SPARQL 1.0][] query parsing and execution
-* SPARQL results as XML or JSON.
+* SPARQL results as [XML][SPARQL XML] or [JSON][SPARQL JSON].
+* SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
+  using available RDF Writers (see [Linked Data](http://rubygems.org/gems/linkeddata))
 * SPARQL Client for accessing remote SPARQL endpoints.
+* Helper method for describing [SPARQL Service Description][]
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
 * Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
 
@@ -26,9 +29,6 @@ Documentation
 <http://sparql.rubyforge.org>
 
 * {SPARQL}
-  * {SPARQL::Grammar}
-  * {SPARQL::Algebra}
-  * {SPARQL::Client}
 
 Dependencies
 ------------
@@ -103,3 +103,6 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [YARD-GS]:    http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
 [PDD]:        http://unlicense.org/#unlicensing-contributions
 [Backports]:  http://rubygems.org/gems/backports
+[SPARQL XML]: http://www.w3.org/TR/rdf-sparql-XMLres/
+[SPARQL JSON]:http://www.w3.org/TR/rdf-sparql-json-res/
+[SPARQL Service]: http://www.w3.org/TR/sparql11-service-description/
