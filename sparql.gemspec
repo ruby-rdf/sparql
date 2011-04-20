@@ -28,6 +28,8 @@ Gem::Specification.new do |s|
   gem.required_ruby_version      = '>= 1.8.1'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',             '~> 0.4.0'
+  gem.add_runtime_dependency     'builder',         '>= 3.0.0'
+  gem.add_runtime_dependency     'json',             '>= 1.5.1'
   gem.add_runtime_dependency     'sxp',             '>= 0.0.15'
   gem.add_runtime_dependency     'sparql-client',   '>= 0.0.10'
   gem.add_runtime_dependency     'sparql-algebra',  '>= 0.0.6'

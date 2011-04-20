@@ -1,14 +1,14 @@
-SPARQL for RDF.rb
-==================================
+= SPARQL for RDF.rb
 
 This gem combines several other gems to create a complete [Ruby][] [SPARQL 1.0][] solution
 using [RDF.rb][].
 
-Features
---------
+== Features
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
 * [SPARQL 1.0][] query parsing and execution
+* [SPARQL Protocol][] support for loading specified default- and named-graphs
+* into a repository, returning serialized results or error results.
 * SPARQL results as [XML][SPARQL XML] or [JSON][SPARQL JSON].
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data](http://rubygems.org/gems/linkeddata))
@@ -17,11 +17,11 @@ Features
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
 * Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
 
-Examples
---------
+== Examples
 
-    require 'rubygems'
-    require 'sparql'
+=== Sinatra SPARQL Service endpoint
+
+=== Rails SPARQL Service endpoint
 
 Documentation
 -------------
@@ -39,6 +39,8 @@ Dependencies
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 0.0.10)
 * [SPARQL::Grammar](https://rubygems.org/gems/sparql-grammar) (>= 0.0.5)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.0.15)
+* [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
+* [JSON](https://rubygems.org/gems/json) (>= 1.5.1)
 
 Installation
 ------------
@@ -90,19 +92,20 @@ License
 This is free and unencumbered public domain software. For more information,
 see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 
-[Ruby]:       http://ruby-lang.org/
-[RDF]:        http://www.w3.org/RDF/
-[SPARQL]:     http://en.wikipedia.org/wiki/SPARQL
-[SPARQL 1.0]: http://www.w3.org/TR/rdf-sparql-query/
-[SPARQL 1.1]: http://www.w3.org/TR/sparql11-query/
-[SSE]:        http://openjena.org/wiki/SSE
-[SXP]:        http://sxp.rubyforge.org/
-[grammar]:    http://www.w3.org/TR/rdf-sparql-query/#grammar
-[RDF.rb]:     http://rdf.rubyforge.org/
-[YARD]:       http://yardoc.org/
-[YARD-GS]:    http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
-[PDD]:        http://unlicense.org/#unlicensing-contributions
-[Backports]:  http://rubygems.org/gems/backports
-[SPARQL XML]: http://www.w3.org/TR/rdf-sparql-XMLres/
-[SPARQL JSON]:http://www.w3.org/TR/rdf-sparql-json-res/
-[SPARQL Service]: http://www.w3.org/TR/sparql11-service-description/
+[Ruby]:             http://ruby-lang.org/
+[RDF]:              http://www.w3.org/RDF/
+[SPARQL]:           http://en.wikipedia.org/wiki/SPARQL
+[SPARQL 1.0]:       http://www.w3.org/TR/rdf-sparql-query/
+[SPARQL 1.1]:       http://www.w3.org/TR/sparql11-query/
+[SSE]:              http://openjena.org/wiki/SSE
+[SXP]:              http://sxp.rubyforge.org/
+[grammar]:          http://www.w3.org/TR/rdf-sparql-query/#grammar
+[RDF.rb]:           http://rdf.rubyforge.org/
+[YARD]:             http://yardoc.org/
+[YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
+[PDD]:              http://unlicense.org/#unlicensing-contributions
+[Backports]:        http://rubygems.org/gems/backports
+[SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
+[SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
+[SPARQL Protocol]:  http://www.w3.org/TR/rdf-sparql-protocol/
+[SPARQL Service]:   http://www.w3.org/TR/sparql11-service-description/
