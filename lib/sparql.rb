@@ -1,3 +1,4 @@
+require  'sparql/results'
 ##
 # A SPARQL for RDF.rb.
 #
@@ -9,7 +10,6 @@ module SPARQL
   autoload :Grammar, 'sparql/grammar'
   # @see http://rubygems.org/gems/sparql-client
   autoload :Client,  'sparql/client'
-  autoload :Results,  'sparql/results'
 
   ##
   # Parse the given SPARQL `query` string.
@@ -20,19 +20,29 @@ module SPARQL
   #
   # @param  [IO, StringIO, String, #to_s]  query
   # @param  [Hash{Symbol => Object}] options
-  # @return [Parser]
+  # @return [SPARQL::Query]
+  #   The resulting query may be executed against
+  #   a `queryiable` object such as an RDF::Graph
+  #   or RDF::Repository. 
   # @raise  [Parser::Error] on invalid input
-  def self.parse(query, options = {}, &block)
-    Grammar::Parser.new(query, options).parse
+  def self.parse(query, options = {})
+    query = Grammar::Parser.new(query, options).parse
   end
 
   ##
   # Parse and execute the given SPARQL `query` string against `queriable`.
   #
-  # Requires a repository, into which the dataset will be loaded.
+  # Requires a queryable object (such as an RDF::Repository), into which the dataset will be loaded.
   #
   # Optionally takes a list of URIs to load as default or named graphs
-  # into the repository
+  # into `queryable`.
+  #
+  # Note, if default or named graphs are specified as options (protocol elements),
+  # or the query references specific default or named graphs the graphs are either
+  # presumed to be existant in `queryable` or are loaded into `queryable` depending
+  # on the presense and value of the :load_datasets option.
+  #
+  # Attempting to load into an immutable `queryable` will result in a RDF::TypeError.
   #
   # @example
   #   repository = RDF::Repository.new
@@ -40,13 +50,59 @@ module SPARQL
   #   result = parser.parse
   #
   # @param  [IO, StringIO, String, #to_s]  query
-  # @param  [RDF::Repository]  repository
+  # @param  [RDF::Queryable]  queryable
   # @param  [Hash{Symbol => Object}] options
-  # @return [RDF::Query::Solutions]
-  # @raise  [SPARQL::Grammar::Parser::Error] on invalid input
-  def self.execute(query, repository, options = {}, &block)
+  # @option options [RDF::URI, String, Array<RDF::URI, String>] :load_datasets
+  #   One or more URIs used to initialize a new instance of `queryable` in the default context.
+  # @option options [RDF::URI, String, Array<RDF::URI, String>] :default_graph_uri
+  #   One or more URIs used to initialize a new instance of `queryable` in the default context.
+  # @option options [RDF::URI, String, Array<RDF::URI, String>] :named_graph_uri
+  #   One or more URIs used to initialize the `queryable` as a named context.
+  # @return [RDF::Graph, RDF::Query::Solutions, Boolean]
+  #   Note, results may be used with SPARQL.serialize_results to obtain appropriate
+  #   output encoding.
+  # @raise  [SPARQL::MalformedQuery] on invalid input
+  def self.execute(query, queryable, options = {})
     parser = Grammar::Parser.new(query, options)
+    queryable ||= RDF::Repository.new
+    
+    if options.has_key?(:load_datasets)
+      queryable = queryable.class.new
+      [options[:default_graph_uri]].flatten.each do |uri|
+        queryable.load(uri)
+      end
+      [options[:named_graph_uri]].flatten.each do |uri|
+        queryable.load(uri, :context => uri)
+      end
+    end
     query = parser.parse
-    query.execute(repository)
+    solutions = query.execute(queryable)
+  rescue SPARQL::Grammar::Parser::Error => e
+    raise MalformedQuery, e.message
+  rescue RDF::TypeError => e
+    raise QueryRequestRefused, e.message
+  end
+  
+  ##
+  # MalformedQuery
+  #
+  # When the value of the query type is not a legal sequence of characters in the language defined by the
+  # SPARQL grammar, the MalformedQuery or QueryRequestRefused fault message must be returned. According to the
+  # Fault Replaces Message Rule, if a WSDL fault is returned, including MalformedQuery, an Out Message must not
+  # be returned.
+  class MalformedQuery < Exception
+    def title
+      "Malformed Query".freeze
+    end
+  end
+
+  ##
+  # QueryRequestRefused
+  #
+  # returned when a client submits a request that the service refuses to process.
+  class QueryRequestRefused < Exception
+    def title
+      "Query Request Refused".freeze
+    end
   end
 end

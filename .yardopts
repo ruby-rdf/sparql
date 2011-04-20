@@ -1,0 +1,11 @@
+--title "SPARQL - SPARQL for RDF.rb"
+--output-dir doc/yard
+--protected
+--no-private
+--hide-void-return
+--readme README.md
+-
+AUTHORS
+CREDITS
+UNLICENSE
+VERSION
