@@ -1,14 +1,14 @@
-= SPARQL for RDF.rb
+SPARQL for RDF.rb
+==================================
 
 This gem combines several other gems to create a complete [Ruby][] [SPARQL 1.0][] solution
 using [RDF.rb][].
 
-== Features
+Features
+--------
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
 * [SPARQL 1.0][] query parsing and execution
-* [SPARQL Protocol][] support for loading specified default- and named-graphs
-* into a repository, returning serialized results or error results.
 * SPARQL results as [XML][SPARQL XML] or [JSON][SPARQL JSON].
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data](http://rubygems.org/gems/linkeddata))
@@ -17,11 +17,11 @@ using [RDF.rb][].
 * Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
 * Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
 
-== Examples
+Examples
+--------
 
-=== Sinatra SPARQL Service endpoint
-
-=== Rails SPARQL Service endpoint
+    require 'rubygems'
+    require 'sparql'
 
 Documentation
 -------------
@@ -35,9 +35,9 @@ Dependencies
 
 * [Ruby](http://ruby-lang.org/) (>= 1.8.7) or (>= 1.8.1 with [Backports][])
 * [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.4.0)
-* [SPARQL::Algebra](https://rubygems.org/gems/sparql-algebra) (>= 0.0.7)
-* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 0.0.10)
-* [SPARQL::Grammar](https://rubygems.org/gems/sparql-grammar) (>= 0.0.5)
+* [SPARQL::Algebra](https://rubygems.org/gems/sparql-algebra) (>= 0.0.8)
+* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 0.0.11)
+* [SPARQL::Grammar](https://rubygems.org/gems/sparql-grammar) (>= 0.0.6)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.0.15)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
 * [JSON](https://rubygems.org/gems/json) (>= 1.5.1)
