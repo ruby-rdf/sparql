@@ -1,5 +1,4 @@
-$:.unshift "."
-require 'spec_helper'
+require File.join(File.dirname(__FILE__), 'spec_helper')
 
 describe SPARQL::Results do
   describe RDF::Query::Solutions do
@@ -75,6 +74,7 @@ describe SPARQL::Results do
                          ],
                         },
     }
+
     describe "#to_json" do
       SOLUTIONS.each do |n, r|
         it "encodes a #{n}" do
@@ -114,6 +114,64 @@ describe SPARQL::Results do
   end
   
   describe "#serialize_results" do
+    context "boolean" do
+      BOOLEAN = {
+        :true          => { :value    => true,
+                           :json     => {:boolean => true},
+                           :xml      => [
+                             ["/sr:sparql/sr:boolean/text()", "true"],
+                           ],
+                           :html     => [
+                             ["/div[@class='sparql']/text()", "true"],
+                           ],
+                          },
+        :false         => { :value    => false,
+                           :json     => {:boolean => false},
+                           :xml      => [
+                             ["/sr:sparql/sr:boolean/text()", "false"],
+                           ],
+                           :html     => [
+                             ["/div[@class='sparql']/text()", "false"],
+                           ],
+                          },
+      }
+
+      context "json" do
+        BOOLEAN.each do |n, r|
+          it "encodes #{n} using :format => :json" do
+            SPARQL.serialize_results(r[:value], :format => :json).should == r[:json].to_json
+          end
+
+          it "encodes #{n} using :content_type => 'application/sparql-results+json'" do
+            SPARQL.serialize_results(r[:value], :content_type => 'application/sparql-results+json').should == r[:json].to_json
+          end
+        end
+      end
+      
+      context "xml" do
+        BOOLEAN.each do |n, r|
+          describe "encoding #{n}" do
+            r[:xml].each do |(xp, value)|
+              it "has xpath #{xp} using :format => :xml" do
+                s = SPARQL.serialize_results(r[:value], :format => :xml)
+                s.should have_xpath(xp, value)
+              end
+
+              it "has xpath #{xp} using :content_type => 'application/sparql-results+xml'" do
+                s = SPARQL.serialize_results(r[:value], :content_type => 'application/sparql-results+xml')
+                s.should have_xpath(xp, value)
+              end
+            end
+          end
+        end
+      end
+      
+      context "html" do
+      end
+      
+      context "nil" do
+      end
+    end
   end
   
   describe "#serialize_exception" do
