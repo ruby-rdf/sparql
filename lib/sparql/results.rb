@@ -23,7 +23,7 @@ module SPARQL
             {n => {:type => "uri", :value => s.to_s }}
           when RDF::Node
             {n => {:type => "bnode", :value => s.id }}
-          when RDF::Literal]
+          when RDF::Literal
             if s.datatype?
               {n => {:type => "literal", :datatype => s.datatype.to_s, :value => s.to_s }}
             elsif s.language
@@ -33,7 +33,7 @@ module SPARQL
             end
           end
         end.compact
-      end
+      end.flatten
 
       {
         :head     => { :vars => variable_names },
@@ -46,7 +46,7 @@ module SPARQL
     # @return [String]
     # @see http://www.w3.org/TR/rdf-sparql-XMLres/
     def to_xml
-      require 'builder' unless defined ::Builder
+      require 'builder' unless defined?(::Builder)
       
       xml = ::Builder::XmlMarkup.new(:indent => 2)
       xml.instruct!
@@ -63,12 +63,12 @@ module SPARQL
                 s = solution[n]
                 next unless s
                 xml.binding(:name => n) do
-                  case 
+                  case s
                   when RDF::URI
                     xml.uri(s.to_s)
                   when RDF::Node
                     xml.bnode(s.id)
-                  when RDF::Literal]
+                  when RDF::Literal
                     if s.datatype?
                       xml.literal(s.to_s, "datatype" => s.datatype.to_s)
                     elsif s.language
@@ -90,20 +90,20 @@ module SPARQL
     # @return [String]
     # @see http://www.w3.org/TR/rdf-sparql-XMLres/
     def to_html
-      require 'builder' unless defined ::Builder
+      require 'builder' unless defined?(::Builder)
       
       xml = ::Builder::XmlMarkup.new(:indent => 2)
       xml.table(:class => "sparql") do
         xml.tbody do
           xml.tr do
             variable_names.each do |n|
-              xml.th(n)
+              xml.th(n.to_s)
             end
           end
           self.each do |solution|
             xml.tr do
               variable_names.each do |n|
-                xml.td(solution[n].to_s)
+                xml.td(RDF::NTriples.serialize(solution[n]))
               end
             end
           end
@@ -138,14 +138,14 @@ module SPARQL
         require 'json' unless defined?(::JSON)
         {:boolean => solutions}.to_json
       when :xml
-        require 'builder' unless defined ::Builder
+        require 'builder' unless defined?(::Builder)
         xml = ::Builder::XmlMarkup.new(:indent => 2)
         xml.instruct!
         xml.sparql(:xmlns => "http://www.w3.org/2005/sparql-results#") do
           xml.boolean(solutions.to_s)
         end
       when :html
-        require 'builder' unless defined ::Builder
+        require 'builder' unless defined?(::Builder)
         xml = ::Builder::XmlMarkup.new(:indent => 2)
         xml.div(solutions.to_s, :class => "sparql")
       end
@@ -155,7 +155,6 @@ module SPARQL
       content_type ||= fmt.content_types.first
       fmt.writer.buffer << solutions
     when RDF::Query::Solutions
-      solutions.extend(SPARQL::Results)
       case format ||= :xml
       when :json  then solutions.to_json
       when :xml   then solutions.to_xml

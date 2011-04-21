@@ -1,24 +1,23 @@
-require 'rubygems'
-require 'pathname'
-require 'treetop'
+require "bundler/setup"
+require 'open-uri/cached'
+require 'sparql'
+Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
 
-# rule triples_same_subject
-#   var_or_term space property_list_not_empty / triples_node space property_list
-# end
-
-
-class Pathname
-  def /(path)
-    (self + path).expand_path
-  end
-end # class Pathname
-
-spec_dir_path = Pathname(__FILE__).dirname.expand_path
-require spec_dir_path.parent + 'lib/sparql'
-
-
-
-# require fixture resources
-Dir[spec_dir_path + "fixtures/*.rb"].each do |fixture_file|
-  require fixture_file
+RSpec.configure do |config|
+  #config.include(RDF::Spec::Matchers)
+  config.filter_run :focus => true
+  config.run_all_when_everything_filtered = true
+  config.exclusion_filter = {
+    :ruby           => lambda { |version| RUBY_VERSION.to_s !~ /^#{version}/},
+  }
 end
+
+# Create and maintain a cache of downloaded URIs
+URI_CACHE = File.expand_path(File.join(File.dirname(__FILE__), "uri-cache"))
+Dir.mkdir(URI_CACHE) unless File.directory?(URI_CACHE)
+OpenURI::Cache.class_eval { @cache_path = URI_CACHE }
+
+DAWG = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#')
+MF   = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#')
+QT   = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-query#')
+RS   = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/result-set#')
