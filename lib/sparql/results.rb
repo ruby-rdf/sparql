@@ -146,12 +146,14 @@ module SPARQL
         end
       when :html
         require 'builder' unless defined?(::Builder)
+        content_type = "text/html"
         xml = ::Builder::XmlMarkup.new(:indent => 2)
         xml.div(solutions.to_s, :class => "sparql")
       end
     when RDF::Queryable
-      format ||= :ntriples
-      fmt = RDF::Format.for(format.to_sym)
+      fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
+      fmt ||= RDF::NTriples::Format
+      format ||= fmt.to_sym
       content_type ||= fmt.content_types.first
       fmt.writer.buffer << solutions
     when RDF::Query::Solutions
@@ -164,7 +166,8 @@ module SPARQL
 
     content_type ||= RDF::Query::Solutions::MIME_TYPES[format] if format
     
-    def serialization.content_type; content_type; end
+    serialization.instance_variable_set(:"@content_type", content_type)
+    def serialization.content_type; @content_type; end
     
     serialization
   end
@@ -176,7 +179,7 @@ module SPARQL
     <title>SPARQL Processing Service: %s</title>
   </head>
   <body>
-    <p> %s: %s</p>
+    <p>%s: %s</p>
   </body>
 </html>
 ).freeze
@@ -200,14 +203,16 @@ module SPARQL
     content_type = options[:content_type]
     content_type ||= RDF::Query::Solutions::MIME_TYPES[format]
     serialization = case content_type
-    when :html
-      ERROR_MESSAGE % [e.title, t.title, e.message]
+    when 'text/html'
+      title = exception.respond_to?(:title) ? exception.title : exception.class.to_s
+      ERROR_MESSAGE % [title, title, exception.message]
     else
       content_type = "text/plain"
-      e.message
+      exception.message
     end
     
-    def serialization.content_type; content_type; end
+    serialization.instance_variable_set(:"@content_type", content_type)
+    def serialization.content_type; @content_type; end
 
     serialization
   end
