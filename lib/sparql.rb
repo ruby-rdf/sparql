@@ -1,4 +1,5 @@
-require  'sparql/results'
+require 'sparql/results'
+
 ##
 # A SPARQL for RDF.rb.
 #
@@ -106,3 +107,5 @@ module SPARQL
     end
   end
 end
+
+require 'sparql/extensions'
