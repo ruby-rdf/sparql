@@ -26,9 +26,10 @@ module SPARQL
   #   a `queryiable` object such as an RDF::Graph
   #   or RDF::Repository. 
   # @raise  [Parser::Error] on invalid input
-  def self.parse(query, options = {})
+  def parse(query, options = {})
     query = Grammar::Parser.new(query, options).parse
   end
+  module_function :parse
 
   ##
   # Parse and execute the given SPARQL `query` string against `queriable`.
@@ -63,7 +64,7 @@ module SPARQL
   #   Note, results may be used with SPARQL.serialize_results to obtain appropriate
   #   output encoding.
   # @raise  [SPARQL::MalformedQuery] on invalid input
-  def self.execute(query, queryable, options = {})
+  def execute(query, queryable, options = {})
     parser = Grammar::Parser.new(query, options)
     queryable ||= RDF::Repository.new
     
@@ -83,7 +84,8 @@ module SPARQL
   rescue RDF::TypeError => e
     raise QueryRequestRefused, e.message
   end
-  
+  module_function :execute
+
   ##
   # MalformedQuery
   #

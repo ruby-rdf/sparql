@@ -132,7 +132,7 @@ module SPARQL
     format ||= RDF::Query::Solutions::MIME_TYPES.invert[content_type] if content_type
 
     serialization = case solutions
-    when Boolean
+    when TrueClass, FalseClass
       case format ||= :xml
       when :json
         require 'json' unless defined?(::JSON)
@@ -168,6 +168,7 @@ module SPARQL
     
     serialization
   end
+  module_function :serialize_results
 
   ERROR_MESSAGE = %q(<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
 <html>
@@ -210,4 +211,5 @@ module SPARQL
 
     serialization
   end
+  module_function :serialize_exception
 end
