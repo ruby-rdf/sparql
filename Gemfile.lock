@@ -1,0 +1,141 @@
+GIT
+  remote: https://github.com/gkellogg/linkeddata.git
+  revision: 79e2d7e36585594a2d3c13af1af1e4a9046e22ca
+  branch: 0.4.x
+  specs:
+    linkeddata (0.3.2)
+      rdf (>= 0.3.3)
+      rdf-isomorphic (>= 0.3.1)
+      rdf-json (>= 0.3.1)
+      rdf-n3 (>= 0.3.3)
+      rdf-rdfa (>= 0.3.3)
+      rdf-rdfxml (>= 0.3.3)
+      rdf-trix (>= 0.3.1)
+
+GIT
+  remote: https://github.com/gkellogg/rdf-json.git
+  revision: 0a4decbe783d601eff5de426a4a8cf218209a132
+  branch: 0.4.x
+  specs:
+    rdf-json (0.3.1)
+      json_pure (>= 1.5.1)
+      rdf (>= 0.3.3)
+
+GIT
+  remote: https://github.com/gkellogg/rdf-n3.git
+  revision: 236848595c35236a08c28b2db54caf0a6ce2b2c3
+  specs:
+    rdf-n3 (0.3.3)
+      addressable (= 2.2.4)
+      rdf
+      rdf (>= 0.3.3)
+
+GIT
+  remote: https://github.com/gkellogg/rdf-rdfa.git
+  revision: 2360f146b81735411cd33c0b597e173128246448
+  specs:
+    rdf-rdfa (0.3.3)
+      haml (>= 3.0.0)
+      haml (>= 3.0.0)
+      nokogiri (>= 1.3.3)
+      nokogiri (>= 1.4.4)
+      rdf (>= 0.3.3)
+      rdf
+
+GIT
+  remote: https://github.com/gkellogg/rdf-rdfxml.git
+  revision: b22dbbf2457a94a3a800ad8f6e2c95ecfd4390cb
+  specs:
+    rdf-rdfxml (0.3.3)
+      nokogiri (>= 1.4.4)
+      rdf (>= 0.3.3)
+
+GIT
+  remote: https://github.com/gkellogg/rdf-trix.git
+  revision: 67f84af0657160dd8d1f0d974fd554d8f47ba65a
+  branch: 0.4.x
+  specs:
+    rdf-trix (0.3.1)
+      rdf (>= 0.3.3)
+
+GIT
+  remote: https://github.com/gkellogg/rdf.git
+  revision: 9224732b13c9d2a536347d62cc5cf3386f9fd8d6
+  branch: type-check-mixin
+  specs:
+    rdf (0.4.0)
+      addressable (>= 2.2)
+
+GIT
+  remote: https://github.com/gkellogg/sparql-algebra.git
+  revision: 585b121a7053f7720bfcb1860720250b6e7c963f
+  specs:
+    sparql-algebra (0.0.8)
+      rdf (~> 0.4.0)
+      rdf-n3 (>= 0.3.1)
+
+GIT
+  remote: https://github.com/gkellogg/sparql-client.git
+  revision: 7c127c11fb8ef9d97c4477d5c8c63535ceac5ad7
+  branch: 0.4.x
+  specs:
+    sparql-client (0.0.11)
+      json_pure (>= 1.4.2)
+      net-http-persistent (~> 1.4.1)
+      rdf (>= 0.3.4)
+
+GIT
+  remote: https://github.com/gkellogg/sparql-grammar.git
+  revision: 46845378105be5ed713632e638d40c4279e7fc55
+  specs:
+    sparql-grammar (0.0.6)
+      rdf (~> 0.4.0)
+      sparql-algebra (>= 0.0.6)
+      sxp (>= 0.0.14)
+
+GEM
+  remote: http://rubygems.org/
+  specs:
+    addressable (2.2.4)
+    builder (3.0.0)
+    diff-lcs (1.1.2)
+    haml (3.0.25)
+    json (1.5.1)
+    json_pure (1.5.1)
+    net-http-persistent (1.4.1)
+    nokogiri (1.4.4)
+    open-uri-cached (0.0.3)
+    rdf-isomorphic (0.3.4)
+      rdf (>= 0.2.3)
+    rspec (2.5.0)
+      rspec-core (~> 2.5.0)
+      rspec-expectations (~> 2.5.0)
+      rspec-mocks (~> 2.5.0)
+    rspec-core (2.5.1)
+    rspec-expectations (2.5.0)
+      diff-lcs (~> 1.1.2)
+    rspec-mocks (2.5.0)
+    sxp (0.0.14)
+      json (>= 1.5.1)
+
+PLATFORMS
+  ruby
+
+DEPENDENCIES
+  addressable (= 2.2.4)
+  builder (>= 3.0.0)
+  json (>= 1.5.1)
+  linkeddata!
+  nokogiri
+  open-uri-cached
+  rdf!
+  rdf-json!
+  rdf-n3!
+  rdf-rdfa!
+  rdf-rdfxml!
+  rdf-trix!
+  rspec
+  sparql-algebra!
+  sparql-client!
+  sparql-grammar!
+  sxp (>= 0.0.5)
