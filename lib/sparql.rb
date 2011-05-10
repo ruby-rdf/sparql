@@ -52,8 +52,8 @@ module SPARQL
   #   result = parser.parse
   #
   # @param  [IO, StringIO, String, #to_s]  query
-  # @param  [RDF::Queryable]  queryable
   # @param  [Hash{Symbol => Object}] options
+  # @option options  [RDF::Queryable]  :queryable
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :load_datasets
   #   One or more URIs used to initialize a new instance of `queryable` in the default context.
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :default_graph_uri
@@ -66,7 +66,7 @@ module SPARQL
   # @raise  [SPARQL::MalformedQuery] on invalid input
   def execute(query, queryable, options = {})
     parser = Grammar::Parser.new(query, options)
-    queryable ||= RDF::Repository.new
+    queryable = options[:queryable] || RDF::Repository.new
     
     if options.has_key?(:load_datasets)
       queryable = queryable.class.new
