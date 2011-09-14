@@ -1,0 +1,28 @@
+---
+date: Wed, 14 Sep 2011 00:20:42 GMT
+server: Apache/2
+last-modified: Fri, 29 Jun 2007 14:24:48 GMT
+etag: ! '"1ca-4340c3dcdec00"'
+accept-ranges: bytes
+content-length: '458'
+cache-control: max-age=21600
+expires: Wed, 14 Sep 2011 06:20:42 GMT
+p3p: policyref="http://www.w3.org/2001/05/P3P/p3p.xml"
+connection: close
+content-type: application/sparql-query
+:status:
+- '200'
+- OK
+:content_type: application/sparql-query
+:base_uri: !ruby/object:URI::HTTP
+  scheme: http
+  user: !!null 
+  password: !!null 
+  host: www.w3.org
+  port: 80
+  path: /2001/sw/DataAccess/tests/data-r2/type-promotion/tP-double-double.rq
+  query: !!null 
+  opaque: !!null 
+  registry: !!null 
+  fragment: !!null 
+  parser: !!null 

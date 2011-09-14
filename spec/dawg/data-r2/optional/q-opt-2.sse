@@ -1,0 +1,7 @@
+(prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
+  (project (?mbox ?name ?nick)
+    (leftjoin
+      (leftjoin
+        (bgp (triple ?x foaf:mbox ?mbox))
+        (bgp (triple ?x foaf:name ?name)))
+      (bgp (triple ?x foaf:nick ?nick)))))

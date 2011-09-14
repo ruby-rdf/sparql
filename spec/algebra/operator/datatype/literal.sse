@@ -1,0 +1,14 @@
+##
+# datatype(A)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-datatype
+
+(equal (datatype "Hello") xsd:string)
+
+(equal (datatype "Hello"^^xsd:string) xsd:string)
+(equal (datatype "Hello"^^xsd:token) xsd:token)
+
+(error (datatype "Hello"@en) TypeError)
+(error (datatype _:foobar) TypeError)
+(error (datatype <mailto:alice@example.org>) TypeError)

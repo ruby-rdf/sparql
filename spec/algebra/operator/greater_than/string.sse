@@ -1,0 +1,17 @@
+##
+# op:numeric-equal(fn:compare(A, B), 1)
+# op:numeric-equal(fn:compare(STR(A), STR(B)), 1)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-compare
+# @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
+
+(equal (> "" "a")                              false)
+(equal (> "a" "")                              true)
+(equal (> "aaa" "bbb")                         false)
+(equal (> "bbb" "aaa")                         true)
+
+(equal (> ""^^xsd:string "a"^^xsd:string)      false)
+(equal (> "a"^^xsd:string ""^^xsd:string)      true)
+(equal (> "aaa"^^xsd:string "bbb"^^xsd:string) false)
+(equal (> "bbb"^^xsd:string "aaa"^^xsd:string) true)

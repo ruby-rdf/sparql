@@ -1,0 +1,34 @@
+(prefix ((: <http://example/>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+  (project (?subset ?superset)
+    (extend ((?subset ?s1) (?superset ?s2))
+      (minus
+        (minus
+          (bgp
+            (triple ?s2 rdf:type :Set)
+            (triple ?s1 rdf:type :Set)
+          )
+          (filter (notexists (bgp (triple ?s2 :member ?x)))
+            (bgp
+              (triple ?s1 rdf:type :Set)
+              (triple ?s2 rdf:type :Set)
+              (triple ?s1 :member ?x)
+            )))
+        (minus
+          (minus
+            (bgp
+              (triple ?s2 rdf:type :Set)
+              (triple ?s1 rdf:type :Set)
+            )
+            (filter (notexists (bgp (triple ?s2 :member ?x)))
+              (bgp
+                (triple ?s1 rdf:type :Set)
+                (triple ?s2 rdf:type :Set)
+                (triple ?s1 :member ?x)
+              )))
+          (filter (notexists (bgp (triple ?s1 :member ?x)))
+            (bgp
+              (triple ?s1 rdf:type :Set)
+              (triple ?s2 rdf:type :Set)
+              (triple ?s2 :member ?x)
+            )))))))

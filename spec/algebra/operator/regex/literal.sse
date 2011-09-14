@@ -1,0 +1,34 @@
+##
+# fn:matches(STRING, PATTERN)
+# fn:matches(STRING, PATTERN, FLAGS)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-matches
+
+# @see http://www.w3.org/TR/rdf-sparql-query/#restrictString
+(equal (regex "SPARQL Tutorial" "^SPARQL" "")                   true)
+(equal (regex "The Semantic Web" "^SPARQL" "")                  false)
+(equal (regex "SPARQL Tutorial" "web" "i")                      false)
+(equal (regex "The Semantic Web" "web" "i"  )                   true)
+
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-str
+(equal (regex "<mailto:alice@work.example>" "@work.example" "") true)
+(equal (regex "<mailto:bob@home.example>" "@work.example" "")   false)
+
+# @see http://www.w3.org/TR/rdf-sparql-query/#funcex-regex
+(equal (regex "Alice" "^ali" "i")                               true)
+(equal (regex "Bob" "^ali" "i")                                 false)
+
+# @see http://www.w3.org/TR/xpath-functions/#func-matches
+(equal (regex "abracadabra" "bra" "")                           true)
+(equal (regex "abracadabra" "^a.*a$" "")                        true)
+(equal (regex "abracadabra" "^bra" "")                          false)
+
+# @see http://www.w3.org/TR/xpath-functions/#flags
+(equal (regex "helloworld" "hello world" "x")                   true)
+(equal (regex "helloworld" "hello[ ]world" "x")                 false)
+#(equal (regex "hello world" "hello\ sworld" "x")                true) # FIXME
+(equal (regex "hello world" "hello world" "x")                  false)
+
+(error (regex _:a _:b _:c) TypeError)
+(error (regex <mailto:alice@example.org> "example" "") TypeError)

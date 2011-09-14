@@ -1,0 +1,11 @@
+##
+# logical-or(EBV(A), EBV(B))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#ebv
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-or
+
+(equal (or true true)   true)
+(equal (or true false)  true)
+(equal (or false true)  true)
+(equal (or false false) false)

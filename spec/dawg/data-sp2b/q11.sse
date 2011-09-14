@@ -1,0 +1,5 @@
+(prefix ((rdfs: <http://www.w3.org/2000/01/rdf-schema#>))
+  (slice 50 10
+    (project (?ee)
+      (order (?ee)
+        (bgp (triple ?publication rdfs:seeAlso ?ee))))))

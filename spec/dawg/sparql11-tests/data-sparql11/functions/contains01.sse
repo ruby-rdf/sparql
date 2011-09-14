@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?s ?str)
+    (filter (contains ?str "a")
+      (bgp (triple ?s :str ?str)))))

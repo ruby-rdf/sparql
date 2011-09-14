@@ -1,0 +1,7 @@
+(prefix ((: <http://example/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (distinct
+    (project (?v)
+      (leftjoin
+        (bgp (triple :x1 ?p ?o))
+        (bgp (triple ?o :q ?v))))))

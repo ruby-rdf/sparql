@@ -1,0 +1,5 @@
+(prefix ((: <http://www.example.org/>))
+  (sequence
+    (path ?X (pathN 0 :p) "o")
+    (path ?Y (pathN 0 :p) :o)
+    (path :s (pathN 0 :p) ?Z)))

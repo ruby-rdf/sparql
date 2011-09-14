@@ -1,0 +1,20 @@
+##
+# sameTerm(A, B)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-sameTerm
+
+# @see http://www.w3.org/TR/rdf-concepts/#section-blank-nodes
+(equal (sameTerm _:foo _:foo) true)
+(equal (sameTerm _:foo _:bar) false)
+
+# @see http://www.w3.org/TR/rdf-concepts/#section-Graph-URIref
+(equal (sameTerm <http://purl.org/dc/terms/title> <http://purl.org/dc/terms/title>)        true)
+(equal (sameTerm <http://purl.org/dc/terms/title> <http://purl.org/dc/elements/1.1/title>) false)
+
+# @see http://www.w3.org/TR/rdf-concepts/#section-Literal-Equality
+(equal (sameTerm "foo" "foo") true)
+(equal (sameTerm "foo" "bar") false)
+(equal (sameTerm true true) true)
+(equal (sameTerm true false) false)
+(equal (sameTerm 1 1.0) false)

@@ -3,7 +3,8 @@
 --protected
 --no-private
 --hide-void-return
---readme README.md
+--markup markdown
+--readme README.markdown
 -
 AUTHORS
 CREDITS

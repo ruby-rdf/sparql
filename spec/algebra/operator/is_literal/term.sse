@@ -1,0 +1,12 @@
+##
+# isLiteral(A)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-isLiteral
+
+(equal (isLiteral "foobar") true)
+(equal (isLiteral "Hello"@en) true)
+(equal (isLiteral 42) true)
+
+(equal (isLiteral _:foobar) false)
+(equal (isLiteral <mailto:alice@example.org>) false)

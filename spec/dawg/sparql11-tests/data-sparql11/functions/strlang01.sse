@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>))
+  (project (?s ?s2)
+    (extend ((?s2 (strlang ?str "en-US")))
+      (filter (langMatches (lang ?str) "en")
+        (bgp (triple ?s :str ?str))))))

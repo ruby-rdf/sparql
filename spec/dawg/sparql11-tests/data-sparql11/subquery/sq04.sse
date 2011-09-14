@@ -1,0 +1,3 @@
+(project (?x)
+  (graph ?g
+    (bgp (triple ?x ?p ?y))))

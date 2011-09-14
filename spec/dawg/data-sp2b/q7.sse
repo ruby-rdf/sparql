@@ -1,0 +1,30 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (rdfs: <http://www.w3.org/2000/01/rdf-schema#>)
+         (foaf: <http://xmlns.com/foaf/0.1/>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+         (dcterms: <http://purl.org/dc/terms/>))
+  (distinct
+    (project (?title)
+      (filter (! (bound ?doc3))
+        (leftjoin
+          (bgp
+            (triple ?class rdfs:subClassOf foaf:Document)
+            (triple ?doc rdf:type ?class)
+            (triple ?doc dc:title ?title)
+            (triple ?bag2 ?member2 ?doc)
+            (triple ?doc2 dcterms:references ?bag2)
+          )
+          (leftjoin
+            (bgp
+              (triple ?class3 rdfs:subClassOf foaf:Document)
+              (triple ?doc3 rdf:type ?class3)
+              (triple ?doc3 dcterms:references ?bag3)
+              (triple ?bag3 ?member3 ?doc)
+            )
+            (bgp
+              (triple ?class4 rdfs:subClassOf foaf:Document)
+              (triple ?doc4 rdf:type ?class4)
+              (triple ?doc4 dcterms:references ?bag4)
+              (triple ?bag4 ?member4 ?doc3)
+            ))
+          (! (bound ?doc4)))))))

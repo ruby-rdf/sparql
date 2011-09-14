@@ -1,0 +1,4 @@
+(prefix ((: <http://example/>))
+  (dataset ((named <data-g1.ttl>))
+    (graph ?g
+      (bgp (triple ?s ?p ?o)))))

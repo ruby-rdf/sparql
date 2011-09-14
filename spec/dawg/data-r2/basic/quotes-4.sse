@@ -1,0 +1,4 @@
+(prefix ((: <http://example.org/ns#>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?x)
+    (bgp (triple ?x ?p "x\ny"^^:someType))))

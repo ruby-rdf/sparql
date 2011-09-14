@@ -1,0 +1,5 @@
+(prefix ((: <http://example/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (reduced
+    (project (?v)
+      (bgp (triple ?x ?p ?v)))))

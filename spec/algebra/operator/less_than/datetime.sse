@@ -1,0 +1,5 @@
+##
+# op:dateTime-less-than(A, B)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-dateTime-less-than

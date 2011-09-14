@@ -1,0 +1,5 @@
+(prefix ((: <http://www.example.org/>))
+  (project (?s ?max)
+    (extend ((?max ?.0))
+      (group (?s) ((?.0 (max ?o)))
+        (bgp (triple ?s ?p ?o))))))

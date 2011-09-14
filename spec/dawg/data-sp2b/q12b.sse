@@ -1,0 +1,24 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (foaf: <http://xmlns.com/foaf/0.1/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+  (join
+    (bgp
+      (triple ?erdoes rdf:type foaf:Person)
+      (triple ?erdoes foaf:name "Paul Erdoes"^^xsd:string)
+    )
+    (union
+      (filter (&& (&& (&& (!= ?author ?erdoes) (!= ?document2 ?document)) (!= ?author2 ?erdoes)) (!= ?author2 ?author))
+        (bgp
+          (triple ?document dc:creator ?erdoes)
+          (triple ?document dc:creator ?author)
+          (triple ?document2 dc:creator ?author)
+          (triple ?document2 dc:creator ?author2)
+          (triple ?author2 foaf:name ?name)
+        ))
+      (filter (!= ?author ?erdoes)
+        (bgp
+          (triple ?document dc:creator ?erdoes)
+          (triple ?document dc:creator ?author)
+          (triple ?author foaf:name ?name)
+        )))))

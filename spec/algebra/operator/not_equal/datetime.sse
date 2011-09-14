@@ -1,0 +1,6 @@
+##
+# fn:not(op:dateTime-equal(A, B))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
+# @see http://www.w3.org/TR/xpath-functions/#func-not

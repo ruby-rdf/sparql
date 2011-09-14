@@ -1,0 +1,24 @@
+##
+# op:numeric-multiply(A, B)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-numeric-multiply
+
+(equal (* 0.0e0 +INF)  NaN)
+(equal (* 0.0e0 -INF)  NaN)
+(equal (* +INF 0.0)  NaN)
+(equal (* -INF 0.0)  NaN)
+(equal (* 1.0e0 +INF)  +INF)
+(equal (* 1.0e0 -INF)  -INF)
+(equal (* +INF 1.0)  +INF)
+(equal (* -INF 1.0)  -INF)
+(equal (* +INF +INF) +INF)
+(equal (* -INF -INF) +INF)
+(equal (* +INF -INF) -INF)
+(equal (* -INF +INF) -INF)
+
+(equal (* 6 7) 42)
+(equal (* 6.0 7.0) 42.0)
+(equal (* "6"^^xsd:decimal "7"^^xsd:decimal) "42.0"^^xsd:decimal)
+
+(error (* true false) TypeError)

@@ -1,0 +1,3 @@
+(prefix ((: <http://ex.org/>))
+  (order (?X)
+    (path ?X (pathN 0 :p) ?Y)))

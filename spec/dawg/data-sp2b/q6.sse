@@ -1,0 +1,22 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (rdfs: <http://www.w3.org/2000/01/rdf-schema#>)
+         (foaf: <http://xmlns.com/foaf/0.1/>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+         (dcterms: <http://purl.org/dc/terms/>))
+  (project (?yr ?name ?document)
+    (filter (! (bound ?author2))
+      (leftjoin
+        (bgp
+          (triple ?class rdfs:subClassOf foaf:Document)
+          (triple ?document rdf:type ?class)
+          (triple ?document dcterms:issued ?yr)
+          (triple ?document dc:creator ?author)
+          (triple ?author foaf:name ?name)
+        )
+        (bgp
+          (triple ?class2 rdfs:subClassOf foaf:Document)
+          (triple ?document2 rdf:type ?class2)
+          (triple ?document2 dcterms:issued ?yr2)
+          (triple ?document2 dc:creator ?author2)
+        )
+        (&& (= ?author ?author2) (< ?yr2 ?yr))))))

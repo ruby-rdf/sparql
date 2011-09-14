@@ -1,0 +1,11 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (bench: <http://localhost/vocabulary/bench/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+         (dcterms: <http://purl.org/dc/terms/>))
+  (project (?yr)
+    (bgp
+      (triple ?journal rdf:type bench:Journal)
+      (triple ?journal dc:title "Journal 1 (1940)"^^xsd:string)
+      (triple ?journal dcterms:issued ?yr)
+    )))

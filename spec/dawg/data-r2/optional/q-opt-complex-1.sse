@@ -1,0 +1,12 @@
+(prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
+  (project (?person ?nick ?page ?img ?name ?firstN)
+    (filter (|| (|| (bound ?page) (bound ?img)) (bound ?firstN))
+      (leftjoin
+        (leftjoin
+          (bgp (triple ?person foaf:nick ?nick))
+          (bgp (triple ?person foaf:isPrimaryTopicOf ?page)))
+        (join
+          (bgp (triple ?person foaf:name ?name))
+          (union
+            (bgp (triple ?person foaf:depiction ?img))
+            (bgp (triple ?person foaf:firstName ?firstN))))))))

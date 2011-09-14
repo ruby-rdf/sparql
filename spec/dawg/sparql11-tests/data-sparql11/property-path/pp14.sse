@@ -1,0 +1,4 @@
+(prefix ((: <http://example.org/>)
+         (foaf: <http://xmlns.com/foaf/0.1/>))
+  (order (?X ?Y)
+    (path ?X (path*  foaf:knows) ?Y)))

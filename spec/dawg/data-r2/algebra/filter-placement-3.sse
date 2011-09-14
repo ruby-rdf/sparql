@@ -1,0 +1,7 @@
+(prefix ((: <http://example/>))
+  (project (?v ?w)
+    (filter (exprlist (= ?v 2) (= ?w 3))
+      (bgp
+        (triple ?s :p ?v)
+        (triple ?s :q ?w)
+      ))))

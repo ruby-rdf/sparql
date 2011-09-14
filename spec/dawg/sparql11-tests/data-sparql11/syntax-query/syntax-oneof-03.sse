@@ -1,0 +1,2 @@
+(filter (in ?o 1 <file:///Users/gregg/Projects/sparql-tests/tests/sparql11-tests/data-sparql11/syntax-query/x>)
+  (bgp (triple ?s ?p ?o)))

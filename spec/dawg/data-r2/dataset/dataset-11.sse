@@ -1,0 +1,7 @@
+(prefix ((: <http://example/>))
+  (dataset
+    (<data-g1.ttl> (named <data-g1.ttl>) (named <data-g2.ttl>) (named <data-g3.ttl>) (named <data-g4.ttl>))
+    (union
+      (bgp (triple ?s ?p ?o))
+      (graph ?g
+        (bgp (triple ?s ?p ?o))))))

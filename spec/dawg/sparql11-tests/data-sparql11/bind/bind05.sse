@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>))
+  (project (?s ?p ?o ?z)
+    (filter (= ?z 3)
+      (extend ((?z (+ ?o 1)))
+        (bgp (triple ?s ?p ?o))))))

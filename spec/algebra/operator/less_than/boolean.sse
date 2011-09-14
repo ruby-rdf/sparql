@@ -1,0 +1,13 @@
+##
+# op:boolean-less-than(A, B)
+#
+# Returns `true` if the left operand is `false` and the right operand is
+# `true`. Otherwise, returns `false`.
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-boolean-less-than
+
+(equal (< true  true)  false)
+(equal (< true  false) false)
+(equal (< false true)  true)
+(equal (< false false) false)

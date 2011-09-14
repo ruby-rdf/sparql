@@ -1,0 +1,12 @@
+##
+# str(A)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-str
+
+(equal (str "Hello") "Hello")
+(equal (str 3.1415) "3.1415")
+
+(equal (str <mailto:alice@example.org>) "mailto:alice@example.org")
+
+(error (str _:foobar) TypeError)

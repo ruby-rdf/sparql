@@ -1,0 +1,4 @@
+(project (?count)
+  (extend ((?count ?.0))
+    (group () ((?.0 (count ?x)))
+      (table unit))))

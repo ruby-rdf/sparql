@@ -1,0 +1,8 @@
+(prefix ((: <http://www.example.org/>))
+  (project (?O12 ?C)
+    (extend ((?O12 (+ ?O1 ?O2)) (?C ?.0))
+      (group (?S) ((?.0 (count ?O1)))
+        (bgp
+          (triple ?S :p ?O1)
+          (triple ?S :q ?O2)
+        )))))

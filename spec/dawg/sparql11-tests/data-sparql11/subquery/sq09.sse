@@ -1,0 +1,6 @@
+(prefix ((ex: <http://www.example.org/schema#>)
+         (in: <http://www.example.org/instance#>))
+  (join
+    (project (?x)
+      (bgp (triple ?x ex:q ?t)))
+    (bgp (triple ?x ex:p ?y))))

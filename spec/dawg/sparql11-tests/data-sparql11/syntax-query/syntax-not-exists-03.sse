@@ -1,0 +1,2 @@
+(filter (&& true (notexists (bgp (triple ?s ?p ?o))))
+  (bgp (triple ?s ?p ?o)))

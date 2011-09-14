@@ -1,0 +1,3 @@
+(prefix ((ex: <http://www.example.org/schema#>)
+         (in: <http://www.example.org/instance#>))
+  (path in:a (seq (mod 1 _ (seq ex:p1 ex:p2)) (mod 1 _ (seq ex:p3 ex:p4))) ?x))

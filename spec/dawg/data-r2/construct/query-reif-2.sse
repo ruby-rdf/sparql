@@ -1,0 +1,6 @@
+(prefix ((rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+         (foaf: <http://xmlns.com/foaf/0.1/>))
+  (construct ((triple _:a rdf:subject ?s)
+              (triple _:a rdf:predicate ?p)
+              (triple _:a rdf:object ?o))
+    (bgp (triple ?s ?p ?o))))

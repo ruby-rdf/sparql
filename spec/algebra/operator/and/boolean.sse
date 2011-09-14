@@ -1,0 +1,11 @@
+##
+# logical-and(EBV(A), EBV(B))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#ebv
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-and
+
+(equal (and true true)   true)
+(equal (and true false)  false)
+(equal (and false true)  false)
+(equal (and false false) false)

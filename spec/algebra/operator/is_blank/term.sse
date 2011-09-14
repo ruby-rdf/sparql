@@ -1,0 +1,11 @@
+##
+# isBlank(A)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-isBlank
+
+(equal (isBlank _:foobar) true)
+
+(equal (isBlank <mailto:alice@example.org>) false)
+(equal (isBlank 42) false)
+(equal (isBlank "foobar") false)

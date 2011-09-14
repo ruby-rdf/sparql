@@ -1,0 +1,5 @@
+(prefix ((: <http://example/>))
+  (leftjoin
+    (bgp (triple ?x :p ?v))
+    (bgp (triple ?y :q ?w))
+    (exprlist (= ?v 2) (= ?w 3))))

@@ -1,0 +1,41 @@
+##
+# op:numeric-unary-minus(A)
+#
+# Returns its operand with the sign reversed: `(- A)`.
+#
+# If `A` is positive, its negative is returned; if it is negative, its
+# positive is returned.
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
+
+(equal (- 0)    0)
+(equal (- +1)   -1)
+(equal (- -1)   +1)
+(equal (+ +0.0) -0.0)
+(equal (+ -0.0) +0.0)
+(equal (+ +1.0) -1.0)
+(equal (+ -1.0) +1.0)
+(equal (+ +INF) -INF)
+(equal (+ -INF) +INF)
+
+# For `xsd:integer` and `xsd:decimal` arguments, `0` and `0.0` return `0`
+# and `0.0`, respectively.
+(equal (- "0"^^xsd:integer)     "0"^^xsd:integer)
+(equal (- "0.0"^^xsd:decimal)   "0.0"^^xsd:decimal)
+
+# For `xsd:float` and `xsd:double` arguments, `NaN` returns `NaN`, `0.0E0`
+# returns `-0.0E0` and vice versa. `INF` returns `-INF`. `-INF` returns
+# `INF`.
+(equal (- "NaN"^^xsd:float)     "NaN"^^xsd:float)
+(equal (- "NaN"^^xsd:double)    "NaN"^^xsd:double)
+(equal (- "0.0E0"^^xsd:float)   "-0.0E0"^^xsd:float)
+(equal (- "0.0E0"^^xsd:double)  "-0.0E0"^^xsd:double)
+(equal (- "-0.0E0"^^xsd:float)  "0.0E0"^^xsd:float)
+(equal (- "-0.0E0"^^xsd:double) "0.0E0"^^xsd:double)
+(equal (- "INF"^^xsd:float)     "-INF"^^xsd:float)
+(equal (- "INF"^^xsd:double)    "-INF"^^xsd:double)
+(equal (- "-INF"^^xsd:float)    "INF"^^xsd:float)
+(equal (- "-INF"^^xsd:double)   "INF"^^xsd:double)
+
+(error (- "") TypeError)

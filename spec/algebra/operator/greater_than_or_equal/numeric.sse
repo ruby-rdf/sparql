@@ -1,0 +1,7 @@
+##
+# logical-or(op:numeric-greater-than(A, B), op:numeric-equal(A, B))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-numeric-greater-than
+# @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-or

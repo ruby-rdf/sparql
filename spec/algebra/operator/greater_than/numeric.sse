@@ -1,0 +1,21 @@
+##
+# op:numeric-greater-than(A, B)
+#
+# Returns `true` if and only if `A` is greater than `B`.
+#
+# For `xsd:float` and `xsd:double` values, positive infinity is greater than
+# all other non-`NaN` values; negative infinity is less than all other
+# non-`NaN` values. If `A` or `B` is `NaN`, the function returns `false`.
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-numeric-greater-than
+
+(equal (> +0.0 -1.0) true)
+(equal (> +1.0 +0.0) true)
+
+(equal (> 0.0 -INF)  true)
+(equal (> +INF 0.0)  true)
+
+#(equal (> +INF NaN)  false) # FIXME in RDF.rb
+#(equal (> -INF NaN)  false) # FIXME in RDF.rb
+#(equal (> NaN NaN)   false) # FIXME in RDF.rb

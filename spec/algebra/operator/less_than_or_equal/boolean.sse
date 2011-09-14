@@ -1,0 +1,11 @@
+##
+# fn:not(op:boolean-greater-than(A, B))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-boolean-greater-than
+# @see http://www.w3.org/TR/xpath-functions/#func-not
+
+(equal (<= true  true)  true)
+(equal (<= true  false) false)
+(equal (<= false true)  true)
+(equal (<= false false) true)

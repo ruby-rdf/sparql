@@ -1,0 +1,5 @@
+(prefix ((: <http://example/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?x)
+    (filter (= (datatype ?v) xsd:string)
+      (bgp (triple ?x :p ?v)))))

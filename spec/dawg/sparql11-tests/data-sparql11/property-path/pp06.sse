@@ -1,0 +1,5 @@
+(prefix ((ex: <http://www.example.org/schema#>)
+         (in: <http://www.example.org/instance#>))
+  (project (?x)
+    (graph ?g
+      (path in:a (seq ex:p1 ex:p2) ?x))))

@@ -1,0 +1,6 @@
+(prefix ((: <http://example.org/things#>))
+  (filter (&& (sameTerm ?v1 ?v2) (= ?v1 ?v2))
+    (bgp
+      (triple ?x1 :p ?v1)
+      (triple ?x2 :p ?v2)
+    )))

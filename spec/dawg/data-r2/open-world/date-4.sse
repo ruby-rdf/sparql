@@ -1,0 +1,5 @@
+(prefix ((: <http://example/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?x ?date)
+    (filter (= (datatype ?date) xsd:date)
+      (bgp (triple ?x :s ?date)))))

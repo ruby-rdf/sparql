@@ -1,4 +1,4 @@
-module SPARQL; module Grammar
+module SPARQL
   module VERSION
     VERSION_FILE = File.join(File.expand_path(File.dirname(__FILE__)), "..", "..", "VERSION")
     MAJOR, MINOR, TINY, EXTRA = File.read(VERSION_FILE).chop.split(".")
@@ -17,4 +17,4 @@ module SPARQL; module Grammar
     # @return [Array(Integer, Integer, Integer)]
     def self.to_a() [MAJOR, MINOR, TINY] end
   end
-end; end
+end

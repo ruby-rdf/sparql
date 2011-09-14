@@ -1,0 +1,7 @@
+(prefix ((: <http://example.org/ns#>))
+  (project (?p ?v)
+    (bgp
+      (triple :x ?p ??0)
+      (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ?v)
+      (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>)
+    )))

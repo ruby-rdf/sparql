@@ -1,0 +1,6 @@
+(prefix ((ex: <http://www.example.org/schema#>)
+         (in: <http://www.example.org/instance#>))
+  (project (?x ?y ?sum)
+    (order (?sum)
+      (extend ((?sum (+ ?y ?y)))
+        (bgp (triple ?x ex:p ?y))))))

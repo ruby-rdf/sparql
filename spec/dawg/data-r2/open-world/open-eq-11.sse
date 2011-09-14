@@ -1,0 +1,7 @@
+(prefix ((: <http://example/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (filter (|| (!= ?v1 ?v2) (= ?v1 ?v2))
+    (bgp
+      (triple ?x :p ?v1)
+      (triple ?y :q ?v2)
+    )))

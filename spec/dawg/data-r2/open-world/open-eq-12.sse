@@ -1,0 +1,11 @@
+(prefix ((: <http://example/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?x ?v1 ?y ?v2)
+    (filter (! (bound ?v3))
+      (leftjoin
+        (bgp
+          (triple ?x :p ?v1)
+          (triple ?y :p ?v2)
+        )
+        (bgp (triple ?y :p ?v3))
+        (|| (!= ?v1 ?v3) (= ?v1 ?v3))))))

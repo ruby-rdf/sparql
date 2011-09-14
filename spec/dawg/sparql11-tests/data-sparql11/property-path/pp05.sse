@@ -1,0 +1,4 @@
+(prefix ((ex: <http://www.example.org/schema#>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+         (in: <http://www.example.org/instance#>))
+  (path ?x (mod 0 1 rdf:rest) ?y))

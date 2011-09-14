@@ -1,0 +1,28 @@
+---
+date: Wed, 14 Sep 2011 00:12:45 GMT
+server: Apache/2
+last-modified: Thu, 20 Sep 2007 14:26:51 GMT
+etag: ! '"243b-43a91f1f6e0c0"'
+accept-ranges: bytes
+content-length: '9275'
+cache-control: max-age=21600
+expires: Wed, 14 Sep 2011 06:12:45 GMT
+p3p: policyref="http://www.w3.org/2001/05/P3P/p3p.xml"
+connection: close
+content-type: application/x-turtle
+:status:
+- '200'
+- OK
+:content_type: application/x-turtle
+:base_uri: !ruby/object:URI::HTTP
+  scheme: http
+  user: !!null 
+  password: !!null 
+  host: www.w3.org
+  port: 80
+  path: /2001/sw/DataAccess/tests/data-r2/open-world/manifest.ttl
+  query: !!null 
+  opaque: !!null 
+  registry: !!null 
+  fragment: !!null 
+  parser: !!null 

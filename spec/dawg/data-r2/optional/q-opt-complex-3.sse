@@ -1,0 +1,17 @@
+(prefix ((foaf: <http://xmlns.com/foaf/0.1/>)
+         (ex: <http://example.org/things#>))
+  (project (?name ?nick ?plan ?dept)
+    (leftjoin
+      (join
+        (bgp
+          (triple ?person a foaf:Person)
+          (triple ?person foaf:name ?name)
+        )
+        (graph ?x
+          (bgp
+            (triple ??0 foaf:name ?name)
+            (triple ??0 foaf:nick ?nick)
+          )))
+      (leftjoin
+        (bgp (triple ?person ex:healthplan ?plan))
+        (bgp (triple ?person ex:department ?dept))))))

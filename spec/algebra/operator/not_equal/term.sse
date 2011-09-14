@@ -1,0 +1,21 @@
+##
+# fn:not(RDFterm-equal(A, B))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+# @see http://www.w3.org/TR/xpath-functions/#func-not
+
+(equal (!= "Hello"@en "Hello"@en) false)
+(equal (!= "Hello"^^xsd:token "Hello"^^xsd:token) false)
+
+(error (!= "Hello"@en "Hello") true)
+(error (!= "Hello"@en "Hello"@en-US) true)
+(error (!= "Hello"@en "Hello"^^xsd:token) true)
+(error (!= "true" true) TypeError)
+(error (!= "0" 0) TypeError)
+
+(equal (!= <mailto:alice@example.org> <mailto:alice@example.org>) false)
+(equal (!= _:foobar _:foobar) false)
+
+(equal (!= <mailto:alice@example.org> <mailto:bob@example.org>) true)
+(equal (!= _:foobar _:barfoo) true)

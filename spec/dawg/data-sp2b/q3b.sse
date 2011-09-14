@@ -1,0 +1,9 @@
+(prefix ((bench: <http://localhost/vocabulary/bench/>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+         (swrc: <http://swrc.ontoware.org/ontology#>))
+  (project (?article)
+    (filter (= ?property swrc:month)
+      (bgp
+        (triple ?article rdf:type bench:Article)
+        (triple ?article ?property ?value)
+      ))))

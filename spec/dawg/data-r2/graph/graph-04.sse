@@ -1,0 +1,3 @@
+(prefix ((: <http://example/>))
+  (graph ?g
+    (bgp (triple ?s ?p ?o))))

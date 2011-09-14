@@ -1,0 +1,13 @@
+##
+# lang(A)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-lang
+
+(equal (lang "Hello") "")
+
+(equal (lang "Hello"@en) "en")
+(equal (lang "Hello"@EN) "en")
+
+(error (lang _:foobar) TypeError)
+(error (lang <mailto:alice@example.org>) TypeError)

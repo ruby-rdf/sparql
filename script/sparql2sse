@@ -1,0 +1,106 @@
+#!/usr/bin/env ruby
+require 'rubygems'
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
+require 'sparql'
+require 'getoptlong'
+require 'open-uri'
+
+def run(input, parser_options)
+  start = Time.new
+  num = 0
+  puts  "#{input.read}\n---\n\n" unless $quiet
+  input.rewind
+  if $quiet
+    $stdout = StringIO.new
+  end
+  parser = SPARQL::Grammar::Parser.new(input.read, parser_options)
+  res = parser.parse(parser_options[:production])
+  if $quiet
+    $stdout = STDOUT
+    print "."
+  elsif $dump
+    puts res.inspect
+  else
+    puts parser.to_s
+  end
+  puts
+  secs = Time.new - start
+  puts "Parsed in #{secs} seconds."
+rescue Exception => e
+  if parser_options[:debug]
+    fname = input.respond_to?(:path) ? input.path : "-stdin-"
+    STDERR.puts("\nIn #{fname}: #{e.message}")
+    raise e
+  else
+    puts "Parse Error: #{e.message}"
+    exit(1)
+  end
+end
+
+$output_format = :ntriples
+$input_format = :n3
+input = nil
+
+parser_options = {
+  :progress   => false,
+  :production => SPARQL::Grammar::SPARQL_GRAMMAR.Query,
+  :prefixes   => {},
+}
+
+opts = GetoptLong.new(
+  ["--dump", GetoptLong::NO_ARGUMENT],
+  ["--dbg", GetoptLong::NO_ARGUMENT],
+  ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
+  ["--help", "-?", GetoptLong::NO_ARGUMENT],
+  ["--parse-only", GetoptLong::NO_ARGUMENT],
+  ["--production", GetoptLong::REQUIRED_ARGUMENT],
+  ["--progress", GetoptLong::NO_ARGUMENT],
+  ["--quiet", GetoptLong::NO_ARGUMENT],
+  ["--resolve-uris", GetoptLong::NO_ARGUMENT],
+  ["--standard-prefixes", GetoptLong::NO_ARGUMENT],
+  ["--uri", GetoptLong::REQUIRED_ARGUMENT]
+)
+
+opts.each do |opt, arg|
+  case opt
+  when '--dbg' then parser_options[:debug] = true
+  when '--dump' then $dump = true
+  when '--execute' then input = arg
+  when '--quiet' then $quiet = true
+  when '--production' then parser_options[:production] = arg.match(/http/) ? arg : SPARQL::Grammar::SPARQL_GRAMMAR[arg]
+  when '--progress' then parser_options[:progress] = true
+  when '--resolve-uris' then parser_options[:resolve_uris] = true
+  when '--standard-prefixes'
+    # Use a standard prefixes
+    RDF::Vocabulary.each do |v|
+      prefix = v.__name__.to_s.split('::').last.downcase.to_sym
+      parser_options[:prefixes][prefix] = v.to_uri
+    end
+  when '--uri' then parser_options[:base_uri] = arg
+  when "--help"
+    puts "Usage: #{$0} [options] file-or-uri ..."
+    puts "Options:"
+    puts "      --quiet:              Output '.' when parsing files, except on error"
+    puts "      --execute,-e:         Use option argument as the input if no files are given"
+    puts "      --production:         Begin parsing with specific BNF production, defaults to Query"
+    puts "      --uri:                Use argument as default BASE (for non-standard productions)"
+    puts "      --resolve-uris:       Resolve URIs and QNames in output rather than generating (base ...) or (prefix ...)"
+    puts "      --standard-prefixes:  Apply standard prefixes to parser (for non-standard productions)"
+    puts "      --dump:               Dump raw output, otherwise serialize to SSE"
+    puts "      --progress:           Display parser progress when running productions"
+    puts "      --debug:              Display detailed debug output"
+    puts "      --help,-?:            This message"
+    exit(0)
+  end
+end
+
+if ARGV.empty?
+  s = input ? input : $stdin.read
+  run(StringIO.new(s), parser_options)
+else
+  ARGV.each do |test_file|
+    puts "parse #{test_file}"
+    run(Kernel.open(test_file), parser_options)
+  end
+end
+puts

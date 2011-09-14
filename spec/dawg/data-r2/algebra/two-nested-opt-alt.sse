@@ -1,0 +1,9 @@
+(prefix ((: <http://example/>))
+  (leftjoin
+    (leftjoin
+      (bgp (triple :x1 :p ?v))
+      (bgp (triple :x3 :q ?w)))
+    (bgp
+      (triple :x3 :q ?w)
+      (triple :x2 :p ?v)
+    )))

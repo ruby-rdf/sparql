@@ -1,0 +1,2 @@
+(group (?s)
+  (bgp (triple ?s ?p ?o)))

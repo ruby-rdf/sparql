@@ -1,0 +1,7 @@
+(prefix ((: <http://example.org/>)
+         (foaf: <http://xmlns.com/foaf/0.1/>))
+  (project (?x)
+    (bgp
+      (triple ?x foaf:name "John Smith")
+      (triple ?x a foaf:Womble)
+    )))

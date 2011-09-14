@@ -1,0 +1,4 @@
+(prefix ((: <http://example.org/>))
+  (project (?s ?x)
+    (extend ((?x (year ?date)))
+      (bgp (triple ?s :date ?date)))))

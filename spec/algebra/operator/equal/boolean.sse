@@ -1,0 +1,10 @@
+##
+# op:boolean-equal(A, B)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-boolean-equal
+
+(equal (= true true)   true)
+(equal (= true false)  false)
+(equal (= false true)  false)
+(equal (= false false) true)

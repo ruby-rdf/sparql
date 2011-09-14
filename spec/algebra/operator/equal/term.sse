@@ -1,0 +1,43 @@
+##
+# RDFterm-equal(A, B)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+
+(equal (= "Hello"@en "Hello"@en) true)
+(equal (= "Hello"@en "Hello"@EN) true)
+(equal (= "Hello"^^xsd:token "Hello"^^xsd:token) true)
+
+(error (= "Hello"@en "Hello") false)
+(error (= "Hello"@en "Hello"@en-US) false)
+(error (= "Hello"@en "Hello"^^xsd:token) false)
+(error (= "true" true) TypeError)
+(error (= "0" 0) TypeError)
+
+(equal (= <mailto:alice@example.org> <mailto:alice@example.org>) true)
+(equal (= _:foobar _:foobar) true)
+
+(equal (= <mailto:alice@example.org> <mailto:bob@example.org>) false)
+(equal (= _:foobar _:barfoo) false)
+
+# more from expr-equals eq-2-1
+(equal (= "zzz"^^<http://example.org/things#myType> "zzz"^^<http://example.org/things#myType>) true)
+
+# From open-eq-07
+(equal (= "xyz" "xyz"^^xsd:string) true)
+(equal (= "xyz"^^xsd:string "xyz") true)
+
+# From open-eq-08
+(equal (= "xyz" "xyz"^^xsd:integer) TypeError)
+(equal (= "xyz" "xyz"^^<unknown>) TypeError)
+(equal (= "xyz"@en "xyz"^^xsd:string) false)
+(equal (= "xyz"@en "xyz"^^xsd:integer) false)
+(equal (= "xyz"@en "xyz"^^<unknown>) false)
+(equal (= "xyz"@en "xyz") false)
+(equal (= "xyz"@EN "xyz"^^xsd:string) false)
+(equal (= _:xyz "xyz"^^xsd:integer) false)
+(equal (= <xyz> "xyz"^^xsd:integer) false)
+(equal (= "xyz" _:xyz) false)
+
+# From open-eq-09
+(equal (= "xyz"^^xsd:integer "abc"^^xsd:integer) TypeError)

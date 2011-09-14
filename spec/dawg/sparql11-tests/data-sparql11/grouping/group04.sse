@@ -1,0 +1,8 @@
+(prefix ((: <http://example/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?X ?S)
+    (extend ((?S ?.0))
+      (group ((?X (coalesce ?w "1605-11-05"^^xsd:date))) ((?.0 (sample ?v)))
+        (leftjoin
+          (bgp (triple ?s :p ?v))
+          (bgp (triple ?s :q ?w)))))))

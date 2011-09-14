@@ -1,0 +1,7 @@
+(prefix ((: <http://example.org/>))
+  (project (?str)
+    (extend ((?str (concat ?str1 ?str2)))
+      (bgp
+        (triple :s6 :str ?str1)
+        (triple :s7 :str ?str2)
+      ))))

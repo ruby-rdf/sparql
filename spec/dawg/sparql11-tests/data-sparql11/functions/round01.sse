@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?s ?num ?round)
+    (extend ((?round (round ?num)))
+      (bgp (triple ?s :num ?num)))))

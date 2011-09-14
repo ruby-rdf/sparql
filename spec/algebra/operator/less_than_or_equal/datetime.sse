@@ -1,0 +1,6 @@
+##
+# fn:not(op:dateTime-greater-than(A, B))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-dateTime-greater-than
+# @see http://www.w3.org/TR/xpath-functions/#func-not

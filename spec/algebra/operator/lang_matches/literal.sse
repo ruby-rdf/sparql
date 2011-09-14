@@ -1,0 +1,30 @@
+##
+# langMatches(A, B)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-langMatches
+
+(equal (langMatches "" "*")               false)
+(equal (langMatches "en" "*")             true)
+(equal (langMatches "en" "en")            true)
+(equal (langMatches "en" "EN")            true)
+(equal (langMatches "EN" "en")            true)
+(equal (langMatches "en-US" "en")         true)
+
+# @see http://www.w3.org/TR/rdf-sparql-query/#func-langMatches
+(equal (langMatches "en" "FR")            false)
+(equal (langMatches "fr" "FR")            true)
+(equal (langMatches "fr-BE" "FR")         true)
+(equal (langMatches "" "FR")              false)
+
+# @see http://tools.ietf.org/html/rfc4647#section-3.3.1
+(equal (langMatches "de-DE-1996" "de-de") true)
+(equal (langMatches "de-Deva" "de-de")    false)
+(equal (langMatches "de-Latn-DE" "de-de") false)
+
+(error (langMatches "en" _:foobar) TypeError)
+(error (langMatches "en" "*"@en) TypeError)
+(error (langMatches "en" "*"^^xsd:token) TypeError)
+(error (langMatches "en" 42) TypeError)
+(error (langMatches _:foobar "*") TypeError)
+(error (langMatches <mailto:alice@example.org> "*") TypeError)

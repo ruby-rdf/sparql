@@ -1,0 +1,39 @@
+##
+# fn:not(EBV(A))
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/rdf-sparql-query/#ebv
+# @see http://www.w3.org/TR/xpath-functions/#func-not
+
+(equal (not true)  false)
+(equal (not false) true)
+
+# The inverse EBV of any literal whose type is `xsd:boolean` or numeric is
+# `true` if the lexical form is not valid for that datatype.
+(equal (not "abc"^^xsd:integer) true)
+
+# If the operand is a typed literal with a datatype of `xsd:boolean`, the
+# inverse EBV is the logical inverse of the value of that operand.
+(equal (not "1"^^xsd:boolean)   false)
+(equal (not "0"^^xsd:boolean)   true)
+
+# If the operand is a plain literal or a typed literal with a datatype of
+# `xsd:string`, the inverse EBV is `true` if the operand value has zero
+# length; otherwise the inverse EBV is `false`.
+(equal (not "")                 true)
+(equal (not ""^^xsd:string)     true)
+(equal (not "foo")              false)
+(equal (not "foo"^^xsd:string)  false)
+
+# If the operand is a numeric type or a typed literal with a datatype
+# derived from a numeric type, the inverse EBV is `true` if the operand
+# value is `NaN` or is numerically equal to zero; otherwise the inverse EBV
+# is `false`.
+(equal (not NaN)                true)
+(equal (not 0)                  true)
+(equal (not 0.0)                true)
+(equal (not 42)                 false)
+(equal (not 3.1415)             false)
+
+# All other arguments, including unbound arguments, produce a type error.
+# TODO

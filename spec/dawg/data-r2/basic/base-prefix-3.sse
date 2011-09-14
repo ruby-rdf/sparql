@@ -1,0 +1,3 @@
+(prefix ((ns: <http://example.org/ns#>)
+         (x: <http://example.org/x/>))
+  (bgp (triple x:x ns:p ?v)))

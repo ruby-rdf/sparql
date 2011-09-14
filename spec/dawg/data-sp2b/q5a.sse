@@ -1,0 +1,15 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (foaf: <http://xmlns.com/foaf/0.1/>)
+         (bench: <http://localhost/vocabulary/bench/>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+  (distinct
+    (project (?person ?name)
+      (filter (= ?name ?name2)
+        (bgp
+          (triple ?article rdf:type bench:Article)
+          (triple ?article dc:creator ?person)
+          (triple ?inproc rdf:type bench:Inproceedings)
+          (triple ?inproc dc:creator ?person2)
+          (triple ?person foaf:name ?name)
+          (triple ?person2 foaf:name ?name2)
+        )))))
