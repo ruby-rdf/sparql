@@ -15,17 +15,18 @@ def run_tc(t, options = {})
   options[:tests] ||= 0
   options[:tests] += 1
   STDOUT.write "run #{t.name}" unless options[:quiet]
-  puts "\n" + t.action.sse_string if options[:verbose]
+
+  query = options[:sse] ? t.action.sse_string : t.action.query_string
+  puts "\n" + query if options[:verbose]
 
   puts t.inspect if options[:verbose]
 
   graphs = t.graphs
-  query = t.action.sse_string
   expected = t.solutions
 
   graphs.each {|k, s| puts "#{k}:\n#{s[:data]}\n"} if options[:verbose]
 
-  result = sparql_query(:graphs => graphs, :query => query, :sse => true,
+  result = sparql_query(:graphs => graphs, :query => query, :sse => !!options[:sse],
                         :base_uri => t.action.query_file,
                         :repository => "sparql-spec", :form => t.form, :to_hash => false)
 
@@ -78,6 +79,7 @@ suite = "rdfxml"
 opts = GetoptLong.new(
   ["--exec-debug", GetoptLong::NO_ARGUMENT],
   ["--parser-debug", GetoptLong::NO_ARGUMENT],
+  ["--sse", GetoptLong::NO_ARGUMENT],
   ["--verbose", GetoptLong::NO_ARGUMENT],
   ["--quiet", GetoptLong::NO_ARGUMENT]
 )
@@ -86,6 +88,7 @@ opts.each do |opt, arg|
   when '--validate' then options[:validate] = true
   when '--verbose' then options[:verbose] = true
   when '--quiet' then options[:quiet] = true
+  when '--sse' then options[:sse] = true
   when '--exec-debug' then ENV['EXEC_DEBUG'] = "true"; options[:verbose] = true
   when '--parser-debug' then ENV['PARSER_DEBUG'] = "true"; options[:verbose] = true
   end
