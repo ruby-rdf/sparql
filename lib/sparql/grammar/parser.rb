@@ -438,7 +438,7 @@ module SPARQL; module Grammar
                 rhs = Algebra::Expression.for(:join, :placeholder, rhs) unless rhs.is_a?(Algebra::Operator)
                 debug "GroupGraphPattern(itr)", "<= q: #{rhs.inspect}"
                 debug "GroupGraphPattern(itr)", "<= lhs: #{lhs ? lhs.inspect : 'nil'}"
-                lhs ||= RDF::Query.new if rhs.is_a?(Algebra::Operator::LeftJoin)
+                lhs ||= Algebra::Operator::BGP.new if rhs.is_a?(Algebra::Operator::LeftJoin)
                 if lhs
                   if rhs.operand(0) == :placeholder
                     rhs.operands[0] = lhs
@@ -467,7 +467,7 @@ module SPARQL; module Grammar
 
             if data[:filter]
               expr, query = flatten_filter(data[:filter])
-              query = res || RDF::Query.new
+              query = res || Algebra::Operator::BGP.new
               # query should be nil
               res = Algebra::Operator::Filter.new(expr, query)
             end
@@ -503,7 +503,7 @@ module SPARQL; module Grammar
         # [21]    TriplesBlock ::= TriplesSameSubject ( '.' TriplesBlock? )?
         {
           :finish => lambda { |data|
-            query = RDF::Query.new
+            query = Algebra::Operator::BGP.new
             data[:pattern].each {|p| query << p}
         
             # Append triples from ('.' TriplesBlock? )?
@@ -1134,7 +1134,7 @@ module SPARQL; module Grammar
     
     # Merge query modifiers, datasets, and projections
     def merge_modifiers(data)
-      query = data[:query] ? data[:query].first : RDF::Query.new
+      query = data[:query] ? data[:query].first : Algebra::Operator::BGP.new
       
       # Add datasets and modifiers in order
       query = Algebra::Expression[:order, data[:order].first, query] if data[:order]
