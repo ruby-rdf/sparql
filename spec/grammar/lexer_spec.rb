@@ -1,3 +1,4 @@
+# -*- encoding: utf-8 -*-
 $:.unshift ".."
 require 'spec_helper'
 
@@ -62,6 +63,17 @@ describe SPARQL::Grammar::Lexer do
           string.force_encoding(Encoding::UTF_8) if string.respond_to?(:force_encoding) # Ruby 1.9+
           string.should match(SPARQL::Grammar::Lexer::PN_CHARS_BASE)
         end
+      end
+    end
+    
+    it "matches kanji test input", :ruby => "1.9" do
+      tokenize('"食"') do |tokens|
+        tokens.should have(1).element
+        tokens.first.type.should == :STRING_LITERAL2
+      end
+      tokenize('食:食べる') do |tokens|
+        tokens.should have(1).elements
+        tokens.first.type.should == :PNAME_LN
       end
     end
   end

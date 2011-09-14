@@ -222,7 +222,7 @@ module SPARQL; module Grammar
         when IO, StringIO then input.read
         else input.to_s
       end
-      @input = self.class.unescape_codepoints(@input) if ESCAPE_CHAR === @input
+      @input = self.class.unescape_codepoints(@input)
       @lineno = 0
     end
 
