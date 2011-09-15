@@ -34,11 +34,11 @@ module SPARQL; module Algebra
         filter = operand(2)
 
         
-        debug("LeftJoin", options)
+        debug(options) {"LeftJoin"}
         left = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug("=>(left) #{left.inspect}", options)
+        debug(options) {"=>(left) #{left.inspect}"}
         right = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug("=>(right) #{right.inspect}", options)
+        debug(options) {"=>(right) #{right.inspect}"}
         
         # LeftJoin(Ω1, Ω2, expr) =
         solutions = []
@@ -47,23 +47,23 @@ module SPARQL; module Algebra
           right.each do |s2|
             s = s2.merge(s1)
             expr = filter ? boolean(filter.evaluate(s)).true? : true rescue false
-            debug("===>(evaluate) #{s.inspect}", options) if filter
+            debug(options) {"===>(evaluate) #{s.inspect}"} if filter
 
             if expr && s1.compatible?(s2)
               # { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible and expr(merge(μ1, μ2)) is true }
-              debug("=>(merge s1 s2) #{s.inspect}", options)
+              debug(options) {"=>(merge s1 s2) #{s.inspect}"}
               solutions << s
               load_left = false   # Left solution added one or more times due to merge
             end
           end
           if load_left
-            debug("=>(add) #{s1.inspect}", options)
+            debug(options) {"=>(add) #{s1.inspect}"}
             solutions << s1
           end
         end
         
         @solutions = RDF::Query::Solutions.new(solutions)
-        debug("=> #{@solutions.inspect}", options)
+        debug(options) {"=> #{@solutions.inspect}"}
         @solutions
       end
       

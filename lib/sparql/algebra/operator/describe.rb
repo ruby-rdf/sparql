@@ -37,17 +37,17 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#describe
       def execute(queryable, options = {})
-        debug("Describe #{operands.first}, #{options.inspect}", options)
+        debug(options) {"Describe #{operands.first}, #{options.inspect}"}
 
         # Describe any constand URIs
         to_describe = operands.first.select {|t| t.uri?}
         
-        to_describe.each {|t| debug("=> describe #{t}", options)}
+        to_describe.each {|t| debug(options) {"=> describe #{t}"}}
 
         operands.last.execute(queryable).each do |solution|
           solution.each_variable do |v|
             if operands.first.any? {|bound| v.eql?(bound)}
-              debug("=> describe #{v}", options)
+              debug(options) {"=> describe #{v}"}
               to_describe << v.value
             end
           end

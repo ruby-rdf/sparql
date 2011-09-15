@@ -33,13 +33,13 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#construct
       def execute(queryable, options = {})
-        debug("Construct #{operands.first}, #{options.inspect}", options)
+        debug(options) {"Construct #{operands.first}, #{options.inspect}"}
         graph = RDF::Graph.new
         patterns = operands.first
         query = operands.last
 
         query.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).each do |solution|
-          debug("=> Apply #{solution.inspect} to BGP", options)
+          debug(options) {"=> Apply #{solution.inspect} to BGP"}
           
           # Create a mapping from BNodes within the pattern list to newly constructed BNodes
           nodes = {}
@@ -58,16 +58,16 @@ module SPARQL; module Algebra
             # Sanity checking on statement
             if statement.subject.nil? || statement.predicate.nil? || statement.object.nil? ||
                statement.subject.literal? || statement.predicate.literal?
-              debug("==> skip #{statement.inspect}", options)
+              debug(options) {"==> skip #{statement.inspect}"}
               next
             end
 
-            debug("==> add #{statement.inspect}", options)
+            debug(options) {"==> add #{statement.inspect}"}
             graph << statement
           end
         end
         
-        debug("=>\n#{graph.dump(:ttl, :standard_prefixes => true)}", options)
+        debug(options) {"=>\n#{graph.dump(:ttl, :standard_prefixes => true)}"}
         graph
       end
       

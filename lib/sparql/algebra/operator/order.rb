@@ -28,10 +28,10 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
-        debug("Order", options)
+        debug(options) {"Order"}
         @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).order do |a, b|
           operand(0).inject(false) do |memo, op|
-            debug("=> #{op.inspect}", options)
+            debug(options) {"=> #{op.inspect}"}
             memo ||= begin
               comp = case op
               when RDF::Query::Variable

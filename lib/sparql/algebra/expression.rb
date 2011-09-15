@@ -36,7 +36,7 @@ module SPARQL; module Algebra
       end
       sxp_result = sxp.read
 
-      debug("base_uri: #{options[:base_uri]}", options)
+      debug(options) {"base_uri: #{options[:base_uri]}"}
       Operator.base_uri = options.delete(:base_uri) if options.has_key?(:base_uri)
       Operator.prefixes = sxp.prefixes || {}
 
@@ -96,10 +96,10 @@ module SPARQL; module Algebra
       unless operator
         return case sse.first
         when Array
-          debug("Map array elements #{sse}", options)
+          debug(options) {"Map array elements #{sse}"}
           sse.map {|s| self.new(s, options.merge(:depth => options[:depth].to_i + 1))}
         else
-          debug("No operator found for #{sse.first}", options)
+          debug(options) {"No operator found for #{sse.first}"}
           sse.map do |s|
             s.is_a?(Array) ?
               self.new(s, options.merge(:depth => options[:depth].to_i + 1)) :
@@ -109,7 +109,7 @@ module SPARQL; module Algebra
       end
 
       operands = sse[1..-1].map do |operand|
-        debug("Operator=#{operator.inspect}, Operand=#{operand.inspect}", options)
+        debug(options) {"Operator=#{operator.inspect}, Operand=#{operand.inspect}"}
         case operand
           when Array
             self.new(operand, options.merge(:depth => options[:depth].to_i + 1))
@@ -121,7 +121,7 @@ module SPARQL; module Algebra
         end
       end
 
-      debug("#{operator.inspect}(#{operands.map(&:inspect).join(',')})", options)
+      debug(options) {"#{operator.inspect}(#{operands.map(&:inspect).join(',')})"}
       options.delete_if {|k, v| [:debug, :depth, :prefixes, :base_uri].include?(k) }
       operands << options unless options.empty?
       operator.new(*operands)
@@ -244,16 +244,41 @@ module SPARQL; module Algebra
     end
     
     private
-    ##
-    # Progress output when debugging
-    # @param [String] str
-    def self.debug(message, options = {})
+    # @overload: May be called with node, message and an option hash
+    #   @param [String] node processing node
+    #   @param [String] message
+    #   @param [Hash{Symbol => Object}] options
+    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Integer] :depth (@productions.length)
+    #     Processing depth for indenting message output.
+    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
+    #
+    # @overload: May be called with node and an option hash
+    #   @param [String] node processing node
+    #   @param [Hash{Symbol => Object}] options
+    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Integer] :depth (@productions.length)
+    #     Processing depth for indenting message output.
+    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
+    #
+    # @overload: May be called with only options, in which case the block is used to return the output message
+    #   @param [String] node processing node
+    #   @param [Hash{Symbol => Object}] options
+    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Integer] :depth (@productions.length)
+    #     Processing depth for indenting message output.
+    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
+    def self.debug(*args)
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      return unless options[:debug]
+      message = args.join(": ")
+      message = message + yield if block_given?
       depth = options[:depth] || 0
       $stderr.puts("#{' ' * depth}#{message}") if options[:debug]
     end
     
-    def debug(message, options = {})
-      Expression.debug(message, options)
+    def debug(*args, &block)
+      Expression.debug(*args, &block)
     end
   end # Expression
 end; end # SPARQL::Algebra

@@ -28,13 +28,13 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
-        debug("Union", options)
+        debug(options) {"Union"}
         solutions1 = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        debug("=>(left) #{solutions1.inspect}", options)
+        debug(options) {"=>(left) #{solutions1.inspect}"}
         solutions2 = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        debug("=>(right) #{solutions2.inspect}", options)
+        debug(options) {"=>(right) #{solutions2.inspect}"}
         @solutions = RDF::Query::Solutions.new(solutions1 + solutions2)
-        debug("=> #{@solutions.inspect}", options)
+        debug(options) {"=> #{@solutions.inspect}"}
         @solutions
       end
       

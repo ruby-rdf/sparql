@@ -129,7 +129,7 @@ module SPARQL; module Grammar
           todo_stack.last[:terms] = []
           token = tokens.first
           @lineno = token.lineno if token
-          debug("parse(token)", "#{token.inspect}, prod #{todo_stack.last[:prod]}, depth #{todo_stack.length}")
+          debug("parse(token)") {"#{token.inspect}, prod #{todo_stack.last[:prod]}, depth #{todo_stack.length}"}
           
           # Got an opened production
           onStart(abbr(todo_stack.last[:prod]))
@@ -140,7 +140,12 @@ module SPARQL; module Grammar
           error("parse", "No branches found for '#{abbr(cur_prod)}'",
             :production => cur_prod, :token => token) if prod_branch.nil?
           sequence = prod_branch[token.representation]
-          debug("parse(production)", "cur_prod #{cur_prod}, token #{token.representation.inspect} prod_branch #{prod_branch.keys.inspect}, sequence #{sequence.inspect}")
+          debug("parse(production)") do
+            "cur_prod #{cur_prod}, " +
+            "token #{token.representation.inspect} " +
+            "prod_branch #{prod_branch.keys.inspect}, " +
+            "sequence #{sequence.inspect}"
+          end
           if sequence.nil?
             expected = prod_branch.values.uniq.map {|u| u.map {|v| abbr(v).inspect}.join(",")}
             error("parse", "Found '#{token.inspect}' when parsing a #{abbr(cur_prod)}. expected #{expected.join(' | ')}",
@@ -149,14 +154,14 @@ module SPARQL; module Grammar
           todo_stack.last[:terms] += sequence
         end
         
-        debug("parse(terms)", "stack #{todo_stack.last.inspect}, depth #{todo_stack.length}")
+        debug("parse(terms)") {"stack #{todo_stack.last.inspect}, depth #{todo_stack.length}"}
         while !todo_stack.last[:terms].to_a.empty?
           term = todo_stack.last[:terms].shift
-          debug("parse tokens(#{term})", tokens.inspect)
+          debug {"parse tokens(#{term}): #{tokens.inspect}"}
           if tokens.map(&:representation).include?(term)
             token = accept(term)
             @lineno = token.lineno if token
-            debug("parse", "term(#{token.inspect}): #{term}")
+            debug("parse") {"term(#{token.inspect}): #{term}"}
             if token
               onToken(abbr(term), token.value)
             else
@@ -165,20 +170,20 @@ module SPARQL; module Grammar
             end
           else
             todo_stack << {:prod => term, :terms => nil}
-            debug("parse(push)", "stack #{term}, depth #{todo_stack.length}")
+            debug("parse(push)") {"stack #{term}, depth #{todo_stack.length}"}
             pushed = true
             break
           end
         end
         
         while !pushed && !todo_stack.empty? && todo_stack.last[:terms].to_a.empty?
-          debug("parse(pop)", "stack #{todo_stack.last.inspect}, depth #{todo_stack.length}")
+          debug("parse(pop)") {"stack #{todo_stack.last.inspect}, depth #{todo_stack.length}"}
           todo_stack.pop
           onFinish
         end
       end
       while !todo_stack.empty?
-        debug("parse(pop)", "stack #{todo_stack.last.inspect}, depth #{todo_stack.length}")
+        debug("parse(pop)") {"stack #{todo_stack.last.inspect}, depth #{todo_stack.length}"}
         todo_stack.pop
         onFinish
       end
@@ -427,8 +432,8 @@ module SPARQL; module Grammar
         {
           :finish => lambda { |data|
             query_list = data[:query_list]
-            debug "GroupGraphPattern", "ql #{query_list.to_a.inspect}"
-            debug "GroupGraphPattern", "q #{data[:query] ? data[:query].first.inspect : 'nil'}"
+            debug("GroupGraphPattern") {"ql #{query_list.to_a.inspect}"}
+            debug("GroupGraphPattern") {"q #{data[:query] ? data[:query].first.inspect : 'nil'}"}
             
             if query_list
               lhs = data[:query].to_a.first
@@ -436,8 +441,8 @@ module SPARQL; module Grammar
                 rhs = query_list.shift
                 # Make the right-hand-side a Join with only a single operand, if it's not already and Operator
                 rhs = Algebra::Expression.for(:join, :placeholder, rhs) unless rhs.is_a?(Algebra::Operator)
-                debug "GroupGraphPattern(itr)", "<= q: #{rhs.inspect}"
-                debug "GroupGraphPattern(itr)", "<= lhs: #{lhs ? lhs.inspect : 'nil'}"
+                debug("GroupGraphPattern(itr)") {"<= q: #{rhs.inspect}"}
+                debug("GroupGraphPattern(itr)") {"<= lhs: #{lhs ? lhs.inspect : 'nil'}"}
                 lhs ||= Algebra::Operator::BGP.new if rhs.is_a?(Algebra::Operator::LeftJoin)
                 if lhs
                   if rhs.operand(0) == :placeholder
@@ -448,14 +453,14 @@ module SPARQL; module Grammar
                 end
                 lhs = rhs
                 lhs = lhs.operand(1) if lhs.operand(0) == :placeholder
-                debug "GroupGraphPattern(itr)", "=> lhs: #{lhs.inspect}"
+                debug("GroupGraphPattern(itr)") {"=> lhs: #{lhs.inspect}"}
               end
               # Trivial simplification for :join or :union of one query
               case lhs
               when Algebra::Operator::Join, Algebra::Operator::Union
                 if lhs.operand(0) == :placeholder
                   lhs = lhs.operand(1)
-                  debug "GroupGraphPattern(simplify)", "=> lhs: #{lhs.inspect}"
+                  debug("GroupGraphPattern(simplify)") {"=> lhs: #{lhs.inspect}"}
                 end
               end
               res = lhs
@@ -463,7 +468,7 @@ module SPARQL; module Grammar
               res = data[:query].first
             end
             
-            debug "GroupGraphPattern(pre-filter)", "res: #{res.inspect}"
+            debug("GroupGraphPattern(pre-filter)") {"res: #{res.inspect}"}
 
             if data[:filter]
               expr, query = flatten_filter(data[:filter])
@@ -1053,10 +1058,38 @@ module SPARQL; module Grammar
 
     ##
     # Progress output when debugging
-    # @param [String] str
-    def debug(node, message, options = {})
+    #
+    # @overload: May be called with node, message and an option hash
+    #   @param [String] node processing node
+    #   @param [String] message
+    #   @param [Hash{Symbol => Object}] options
+    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Integer] :depth (@productions.length)
+    #     Processing depth for indenting message output.
+    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
+    #
+    # @overload: May be called with node and an option hash
+    #   @param [String] node processing node
+    #   @param [Hash{Symbol => Object}] options
+    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Integer] :depth (@productions.length)
+    #     Processing depth for indenting message output.
+    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
+    #
+    # @overload: May be called with only options, in which case the block is used to return the output message
+    #   @param [String] node processing node
+    #   @param [Hash{Symbol => Object}] options
+    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Integer] :depth (@productions.length)
+    #     Processing depth for indenting message output.
+    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
+    def debug(*args)
+      options = args.last.is_a?(Hash) ? args.pop : @options
+      return unless options[:debug]
+      message = args.join(": ")
+      message = message + yield if block_given?
       depth = options[:depth] || @productions.length
-      $stderr.puts("[#{@lineno}]#{' ' * depth}#{node}: #{message}") if @options[:debug]
+      $stderr.puts("[#{@lineno}]#{' ' * depth}#{message}") if options[:debug]
     end
 
     # [1]     Query                     ::=       Prologue ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
@@ -1178,13 +1211,13 @@ module SPARQL; module Grammar
       case values
       when Array
         prod_data[sym] ||= []
-        debug "add_prod_datum(#{sym})", "#{prod_data[sym].inspect} += #{values.inspect}"
+        debug("add_prod_datum(#{sym})") {"#{prod_data[sym].inspect} += #{values.inspect}"}
         prod_data[sym] += values
       when nil
         return
       else
         prod_data[sym] ||= []
-        debug "add_prod_datum(#{sym})", "#{prod_data[sym].inspect} << #{values.inspect}"
+        debug("add_prod_datum(#{sym})") {"#{prod_data[sym].inspect} << #{values.inspect}"}
         prod_data[sym] << values
       end
     end
@@ -1195,7 +1228,7 @@ module SPARQL; module Grammar
       
       prod_data[sym] ||= []
       prod_data[sym] += values
-      debug "add_prod_data(#{sym})", "#{prod_data[sym].inspect} += #{values.inspect}"
+      debug("add_prod_data(#{sym})") {"#{prod_data[sym].inspect} += #{values.inspect}"}
     end
     
     # Generate a BNode identifier
@@ -1262,7 +1295,7 @@ module SPARQL; module Grammar
     def ns(prefix, suffix)
       base = prefix(prefix).to_s
       suffix = suffix.to_s.sub(/^\#/, "") if base.index("#")
-      debug("ns(#{prefix.inspect})", "base: '#{base}', suffix: '#{suffix}'")
+      debug {"ns(#{prefix.inspect}): base: '#{base}', suffix: '#{suffix}'"}
       uri = uri(base + suffix.to_s)
       # Cause URI to be serialized as a lexical
       uri.lexical = "#{prefix}:#{suffix}" unless options[:resolve_uris]

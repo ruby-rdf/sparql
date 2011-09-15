@@ -33,7 +33,7 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
-        debug("Dataset", options)
+        debug(options) {"Dataset"}
         operand(0).each do |ds|
           load_opts = {}
           case ds
@@ -49,11 +49,11 @@ module SPARQL; module Algebra
             uri = self.base_uri ? self.base_uri.join(ds.last) : ds.last
             uri.lexical = ds.last
             load_opts[:context] = uri
-            debug("=> read named data source #{uri}", options)
+            debug(options) {"=> read named data source #{uri}"}
           else
-            debug("=> array: join #{self.base_uri.inspect} to #{ds.inspect}", options)
+            debug(options) {"=> array: join #{self.base_uri.inspect} to #{ds.inspect}"}
             uri = self.base_uri ? self.base_uri.join(ds) : ds
-            debug("=> read default data source #{uri}", options)
+            debug(options) {"=> read default data source #{uri}"}
           end
           load_opts[:base_uri] = uri
           queryable.load(uri.to_s, load_opts)
