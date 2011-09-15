@@ -19,7 +19,7 @@ module SPARQL; module Algebra
       # @param [RDF::Query] bgp
       # @return [RDF::Query]
       def self.new(*patterns)
-        RDF::Query.new(*patterns, :context => false)
+        RDF::Query.new(*(patterns + [{:context => false}]))
       end
     end # BGP
   end # Operator

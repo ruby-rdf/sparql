@@ -264,7 +264,7 @@ class RDF::Query
     # return [String]
     # @private
     def self.hash_string_for(solution, hashes, node, canonicalize)
-      solution.bindings.keys.sort.map {|k| k.to_s + string_for_node(solution[k], hashes, node, canonicalize)}.join("")
+      solution.bindings.keys.sort_by(&:to_s).map {|k| k.to_s + string_for_node(solution[k], hashes, node, canonicalize)}.join("")
     end
 
     # Returns true if a given node is grounded

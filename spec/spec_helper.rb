@@ -1,4 +1,5 @@
-require 'psych' rescue nil  # Ruby 1.9 only
+require 'psych' if RUBY_VERSION >= "1.9"
+require 'backports' if RUBY_VERSION < "1.9"
 require 'yaml'
 require 'open-uri/cached'
 require 'rdf'

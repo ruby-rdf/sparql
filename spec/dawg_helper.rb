@@ -1,5 +1,6 @@
 $:.unshift "."
-require 'psych'
+require 'psych' if RUBY_VERSION >= "1.9"
+require 'yaml'
 
 module SPARQL
   require 'support/extensions/inspects'
@@ -35,9 +36,9 @@ module SPARQL
       test_repo = RDF::Repository.new
       Spira.add_repository(:default, test_repo)
 
-      if options[:cache_file] && File.exists?(options[:cache_file]) && Kernel.const_defined?(:Psych)
+      if options[:cache_file] && File.exists?(options[:cache_file]) && RUBY_VERSION >= "1.9"
         File.open(options[:cache_file]) do |f|
-          ::Psych.load(f)
+          YAML.load(f)
         end
       else
 
@@ -60,15 +61,15 @@ module SPARQL
           test.update!(:manifest => test.data.each_context.first)
         }
           
-        if options[:save_cache]
-          if Kernel.const_defined?(:Psych)
+        if options[:save_cache] && RUBY_VERSION >= "1.9"
+          #if Kernel.const_defined?(:Psych)
             puts "write test cases to #{options[:cache_file]}"
             File.open(options[:cache_file], 'w') do |f|
-              ::Psych.dump(tests, f)
+              YAML.dump(tests, f)
             end
-          else
-            puts "saving cached test-cases requires Ruby 1.9 for Psych"
-          end
+          #else
+          #  puts "saving cached test-cases requires Ruby 1.9 for Psych"
+          #end
         end
         
         tests
