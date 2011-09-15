@@ -1,7 +1,6 @@
 require 'rdf'
 require 'spira'
 require 'rdf/turtle'
-#require 'rdf/rdfxml'
 require 'sparql/client'
 
 module SPARQL; module Spec
@@ -105,7 +104,7 @@ module SPARQL; module Spec
     end
 
     def query
-      Kernel.open(query_file) {|f| f.read}
+      Kernel.open(query_file, &:read)
     end
   end
 
@@ -114,7 +113,7 @@ module SPARQL; module Spec
     property :data_file, :predicate => UT.data
 
     def data
-      Kernel.open(data_file) {|f| f.read}
+      Kernel.open(data_file, &:read)
     end
 
     def data_format
@@ -142,7 +141,7 @@ module SPARQL; module Spec
     end
 
     def data
-      Kernel.open(graph) {|f| f.read}
+      Kernel.open(graph, &:read)
     end
 
     def data_format
@@ -168,7 +167,7 @@ module SPARQL; module Spec
         graphs = {}
         graphs[:default] = {:data => action.test_data_string, :format => :ttl} if action.test_data
         action.graphData.each do |g|
-          graphs[g] = {:data => Kernel.open(g) {|f| f.read}, :format => :ttl}
+          graphs[g] = {:data => Kernel.open(g, &:read), :format => :ttl}
         end
         graphs
       end
@@ -181,7 +180,7 @@ module SPARQL; module Spec
       case form
       when :select
         if File.extname(result.path) == '.srx'
-          SPARQL::Client.parse_xml_bindings(Kernel.open(result) {|f| f.read})
+          SPARQL::Client.parse_xml_bindings(Kernel.open(result, &:read))
         else
           expected_repository = RDF::Repository.new 
           Spira.add_repository!(:results, expected_repository)
@@ -210,7 +209,7 @@ module SPARQL; module Spec
     end
 
     def query
-      Kernel.open(query_file) {|f| f.read}
+      Kernel.open(query_file, &:read)
     end
   end
 
@@ -229,7 +228,7 @@ module SPARQL; module Spec
     has_many :graphData,  :predicate => QT.graphData
 
     def query_string
-      Kernel.open(query_file) {|f| f.read}
+      Kernel.open(query_file, &:read)
     end
 
     def sse_file
@@ -242,7 +241,7 @@ module SPARQL; module Spec
     end
 
     def test_data_string
-      Kernel.open(test_data) {|f| f.read}
+      Kernel.open(test_data, &:read)
     end
   end
 

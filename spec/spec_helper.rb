@@ -5,6 +5,7 @@ require 'rdf'
 require 'rdf/isomorphic'
 require 'sparql'
 require 'rdf/turtle'
+require 'rdf/n3'
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
 

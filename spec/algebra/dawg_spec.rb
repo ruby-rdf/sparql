@@ -8,6 +8,10 @@ describe SPARQL::Algebra do
     SPARQL::Spec.sparql1_0_tests.group_by(&:manifest).each do |man, tests|
       describe man.to_s.split("/")[-2] do
         tests.each do |t|
+          if (%w(open-eq-08 open-eq-10 open-eq-11) + ["Strings: Distinct", "All: Distinct"]).include?(t.name)
+            pending ('Changed due to new equivalence of "foo" and "foo"^^xsd:string. Equivalent tests in graph_spec.')
+            next
+          end
           case t
           when SPARQL::Spec::QueryTest
             it "evaluates #{t.name}" do
