@@ -11,7 +11,8 @@ This is a [Ruby][] implementation of the [SPARQL][] algebra for [RDF.rb][].
   using available RDF Writers (see [Linked Data](http://rubygems.org/gems/linkeddata))
 * SPARQL Client for accessing remote SPARQL endpoints.
 * Helper method for describing [SPARQL Service Description][]
-* Compatible with Ruby 1.8.7+, Ruby 1.9.x, and JRuby 1.4/1.5.
+* Compatible with Ruby Ruby 1.9.x.
+* Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
 
 ## Examples
@@ -59,7 +60,7 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Dependencies
 
-* [Ruby](http://ruby-lang.org/) (>= 1.8.7) or (>= 1.8.1 with [Backports][])
+* [Ruby](http://ruby-lang.org/) (>= 1.9) or (>= 1.8.1 with [Backports][])
 * [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.4)
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 0.0.11)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.0.15)
