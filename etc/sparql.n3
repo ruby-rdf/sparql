@@ -1,0 +1,483 @@
+#SPARQL in Notation3
+# Context Free Grammar without tokenization
+#
+# Translated from http://www.w3.org/2001/sw/DataAccess/rq23/parsers/sparql.ttl in ebnf form.
+# Generate sparql-selectors.n3 using:
+#
+#   python ../cwm.py sparql-bnf-rules.n3 bnf-token-rules.n3 --think --purge --data > sparql-selectors.n3
+#
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#>.
+@prefix cfg: <http://www.w3.org/2000/10/swap/grammar/bnf#>.
+@prefix rul: <http://www.w3.org/2000/10/swap/grammar/bnf-rules#>.
+@prefix : <http://www.w3.org/2000/10/swap/grammar/sparql#>.
+@prefix n3: <http://www.w3.org/2000/10/swap/grammar/n3#>.
+@prefix list: <http://www.w3.org/2000/10/swap/list#>.
+@prefix string: <http://www.w3.org/2000/10/swap/string#>.
+@keywords a, is, of.
+
+Query cfg:mustBeOneSequence (
+  ( Prologue _SelectQuery_or_ConstructQuery_or_DescribeQuery_or_AskQuery  cfg:eof )  ) .
+
+_SelectQuery_or_ConstructQuery_or_DescribeQuery_or_AskQuery cfg:mustBeOneSequence (
+  ( SelectQuery ) 
+  ( ConstructQuery ) 
+  ( DescribeQuery ) 
+  ( AskQuery )  ) .
+
+Prologue cfg:mustBeOneSequence (
+  ( _BaseDecl_Opt _PrefixDecl_Star )  ) .
+
+_BaseDecl_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( BaseDecl )  ) .
+
+_PrefixDecl_Star cfg:mustBeOneSequence (
+  (  ) 
+  ( PrefixDecl _PrefixDecl_Star )  ) .
+
+BaseDecl cfg:mustBeOneSequence ( ( "BASE" IRI_REF )  ) .
+
+PrefixDecl cfg:mustBeOneSequence ( ( "PREFIX" PNAME_NS IRI_REF )  ) .
+
+SelectQuery cfg:mustBeOneSequence (
+  ( "SELECT"
+    _DISTINCT_OR_REDUCED_Opt
+    _Var_Plus_or_Star
+    _DatasetClause_Star
+    WhereClause
+    SolutionModifier )  ) .
+
+_DISTINCT_OR_REDUCED_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( "DISTINCT")
+  ( "REDUCED" )  ) .
+
+_Var_Plus cfg:mustBeOneSequence (
+  (  ) 
+  ( Var _Var_Plus )  ) .
+
+_Var_Plus_or_Star cfg:mustBeOneSequence (
+  ( Var _Var_Plus ) 
+  ( "*" )  ) .
+
+_DatasetClause_Star cfg:mustBeOneSequence (
+  (  ) 
+  ( DatasetClause _DatasetClause_Star )  ) .
+
+
+ConstructQuery cfg:mustBeOneSequence (
+  ( "CONSTRUCT" ConstructTemplate _DatasetClause_Star WhereClause SolutionModifier )  ) .
+
+DescribeQuery cfg:mustBeOneSequence (
+  ( "DESCRIBE" _VarOrIRIref_Plus_or_Star _DatasetClause_Star _WhereClause_Opt SolutionModifier )  ) .
+
+_VarOrIRIRef_Plus cfg:mustBeOneSequence (
+  (  ) 
+  ( VarOrIRIref _VarOrIRIRef_Plus )  ) .
+
+_VarOrIRIref_Plus_or_Star cfg:mustBeOneSequence (
+  ( VarOrIRIref _VarOrIRIRef_Plus ) 
+  ( "*" )  ) .
+
+_WhereClause_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( WhereClause )  ) .
+
+AskQuery cfg:mustBeOneSequence ( ( "ASK" _DatasetClause_Star WhereClause )  ) .
+
+DatasetClause cfg:mustBeOneSequence ( ( "FROM" _DefaultGraphClause_or_NamedGraphClause )  ) .
+
+_DefaultGraphClause_or_NamedGraphClause cfg:mustBeOneSequence (
+  ( DefaultGraphClause ) 
+  ( NamedGraphClause )  ) .
+
+DefaultGraphClause cfg:mustBeOneSequence ( ( SourceSelector )  ) .
+
+NamedGraphClause cfg:mustBeOneSequence ( ( "NAMED" SourceSelector )  ) .
+
+SourceSelector cfg:mustBeOneSequence ( ( IRIref )  ) .
+
+WhereClause cfg:mustBeOneSequence ( ( _WHERE_Opt GroupGraphPattern )  ) .
+
+_WHERE_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( "WHERE" )  ) .
+
+SolutionModifier cfg:mustBeOneSequence (     ( _OrderClause_Opt _LimitOffsetClauses_Opt )  ) .
+
+_OrderClause_Opt cfg:mustBeOneSequence (     (  ) 
+    ( OrderClause )  ) .
+
+_LimitOffsetClauses_Opt cfg:mustBeOneSequence (
+  ( )
+  ( LimitOffsetClauses )) .
+  
+LimitOffsetClauses cfg:mustBeOneSequence (
+  ( LimitClause _OffsetClause_Opt )
+  ( OffsetClause _LimitClause_Opt ) ).
+
+_OffsetClause_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( OffsetClause )  ) .
+
+_LimitClause_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( LimitClause )  ) .
+
+OrderClause cfg:mustBeOneSequence (     ( "ORDER" "BY" OrderCondition _OrderCondition_Plus )  ) .
+
+_OrderCondition_Plus cfg:mustBeOneSequence (
+  (  ) 
+  ( OrderCondition _OrderCondition_Plus )  ) .
+
+OrderCondition cfg:mustBeOneSequence (
+  ( _ASC_Or_DESC_BrackettedExpression ) 
+  ( _Constraint_or_Var )  ) .
+
+_ASC_Or_DESC_BrackettedExpression cfg:mustBeOneSequence (
+  ( _ASC_Or_DESC BrackettedExpression )  ) .
+
+_ASC_Or_DESC cfg:mustBeOneSequence (
+  ( "ASC" ) 
+  ( "DESC" )  ) .
+
+_Constraint_or_Var cfg:mustBeOneSequence (
+  ( Constraint ) 
+  ( Var )  ) .
+
+LimitClause cfg:mustBeOneSequence ( ( "LIMIT" INTEGER )  ) .
+
+OffsetClause cfg:mustBeOneSequence ( ( "OFFSET" INTEGER )  ) .
+
+GroupGraphPattern cfg:mustBeOneSequence (
+  ( "{"
+    _TriplesBlock_Opt
+    _GraphPatternNotTriples_or_Filter_Dot_Opt_TriplesBlock_Opt_Star
+    "}" )  ) .
+
+_TriplesBlock_Opt cfg:mustBeOneSequence (
+  ( )
+  ( TriplesBlock ) ) .
+
+_GraphPatternNotTriples_or_Filter_Dot_Opt_TriplesBlock_Opt_Star cfg:mustBeOneSequence (
+  ( )
+  ( _GraphPatternNotTriples_or_Filter_Dot_Opt_TriplesBlock_Opt
+    _GraphPatternNotTriples_or_Filter_Dot_Opt_TriplesBlock_Opt_Star ) ) .
+
+_GraphPatternNotTriples_or_Filter_Dot_Opt_TriplesBlock_Opt cfg:mustBeOneSequence (
+  ( _GraphPatternNotTriples_or_Filter _DOT_Opt _TriplesBlock_Opt ) ) .
+
+_GraphPatternNotTriples_or_Filter cfg:mustBeOneSequence (
+  ( GraphPatternNotTriples )
+  ( Filter) ) .
+
+_DOT_Opt cfg:mustBeOneSequence (
+  ( )
+  ( "." ) ).
+
+TriplesBlock cfg:mustBeOneSequence (
+  ( TriplesSameSubject _Dot_TriplesBlock_Opt_Opt ) ) .
+
+_Dot_TriplesBlock_Opt_Opt cfg:mustBeOneSequence (
+  ( )
+  ( "." _TriplesBlock_Opt ) ) .
+
+GraphPatternNotTriples cfg:mustBeOneSequence (
+  ( OptionalGraphPattern ) 
+  ( GroupOrUnionGraphPattern ) 
+  ( GraphGraphPattern )  ) .
+
+OptionalGraphPattern cfg:mustBeOneSequence ( ( "OPTIONAL" GroupGraphPattern )  ) .
+
+GraphGraphPattern cfg:mustBeOneSequence ( ( "GRAPH" VarOrIRIref GroupGraphPattern )  ) .
+
+GroupOrUnionGraphPattern cfg:mustBeOneSequence (
+  ( GroupGraphPattern _UNION_GroupGraphPattern_Star )  ) .
+
+_UNION_GroupGraphPattern cfg:mustBeOneSequence ( ( "UNION" GroupGraphPattern )  ) .
+
+_UNION_GroupGraphPattern_Star cfg:mustBeOneSequence (
+  (  ) 
+  ( _UNION_GroupGraphPattern _UNION_GroupGraphPattern_Star )  ) .
+
+Filter cfg:mustBeOneSequence ( ( "FILTER" Constraint )  ) .
+
+Constraint cfg:mustBeOneSequence (
+  ( BrackettedExpression )
+  ( BuiltInCall )
+  ( FunctionCall ) ) .
+
+FunctionCall cfg:mustBeOneSequence ( ( IRIref ArgList ) ) .
+
+ArgList cfg:mustBeOneSequence (
+  ( NIL )
+  ( "(" _Expression_COMMA_Expression_Star ")" )  ) .
+
+_Expression_COMMA_Expression_Star cfg:mustBeOneSequence (
+  ( Expression _COMMA_Expression_Star  ) ) .
+
+_COMMA_Expression_Star  cfg:mustBeOneSequence (
+  ( )
+  ( "," Expression ) ) .
+
+ConstructTemplate cfg:mustBeOneSequence ( ( "{" _ConstructTriples_Opt "}" )  ) .
+
+_ConstructTriples_Opt cfg:mustBeOneSequence (
+  ( )
+  ( ConstructTriples ) ) .
+
+ConstructTriples cfg:mustBeOneSequence ( ( TriplesSameSubject _DOT_ConstructTriples_Opt_Opt ) ) .
+
+_DOT_ConstructTriples_Opt_Opt cfg:mustBeOneSequence (
+  ( )
+  ( "." _ConstructTriples_Opt ) ) .
+
+TriplesSameSubject cfg:mustBeOneSequence (
+  ( VarOrTerm PropertyListNotEmpty )
+  ( TriplesNode PropertyList ) ) .
+
+PropertyListNotEmpty cfg:mustBeOneSequence (
+  ( Verb ObjectList _SEMI_Verb_ObjectList_Opt_Star )  ) .
+
+_SEMI_Verb_ObjectList_Opt_Star cfg:mustBeOneSequence (
+  ( )
+  ( _SEMI_Verb_ObjectList_Opt _SEMI_Verb_ObjectList_Opt_Star ) ) .
+
+_SEMI_Verb_ObjectList_Opt cfg:mustBeOneSequence ( ( ";" _Verb_ObjectList_Opt ) ) .
+
+_Verb_ObjectList_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( Verb ObjectList )  ) .
+
+PropertyList cfg:mustBeOneSequence (
+  ( )
+  ( PropertyListNotEmpty ) ) .
+
+ObjectList cfg:mustBeOneSequence ( ( Object _COMMA_Object_Star )  ) .
+
+_COMMA_Object_Star cfg:mustBeOneSequence (
+  ( )
+  ( _COMMA_Object _COMMA_Object_Star) ) .
+
+_COMMA_Object cfg:mustBeOneSequence ( ( "," Object) ) .
+
+Object cfg:mustBeOneSequence ( ( GraphNode ) ) .
+
+Verb cfg:mustBeOneSequence (
+  ( VarOrIRIref )
+  ( "a" ) ) .
+
+TriplesNode cfg:mustBeOneSequence (
+  ( Collection ) 
+  ( BlankNodePropertyList )  ) .
+
+BlankNodePropertyList cfg:mustBeOneSequence ( ( "[" PropertyListNotEmpty "]" )  ) .
+
+Collection cfg:mustBeOneSequence ( ( "(" _GraphNode_Plus ")" )  ) .
+
+_GraphNode_Plus cfg:mustBeOneSequence ( ( GraphNode _GraphNode_Opt ) ) .
+
+_GraphNode_Opt cfg:mustBeOneSequence (
+  ( )
+  ( GraphNode _GraphNode_Opt ) ) .
+
+GraphNode cfg:mustBeOneSequence (
+  ( VarOrTerm ) 
+  ( TriplesNode )  ) .
+
+VarOrTerm cfg:mustBeOneSequence (
+  ( Var ) 
+  ( GraphTerm )  ) .
+
+VarOrIRIref cfg:mustBeOneSequence (
+  ( Var ) 
+  ( IRIref )  ) .
+
+Var cfg:mustBeOneSequence (
+  ( VAR1 ) 
+  ( VAR2 )  ) .
+
+GraphTerm cfg:mustBeOneSequence (
+  ( IRIref )
+  ( RDFLiteral )
+  ( NumericLiteral )
+  ( BooleanLiteral )
+  ( BlankNode )
+  ( NIL ) ) .
+
+Expression cfg:mustBeOneSequence ( ( ConditionalOrExpression )  ) .
+
+ConditionalOrExpression cfg:mustBeOneSequence (
+  ( ConditionalAndExpression _OR_ConditionalAndExpression_Star )  ) .
+
+_OR_ConditionalAndExpression_Star cfg:mustBeOneSequence (
+  (  ) 
+  ( _OR_ConditionalAndExpression _OR_ConditionalAndExpression_Star )  ) .
+
+_OR_ConditionalAndExpression cfg:mustBeOneSequence ( ( "||" ConditionalAndExpression )  ) .
+
+ConditionalAndExpression cfg:mustBeOneSequence ( ( ValueLogical _AND_ValueLogical_Star )  ) .
+
+_AND_ValueLogical_Star cfg:mustBeOneSequence (
+  (  ) 
+  ( _AND_ValueLogical _AND_ValueLogical_Star )  ) .
+
+_AND_ValueLogical cfg:mustBeOneSequence ( ( "&&" ValueLogical )  ) .
+
+ValueLogical cfg:mustBeOneSequence (     ( RelationalExpression )  ) .
+
+RelationalExpression cfg:mustBeOneSequence (
+  ( NumericExpression _Compare_NumericExpression_Opt ) ) .
+
+_Compare_NumericExpression_Opt cfg:mustBeOneSequence (
+  ( )
+  ( "=" NumericExpression )
+  ( "!=" NumericExpression )
+  ( "<" NumericExpression )
+  ( ">" NumericExpression )
+  ( "<=" NumericExpression )
+  ( ">=" NumericExpression ) ) .
+
+NumericExpression cfg:mustBeOneSequence ( ( AdditiveExpression )  ) .
+
+AdditiveExpression cfg:mustBeOneSequence (
+  ( MultiplicativeExpression _Add_Sub_MultiplicativeExpression_Star) ) .
+
+  # GK Remove NumericLiteralPositive and NumericLiteralNegative as they already occur through PrimaryExpression
+
+_Add_Sub_MultiplicativeExpression_Star cfg:mustBeOneSequence (
+  ( )
+  ( "+" MultiplicativeExpression _Add_Sub_MultiplicativeExpression_Star )
+  ( "-" MultiplicativeExpression _Add_Sub_MultiplicativeExpression_Star ) ) .
+
+MultiplicativeExpression cfg:mustBeOneSequence (
+  ( UnaryExpression _Mul_Div_UnaryExpression_Star ) ) .
+
+_Mul_Div_UnaryExpression_Star cfg:mustBeOneSequence (
+  ( )
+  ( "*" UnaryExpression _Mul_Div_UnaryExpression_Star )
+  ( "/" UnaryExpression _Mul_Div_UnaryExpression_Star ) ) .
+
+UnaryExpression cfg:mustBeOneSequence (
+  ( "!" PrimaryExpression ) 
+  ( "+" PrimaryExpression ) 
+  ( "-" PrimaryExpression ) 
+  ( PrimaryExpression )  ) .
+
+PrimaryExpression cfg:mustBeOneSequence (
+  ( BrackettedExpression ) 
+  ( BuiltInCall ) 
+  ( IRIrefOrFunction ) 
+  ( RDFLiteral )
+  ( NumericLiteral )
+  ( BooleanLiteral )
+  ( Var) ) .
+
+BrackettedExpression cfg:mustBeOneSequence ( ( "(" Expression ")" )  ) .
+
+BuiltInCall cfg:mustBeOneSequence (
+  ( "STR" "(" Expression ")" ) 
+  ( "LANG" "(" Expression ")" ) 
+  ( "LANGMATCHES" "(" Expression "," Expression ")" ) 
+  ( "DATATYPE" "(" Expression ")" ) 
+  ( "BOUND" "(" Var ")" ) 
+  ( "sameTerm" "(" Expression "," Expression ")" ) 
+  ( "isIRI" "(" Expression ")" ) 
+  ( "isURI" "(" Expression ")" ) 
+  ( "isBLANK" "(" Expression ")" ) 
+  ( "isLITERAL" "(" Expression ")" ) 
+  ( RegexExpression )  ) .
+
+RegexExpression cfg:mustBeOneSequence (
+  ( "REGEX" "(" Expression "," Expression _COMMA_Expression_Opt ")" )  ) .
+
+_COMMA_Expression_Opt cfg:mustBeOneSequence (
+  (  ) 
+  ( "," Expression )  ) .
+
+IRIrefOrFunction cfg:mustBeOneSequence ( ( IRIref _ArgList_Opt ) ) .
+
+_ArgList_Opt cfg:mustBeOneSequence (
+  ( )
+  ( ArgList ) ) .
+
+RDFLiteral cfg:mustBeOneSequence (
+  ( String _LANGTAG_IRIref_Opt ) ) .
+
+_LANGTAG_IRIref_Opt cfg:mustBeOneSequence (
+  ( )
+  ( LANGTAG )
+  ( "^^" IRIref ) ).
+
+NumericLiteral cfg:mustBeOneSequence (
+  ( NumericLiteralUnsigned ) 
+  ( NumericLiteralPositive ) 
+  ( NumericLiteralNegative )  ) .
+
+NumericLiteralUnsigned cfg:mustBeOneSequence (
+  ( INTEGER ) 
+  ( DECIMAL ) 
+  ( DOUBLE )  ) .
+
+NumericLiteralPositive cfg:mustBeOneSequence (
+  ( "+" NumericLiteralUnsigned )  ) .
+
+NumericLiteralNegative cfg:mustBeOneSequence (
+  ( "-" NumericLiteralUnsigned )  ) .
+
+String cfg:mustBeOneSequence (
+  ( STRING_LITERAL1 ) 
+  ( STRING_LITERAL2 ) 
+  ( STRING_LITERAL_LONG1 ) 
+  ( STRING_LITERAL_LONG2 )  ) .
+
+IRIref cfg:mustBeOneSequence (
+  ( IRI_REF ) 
+  ( PrefixedName )  ) .
+
+PrefixedName cfg:mustBeOneSequence (
+  ( PNAME_LN ) 
+  ( PNAME_NS )  ) .
+
+BlankNode cfg:mustBeOneSequence (
+  ( BLANK_NODE_LABEL )
+  ( ANON ) ) .
+
+BooleanLiteral cfg:matches	"true|false"; a cfg:Token .
+
+IRI_REF	cfg:matches	"<[^> ]*>"; a cfg:Token .
+
+PNAME_NS a cfg:Token .
+
+PNAME_LN a cfg:Token .
+
+BLANK_NODE_LABEL a cfg:Token .
+
+VAR1 a cfg:Token . 
+
+VAR2 a cfg:Token . 
+
+LANGTAG	cfg:matches	"@[a-zA-Z]+(?:-[a-zA-Z0-9]+)*"; a cfg:Token . 
+
+INTEGER	cfg:matches	"[0-9]+"; a cfg:Token .
+DECIMAL	cfg:matches	"(?:[0-9]+\\.[0-9]*)|(?:\\.[0-9]+)"; a cfg:Token . 
+DOUBLE	cfg:matches	"(?:[0-9]+\\.[0-9]*[eE][+-]?[0-9]+)|(?:\\.[0-9]+[eE][+-]?[0-9]+)|(?:[0-9]+[eE][+-]?[0-9]+)"; a cfg:Token . 
+
+STRING_LITERAL1	cfg:matches	"'(?:(?:[^'\\\\\\n\\r])|(?:(?:\\\\[^\\r\\n])))*'"; a cfg:Token . 
+STRING_LITERAL2	cfg:matches	"\"(?:(?:[^\"\\\\\\n\\r])|(?:(?:\\\\[^\\r\\n])))*\""; a cfg:Token . 
+STRING_LITERAL_LONG1	cfg:matches	"'''(?:(?:[^'\\\\])|(?:(?:(?:\\\\[^\\r\\n]))|(?:(?:(?:'[^']))|(?:(?:''[^'])))))*'''"; a cfg:Token . 
+STRING_LITERAL_LONG2	cfg:matches	"\"\"\"(?:(?:[^\"\\\\])|(?:(?:(?:\\\\[^\\r\\n]))|(?:(?:(?:\"[^\"]))|(?:(?:\"\"[^\"])))))*\"\"\""; a cfg:Token . 
+
+ECHAR cfg:matches "[tbnrf\\\"']"; a cfg:Token .
+
+NIL a cfg:Token .
+
+WS cfg:matches	"(?:\\t)|(?:(?:\\n)|(?:(?:\\r)|(?:\u00A0)"; a cfg:Token . 
+
+ANON a cfg:Token .
+
+PN_CHARS_U a cfg:Token . 
+VARNAME a cfg:Token . 
+PN_PREFIX a cfg:Token . 
+PN_LOCAL a cfg:Token . 

@@ -1,0 +1,6666 @@
+#Processed by Id: cwm.py,v 1.197 2007-12-13 15:38:39 syosi Exp 
+        #    using base file:///Users/gregg/Projects/swap/grammar/
+        
+#  Notation3 generation by
+#       notation3.py,v 1.200 2007-12-11 21:18:08 syosi Exp
+
+#   Base was: file:///Users/gregg/Projects/swap/grammar/
+     @prefix : <http://www.w3.org/2001/sw/DataAccess/parsers/sparql#> .
+    @prefix g: <http://www.w3.org/2000/10/swap/grammar/ebnf#> .
+    @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+    @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+    @prefix re: <http://www.w3.org/2000/10/swap/grammar/regex#> .
+    
+     @forSome <#_g0>,
+                <#_g1>,
+                <#_g2>,
+                <#_g3>,
+                <#_g4>,
+                <#_g5>,
+                <#_g6>,
+                <#_g7>,
+                <#_g8>,
+                <#_g9>,
+                <#_g10>,
+                <#_g11>,
+                <#_g12>,
+                <#_g13>,
+                <#_g14>,
+                <#_g15>,
+                <#_g16>,
+                <#_g17>,
+                <#_g18>,
+                <#_g19>,
+                <#_g20>,
+                <#_g21>,
+                <#_g22>,
+                <#_g23>,
+                <#_g24>,
+                <#_g25>,
+                <#_g26>,
+                <#_g27>,
+                <#_g28>,
+                <#_g29>,
+                <#_g30>,
+                <#_g31>,
+                <#_g32>,
+                <#_g33>,
+                <#_g34>,
+                <#_g35>,
+                <#_g36>,
+                <#_g37>,
+                <#_g38>,
+                <#_g39>,
+                <#_g40>,
+                <#_g41>,
+                <#_g42>,
+                <#_g43>,
+                <#_g44>,
+                <#_g45>,
+                <#_g46>,
+                <#_g47>,
+                <#_g48>,
+                <#_g49>,
+                <#_g50>,
+                <#_g51>,
+                <#_g52>,
+                <#_g53>,
+                <#_g54>,
+                <#_g55>,
+                <#_g56>,
+                <#_g57> .
+    
+    "*"     g:follow "FROM",
+                g:eof .
+    
+    "."     g:follow "(",
+                "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "[",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2 .
+    
+    "ASC"     g:follow "(" .
+    
+    "DESC"     g:follow "(" .
+    
+    "DISTINCT"     g:follow "*",
+                :VAR1,
+                :VAR2 .
+    
+    "REDUCED"     g:follow "*",
+                :VAR1,
+                :VAR2 .
+    
+    "WHERE"     g:follow "{" .
+    
+    "a"     g:follow "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2 .
+    
+    "false"     g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2 .
+    
+    "true"     g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2 .
+    
+    <ebnf2bnf.n3>     <http://purl.org/dc/elements/1.1/description> "$Id: ebnf2bnf.n3,v 1.7 2006-11-15 19:46:59 connolly Exp $",
+                """reduce EBNF to BNF;
+i.e. rewrite ?, +, * operators using alt and seq
+""";
+         rdfs:seeAlso <ebnf>,
+                <ebnf.n3>,
+                <ebnf.rdf> .
+    
+    <first_follow.n3>     <http://purl.org/dc/elements/1.1/description> "$Id: first_follow.n3,v 1.4 2006-06-22 22:04:51 connolly Exp $";
+         <http://purl.org/dc/elements/1.1/source> <http://en.wikipedia.org/wiki/LL_parser#Constructing_an_LL.281.29_parsing_table>;
+         <http://purl.org/dc/elements/1.1/title> "first and follow rules for LL(1) grammars" .
+    
+    <http://en.wikipedia.org/wiki/LL_parser#Constructing_an_LL.281.29_parsing_table>     <http://purl.org/dc/elements/1.1/description> "The same material is covered in page 44-48 of Aho, Sethi, Ullman";
+         <http://purl.org/dc/elements/1.1/relation> <http://en.wikipedia.org/wiki/Compilers:_Principles%2C_Techniques%2C_and_Tools>;
+         <http://purl.org/dc/elements/1.1/title> "Constructing an LL(1) parsing table" .
+    
+    g:alt     rdfs:domain g:Production .
+    
+    g:empty     g:first g:eps;
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                ".",
+                "/",
+                ";",
+                "ASK",
+                "CONSTRUCT",
+                "DESCRIBE",
+                "FILTER",
+                "FROM",
+                "GRAPH",
+                "LIMIT",
+                "OFFSET",
+                "OPTIONAL",
+                "ORDER",
+                "PREFIX",
+                "SELECT",
+                "UNION",
+                "WHERE",
+                "[",
+                "a",
+                "false",
+                "true",
+                "{",
+                "||",
+                g:eof,
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:seq () .
+    
+    re:alt     rdfs:domain re:Regex .
+    
+    re:diff     rdfs:domain re:Regex .
+    
+    re:matches     rdfs:domain re:Regex .
+    
+    re:opt     rdfs:domain re:Regex .
+    
+    re:plus     rdfs:domain re:Regex .
+    
+    re:seq     rdfs:domain re:Regex .
+    
+    re:star     rdfs:domain re:Regex .
+    
+    :ANON     a re:Regex;
+         rdf:value "94";
+         rdfs:comment "[94]    ANON      ::=       '[' WS* ']'";
+         rdfs:label "ANON";
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "["
+         [
+                 a re:Regex;
+                 re:star :WS ]
+        "]" ) .
+    
+    :AdditiveExpression     a g:Production;
+         rdf:value "52";
+         rdfs:comment "[52]    AdditiveExpression    ::=       MultiplicativeExpression ( '+' MultiplicativeExpression | '-' MultiplicativeExpression | NumericLiteralPositive | NumericLiteralNegative )*";
+         rdfs:label "AdditiveExpression";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :MultiplicativeExpression
+        <#_g45> ) .
+    
+    :ArgList     a g:Production;
+         rdf:value "29";
+         rdfs:comment "[29]    ArgList       ::=       ( NIL | '(' Expression ( ',' Expression )* ')' )";
+         rdfs:label "ArgList";
+         g:alt  (
+        :NIL
+         [
+                 a g:Production;
+                 g:first "(";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "("
+                :Expression
+                <#_g26>
+                ")" ) ] );
+         g:first "(",
+                :NIL;
+         g:follow "(",
+                "*",
+                ".",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :AskQuery     a g:Production;
+         rdf:value "8";
+         rdfs:comment "[8]     AskQuery      ::=       'ASK' DatasetClause* WhereClause";
+         rdfs:label "AskQuery";
+         g:first "ASK";
+         g:follow g:eof;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "ASK"
+        <#_g10>
+        :WhereClause ) .
+    
+    :BLANK_NODE_LABEL     a re:Regex;
+         rdf:value "73";
+         rdfs:comment "[73]    BLANK_NODE_LABEL      ::=       '_:' PN_LOCAL";
+         rdfs:label "BLANK_NODE_LABEL";
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "_:"
+        :PN_LOCAL ) .
+    
+    :BaseDecl     a g:Production;
+         rdf:value "3";
+         rdfs:comment "[3]     BaseDecl      ::=       'BASE' IRI_REF";
+         rdfs:label "BaseDecl";
+         g:first "BASE";
+         g:follow "PREFIX";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "BASE"
+        :IRI_REF ) .
+    
+    :BlankNode     a g:Production;
+         rdf:value "69";
+         rdfs:comment "[69]    BlankNode     ::=       BLANK_NODE_LABEL | ANON";
+         rdfs:label "BlankNode";
+         g:alt  (
+        :BLANK_NODE_LABEL
+        :ANON );
+         g:first :ANON,
+                :BLANK_NODE_LABEL;
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :BlankNodePropertyList     a g:Production;
+         rdf:value "39";
+         rdfs:comment "[39]    BlankNodePropertyList     ::=       '[' PropertyListNotEmpty ']'";
+         rdfs:label "BlankNodePropertyList";
+         g:first "[";
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "["
+        :PropertyListNotEmpty
+        "]" ) .
+    
+    :BooleanLiteral     a g:Production;
+         rdf:value "65";
+         rdfs:comment "[65]    BooleanLiteral    ::=       'true' | 'false'";
+         rdfs:label "BooleanLiteral";
+         g:alt  (
+        "true"
+        "false" );
+         g:first "false",
+                "true";
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :BrackettedExpression     a g:Production;
+         rdf:value "56";
+         rdfs:comment "[56]    BrackettedExpression      ::=       '(' Expression ')'";
+         rdfs:label "BrackettedExpression";
+         g:first "(";
+         g:follow "(",
+                "*",
+                ".",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "("
+        :Expression
+        ")" ) .
+    
+    :BuiltInCall     a g:Production;
+         rdf:value "57";
+         rdfs:comment "[57]    BuiltInCall       ::=         'STR' '(' Expression ')' | 'LANG' '(' Expression ')' | 'LANGMATCHES' '(' Expression ',' Expression ')' | 'DATATYPE' '(' Expression ')' | 'BOUND' '(' Var ')' | 'sameTerm' '(' Expression ',' Expression ')' | 'isIRI' '(' Expression ')' | 'isURI' '(' Expression ')' | 'isBLANK' '(' Expression ')' | 'isLITERAL' '(' Expression ')' | RegexExpression";
+         rdfs:label "BuiltInCall";
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "STR";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "STR"
+                "("
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "LANG";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "LANG"
+                "("
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "LANGMATCHES";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "LANGMATCHES"
+                "("
+                :Expression
+                ","
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "DATATYPE";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "DATATYPE"
+                "("
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "BOUND";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "BOUND"
+                "("
+                :Var
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "sameTerm";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "sameTerm"
+                "("
+                :Expression
+                ","
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "isIRI";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "isIRI"
+                "("
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "isURI";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "isURI"
+                "("
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "isBLANK";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "isBLANK"
+                "("
+                :Expression
+                ")" ) ]
+         [
+                 a g:Production;
+                 g:first "isLITERAL";
+                 g:follow "(",
+                        "*",
+                        ".",
+                        "/",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "isLITERAL"
+                "("
+                :Expression
+                ")" ) ]
+        :RegexExpression );
+         g:first "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm";
+         g:follow "(",
+                "*",
+                ".",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :Collection     a g:Production;
+         rdf:value "40";
+         rdfs:comment "[40]    Collection    ::=       '(' GraphNode+ ')'";
+         rdfs:label "Collection";
+         g:first "(";
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "("
+        <#_g38>
+        ")" ) .
+    
+    :ConditionalAndExpression     a g:Production;
+         rdf:value "48";
+         rdfs:comment "[48]    ConditionalAndExpression      ::=       ValueLogical ( '&&' ValueLogical )*";
+         rdfs:label "ConditionalAndExpression";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "||";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :ValueLogical
+        <#_g41> ) .
+    
+    :ConditionalOrExpression     a g:Production;
+         rdf:value "47";
+         rdfs:comment "[47]    ConditionalOrExpression       ::=       ConditionalAndExpression ( '||' ConditionalAndExpression )*";
+         rdfs:label "ConditionalOrExpression";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :ConditionalAndExpression
+        <#_g39> ) .
+    
+    :Constraint     a g:Production;
+         rdf:value "27";
+         rdfs:comment "[27]    Constraint    ::=       BrackettedExpression | BuiltInCall | FunctionCall";
+         rdfs:label "Constraint";
+         g:alt  (
+        :BrackettedExpression
+        :BuiltInCall
+        :FunctionCall );
+         g:first "(",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS;
+         g:follow "(",
+                ".",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :ConstructQuery     a g:Production;
+         rdf:value "6";
+         rdfs:comment "[6]     ConstructQuery    ::=       'CONSTRUCT' ConstructTemplate DatasetClause* WhereClause SolutionModifier";
+         rdfs:label "ConstructQuery";
+         g:first "CONSTRUCT";
+         g:follow g:eof;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "CONSTRUCT"
+        :ConstructTemplate
+        <#_g6>
+        :WhereClause
+        :SolutionModifier ) .
+    
+    :ConstructTemplate     a g:Production;
+         rdf:value "30";
+         rdfs:comment "[30]    ConstructTemplate     ::=       '{' ConstructTriples? '}'";
+         rdfs:label "ConstructTemplate";
+         g:first "{";
+         g:follow "FROM",
+                g:eof;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "{"
+        <#_g28>
+        "}" ) .
+    
+    :ConstructTriples     a g:Production;
+         rdf:value "31";
+         rdfs:comment "[31]    ConstructTriples      ::=       TriplesSameSubject ( '.' ConstructTriples? )?";
+         rdfs:label "ConstructTriples";
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :TriplesSameSubject
+        <#_g29> ) .
+    
+    :DECIMAL     a re:Regex;
+         rdf:value "78";
+         rdfs:comment "[78]    DECIMAL       ::=       [0-9]+ '.' [0-9]* | '.' [0-9]+";
+         rdfs:label "DECIMAL";
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:alt  (
+         [
+                 a re:Regex;
+                 re:seq  (
+                 [
+                         a re:Regex;
+                         re:plus  [
+                             a re:Regex;
+                             re:matches "[0-9]" ] ]
+                "."
+                 [
+                         a re:Regex;
+                         re:star  [
+                             a re:Regex;
+                             re:matches "[0-9]" ] ] ) ]
+         [
+                 a re:Regex;
+                 re:seq  (
+                "."
+                 [
+                         a re:Regex;
+                         re:plus  [
+                             a re:Regex;
+                             re:matches "[0-9]" ] ] ) ] ) .
+    
+    :DECIMAL_NEGATIVE     a re:Regex;
+         rdf:value "84";
+         rdfs:comment "[84]    DECIMAL_NEGATIVE      ::=       '-' DECIMAL";
+         rdfs:label "DECIMAL_NEGATIVE";
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "-"
+        :DECIMAL ) .
+    
+    :DECIMAL_POSITIVE     a re:Regex;
+         rdf:value "81";
+         rdfs:comment "[81]    DECIMAL_POSITIVE      ::=       '+' DECIMAL";
+         rdfs:label "DECIMAL_POSITIVE";
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "+"
+        :DECIMAL ) .
+    
+    :DOUBLE     a re:Regex;
+         rdf:value "79";
+         rdfs:comment "[79]    DOUBLE    ::=       [0-9]+ '.' [0-9]* EXPONENT | '.' ([0-9])+ EXPONENT | ([0-9])+ EXPONENT";
+         rdfs:label "DOUBLE";
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:alt  (
+         [
+                 a re:Regex;
+                 re:seq  (
+                 [
+                         a re:Regex;
+                         re:plus  [
+                             a re:Regex;
+                             re:matches "[0-9]" ] ]
+                "."
+                 [
+                         a re:Regex;
+                         re:star  [
+                             a re:Regex;
+                             re:matches "[0-9]" ] ]
+                :EXPONENT ) ]
+         [
+                 a re:Regex;
+                 re:seq  (
+                "."
+                 [
+                         a re:Regex;
+                         re:plus  [
+                             a re:Regex;
+                             re:matches "[0-9]" ] ]
+                :EXPONENT ) ]
+         [
+                 a re:Regex;
+                 re:seq  (
+                 [
+                         a re:Regex;
+                         re:plus  [
+                             a re:Regex;
+                             re:matches "[0-9]" ] ]
+                :EXPONENT ) ] ) .
+    
+    :DOUBLE_NEGATIVE     a re:Regex;
+         rdf:value "85";
+         rdfs:comment "[85]    DOUBLE_NEGATIVE       ::=       '-' DOUBLE";
+         rdfs:label "DOUBLE_NEGATIVE";
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "-"
+        :DOUBLE ) .
+    
+    :DOUBLE_POSITIVE     a re:Regex;
+         rdf:value "82";
+         rdfs:comment "[82]    DOUBLE_POSITIVE       ::=       '+' DOUBLE";
+         rdfs:label "DOUBLE_POSITIVE";
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "+"
+        :DOUBLE ) .
+    
+    :DatasetClause     a g:Production;
+         rdf:value "9";
+         rdfs:comment "[9]     DatasetClause     ::=       'FROM' ( DefaultGraphClause | NamedGraphClause )";
+         rdfs:label "DatasetClause";
+         g:first "FROM";
+         g:follow "FROM";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "FROM"
+        <#_g11> ) .
+    
+    :DefaultGraphClause     a g:Production;
+         rdf:value "10";
+         rdfs:comment "[10]    DefaultGraphClause    ::=       SourceSelector";
+         rdfs:label "DefaultGraphClause";
+         g:first :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS;
+         g:follow "FROM";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :SourceSelector ) .
+    
+    :DescribeQuery     a g:Production;
+         rdf:value "7";
+         rdfs:comment "[7]     DescribeQuery     ::=       'DESCRIBE' ( VarOrIRIref+ | '*' ) DatasetClause* WhereClause? SolutionModifier";
+         rdfs:label "DescribeQuery";
+         g:first "DESCRIBE";
+         g:follow g:eof;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "DESCRIBE"
+        <#_g7>
+        <#_g8>
+        <#_g9>
+        :SolutionModifier ) .
+    
+    :ECHAR     a re:Regex;
+         rdf:value "91";
+         rdfs:comment """[91]    ECHAR     ::=       '\\' [tbnrf\\"']""";
+         rdfs:label "ECHAR";
+         re:seq  (
+        "\\"
+         [
+                 a re:Regex;
+                 re:matches "[tbnrf\\\"']" ] ) .
+    
+    :EXPONENT     a re:Regex;
+         rdf:value "86";
+         rdfs:comment "[86]    EXPONENT      ::=       [eE] [+-]? [0-9]+";
+         rdfs:label "EXPONENT";
+         re:seq  (
+         [
+                 a re:Regex;
+                 re:matches "[eE]" ]
+         [
+                 a re:Regex;
+                 re:opt  [
+                     a re:Regex;
+                     re:matches "[+-]" ] ]
+         [
+                 a re:Regex;
+                 re:plus  [
+                     a re:Regex;
+                     re:matches "[0-9]" ] ] ) .
+    
+    :Expression     a g:Production;
+         rdf:value "46";
+         rdfs:comment "[46]    Expression    ::=       ConditionalOrExpression";
+         rdfs:label "Expression";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "(",
+                "*",
+                ",",
+                ".",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :ConditionalOrExpression ) .
+    
+    :Filter     a g:Production;
+         rdf:value "26";
+         rdfs:comment "[26]    Filter    ::=       'FILTER' Constraint";
+         rdfs:label "Filter";
+         g:first "FILTER";
+         g:follow ".";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "FILTER"
+        :Constraint ) .
+    
+    :FunctionCall     a g:Production;
+         rdf:value "28";
+         rdfs:comment "[28]    FunctionCall      ::=       IRIref ArgList";
+         rdfs:label "FunctionCall";
+         g:first :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS;
+         g:follow "(",
+                ".",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :IRIref
+        :ArgList ) .
+    
+    :GraphGraphPattern     a g:Production;
+         rdf:value "24";
+         rdfs:comment "[24]    GraphGraphPattern     ::=       'GRAPH' VarOrIRIref GroupGraphPattern";
+         rdfs:label "GraphGraphPattern";
+         g:first "GRAPH";
+         g:follow ".";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "GRAPH"
+        :VarOrIRIref
+        :GroupGraphPattern ) .
+    
+    :GraphNode     a g:Production;
+         rdf:value "41";
+         rdfs:comment "[41]    GraphNode     ::=       VarOrTerm | TriplesNode";
+         rdfs:label "GraphNode";
+         g:alt  (
+        :VarOrTerm
+        :TriplesNode );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :GraphPatternNotTriples     a g:Production;
+         rdf:value "22";
+         rdfs:comment "[22]    GraphPatternNotTriples    ::=       OptionalGraphPattern | GroupOrUnionGraphPattern | GraphGraphPattern";
+         rdfs:label "GraphPatternNotTriples";
+         g:alt  (
+        :OptionalGraphPattern
+        :GroupOrUnionGraphPattern
+        :GraphGraphPattern );
+         g:first "GRAPH",
+                "OPTIONAL",
+                "{";
+         g:follow ".";
+         g:nonTerminal :sparql .
+    
+    :GraphTerm     a g:Production;
+         rdf:value "45";
+         rdfs:comment "[45]    GraphTerm     ::=       IRIref | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL";
+         rdfs:label "GraphTerm";
+         g:alt  (
+        :IRIref
+        :RDFLiteral
+        :NumericLiteral
+        :BooleanLiteral
+        :BlankNode
+        :NIL );
+         g:first "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2;
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :GroupGraphPattern     a g:Production;
+         rdf:value "20";
+         rdfs:comment "[20]    GroupGraphPattern     ::=       '{' TriplesBlock? ( ( GraphPatternNotTriples | Filter ) '.'? TriplesBlock? )* '}'";
+         rdfs:label "GroupGraphPattern";
+         g:first "{";
+         g:follow ".",
+                "ORDER",
+                "UNION";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "{"
+        <#_g16>
+        <#_g17>
+        "}" ) .
+    
+    :GroupOrUnionGraphPattern     a g:Production;
+         rdf:value "25";
+         rdfs:comment "[25]    GroupOrUnionGraphPattern      ::=       GroupGraphPattern ( 'UNION' GroupGraphPattern )*";
+         rdfs:label "GroupOrUnionGraphPattern";
+         g:first "{";
+         g:follow ".";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :GroupGraphPattern
+        <#_g24> ) .
+    
+    :INTEGER     a re:Regex;
+         rdf:value "77";
+         rdfs:comment "[77]    INTEGER       ::=       [0-9]+";
+         rdfs:label "INTEGER";
+         g:follow "(",
+                "*",
+                "/",
+                "LIMIT",
+                "OFFSET",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:plus  [
+             a re:Regex;
+             re:matches "[0-9]" ] .
+    
+    :INTEGER_NEGATIVE     a re:Regex;
+         rdf:value "83";
+         rdfs:comment "[83]    INTEGER_NEGATIVE      ::=       '-' INTEGER";
+         rdfs:label "INTEGER_NEGATIVE";
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "-"
+        :INTEGER ) .
+    
+    :INTEGER_POSITIVE     a re:Regex;
+         rdf:value "80";
+         rdfs:comment "[80]    INTEGER_POSITIVE      ::=       '+' INTEGER";
+         rdfs:label "INTEGER_POSITIVE";
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "+"
+        :INTEGER ) .
+    
+    :IRI_REF     a re:Regex;
+         rdf:value "70";
+         rdfs:comment """[70]    IRI_REF       ::=       '<' ([^<>"{}|^`\\]-[#x00-#x20])* '>'""";
+         rdfs:label "IRI_REF";
+         g:follow "(",
+                "*",
+                "/",
+                "PREFIX",
+                "[",
+                "a",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "<"
+         [
+                 a re:Regex;
+                 re:star  [
+                     a re:Regex;
+                     re:diff  (
+                     [
+                             a re:Regex;
+                             re:matches "[^<>\"{}|^`\\]" ]
+                     [
+                             a re:Regex;
+                             re:matches "[ - ]" ] ) ] ]
+        ">" ) .
+    
+    :IRIref     a g:Production;
+         rdf:value "67";
+         rdfs:comment "[67]    IRIref    ::=       IRI_REF | PrefixedName";
+         rdfs:label "IRIref";
+         g:alt  (
+        :IRI_REF
+        :PrefixedName );
+         g:first :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS;
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :IRIrefOrFunction     a g:Production;
+         rdf:value "59";
+         rdfs:comment "[59]    IRIrefOrFunction      ::=       IRIref ArgList?";
+         rdfs:label "IRIrefOrFunction";
+         g:first :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS;
+         g:follow "*",
+                "/";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :IRIref
+        <#_g51> ) .
+    
+    :LANGTAG     a re:Regex;
+         rdf:value "76";
+         rdfs:comment "[76]    LANGTAG       ::=       '@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*";
+         rdfs:label "LANGTAG";
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "@"
+         [
+                 a re:Regex;
+                 re:plus  [
+                     a re:Regex;
+                     re:matches "[a-zA-Z]" ] ]
+         [
+                 a re:Regex;
+                 re:star  [
+                     a re:Regex;
+                     re:seq  (
+                    "-"
+                     [
+                             a re:Regex;
+                             re:plus  [
+                                 a re:Regex;
+                                 re:matches "[a-zA-Z0-9]" ] ] ) ] ] ) .
+    
+    :LimitClause     a g:Production;
+         rdf:value "18";
+         rdfs:comment "[18]    LimitClause       ::=       'LIMIT' INTEGER";
+         rdfs:label "LimitClause";
+         g:first "LIMIT";
+         g:follow "OFFSET";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "LIMIT"
+        :INTEGER ) .
+    
+    :LimitOffsetClauses     a g:Production;
+         rdf:value "15";
+         rdfs:comment "[15]    LimitOffsetClauses    ::=       ( LimitClause OffsetClause? | OffsetClause LimitClause? )";
+         rdfs:label "LimitOffsetClauses";
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "LIMIT";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :LimitClause
+                <#_g13> ) ]
+         [
+                 a g:Production;
+                 g:first "OFFSET";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :OffsetClause
+                <#_g14> ) ] );
+         g:first "LIMIT",
+                "OFFSET";
+         g:nonTerminal :sparql .
+    
+    :MultiplicativeExpression     a g:Production;
+         rdf:value "53";
+         rdfs:comment "[53]    MultiplicativeExpression      ::=       UnaryExpression ( '*' UnaryExpression | '/' UnaryExpression )*";
+         rdfs:label "MultiplicativeExpression";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "+",
+                "-",
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :UnaryExpression
+        <#_g47> ) .
+    
+    :NIL     a re:Regex;
+         rdf:value "92";
+         rdfs:comment "[92]    NIL       ::=       '(' WS* ')'";
+         rdfs:label "NIL";
+         g:follow "(",
+                "*",
+                ".",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "[",
+                "a",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "("
+         [
+                 a re:Regex;
+                 re:star :WS ]
+        ")" ) .
+    
+    :NamedGraphClause     a g:Production;
+         rdf:value "11";
+         rdfs:comment "[11]    NamedGraphClause      ::=       'NAMED' SourceSelector";
+         rdfs:label "NamedGraphClause";
+         g:first "NAMED";
+         g:follow "FROM";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "NAMED"
+        :SourceSelector ) .
+    
+    :NumericExpression     a g:Production;
+         rdf:value "51";
+         rdfs:comment "[51]    NumericExpression     ::=       AdditiveExpression";
+         rdfs:label "NumericExpression";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "!=",
+                "<",
+                "<=",
+                "=",
+                ">",
+                ">=";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :AdditiveExpression ) .
+    
+    :NumericLiteral     a g:Production;
+         rdf:value "61";
+         rdfs:comment "[61]    NumericLiteral    ::=       NumericLiteralUnsigned | NumericLiteralPositive | NumericLiteralNegative";
+         rdfs:label "NumericLiteral";
+         g:alt  (
+        :NumericLiteralUnsigned
+        :NumericLiteralPositive
+        :NumericLiteralNegative );
+         g:first :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE;
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :NumericLiteralNegative     a g:Production;
+         rdf:value "64";
+         rdfs:comment "[64]    NumericLiteralNegative    ::=       INTEGER_NEGATIVE | DECIMAL_NEGATIVE | DOUBLE_NEGATIVE";
+         rdfs:label "NumericLiteralNegative";
+         g:alt  (
+        :INTEGER_NEGATIVE
+        :DECIMAL_NEGATIVE
+        :DOUBLE_NEGATIVE );
+         g:first :DECIMAL_NEGATIVE,
+                :DOUBLE_NEGATIVE,
+                :INTEGER_NEGATIVE;
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :NumericLiteralPositive     a g:Production;
+         rdf:value "63";
+         rdfs:comment "[63]    NumericLiteralPositive    ::=       INTEGER_POSITIVE | DECIMAL_POSITIVE | DOUBLE_POSITIVE";
+         rdfs:label "NumericLiteralPositive";
+         g:alt  (
+        :INTEGER_POSITIVE
+        :DECIMAL_POSITIVE
+        :DOUBLE_POSITIVE );
+         g:first :DECIMAL_POSITIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER_POSITIVE;
+         g:follow "(",
+                "*",
+                "+",
+                "-",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :NumericLiteralUnsigned     a g:Production;
+         rdf:value "62";
+         rdfs:comment "[62]    NumericLiteralUnsigned    ::=       INTEGER | DECIMAL | DOUBLE";
+         rdfs:label "NumericLiteralUnsigned";
+         g:alt  (
+        :INTEGER
+        :DECIMAL
+        :DOUBLE );
+         g:first :DECIMAL,
+                :DOUBLE,
+                :INTEGER;
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :Object     a g:Production;
+         rdf:value "36";
+         rdfs:comment "[36]    Object    ::=       GraphNode";
+         rdfs:label "Object";
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow ",";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :GraphNode ) .
+    
+    :ObjectList     a g:Production;
+         rdf:value "35";
+         rdfs:comment "[35]    ObjectList    ::=       Object ( ',' Object )*";
+         rdfs:label "ObjectList";
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow ".",
+                ";";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :Object
+        <#_g36> ) .
+    
+    :OffsetClause     a g:Production;
+         rdf:value "19";
+         rdfs:comment "[19]    OffsetClause      ::=       'OFFSET' INTEGER";
+         rdfs:label "OffsetClause";
+         g:first "OFFSET";
+         g:follow "LIMIT";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "OFFSET"
+        :INTEGER ) .
+    
+    :OptionalGraphPattern     a g:Production;
+         rdf:value "23";
+         rdfs:comment "[23]    OptionalGraphPattern      ::=       'OPTIONAL' GroupGraphPattern";
+         rdfs:label "OptionalGraphPattern";
+         g:first "OPTIONAL";
+         g:follow ".";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "OPTIONAL"
+        :GroupGraphPattern ) .
+    
+    :OrderClause     a g:Production;
+         rdf:value "16";
+         rdfs:comment "[16]    OrderClause       ::=       'ORDER' 'BY' OrderCondition+";
+         rdfs:label "OrderClause";
+         g:first "ORDER";
+         g:follow "LIMIT",
+                "OFFSET";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "ORDER"
+        "BY"
+        <#_g15> ) .
+    
+    :OrderCondition     a g:Production;
+         rdf:value "17";
+         rdfs:comment "[17]    OrderCondition    ::=       ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )";
+         rdfs:label "OrderCondition";
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "ASC",
+                        "DESC";
+                 g:follow "(",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                 [
+                         a g:Production;
+                         g:alt  (
+                        "ASC"
+                        "DESC" );
+                         g:first "ASC",
+                                "DESC";
+                         g:follow "(";
+                         g:nonTerminal :sparql ]
+                :BrackettedExpression ) ]
+         [
+                 a g:Production;
+                 g:alt  (
+                :Constraint
+                :Var );
+                 g:first "(",
+                        "BOUND",
+                        "DATATYPE",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:follow "(",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql ] );
+         g:first "(",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow "(",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :PNAME_LN     a re:Regex;
+         rdf:value "72";
+         rdfs:comment "[72]    PNAME_LN      ::=       PNAME_NS PN_LOCAL";
+         rdfs:label "PNAME_LN";
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        :PNAME_NS
+        :PN_LOCAL ) .
+    
+    :PNAME_NS     a re:Regex;
+         rdf:value "71";
+         rdfs:comment "[71]    PNAME_NS      ::=       PN_PREFIX? ':'";
+         rdfs:label "PNAME_NS";
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+         [
+                 a re:Regex;
+                 re:opt :PN_PREFIX ]
+        ":" ) .
+    
+    :PN_CHARS     a re:Regex;
+         rdf:value "98";
+         rdfs:comment "[98]    PN_CHARS      ::=       PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040]";
+         rdfs:label "PN_CHARS";
+         re:alt  (
+        :PN_CHARS_U
+        "-"
+         [
+                 a re:Regex;
+                 re:matches "[0-9]" ]
+         [
+                 a re:Regex;
+                 re:matches "[·]" ]
+         [
+                 a re:Regex;
+                 re:matches "[̀-ͯ]" ]
+         [
+                 a re:Regex;
+                 re:matches "[‿-⁀]" ] ) .
+    
+    :PN_CHARS_BASE     a re:Regex;
+         rdf:value "95";
+         rdfs:comment "[95]    PN_CHARS_BASE     ::=       [A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]";
+         rdfs:label "PN_CHARS_BASE";
+         re:alt  (
+         [
+                 a re:Regex;
+                 re:matches "[A-Z]" ]
+         [
+                 a re:Regex;
+                 re:matches "[a-z]" ]
+         [
+                 a re:Regex;
+                 re:matches "[À-Ö]" ]
+         [
+                 a re:Regex;
+                 re:matches "[Ø-ö]" ]
+         [
+                 a re:Regex;
+                 re:matches "[ø-˿]" ]
+         [
+                 a re:Regex;
+                 re:matches "[Ͱ-ͽ]" ]
+         [
+                 a re:Regex;
+                 re:matches "[Ϳ-῿]" ]
+         [
+                 a re:Regex;
+                 re:matches "[‌-‍]" ]
+         [
+                 a re:Regex;
+                 re:matches "[⁰-↏]" ]
+         [
+                 a re:Regex;
+                 re:matches "[Ⰰ-⿯]" ]
+         [
+                 a re:Regex;
+                 re:matches "[、-퟿]" ]
+         [
+                 a re:Regex;
+                 re:matches "[豈-﷏]" ]
+         [
+                 a re:Regex;
+                 re:matches "[ﷰ-�]" ]
+         [
+                 a re:Regex;
+                 re:matches "[ -￿]" ] ) .
+    
+    :PN_CHARS_U     a re:Regex;
+         rdf:value "96";
+         rdfs:comment "[96]    PN_CHARS_U    ::=       PN_CHARS_BASE | '_'";
+         rdfs:label "PN_CHARS_U";
+         re:alt  (
+        :PN_CHARS_BASE
+        "_" ) .
+    
+    :PN_LOCAL     a re:Regex;
+         rdf:value "100";
+         rdfs:comment "[100]       PN_LOCAL      ::=       ( PN_CHARS_U | [0-9] ) ((PN_CHARS|'.')* PN_CHARS)?";
+         rdfs:label "PN_LOCAL";
+         re:seq  (
+         [
+                 a re:Regex;
+                 re:alt  (
+                :PN_CHARS_U
+                 [
+                         a re:Regex;
+                         re:matches "[0-9]" ] ) ]
+         [
+                 a re:Regex;
+                 re:opt  [
+                     a re:Regex;
+                     re:seq  (
+                     [
+                             a re:Regex;
+                             re:star  [
+                                 a re:Regex;
+                                 re:alt  (
+                                :PN_CHARS
+                                "." ) ] ]
+                    :PN_CHARS ) ] ] ) .
+    
+    :PN_PREFIX     a re:Regex;
+         rdf:value "99";
+         rdfs:comment "[99]    PN_PREFIX     ::=       PN_CHARS_BASE ((PN_CHARS|'.')* PN_CHARS)?";
+         rdfs:label "PN_PREFIX";
+         re:seq  (
+        :PN_CHARS_BASE
+         [
+                 a re:Regex;
+                 re:opt  [
+                     a re:Regex;
+                     re:seq  (
+                     [
+                             a re:Regex;
+                             re:star  [
+                                 a re:Regex;
+                                 re:alt  (
+                                :PN_CHARS
+                                "." ) ] ]
+                    :PN_CHARS ) ] ] ) .
+    
+    :PrefixDecl     a g:Production;
+         rdf:value "4";
+         rdfs:comment "[4]     PrefixDecl    ::=       'PREFIX' PNAME_NS IRI_REF";
+         rdfs:label "PrefixDecl";
+         g:first "PREFIX";
+         g:follow "PREFIX";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "PREFIX"
+        :PNAME_NS
+        :IRI_REF ) .
+    
+    :PrefixedName     a g:Production;
+         rdf:value "68";
+         rdfs:comment "[68]    PrefixedName      ::=       PNAME_LN | PNAME_NS";
+         rdfs:label "PrefixedName";
+         g:alt  (
+        :PNAME_LN
+        :PNAME_NS );
+         g:first :PNAME_LN,
+                :PNAME_NS;
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :PrimaryExpression     a g:Production;
+         rdf:value "55";
+         rdfs:comment "[55]    PrimaryExpression     ::=       BrackettedExpression | BuiltInCall | IRIrefOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var";
+         rdfs:label "PrimaryExpression";
+         g:alt  (
+        :BrackettedExpression
+        :BuiltInCall
+        :IRIrefOrFunction
+        :RDFLiteral
+        :NumericLiteral
+        :BooleanLiteral
+        :Var );
+         g:first "(",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "*",
+                "/";
+         g:nonTerminal :sparql .
+    
+    :Prologue     a g:Production;
+         rdf:value "2";
+         rdfs:comment "[2]     Prologue      ::=       BaseDecl? PrefixDecl*";
+         rdfs:label "Prologue";
+         g:first "BASE",
+                g:eps;
+         g:follow "ASK",
+                "CONSTRUCT",
+                "DESCRIBE",
+                "SELECT";
+         g:nonTerminal :sparql;
+         g:seq  (
+         [
+                 a g:Production;
+                 g:alt  (
+                g:empty
+                :BaseDecl );
+                 g:first "BASE",
+                        g:eps;
+                 g:follow "PREFIX";
+                 g:nonTerminal :sparql;
+                 g:opt :BaseDecl ]
+        <#_g1> ) .
+    
+    :PropertyList     a g:Production;
+         rdf:value "34";
+         rdfs:comment "[34]    PropertyList      ::=       PropertyListNotEmpty?";
+         rdfs:label "PropertyList";
+         g:alt  (
+        g:empty
+        :PropertyListNotEmpty );
+         g:first "a",
+                g:eps,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow ".";
+         g:nonTerminal :sparql;
+         g:opt :PropertyListNotEmpty .
+    
+    :PropertyListNotEmpty     a g:Production;
+         rdf:value "33";
+         rdfs:comment "[33]    PropertyListNotEmpty      ::=       Verb ObjectList ( ';' ( Verb ObjectList )? )*";
+         rdfs:label "PropertyListNotEmpty";
+         g:first "a",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow ".";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :Verb
+        :ObjectList
+        <#_g32> ) .
+    
+    :Query     a g:Production;
+         rdf:value "1";
+         rdfs:comment "[1]     Query     ::=       Prologue ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )";
+         rdfs:label "Query";
+         g:first "BASE",
+                g:eps;
+         g:follow g:eof;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :Prologue
+        <#_g0> ) .
+    
+    :RDFLiteral     a g:Production;
+         rdf:value "60";
+         rdfs:comment "[60]    RDFLiteral    ::=       String ( LANGTAG | ( '^^' IRIref ) )?";
+         rdfs:label "RDFLiteral";
+         g:first :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2;
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :String
+        <#_g52> ) .
+    
+    :RegexExpression     a g:Production;
+         rdf:value "58";
+         rdfs:comment "[58]    RegexExpression       ::=       'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'";
+         rdfs:label "RegexExpression";
+         g:first "REGEX";
+         g:follow "(",
+                "*",
+                ".",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "REGEX"
+        "("
+        :Expression
+        ","
+        :Expression
+        <#_g49>
+        ")" ) .
+    
+    :RelationalExpression     a g:Production;
+         rdf:value "50";
+         rdfs:comment "[50]    RelationalExpression      ::=       NumericExpression ( '=' NumericExpression | '!=' NumericExpression | '<' NumericExpression | '>' NumericExpression | '<=' NumericExpression | '>=' NumericExpression )?";
+         rdfs:label "RelationalExpression";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:seq  (
+        :NumericExpression
+        <#_g43> ) .
+    
+    :STRING_LITERAL1     a re:Regex;
+         rdf:value "87";
+         rdfs:comment "[87]    STRING_LITERAL1       ::=       \"'\" ( ([^#x27#x5C#xA#xD]) | ECHAR )* \"'\"";
+         rdfs:label "STRING_LITERAL1";
+         g:follow "^^",
+                :LANGTAG;
+         re:seq  (
+        "'"
+         [
+                 a re:Regex;
+                 re:star  [
+                     a re:Regex;
+                     re:alt  (
+                     [
+                             a re:Regex;
+                             re:matches "[^'\\\\\n\r]" ]
+                    :ECHAR ) ] ]
+        "'" ) .
+    
+    :STRING_LITERAL2     a re:Regex;
+         rdf:value "88";
+         rdfs:comment """[88]    STRING_LITERAL2       ::=       '"' ( ([^#x22#x5C#xA#xD]) | ECHAR )* '"'""";
+         rdfs:label "STRING_LITERAL2";
+         g:follow "^^",
+                :LANGTAG;
+         re:seq  (
+        "\""
+         [
+                 a re:Regex;
+                 re:star  [
+                     a re:Regex;
+                     re:alt  (
+                     [
+                             a re:Regex;
+                             re:matches "[^\"\\\\\n\r]" ]
+                    :ECHAR ) ] ]
+        "\"" ) .
+    
+    :STRING_LITERAL_LONG1     a re:Regex;
+         rdf:value "89";
+         rdfs:comment "[89]    STRING_LITERAL_LONG1      ::=       \"'''\" ( ( \"'\" | \"''\" )? ( [^'\\] | ECHAR ) )* \"'''\"";
+         rdfs:label "STRING_LITERAL_LONG1";
+         g:follow "^^",
+                :LANGTAG;
+         re:seq  (
+        "'''"
+         [
+                 a re:Regex;
+                 re:star  [
+                     a re:Regex;
+                     re:seq  (
+                     [
+                             a re:Regex;
+                             re:opt  [
+                                 a re:Regex;
+                                 re:alt  (
+                                "'"
+                                "''" ) ] ]
+                     [
+                             a re:Regex;
+                             re:alt  (
+                             [
+                                     a re:Regex;
+                                     re:matches "[^'\\]" ]
+                            :ECHAR ) ] ) ] ]
+        "'''" ) .
+    
+    :STRING_LITERAL_LONG2     a re:Regex;
+         rdf:value "90";
+         rdfs:comment """[90]    STRING_LITERAL_LONG2      ::=       '\"""' ( ( '"' | '""' )? ( [^"\\] | ECHAR ) )* '\"""'""";
+         rdfs:label "STRING_LITERAL_LONG2";
+         g:follow "^^",
+                :LANGTAG;
+         re:seq  (
+        "\"\"\""
+         [
+                 a re:Regex;
+                 re:star  [
+                     a re:Regex;
+                     re:seq  (
+                     [
+                             a re:Regex;
+                             re:opt  [
+                                 a re:Regex;
+                                 re:alt  (
+                                "\""
+                                "\"\"" ) ] ]
+                     [
+                             a re:Regex;
+                             re:alt  (
+                             [
+                                     a re:Regex;
+                                     re:matches "[^\"\\]" ]
+                            :ECHAR ) ] ) ] ]
+        "\"\"\"" ) .
+    
+    :SelectQuery     a g:Production;
+         rdf:value "5";
+         rdfs:comment "[5]     SelectQuery       ::=       'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( Var+ | '*' ) DatasetClause* WhereClause SolutionModifier";
+         rdfs:label "SelectQuery";
+         g:first "SELECT";
+         g:follow g:eof;
+         g:nonTerminal :sparql;
+         g:seq  (
+        "SELECT"
+        <#_g2>
+        <#_g4>
+        <#_g5>
+        :WhereClause
+        :SolutionModifier ) .
+    
+    :SolutionModifier     a g:Production;
+         rdf:value "14";
+         rdfs:comment "[14]    SolutionModifier      ::=       OrderClause? LimitOffsetClauses?";
+         rdfs:label "SolutionModifier";
+         g:first "ORDER",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:seq  (
+         [
+                 a g:Production;
+                 g:alt  (
+                g:empty
+                :OrderClause );
+                 g:first "ORDER",
+                        g:eps;
+                 g:follow "LIMIT",
+                        "OFFSET";
+                 g:nonTerminal :sparql;
+                 g:opt :OrderClause ]
+        <#_g12> ) .
+    
+    :SourceSelector     a g:Production;
+         rdf:value "12";
+         rdfs:comment "[12]    SourceSelector    ::=       IRIref";
+         rdfs:label "SourceSelector";
+         g:first :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS;
+         g:follow "FROM";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :IRIref ) .
+    
+    :String     a g:Production;
+         rdf:value "66";
+         rdfs:comment "[66]    String    ::=       STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2";
+         rdfs:label "String";
+         g:alt  (
+        :STRING_LITERAL1
+        :STRING_LITERAL2
+        :STRING_LITERAL_LONG1
+        :STRING_LITERAL_LONG2 );
+         g:first :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2;
+         g:follow "^^",
+                :LANGTAG;
+         g:nonTerminal :sparql .
+    
+    :TriplesBlock     a g:Production;
+         rdf:value "21";
+         rdfs:comment "[21]    TriplesBlock      ::=       TriplesSameSubject ( '.' TriplesBlock? )?";
+         rdfs:label "TriplesBlock";
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow ".",
+                "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "ORDER",
+                "UNION",
+                "{";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :TriplesSameSubject
+        <#_g21> ) .
+    
+    :TriplesNode     a g:Production;
+         rdf:value "38";
+         rdfs:comment "[38]    TriplesNode       ::=       Collection | BlankNodePropertyList";
+         rdfs:label "TriplesNode";
+         g:alt  (
+        :Collection
+        :BlankNodePropertyList );
+         g:first "(",
+                "[";
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :TriplesSameSubject     a g:Production;
+         rdf:value "32";
+         rdfs:comment "[32]    TriplesSameSubject    ::=       VarOrTerm PropertyListNotEmpty | TriplesNode PropertyList";
+         rdfs:label "TriplesSameSubject";
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "false",
+                        "true",
+                        :ANON,
+                        :BLANK_NODE_LABEL,
+                        :DECIMAL,
+                        :DECIMAL_NEGATIVE,
+                        :DECIMAL_POSITIVE,
+                        :DOUBLE,
+                        :DOUBLE_NEGATIVE,
+                        :DOUBLE_POSITIVE,
+                        :INTEGER,
+                        :INTEGER_NEGATIVE,
+                        :INTEGER_POSITIVE,
+                        :IRI_REF,
+                        :NIL,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :STRING_LITERAL1,
+                        :STRING_LITERAL2,
+                        :STRING_LITERAL_LONG1,
+                        :STRING_LITERAL_LONG2,
+                        :VAR1,
+                        :VAR2;
+                 g:follow ".";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :VarOrTerm
+                :PropertyListNotEmpty ) ]
+         [
+                 a g:Production;
+                 g:first "(",
+                        "[";
+                 g:follow ".";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :TriplesNode
+                :PropertyList ) ] );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow ".";
+         g:nonTerminal :sparql .
+    
+    :UnaryExpression     a g:Production;
+         rdf:value "54";
+         rdfs:comment "[54]    UnaryExpression       ::=         '!' PrimaryExpression | '+' PrimaryExpression | '-' PrimaryExpression | PrimaryExpression";
+         rdfs:label "UnaryExpression";
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "!";
+                 g:follow "*",
+                        "/";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "!"
+                :PrimaryExpression ) ]
+         [
+                 a g:Production;
+                 g:first "+";
+                 g:follow "*",
+                        "/";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "+"
+                :PrimaryExpression ) ]
+         [
+                 a g:Production;
+                 g:first "-";
+                 g:follow "*",
+                        "/";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "-"
+                :PrimaryExpression ) ]
+        :PrimaryExpression );
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "*",
+                "/";
+         g:nonTerminal :sparql .
+    
+    :VAR1     a re:Regex;
+         rdf:value "74";
+         rdfs:comment "[74]    VAR1      ::=       '?' VARNAME";
+         rdfs:label "VAR1";
+         g:follow "(",
+                "*",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "[",
+                "a",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "?"
+        :VARNAME ) .
+    
+    :VAR2     a re:Regex;
+         rdf:value "75";
+         rdfs:comment "[75]    VAR2      ::=       '$' VARNAME";
+         rdfs:label "VAR2";
+         g:follow "(",
+                "*",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "[",
+                "a",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         re:seq  (
+        "$"
+        :VARNAME ) .
+    
+    :VARNAME     a re:Regex;
+         rdf:value "97";
+         rdfs:comment "[97]    VARNAME       ::=       ( PN_CHARS_U | [0-9] ) ( PN_CHARS_U | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040] )*";
+         rdfs:label "VARNAME";
+         re:seq  (
+         [
+                 a re:Regex;
+                 re:alt  (
+                :PN_CHARS_U
+                 [
+                         a re:Regex;
+                         re:matches "[0-9]" ] ) ]
+         [
+                 a re:Regex;
+                 re:star  [
+                     a re:Regex;
+                     re:alt  (
+                    :PN_CHARS_U
+                     [
+                             a re:Regex;
+                             re:matches "[0-9]" ]
+                     [
+                             a re:Regex;
+                             re:matches "[·]" ]
+                     [
+                             a re:Regex;
+                             re:matches "[̀-ͯ]" ]
+                     [
+                             a re:Regex;
+                             re:matches "[‿-⁀]" ] ) ] ] ) .
+    
+    :ValueLogical     a g:Production;
+         rdf:value "49";
+         rdfs:comment "[49]    ValueLogical      ::=       RelationalExpression";
+         rdfs:label "ValueLogical";
+         g:first "!",
+                "(",
+                "+",
+                "-",
+                "BOUND",
+                "DATATYPE",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "&&";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :RelationalExpression ) .
+    
+    :Var     a g:Production;
+         rdf:value "44";
+         rdfs:comment "[44]    Var       ::=       VAR1 | VAR2";
+         rdfs:label "Var";
+         g:alt  (
+        :VAR1
+        :VAR2 );
+         g:first :VAR1,
+                :VAR2;
+         g:follow "(",
+                "*",
+                "/",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "[",
+                "a",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :VarOrIRIref     a g:Production;
+         rdf:value "43";
+         rdfs:comment "[43]    VarOrIRIref       ::=       Var | IRIref";
+         rdfs:label "VarOrIRIref";
+         g:alt  (
+        :Var
+        :IRIref );
+         g:first :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow "(",
+                "[",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :VarOrTerm     a g:Production;
+         rdf:value "42";
+         rdfs:comment "[42]    VarOrTerm     ::=       Var | GraphTerm";
+         rdfs:label "VarOrTerm";
+         g:alt  (
+        :Var
+        :GraphTerm );
+         g:first "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow "(",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :Verb     a g:Production;
+         rdf:value "37";
+         rdfs:comment "[37]    Verb      ::=       VarOrIRIref | 'a'";
+         rdfs:label "Verb";
+         g:alt  (
+        :VarOrIRIref
+        "a" );
+         g:first "a",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    :WS     a re:Regex;
+         rdf:value "93";
+         rdfs:comment "[93]    WS    ::=       #x20 | #x9 | #xD | #xA";
+         rdfs:label "WS";
+         re:alt  (
+         [
+                 a re:Regex;
+                 re:matches "[ ]" ]
+         [
+                 a re:Regex;
+                 re:matches "[\t]" ]
+         [
+                 a re:Regex;
+                 re:matches "[\r]" ]
+         [
+                 a re:Regex;
+                 re:matches "[\n]" ] ) .
+    
+    :WhereClause     a g:Production;
+         rdf:value "13";
+         rdfs:comment "[13]    WhereClause       ::=       'WHERE'? GroupGraphPattern";
+         rdfs:label "WhereClause";
+         g:first "WHERE",
+                g:eps;
+         g:follow "ORDER";
+         g:nonTerminal :sparql;
+         g:seq  (
+         [
+                 a g:Production;
+                 g:alt  (
+                g:empty
+                "WHERE" );
+                 g:first "WHERE",
+                        g:eps;
+                 g:follow "{";
+                 g:nonTerminal :sparql;
+                 g:opt "WHERE" ]
+        :GroupGraphPattern ) .
+    
+    :sparql     rdfs:isDefinedBy <../../sparql-grammar/etc/sparql.ttl>;
+         g:start :Query;
+         g:terminal "!",
+                "!=",
+                "&&",
+                "(",
+                ")",
+                "*",
+                "+",
+                ",",
+                "-",
+                ".",
+                "/",
+                ";",
+                "<",
+                "<=",
+                "=",
+                ">",
+                ">=",
+                "ASC",
+                "ASK",
+                "BASE",
+                "BOUND",
+                "BY",
+                "CONSTRUCT",
+                "DATATYPE",
+                "DESC",
+                "DESCRIBE",
+                "DISTINCT",
+                "FILTER",
+                "FROM",
+                "GRAPH",
+                "LANG",
+                "LANGMATCHES",
+                "LIMIT",
+                "NAMED",
+                "OFFSET",
+                "OPTIONAL",
+                "ORDER",
+                "PREFIX",
+                "REDUCED",
+                "REGEX",
+                "SELECT",
+                "STR",
+                "UNION",
+                "WHERE",
+                "[",
+                "]",
+                "^^",
+                "a",
+                "false",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                "true",
+                "{",
+                "||",
+                "}",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :LANGTAG,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2 .
+    
+    <#_g0>     a g:Production;
+         g:alt  (
+        :SelectQuery
+        :ConstructQuery
+        :DescribeQuery
+        :AskQuery );
+         g:first "ASK",
+                "CONSTRUCT",
+                "DESCRIBE",
+                "SELECT";
+         g:follow g:eof;
+         g:nonTerminal :sparql .
+    
+    <#_g1>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "PREFIX";
+                 g:follow "ASK",
+                        "CONSTRUCT",
+                        "DESCRIBE",
+                        "SELECT";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :PrefixDecl
+                <#_g1> ) ] );
+         g:first "PREFIX",
+                g:eps;
+         g:follow "ASK",
+                "CONSTRUCT",
+                "DESCRIBE",
+                "SELECT";
+         g:nonTerminal :sparql;
+         g:star :PrefixDecl .
+    
+    <#_g2>     a g:Production;
+         g:alt  (
+        g:empty
+        <#_g3> );
+         g:first "DISTINCT",
+                "REDUCED",
+                g:eps;
+         g:follow "*",
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:opt <#_g3> .
+    
+    <#_g3>     a g:Production;
+         g:alt  (
+        "DISTINCT"
+        "REDUCED" );
+         g:first "DISTINCT",
+                "REDUCED";
+         g:follow "*",
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    <#_g4>     a g:Production;
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first :VAR1,
+                        :VAR2;
+                 g:follow "FROM";
+                 g:nonTerminal :sparql;
+                 g:plus :Var;
+                 g:seq  (
+                :Var
+                <#_g57> ) ]
+        "*" );
+         g:first "*",
+                :VAR1,
+                :VAR2;
+         g:follow "FROM";
+         g:nonTerminal :sparql .
+    
+    <#_g5>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "FROM";
+                 g:follow "WHERE";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :DatasetClause
+                <#_g5> ) ] );
+         g:first "FROM",
+                g:eps;
+         g:follow "WHERE";
+         g:nonTerminal :sparql;
+         g:star :DatasetClause .
+    
+    <#_g6>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "FROM";
+                 g:follow "WHERE";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :DatasetClause
+                <#_g6> ) ] );
+         g:first "FROM",
+                g:eps;
+         g:follow "WHERE";
+         g:nonTerminal :sparql;
+         g:star :DatasetClause .
+    
+    <#_g7>     a g:Production;
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:follow "FROM",
+                        g:eof;
+                 g:nonTerminal :sparql;
+                 g:plus :VarOrIRIref;
+                 g:seq  (
+                :VarOrIRIref
+                <#_g56> ) ]
+        "*" );
+         g:first "*",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow "FROM",
+                g:eof;
+         g:nonTerminal :sparql .
+    
+    <#_g8>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "FROM";
+                 g:follow "WHERE";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :DatasetClause
+                <#_g8> ) ] );
+         g:first "FROM",
+                g:eps;
+         g:follow "WHERE";
+         g:nonTerminal :sparql;
+         g:star :DatasetClause .
+    
+    <#_g9>     a g:Production;
+         g:alt  (
+        g:empty
+        :WhereClause );
+         g:first "WHERE",
+                g:eps;
+         g:follow "ORDER";
+         g:nonTerminal :sparql;
+         g:opt :WhereClause .
+    
+    <#_g10>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "FROM";
+                 g:follow "WHERE",
+                        g:eof;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :DatasetClause
+                <#_g10> ) ] );
+         g:first "FROM",
+                g:eps;
+         g:follow "WHERE",
+                g:eof;
+         g:nonTerminal :sparql;
+         g:star :DatasetClause .
+    
+    <#_g11>     a g:Production;
+         g:alt  (
+        :DefaultGraphClause
+        :NamedGraphClause );
+         g:first "NAMED",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS;
+         g:follow "FROM";
+         g:nonTerminal :sparql .
+    
+    <#_g12>     a g:Production;
+         g:alt  (
+        g:empty
+        :LimitOffsetClauses );
+         g:first "LIMIT",
+                "OFFSET",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:opt :LimitOffsetClauses .
+    
+    <#_g13>     a g:Production;
+         g:alt  (
+        g:empty
+        :OffsetClause );
+         g:first "OFFSET",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:opt :OffsetClause .
+    
+    <#_g14>     a g:Production;
+         g:alt  (
+        g:empty
+        :LimitClause );
+         g:first "LIMIT",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:opt :LimitClause .
+    
+    <#_g15>     a g:Production;
+         g:first "(",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:plus :OrderCondition;
+         g:seq  (
+        :OrderCondition
+        <#_g55> ) .
+    
+    <#_g16>     a g:Production;
+         g:alt  (
+        g:empty
+        :TriplesBlock );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                g:eps,
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow ".",
+                "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "ORDER",
+                "UNION",
+                "{";
+         g:nonTerminal :sparql;
+         g:opt :TriplesBlock .
+    
+    <#_g17>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "FILTER",
+                        "GRAPH",
+                        "OPTIONAL",
+                        "{";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g18>
+                <#_g17> ) ] );
+         g:first "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "{",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:star <#_g18> .
+    
+    <#_g18>     a g:Production;
+         g:first "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "{";
+         g:follow "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "{";
+         g:nonTerminal :sparql;
+         g:seq  (
+         [
+                 a g:Production;
+                 g:alt  (
+                :GraphPatternNotTriples
+                :Filter );
+                 g:first "FILTER",
+                        "GRAPH",
+                        "OPTIONAL",
+                        "{";
+                 g:follow ".";
+                 g:nonTerminal :sparql ]
+        <#_g19>
+        <#_g20> ) .
+    
+    <#_g19>     a g:Production;
+         g:alt  (
+        g:empty
+        "." );
+         g:first ".",
+                g:eps;
+         g:follow "(",
+                "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "[",
+                "false",
+                "true",
+                "{",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:opt "." .
+    
+    <#_g20>     a g:Production;
+         g:alt  (
+        g:empty
+        :TriplesBlock );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                g:eps,
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:opt :TriplesBlock .
+    
+    <#_g21>     a g:Production;
+         g:alt  (
+        g:empty
+        <#_g22> );
+         g:first ".",
+                g:eps;
+         g:follow ".",
+                "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "ORDER",
+                "UNION",
+                "{";
+         g:nonTerminal :sparql;
+         g:opt <#_g22> .
+    
+    <#_g22>     a g:Production;
+         g:first ".";
+         g:follow ".",
+                "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "ORDER",
+                "UNION",
+                "{";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "."
+        <#_g23> ) .
+    
+    <#_g23>     a g:Production;
+         g:alt  (
+        g:empty
+        :TriplesBlock );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                g:eps,
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:follow ".",
+                "FILTER",
+                "GRAPH",
+                "OPTIONAL",
+                "ORDER",
+                "UNION",
+                "{";
+         g:nonTerminal :sparql;
+         g:opt :TriplesBlock .
+    
+    <#_g24>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "UNION";
+                 g:follow ".";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g25>
+                <#_g24> ) ] );
+         g:first "UNION",
+                g:eps;
+         g:follow ".";
+         g:nonTerminal :sparql;
+         g:star <#_g25> .
+    
+    <#_g25>     a g:Production;
+         g:first "UNION";
+         g:follow "UNION";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "UNION"
+        :GroupGraphPattern ) .
+    
+    <#_g26>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first ",";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g27>
+                <#_g26> ) ] );
+         g:first ",",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:star <#_g27> .
+    
+    <#_g27>     a g:Production;
+         g:first ",";
+         g:follow ",";
+         g:nonTerminal :sparql;
+         g:seq  (
+        ","
+        :Expression ) .
+    
+    <#_g28>     a g:Production;
+         g:alt  (
+        g:empty
+        :ConstructTriples );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                g:eps,
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:opt :ConstructTriples .
+    
+    <#_g29>     a g:Production;
+         g:alt  (
+        g:empty
+        <#_g30> );
+         g:first ".",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:opt <#_g30> .
+    
+    <#_g30>     a g:Production;
+         g:first ".";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "."
+        <#_g31> ) .
+    
+    <#_g31>     a g:Production;
+         g:alt  (
+        g:empty
+        :ConstructTriples );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                g:eps,
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:opt :ConstructTriples .
+    
+    <#_g32>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first ";";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g33>
+                <#_g32> ) ] );
+         g:first ";",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:star <#_g33> .
+    
+    <#_g33>     a g:Production;
+         g:first ";";
+         g:follow ";";
+         g:nonTerminal :sparql;
+         g:seq  (
+        ";"
+        <#_g34> ) .
+    
+    <#_g34>     a g:Production;
+         g:alt  (
+        g:empty
+        <#_g35> );
+         g:first "a",
+                g:eps,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow ";";
+         g:nonTerminal :sparql;
+         g:opt <#_g35> .
+    
+    <#_g35>     a g:Production;
+         g:first "a",
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow ";";
+         g:nonTerminal :sparql;
+         g:seq  (
+        :Verb
+        :ObjectList ) .
+    
+    <#_g36>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first ",";
+                 g:follow ".",
+                        ";";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g37>
+                <#_g36> ) ] );
+         g:first ",",
+                g:eps;
+         g:follow ".",
+                ";";
+         g:nonTerminal :sparql;
+         g:star <#_g37> .
+    
+    <#_g37>     a g:Production;
+         g:first ",";
+         g:follow ",";
+         g:nonTerminal :sparql;
+         g:seq  (
+        ","
+        :Object ) .
+    
+    <#_g38>     a g:Production;
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:plus :GraphNode;
+         g:seq  (
+        :GraphNode
+        <#_g54> ) .
+    
+    <#_g39>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "||";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g40>
+                <#_g39> ) ] );
+         g:first "||",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:star <#_g40> .
+    
+    <#_g40>     a g:Production;
+         g:first "||";
+         g:follow "||";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "||"
+        :ConditionalAndExpression ) .
+    
+    <#_g41>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "&&";
+                 g:follow "||";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g42>
+                <#_g41> ) ] );
+         g:first "&&",
+                g:eps;
+         g:follow "||";
+         g:nonTerminal :sparql;
+         g:star <#_g42> .
+    
+    <#_g42>     a g:Production;
+         g:first "&&";
+         g:follow "&&";
+         g:nonTerminal :sparql;
+         g:seq  (
+        "&&"
+        :ValueLogical ) .
+    
+    <#_g43>     a g:Production;
+         g:alt  (
+        g:empty
+        <#_g44> );
+         g:first "!=",
+                "<",
+                "<=",
+                "=",
+                ">",
+                ">=",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:opt <#_g44> .
+    
+    <#_g44>     a g:Production;
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "=";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "="
+                :NumericExpression ) ]
+         [
+                 a g:Production;
+                 g:first "!=";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "!="
+                :NumericExpression ) ]
+         [
+                 a g:Production;
+                 g:first "<";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "<"
+                :NumericExpression ) ]
+         [
+                 a g:Production;
+                 g:first ">";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                ">"
+                :NumericExpression ) ]
+         [
+                 a g:Production;
+                 g:first "<=";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "<="
+                :NumericExpression ) ]
+         [
+                 a g:Production;
+                 g:first ">=";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                ">="
+                :NumericExpression ) ] );
+         g:first "!=",
+                "<",
+                "<=",
+                "=",
+                ">",
+                ">=";
+         g:nonTerminal :sparql .
+    
+    <#_g45>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "+",
+                        "-",
+                        :DECIMAL_NEGATIVE,
+                        :DECIMAL_POSITIVE,
+                        :DOUBLE_NEGATIVE,
+                        :DOUBLE_POSITIVE,
+                        :INTEGER_NEGATIVE,
+                        :INTEGER_POSITIVE;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g46>
+                <#_g45> ) ] );
+         g:first "+",
+                "-",
+                g:eps,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE;
+         g:nonTerminal :sparql;
+         g:star <#_g46> .
+    
+    <#_g46>     a g:Production;
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "+";
+                 g:follow "+",
+                        "-",
+                        :DECIMAL_NEGATIVE,
+                        :DECIMAL_POSITIVE,
+                        :DOUBLE_NEGATIVE,
+                        :DOUBLE_POSITIVE,
+                        :INTEGER_NEGATIVE,
+                        :INTEGER_POSITIVE;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "+"
+                :MultiplicativeExpression ) ]
+         [
+                 a g:Production;
+                 g:first "-";
+                 g:follow "+",
+                        "-",
+                        :DECIMAL_NEGATIVE,
+                        :DECIMAL_POSITIVE,
+                        :DOUBLE_NEGATIVE,
+                        :DOUBLE_POSITIVE,
+                        :INTEGER_NEGATIVE,
+                        :INTEGER_POSITIVE;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "-"
+                :MultiplicativeExpression ) ]
+        :NumericLiteralPositive
+        :NumericLiteralNegative );
+         g:first "+",
+                "-",
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE;
+         g:follow "+",
+                "-",
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE;
+         g:nonTerminal :sparql .
+    
+    <#_g47>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "*",
+                        "/";
+                 g:follow "+",
+                        "-",
+                        :DECIMAL_NEGATIVE,
+                        :DECIMAL_POSITIVE,
+                        :DOUBLE_NEGATIVE,
+                        :DOUBLE_POSITIVE,
+                        :INTEGER_NEGATIVE,
+                        :INTEGER_POSITIVE;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                <#_g48>
+                <#_g47> ) ] );
+         g:first "*",
+                "/",
+                g:eps;
+         g:follow "+",
+                "-",
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE;
+         g:nonTerminal :sparql;
+         g:star <#_g48> .
+    
+    <#_g48>     a g:Production;
+         g:alt  (
+         [
+                 a g:Production;
+                 g:first "*";
+                 g:follow "*",
+                        "/";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "*"
+                :UnaryExpression ) ]
+         [
+                 a g:Production;
+                 g:first "/";
+                 g:follow "*",
+                        "/";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "/"
+                :UnaryExpression ) ] );
+         g:first "*",
+                "/";
+         g:follow "*",
+                "/";
+         g:nonTerminal :sparql .
+    
+    <#_g49>     a g:Production;
+         g:alt  (
+        g:empty
+        <#_g50> );
+         g:first ",",
+                g:eps;
+         g:nonTerminal :sparql;
+         g:opt <#_g50> .
+    
+    <#_g50>     a g:Production;
+         g:first ",";
+         g:nonTerminal :sparql;
+         g:seq  (
+        ","
+        :Expression ) .
+    
+    <#_g51>     a g:Production;
+         g:alt  (
+        g:empty
+        :ArgList );
+         g:first "(",
+                g:eps,
+                :NIL;
+         g:follow "*",
+                "/";
+         g:nonTerminal :sparql;
+         g:opt :ArgList .
+    
+    <#_g52>     a g:Production;
+         g:alt  (
+        g:empty
+        <#_g53> );
+         g:first "^^",
+                g:eps,
+                :LANGTAG;
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:opt <#_g53> .
+    
+    <#_g53>     a g:Production;
+         g:alt  (
+        :LANGTAG
+         [
+                 a g:Production;
+                 g:first "^^";
+                 g:follow "(",
+                        "*",
+                        "/",
+                        "[",
+                        "a",
+                        "false",
+                        "true",
+                        :ANON,
+                        :BLANK_NODE_LABEL,
+                        :DECIMAL,
+                        :DECIMAL_NEGATIVE,
+                        :DECIMAL_POSITIVE,
+                        :DOUBLE,
+                        :DOUBLE_NEGATIVE,
+                        :DOUBLE_POSITIVE,
+                        :INTEGER,
+                        :INTEGER_NEGATIVE,
+                        :INTEGER_POSITIVE,
+                        :IRI_REF,
+                        :NIL,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :STRING_LITERAL1,
+                        :STRING_LITERAL2,
+                        :STRING_LITERAL_LONG1,
+                        :STRING_LITERAL_LONG2,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                "^^"
+                :IRIref ) ] );
+         g:first "^^",
+                :LANGTAG;
+         g:follow "(",
+                "*",
+                "/",
+                "[",
+                "a",
+                "false",
+                "true",
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql .
+    
+    <#_g54>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "(",
+                        "[",
+                        "false",
+                        "true",
+                        :ANON,
+                        :BLANK_NODE_LABEL,
+                        :DECIMAL,
+                        :DECIMAL_NEGATIVE,
+                        :DECIMAL_POSITIVE,
+                        :DOUBLE,
+                        :DOUBLE_NEGATIVE,
+                        :DOUBLE_POSITIVE,
+                        :INTEGER,
+                        :INTEGER_NEGATIVE,
+                        :INTEGER_POSITIVE,
+                        :IRI_REF,
+                        :NIL,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :STRING_LITERAL1,
+                        :STRING_LITERAL2,
+                        :STRING_LITERAL_LONG1,
+                        :STRING_LITERAL_LONG2,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :GraphNode
+                <#_g54> ) ] );
+         g:first "(",
+                "[",
+                "false",
+                "true",
+                g:eps,
+                :ANON,
+                :BLANK_NODE_LABEL,
+                :DECIMAL,
+                :DECIMAL_NEGATIVE,
+                :DECIMAL_POSITIVE,
+                :DOUBLE,
+                :DOUBLE_NEGATIVE,
+                :DOUBLE_POSITIVE,
+                :INTEGER,
+                :INTEGER_NEGATIVE,
+                :INTEGER_POSITIVE,
+                :IRI_REF,
+                :NIL,
+                :PNAME_LN,
+                :PNAME_NS,
+                :STRING_LITERAL1,
+                :STRING_LITERAL2,
+                :STRING_LITERAL_LONG1,
+                :STRING_LITERAL_LONG2,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:star :GraphNode .
+    
+    <#_g55>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first "(",
+                        "ASC",
+                        "BOUND",
+                        "DATATYPE",
+                        "DESC",
+                        "LANG",
+                        "LANGMATCHES",
+                        "REGEX",
+                        "STR",
+                        "isBLANK",
+                        "isIRI",
+                        "isLITERAL",
+                        "isURI",
+                        "sameTerm",
+                        :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :OrderCondition
+                <#_g55> ) ] );
+         g:first "(",
+                "ASC",
+                "BOUND",
+                "DATATYPE",
+                "DESC",
+                "LANG",
+                "LANGMATCHES",
+                "REGEX",
+                "STR",
+                "isBLANK",
+                "isIRI",
+                "isLITERAL",
+                "isURI",
+                "sameTerm",
+                g:eps,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:nonTerminal :sparql;
+         g:star :OrderCondition .
+    
+    <#_g56>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first :IRI_REF,
+                        :PNAME_LN,
+                        :PNAME_NS,
+                        :VAR1,
+                        :VAR2;
+                 g:follow "FROM",
+                        g:eof;
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :VarOrIRIref
+                <#_g56> ) ] );
+         g:first g:eps,
+                :IRI_REF,
+                :PNAME_LN,
+                :PNAME_NS,
+                :VAR1,
+                :VAR2;
+         g:follow "FROM",
+                g:eof;
+         g:nonTerminal :sparql;
+         g:star :VarOrIRIref .
+    
+    <#_g57>     a g:Production;
+         g:alt  (
+        g:empty
+         [
+                 a g:Production;
+                 g:first :VAR1,
+                        :VAR2;
+                 g:follow "FROM";
+                 g:nonTerminal :sparql;
+                 g:seq  (
+                :Var
+                <#_g57> ) ] );
+         g:first g:eps,
+                :VAR1,
+                :VAR2;
+         g:follow "FROM";
+         g:nonTerminal :sparql;
+         g:star :Var .
+      [      a g:Production;
+             g:first "PREFIX",
+                    g:eps;
+             g:seq  (
+            <#_g1> ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g5> ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g6> ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g8> ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g10> ) ].
+    
+      [      a g:Production;
+             g:first "FILTER",
+                    "GRAPH",
+                    "OPTIONAL",
+                    "{",
+                    g:eps;
+             g:seq  (
+            <#_g17> ) ].
+    
+      [      a g:Production;
+             g:first "UNION",
+                    g:eps;
+             g:seq  (
+            <#_g24> ) ].
+    
+      [      a g:Production;
+             g:first ",",
+                    g:eps;
+             g:seq  (
+            <#_g26> ) ].
+    
+      [      a g:Production;
+             g:first ";",
+                    g:eps;
+             g:seq  (
+            <#_g32> ) ].
+    
+      [      a g:Production;
+             g:first ",",
+                    g:eps;
+             g:seq  (
+            <#_g36> ) ].
+    
+      [      a g:Production;
+             g:first "||",
+                    g:eps;
+             g:seq  (
+            <#_g39> ) ].
+    
+      [      a g:Production;
+             g:first "&&",
+                    g:eps;
+             g:seq  (
+            <#_g41> ) ].
+    
+      [      a g:Production;
+             g:first "+",
+                    "-",
+                    g:eps,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE;
+             g:seq  (
+            <#_g45> ) ].
+    
+      [      a g:Production;
+             g:first "*",
+                    "/",
+                    g:eps;
+             g:seq  (
+            <#_g47> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    g:eps,
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g54> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "ASC",
+                    "BOUND",
+                    "DATATYPE",
+                    "DESC",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    g:eps,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g55> ) ].
+    
+      [      a g:Production;
+             g:first g:eps,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g56> ) ].
+    
+      [      a g:Production;
+             g:first g:eps,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g57> ) ].
+    
+      [      a g:Production;
+             g:first "^^",
+                    g:eps,
+                    :LANGTAG;
+             g:seq  (
+            <#_g52> ) ].
+    
+      [      a g:Production;
+             g:first :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS;
+             g:seq  (
+            :IRIref ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    g:eps,
+                    :NIL;
+             g:seq  (
+            <#_g51> ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            "("
+            :Expression
+            ","
+            :Expression
+            <#_g49>
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Expression ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            "("
+            :Expression
+            ")" ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            "("
+            :Expression
+            ","
+            :Expression
+            ")" ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            "("
+            :Var
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Expression
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :PrimaryExpression ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :UnaryExpression ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :MultiplicativeExpression ) ].
+    
+      [      g:first g:eps;
+             g:seq () ].
+    
+      [      a g:Production;
+             g:first "!=",
+                    "<",
+                    "<=",
+                    "=",
+                    ">",
+                    ">=",
+                    g:eps;
+             g:seq  (
+            <#_g43> ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :NumericExpression ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :ValueLogical ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :ConditionalAndExpression ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g38>
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "a",
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :PropertyListNotEmpty
+            "]" ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Object ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :ObjectList
+            <#_g32> ) ].
+    
+      [      a g:Production;
+             g:first "a",
+                    g:eps,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g34> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :ObjectList ) ].
+    
+      [      a g:Production;
+             g:first "a",
+                    g:eps,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :PropertyList ) ].
+    
+      [      a g:Production;
+             g:first "a",
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :PropertyListNotEmpty ) ].
+    
+      [      a g:Production;
+             g:first ".",
+                    g:eps;
+             g:seq  (
+            <#_g29> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    g:eps,
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g31> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    g:eps,
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g28>
+            "}" ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Expression
+            <#_g26>
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    :NIL;
+             g:seq  (
+            :ArgList ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS;
+             g:seq  (
+            :Constraint ) ].
+    
+      [      a g:Production;
+             g:first "{";
+             g:seq  (
+            :GroupGraphPattern ) ].
+    
+      [      a g:Production;
+             g:first :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :VarOrIRIref
+            :GroupGraphPattern ) ].
+    
+      [      a g:Production;
+             g:first ".",
+                    g:eps;
+             g:seq  (
+            <#_g21> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    g:eps,
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g23> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    g:eps,
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g16>
+            <#_g17>
+            "}" ) ].
+    
+      [      a g:Production;
+             g:first ".",
+                    g:eps;
+             g:seq  (
+            <#_g19>
+            <#_g20> ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            :INTEGER ) ].
+    
+      [      a g:Production;
+             g:first "(";
+             g:seq  (
+            :BrackettedExpression ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            "BY"
+            <#_g15> ) ].
+    
+      [      a g:Production;
+             g:first "LIMIT",
+                    g:eps;
+             g:seq  (
+            <#_g14> ) ].
+    
+      [      a g:Production;
+             g:first "OFFSET",
+                    g:eps;
+             g:seq  (
+            <#_g13> ) ].
+    
+      [      a g:Production;
+             g:first "LIMIT",
+                    "OFFSET",
+                    g:eps;
+             g:seq  (
+            <#_g12> ) ].
+    
+      [      a g:Production;
+             g:first :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS;
+             g:seq  (
+            :SourceSelector ) ].
+    
+      [      a g:Production;
+             g:first "NAMED",
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS;
+             g:seq  (
+            <#_g11> ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g10>
+            :WhereClause ) ].
+    
+      [      a g:Production;
+             g:first "*",
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g7>
+            <#_g8>
+            <#_g9>
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first "{";
+             g:seq  (
+            :ConstructTemplate
+            <#_g6>
+            :WhereClause
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first "DISTINCT",
+                    "REDUCED",
+                    g:eps;
+             g:seq  (
+            <#_g2>
+            <#_g4>
+            <#_g5>
+            :WhereClause
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            :PNAME_NS
+            :IRI_REF ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            :IRI_REF ) ].
+    
+      [      a g:Production;
+             g:first "ASK",
+                    "CONSTRUCT",
+                    "DESCRIBE",
+                    "SELECT";
+             g:seq  (
+            <#_g0> ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Expression
+            ","
+            :Expression
+            <#_g49>
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Expression
+            ","
+            :Expression
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Var
+            ")" ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            ")" ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            "]" ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            "}" ) ].
+    
+      [      a g:Production;
+             g:first ",",
+                    g:eps;
+             g:seq  (
+            <#_g26>
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "FILTER",
+                    "GRAPH",
+                    "OPTIONAL",
+                    "{",
+                    g:eps;
+             g:seq  (
+            <#_g17>
+            "}" ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "[",
+                    "false",
+                    "true",
+                    g:eps,
+                    :ANON,
+                    :BLANK_NODE_LABEL,
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :NIL,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g20> ) ].
+    
+      [      a g:Production;
+             g:first "(",
+                    "ASC",
+                    "BOUND",
+                    "DATATYPE",
+                    "DESC",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g15> ) ].
+    
+      [      a g:Production;
+             g:first "WHERE",
+                    g:eps;
+             g:seq  (
+            :WhereClause ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g8>
+            <#_g9>
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g6>
+            :WhereClause
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first "*",
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            <#_g4>
+            <#_g5>
+            :WhereClause
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            ","
+            :Expression
+            <#_g49>
+            ")" ) ].
+    
+      [      a g:Production;
+             g:seq  (
+            ","
+            :Expression
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "WHERE",
+                    g:eps;
+             g:seq  (
+            <#_g9>
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first "WHERE",
+                    g:eps;
+             g:seq  (
+            :WhereClause
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first "FROM",
+                    g:eps;
+             g:seq  (
+            <#_g5>
+            :WhereClause
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first "!",
+                    "(",
+                    "+",
+                    "-",
+                    "BOUND",
+                    "DATATYPE",
+                    "LANG",
+                    "LANGMATCHES",
+                    "REGEX",
+                    "STR",
+                    "false",
+                    "isBLANK",
+                    "isIRI",
+                    "isLITERAL",
+                    "isURI",
+                    "sameTerm",
+                    "true",
+                    :DECIMAL,
+                    :DECIMAL_NEGATIVE,
+                    :DECIMAL_POSITIVE,
+                    :DOUBLE,
+                    :DOUBLE_NEGATIVE,
+                    :DOUBLE_POSITIVE,
+                    :INTEGER,
+                    :INTEGER_NEGATIVE,
+                    :INTEGER_POSITIVE,
+                    :IRI_REF,
+                    :PNAME_LN,
+                    :PNAME_NS,
+                    :STRING_LITERAL1,
+                    :STRING_LITERAL2,
+                    :STRING_LITERAL_LONG1,
+                    :STRING_LITERAL_LONG2,
+                    :VAR1,
+                    :VAR2;
+             g:seq  (
+            :Expression
+            <#_g49>
+            ")" ) ].
+    
+      [      a g:Production;
+             g:first "ORDER",
+                    g:eps;
+             g:seq  (
+            :SolutionModifier ) ].
+    
+      [      a g:Production;
+             g:first ",",
+                    g:eps;
+             g:seq  (
+            <#_g49>
+            ")" ) ].
+    
+#ENDS

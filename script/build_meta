@@ -1,0 +1,239 @@
+#!/usr/bin/env ruby
+# build_meta --- generator of parser tables for SPARQL::Grammar::Parser
+#     Based on:
+#        http://www.w3.org/2000/10/swap/sparql/table_generator.py
+#     Derived from: 
+#        http://www.w3.org/2000/10/swap/grammar/predictiveParser.py
+#        - predictiveParser.py, Tim Berners-Lee, 2004
+#
+require 'rubygems'
+$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
+require 'rdf/n3'
+require 'getoptlong'
+
+# Build sparql/grammar/parser/meta.rb from http://www.w3.org/2000/10/swap/sparql/sparql-selectors.n3
+
+class BNF < RDF::Vocabulary("http://www.w3.org/2000/10/swap/grammar/bnf#"); end
+class REGEX < RDF::Vocabulary("http://www.w3.org/2000/10/swap/grammar/regex#"); end
+class SPARQL < RDF::Vocabulary("http://www.w3.org/2000/10/swap/grammar/sparql#"); end
+
+class PredictiveParser
+  attr_accessor :done, :todo, :errors, :branches, :conflicts
+  attr_accessor :graph
+  
+  def initialize
+    @done = []
+    @todo = []
+    @errors = []
+    @conflicts = []
+    @branches = {}
+  end
+
+  def parse(file)
+    progress("Loading " + file)
+    save_verbose = $verbose
+    $verbose = false
+    @graph = RDF::Graph.load(file)
+    $verbose = save_verbose
+    progress("Loaded #{@graph.count} statements.")
+  end
+
+  def recordError(str)
+    errors << str
+    "##### ERROR:  #{str}"
+  end
+
+  def progress(str); puts(str); end
+  def chatty(str); progress(str) if $verbose; end
+
+  def runProduction(start)
+    doProduction(start)
+    while !@todo.empty?
+      x = @todo.shift
+      @done << x
+      doProduction(x)
+    end
+
+    if !@errors.empty?
+      progress("###### FAILED with #{errors.length} errors.")
+      @errors.each {|s| progress("  #{s}")}
+      exit(-2)
+    elsif !@conflicts.empty?
+      progress("Successfully completed with conflicts")
+    else
+      progress("Ok for predictive parsing")
+    end 
+  end
+  
+  # Generate branch tables for one production
+  def doProduction(prod)
+    if prod == BNF.void
+      progress("\nvoid")
+      return
+    end
+    if prod == BNF.eof
+      progress("\nEOF")
+      return
+    end
+    if prod.is_a?(RDF::Literal)
+      progress("\nLiteral #{prod}")
+      return
+    end
+
+    rhs = graph.first_object(:subject => prod, :predicate => RDF.type, :object => BNF.Token)
+    return if rhs
+
+    rhs = graph.first_object(:subject => prod, :predicate => BNF.mustBeOneSequence)
+    if rhs
+      self.sequence(prod, rhs)
+    else
+      progress(recordError("No definition of #{prod}"))
+      raise RuntimeError("No definition of #{prod}")
+      return
+    end
+  end
+  
+  def sequence(prod, rhs)
+    prodBranch = {}
+    progress("\nProduction #{prod}")
+    graph.query(:subject => prod, :predicate => BNF.canPrecede) do |statement|
+      chatty("  Can precede '#{statement.object}'")
+    end
+
+    graph.query(:subject => prod, :predicate => BNF.branch) do |statement|
+      branch = statement.object
+      progress("  Branch: #{branch}")
+
+      sequence = graph.first_object(:subject => statement.object, :predicate => BNF.sequence)
+      options = RDF::List.new(sequence, graph).to_a
+    
+      options.each do |item|
+        todo << item unless done.include?(item) || todo.include?(item)
+      end
+    
+      conditions = graph.query(:subject => branch, :predicate => BNF.condition).map(&:object)
+      checkSelector(conditions, prod, sequence, options)
+
+      progress("    Conditions: #{conditions.to_a.map(&:to_s).join("|")}")
+      conditions.each do |str1|
+        checkCondition(str1, prodBranch, prod, options)
+        prodBranch[str1] = options
+      end
+    end
+  
+    checkProdBranch(prod, prodBranch)
+    branches[prod] = prodBranch
+  end
+  
+  def checkSelector(conditions, prod, optionName, options)
+    if conditions.empty?
+      progress(recordError("NO SELECTOR for #{prod}:#{optionName}"))
+      if options.empty?
+        # Void case - the tricky one
+        graph.pattern(:subject => prod, :predicate => BNF.canPrecede) do |st|
+          progress("      Successor #{st.object}")
+        end
+      end
+    end
+  end
+
+  def checkCondition(condition, prodBranch, prod, options)
+    if prodBranch.has_key?(condition) && prodBranch[condition] != options
+      @conflicts << [
+        "Conflict: in #{litOrNot(prod)}:",
+        "#{condition.to_s.inspect} is the condition for #{prodBranch[condition].map{|s| litOrNot(s)}.inspect}.",
+        "We are changing it to #{options.map{|s| litOrNot(s)}}."
+      ]
+      progress(@conflicts.last.join(' '))
+    end
+  end
+  
+  def checkProdBranch(prod, prodBranch)
+    prodBranch.keys.each do |str1|
+      prodBranch.keys.each do |str2|
+        p, q = str1.to_s, str2.to_s
+        if (p.index(q) == 0 || q.index(p) == 0) && p != q && prodBranch[p] != prodBranch[q]
+          progress("WARNING: for #{prod}, #{p} -> #{prodBranch[p]}, but #{q} -> #{prodBranch[q]}")
+        end
+      end
+    end
+  end
+
+  def litOrNot(value)
+    if value.is_a?(RDF::Literal)
+      value.to_s == "a" ? "a".dump : value.to_s.upcase.dump
+    else
+      ":" + value.to_s.split("#").last
+    end
+  end
+  
+  def outputBranchTable(io, indent = 0)
+    ind0 = '  ' * indent
+    ind1 = ind0 + '  '
+    ind2 = ind1 + '  '
+    ind3 = ind2 + '  '
+    io.puts "#{ind0}BRANCHES = {"
+    branches.keys.sort_by(&:to_s).each do |prod|
+      # Special case double, integer, and decimal to output just a numericliteral, due to a parser conflict
+      next if prod.to_s =~ /numericliteral/
+      io.puts "#{ind1}#{litOrNot(prod)} => {"
+      branches[prod].keys.sort_by(&:to_s).each do |term|
+        list = branches[prod][term].map {|t2| litOrNot(t2)}.join(",\n#{ind3}")
+        io.puts "#{ind2}#{litOrNot(term)} => [#{list}],"
+      end
+      io.puts "#{ind1}},"
+    end
+    io.puts "#{ind0}}\n"
+  end
+end
+
+$verbose = false
+$debug = false
+grammarFile = File.expand_path(File.join(File.dirname(__FILE__), "../etc/sparql-selectors.n3"))
+start = SPARQL.Query
+output = STDOUT
+
+opts = GetoptLong.new(
+  ["--debug", GetoptLong::NO_ARGUMENT],
+  ["--verbose", GetoptLong::NO_ARGUMENT],
+  ["--grammar", GetoptLong::REQUIRED_ARGUMENT],
+  ["--as", GetoptLong::REQUIRED_ARGUMENT],
+  ["--output", "-o", GetoptLong::REQUIRED_ARGUMENT],
+  ["--help", "-?", GetoptLong::NO_ARGUMENT]
+)
+opts.each do |opt, arg|
+  case opt
+  when '--verbose' then $verbose = true
+  when '--debug' then $debug = true
+  when '--grammar' then grammarFile = arg
+  when '--start' then start = arg
+  when '--output' then output = File.open(arg, "w")
+  when '--help'
+    puts %(Usage: build_meta --grammar=file --start=uri [--output=file]
+        --grammar=file  This is the RDF augmented grammar
+        --start=uri     This is the URI of the production as which the document
+                        is to be parsed
+        --output=file   Where to save output
+)
+    exit(0)
+  end
+end
+
+pp = PredictiveParser.new
+
+pp.parse(grammarFile)
+pp.runProduction(start)
+
+unless output == STDOUT
+  output.puts "# This file is automatically generated by #{__FILE__}"
+  output.puts "# Branch and Regexp tables derived from #{grammarFile}"
+  unless pp.conflicts.empty?
+    output.puts "# Note, branch tables completed with conflicts, may need to be resolved manually:"
+    output.puts "#   #{pp.conflicts.map{|c| c.join("\n#      ")}.join("\n#   ")}"
+  end
+  output.puts "module SPARQL::Grammar::Meta"
+end
+pp.outputBranchTable(output, 1)
+unless output == STDOUT
+  output.puts "end"
+end

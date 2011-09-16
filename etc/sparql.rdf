@@ -1,0 +1,2489 @@
+
+<!-- Processed by Id: cwm.py,v 1.191 2007/05/10 18:38:55 syosi Exp -->
+<!--     using base file:///home/connolly/w3ccvs/WWW/2001/sw/DataAccess/rq23/parsers/sparql.ttl-->
+
+
+<rdf:RDF xmlns="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:g="http://www.w3.org/2000/10/swap/grammar/ebnf#"
+    xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:re="http://www.w3.org/2000/10/swap/grammar/regex#">
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ANON">
+        <rdf:value>94</rdf:value>
+        <comment>[94]    ANON      ::=       '[' WS* ']'</comment>
+        <label>ANON</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>[</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WS"/>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>]</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#AdditiveExpression">
+        <rdf:value>52</rdf:value>
+        <comment>[52]    AdditiveExpression    ::=       MultiplicativeExpression ( '+' MultiplicativeExpression | '-' MultiplicativeExpression | NumericLiteralPositive | NumericLiteralNegative )*</comment>
+        <label>AdditiveExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#MultiplicativeExpression"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:parseType="Resource">
+                        <g:alt rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <g:seq rdf:parseType="Resource">
+                                    <rdf:first>+</rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#MultiplicativeExpression"/>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:rest>
+                                </g:seq>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:seq rdf:parseType="Resource">
+                                        <rdf:first>-</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#MultiplicativeExpression"/>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </g:seq>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralPositive"/>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralNegative"/>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </g:alt>
+                    </g:star>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ArgList">
+        <rdf:value>29</rdf:value>
+        <comment>[29]    ArgList       ::=       ( NIL | '(' Expression ( ',' Expression )* ')' )</comment>
+        <label>ArgList</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NIL"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:seq rdf:parseType="Resource">
+                        <rdf:first>(</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:star rdf:parseType="Resource">
+                                        <g:seq rdf:parseType="Resource">
+                                            <rdf:first>,</rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:rest>
+                                        </g:seq>
+                                    </g:star>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first>)</rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </g:seq>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#AskQuery">
+        <rdf:value>8</rdf:value>
+        <comment>[8]     AskQuery      ::=       'ASK' DatasetClause* WhereClause</comment>
+        <label>AskQuery</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>ASK</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DatasetClause"/>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WhereClause"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BLANK_NODE_LABEL">
+        <rdf:value>73</rdf:value>
+        <comment>[73]    BLANK_NODE_LABEL      ::=       '_:' PN_LOCAL</comment>
+        <label>BLANK_NODE_LABEL</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>_:</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_LOCAL"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BaseDecl">
+        <rdf:value>3</rdf:value>
+        <comment>[3]     BaseDecl      ::=       'BASE' IRI_REF</comment>
+        <label>BaseDecl</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>BASE</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRI_REF"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BlankNode">
+        <rdf:value>69</rdf:value>
+        <comment>[69]    BlankNode     ::=       BLANK_NODE_LABEL | ANON</comment>
+        <label>BlankNode</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BLANK_NODE_LABEL"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ANON"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BlankNodePropertyList">
+        <rdf:value>39</rdf:value>
+        <comment>[39]    BlankNodePropertyList     ::=       '[' PropertyListNotEmpty ']'</comment>
+        <label>BlankNodePropertyList</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>[</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PropertyListNotEmpty"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>]</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BooleanLiteral">
+        <rdf:value>65</rdf:value>
+        <comment>[65]    BooleanLiteral    ::=       'true' | 'false'</comment>
+        <label>BooleanLiteral</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first>true</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first>false</rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BrackettedExpression">
+        <rdf:value>56</rdf:value>
+        <comment>[56]    BrackettedExpression      ::=       '(' Expression ')'</comment>
+        <label>BrackettedExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>(</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>)</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BuiltInCall">
+        <rdf:value>57</rdf:value>
+        <comment>[57]    BuiltInCall       ::=         'STR' '(' Expression ')' | 'LANG' '(' Expression ')' | 'LANGMATCHES' '(' Expression ',' Expression ')' | 'DATATYPE' '(' Expression ')' | 'BOUND' '(' Var ')' | 'sameTerm' '(' Expression ',' Expression ')' | 'isIRI' '(' Expression ')' | 'isURI' '(' Expression ')' | 'isBLANK' '(' Expression ')' | 'isLITERAL' '(' Expression ')' | RegexExpression</comment>
+        <label>BuiltInCall</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:seq rdf:parseType="Resource">
+                    <rdf:first>STR</rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first>(</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first>)</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </g:seq>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:seq rdf:parseType="Resource">
+                        <rdf:first>LANG</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first>(</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first>)</rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </g:seq>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>LANGMATCHES</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first>(</rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first>,</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first>)</rdf:first>
+                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:rest>
+                                        </rdf:rest>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </g:seq>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <g:seq rdf:parseType="Resource">
+                                <rdf:first>DATATYPE</rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first>(</rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first>)</rdf:first>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </g:seq>
+                        </rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <g:seq rdf:parseType="Resource">
+                                    <rdf:first>BOUND</rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first>(</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Var"/>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first>)</rdf:first>
+                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:rest>
+                                        </rdf:rest>
+                                    </rdf:rest>
+                                </g:seq>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:seq rdf:parseType="Resource">
+                                        <rdf:first>sameTerm</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first>(</rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                <rdf:rest rdf:parseType="Resource">
+                                                    <rdf:first>,</rdf:first>
+                                                    <rdf:rest rdf:parseType="Resource">
+                                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                        <rdf:rest rdf:parseType="Resource">
+                                                            <rdf:first>)</rdf:first>
+                                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                        </rdf:rest>
+                                                    </rdf:rest>
+                                                </rdf:rest>
+                                            </rdf:rest>
+                                        </rdf:rest>
+                                    </g:seq>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:parseType="Resource">
+                                        <g:seq rdf:parseType="Resource">
+                                            <rdf:first>isIRI</rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first>(</rdf:first>
+                                                <rdf:rest rdf:parseType="Resource">
+                                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                    <rdf:rest rdf:parseType="Resource">
+                                                        <rdf:first>)</rdf:first>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:rest>
+                                                </rdf:rest>
+                                            </rdf:rest>
+                                        </g:seq>
+                                    </rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:parseType="Resource">
+                                            <g:seq rdf:parseType="Resource">
+                                                <rdf:first>isURI</rdf:first>
+                                                <rdf:rest rdf:parseType="Resource">
+                                                    <rdf:first>(</rdf:first>
+                                                    <rdf:rest rdf:parseType="Resource">
+                                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                        <rdf:rest rdf:parseType="Resource">
+                                                            <rdf:first>)</rdf:first>
+                                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                        </rdf:rest>
+                                                    </rdf:rest>
+                                                </rdf:rest>
+                                            </g:seq>
+                                        </rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:parseType="Resource">
+                                                <g:seq rdf:parseType="Resource">
+                                                    <rdf:first>isBLANK</rdf:first>
+                                                    <rdf:rest rdf:parseType="Resource">
+                                                        <rdf:first>(</rdf:first>
+                                                        <rdf:rest rdf:parseType="Resource">
+                                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                            <rdf:rest rdf:parseType="Resource">
+                                                                <rdf:first>)</rdf:first>
+                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                            </rdf:rest>
+                                                        </rdf:rest>
+                                                    </rdf:rest>
+                                                </g:seq>
+                                            </rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first rdf:parseType="Resource">
+                                                    <g:seq rdf:parseType="Resource">
+                                                        <rdf:first>isLITERAL</rdf:first>
+                                                        <rdf:rest rdf:parseType="Resource">
+                                                            <rdf:first>(</rdf:first>
+                                                            <rdf:rest rdf:parseType="Resource">
+                                                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                                <rdf:rest rdf:parseType="Resource">
+                                                                    <rdf:first>)</rdf:first>
+                                                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                                </rdf:rest>
+                                                            </rdf:rest>
+                                                        </rdf:rest>
+                                                    </g:seq>
+                                                </rdf:first>
+                                                <rdf:rest rdf:parseType="Resource">
+                                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#RegexExpression"/>
+                                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                </rdf:rest>
+                                            </rdf:rest>
+                                        </rdf:rest>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Collection">
+        <rdf:value>40</rdf:value>
+        <comment>[40]    Collection    ::=       '(' GraphNode+ ')'</comment>
+        <label>Collection</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>(</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:plus rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphNode"/>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>)</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConditionalAndExpression">
+        <rdf:value>48</rdf:value>
+        <comment>[48]    ConditionalAndExpression      ::=       ValueLogical ( '&#38;&#38;' ValueLogical )*</comment>
+        <label>ConditionalAndExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ValueLogical"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>&#38;&#38;</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ValueLogical"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:seq>
+                    </g:star>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConditionalOrExpression">
+        <rdf:value>47</rdf:value>
+        <comment>[47]    ConditionalOrExpression       ::=       ConditionalAndExpression ( '||' ConditionalAndExpression )*</comment>
+        <label>ConditionalOrExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConditionalAndExpression"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>||</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConditionalAndExpression"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:seq>
+                    </g:star>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Constraint">
+        <rdf:value>27</rdf:value>
+        <comment>[27]    Constraint    ::=       BrackettedExpression | BuiltInCall | FunctionCall</comment>
+        <label>Constraint</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BrackettedExpression"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BuiltInCall"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#FunctionCall"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConstructQuery">
+        <rdf:value>6</rdf:value>
+        <comment>[6]     ConstructQuery    ::=       'CONSTRUCT' ConstructTemplate DatasetClause* WhereClause SolutionModifier</comment>
+        <label>ConstructQuery</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>CONSTRUCT</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConstructTemplate"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:star rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DatasetClause"/>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WhereClause"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SolutionModifier"/>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConstructTemplate">
+        <rdf:value>30</rdf:value>
+        <comment>[30]    ConstructTemplate     ::=       '{' ConstructTriples? '}'</comment>
+        <label>ConstructTemplate</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>{</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConstructTriples"/>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>}</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConstructTriples">
+        <rdf:value>31</rdf:value>
+        <comment>[31]    ConstructTriples      ::=       TriplesSameSubject ( '.' ConstructTriples? )?</comment>
+        <label>ConstructTriples</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesSameSubject"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>.</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConstructTriples"/>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:seq>
+                    </g:opt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL">
+        <rdf:value>78</rdf:value>
+        <comment>[78]    DECIMAL       ::=       [0-9]+ '.' [0-9]* | '.' [0-9]+</comment>
+        <label>DECIMAL</label>
+        <re:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:seq rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:plus rdf:parseType="Resource">
+                            <re:matches>[0-9]</re:matches>
+                        </re:plus>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first>.</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:star rdf:parseType="Resource">
+                                    <re:matches>[0-9]</re:matches>
+                                </re:star>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </rdf:rest>
+                </re:seq>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:seq rdf:parseType="Resource">
+                        <rdf:first>.</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:plus rdf:parseType="Resource">
+                                    <re:matches>[0-9]</re:matches>
+                                </re:plus>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </re:seq>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL_NEGATIVE">
+        <rdf:value>84</rdf:value>
+        <comment>[84]    DECIMAL_NEGATIVE      ::=       '-' DECIMAL</comment>
+        <label>DECIMAL_NEGATIVE</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>-</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL_POSITIVE">
+        <rdf:value>81</rdf:value>
+        <comment>[81]    DECIMAL_POSITIVE      ::=       '+' DECIMAL</comment>
+        <label>DECIMAL_POSITIVE</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>+</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE">
+        <rdf:value>79</rdf:value>
+        <comment>[79]    DOUBLE    ::=       [0-9]+ '.' [0-9]* EXPONENT | '.' ([0-9])+ EXPONENT | ([0-9])+ EXPONENT</comment>
+        <label>DOUBLE</label>
+        <re:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:seq rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:plus rdf:parseType="Resource">
+                            <re:matches>[0-9]</re:matches>
+                        </re:plus>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first>.</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:star rdf:parseType="Resource">
+                                    <re:matches>[0-9]</re:matches>
+                                </re:star>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#EXPONENT"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </re:seq>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:seq rdf:parseType="Resource">
+                        <rdf:first>.</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:plus rdf:parseType="Resource">
+                                    <re:matches>[0-9]</re:matches>
+                                </re:plus>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#EXPONENT"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </re:seq>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:seq rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:plus rdf:parseType="Resource">
+                                    <re:matches>[0-9]</re:matches>
+                                </re:plus>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#EXPONENT"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:seq>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE_NEGATIVE">
+        <rdf:value>85</rdf:value>
+        <comment>[85]    DOUBLE_NEGATIVE       ::=       '-' DOUBLE</comment>
+        <label>DOUBLE_NEGATIVE</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>-</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE_POSITIVE">
+        <rdf:value>82</rdf:value>
+        <comment>[82]    DOUBLE_POSITIVE       ::=       '+' DOUBLE</comment>
+        <label>DOUBLE_POSITIVE</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>+</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DatasetClause">
+        <rdf:value>9</rdf:value>
+        <comment>[9]     DatasetClause     ::=       'FROM' ( DefaultGraphClause | NamedGraphClause )</comment>
+        <label>DatasetClause</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>FROM</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:alt rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DefaultGraphClause"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NamedGraphClause"/>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </g:alt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DefaultGraphClause">
+        <rdf:value>10</rdf:value>
+        <comment>[10]    DefaultGraphClause    ::=       SourceSelector</comment>
+        <label>DefaultGraphClause</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SourceSelector"/>
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DescribeQuery">
+        <rdf:value>7</rdf:value>
+        <comment>[7]     DescribeQuery     ::=       'DESCRIBE' ( VarOrIRIref+ | '*' ) DatasetClause* WhereClause? SolutionModifier</comment>
+        <label>DescribeQuery</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>DESCRIBE</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:alt rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <g:plus rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VarOrIRIref"/>
+                        </rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first>*</rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </g:alt>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:star rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DatasetClause"/>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WhereClause"/>
+                        </rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SolutionModifier"/>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ECHAR">
+        <rdf:value>91</rdf:value>
+        <comment>[91]    ECHAR     ::=       '\' [tbnrf\"']</comment>
+        <label>ECHAR</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>\</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:matches>[tbnrf\"']</re:matches>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#EXPONENT">
+        <rdf:value>86</rdf:value>
+        <comment>[86]    EXPONENT      ::=       [eE] [+-]? [0-9]+</comment>
+        <label>EXPONENT</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:matches>[eE]</re:matches>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:opt rdf:parseType="Resource">
+                        <re:matches>[+-]</re:matches>
+                    </re:opt>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:plus rdf:parseType="Resource">
+                            <re:matches>[0-9]</re:matches>
+                        </re:plus>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression">
+        <rdf:value>46</rdf:value>
+        <comment>[46]    Expression    ::=       ConditionalOrExpression</comment>
+        <label>Expression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConditionalOrExpression"/>
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Filter">
+        <rdf:value>26</rdf:value>
+        <comment>[26]    Filter    ::=       'FILTER' Constraint</comment>
+        <label>Filter</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>FILTER</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Constraint"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#FunctionCall">
+        <rdf:value>28</rdf:value>
+        <comment>[28]    FunctionCall      ::=       IRIref ArgList</comment>
+        <label>FunctionCall</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIref"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ArgList"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphGraphPattern">
+        <rdf:value>24</rdf:value>
+        <comment>[24]    GraphGraphPattern     ::=       'GRAPH' VarOrIRIref GroupGraphPattern</comment>
+        <label>GraphGraphPattern</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>GRAPH</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VarOrIRIref"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupGraphPattern"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphNode">
+        <rdf:value>41</rdf:value>
+        <comment>[41]    GraphNode     ::=       VarOrTerm | TriplesNode</comment>
+        <label>GraphNode</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VarOrTerm"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesNode"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphPatternNotTriples">
+        <rdf:value>22</rdf:value>
+        <comment>[22]    GraphPatternNotTriples    ::=       OptionalGraphPattern | GroupOrUnionGraphPattern | GraphGraphPattern</comment>
+        <label>GraphPatternNotTriples</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OptionalGraphPattern"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupOrUnionGraphPattern"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphGraphPattern"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphTerm">
+        <rdf:value>45</rdf:value>
+        <comment>[45]    GraphTerm     ::=       IRIref | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL</comment>
+        <label>GraphTerm</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIref"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#RDFLiteral"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteral"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BooleanLiteral"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BlankNode"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NIL"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupGraphPattern">
+        <rdf:value>20</rdf:value>
+        <comment>[20]    GroupGraphPattern     ::=       '{' TriplesBlock? ( ( GraphPatternNotTriples | Filter ) '.'? TriplesBlock? )* '}'</comment>
+        <label>GroupGraphPattern</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>{</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesBlock"/>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:star rdf:parseType="Resource">
+                            <g:seq rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:alt rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphPatternNotTriples"/>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Filter"/>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </g:alt>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:parseType="Resource">
+                                        <g:opt>.</g:opt>
+                                    </rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:parseType="Resource">
+                                            <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesBlock"/>
+                                        </rdf:first>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </g:seq>
+                        </g:star>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first>}</rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupOrUnionGraphPattern">
+        <rdf:value>25</rdf:value>
+        <comment>[25]    GroupOrUnionGraphPattern      ::=       GroupGraphPattern ( 'UNION' GroupGraphPattern )*</comment>
+        <label>GroupOrUnionGraphPattern</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupGraphPattern"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>UNION</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupGraphPattern"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:seq>
+                    </g:star>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER">
+        <rdf:value>77</rdf:value>
+        <comment>[77]    INTEGER       ::=       [0-9]+</comment>
+        <label>INTEGER</label>
+        <re:plus rdf:parseType="Resource">
+            <re:matches>[0-9]</re:matches>
+        </re:plus>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER_NEGATIVE">
+        <rdf:value>83</rdf:value>
+        <comment>[83]    INTEGER_NEGATIVE      ::=       '-' INTEGER</comment>
+        <label>INTEGER_NEGATIVE</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>-</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER_POSITIVE">
+        <rdf:value>80</rdf:value>
+        <comment>[80]    INTEGER_POSITIVE      ::=       '+' INTEGER</comment>
+        <label>INTEGER_POSITIVE</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>+</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRI_REF">
+        <rdf:value>70</rdf:value>
+        <comment>[70]    IRI_REF       ::=       '&#60;' ([^&#60;&#62;"{}|^`\]-[#x00-#x20])* '&#62;'</comment>
+        <label>IRI_REF</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>&#60;</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:parseType="Resource">
+                        <re:diff rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:matches>[^&#60;&#62;"{}|^`\]</re:matches>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <re:matches>[ - ]</re:matches>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:diff>
+                    </re:star>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>&#62;</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIref">
+        <rdf:value>67</rdf:value>
+        <comment>[67]    IRIref    ::=       IRI_REF | PrefixedName</comment>
+        <label>IRIref</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRI_REF"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrefixedName"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIrefOrFunction">
+        <rdf:value>59</rdf:value>
+        <comment>[59]    IRIrefOrFunction      ::=       IRIref ArgList?</comment>
+        <label>IRIrefOrFunction</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIref"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ArgList"/>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#LANGTAG">
+        <rdf:value>76</rdf:value>
+        <comment>[76]    LANGTAG       ::=       '@' [a-zA-Z]+ ('-' [a-zA-Z0-9]+)*</comment>
+        <label>LANGTAG</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>@</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:plus rdf:parseType="Resource">
+                        <re:matches>[a-zA-Z]</re:matches>
+                    </re:plus>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:star rdf:parseType="Resource">
+                            <re:seq rdf:parseType="Resource">
+                                <rdf:first>-</rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:parseType="Resource">
+                                        <re:plus rdf:parseType="Resource">
+                                            <re:matches>[a-zA-Z0-9]</re:matches>
+                                        </re:plus>
+                                    </rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                </rdf:rest>
+                            </re:seq>
+                        </re:star>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#LimitClause">
+        <rdf:value>18</rdf:value>
+        <comment>[18]    LimitClause       ::=       'LIMIT' INTEGER</comment>
+        <label>LimitClause</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>LIMIT</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#LimitOffsetClauses">
+        <rdf:value>15</rdf:value>
+        <comment>[15]    LimitOffsetClauses    ::=       ( LimitClause OffsetClause? | OffsetClause LimitClause? )</comment>
+        <label>LimitOffsetClauses</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:seq rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#LimitClause"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OffsetClause"/>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </g:seq>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:seq rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OffsetClause"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#LimitClause"/>
+                            </rdf:first>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </g:seq>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#MultiplicativeExpression">
+        <rdf:value>53</rdf:value>
+        <comment>[53]    MultiplicativeExpression      ::=       UnaryExpression ( '*' UnaryExpression | '/' UnaryExpression )*</comment>
+        <label>MultiplicativeExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#UnaryExpression"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:parseType="Resource">
+                        <g:alt rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <g:seq rdf:parseType="Resource">
+                                    <rdf:first>*</rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#UnaryExpression"/>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:rest>
+                                </g:seq>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:seq rdf:parseType="Resource">
+                                        <rdf:first>/</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#UnaryExpression"/>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </g:seq>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:alt>
+                    </g:star>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NIL">
+        <rdf:value>92</rdf:value>
+        <comment>[92]    NIL       ::=       '(' WS* ')'</comment>
+        <label>NIL</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>(</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WS"/>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>)</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NamedGraphClause">
+        <rdf:value>11</rdf:value>
+        <comment>[11]    NamedGraphClause      ::=       'NAMED' SourceSelector</comment>
+        <label>NamedGraphClause</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>NAMED</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SourceSelector"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression">
+        <rdf:value>51</rdf:value>
+        <comment>[51]    NumericExpression     ::=       AdditiveExpression</comment>
+        <label>NumericExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#AdditiveExpression"/>
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteral">
+        <rdf:value>61</rdf:value>
+        <comment>[61]    NumericLiteral    ::=       NumericLiteralUnsigned | NumericLiteralPositive | NumericLiteralNegative</comment>
+        <label>NumericLiteral</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralUnsigned"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralPositive"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralNegative"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralNegative">
+        <rdf:value>64</rdf:value>
+        <comment>[64]    NumericLiteralNegative    ::=       INTEGER_NEGATIVE | DECIMAL_NEGATIVE | DOUBLE_NEGATIVE</comment>
+        <label>NumericLiteralNegative</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER_NEGATIVE"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL_NEGATIVE"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE_NEGATIVE"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralPositive">
+        <rdf:value>63</rdf:value>
+        <comment>[63]    NumericLiteralPositive    ::=       INTEGER_POSITIVE | DECIMAL_POSITIVE | DOUBLE_POSITIVE</comment>
+        <label>NumericLiteralPositive</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER_POSITIVE"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL_POSITIVE"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE_POSITIVE"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteralUnsigned">
+        <rdf:value>62</rdf:value>
+        <comment>[62]    NumericLiteralUnsigned    ::=       INTEGER | DECIMAL | DOUBLE</comment>
+        <label>NumericLiteralUnsigned</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DECIMAL"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DOUBLE"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Object">
+        <rdf:value>36</rdf:value>
+        <comment>[36]    Object    ::=       GraphNode</comment>
+        <label>Object</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphNode"/>
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ObjectList">
+        <rdf:value>35</rdf:value>
+        <comment>[35]    ObjectList    ::=       Object ( ',' Object )*</comment>
+        <label>ObjectList</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Object"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>,</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Object"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:seq>
+                    </g:star>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OffsetClause">
+        <rdf:value>19</rdf:value>
+        <comment>[19]    OffsetClause      ::=       'OFFSET' INTEGER</comment>
+        <label>OffsetClause</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>OFFSET</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#INTEGER"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OptionalGraphPattern">
+        <rdf:value>23</rdf:value>
+        <comment>[23]    OptionalGraphPattern      ::=       'OPTIONAL' GroupGraphPattern</comment>
+        <label>OptionalGraphPattern</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>OPTIONAL</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupGraphPattern"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OrderClause">
+        <rdf:value>16</rdf:value>
+        <comment>[16]    OrderClause       ::=       'ORDER' 'BY' OrderCondition+</comment>
+        <label>OrderClause</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>ORDER</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first>BY</rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:plus rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OrderCondition"/>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OrderCondition">
+        <rdf:value>17</rdf:value>
+        <comment>[17]    OrderCondition    ::=       ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )</comment>
+        <label>OrderCondition</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:seq rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:alt rdf:parseType="Resource">
+                            <rdf:first>ASC</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first>DESC</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:alt>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BrackettedExpression"/>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </g:seq>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:alt rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Constraint"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Var"/>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </g:alt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PNAME_LN">
+        <rdf:value>72</rdf:value>
+        <comment>[72]    PNAME_LN      ::=       PNAME_NS PN_LOCAL</comment>
+        <label>PNAME_LN</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PNAME_NS"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_LOCAL"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PNAME_NS">
+        <rdf:value>71</rdf:value>
+        <comment>[71]    PNAME_NS      ::=       PN_PREFIX? ':'</comment>
+        <label>PNAME_NS</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_PREFIX"/>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first>:</rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS">
+        <rdf:value>98</rdf:value>
+        <comment>[98]    PN_CHARS      ::=       PN_CHARS_U | '-' | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040]</comment>
+        <label>PN_CHARS</label>
+        <re:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_U"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first>-</rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:matches>[0-9]</re:matches>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <re:matches>[·]</re:matches>
+                        </rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:matches>[̀-ͯ]</re:matches>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <re:matches>[‿-⁀]</re:matches>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </re:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_BASE">
+        <rdf:value>95</rdf:value>
+        <comment>[95]    PN_CHARS_BASE     ::=       [A-Z] | [a-z] | [#x00C0-#x00D6] | [#x00D8-#x00F6] | [#x00F8-#x02FF] | [#x0370-#x037D] | [#x037F-#x1FFF] | [#x200C-#x200D] | [#x2070-#x218F] | [#x2C00-#x2FEF] | [#x3001-#xD7FF] | [#xF900-#xFDCF] | [#xFDF0-#xFFFD] | [#x10000-#xEFFFF]</comment>
+        <label>PN_CHARS_BASE</label>
+        <re:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:matches>[A-Z]</re:matches>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:matches>[a-z]</re:matches>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:matches>[À-Ö]</re:matches>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <re:matches>[Ø-ö]</re:matches>
+                        </rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:matches>[ø-˿]</re:matches>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <re:matches>[Ͱ-ͽ]</re:matches>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:parseType="Resource">
+                                        <re:matches>[Ϳ-῿]</re:matches>
+                                    </rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:parseType="Resource">
+                                            <re:matches>[‌-‍]</re:matches>
+                                        </rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:parseType="Resource">
+                                                <re:matches>[⁰-↏]</re:matches>
+                                            </rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first rdf:parseType="Resource">
+                                                    <re:matches>[Ⰰ-⿯]</re:matches>
+                                                </rdf:first>
+                                                <rdf:rest rdf:parseType="Resource">
+                                                    <rdf:first rdf:parseType="Resource">
+                                                        <re:matches>[、-퟿]</re:matches>
+                                                    </rdf:first>
+                                                    <rdf:rest rdf:parseType="Resource">
+                                                        <rdf:first rdf:parseType="Resource">
+                                                            <re:matches>[豈-﷏]</re:matches>
+                                                        </rdf:first>
+                                                        <rdf:rest rdf:parseType="Resource">
+                                                            <rdf:first rdf:parseType="Resource">
+                                                                <re:matches>[ﷰ-�]</re:matches>
+                                                            </rdf:first>
+                                                            <rdf:rest rdf:parseType="Resource">
+                                                                <rdf:first rdf:parseType="Resource">
+                                                                    <re:matches>[ -￿]</re:matches>
+                                                                </rdf:first>
+                                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                            </rdf:rest>
+                                                        </rdf:rest>
+                                                    </rdf:rest>
+                                                </rdf:rest>
+                                            </rdf:rest>
+                                        </rdf:rest>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </re:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_U">
+        <rdf:value>96</rdf:value>
+        <comment>[96]    PN_CHARS_U    ::=       PN_CHARS_BASE | '_'</comment>
+        <label>PN_CHARS_U</label>
+        <re:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_BASE"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first>_</rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_LOCAL">
+        <rdf:value>100</rdf:value>
+        <comment>[100]       PN_LOCAL      ::=       ( PN_CHARS_U | [0-9] ) ((PN_CHARS|'.')* PN_CHARS)?</comment>
+        <label>PN_LOCAL</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:alt rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_U"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <re:matches>[0-9]</re:matches>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </re:alt>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:opt rdf:parseType="Resource">
+                        <re:seq rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:star rdf:parseType="Resource">
+                                    <re:alt rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS"/>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first>.</rdf:first>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </re:alt>
+                                </re:star>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:seq>
+                    </re:opt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_PREFIX">
+        <rdf:value>99</rdf:value>
+        <comment>[99]    PN_PREFIX     ::=       PN_CHARS_BASE ((PN_CHARS|'.')* PN_CHARS)?</comment>
+        <label>PN_PREFIX</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_BASE"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:opt rdf:parseType="Resource">
+                        <re:seq rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:star rdf:parseType="Resource">
+                                    <re:alt rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS"/>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first>.</rdf:first>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </re:alt>
+                                </re:star>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:seq>
+                    </re:opt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrefixDecl">
+        <rdf:value>4</rdf:value>
+        <comment>[4]     PrefixDecl    ::=       'PREFIX' PNAME_NS IRI_REF</comment>
+        <label>PrefixDecl</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>PREFIX</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PNAME_NS"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRI_REF"/>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrefixedName">
+        <rdf:value>68</rdf:value>
+        <comment>[68]    PrefixedName      ::=       PNAME_LN | PNAME_NS</comment>
+        <label>PrefixedName</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PNAME_LN"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PNAME_NS"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrimaryExpression">
+        <rdf:value>55</rdf:value>
+        <comment>[55]    PrimaryExpression     ::=       BrackettedExpression | BuiltInCall | IRIrefOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var</comment>
+        <label>PrimaryExpression</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BrackettedExpression"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BuiltInCall"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIrefOrFunction"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#RDFLiteral"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericLiteral"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BooleanLiteral"/>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Var"/>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Prologue">
+        <rdf:value>2</rdf:value>
+        <comment>[2]     Prologue      ::=       BaseDecl? PrefixDecl*</comment>
+        <label>Prologue</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BaseDecl"/>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:star rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrefixDecl"/>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PropertyList">
+        <rdf:value>34</rdf:value>
+        <comment>[34]    PropertyList      ::=       PropertyListNotEmpty?</comment>
+        <label>PropertyList</label>
+        <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PropertyListNotEmpty"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PropertyListNotEmpty">
+        <rdf:value>33</rdf:value>
+        <comment>[33]    PropertyListNotEmpty      ::=       Verb ObjectList ( ';' ( Verb ObjectList )? )*</comment>
+        <label>PropertyListNotEmpty</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Verb"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ObjectList"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:star rdf:parseType="Resource">
+                            <g:seq rdf:parseType="Resource">
+                                <rdf:first>;</rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:parseType="Resource">
+                                        <g:opt rdf:parseType="Resource">
+                                            <g:seq rdf:parseType="Resource">
+                                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Verb"/>
+                                                <rdf:rest rdf:parseType="Resource">
+                                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ObjectList"/>
+                                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                </rdf:rest>
+                                            </g:seq>
+                                        </g:opt>
+                                    </rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                </rdf:rest>
+                            </g:seq>
+                        </g:star>
+                    </rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Query">
+        <rdf:value>1</rdf:value>
+        <comment>[1]     Query     ::=       Prologue ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )</comment>
+        <label>Query</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Prologue"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:alt rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SelectQuery"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ConstructQuery"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DescribeQuery"/>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#AskQuery"/>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </g:alt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#RDFLiteral">
+        <rdf:value>60</rdf:value>
+        <comment>[60]    RDFLiteral    ::=       String ( LANGTAG | ( '^^' IRIref ) )?</comment>
+        <label>RDFLiteral</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#String"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:parseType="Resource">
+                        <g:alt rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#LANGTAG"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:seq rdf:parseType="Resource">
+                                        <rdf:first>^^</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIref"/>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </g:seq>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:alt>
+                    </g:opt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#RegexExpression">
+        <rdf:value>58</rdf:value>
+        <comment>[58]    RegexExpression       ::=       'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'</comment>
+        <label>RegexExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>REGEX</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first>(</rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first>,</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:opt rdf:parseType="Resource">
+                                        <g:seq rdf:parseType="Resource">
+                                            <rdf:first>,</rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Expression"/>
+                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:rest>
+                                        </g:seq>
+                                    </g:opt>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first>)</rdf:first>
+                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#RelationalExpression">
+        <rdf:value>50</rdf:value>
+        <comment>[50]    RelationalExpression      ::=       NumericExpression ( '=' NumericExpression | '!=' NumericExpression | '&#60;' NumericExpression | '&#62;' NumericExpression | '&#60;=' NumericExpression | '&#62;=' NumericExpression )?</comment>
+        <label>RelationalExpression</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:parseType="Resource">
+                        <g:alt rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <g:seq rdf:parseType="Resource">
+                                    <rdf:first>=</rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression"/>
+                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                    </rdf:rest>
+                                </g:seq>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:seq rdf:parseType="Resource">
+                                        <rdf:first>!=</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression"/>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </g:seq>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:parseType="Resource">
+                                        <g:seq rdf:parseType="Resource">
+                                            <rdf:first>&#60;</rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression"/>
+                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:rest>
+                                        </g:seq>
+                                    </rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:parseType="Resource">
+                                            <g:seq rdf:parseType="Resource">
+                                                <rdf:first>&#62;</rdf:first>
+                                                <rdf:rest rdf:parseType="Resource">
+                                                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression"/>
+                                                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                </rdf:rest>
+                                            </g:seq>
+                                        </rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:parseType="Resource">
+                                                <g:seq rdf:parseType="Resource">
+                                                    <rdf:first>&#60;=</rdf:first>
+                                                    <rdf:rest rdf:parseType="Resource">
+                                                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression"/>
+                                                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                    </rdf:rest>
+                                                </g:seq>
+                                            </rdf:first>
+                                            <rdf:rest rdf:parseType="Resource">
+                                                <rdf:first rdf:parseType="Resource">
+                                                    <g:seq rdf:parseType="Resource">
+                                                        <rdf:first>&#62;=</rdf:first>
+                                                        <rdf:rest rdf:parseType="Resource">
+                                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#NumericExpression"/>
+                                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                                        </rdf:rest>
+                                                    </g:seq>
+                                                </rdf:first>
+                                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                            </rdf:rest>
+                                        </rdf:rest>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </g:alt>
+                    </g:opt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL1">
+        <rdf:value>87</rdf:value>
+        <comment>[87]    STRING_LITERAL1       ::=       "'" ( ([^#x27#x5C#xA#xD]) | ECHAR )* "'"</comment>
+        <label>STRING_LITERAL1</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>'</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:parseType="Resource">
+                        <re:alt rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:matches>[^'\\
+&#13;]</re:matches>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ECHAR"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:alt>
+                    </re:star>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>'</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL2">
+        <rdf:value>88</rdf:value>
+        <comment>[88]    STRING_LITERAL2       ::=       '"' ( ([^#x22#x5C#xA#xD]) | ECHAR )* '"'</comment>
+        <label>STRING_LITERAL2</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>"</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:parseType="Resource">
+                        <re:alt rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:matches>[^"\\
+&#13;]</re:matches>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ECHAR"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:alt>
+                    </re:star>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>"</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL_LONG1">
+        <rdf:value>89</rdf:value>
+        <comment>[89]    STRING_LITERAL_LONG1      ::=       "'''" ( ( "'" | "''" )? ( [^'\] | ECHAR ) )* "'''"</comment>
+        <label>STRING_LITERAL_LONG1</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>'''</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:parseType="Resource">
+                        <re:seq rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:opt rdf:parseType="Resource">
+                                    <re:alt rdf:parseType="Resource">
+                                        <rdf:first>'</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first>''</rdf:first>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </re:alt>
+                                </re:opt>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <re:alt rdf:parseType="Resource">
+                                        <rdf:first rdf:parseType="Resource">
+                                            <re:matches>[^'\]</re:matches>
+                                        </rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ECHAR"/>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </re:alt>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:seq>
+                    </re:star>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>'''</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL_LONG2">
+        <rdf:value>90</rdf:value>
+        <comment>[90]    STRING_LITERAL_LONG2      ::=       '"""' ( ( '"' | '""' )? ( [^"\] | ECHAR ) )* '"""'</comment>
+        <label>STRING_LITERAL_LONG2</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>"""</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:parseType="Resource">
+                        <re:seq rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <re:opt rdf:parseType="Resource">
+                                    <re:alt rdf:parseType="Resource">
+                                        <rdf:first>"</rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first>""</rdf:first>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </re:alt>
+                                </re:opt>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <re:alt rdf:parseType="Resource">
+                                        <rdf:first rdf:parseType="Resource">
+                                            <re:matches>[^"\]</re:matches>
+                                        </rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ECHAR"/>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </re:alt>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </re:seq>
+                    </re:star>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first>"""</rdf:first>
+                    <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                </rdf:rest>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SelectQuery">
+        <rdf:value>5</rdf:value>
+        <comment>[5]     SelectQuery       ::=       'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( Var+ | '*' ) DatasetClause* WhereClause SolutionModifier</comment>
+        <label>SelectQuery</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first>SELECT</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:parseType="Resource">
+                        <g:alt rdf:parseType="Resource">
+                            <rdf:first>DISTINCT</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first>REDUCED</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:alt>
+                    </g:opt>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:alt rdf:parseType="Resource">
+                            <rdf:first rdf:parseType="Resource">
+                                <g:plus rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Var"/>
+                            </rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first>*</rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:alt>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <g:star rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#DatasetClause"/>
+                        </rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WhereClause"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SolutionModifier"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </rdf:rest>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SolutionModifier">
+        <rdf:value>14</rdf:value>
+        <comment>[14]    SolutionModifier      ::=       OrderClause? LimitOffsetClauses?</comment>
+        <label>SolutionModifier</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#OrderClause"/>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#LimitOffsetClauses"/>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#SourceSelector">
+        <rdf:value>12</rdf:value>
+        <comment>[12]    SourceSelector    ::=       IRIref</comment>
+        <label>SourceSelector</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIref"/>
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#String">
+        <rdf:value>66</rdf:value>
+        <comment>[66]    String    ::=       STRING_LITERAL1 | STRING_LITERAL2 | STRING_LITERAL_LONG1 | STRING_LITERAL_LONG2</comment>
+        <label>String</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL1"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL2"/>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL_LONG1"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#STRING_LITERAL_LONG2"/>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesBlock">
+        <rdf:value>21</rdf:value>
+        <comment>[21]    TriplesBlock      ::=       TriplesSameSubject ( '.' TriplesBlock? )?</comment>
+        <label>TriplesBlock</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesSameSubject"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:opt rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>.</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <g:opt rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesBlock"/>
+                                </rdf:first>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:seq>
+                    </g:opt>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesNode">
+        <rdf:value>38</rdf:value>
+        <comment>[38]    TriplesNode       ::=       Collection | BlankNodePropertyList</comment>
+        <label>TriplesNode</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Collection"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#BlankNodePropertyList"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesSameSubject">
+        <rdf:value>32</rdf:value>
+        <comment>[32]    TriplesSameSubject    ::=       VarOrTerm PropertyListNotEmpty | TriplesNode PropertyList</comment>
+        <label>TriplesSameSubject</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:seq rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VarOrTerm"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PropertyListNotEmpty"/>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </g:seq>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:seq rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#TriplesNode"/>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PropertyList"/>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </g:seq>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#UnaryExpression">
+        <rdf:value>54</rdf:value>
+        <comment>[54]    UnaryExpression       ::=         '!' PrimaryExpression | '+' PrimaryExpression | '-' PrimaryExpression | PrimaryExpression</comment>
+        <label>UnaryExpression</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:seq rdf:parseType="Resource">
+                    <rdf:first>!</rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrimaryExpression"/>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </g:seq>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <g:seq rdf:parseType="Resource">
+                        <rdf:first>+</rdf:first>
+                        <rdf:rest rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrimaryExpression"/>
+                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                        </rdf:rest>
+                    </g:seq>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <g:seq rdf:parseType="Resource">
+                            <rdf:first>-</rdf:first>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrimaryExpression"/>
+                                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                            </rdf:rest>
+                        </g:seq>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PrimaryExpression"/>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VAR1">
+        <rdf:value>74</rdf:value>
+        <comment>[74]    VAR1      ::=       '?' VARNAME</comment>
+        <label>VAR1</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>?</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VARNAME"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VAR2">
+        <rdf:value>75</rdf:value>
+        <comment>[75]    VAR2      ::=       '$' VARNAME</comment>
+        <label>VAR2</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first>$</rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VARNAME"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VARNAME">
+        <rdf:value>97</rdf:value>
+        <comment>[97]    VARNAME       ::=       ( PN_CHARS_U | [0-9] ) ( PN_CHARS_U | [0-9] | #x00B7 | [#x0300-#x036F] | [#x203F-#x2040] )*</comment>
+        <label>VARNAME</label>
+        <re:seq rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:alt rdf:parseType="Resource">
+                    <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_U"/>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <re:matches>[0-9]</re:matches>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </re:alt>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:star rdf:parseType="Resource">
+                        <re:alt rdf:parseType="Resource">
+                            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#PN_CHARS_U"/>
+                            <rdf:rest rdf:parseType="Resource">
+                                <rdf:first rdf:parseType="Resource">
+                                    <re:matches>[0-9]</re:matches>
+                                </rdf:first>
+                                <rdf:rest rdf:parseType="Resource">
+                                    <rdf:first rdf:parseType="Resource">
+                                        <re:matches>[·]</re:matches>
+                                    </rdf:first>
+                                    <rdf:rest rdf:parseType="Resource">
+                                        <rdf:first rdf:parseType="Resource">
+                                            <re:matches>[̀-ͯ]</re:matches>
+                                        </rdf:first>
+                                        <rdf:rest rdf:parseType="Resource">
+                                            <rdf:first rdf:parseType="Resource">
+                                                <re:matches>[‿-⁀]</re:matches>
+                                            </rdf:first>
+                                            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                                        </rdf:rest>
+                                    </rdf:rest>
+                                </rdf:rest>
+                            </rdf:rest>
+                        </re:alt>
+                    </re:star>
+                </rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </re:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#ValueLogical">
+        <rdf:value>49</rdf:value>
+        <comment>[49]    ValueLogical      ::=       RelationalExpression</comment>
+        <label>ValueLogical</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#RelationalExpression"/>
+            <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Var">
+        <rdf:value>44</rdf:value>
+        <comment>[44]    Var       ::=       VAR1 | VAR2</comment>
+        <label>Var</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VAR1"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VAR2"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VarOrIRIref">
+        <rdf:value>43</rdf:value>
+        <comment>[43]    VarOrIRIref       ::=       Var | IRIref</comment>
+        <label>VarOrIRIref</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Var"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#IRIref"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VarOrTerm">
+        <rdf:value>42</rdf:value>
+        <comment>[42]    VarOrTerm     ::=       Var | GraphTerm</comment>
+        <label>VarOrTerm</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Var"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GraphTerm"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Verb">
+        <rdf:value>37</rdf:value>
+        <comment>[37]    Verb      ::=       VarOrIRIref | 'a'</comment>
+        <label>Verb</label>
+        <g:alt rdf:parseType="Resource">
+            <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#VarOrIRIref"/>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first>a</rdf:first>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WS">
+        <rdf:value>93</rdf:value>
+        <comment>[93]    WS    ::=       #x20 | #x9 | #xD | #xA</comment>
+        <label>WS</label>
+        <re:alt rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <re:matches>[ ]</re:matches>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:parseType="Resource">
+                    <re:matches>[	]</re:matches>
+                </rdf:first>
+                <rdf:rest rdf:parseType="Resource">
+                    <rdf:first rdf:parseType="Resource">
+                        <re:matches>[&#13;]</re:matches>
+                    </rdf:first>
+                    <rdf:rest rdf:parseType="Resource">
+                        <rdf:first rdf:parseType="Resource">
+                            <re:matches>[
+]</re:matches>
+                        </rdf:first>
+                        <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+                    </rdf:rest>
+                </rdf:rest>
+            </rdf:rest>
+        </re:alt>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#WhereClause">
+        <rdf:value>13</rdf:value>
+        <comment>[13]    WhereClause       ::=       'WHERE'? GroupGraphPattern</comment>
+        <label>WhereClause</label>
+        <g:seq rdf:parseType="Resource">
+            <rdf:first rdf:parseType="Resource">
+                <g:opt>WHERE</g:opt>
+            </rdf:first>
+            <rdf:rest rdf:parseType="Resource">
+                <rdf:first rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#GroupGraphPattern"/>
+                <rdf:rest rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#nil"/>
+            </rdf:rest>
+        </g:seq>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#sparql">
+        <isDefinedBy rdf:resource=""/>
+        <g:start rdf:resource="http://www.w3.org/2001/sw/DataAccess/parsers/sparql#Query"/>
+    </rdf:Description>
+</rdf:RDF>
