@@ -1,11 +1,8 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
-require 'sparql/grammar'
-#require 'linkeddata'
-require 'rdf'
-require 'rdf/turtle'
-require 'rdf/rdfxml'
+require 'sparql'
+require 'linkeddata'
 require 'getoptlong'
 
 def run(input, options = {})
@@ -13,15 +10,15 @@ def run(input, options = {})
     puts "input graph:\n#{options[:graph].dump(:n3)}\n" if options[:graph]
     puts "query:\n#{input}\n"
   end
-  parser = if options[:sse]
-    SPARQL::Grammar::Parser.new(input, options)
-  else
-    SPARQL::Algebra::Parser.new(input, options)
-  end
-  query = parser.parse
 
   if options[:verbose]
     puts ("\nSPARQL:\n" + input) 
+  end
+
+  query = if options[:sse]
+    SPARQL::Algebra.parse(input, {:debug => options[:debug]})
+  else
+    SPARQL::Grammar.parse(input, options)
   end
 
   if options[:to_sse]
@@ -30,7 +27,7 @@ def run(input, options = {})
     res = query.execute(options[:graph])
     puts res.inspect if options[:verbose]
     puts case res
-    when RDF::Graph then res.dump(:ttl, :base_uri => parser.base_uri, :prefixes => parser.prefixes)
+    when RDF::Graph then res.dump(:ttl, :base_uri => query.base_uri, :prefixes => query.prefixes)
     else                 res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
     end
   end
@@ -51,15 +48,17 @@ options = {
   :graph => RDF::Repository.new,
 }
 
+input = nil
+
 opts.each do |opt, arg|
   case opt
-  when '--execute' then input = arg
-  when '--dump' then $dump = true
-  when '--debug' then options[:debug] = true
-  when '--debug' then options[:sse] = true
-  when '--debug' then options[:to_sse] = true
-  when '--verbose' then options[:verbose] = true
+  when '--execute'       then input = arg
   when "--default-graph" then options[:graph] = RDF::Graph.load(arg)
+  when '--dump'          then $dump = true
+  when '--sse'           then options[:sse] = true
+  when '--to-sse'        then options[:to_sse] = true
+  when '--debug'         then options[:debug] = true
+  when '--verbose'       then options[:verbose] = true
   when "--help"
     puts "Usage: #{$0} [options] file-or-uri ..."
     puts "Options:"
