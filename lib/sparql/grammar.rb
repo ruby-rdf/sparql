@@ -264,8 +264,8 @@ module SPARQL
     # Returns `true` if the given SPARQL `query` string is valid.
     #
     # @example
-    #   SPARQL::Grammar.valid?("SELECT ?s WHERE { ?s ?p ?o }")  #=> true
-    #   SPARQL::Grammar.valid?("SELECT s WHERE { ?s ?p ?o }")   #=> false
+    #     SPARQL::Grammar.valid?("SELECT ?s WHERE { ?s ?p ?o }")  #=> true
+    #     SPARQL::Grammar.valid?("SELECT s WHERE { ?s ?p ?o }")   #=> false
     #
     # @param  [String, #to_s]          query
     # @param  [Hash{Symbol => Object}] options
@@ -278,10 +278,10 @@ module SPARQL
     # Tokenizes the given SPARQL `query` string.
     #
     # @example
-    #   lexer = SPARQL::Grammar.tokenize("SELECT * WHERE { ?s ?p ?o }")
-    #   lexer.each_token do |token|
-    #     puts token.inspect
-    #   end
+    #     lexer = SPARQL::Grammar.tokenize("SELECT * WHERE { ?s ?p ?o }")
+    #     lexer.each_token do |token|
+    #       puts token.inspect
+    #     end
     #
     # @param  [String, #to_s]          query
     # @param  [Hash{Symbol => Object}] options
