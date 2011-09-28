@@ -65,8 +65,8 @@ module SPARQL
   #   output encoding.
   # @raise  [SPARQL::MalformedQuery] on invalid input
   def self.execute(query, queryable, options = {})
-    parser = Grammar::Parser.new(query, options)
-    queryable = options[:queryable] || RDF::Repository.new
+    query = self.parse(query, options)
+    queryable = queryable || RDF::Repository.new
     
     if options.has_key?(:load_datasets)
       queryable = queryable.class.new
@@ -77,7 +77,6 @@ module SPARQL
         queryable.load(uri, :context => uri)
       end
     end
-    query = parser.parse
     solutions = query.execute(queryable)
   rescue SPARQL::Grammar::Parser::Error => e
     raise MalformedQuery, e.message
