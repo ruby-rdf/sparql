@@ -1,0 +1,55 @@
+@base <http://rubygems.org/gems/rdf-xsd> .
+@prefix dc: <http://purl.org/dc/terms/> .
+@prefix doap: <http://usefulinc.com/ns/doap#> .
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+
+<> a doap:Project;
+   doap:name "SPARQL";
+   doap:shortdesc "SPARQL library for Ruby."@en;
+   doap:description """
+     Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
+     and includes SPARQL Client for accessing remote repositories."""@en;
+   doap:developer <http://greggkellogg.net/foaf.rdf#me>, <http://ar.to/#self>, <http://bhuga.net/#ben>, _:pius;
+   doap:maintainer <http://greggkellogg.net/foaf.rdf#me>;
+   doap:documenter <http://greggkellogg.net/foaf.rdf#me>;
+   dc:creator <http://greggkellogg.net/foaf.rdf#me>, <http://ar.to/#self>, <http://bhuga.net/#ben>, _:pius;
+   foaf:maker <http://greggkellogg.net/foaf.rdf#me>, <http://ar.to/#self>, <http://bhuga.net/#ben>, _:pius;
+   doap:blog <http://greggkellogg.net/>, <http://ar.to/>, <http://blog.datagraph.org/>;
+   doap:bug-database <http://github.com/gkellogg/sparql/issues>;
+   doap:category <http://dbpedia.org/resource/Resource_Description_Framework>,
+     <http://dbpedia.org/resource/Ruby_(programming_language)>;
+   doap:created "2008-07-15"^^xsd:date;
+   doap:download-page <httphttp://rubygems.org/gems/sparql>;
+   doap:homepage <http://github.com/gkellogg/sparql>;
+   doap:license <http://creativecommons.org/licenses/publicdomain/>;
+   doap:platform "Ruby";
+
+<http://bhuga.net/#ben> a foaf:Person;
+   rdfs:isDefinedBy <http://datagraph.org/bhuga/foaf>;
+   foaf:homepage <http://bhuga.net/>;
+   foaf:mbox <mailto:blavender@gmail.com>;
+   foaf:mbox_sha1sum "dbf45f4ffbd27b67aa84f02a6a31c144727d10af";
+   foaf:name "Ben Lavender" .
+
+<http://greggkellogg.net/foaf#me> a foaf:Person;
+   foaf:homepage <http://greggkellogg.net/>;
+   foaf:mbox <mailto:gregg@kellogg-assoc.com>;
+   foaf:mbox_sha1sum "35bc44e6d0070e5ad50ccbe0d24403c96af2b9bd";
+   foaf:name "Gregg Kellogg" .
+
+<http://ar.to/#self> a foaf:Person;
+   rdfs:isDefinedBy <http://datagraph.org/bendiken/foaf>;
+   foaf:homepage <http://ar.to/>;
+   foaf:made <http://rubygems.org/gems/rdf>;
+   foaf:mbox <mailto:arto.bendiken@gmail.com>;
+   foaf:mbox_sha1sum "a033f652c84a4d73b8c26d318c2395699dd2bdfb",
+     "d0737cceb55eb7d740578d2db1bc0727e3ed49ce";
+   foaf:name "Arto Bendiken" .
+
+_:pius a foaf:Person;
+    foaf:mbox_sha1sum "bedbbf2451e5beb38d59687c0460032aff92cd3c";
+    foaf:name "Pius Uzamere"
+    doap:homepage <http://pius.me>;
