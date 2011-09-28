@@ -19,11 +19,17 @@ This is a [Ruby][] implementation of the [SPARQL][] algebra for [RDF.rb][].
 
     require 'rubygems'
     require 'sparql'
+
 ### Executing a SPARQL query against a repository
 
-    queryable = RDF::Repository.load("http://usefulinc.com/ns/doap")
+    queryable = RDF::Repository.load("etc/doap.ttl")
     sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
     sse.execute(queryable)
+
+### Rendering solutions as JSON, XML or HTML
+    queryable = RDF::Repository.load("etc/doap.ttl")
+    solutions = SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", queryable)
+    solutions.to_json #to_xml #to_html
 
 ### Parsing a SPARQL query string to SSE
 
@@ -32,16 +38,16 @@ This is a [Ruby][] implementation of the [SPARQL][] algebra for [RDF.rb][].
 
 ### Command line processing
 
-    sparql --default-graph http://usefulinc.com/ns/doap input.rq
-    sparql -e "SELECT * FROM <http://usefulinc.com/ns/doap> WHERE { ?s ?p ?o }"
+    sparql --default-graph etc/doap.ttl etc/from_default.rq
+    sparql -e "SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }"
 
     # Generate SPARQL Algebra Expression (SSE) format
-    sparql --to-sse input.rq
+    sparql --to-sse etc/input.rq
     sparql --to-sse -e "SELECT * WHERE { ?s ?p ?o }"
 
     # Run query using SSE input
-    sparql --default-graph http://usefulinc.com/ns/doap --sse input.rq
-    sparql -sse -e "(dataset (<http://usefulinc.com/ns/doap>) (bgp (triple ?s ?p ?o))))"
+    sparql --default-graph etc/doap.ttl --sse etc/input.sse
+    sparql --sse -e "(dataset (<etc/doap.ttl>) (bgp (triple ?s ?p ?o))))"
 
 ## Documentation
 
