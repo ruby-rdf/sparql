@@ -19,15 +19,13 @@ module SPARQL
   #
   # {RDF::Query} and {RDF::Query::Pattern} are used as primitives for `bgp` and `triple` expressions.
   #
-  # ## Examples
+  # # Queries
   # 
   #     require 'sparql/algebra'
   # 
   #     include SPARQL::Algebra
   # 
-  # ### Example Queries
-  # 
-  # #### Basic Query
+  # ## Basic Query
   #     BASE <http://example.org/x/> 
   #     PREFIX : <>
   # 
@@ -35,10 +33,11 @@ module SPARQL
   # 
   # is equivalent to
   # 
-  #     (prefix ((: <http://example.org/x/>))
-  #       (bgp (triple :x ?p ?v)))
+  #     (base <http://example.org/x/>
+  #       (prefix ((: <>))
+  #         (bgp (triple :x ?p ?v))))
   # 
-  # #### Prefixes
+  # ## Prefixes
   # 
   #     PREFIX ns: <http://example.org/ns#>
   #     PREFIX x:  <http://example.org/x/>
@@ -51,13 +50,19 @@ module SPARQL
   #              (x: <http://example.org/x/>))
   #       (bgp (triple x:x ns:p ?v)))
   # 
-  # #### Ask
+  # ## Ask
+  # 
+  #     PREFIX :  <http://example/>
+  # 
+  #     ASK WHERE { :x :p ?x } 
+  # 
+  # is equivalent to
   # 
   #     (prefix ((: <http://example/>))
   #       (ask
   #         (bgp (triple :x :p ?x))))
   # 
-  # #### Datasets
+  # ## Datasets
   # 
   #     PREFIX : <http://example/> 
   # 
@@ -72,7 +77,7 @@ module SPARQL
   #       (dataset (<data-g1.ttl> (named <data-g2.ttl>))
   #         (bgp (triple ?s ?p ?o))))
   # 
-  # #### Join
+  # ## Join
   # 
   #     PREFIX : <http://example/> 
   # 
@@ -90,7 +95,7 @@ module SPARQL
   #         (graph ?g
   #           (bgp (triple ?s ?q ?v)))))
   # 
-  # #### Union
+  # ## Union
   # 
   #     PREFIX : <http://example/> 
   # 
@@ -109,7 +114,7 @@ module SPARQL
   #         (graph ?g
   #           (bgp (triple ?s ?p ?o)))))
   # 
-  # #### LeftJoin
+  # ## LeftJoin
   # 
   #     PREFIX :    <http://example/>
   # 
@@ -131,46 +136,47 @@ module SPARQL
   #         (bgp (triple ?y :q ?w))
   #         (= ?v 2)))
   # 
-  # ## Complex
+  # # Expressions
   # 
-  # ### Expression Evaluation
+  # ## Constructing operator expressions manually
   # 
-  # #### Constructing operator expressions manually
+  #     Operator(:isBlank).new(RDF::Node(:foobar)).to_sxp                        #=> "(isBlank _:foobar)"
+  #     Operator(:isIRI).new(RDF::URI('http://rdf.rubyforge.org/')).to_sxp       #=> "(isIRI <http://rdf.rubyforge.org/>)"
+  #     Operator(:isLiteral).new(RDF::Literal(3.1415)).to_sxp                    #=> "(isLiteral 3.1415)"
+  #     Operator(:str).new(Operator(:datatype).new(RDF::Literal(3.1415))).to_sxp #=> "(str (datatype 3.1415))"
   # 
-  #     Operator(:isBlank).new(RDF::Node(:foobar))
-  #     Operator(:isIRI).new(RDF::URI('http://rdf.rubyforge.org/'))
-  #     Operator(:isLiteral).new(RDF::Literal(3.1415))
-  #     Operator(:str).new(Operator(:datatype).new(RDF::Literal(3.1415)))
+  # ## Constructing operator expressions using SSE forms
   # 
-  # #### Constructing operator expressions using SSE forms
+  #     Expression[:isBlank, RDF::Node(:foobar)].to_sxp                          #=> "(isBlank _:foobar)"
+  #     Expression[:isIRI, RDF::URI('http://rdf.rubyforge.org/')].to_sxp         #=> "(isIRI <http://rdf.rubyforge.org/>)"
+  #     Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415)"
+  #     Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415))"
   # 
-  #     Expression[:isBlank, RDF::Node(:foobar)]
-  #     Expression[:isIRI, RDF::URI('http://rdf.rubyforge.org/')]
-  #     Expression[:isLiteral, RDF::Literal(3.1415)]
-  #     Expression[:str, [:datatype, RDF::Literal(3.1415)]]
-  # 
-  # #### Constructing operator expressions using SSE strings
+  # ## Constructing operator expressions using SSE strings
   # 
   #     Expression.parse('(isBlank _:foobar)')
   #     Expression.parse('(isIRI <http://rdf.rubyforge.org/>)')
   #     Expression.parse('(isLiteral 3.1415)')
   #     Expression.parse('(str (datatype 3.1415))')
   # 
-  # #### Evaluating operators standalone
+  # ## Evaluating operators standalone
   # 
-  #     Operator(:isBlank).evaluate(RDF::Node(:foobar))              #=> RDF::Literal::TRUE
-  #     Operator(:isIRI).evaluate(RDF::DC.title)                     #=> RDF::Literal::TRUE
-  #     Operator(:isLiteral).evaluate(RDF::Literal(3.1415))          #=> RDF::Literal::TRUE
+  #     Operator(:isBlank).evaluate(RDF::Node(:foobar))                          #=> RDF::Literal::TRUE
+  #     Operator(:isIRI).evaluate(RDF::DC.title)                                 #=> RDF::Literal::TRUE
+  #     Operator(:isLiteral).evaluate(RDF::Literal(3.1415))                      #=> RDF::Literal::TRUE
   # 
-  # #### Evaluating expressions on a solution sequence
+  # ## Optimizing expressions containing constant subexpressions
   # 
-  #     require 'rdf/triples'
+  #     Expression.parse('(sameTerm ?var ?var)').optimize            #=> RDF::Literal::TRUE
+  #     Expression.parse('(* -2 (- (* (+ 1 2) (+ 3 4))))').optimize  #=> RDF::Literal(42)
+  # 
+  # ## Evaluating expressions on a solution sequence
   # 
   #     # Find all people and their names & e-mail addresses:
-  #     solutions = RDF::Query.execute(RDF::Graph.load('etc/doap.nt')) do |query|
-  #       query.pattern [:person, RDF.type,  FOAF.Person]
-  #       query.pattern [:person, FOAF.name, :name]
-  #       query.pattern [:person, FOAF.mbox, :email], :optional => true
+  #     solutions = RDF::Query.execute(RDF::Graph.load('etc/doap.ttl')) do |query|
+  #       query.pattern [:person, RDF.type,  RDF::FOAF.Person]
+  #       query.pattern [:person, RDF::FOAF.name, :name]
+  #       query.pattern [:person, RDF::FOAF.mbox, :email], :optional => true
   #     end
   # 
   #     # Find people who have a name but don't have a known e-mail address:
@@ -178,23 +184,18 @@ module SPARQL
   #     expression = Expression.parse('(not (bound ?email))')
   #     solutions.filter!(expression)
   # 
-  # #### Optimizing expressions containing constant subexpressions
-  # 
-  #     Expression.parse('(sameTerm ?var ?var)').optimize            #=> RDF::Literal::TRUE
-  #     Expression.parse('(* -2 (- (* (+ 1 2) (+ 3 4))))').optimize  #=> RDF::Literal(42)
-  # 
-  # ## Optimizations
+  # @example Optimizations
   # 
   # Some very simple optimizations are currently implemented for `FILTER`
   # expressions. Use the following to obtain optimized SSE forms:
   # 
   #     Expression.parse(sse).optimize.to_sse
   # 
-  # ### Constant comparison folding
+  # ## Constant comparison folding
   # 
   #     (sameTerm ?x ?x)   #=> true
   # 
-  # ### Constant arithmetic folding
+  # ## Constant arithmetic folding
   # 
   #     (!= ?x (+ 123))    #=> (!= ?x 123)
   #     (!= ?x (- -1.0))   #=> (!= ?x 1.0)
@@ -203,7 +204,7 @@ module SPARQL
   #     (!= ?x (* 6 7))    #=> (!= ?x 42)
   #     (!= ?x (/ 0 0.0))  #=> (!= ?x NaN)
   # 
-  # ### Memoization
+  # ## Memoization
   # 
   # Expressions can optionally be [memoized][memoization], which can speed up
   # repeatedly executing the expression on a solution sequence:
