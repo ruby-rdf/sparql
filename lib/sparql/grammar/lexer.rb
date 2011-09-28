@@ -222,6 +222,8 @@ module SPARQL; module Grammar
         when IO, StringIO then input.read
         else input.to_s
       end
+      @input = @input.dup
+      @input.force_encoding(Encoding::UTF_8) if @input.respond_to?(:force_encoding)      # Ruby 1.9+
       @input = self.class.unescape_codepoints(@input)
       @lineno = 0
     end

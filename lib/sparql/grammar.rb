@@ -240,7 +240,6 @@ module SPARQL
     # @return [Parser]
     # @raise  [Parser::Error] on invalid input
     def self.parse(query, options = {}, &block)
-      query.force_encoding(Encoding::UTF_8) if query.respond_to?(:force_encoding)      # Ruby 1.9+
       Parser.new(query, options).parse
     end
 
@@ -249,7 +248,7 @@ module SPARQL
     #
     # @param  [String, #to_s] filename
     # @param  [Hash{Symbol => Object}] options
-    #   any additional options (see {RDF::Reader#initialize} and {RDF::Format.for})
+    #   any additional options (see `RDF::Reader#initialize` and `RDF::Format.for`)
     # @option options [Symbol] :format (:ntriples)
     # @yield  [reader]
     # @yieldparam  [RDF::Reader] reader
