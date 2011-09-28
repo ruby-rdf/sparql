@@ -39,7 +39,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rspec',           '>= 2.5.0'
   gem.add_development_dependency 'rdf-spec',        '>= 0.3.4'
   gem.add_development_dependency 'rdf-isomorphic',  '>= 0.3.4'
-  gem.add_development_dependency 'rdf-turtle',      '>= 0.0.5'
+  gem.add_development_dependency 'rdf-turtle',      '>= 0.1.0'
   gem.add_development_dependency 'spira',           '>= 0.0.12'
   gem.add_development_dependency 'backports'        if RUBY_VERSION < "1.9"
   gem.post_install_message       = nil
