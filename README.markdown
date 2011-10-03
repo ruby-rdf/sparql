@@ -92,9 +92,8 @@ To get a local working copy of the development repository, do:
 
 ## Authors
 
-* [Arto Bendiken](http://github.com/bendiken) - <http://ar.to/>
-* [Ben Lavender](http://github.com/bhuga) - <http://bhuga.net/>
 * [Gregg Kellogg](http://github.com/gkellogg) - <http://kellogg-assoc.com/>
+* [Arto Bendiken](http://github.com/bendiken) - <http://ar.to/>
 * [Pius Uzamere](http://github.com/pius) - <http://pius.me/>
 
 ## Contributing
