@@ -44,7 +44,7 @@ module SPARQL
   # presumed to be existant in `queryable` or are loaded into `queryable` depending
   # on the presense and value of the :load_datasets option.
   #
-  # Attempting to load into an immutable `queryable` will result in a RDF::TypeError.
+  # Attempting to load into an immutable `queryable` will result in a TypeError.
   #
   # @example
   #   repository = RDF::Repository.new
@@ -80,7 +80,7 @@ module SPARQL
     solutions = query.execute(queryable)
   rescue SPARQL::Grammar::Parser::Error => e
     raise MalformedQuery, e.message
-  rescue RDF::TypeError => e
+  rescue TypeError => e
     raise QueryRequestRefused, e.message
   end
 

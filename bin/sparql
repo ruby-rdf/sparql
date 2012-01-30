@@ -28,6 +28,7 @@ def run(input, options = {})
     puts res.inspect if options[:verbose]
     puts case res
     when RDF::Graph then res.dump(:ttl, :base_uri => query.base_uri, :prefixes => query.prefixes)
+    when RDF::Literal then res.inspect
     else                 res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
     end
   end
