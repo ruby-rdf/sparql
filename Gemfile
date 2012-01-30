@@ -1,3 +1,8 @@
 source "http://rubygems.org"
 
-gemspec
+gemspec :name => ""
+
+
+group :development do
+  gem "wirble"
+end
