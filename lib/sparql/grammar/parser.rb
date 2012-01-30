@@ -1089,7 +1089,12 @@ module SPARQL; module Grammar
       message = args.join(": ")
       message = message + yield if block_given?
       depth = options[:depth] || @productions.length
-      $stderr.puts("[#{@lineno}]#{' ' * depth}#{message}") if options[:debug]
+      case options[:debug]
+      when Array
+        options[:debug] << "[#{@lineno}]#{' ' * depth}#{message}"
+      else
+        $stderr.puts("[#{@lineno}]#{' ' * depth}#{message}")
+      end
     end
 
     # [1]     Query                     ::=       Prologue ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )

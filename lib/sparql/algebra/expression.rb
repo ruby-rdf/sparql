@@ -274,7 +274,12 @@ module SPARQL; module Algebra
       message = args.join(": ")
       message = message + yield if block_given?
       depth = options[:depth] || 0
-      $stderr.puts("#{' ' * depth}#{message}") if options[:debug]
+      case options[:debug]
+      when Array
+        options[:debug] << "#{' ' * depth}#{message}"
+      else
+        $stderr.puts("#{' ' * depth}#{message}")
+      end
     end
     
     def debug(*args, &block)
