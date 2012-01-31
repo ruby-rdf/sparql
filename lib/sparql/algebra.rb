@@ -189,7 +189,7 @@ module SPARQL
   # Some very simple optimizations are currently implemented for `FILTER`
   # expressions. Use the following to obtain optimized SSE forms:
   # 
-  #     Expression.parse(sse).optimize.to_sse
+  #     Expression.parse(sse).optimize.to_sxp_bin
   # 
   # ## Constant comparison folding
   # 

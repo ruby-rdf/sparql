@@ -490,150 +490,152 @@ module ProductionExamples
     parser(production).call(%q(())).last.should == RDF.nil
   end
 
-  BGP = {
-    # From sytax-sparql1/syntax-basic-03.rq
-    %q(?x ?y ?z) => RDF::Query.new do
-      pattern [RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y"), RDF::Query::Variable.new("z")]
-    end,
-    # From sytax-sparql1/syntax-basic-05.rq
-    %q(?x ?y ?z . ?a ?b ?c) => RDF::Query.new do
-      pattern [RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y"), RDF::Query::Variable.new("z")]
-      pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
-    end,
-    # From sytax-sparql1/syntax-bnodes-01.rq
-    %q([:p :q ]) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), RDF::URI("http://example.com/q")]
-    end,
-    # From sytax-sparql1/syntax-bnodes-02.rq
-    %q([] :p :q) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), RDF::URI("http://example.com/q")]
-    end,
+  def bgp_patterns
+    {
+      # From sytax-sparql1/syntax-basic-03.rq
+      %q(?x ?y ?z) => RDF::Query.new do
+        pattern [RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y"), RDF::Query::Variable.new("z")]
+      end,
+      # From sytax-sparql1/syntax-basic-05.rq
+      %q(?x ?y ?z . ?a ?b ?c) => RDF::Query.new do
+        pattern [RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y"), RDF::Query::Variable.new("z")]
+        pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
+      end,
+      # From sytax-sparql1/syntax-bnodes-01.rq
+      %q([:p :q ]) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), RDF::URI("http://example.com/q")]
+      end,
+      # From sytax-sparql1/syntax-bnodes-02.rq
+      %q([] :p :q) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), RDF::URI("http://example.com/q")]
+      end,
 
-    # From sytax-sparql2/syntax-general-01.rq
-    %q(<a><b><c>) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
-    end,
-    # From sytax-sparql2/syntax-general-02.rq
-    %q(<a><b>_:x) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), SPARQL::Grammar::Parser.variable("x", false)]
-    end,
-    # From sytax-sparql2/syntax-general-03.rq
-    %q(<a><b>1) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal(1)]
-    end,
-    # From sytax-sparql2/syntax-general-04.rq
-    %q(<a><b>+1) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Integer.new("+1")]
-    end,
-    # From sytax-sparql2/syntax-general-05.rq
-    %q(<a><b>-1) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Integer.new("-1")]
-    end,
-    # From sytax-sparql2/syntax-general-06.rq
-    %q(<a><b>1.0) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Decimal.new("1.0")]
-    end,
-    # From sytax-sparql2/syntax-general-07.rq
-    %q(<a><b>+1.0) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Decimal.new("+1.0")]
-    end,
-    # From sytax-sparql2/syntax-general-08.rq
-    %q(<a><b>-1.0) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Decimal.new("-1.0")]
-    end,
-    # From sytax-sparql2/syntax-general-09.rq
-    %q(<a><b>1.0e0) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Double.new("1.0e0")]
-    end,
-    # From sytax-sparql2/syntax-general-10.rq
-    %q(<a><b>+1.0e+1) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Double.new("+1.0e+1")]
-    end,
-    # From sytax-sparql2/syntax-general-11.rq
-    %q(<a><b>-1.0e-1) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Double.new("-1.0e-1")]
-    end,
+      # From sytax-sparql2/syntax-general-01.rq
+      %q(<a><b><c>) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
+      end,
+      # From sytax-sparql2/syntax-general-02.rq
+      %q(<a><b>_:x) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), SPARQL::Grammar::Parser.variable("x", false)]
+      end,
+      # From sytax-sparql2/syntax-general-03.rq
+      %q(<a><b>1) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal(1)]
+      end,
+      # From sytax-sparql2/syntax-general-04.rq
+      %q(<a><b>+1) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Integer.new("+1")]
+      end,
+      # From sytax-sparql2/syntax-general-05.rq
+      %q(<a><b>-1) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Integer.new("-1")]
+      end,
+      # From sytax-sparql2/syntax-general-06.rq
+      %q(<a><b>1.0) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Decimal.new("1.0")]
+      end,
+      # From sytax-sparql2/syntax-general-07.rq
+      %q(<a><b>+1.0) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Decimal.new("+1.0")]
+      end,
+      # From sytax-sparql2/syntax-general-08.rq
+      %q(<a><b>-1.0) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Decimal.new("-1.0")]
+      end,
+      # From sytax-sparql2/syntax-general-09.rq
+      %q(<a><b>1.0e0) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Double.new("1.0e0")]
+      end,
+      # From sytax-sparql2/syntax-general-10.rq
+      %q(<a><b>+1.0e+1) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Double.new("+1.0e+1")]
+      end,
+      # From sytax-sparql2/syntax-general-11.rq
+      %q(<a><b>-1.0e-1) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal::Double.new("-1.0e-1")]
+      end,
 
-    # Made up syntax tests
-    %q(<a><b><c>,<d>) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/d")]
-    end,
-    %q(<a><b><c>;<d><e>) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/d"), RDF::URI("http://example.org/e")]
-    end,
-    %q([<b><c>,<d>]) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/d")]
-    end,
-    %q([<b><c>;<d><e>]) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/d"), RDF::URI("http://example.org/e")]
-    end,
-    %q((<a>)) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], RDF::URI("http://example.org/a")]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], RDF["nil"]]
-    end,
-    %q((<a> <b>)) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], RDF::URI("http://example.org/a")]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], SPARQL::Grammar::Parser.variable("1", false)]
-      pattern [SPARQL::Grammar::Parser.variable("1", false), RDF["first"], RDF::URI("http://example.org/b")]
-      pattern [SPARQL::Grammar::Parser.variable("1", false), RDF["rest"], RDF["nil"]]
-    end,
-    %q(<a><b>"foobar") => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
-    end,
-    %q(<a><b>'foobar') => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
-    end,
-    %q(<a><b>"""foobar""") => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
-    end,
-    %q(<a><b>'''foobar''') => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
-    end,
-    %q(<a><b>"foobar"@en) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", :language => :en)]
-    end,
-    %q(<a><b>"foobar"^^<c>) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", :datatype => RDF::URI("http://example.org/c"))]
-    end,
-    %q(<a><b>()) => RDF::Query.new do
-      pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF["nil"]]
-    end,
+      # Made up syntax tests
+      %q(<a><b><c>,<d>) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/d")]
+      end,
+      %q(<a><b><c>;<d><e>) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/d"), RDF::URI("http://example.org/e")]
+      end,
+      %q([<b><c>,<d>]) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/d")]
+      end,
+      %q([<b><c>;<d><e>]) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/b"), RDF::URI("http://example.org/c")]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.org/d"), RDF::URI("http://example.org/e")]
+      end,
+      %q((<a>)) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], RDF::URI("http://example.org/a")]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], RDF["nil"]]
+      end,
+      %q((<a> <b>)) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], RDF::URI("http://example.org/a")]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], SPARQL::Grammar::Parser.variable("1", false)]
+        pattern [SPARQL::Grammar::Parser.variable("1", false), RDF["first"], RDF::URI("http://example.org/b")]
+        pattern [SPARQL::Grammar::Parser.variable("1", false), RDF["rest"], RDF["nil"]]
+      end,
+      %q(<a><b>"foobar") => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
+      end,
+      %q(<a><b>'foobar') => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
+      end,
+      %q(<a><b>"""foobar""") => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
+      end,
+      %q(<a><b>'''foobar''') => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
+      end,
+      %q(<a><b>"foobar"@en) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", :language => :en)]
+      end,
+      %q(<a><b>"foobar"^^<c>) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", :datatype => RDF::URI("http://example.org/c"))]
+      end,
+      %q(<a><b>()) => RDF::Query.new do
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF["nil"]]
+      end,
 
-    # From sytax-sparql1/syntax-bnodes-03.rq
-    %q([ ?x ?y ] <http://example.com/p> [ ?pa ?b ]) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y")]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), SPARQL::Grammar::Parser.variable("1", false)]
-      pattern [SPARQL::Grammar::Parser.variable("1", false), RDF::Query::Variable.new("pa"), RDF::Query::Variable.new("b")]
-    end,
-    # From sytax-sparql1/syntax-bnodes-03.rq
-    %q(_:a :p1 :q1 .
-       _:a :p2 :q2 .) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("a", false), RDF::URI("http://example.com/p1"), RDF::URI("http://example.com/q1")]
-      pattern [SPARQL::Grammar::Parser.variable("a", false), RDF::URI("http://example.com/p2"), RDF::URI("http://example.com/q2")]
-    end,
-    # From sytax-sparql1/syntax-forms-01.rq
-    %q(( [ ?x ?y ] ) :p ( [ ?pa ?b ] 57 )) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("1", false), RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y")]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], SPARQL::Grammar::Parser.variable("1", false)]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], RDF["nil"]]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), SPARQL::Grammar::Parser.variable("2", false)]
-      pattern [SPARQL::Grammar::Parser.variable("3", false), RDF::Query::Variable.new("pa"), RDF::Query::Variable.new("b")]
-      pattern [SPARQL::Grammar::Parser.variable("2", false), RDF["first"], SPARQL::Grammar::Parser.variable("3", false)]
-      pattern [SPARQL::Grammar::Parser.variable("2", false), RDF["rest"], SPARQL::Grammar::Parser.variable("4", false)]
-      pattern [SPARQL::Grammar::Parser.variable("4", false), RDF["first"], RDF::Literal(57)]
-      pattern [SPARQL::Grammar::Parser.variable("4", false), RDF["rest"], RDF["nil"]]
-    end,
-    # From sytax-sparql1/syntax-lists-01.rq
-    %q(( ?x ) :p ?z) => RDF::Query.new do
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], RDF::Query::Variable.new("x")]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], RDF["nil"]]
-      pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), RDF::Query::Variable.new("z")]
-    end,
-  }
+      # From sytax-sparql1/syntax-bnodes-03.rq
+      %q([ ?x ?y ] <http://example.com/p> [ ?pa ?b ]) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y")]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), SPARQL::Grammar::Parser.variable("1", false)]
+        pattern [SPARQL::Grammar::Parser.variable("1", false), RDF::Query::Variable.new("pa"), RDF::Query::Variable.new("b")]
+      end,
+      # From sytax-sparql1/syntax-bnodes-03.rq
+      %q(_:a :p1 :q1 .
+         _:a :p2 :q2 .) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("a", false), RDF::URI("http://example.com/p1"), RDF::URI("http://example.com/q1")]
+        pattern [SPARQL::Grammar::Parser.variable("a", false), RDF::URI("http://example.com/p2"), RDF::URI("http://example.com/q2")]
+      end,
+      # From sytax-sparql1/syntax-forms-01.rq
+      %q(( [ ?x ?y ] ) :p ( [ ?pa ?b ] 57 )) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("1", false), RDF::Query::Variable.new("x"), RDF::Query::Variable.new("y")]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], SPARQL::Grammar::Parser.variable("1", false)]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], RDF["nil"]]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), SPARQL::Grammar::Parser.variable("2", false)]
+        pattern [SPARQL::Grammar::Parser.variable("3", false), RDF::Query::Variable.new("pa"), RDF::Query::Variable.new("b")]
+        pattern [SPARQL::Grammar::Parser.variable("2", false), RDF["first"], SPARQL::Grammar::Parser.variable("3", false)]
+        pattern [SPARQL::Grammar::Parser.variable("2", false), RDF["rest"], SPARQL::Grammar::Parser.variable("4", false)]
+        pattern [SPARQL::Grammar::Parser.variable("4", false), RDF["first"], RDF::Literal(57)]
+        pattern [SPARQL::Grammar::Parser.variable("4", false), RDF["rest"], RDF["nil"]]
+      end,
+      # From sytax-sparql1/syntax-lists-01.rq
+      %q(( ?x ) :p ?z) => RDF::Query.new do
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["first"], RDF::Query::Variable.new("x")]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF["rest"], RDF["nil"]]
+        pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), RDF::Query::Variable.new("z")]
+      end,
+    }
+  end
 end
 
 describe SPARQL::Grammar::Parser do
@@ -672,7 +674,7 @@ describe SPARQL::Grammar::Parser do
         given_it_generates(production, input, result, :resolve_uris => true)
       end
 
-      BGP.each_pair do |input, result|
+      bgp_patterns.each_pair do |input, result|
         given_it_generates(production, "SELECT * WHERE {#{input}}", result,
           :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
           :base_uri => RDF::URI("http://example.org/"),
@@ -762,7 +764,7 @@ describe SPARQL::Grammar::Parser do
   describe "when matching the [5] SelectQuery production rule" do
     with_production(:SelectQuery) do |production|
       describe "SELECT * WHERE {...}" do
-        BGP.each_pair do |input, result|
+        bgp_patterns.each_pair do |input, result|
           given_it_generates(production, "SELECT * WHERE {#{input}}", result,
             :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
             :base_uri => RDF::URI("http://example.org/"))
@@ -875,7 +877,7 @@ describe SPARQL::Grammar::Parser do
     with_production(:WhereClause) do |production|
       it_rejects_empty_input_using production
 
-      BGP.each_pair do |input, result|
+      bgp_patterns.each_pair do |input, result|
         given_it_generates(production, "WHERE {#{input}}", result,
           :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
           :base_uri => RDF::URI("http://example.org/"),
@@ -1048,7 +1050,7 @@ describe SPARQL::Grammar::Parser do
   # [21]    TriplesBlock              ::=       TriplesSameSubject ( '.' TriplesBlock? )?
   describe "when matching the [21] TriplesBlock production rule" do
     with_production(:TriplesBlock) do |production|
-      BGP.each_pair do |input, result|
+      bgp_patterns.each_pair do |input, result|
         given_it_generates(production, input, result,
           :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
           :base_uri => RDF::URI("http://example.org/"),

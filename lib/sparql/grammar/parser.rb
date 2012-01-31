@@ -95,7 +95,7 @@ module SPARQL; module Grammar
     end
     
     # @return [String]
-    def to_sse
+    def to_sxp_bin
       @result
     end
     

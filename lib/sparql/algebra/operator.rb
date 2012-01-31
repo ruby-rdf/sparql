@@ -323,9 +323,9 @@ module SPARQL; module Algebra
     #
     # @return [Array]
     # @see    http://openjena.org/wiki/SSE
-    def to_sse
+    def to_sxp_bin
       operator = [self.class.const_get(:NAME)].flatten.first
-      [operator, *(operands || []).map(&:to_sse)]
+      [operator, *(operands || []).map(&:to_sxp_bin)]
     end
 
     ##
@@ -340,7 +340,7 @@ module SPARQL; module Algebra
       end
       require 'sparql/algebra/sxp_extensions'
       
-      to_sse.to_sxp
+      to_sxp_bin.to_sxp
     end
 
     ##

@@ -38,9 +38,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/not/boolean.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @not.new(true).to_sse.should == [:not, RDF::Literal::TRUE]
+        @not.new(true).to_sxp_bin.should == [:not, RDF::Literal::TRUE]
       end
     end
   end
@@ -53,9 +53,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/plus/numeric.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @plus.new(42).to_sse.should == [:+, RDF::Literal(42)]
+        @plus.new(42).to_sxp_bin.should == [:+, RDF::Literal(42)]
       end
     end
   end
@@ -68,9 +68,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/minus/numeric.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @minus.new(42).to_sse.should == [:-, RDF::Literal(42)]
+        @minus.new(42).to_sxp_bin.should == [:-, RDF::Literal(42)]
       end
     end
   end
@@ -91,9 +91,9 @@ describe SPARQL::Algebra do
 
     # TODO: tests with actual solution sequences.
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @bound.new(RDF::Query::Variable.new(:foo)).to_sse.should == [:bound, RDF::Query::Variable.new(:foo)]
+        @bound.new(RDF::Query::Variable.new(:foo)).to_sxp_bin.should == [:bound, RDF::Query::Variable.new(:foo)]
       end
     end
   end
@@ -106,9 +106,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/is_iri/term.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @is_iri.new(RDF::DC.title).to_sse.should == [:isIRI, RDF::DC.title]
+        @is_iri.new(RDF::DC.title).to_sxp_bin.should == [:isIRI, RDF::DC.title]
       end
     end
   end
@@ -121,9 +121,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/is_blank/term.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @is_blank.new(RDF::Node.new(:foo)).to_sse.should == [:isBlank, RDF::Node.new(:foo)]
+        @is_blank.new(RDF::Node.new(:foo)).to_sxp_bin.should == [:isBlank, RDF::Node.new(:foo)]
       end
     end
   end
@@ -136,9 +136,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/is_literal/term.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @is_literal.new("Hello").to_sse.should == [:isLiteral, RDF::Literal("Hello")]
+        @is_literal.new("Hello").to_sxp_bin.should == [:isLiteral, RDF::Literal("Hello")]
       end
     end
   end
@@ -151,9 +151,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/str/literal.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @str.new(RDF::DC.title).to_sse.should == [:str, RDF::DC.title]
+        @str.new(RDF::DC.title).to_sxp_bin.should == [:str, RDF::DC.title]
       end
     end
   end
@@ -166,10 +166,10 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/lang/literal.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @lang.new('Hello').to_sse.should == [:lang, RDF::Literal('Hello')]
-        @lang.new(RDF::Literal('Hello', :language => :en)).to_sse.should == [:lang, RDF::Literal('Hello', :language => :en)]
+        @lang.new('Hello').to_sxp_bin.should == [:lang, RDF::Literal('Hello')]
+        @lang.new(RDF::Literal('Hello', :language => :en)).to_sxp_bin.should == [:lang, RDF::Literal('Hello', :language => :en)]
       end
     end
   end
@@ -182,10 +182,10 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/datatype/literal.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @datatype.new('Hello').to_sse.should == [:datatype, RDF::Literal('Hello')]
-        @datatype.new(RDF::Literal('Hello', :datatype => RDF::XSD.string)).to_sse.should == [:datatype, RDF::Literal('Hello', :datatype => RDF::XSD.string)]
+        @datatype.new('Hello').to_sxp_bin.should == [:datatype, RDF::Literal('Hello')]
+        @datatype.new(RDF::Literal('Hello', :datatype => RDF::XSD.string)).to_sxp_bin.should == [:datatype, RDF::Literal('Hello', :datatype => RDF::XSD.string)]
       end
     end
   end
@@ -202,9 +202,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/or/boolean.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @or.new(true, false).to_sse.should == [:or, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @or.new(true, false).to_sxp_bin.should == [:or, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -218,9 +218,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/and/boolean.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @and.new(true, false).to_sse.should == [:and, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @and.new(true, false).to_sxp_bin.should == [:and, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -246,9 +246,9 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
     verify sse_examples('operator/equal/term.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @eq.new(true, false).to_sse.should == [:'=', RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @eq.new(true, false).to_sxp_bin.should == [:'=', RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -277,9 +277,9 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
     verify sse_examples('operator/not_equal/term.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @ne.new(true, false).to_sse.should == [:'!=', RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @ne.new(true, false).to_sxp_bin.should == [:'!=', RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -302,9 +302,9 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-less-than
     verify sse_examples('operator/less_than/datetime.sse') # TODO: pending bug fixes to RDF.rb 0.3.x.
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @lt.new(true, false).to_sse.should == [:<, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @lt.new(true, false).to_sxp_bin.should == [:<, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -327,9 +327,9 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-greater-than
     verify sse_examples('operator/greater_than/datetime.sse') # TODO: pending bug fixes to RDF.rb 0.3.x.
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @gt.new(true, false).to_sse.should == [:>, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @gt.new(true, false).to_sxp_bin.should == [:>, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -355,9 +355,9 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
     verify sse_examples('operator/less_than_or_equal/datetime.sse') # TODO: pending bug fixes to RDF.rb 0.3.x.
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @le.new(true, false).to_sse.should == [:<=, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @le.new(true, false).to_sxp_bin.should == [:<=, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -383,9 +383,9 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
     verify sse_examples('operator/greater_than_or_equal/datetime.sse') # TODO: pending bug fixes to RDF.rb 0.3.x.
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @ge.new(true, false).to_sse.should == [:>=, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @ge.new(true, false).to_sxp_bin.should == [:>=, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -398,9 +398,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/multiply/numeric.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @multiply.new(6, 7).to_sse.should == [:*, RDF::Literal(6), RDF::Literal(7)]
+        @multiply.new(6, 7).to_sxp_bin.should == [:*, RDF::Literal(6), RDF::Literal(7)]
       end
     end
   end
@@ -413,9 +413,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/divide/numeric.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @divide.new(42, 7).to_sse.should == [:'/', RDF::Literal(42), RDF::Literal(7)]
+        @divide.new(42, 7).to_sxp_bin.should == [:'/', RDF::Literal(42), RDF::Literal(7)]
       end
     end
   end
@@ -428,9 +428,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/add/numeric.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @add.new(29, 13).to_sse.should == [:+, RDF::Literal(29), RDF::Literal(13)]
+        @add.new(29, 13).to_sxp_bin.should == [:+, RDF::Literal(29), RDF::Literal(13)]
       end
     end
   end
@@ -443,9 +443,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/subtract/numeric.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @subtract.new(42, 13).to_sse.should == [:-, RDF::Literal(42), RDF::Literal(13)]
+        @subtract.new(42, 13).to_sxp_bin.should == [:-, RDF::Literal(42), RDF::Literal(13)]
       end
     end
   end
@@ -458,9 +458,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/equal/term.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @eq.new(RDF::Node(:foo), RDF::Node(:bar)).to_sse.should == [:'=', RDF::Node(:foo), RDF::Node(:bar)]
+        @eq.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin.should == [:'=', RDF::Node(:foo), RDF::Node(:bar)]
       end
     end
   end
@@ -473,9 +473,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/not_equal/term.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @ne.new(RDF::Node(:foo), RDF::Node(:bar)).to_sse.should == [:'!=', RDF::Node(:foo), RDF::Node(:bar)]
+        @ne.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin.should == [:'!=', RDF::Node(:foo), RDF::Node(:bar)]
       end
     end
   end
@@ -494,9 +494,9 @@ describe SPARQL::Algebra do
       end
     end
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @same_term.new(RDF::Node(:foo), RDF::Node(:bar)).to_sse.should == [:sameTerm, RDF::Node(:foo), RDF::Node(:bar)]
+        @same_term.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin.should == [:sameTerm, RDF::Node(:foo), RDF::Node(:bar)]
       end
     end
   end
@@ -509,9 +509,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/lang_matches/literal.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @lang_matches.new('en-US', '*').to_sse.should == [:langMatches, RDF::Literal('en-US'), RDF::Literal('*')]
+        @lang_matches.new('en-US', '*').to_sxp_bin.should == [:langMatches, RDF::Literal('en-US'), RDF::Literal('*')]
       end
     end
   end
@@ -528,9 +528,9 @@ describe SPARQL::Algebra do
 
     verify sse_examples('operator/regex/literal.sse')
 
-    describe "#to_sse" do
+    describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @regex.new('Alice', '^ali', 'i').to_sse.should == [:regex, RDF::Literal('Alice'), RDF::Literal('^ali'), RDF::Literal('i')]
+        @regex.new('Alice', '^ali', 'i').to_sxp_bin.should == [:regex, RDF::Literal('Alice'), RDF::Literal('^ali'), RDF::Literal('i')]
       end
     end
   end
@@ -703,7 +703,7 @@ describe SPARQL::Algebra do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(456.0)]}),
     }.each_pair do |sse, operator|
       it "generates SSE for #{sse}" do
-        SXP::Reader::SPARQL.read(sse).should == operator.to_sse
+        SXP::Reader::SPARQL.read(sse).should == operator.to_sxp_bin
       end
     
       it "parses SSE for #{sse}" do

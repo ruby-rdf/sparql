@@ -239,7 +239,7 @@ module SPARQL; module Algebra
     #
     # @return [Array] `self`
     # @see    http://openjena.org/wiki/SSE
-    def to_sse
+    def to_sxp_bin
       self
     end
     

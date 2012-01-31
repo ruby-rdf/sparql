@@ -814,7 +814,7 @@ describe SPARQL::Algebra::Query do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(456.0)]}),
     }.each_pair do |sse, operator|
       it "generates SSE for #{sse}" do
-        SXP::Reader::SPARQL.read(sse).should == operator.to_sse
+        SXP::Reader::SPARQL.read(sse).should == operator.to_sxp_bin
       end
     
       it "parses SSE for #{sse}" do

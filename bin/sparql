@@ -22,7 +22,7 @@ def run(input, options = {})
   end
 
   if options[:to_sse]
-    puts ("\nSSE:\n" + query.to_sxp)
+    puts ("\nSSE:\n" + query.to_sse)
   else
     res = query.execute(options[:graph])
     puts res.inspect if options[:verbose]

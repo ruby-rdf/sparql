@@ -4,11 +4,17 @@ require 'json'
 # Extensions for Ruby's `Object` class.
 class Object
   ##
-  # Returns the SXP representation of this object, defaults to `self'.
+  # Returns the SXP binary representation of this object, defaults to `self'.
   #
   # @return [String]
-  def to_sse
+  def to_sxp_bin
     self
+  end
+  
+  ##
+  # Make sure the object is in SXP form and transform it to a string form
+  def to_sse
+    self.to_sxp_bin.to_sxp
   end
 end
 
@@ -19,8 +25,8 @@ class Array
   # Returns the SXP representation of this object, defaults to `self'.
   #
   # @return [String]
-  def to_sse
-    map {|x| x.to_sse}
+  def to_sxp_bin
+    map {|x| x.to_sxp_bin}
   end
   
   ##
@@ -101,8 +107,8 @@ class RDF::Query
   # If Query is named, it's treated as a GroupGraphPattern, otherwise, a BGP
   #
   # @return [Array]
-  def to_sse
-    res = [:bgp] + patterns.map(&:to_sse)
+  def to_sxp_bin
+    res = [:bgp] + patterns.map(&:to_sxp_bin)
     (context ? [:graph, context, res] : res)
   end
 end
@@ -110,7 +116,7 @@ end
 class RDF::Query::Pattern
   # Transform Query Pattern into an SXP
   # @return [Array]
-  def to_sse
+  def to_sxp_bin
     [:triple, subject, predicate, object]
   end
 end
