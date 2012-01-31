@@ -260,7 +260,7 @@ module SPARQL; module Grammar
     #
     # @return [HRDF::URI]
     def base_uri
-      @options[:base_uri]
+      RDF::URI(@options[:base_uri])
     end
 
     ##
