@@ -79,7 +79,7 @@ describe SPARQL::Results do
     describe "#to_json" do
       SOLUTIONS.each do |n, r|
         it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new << RDF::Query::Solution.new(r[:solution])
+          s = RDF::Query::Solutions.new << (r[:solution].is_a?(Hash) ? RDF::Query::Solution.new(r[:solution]) : r[:solution])
           s.to_json.should == r[:json].to_json
         end
       end
@@ -127,6 +127,24 @@ describe SPARQL::Results do
                            ],
                           },
         :false         => { :value    => false,
+                           :json     => {:boolean => false},
+                           :xml      => [
+                             ["/sr:sparql/sr:boolean/text()", "false"],
+                           ],
+                           :html     => [
+                             ["/div[@class='sparql']/text()", "false"],
+                           ],
+                          },
+        :rdf_true      => { :value    => RDF::Literal::TRUE,
+                           :json     => {:boolean => true},
+                           :xml      => [
+                             ["/sr:sparql/sr:boolean/text()", "true"],
+                           ],
+                           :html     => [
+                             ["/div[@class='sparql']/text()", "true"],
+                           ],
+                          },
+        :rdf_false     => { :value    => RDF::Literal::FALSE,
                            :json     => {:boolean => false},
                            :xml      => [
                              ["/sr:sparql/sr:boolean/text()", "false"],

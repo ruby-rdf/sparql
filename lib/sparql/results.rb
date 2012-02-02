@@ -132,7 +132,8 @@ module SPARQL
     format ||= RDF::Query::Solutions::MIME_TYPES.invert[content_type] if content_type
 
     serialization = case solutions
-    when TrueClass, FalseClass
+    when TrueClass, FalseClass, RDF::Literal::TRUE, RDF::Literal::FALSE
+      solutions = solutions.object if solutions.is_a?(RDF::Literal)
       case format ||= :xml
       when :json
         require 'json' unless defined?(::JSON)
@@ -155,7 +156,7 @@ module SPARQL
       fmt ||= RDF::NTriples::Format
       format ||= fmt.to_sym
       content_type ||= fmt.content_types.first
-      fmt.writer.buffer << solutions
+      solutions.dump(format, options)
     when RDF::Query::Solutions
       case format ||= :xml
       when :json  then solutions.to_json
