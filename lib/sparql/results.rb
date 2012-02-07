@@ -118,23 +118,38 @@ module SPARQL
   # @param [RDF::Query::Solutions, RDF::Queryable, Boolean] solutions
   #   Solutions as either a solution set, a Queryable object (such as a graph) or a Boolean value
   # @param [Hash{Symbol => Object}] options
-  # @option options [:format]
+  # @option options [Symbol] :format
   #   Format of results, one of :html, :json or :xml.
   #   May also be an RDF::Writer format to serialize DESCRIBE or CONSTRUCT results
-  # @option options [:content_type]
+  # @option options [String] :content_type
   #   Format of results, one of 'application/sparql-results+json' or 'application/sparql-results+xml'
   #   May also be an RDF::Writer content_type to serialize DESCRIBE or CONSTRUCT results
+  # @option options [Array<String>] :content_types
+  #   Similar to :content_type, but takes an ordered array of appropriate content types,
+  #   and serializes using the first appropriate type, including wild-cards.
   # @return [String]
   #   String with serialized results and #content_type
   def serialize_results(solutions, options = {})
     format = options[:format]
-    content_type = options[:content_type]
+    content_type = options[:content_type].to_s.split(';').first
+    content_types = options[:content_types] || ['*/*']
     format ||= RDF::Query::Solutions::MIME_TYPES.invert[content_type] if content_type
+
+    if !format && !content_type
+      case solutions
+      when RDF::Queryable
+        content_type = first_content_type(content_types, RDF::Format.content_types.keys) || 'text/plain'
+        format = RDF::Writer.for(:content_type => content_type).to_sym
+      else
+        content_type = first_content_type(content_types, RDF::Query::Solutions::MIME_TYPES.values) || 'application/sparql-results+xml'
+        format = RDF::Query::Solutions::MIME_TYPES.invert[content_type] if content_type
+      end
+    end
 
     serialization = case solutions
     when TrueClass, FalseClass, RDF::Literal::TRUE, RDF::Literal::FALSE
       solutions = solutions.object if solutions.is_a?(RDF::Literal)
-      case format ||= :xml
+      case format
       when :json
         require 'json' unless defined?(::JSON)
         {:boolean => solutions}.to_json
@@ -155,7 +170,7 @@ module SPARQL
       fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
       fmt ||= RDF::NTriples::Format
       format ||= fmt.to_sym
-      content_type ||= fmt.content_types.first
+      content_type ||= fmt.content_type.first
       solutions.dump(format, options)
     when RDF::Query::Solutions
       case format ||= :xml
@@ -185,6 +200,26 @@ module SPARQL
 </html>
 ).freeze
   
+  ##
+  # Find a content_type from a list using an ordered list of acceptable content types
+  # using wildcard matching
+  #
+  # @param [Array<String>] acceptable
+  # @param [Array<String>] available
+  # @return [String]
+  #
+  # @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
+  def first_content_type(acceptable, available)
+    return acceptable.first if available.empty?
+    available.flatten!
+    acceptable.each do |pattern|
+      type = available.detect { |t| File.fnmatch(pattern, t) }
+      return type if type
+    end
+    nil
+  end
+  module_function :first_content_type
+
   ##
   # Serialize error results
   #

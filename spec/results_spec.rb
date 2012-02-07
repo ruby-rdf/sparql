@@ -171,6 +171,20 @@ describe SPARQL::Results do
             it "returns 'application/sparql-results+json' for #content_type" do
               subject.content_type.should == 'application/sparql-results+json'
             end
+
+            describe "content negotation" do
+              {
+                "json" => ["application/sparql-results+json"],
+                "json, xml" => ["application/sparql-results+json", "application/sparql-results+xml"],
+                "nt, json" => ["text/plain", "application/sparql-results+json"],
+              }.each do |title, accepts|
+                it "with #{title}" do
+                  s = SPARQL.serialize_results(r[:value], :content_types => accepts)
+                  s.should == subject
+                  s.content_type.should == 'application/sparql-results+json'
+                end
+              end
+            end
           end
         end
       end
@@ -191,6 +205,20 @@ describe SPARQL::Results do
               
               it "returns 'application/sparql-results+xml' for #content_type" do
                 subject.content_type.should == 'application/sparql-results+xml'
+              end
+            end
+
+            describe "content negotation" do
+              {
+                "xml" => ["application/sparql-results+xml"],
+                "xml, json" => ["application/sparql-results+xml", "application/sparql-results+json"],
+                "nt, xml" => ["text/plain", "application/sparql-results+xml"],
+              }.each do |title, accepts|
+                it "with #{title}" do
+                  s = SPARQL.serialize_results(r[:value], :content_types => accepts)
+                  s.should == subject
+                  s.content_type.should == 'application/sparql-results+xml'
+                end
               end
             end
           end
@@ -214,6 +242,20 @@ describe SPARQL::Results do
               it "returns 'text/html' for #content_type" do
                 subject.content_type.should == 'text/html'
               end
+
+              describe "content negotation" do
+                {
+                  "html" => ["text/html"],
+                  "html, xml" => ["text/html", "application/sparql-results+xml"],
+                  "nt, html" => ["text/plain", "text/html"],
+                }.each do |title, accepts|
+                  it "with #{title}" do
+                    s = SPARQL.serialize_results(r[:value], :content_types => accepts)
+                    s.should == subject
+                    s.content_type.should == 'text/html'
+                  end
+                end
+              end
             end
           end
         end
@@ -234,10 +276,8 @@ describe SPARQL::Results do
             buffer = mock("Buffer")
             RDF::Format.should_receive(:for).at_least(1).times.and_return(fmt)
             fmt.should_receive(:content_types).and_return([content_type])
-            fmt.should_receive(:writer).at_least(1).times.and_return(writer)
+            @solutions.should_receive(:dump).at_least(1).times.and_return("serialized graph")
             fmt.stub!(:to_sym).and_return(format)
-            writer.should_receive(:buffer).at_least(1).times.and_return(buffer)
-            buffer.should_receive(:<<).at_least(1).times.with(@solutions).and_return("serialized graph")
           end
 
           subject {SPARQL.serialize_results(@solutions, :format => format)}
