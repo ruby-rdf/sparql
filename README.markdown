@@ -1,19 +1,49 @@
 # SPARQL for RDF.rb
 
-This is a [Ruby][] implementation of the [SPARQL][] algebra for [RDF.rb][].
+This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 ## Features
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
 * [SPARQL 1.0][] query parsing and execution
-* SPARQL results as [XML][SPARQL XML] or [JSON][SPARQL JSON].
+* SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON] or HTML.
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data](http://rubygems.org/gems/linkeddata))
 * SPARQL Client for accessing remote SPARQL endpoints.
-* Helper method for describing [SPARQL Service Description][]
+* [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
+  * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
+  * Helper method for describing [SPARQL Service Description][]
 * Compatible with Ruby Ruby 1.9.x.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
+
+## Description
+
+The {SPARQL} gem implements [SPARQL 1.0 Query] and provides [Rack][] and [Sinatra][]
+middleware to provide results using [HTTP Content Negotiation][conneg].
+
+* {SPARQL::Grammar} implements a [SPARQL 1.0 Query] parser generating [SPARQL S-Expressions (SSE)][SSE].
+* {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including
+  compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
+* {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
+  using an appropriate format based on [HTTP content negotiation][conneg].
+* {SPARQL::Client} can be used against external SPARQL endpoints to retrieve results in a compatible format.
+
+`Rack::SPARQL` is a superset of [Rack::LinkedData][] to allow content negotiated results
+to be returned any `RDF::Enumerable` or `RDF::Query::Solutions` compatible results.
+You would typically return an instance of `RDF::Graph`, `RDF::Repository` or `RDF::Query::Solutions`
+from your Rack application, and let the `Rack::SPARQL::ContentNegotiation` middleware
+take care of serializing your response into whatever format the HTTP
+client requested and understands.
+
+`Sinatra::SPARQL` is a thin Sinatra-specific wrapper around the
+[`Rack::SPARQL`][Rack::SPARQL] middleware, which implements SPARQL
+ content negotiation for Rack applications.
+
+The middleware queries [RDF.rb][] for the MIME content types of known RDF
+serialization formats, so it will work with whatever serialization plugins
+that are currently available for RDF.rb. (At present, this includes support
+for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.)
 
 ## Examples
 
@@ -49,6 +79,42 @@ This is a [Ruby][] implementation of the [SPARQL][] algebra for [RDF.rb][].
     sparql --default-graph etc/doap.ttl --sse etc/input.sse
     sparql --sse -e "(dataset (<etc/doap.ttl>) (bgp (triple ?s ?p ?o))))"
 
+### Adding SPARQL content negotiation to a Rails 3.x application
+
+    # config/application.rb
+    require 'rack/sparql'
+    
+    class Application < Rails::Application
+      config.middleware.use Rack::SPARQL::ContentNegotiation
+    end
+
+### Adding SPARQL content negotiation to a Rackup application
+
+    #!/usr/bin/env rackup
+    require 'rack/sparql'
+    
+    repository = RDF::Repository.new do |graph|
+      graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
+    end
+    results = SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", repository)
+    
+    use Rack::SPARQL::ContentNegotiation
+    run lambda { |env| [200, {}, results] }
+
+### Adding SPARQL content negotiation to a classic Sinatra application
+
+    #!/usr/bin/env ruby -rubygems
+    require 'sinatra'
+    require 'sinatra/sparql'
+    
+    repository = RDF::Repository.new do |graph|
+      graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
+    end
+
+    get '/sparql' do
+      SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", repository)
+    end
+
 ## Documentation
 
 Full documentation available on [Rubydoc.info][SPARQL doc]
@@ -63,6 +129,9 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
   * {SPARQL::Grammar}
     * {SPARQL::Grammar::Parser}
     * {SPARQL::Grammar::Lexer}
+* {Sinatra::SPARQL}
+* {Rack::SPARQL}
+  * {Rack::SPARQL::ContentNegotiation}
 
 ## Dependencies
 
@@ -136,3 +205,6 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
 [SPARQL Protocol]:  http://www.w3.org/TR/rdf-sparql-protocol/
 [SPARQL Service]:   http://www.w3.org/TR/sparql11-service-description/
+[Rack]:             http://rack.rubyforge.org/
+[Sinatra]:          http://www.sinatrarb.com/
+[conneg]:           http://en.wikipedia.org/wiki/Content_negotiation

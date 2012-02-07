@@ -42,6 +42,9 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'sparql-client',   '>= 0.0.9'
   gem.add_runtime_dependency     'rdf-xsd',         '>= 0.3.4'
 
+  gem.add_development_dependency 'sinatra',         '>= 1.3.2'
+  gem.add_development_dependency 'rack',            '>= 1.4.1'
+  gem.add_development_dependency 'rack-test',       '>= 0.5.6'
   gem.add_development_dependency 'linkeddata',      '>= 0.3.4'
   gem.add_development_dependency 'open-uri-cached', '>= 0.0.4'
   gem.add_development_dependency 'nokogiri' ,       '>= 1.5.0'  if  RUBY_ENGINE == "ruby"

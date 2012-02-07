@@ -49,7 +49,6 @@ module SPARQL
   # @example
   #   repository = RDF::Repository.new
   #   results = SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", repository)
-  #   result = parser.parse
   #
   # @param  [IO, StringIO, String, #to_s]  query
   # @param  [Hash{Symbol => Object}] options
