@@ -118,7 +118,7 @@ module SPARQL
   # @param [RDF::Query::Solutions, RDF::Queryable, Boolean] solutions
   #   Solutions as either a solution set, a Queryable object (such as a graph) or a Boolean value
   # @param [Hash{Symbol => Object}] options
-  # @option options [Symbol] :format
+  # @option options [#to_sym] :format
   #   Format of results, one of :html, :json or :xml.
   #   May also be an RDF::Writer format to serialize DESCRIBE or CONSTRUCT results
   # @option options [String] :content_type
@@ -130,7 +130,7 @@ module SPARQL
   # @return [String]
   #   String with serialized results and #content_type
   def serialize_results(solutions, options = {})
-    format = options[:format]
+    format = options[:format].to_sym if options[:format]
     content_type = options[:content_type].to_s.split(';').first
     content_types = options[:content_types] || ['*/*']
     format ||= RDF::Query::Solutions::MIME_TYPES.invert[content_type] if content_type

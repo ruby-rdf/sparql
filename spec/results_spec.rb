@@ -275,7 +275,7 @@ describe SPARQL::Results do
             writer = mock("Writer")
             buffer = mock("Buffer")
             RDF::Format.should_receive(:for).at_least(1).times.and_return(fmt)
-            fmt.should_receive(:content_types).and_return([content_type])
+            fmt.should_receive(:content_type).and_return([content_type])
             @solutions.should_receive(:dump).at_least(1).times.and_return("serialized graph")
             fmt.stub!(:to_sym).and_return(format)
           end
