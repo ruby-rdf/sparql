@@ -75,7 +75,7 @@ module Rack; module SPARQL
 
     ##
     # Parses an HTTP `Accept` header, returning an array of MIME content
-    # types ordered by the precedence rules defined in HTTP/1.1 §14.1.
+    # types ordered by the precedence rules defined in HTTP/1.1 Section 14.1.
     #
     # @param  [String, #to_s] header
     # @return [Array<String>]
@@ -122,4 +122,4 @@ module Rack; module SPARQL
       [code, Rack::Utils::HTTP_STATUS_CODES[code]].join(' ')
     end
   end # class ContentNegotiation
-end; end # module Rack::LinkedData
+end; end # module Rack::SPARQL

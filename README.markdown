@@ -12,7 +12,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * SPARQL Client for accessing remote SPARQL endpoints.
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
-  * Helper method for describing [SPARQL Service Description][]
+  * Helper method for describing [SPARQL Service Description][SSD]
 * Compatible with Ruby Ruby 1.9.x.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
@@ -27,7 +27,6 @@ middleware to provide results using [HTTP Content Negotiation][conneg].
   compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
   using an appropriate format based on [HTTP content negotiation][conneg].
-* {SPARQL::Client} can be used against external SPARQL endpoints to retrieve results in a compatible format.
 
 `Rack::SPARQL` is a superset of [Rack::LinkedData][] to allow content negotiated results
 to be returned any `RDF::Enumerable` or `RDF::Query::Solutions` compatible results.
@@ -37,7 +36,7 @@ take care of serializing your response into whatever format the HTTP
 client requested and understands.
 
 `Sinatra::SPARQL` is a thin Sinatra-specific wrapper around the
-[`Rack::SPARQL`][Rack::SPARQL] middleware, which implements SPARQL
+{Rack::SPARQL} middleware, which implements SPARQL
  content negotiation for Rack applications.
 
 The middleware queries [RDF.rb][] for the MIME content types of known RDF
@@ -186,6 +185,9 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 
 [Ruby]:             http://ruby-lang.org/
 [RDF]:              http://www.w3.org/RDF/
+[RDF::DO]:          http://rubygems.org/gems/rdf-do
+[RDF::Mongo]:       http://rubygems.org/gems/rdf-mongo
+[Rack::LinkedData]: http://rubygems.org/gems/rack-linkeddata
 [YARD]:             http://yardoc.org/
 [YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
 [PDD]:              http://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html
@@ -204,7 +206,7 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
 [SPARQL Protocol]:  http://www.w3.org/TR/rdf-sparql-protocol/
-[SPARQL Service]:   http://www.w3.org/TR/sparql11-service-description/
+[SSD]:              http://www.w3.org/TR/sparql11-service-description/
 [Rack]:             http://rack.rubyforge.org/
 [Sinatra]:          http://www.sinatrarb.com/
 [conneg]:           http://en.wikipedia.org/wiki/Content_negotiation
