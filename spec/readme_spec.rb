@@ -12,7 +12,7 @@ describe "README" do
     scanner = StringScanner.new(File.read(readme))
     scanner.skip_until(/^## Examples$/)
     until scanner.eos?
-      break if scanner.matched =~ /## Documentation/
+      break if scanner.matched =~ /## Adding SPARQL content negotiation/
       title = scanner.matched.match(/^### (.*)$/) && $1
       code = scanner.scan_until(/^##.*$/)
       code = code.match(/^(.*)^##.*$/m) && $1
