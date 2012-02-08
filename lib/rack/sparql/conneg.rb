@@ -57,6 +57,7 @@ module Rack; module SPARQL
     # @param  [Hash{String => Object}] headers
     # @param  [RDF::Enumerable]        body
     # @return [Array(Integer, Hash, #each)]
+    # @raise [RDF::WriterError] when no results are generated
     def serialize(env, status, headers, body)
       begin
         serialize_options = {}

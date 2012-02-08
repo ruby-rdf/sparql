@@ -129,6 +129,7 @@ module SPARQL
   #   and serializes using the first appropriate type, including wild-cards.
   # @return [String]
   #   String with serialized results and #content_type
+  # @raise [RDF::WriterError] when inappropriate formatting options are used
   def serialize_results(solutions, options = {})
     format = options[:format].to_sym if options[:format]
     content_type = options[:content_type].to_s.split(';').first
@@ -142,7 +143,7 @@ module SPARQL
         format = RDF::Writer.for(:content_type => content_type).to_sym
       else
         content_type = first_content_type(content_types, RDF::Query::Solutions::MIME_TYPES.values) || 'application/sparql-results+xml'
-        format = RDF::Query::Solutions::MIME_TYPES.invert[content_type] if content_type
+        format = RDF::Query::Solutions::MIME_TYPES.invert[content_type]
       end
     end
 
@@ -165,18 +166,24 @@ module SPARQL
         content_type = "text/html"
         xml = ::Builder::XmlMarkup.new(:indent => 2)
         xml.div(solutions.to_s, :class => "sparql")
+      else
+        raise RDF::WriterError, "Unknown format #{(format || content_type).inspect} for #{solutions.class}"
       end
     when RDF::Queryable
       fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
       fmt ||= RDF::NTriples::Format
       format ||= fmt.to_sym
       content_type ||= fmt.content_type.first
-      solutions.dump(format, options)
+      results = solutions.dump(format, options)
+      raise RDF::WriterError, "Unknown format #{fmt.inspect} for #{solutions.class}" unless results
+      results
     when RDF::Query::Solutions
-      case format ||= :xml
+      case format
       when :json  then solutions.to_json
       when :xml   then solutions.to_xml
       when :html  then solutions.to_html
+      else
+        raise RDF::WriterError, "Unknown format #{(format || content_type).inspect} for #{solutions.class}"
       end
     end
 

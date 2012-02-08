@@ -1,5 +1,6 @@
 $:.unshift "."
 require 'spec_helper'
+require 'linkeddata'
 
 describe SPARQL::Results do
   describe RDF::Query::Solutions do
@@ -260,6 +261,16 @@ describe SPARQL::Results do
           end
         end
       end
+      
+      context "rdf content-types" do
+        it "raises error with format :ntriples" do
+          lambda {SPARQL.serialize_results(true, :format => :ntriples)}.should raise_error(RDF::WriterError, /Unknown format :ntriples/)
+        end
+
+        it "raises error content type text/plain" do
+          lambda {SPARQL.serialize_results(true, :content_type => "text/plain")}.should raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
+        end
+      end
     end
 
     context "graph" do
@@ -299,18 +310,28 @@ describe SPARQL::Results do
     end
     
     context "solutions" do
+      before(:each) do
+        @solutions = RDF::Query::Solutions.new << RDF::Query::Solution.new(:a => RDF::Literal("b"))
+      end
+      
       SPARQL::Results::MIME_TYPES.each do |format, content_type|
         context "with format #{format}" do
-          before(:each) do
-            @solutions = RDF::Query::Solutions.new
-          end
-          
           it "serializes results wihth format #{format.inspect}" do
             @solutions.should_receive("to_#{format}").and_return("serialized results")
             s = SPARQL.serialize_results(@solutions, :format => format)
             s.should == "serialized results"
             s.content_type.should == content_type
           end
+        end
+      end
+
+      context "rdf content-types" do
+        it "raises error with format :ntriples" do
+          lambda {SPARQL.serialize_results(@solutions, :format => :ntriples)}.should raise_error(RDF::WriterError)
+        end
+
+        it "raises error content type text/plain" do
+          lambda {SPARQL.serialize_results(@solutions, :content_type => "text/plain")}.should raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
         end
       end
     end
