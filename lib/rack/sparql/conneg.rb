@@ -15,6 +15,8 @@ module Rack; module SPARQL
   # This endpoint also serves the fuction of Rack::LinkedData, as it will serialize
   # SPARQL results, which may be RDF Graphs
   class ContentNegotiation
+    VARY = {'Vary' => 'Accept'}.freeze
+
     # @return [#call]
     attr_reader :app
 
@@ -65,10 +67,10 @@ module Rack; module SPARQL
         serialize_options.merge!(@options)
         results = ::SPARQL.serialize_results(body, serialize_options)
         raise RDF::WriterError, "can't serialize results" unless results
-        headers = headers.merge('Content-Type' => results.content_type) # FIXME: don't overwrite existing Vary headers
+        headers = headers.merge(VARY).merge('Content-Type' => results.content_type) # FIXME: don't overwrite existing Vary headers
         [status, headers, [results]]
       rescue RDF::WriterError => e
-        not_acceptable
+        not_acceptable(e.message)
       end
     end
 
