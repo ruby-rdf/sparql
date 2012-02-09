@@ -13,7 +13,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
-* Compatible with Ruby Ruby 1.9.x.
+* Compatible with Ruby 1.9.x.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
 
