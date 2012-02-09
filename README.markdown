@@ -8,7 +8,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * [SPARQL 1.0][] query parsing and execution
 * SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON] or HTML.
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
-  using available RDF Writers (see [Linked Data](http://rubygems.org/gems/linkeddata))
+  using available RDF Writers (see [Linked Data][])
 * SPARQL Client for accessing remote SPARQL endpoints.
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
@@ -28,6 +28,8 @@ middleware to provide results using [HTTP Content Negotiation][conneg].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
   using an appropriate format based on [HTTP content negotiation][conneg].
 
+### Middleware
+
 `Rack::SPARQL` is a superset of [Rack::LinkedData][] to allow content negotiated results
 to be returned any `RDF::Enumerable` or `RDF::Query::Solutions` compatible results.
 You would typically return an instance of `RDF::Graph`, `RDF::Repository` or `RDF::Query::Solutions`
@@ -43,6 +45,22 @@ The middleware queries [RDF.rb][] for the MIME content types of known RDF
 serialization formats, so it will work with whatever serialization plugins
 that are currently available for RDF.rb. (At present, this includes support
 for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.)
+
+### Remote datasets
+
+A SPARQL query containing `FROM` or `FROM NAMED` will load the referenced IRI unless the repository
+already contains a context with that same IRI. This is performed using [RDF.rb][] `RDF::Util::File.open_file`
+passing HTTP Accept headers for various available RDF formats. For best results, require [Linked Data][] to enable
+a full set of RDF formats in the `GET` request. Also, consider overriding `RDF::Util::File.open_file` with
+an implementation with support for HTTP Get headers (such as `Net::HTTP`).
+
+### Result formats
+
+{SPARQL.serialize_results} may be used on it's own, or in conjunction with {Rack::SPARQL} or {Sinatra::SPARQL}
+to provide content-negotiated query results. For basic `SELECT` and `ASK` this includes HTML, XML and JSON formats.
+`DESCRIBE` and `CONSTRUCT` create an `RDF::Graph`, which can be serialized through [HTTP Content Netogiation][conneg]
+using available RDF writers. For best results, require [Linked Data][] to enable
+a full set of RDF formats.
 
 ## Examples
 
@@ -135,11 +153,12 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 ## Dependencies
 
 * [Ruby](http://ruby-lang.org/) (>= 1.9) or (>= 1.8.1 with [Backports][])
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.4)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.5)
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 0.0.11)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.0.15)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
 * [JSON](https://rubygems.org/gems/json) (>= 1.5.1)
+* Soft dependency on [Linked Data][]
 
 ## Installation
 
@@ -202,6 +221,7 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
 [PDD]:              http://unlicense.org/#unlicensing-contributions
 [Backports]:        http://rubygems.org/gems/backports
+[Linked Data]:      http://rubygems.org/gems/linkeddata
 [SPARQL doc]:       http://rubydoc.info/github/gkellogg/sparql/frames
 [SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
