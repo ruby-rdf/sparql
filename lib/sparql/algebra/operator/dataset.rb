@@ -56,6 +56,9 @@ module SPARQL; module Algebra
             debug(options) {"=> read default data source #{uri}"}
           end
           load_opts[:base_uri] = uri
+          load_opts[:headers] = {
+            "Accept" => 'text/turtle, application/rdf+xml;q=0.8, text/plain;q=0.4, */*;q=0.1'
+          }
           queryable.load(uri.to_s, load_opts)
         end
 
