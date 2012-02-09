@@ -2,7 +2,11 @@
 require 'rubygems'
 $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
 require 'sparql'
-require 'linkeddata'
+begin
+  require 'linkeddata'
+rescue LoadError => e
+  require 'rdf/ntriples'
+end
 require 'getoptlong'
 
 def run(input, options = {})

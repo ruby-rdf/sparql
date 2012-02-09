@@ -1,5 +1,9 @@
 require 'rack'
-require 'linkeddata'
+begin
+  require 'linkeddata'
+rescue LoadError => e
+  require 'rdf/ntriples'
+end
 require 'sparql'
 
 module Rack

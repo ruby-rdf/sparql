@@ -1,5 +1,4 @@
 require 'rack'
-require 'linkeddata'
 require 'sparql'
 
 module Rack; module SPARQL

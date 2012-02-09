@@ -826,7 +826,11 @@ describe SPARQL::Algebra::Query do
   context "datasets" do
     it "loads FROM graph as default context" do
       queryable = RDF::Repository.new
-      queryable.should_receive(:load).with("data-g1.ttl", {:base_uri => RDF::URI.new("data-g1.ttl")})
+      queryable.should_receive(:load).with("data-g1.ttl",
+        {
+          :base_uri => RDF::URI.new("data-g1.ttl"),
+          :headers => kind_of(Hash)
+        })
       query = SPARQL::Algebra::Expression.parse(%q((dataset (<data-g1.ttl>) (bgp))))
       query.execute(queryable)
     end
@@ -835,7 +839,8 @@ describe SPARQL::Algebra::Query do
       queryable = RDF::Repository.new
       queryable.should_receive(:load).with("data-g1.ttl", {
         :context => RDF::URI("data-g1.ttl"),
-        :base_uri => RDF::URI("data-g1.ttl")
+        :base_uri => RDF::URI("data-g1.ttl"),
+        :headers => kind_of(Hash)
       })
       query = SPARQL::Algebra::Expression.parse(%q((dataset ((named <data-g1.ttl>)) (bgp))))
       query.execute(queryable)

@@ -170,6 +170,11 @@ module SPARQL
         raise RDF::WriterError, "Unknown format #{(format || content_type).inspect} for #{solutions.class}"
       end
     when RDF::Queryable
+      begin
+        require 'linkeddata'
+      rescue LoadError => e
+        require 'rdf/ntriples'
+      end
       fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
       fmt ||= RDF::NTriples::Format
       format ||= fmt.to_sym

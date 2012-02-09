@@ -1,3 +1,9 @@
+begin
+  require 'linkeddata'
+rescue LoadError => e
+  require 'rdf/ntriples'
+end
+
 module SPARQL; module Algebra
   class Operator
     ##
@@ -17,6 +23,11 @@ module SPARQL; module Algebra
       include Query
       
       NAME = [:dataset]
+      # Selected accept headers, from those available
+      ACCEPTS = (%w(text/turtle application/rdf+xml;q=0.8 text/plain;q=0.4).
+        select do |content_type|
+          RDF::Format.content_types.include?(content_type.split(';').first)
+        end << ' */*;q=0.1').join(', ').freeze
 
       ##
       # Executes this query on the given `queryable` graph or repository.
@@ -35,7 +46,9 @@ module SPARQL; module Algebra
       def execute(queryable, options = {})
         debug(options) {"Dataset"}
         operand(0).each do |ds|
-          load_opts = {}
+          load_opts = {
+            :headers => {"Accept" => ACCEPTS}
+          }
           case ds
           when Array
             # Format is (named <uri>), only need the URI part
@@ -56,9 +69,6 @@ module SPARQL; module Algebra
             debug(options) {"=> read default data source #{uri}"}
           end
           load_opts[:base_uri] = uri
-          load_opts[:headers] = {
-            "Accept" => 'text/turtle, application/rdf+xml;q=0.8, text/plain;q=0.4, */*;q=0.1'
-          }
           queryable.load(uri.to_s, load_opts)
         end
 
