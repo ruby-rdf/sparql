@@ -1,27 +1,21 @@
-#!/usr/bin/env rackup
-# Sinatra rackup example
-$:.unshift(File.expand_path('../lib',  __FILE__))
-require 'rubygems' || Gem.clear_paths
-require 'bundler'
-Bundler.setup
-
+# Sinatra example
+#
+# Call as http://localhost:4567/sparql?query=uri,
+# where `uri` is the URI of a SPARQL query, or
+# a URI-escaped SPARQL query, for example:
+#   http://localhost:4567/?query=SELECT%20?s%20?p%20?o%20WHERE%20%7B?s%20?p%20?o%7D
 require 'sinatra'
 require 'sinatra/sparql'
+require 'uri'
 
-module My
-  class Application < Sinatra::Base
-    register Sinatra::SPARQL
-
-    get '/' do
-      settings.sparql_options.merge!(:standard_prefixes => true)
-      repository = RDF::Repository.new do |graph|
-        graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
-      end
-      r = SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", repository)
-      puts "solutions: #{r.inspect}"
-      {:solutions => r}
-    end
+get '/' do
+  settings.sparql_options.merge!(:standard_prefixes => true)
+  repository = RDF::Repository.new do |graph|
+    graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
+  end
+  if params["query"]
+    SPARQL.execute(::URI.decode(params["query"]), repository)
+  else
+    service_description(:repo => repository)
   end
 end
-
-run My::Application
