@@ -35,22 +35,24 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version      = '>= 1.8.7'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',             '>= 0.3.4'
+  gem.add_runtime_dependency     'rdf',             '>= 0.3.5'
   gem.add_runtime_dependency     'builder',         '>= 3.0.0'
   gem.add_runtime_dependency     'json',            '>= 1.5.1'
   gem.add_runtime_dependency     'sxp',             '>= 0.0.14'
-  gem.add_runtime_dependency     'sparql-client',   '>= 0.0.9'
-  gem.add_runtime_dependency     'rdf-xsd',         '>= 0.3.4'
+  gem.add_runtime_dependency     'sparql-client',   '>= 0.0.11'
+  gem.add_runtime_dependency     'rdf-xsd',         '>= 0.3.5'
 
   gem.add_development_dependency 'sinatra',         '>= 1.3.2'
   gem.add_development_dependency 'rack',            '>= 1.4.1'
-  gem.add_development_dependency 'rack-test',       '>= 0.5.6'
-  gem.add_development_dependency 'linkeddata',      '>= 0.3.4'
+  gem.add_development_dependency 'rack-test',       '>= 0.6.1'
+  gem.add_development_dependency 'linkeddata',      '>= 0.3.5'
+  gem.add_development_dependency 'rdf-spec',        '>= 0.3.5'
   gem.add_development_dependency 'open-uri-cached', '>= 0.0.4'
+  gem.add_development_dependency 'equivalent-xml',  '>= 0.2.8'  if  RUBY_ENGINE == "ruby"
   gem.add_development_dependency 'nokogiri' ,       '>= 1.5.0'  if  RUBY_ENGINE == "ruby"
   gem.add_development_dependency 'rspec',           '>= 2.8.0'
   gem.add_development_dependency 'spira',           '>= 0.0.12'
-  gem.add_development_dependency 'yard' ,           '>= 0.6.0'
+  gem.add_development_dependency 'yard' ,           '>= 0.7.5'
   gem.add_runtime_dependency     'backports'                    if RUBY_VERSION < "1.9"
   gem.post_install_message       = nil
 end
