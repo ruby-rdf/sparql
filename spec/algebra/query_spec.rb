@@ -854,6 +854,27 @@ describe SPARQL::Algebra::Query do
     end
   end
 
+  context "odd test cases" do
+    it "executes RDFa Test Case 0279" do
+      ttl = %(
+      @base <http://127.0.0.1:9393/test-suite/test-cases/rdfa1.1/html5/0279.html> .
+      @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+      @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+
+      <> rdf:value "2012-03-18T00:00:00Z"^^xsd:string .
+      )
+      sse = %(
+        (prefix ((rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+                 (xsd: <http://www.w3.org/2001/XMLSchema#>))
+          (ask (bgp (triple ??0 rdf:value "2012-03-18T00:00:00Z"^^xsd:string)))
+        )
+      )
+      queryable = RDF::Repository.new << RDF::Turtle::Reader.new(ttl)
+      query = SPARQL::Algebra::Expression.parse(sse)
+      query.execute(queryable).should be_true
+    end
+  end
+
   context "untyped literal => xsd:string changes" do
     {
       "open-eq-07" => [
