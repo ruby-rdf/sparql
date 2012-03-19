@@ -75,12 +75,54 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", %("1"^^&lt;#{RDF::XSD.integer}&gt;)],
                          ],
                         },
+      :multiple      => {
+                        :solution => [
+                            {:x => RDF::Node.new("a"), :y => RDF::DC.title, :z => RDF::Literal("Hello, world!")},
+                            {:x => RDF::Node.new("b"), :y => RDF::DC.title, :z => RDF::Literal("Foo bar")},
+                          ],
+                         :json => {
+                           :head => {:vars => ["x", "y", "z"]},
+                           :results => {
+                             :bindings => [
+                               {
+                                 :x => {:type => "bnode",   :value => "a"},
+                                 :y => {:type => "uri",     :value => "http://purl.org/dc/terms/title"},
+                                 :z => {:type => "literal", :value => "Hello, world!"}
+                               },
+                               {
+                                 :x => {:type => "bnode",   :value => "b"},
+                                 :y => {:type => "uri",     :value => "http://purl.org/dc/terms/title"},
+                                 :z => {:type => "literal", :value => "Foo bar"}
+                               }
+                             ]
+                           }
+                         },
+                         :xml => [
+                           ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='x']/sr:bnode/text()", "a"],
+                           ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='y']/sr:uri/text()", "http://purl.org/dc/terms/title"],
+                           ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='z']/sr:literal/text()", "Hello, world!"],
+                           ["/sr:sparql/sr:results/sr:result[2]/sr:binding[@name='x']/sr:bnode/text()", "b"],
+                           ["/sr:sparql/sr:results/sr:result[2]/sr:binding[@name='y']/sr:uri/text()", "http://purl.org/dc/terms/title"],
+                           ["/sr:sparql/sr:results/sr:result[2]/sr:binding[@name='z']/sr:literal/text()", "Foo bar"],
+                         ],
+                         :html => [
+                           ["/table[@class='sparql']/tbody/tr[1]/th[1]/text()", "x"],
+                           ["/table[@class='sparql']/tbody/tr[1]/th[2]/text()", "y"],
+                           ["/table[@class='sparql']/tbody/tr[1]/th[3]/text()", "z"],
+                           ["/table[@class='sparql']/tbody/tr[2]/td[1]/text()", "_:a"],
+                           ["/table[@class='sparql']/tbody/tr[2]/td[2]/text()", %q(&lt;http://purl.org/dc/terms/title&gt;)],
+                           ["/table[@class='sparql']/tbody/tr[2]/td[3]/text()", '"Hello, world!"'],
+                           ["/table[@class='sparql']/tbody/tr[3]/td[1]/text()", "_:b"],
+                           ["/table[@class='sparql']/tbody/tr[3]/td[2]/text()", %q(&lt;http://purl.org/dc/terms/title&gt;)],
+                           ["/table[@class='sparql']/tbody/tr[3]/td[3]/text()", '"Foo bar"'],
+                         ]
+                        },
     }
 
     describe "#to_json" do
       SOLUTIONS.each do |n, r|
         it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new << (r[:solution].is_a?(Hash) ? RDF::Query::Solution.new(r[:solution]) : r[:solution])
+          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
           s.to_json.should == r[:json].to_json
         end
       end
@@ -91,8 +133,7 @@ describe SPARQL::Results do
         describe "encoding #{n}" do
           r[:xml].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions.new << RDF::Query::Solution.new(r[:solution])
-          
+              s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
               s.to_xml.should have_xpath(xp, value)
             end
           end
@@ -105,7 +146,7 @@ describe SPARQL::Results do
         describe "encoding #{n}" do
           r[:html].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions.new << RDF::Query::Solution.new(r[:solution])
+              s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
           
               s.to_html.should have_xpath(xp, value)
             end

@@ -17,8 +17,8 @@ module SPARQL
       require 'json' unless defined?(::JSON)
       
       bindings = self.map do |solution|
-        variable_names.map do |n|
-          case s = solution[n]
+        variable_names.inject({}) do |memo, n|
+          memo.merge case s = solution[n]
           when RDF::URI
             {n => {:type => "uri", :value => s.to_s }}
           when RDF::Node
@@ -32,8 +32,8 @@ module SPARQL
               {n => {:type => "literal", :value => s.to_s }}
             end
           end
-        end.compact
-      end.flatten
+        end
+      end
 
       {
         :head     => { :vars => variable_names },
@@ -177,6 +177,7 @@ module SPARQL
       end
       fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
       fmt ||= RDF::NTriples::Format
+      puts "fmt: #{fmt.inspect}, format: #{format.inspect}, content_type: #{content_type}"
       format ||= fmt.to_sym
       content_type ||= fmt.content_type.first
       results = solutions.dump(format, options)
