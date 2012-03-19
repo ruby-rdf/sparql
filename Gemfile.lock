@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    sparql (0.1.0)
+    sparql (0.1.1)
       builder (>= 3.0.0)
       json (>= 1.5.1)
       rdf (>= 0.3.5)
