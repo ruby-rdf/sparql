@@ -120,16 +120,31 @@ a full set of RDF formats.
 
 ### Adding SPARQL content negotiation to a classic Sinatra application
 
-    #!/usr/bin/env ruby -rubygems
+    # Sinatra example
+    #
+    # Call as http://localhost:4567/sparql?query=uri,
+    # where `uri` is the URI of a SPARQL query, or
+    # a URI-escaped SPARQL query, for example:
+    #   http://localhost:4567/?query=SELECT%20?s%20?p%20?o%20WHERE%20%7B?s%20?p%20?o%7D
     require 'sinatra'
     require 'sinatra/sparql'
-    
-    repository = RDF::Repository.new do |graph|
-      graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
-    end
+    require 'uri'
 
-    get '/sparql' do
-      SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", repository)
+    get '/' do
+    settings.sparql_options.replace(:standard_prefixes => true)
+      repository = RDF::Repository.new do |graph|
+        graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
+      end
+      if params["query"]
+        query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)
+        SPARQL.execute(query, repository)
+      else
+        settings.sparql_options.merge!(:prefixes => {
+          :ssd => "http://www.w3.org/ns/sparql-service-description#",
+          :void => "http://rdfs.org/ns/void#"
+        })
+        service_description(:repo => repository)
+      end
     end
 
 ## Documentation
@@ -158,7 +173,13 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.0.15)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
 * [JSON](https://rubygems.org/gems/json) (>= 1.5.1)
-* Soft dependency on [Linked Data][]
+* Soft dependency on [Linked Data][] (>= 0.3.5)
+* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.3.3)
+  Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient
+* Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.2.9)
+  Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included
+* Soft dependency on [Rack][] (>= 1.3.2)
+* Soft dependency on [Sinatra][] (>= 1.4.1)
 
 ## Installation
 
