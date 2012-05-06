@@ -1,4 +1,4 @@
-@base <http://rubygems.org/gems/rdf-xsd> .
+@base <http://rubygems.org/gems/sparql> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -12,6 +12,7 @@
    doap:description """
      Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
      and includes SPARQL Client for accessing remote repositories."""@en;
+   doap:implements <http://www.w3.org/TR/rdf-sparql-query/>;
    doap:developer <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>, <http://bhuga.net/#ben>, _:pius;
    doap:maintainer <http://greggkellogg.net/foaf#me>;
    doap:documenter <http://greggkellogg.net/foaf#me>;
