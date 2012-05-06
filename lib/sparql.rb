@@ -67,6 +67,13 @@ module SPARQL
     query = self.parse(query, options)
     queryable = queryable || RDF::Repository.new
     
+    case options.fetch(:debug, nil)
+    when TrueClass
+      puts query.to_sxp
+    when Array
+      options[:debug] << query.to_sxp
+    end
+
     if options.has_key?(:load_datasets)
       queryable = queryable.class.new
       [options[:default_graph_uri]].flatten.each do |uri|

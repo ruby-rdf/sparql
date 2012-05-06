@@ -49,6 +49,7 @@ module SPARQL; module Algebra
           load_opts = {
             :headers => {"Accept" => ACCEPTS}
           }
+          load_opts[:debug] = options.fetch(:debug, nil)
           case ds
           when Array
             # Format is (named <uri>), only need the URI part

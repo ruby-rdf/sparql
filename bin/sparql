@@ -11,9 +11,10 @@ require 'getoptlong'
 
 def run(input, options = {})
   if options[:debug]
-    puts "input graph:\n#{options[:graph].dump(:n3)}\n" if options[:graph]
+    puts "input graph:\n#{options[:graph].dump(:ttl, :standard_prefixes => true)}\n" if options[:graph]
     puts "query:\n#{input}\n"
   end
+  options[:graph] ||= RDF::Repository.new
 
   if options[:verbose]
     puts ("\nSPARQL:\n" + input) 
@@ -22,18 +23,19 @@ def run(input, options = {})
   query = if options[:sse]
     SPARQL::Algebra.parse(input, {:debug => options[:debug]})
   else
-    SPARQL::Grammar.parse(input, options)
+    # Only do grammar debugging if we're generating SSE
+    SPARQL::Grammar.parse(input, options.merge(:debug => options.has_key?(:to_sse)))
   end
 
-  if options[:to_sse]
-    puts ("\nSSE:\n" + query.to_sse)
-  else
-    res = query.execute(options[:graph])
+  puts ("\nSSE:\n" + query.to_sse) if options[:debug] || options[:to_sse]
+
+  unless options[:to_sse]
+    res = query.execute(options[:graph], :debug => options[:debug])
     puts res.inspect if options[:verbose]
     puts case res
-    when RDF::Graph then res.dump(:ttl, :base_uri => query.base_uri, :prefixes => query.prefixes)
+    when RDF::Graph   then res.dump(:ttl, :base_uri => query.base_uri, :prefixes => query.prefixes, :standard_prefixes => true)
     when RDF::Literal then res.inspect
-    else                 res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
+    else                   res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
     end
   end
 end
