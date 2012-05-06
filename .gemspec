@@ -39,7 +39,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'builder',         '>= 3.0.0'
   gem.add_runtime_dependency     'json',            '>= 1.5.1'
   gem.add_runtime_dependency     'sxp',             '>= 0.0.14'
-  gem.add_runtime_dependency     'sparql-client',   '>= 0.0.11'
+  gem.add_runtime_dependency     'sparql-client',   '>= 0.1.0'
   gem.add_runtime_dependency     'rdf-xsd',         '>= 0.3.5'
 
   gem.add_development_dependency 'sinatra',         '>= 1.3.2'
