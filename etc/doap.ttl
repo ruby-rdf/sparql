@@ -19,12 +19,12 @@
    dc:creator <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>, <http://bhuga.net/#ben>, _:pius;
    foaf:maker <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>, <http://bhuga.net/#ben>, _:pius;
    doap:blog <http://greggkellogg.net/>, <http://ar.to/>, <http://blog.datagraph.org/>;
-   doap:bug-database <http://github.com/gkellogg/sparql/issues>;
+   doap:bug-database <http://github.com/ruby-rdf/sparql/issues>;
    doap:category <http://dbpedia.org/resource/Resource_Description_Framework>,
      <http://dbpedia.org/resource/Ruby_(programming_language)>;
    doap:created "2008-07-15"^^xsd:date;
    doap:download-page <httphttp://rubygems.org/gems/sparql>;
-   doap:homepage <http://github.com/gkellogg/sparql>;
+   doap:homepage <http://github.com/ruby-rdf/sparql>;
    doap:license <http://creativecommons.org/licenses/publicdomain/>;
    doap:platform "Ruby";
 
@@ -37,7 +37,7 @@
 
 <http://greggkellogg.net/foaf#me> a foaf:Person;
    foaf:homepage <http://greggkellogg.net/>;
-   foaf:mbox <mailto:gregg@kellogg-assoc.com>;
+   foaf:mbox <mailto:gregg@greggkellogg.net>;
    foaf:mbox_sha1sum "35bc44e6d0070e5ad50ccbe0d24403c96af2b9bd";
    foaf:name "Gregg Kellogg" .
 

@@ -192,7 +192,7 @@ To install the latest official release of the `SPARQL` gem, do:
 
 To get a local working copy of the development repository, do:
 
-    % git clone git://github.com/gkellogg/sparql.git
+    % git clone git://github.com/ruby-rdf/sparql.git
 
 ## Mailing List
 
@@ -200,7 +200,7 @@ To get a local working copy of the development repository, do:
 
 ## Authors
 
-* [Gregg Kellogg](http://github.com/gkellogg) - <http://kellogg-assoc.com/>
+* [Gregg Kellogg](http://github.com/gkellogg) - <http://greggkellogg.net/>
 * [Arto Bendiken](http://github.com/bendiken) - <http://ar.to/>
 * [Pius Uzamere](http://github.com/pius) - <http://pius.me/>
 
@@ -243,7 +243,7 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [PDD]:              http://unlicense.org/#unlicensing-contributions
 [Backports]:        http://rubygems.org/gems/backports
 [Linked Data]:      http://rubygems.org/gems/linkeddata
-[SPARQL doc]:       http://rubydoc.info/github/gkellogg/sparql/frames
+[SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames
 [SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
 [SPARQL Protocol]:  http://www.w3.org/TR/rdf-sparql-protocol/

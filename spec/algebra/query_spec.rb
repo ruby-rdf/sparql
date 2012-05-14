@@ -829,7 +829,8 @@ describe SPARQL::Algebra::Query do
       queryable.should_receive(:load).with("data-g1.ttl",
         {
           :base_uri => RDF::URI.new("data-g1.ttl"),
-          :headers => kind_of(Hash)
+          :headers => kind_of(Hash),
+          :debug => kind_of(Object)
         })
       query = SPARQL::Algebra::Expression.parse(%q((dataset (<data-g1.ttl>) (bgp))))
       query.execute(queryable)
@@ -840,7 +841,8 @@ describe SPARQL::Algebra::Query do
       queryable.should_receive(:load).with("data-g1.ttl", {
         :context => RDF::URI("data-g1.ttl"),
         :base_uri => RDF::URI("data-g1.ttl"),
-        :headers => kind_of(Hash)
+        :headers => kind_of(Hash),
+          :debug => kind_of(Object)
       })
       query = SPARQL::Algebra::Expression.parse(%q((dataset ((named <data-g1.ttl>)) (bgp))))
       query.execute(queryable)

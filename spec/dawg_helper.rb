@@ -13,7 +13,7 @@ module SPARQL
   #
   # @author [Arto Bendiken](http://ar.to/)
   # @author [Ben Lavender](http://bhuga.net/)
-  # @author [Gregg Kellogg](http://kellogg-assoc.com/)
+  # @author [Gregg Kellogg](http://greggkellogg.net/)
   module Spec
     BASE_DIRECTORY = File.join(File.expand_path(File.dirname(__FILE__)), 'dawg/')
     BASE_URI = RDF::URI("http://www.w3.org/2001/sw/DataAccess/tests/");

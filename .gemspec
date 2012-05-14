@@ -12,7 +12,7 @@ Gem::Specification.new do |gem|
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name               = "sparql"
-  gem.homepage           = "http://github.com/gkellogg/sparql"
+  gem.homepage           = "http://github.com/ruby-rdf/sparql"
   gem.license            = 'Public Domain' if gem.respond_to?(:license=)
   gem.summary            = "SPARQL library for Ruby."
   gem.rubyforge_project  = 'sparql'
