@@ -25,7 +25,7 @@ module RDF::Queryable
   #
   # Used to implement the SPARQL `describe` operator.
   #
-  # @param [Array<RDF::Term>] *terms
+  # @param [Array<RDF::Term>] terms
   #   List of terms to include in the results.
   # @param [Hash{Symbol => Object}] options
   # @option options [Boolean] :non_subjects (true)

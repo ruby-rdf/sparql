@@ -309,7 +309,7 @@ module SPARQL
     ##
     # Parses input from the given file name or URL.
     #
-    # @param  [String, #to_s] filename
+    # @param  [String, #to_s] sse
     # @param  [Hash{Symbol => Object}] options
     #   any additional options (see {Operator#initialize})
     # @option options [RDF::URI, #to_s] :base_uri

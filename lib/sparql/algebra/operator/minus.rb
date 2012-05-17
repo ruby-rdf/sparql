@@ -16,7 +16,7 @@ module SPARQL; module Algebra
       ##
       # Returns the operand with its sign reversed.
       #
-      # @param  [RDF::Literal::Numeric] numeric
+      # @param  [RDF::Literal::Numeric] term
       #   a numeric literal
       # @return [RDF::Literal::Numeric]
       # @raise  [TypeError] if the operand is not a numeric literal

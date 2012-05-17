@@ -161,10 +161,13 @@ module SPARQL; module Algebra
     # Initializes a new operator instance.
     #
     # @param  [Array<RDF::Term>] operands
-    # @param  [Hash{Symbol => Object}] options
-    #   any additional options
-    # @option options [Boolean] :memoize (false)
-    #   whether to memoize results for particular operands
+    #
+    # @overload initialize(*operands, options)
+    #   @param  [Array<RDF::Term>] operands
+    #   @param  [Hash{Symbol => Object}] options
+    #     any additional options
+    #   @option options [Boolean] :memoize (false)
+    #     whether to memoize results for particular operands
     # @raise  [TypeError] if any operand is invalid
     def initialize(*operands)
       @options  = operands.last.is_a?(Hash) ? operands.pop.dup : {}
@@ -199,7 +202,7 @@ module SPARQL; module Algebra
     # Set Base URI associated with SPARQL document, typically done
     # when reading SPARQL from a URI
     #
-    # @param [RDF::URI] base
+    # @param [RDF::URI] uri
     # @return [RDF::URI]
     def self.base_uri=(uri)
       @base_uri = RDF::URI(uri)

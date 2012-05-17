@@ -1038,7 +1038,9 @@ module SPARQL; module Grammar
     # Current ProdData element
     def prod_data; @prod_data.last; end
     
-    # @param [String] str Error string
+    ##
+    # @param [String] node Location
+    # @param [String] message Error string
     # @param [Hash] options
     # @option options [URI, #to_s] :production
     # @option options [Token] :token
@@ -1050,7 +1052,9 @@ module SPARQL; module Grammar
 
     ##
     # Progress output when parsing
-    # @param [String] str
+    #
+    # @param [String] node Location
+    # @param [String] message
     def progress(node, message, options = {})
       depth = options[:depth] || @productions.length
       $stderr.puts("[#{@lineno}]#{' ' * depth}#{node}: #{message}") if @options[:progress]
@@ -1309,10 +1313,8 @@ module SPARQL; module Grammar
     
     # add a pattern
     #
-    # @param [String] production:: Production generating pattern
-    # @param [RDF::Term] subject:: the subject of the pattern
-    # @param [RDF::Term] predicate:: the predicate of the pattern
-    # @param [RDF::Term, Node, Literal] object:: the object of the pattern
+    # @param [String] production Production generating pattern
+    # @param [Hash{Symbol => Object}] options
     def add_pattern(production, options)
       progress(production, "add_pattern: #{options.inspect}")
       progress(production, "[:pattern, #{options[:subject]}, #{options[:predicate]}, #{options[:object]}]")
