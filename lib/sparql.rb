@@ -60,7 +60,7 @@ module SPARQL
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :named_graph_uri
   #   One or more URIs used to initialize the `queryable` as a named context.
   # @return [RDF::Graph, RDF::Query::Solutions, Boolean]
-  #   Note, results may be used with SPARQL.serialize_results to obtain appropriate
+  #   Note, results may be used with {SPARQL.serialize_results} to obtain appropriate
   #   output encoding.
   # @raise  [SPARQL::MalformedQuery] on invalid input
   def self.execute(query, queryable, options = {})
@@ -88,6 +88,19 @@ module SPARQL
     raise MalformedQuery, e.message
   rescue TypeError => e
     raise QueryRequestRefused, e.message
+  end
+
+  ##
+  # Serialize solutions using the determined format
+  #
+  # @param [RDF::Query::Solutions, RDF::Queryable, Boolean] solutions
+  #   Solutions as either a solution set, a Queryable object (such as a graph) or a Boolean value
+  # @param [Hash{Symbol => Object}] options
+  # @return [String]
+  #   String with serialized results and #content_type
+  # @see {SPARQL::Results.serialize_results}
+  def self.serialize_results(solutions, options = {})
+    Results.serialize_results(solitions, options)
   end
 
   ##
