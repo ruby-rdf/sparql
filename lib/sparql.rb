@@ -91,19 +91,6 @@ module SPARQL
   end
 
   ##
-  # Serialize solutions using the determined format
-  #
-  # @param [RDF::Query::Solutions, RDF::Queryable, Boolean] solutions
-  #   Solutions as either a solution set, a Queryable object (such as a graph) or a Boolean value
-  # @param [Hash{Symbol => Object}] options
-  # @return [String]
-  #   String with serialized results and #content_type
-  # @see {SPARQL::Results.serialize_results}
-  def self.serialize_results(solutions, options = {})
-    Results.serialize_results(solitions, options)
-  end
-
-  ##
   # MalformedQuery
   #
   # When the value of the query type is not a legal sequence of characters in the language defined by the
