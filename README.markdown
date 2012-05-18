@@ -56,7 +56,7 @@ an implementation with support for HTTP Get headers (such as `Net::HTTP`).
 
 ### Result formats
 
-{SPARQL.serialize_results} may be used on it's own, or in conjunction with {Rack::SPARQL} or {Sinatra::SPARQL}
+`SPARQL.serialize_results` may be used on it's own, or in conjunction with {Rack::SPARQL} or {Sinatra::SPARQL}
 to provide content-negotiated query results. For basic `SELECT` and `ASK` this includes HTML, XML and JSON formats.
 `DESCRIBE` and `CONSTRUCT` create an `RDF::Graph`, which can be serialized through [HTTP Content Netogiation][conneg]
 using available RDF writers. For best results, require [Linked Data][] to enable
