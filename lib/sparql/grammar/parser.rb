@@ -1063,30 +1063,33 @@ module SPARQL; module Grammar
     ##
     # Progress output when debugging
     #
-    # @overload: May be called with node, message and an option hash
+    # May be called with node, message and an option hash
+    # @overload debug(node, message, options)
     #   @param [String] node processing node
     #   @param [String] message
     #   @param [Hash{Symbol => Object}] options
     #   @option options [Boolean] :debug output debug messages to $stderr
     #   @option options [Integer] :depth (@productions.length)
     #     Processing depth for indenting message output.
-    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
     #
-    # @overload: May be called with node and an option hash
+    # May be called with node and an option hash
+    # @overload debug(node, options)
     #   @param [String] node processing node
     #   @param [Hash{Symbol => Object}] options
     #   @option options [Boolean] :debug output debug messages to $stderr
     #   @option options [Integer] :depth (@productions.length)
     #     Processing depth for indenting message output.
-    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
     #
-    # @overload: May be called with only options, in which case the block is used to return the output message
-    #   @param [String] node processing node
+    # May be called with only options,
+    # in which case the block is used to return the output message
+    # @overload debug(options)
     #   @param [Hash{Symbol => Object}] options
     #   @option options [Boolean] :debug output debug messages to $stderr
     #   @option options [Integer] :depth (@productions.length)
     #     Processing depth for indenting message output.
-    #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
+    #
+    # @yieldreturn [String]
+    #   appended to message, to allow for lazy-evaulation of message
     def debug(*args)
       options = args.last.is_a?(Hash) ? args.pop : @options
       return unless options[:debug]

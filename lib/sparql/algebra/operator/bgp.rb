@@ -15,10 +15,9 @@ module SPARQL; module Algebra
       ##
       # A `graph` is an RDF::Query with a context.
       #
-      # @overload self.new(context, bgp)
-      #   @param [RDF::URI, RDF::Query::Variable] context
-      #   @param [RDF::Query] bgp
-      #   @return [RDF::Query]
+      # @overload self.new(*patterns)
+      #   @param [Array<RDF::Query::Pattern>] patterns
+      # @return [RDF::Query]
       def self.new(*patterns)
         RDF::Query.new(*(patterns + [{:context => false}]))
       end

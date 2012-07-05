@@ -94,7 +94,11 @@ module SPARQL; module Grammar
       end
     end
 
-    include RUBY_VERSION >= '1.9' ? Unicode : UTF_8
+    if RUBY_VERSION < '1.9'
+      include UTF_8
+    else
+      include Unicode
+    end
 
     KEYWORD              = /#{KEYWORDS.join('|')}|#{FUNCTIONS.join('|')}/i
     DELIMITER            = /\^\^|[{}()\[\],;\.]/

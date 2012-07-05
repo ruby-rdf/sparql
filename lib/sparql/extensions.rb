@@ -25,14 +25,19 @@ module RDF::Queryable
   #
   # Used to implement the SPARQL `describe` operator.
   #
-  # @param [Array<RDF::Term>] terms
-  #   List of terms to include in the results.
-  # @param [Hash{Symbol => Object}] options
-  # @option options [Boolean] :non_subjects (true)
-  #   If `term` is not a `subject` within `self`
-  #   then add all `subject`s referencing the term as a `predicate` or `object`.
-  # @option options [RDF::Graph] graph
-  #   Graph containing statements already considered.
+  # @overload concise_bounded_description(*terms, &block)
+  #   @param [Array<RDF::Term>] terms
+  #     List of terms to include in the results.
+  #
+  # @overload concise_bounded_description(*terms, options, &block)
+  #   @param [Array<RDF::Term>] terms
+  #     List of terms to include in the results.
+  #   @param [Hash{Symbol => Object}] options
+  #   @option options [Boolean] :non_subjects (true)
+  #     If `term` is not a `subject` within `self`
+  #     then add all `subject`s referencing the term as a `predicate` or `object`.
+  #   @option options [RDF::Graph] graph
+  #     Graph containing statements already considered.
   # @yield [statement]
   # @yieldparam [RDF::Statement] statement
   # @yieldreturn [void] ignored

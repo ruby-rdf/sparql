@@ -160,7 +160,8 @@ module SPARQL; module Algebra
     ##
     # Initializes a new operator instance.
     #
-    # @param  [Array<RDF::Term>] operands
+    # @overload initialize(*operands)
+    #   @param  [Array<RDF::Term>] operands
     #
     # @overload initialize(*operands, options)
     #   @param  [Array<RDF::Term>] operands
