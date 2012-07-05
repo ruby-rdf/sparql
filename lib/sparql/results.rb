@@ -177,7 +177,6 @@ module SPARQL
       end
       fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
       fmt ||= RDF::NTriples::Format
-      puts "fmt: #{fmt.inspect}, format: #{format.inspect}, content_type: #{content_type}"
       format ||= fmt.to_sym
       content_type ||= fmt.content_type.first
       results = solutions.dump(format, options)
@@ -195,8 +194,14 @@ module SPARQL
 
     content_type ||= RDF::Query::Solutions::MIME_TYPES[format] if format
     
-    serialization.instance_variable_set(:"@content_type", content_type)
-    def serialization.content_type; @content_type; end
+    serialization.instance_eval do
+      if RUBY_VERSION < "1.9"
+        singleton = class << self; self end
+        singleton.send :define_method, :content_type, lambda { content_type }
+      else
+        define_singleton_method(:content_type) { content_type }
+      end
+    end
     
     serialization
   end
@@ -260,8 +265,14 @@ module SPARQL
       exception.message
     end
     
-    serialization.instance_variable_set(:"@content_type", content_type)
-    def serialization.content_type; @content_type; end
+    serialization.instance_eval do
+      if RUBY_VERSION < "1.9"
+        singleton = class << self; self end
+        singleton.send :define_method, :content_type, lambda { content_type }
+      else
+        define_singleton_method(:content_type) { content_type }
+      end
+    end
 
     serialization
   end
