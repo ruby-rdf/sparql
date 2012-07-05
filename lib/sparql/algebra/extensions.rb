@@ -13,8 +13,14 @@ class Object
   
   ##
   # Make sure the object is in SXP form and transform it to a string form
+  # @return String
   def to_sse
-    self.to_sxp_bin.to_sxp
+    if SXP::VERSION::MAJOR.to_i >= 1 || SXP::VERSION::MINOR.to_i >= 1
+      # FIXME: Right now, this depends on un-merged request, so requires bundler to work
+      SXP::Generator.write(STDOUT, self.to_sxp_bin)
+    else
+      self.to_sxp_bin.to_sxp
+    end
   end
 end
 
