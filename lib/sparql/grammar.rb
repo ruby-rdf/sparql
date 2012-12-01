@@ -30,22 +30,27 @@ module SPARQL
   #     sxp = sse.to_sxp
   # 
   # The following examples illustrate SPARQL transformations:
-  # 
+  #
   # SPARQL:
+  #
   #     SELECT * WHERE { ?a ?b ?c }
   # 
   # SSE:
+  #
   #     RDF::Query.new {
   #       pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
   #     }
   # 
   # SXP:
+  #
   #     (bgp (triple ?a ?b ?c))
   # 
   # SPARQL:
+  #
   #     SELECT * FROM <a> WHERE { ?a ?b ?c }
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::Dataset.new(
   #       [RDF::URI("a")],
   #       RDF::Query.new {
@@ -54,12 +59,15 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (dataset (<a>) (bgp (triple ?a ?b ?c)))
   # 
   # SPARQL:
+  #
   #     SELECT * FROM NAMED <a> WHERE { ?a ?b ?c }
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::Dataset.new(
   #       [[:named, RDF::URI("a")]],
   #       RDF::Query.new {
@@ -68,12 +76,15 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (dataset ((named <a>)) (bgp (triple ?a ?b ?c)))
   # 
   # SPARQL:
+  #
   #     SELECT DISTINCT * WHERE {?a ?b ?c}
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::Distinct.new(
   #       RDF::Query.new {
   #         pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
@@ -81,12 +92,15 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (distinct (bgp (triple ?a ?b ?c)))
   # 
   # SPARQL:
+  #
   #     SELECT ?a ?b WHERE {?a ?b ?c}
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::Project.new(
   #       [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b")], 
   #       RDF::Query.new {
@@ -95,12 +109,15 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (project (?a ?b) (bgp (triple ?a ?b ?c)))
   # 
   # SPARQL:
+  #
   #     CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::Construct.new(
   #       [RDF::Query::Pattern.new(RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c"))],
   #       SPARQL::Algebra::Operator::Filter.new(
@@ -112,12 +129,15 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (construct ((triple ?a ?b ?c)) (filter ?a (bgp (triple ?a ?b ?c))))
   # 
   # SPARQL:
+  #
   #     SELECT * WHERE {<a> <b> <c> OPTIONAL {<d> <e> <f>}}
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::LeftJoin.new(
   #       RDF::Query.new {
   #         pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]
@@ -128,12 +148,15 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (leftjoin (bgp (triple <a> <b> <c>)) (bgp (triple <d> <e> <f>)))
   # 
   # SPARQL:
+  #
   #     SELECT * WHERE {<a> <b> <c> {<d> <e> <f>}}
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::Join.new(
   #       RDF::Query.new {
   #         pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]
@@ -144,9 +167,11 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (join (bgp (triple <a> <b> <c>)) (bgp (triple <d> <e> <f>)))
   # 
   # SPARQL:
+  #
   #     PREFIX : <http://example/> 
   # 
   #     SELECT * 
@@ -157,6 +182,7 @@ module SPARQL
   #     }
   # 
   # SSE:
+  #
   #     SPARQL::Algebra::Operator::Prefix.new(
   #       [[:":", RDF::URI("http://example/")]],
   #       SPARQL::Algebra::Operator::Union.new(
@@ -170,6 +196,7 @@ module SPARQL
   #     )
   # 
   # SXP:
+  #
   #     (prefix ((: <http://example/>))
   #       (union
   #         (bgp (triple ?s ?p ?o))

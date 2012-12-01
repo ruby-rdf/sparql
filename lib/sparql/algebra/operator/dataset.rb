@@ -10,13 +10,14 @@ module SPARQL; module Algebra
     # The SPARQL GraphPattern `dataset` operator.
     #
     # Instintiated with two operands, the first being an array of data source URIs,
-    # either bare, indicating a default dataset, or expressed as an array [:named, <uri>],
+    # either bare, indicating a default dataset, or expressed as an array `\[:named, \<uri\>\]`,
     # indicating that it represents a named data source.
     #
     # @example
-    #   (prefix ((: <http://example/>))
-    #     (dataset (<data-g1.ttl> (named <data-g2.ttl>))
-    #       (bgp (triple ?s ?p ?o))))
+    #
+    #     (prefix ((: <http://example/>))
+    #       (dataset (<data-g1.ttl> (named <data-g2.ttl>))
+    #         (bgp (triple ?s ?p ?o))))
     #
     # @see http://www.w3.org/TR/rdf-sparql-query/#specifyingDataset
     class Dataset < Binary

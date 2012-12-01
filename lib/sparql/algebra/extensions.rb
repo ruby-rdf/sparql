@@ -4,7 +4,7 @@ require 'json'
 # Extensions for Ruby's `Object` class.
 class Object
   ##
-  # Returns the SXP binary representation of this object, defaults to `self'.
+  # Returns the SXP binary representation of this object, defaults to `self`.
   #
   # @return [String]
   def to_sxp_bin
@@ -28,7 +28,7 @@ end
 # Extensions for Ruby's `Object` class.
 class Array
   ##
-  # Returns the SXP representation of this object, defaults to `self'.
+  # Returns the SXP representation of this object, defaults to `self`.
   #
   # @return [String]
   def to_sxp_bin

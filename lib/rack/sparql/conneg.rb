@@ -9,7 +9,7 @@ module Rack; module SPARQL
   # format to serialize any result with a body being `RDF::Enumerable`.
   #
   # Override content negotiation by setting the :format option to
-  # {#initialize}.
+  # {Rack::SPARQL#initialize}.
   #
   # This endpoint also serves the fuction of Rack::LinkedData, as it will serialize
   # SPARQL results, which may be RDF Graphs

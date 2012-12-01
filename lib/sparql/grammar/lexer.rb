@@ -5,8 +5,8 @@ module SPARQL; module Grammar
   ##
   # A lexical analyzer for the SPARQL 1.0 grammar.
   #
-  # Note that productions [80]-[85] have been incorporated directly into
-  # [77], [78], [79].
+  # Note that productions \[80\]-\[85\] have been incorporated directly into
+  # \[77\], \[78\], \[79\].
   #
   # @example Tokenizing a SPARQL query string
   #   query = "SELECT * WHERE { ?s ?p ?o }"
@@ -105,38 +105,38 @@ module SPARQL; module Grammar
     OPERATOR             = /a|\|\||&&|!=|<=|>=|[!=<>+\-*\/]/
     COMMENT              = /#.*/
 
-    PN_CHARS_BASE        = /[A-Z]|[a-z]|#{U_CHARS1}/                            # [95]
-    PN_CHARS_U           = /_|#{PN_CHARS_BASE}/                                 # [96]
+    PN_CHARS_BASE        = /[A-Z]|[a-z]|#{U_CHARS1}/                            # \[95\]
+    PN_CHARS_U           = /_|#{PN_CHARS_BASE}/                                 # \[96\]
     VARNAME              = /(?:[0-9]|#{PN_CHARS_U})
-                            (?:[0-9]|#{PN_CHARS_U}|#{U_CHARS2})*/x              # [97]
-    PN_CHARS             = /-|[0-9]|#{PN_CHARS_U}|#{U_CHARS2}/                  # [98]
+                            (?:[0-9]|#{PN_CHARS_U}|#{U_CHARS2})*/x              # \[97\]
+    PN_CHARS             = /-|[0-9]|#{PN_CHARS_U}|#{U_CHARS2}/                  # \[98\]
     PN_CHARS_BODY        = /(?:(?:\.|#{PN_CHARS})*#{PN_CHARS})?/
-    PN_PREFIX            = /#{PN_CHARS_BASE}#{PN_CHARS_BODY}/                   # [99]
-    PN_LOCAL             = /(?:[0-9]|#{PN_CHARS_U})#{PN_CHARS_BODY}/            # [100]
+    PN_PREFIX            = /#{PN_CHARS_BASE}#{PN_CHARS_BODY}/                   # \[99\]
+    PN_LOCAL             = /(?:[0-9]|#{PN_CHARS_U})#{PN_CHARS_BODY}/            # \[100\]
 
-    IRI_REF              = /<([^<>"{}|^`\\\x00-\x20]*)>/                        # [70]
-    PNAME_NS             = /(#{PN_PREFIX}?):/                                   # [71]
-    PNAME_LN             = /#{PNAME_NS}(#{PN_LOCAL})/                           # [72]
-    BLANK_NODE_LABEL     = /_:(#{PN_LOCAL})/                                    # [73]
-    VAR1                 = /\?(#{VARNAME})/                                     # [74]
-    VAR2                 = /\$(#{VARNAME})/                                     # [75]
-    LANGTAG              = /@([a-zA-Z]+(?:-[a-zA-Z0-9]+)*)/                     # [76]
-    INTEGER              = /[0-9]+/                                             # [77]
-    DECIMAL              = /(?:[0-9]+\.[0-9]*|\.[0-9]+)/                        # [78]
-    EXPONENT             = /[eE][+-]?[0-9]+/                                    # [86]
-    DOUBLE               = /(?:[0-9]+\.[0-9]*|\.[0-9]+|[0-9]+)#{EXPONENT}/      # [79]
-    ECHAR                = /\\[tbnrf\\"']/                                      # [91]
-    STRING_LITERAL1      = /'((?:[^\x27\x5C\x0A\x0D]|#{ECHAR})*)'/              # [87]
-    STRING_LITERAL2      = /"((?:[^\x22\x5C\x0A\x0D]|#{ECHAR})*)"/              # [88]
-    STRING_LITERAL_LONG1 = /'''((?:(?:'|'')?(?:[^'\\]|#{ECHAR})+)*)'''/m       # [89]
-    STRING_LITERAL_LONG2 = /"""((?:(?:"|"")?(?:[^"\\]|#{ECHAR})+)*)"""/m        # [90]
-    WS                   = /\x20|\x09|\x0D|\x0A/                                # [93]
-    NIL                  = /\(#{WS}*\)/                                         # [92]
-    ANON                 = /\[#{WS}*\]/                                         # [94]
+    IRI_REF              = /<([^<>"{}|^`\\\x00-\x20]*)>/                        # \[70\]
+    PNAME_NS             = /(#{PN_PREFIX}?):/                                   # \[71\]
+    PNAME_LN             = /#{PNAME_NS}(#{PN_LOCAL})/                           # \[72\]
+    BLANK_NODE_LABEL     = /_:(#{PN_LOCAL})/                                    # \[73\]
+    VAR1                 = /\?(#{VARNAME})/                                     # \[74\]
+    VAR2                 = /\$(#{VARNAME})/                                     # \[75\]
+    LANGTAG              = /@([a-zA-Z]+(?:-[a-zA-Z0-9]+)*)/                     # \[76\]
+    INTEGER              = /[0-9]+/                                             # \[77\]
+    DECIMAL              = /(?:[0-9]+\.[0-9]*|\.[0-9]+)/                        # \[78\]
+    EXPONENT             = /[eE][+-]?[0-9]+/                                    # \[86\]
+    DOUBLE               = /(?:[0-9]+\.[0-9]*|\.[0-9]+|[0-9]+)#{EXPONENT}/      # \[79\]
+    ECHAR                = /\\[tbnrf\\"']/                                      # \[91\]
+    STRING_LITERAL1      = /'((?:[^\x27\x5C\x0A\x0D]|#{ECHAR})*)'/              # \[87\]
+    STRING_LITERAL2      = /"((?:[^\x22\x5C\x0A\x0D]|#{ECHAR})*)"/              # \[88\]
+    STRING_LITERAL_LONG1 = /'''((?:(?:'|'')?(?:[^'\\]|#{ECHAR})+)*)'''/m       # \[89\]
+    STRING_LITERAL_LONG2 = /"""((?:(?:"|"")?(?:[^"\\]|#{ECHAR})+)*)"""/m        # \[90\]
+    WS                   = /\x20|\x09|\x0D|\x0A/                                # \[93\]
+    NIL                  = /\(#{WS}*\)/                                         # \[92\]
+    ANON                 = /\[#{WS}*\]/                                         # \[94\]
 
-    BooleanLiteral       = /true|false/                                         # [65]
+    BooleanLiteral       = /true|false/                                         # \[65\]
     String               = /#{STRING_LITERAL_LONG1}|#{STRING_LITERAL_LONG2}|
-                            #{STRING_LITERAL1}|#{STRING_LITERAL2}/x             # [66]
+                            #{STRING_LITERAL1}|#{STRING_LITERAL2}/x             # \[66\]
 
     # Make all defined regular expression constants immutable:
     constants.each { |name| const_get(name).freeze }

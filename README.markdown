@@ -19,10 +19,10 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 ## Description
 
-The {SPARQL} gem implements [SPARQL 1.0 Query] and provides [Rack][] and [Sinatra][]
+The {SPARQL} gem implements [SPARQL 1.0][] and provides [Rack][] and [Sinatra][]
 middleware to provide results using [HTTP Content Negotiation][conneg].
 
-* {SPARQL::Grammar} implements a [SPARQL 1.0 Query] parser generating [SPARQL S-Expressions (SSE)][SSE].
+* {SPARQL::Grammar} implements a [SPARQL 1.0][] parser generating [SPARQL S-Expressions (SSE)][SSE].
 * {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including
   compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
