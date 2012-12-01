@@ -94,7 +94,7 @@ describe Sinatra::SPARQL do
   context "serializes solutions" do
     context "with format" do
       {
-        :json => /{\s*"head"/,
+        :json => /\{\s*"head"/,
         :html => /<table class="sparql"/,
         :xml => /<\?xml version/,
       }.each do |fmt, expected|
@@ -112,7 +112,7 @@ describe Sinatra::SPARQL do
     
     context "with Accept" do
       {
-        ::SPARQL::Results::MIME_TYPES[:json] => /{\s*"head"/,
+        ::SPARQL::Results::MIME_TYPES[:json] => /\{\s*"head"/,
         ::SPARQL::Results::MIME_TYPES[:html] => /<table class="sparql"/,
         ::SPARQL::Results::MIME_TYPES[:xml] => /<\?xml version/,
       }.each do |content_types, expected|

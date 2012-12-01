@@ -57,4 +57,4 @@ describe SPARQL::Grammar do
       end
     end
   end
-end
+end unless ENV['CI']

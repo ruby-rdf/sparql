@@ -58,4 +58,4 @@ describe SPARQL::Algebra do
       end
     end
   end
-end
+end unless ENV['CI']

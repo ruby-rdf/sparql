@@ -48,8 +48,8 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'linkeddata',      '>= 0.3.5'
   gem.add_development_dependency 'rdf-spec',        '>= 0.3.5'
   gem.add_development_dependency 'open-uri-cached', '>= 0.0.4'
-  gem.add_development_dependency 'equivalent-xml',  '>= 0.2.8'  if  RUBY_ENGINE == "ruby"
-  gem.add_development_dependency 'nokogiri' ,       '>= 1.5.0'  if  RUBY_ENGINE == "ruby"
+  gem.add_development_dependency 'equivalent-xml',  '>= 0.2.8'
+  gem.add_development_dependency 'nokogiri' ,       '>= 1.5.0'
   gem.add_development_dependency 'rspec',           '>= 2.10.0'
   gem.add_development_dependency 'spira',           '>= 0.0.12'
   gem.add_development_dependency 'yard' ,           '>= 0.8.2'
