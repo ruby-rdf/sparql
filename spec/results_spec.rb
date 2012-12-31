@@ -64,7 +64,7 @@ describe SPARQL::Results do
       :literal_dt    => {:solution => {:a => RDF::Literal(1)},
                          :json     => {
                            :head => {:vars => ["a"]},
-                           :results => {:bindings => [{"a" => {:type => "literal", "datatype" => RDF::XSD.integer.to_s, :value => "1" }}]}
+                           :results => {:bindings => [{"a" => {:type => "typed-literal", "datatype" => RDF::XSD.integer.to_s, :value => "1" }}]}
                          },
                          :xml      => [
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],

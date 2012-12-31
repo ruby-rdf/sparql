@@ -25,7 +25,7 @@ module SPARQL
             {n => {:type => "bnode", :value => s.id }}
           when RDF::Literal
             if s.datatype?
-              {n => {:type => "literal", :datatype => s.datatype.to_s, :value => s.to_s }}
+              {n => {:type => "typed-literal", :datatype => s.datatype.to_s, :value => s.to_s }}
             elsif s.language
               {n => {:type => "literal", "xml:lang" => s.language.to_s, :value => s.to_s }}
             else
