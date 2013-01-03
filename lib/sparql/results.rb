@@ -31,6 +31,8 @@ module SPARQL
             else
               {n => {:type => "literal", :value => s.to_s }}
             end
+          else
+            {}
           end
         end
       end

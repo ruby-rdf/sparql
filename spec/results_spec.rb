@@ -75,6 +75,30 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", %("1"^^&lt;#{RDF::XSD.integer}&gt;)],
                          ],
                         },
+      :missing_var   => {:solution => [
+                            {:entity => RDF::URI("http://localhost/people/1"), :middle_name => RDF::Literal("blah")},
+                            {:entity => RDF::URI("http://localhost/people/2")}
+                          ],
+                         :json     => {
+                           :head => {:vars => ["entity", "middle_name"]},
+                           :results => {:bindings => [
+                             {"entity" => {:type => "uri", "value" => "http://localhost/people/1"}, "middle_name" => {:type => "literal", :value => "blah"}},
+                             {"entity" => {:type => "uri", "value" => "http://localhost/people/2"}}
+                           ]}
+                         },
+                         :xml      => [
+                           ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='entity']/sr:uri/text()", "http://localhost/people/1"],
+                           ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='middle_name']/sr:literal/text()", "blah"],
+                           ["/sr:sparql/sr:results/sr:result[2]/sr:binding[@name='entity']/sr:uri/text()", "http://localhost/people/2"],
+                         ],
+                         :html     => [
+                           ["/table[@class='sparql']/tbody/tr[1]/th[1]/text()", "entity"],
+                           ["/table[@class='sparql']/tbody/tr[1]/th[2]/text()", "middle_name"],
+                           ["/table[@class='sparql']/tbody/tr[2]/td[1]/text()", %q(&lt;http://localhost/people/1&gt;)],
+                           ["/table[@class='sparql']/tbody/tr[2]/td[2]/text()", '"blah"'],
+                           ["/table[@class='sparql']/tbody/tr[3]/td[1]/text()", %q(&lt;http://localhost/people/2&gt;)],
+                         ],
+                        },
       :multiple      => {
                         :solution => [
                             {:x => RDF::Node.new("a"), :y => RDF::DC.title, :z => RDF::Literal("Hello, world!")},
