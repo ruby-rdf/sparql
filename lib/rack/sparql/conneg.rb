@@ -42,10 +42,12 @@ module Rack; module SPARQL
     # @see    http://rack.rubyforge.org/doc/SPEC.html
     def call(env)
       response = app.call(env)
-      case response[2] # the body
-        when RDF::Enumerable, RDF::Query::Solutions, RDF::Literal::Boolean
-          serialize(env, *response)
-        else response
+      body = response[2].respond_to?(:body) ? response[2].body : response[2]
+      case body
+      when RDF::Enumerable, RDF::Query::Solutions, RDF::Literal::Boolean
+        response[2] = body  # Put it back in the response, it might have been a proxy
+        serialize(env, *response)
+      else response
       end
     end
 
