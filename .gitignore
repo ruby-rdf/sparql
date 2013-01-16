@@ -3,3 +3,4 @@
 /.yardoc/
 /.bundle/
 /vendor/
+Gemfile.lock
