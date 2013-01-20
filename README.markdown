@@ -168,18 +168,18 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 ## Dependencies
 
 * [Ruby](http://ruby-lang.org/) (>= 1.9) or (>= 1.8.1 with [Backports][])
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 0.3.5)
-* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 0.0.11)
-* [SXP](https://rubygems.org/gems/sxp) (>= 0.0.15)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0)
+* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.0)
+* [SXP](https://rubygems.org/gems/sxp) (>= 0.1.0)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
 * [JSON](https://rubygems.org/gems/json) (>= 1.5.1)
-* Soft dependency on [Linked Data][] (>= 0.3.5)
-* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.3.3)
+* Soft dependency on [Linked Data][] (>= 1.0)
+* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.0)
   Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient
-* Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.2.9)
+* Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.3.0)
   Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included
-* Soft dependency on [Rack][] (>= 1.3.2)
-* Soft dependency on [Sinatra][] (>= 1.4.1)
+* Soft dependency on [Rack][] (>= 1.4.4)
+* Soft dependency on [Sinatra][] (>= 1.3.3)
 
 ## Installation
 
