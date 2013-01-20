@@ -25,10 +25,16 @@ module SPARQL; module Algebra
       
       NAME = [:dataset]
       # Selected accept headers, from those available
-      ACCEPTS = (%w(text/turtle application/rdf+xml;q=0.8 text/plain;q=0.4).
+      ACCEPTS = (%w(
+        text/turtle
+        application/rdf+xml;q=0.8
+        application/n-triples;q=0.4
+        text/plain;q=0.1
+      ).
         select do |content_type|
+          # Add other content types
           RDF::Format.content_types.include?(content_type.split(';').first)
-        end << ' */*;q=0.1').join(', ').freeze
+        end << ' */*;q=0.2').join(', ').freeze
 
       ##
       # Executes this query on the given `queryable` graph or repository.
