@@ -16,9 +16,11 @@ module Rack; module SPARQL
   class ContentNegotiation
     VARY = {'Vary' => 'Accept'}.freeze
 
+    # @!attribute [r] app
     # @return [#call]
     attr_reader :app
 
+    # @!attribute [r] options
     # @return [Hash{Symbol => Object}]
     attr_reader :options
 
