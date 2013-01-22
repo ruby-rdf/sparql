@@ -1,4 +1,4 @@
-# SPARQL for RDF.rb
+# SPARQL for RDF.rb  [![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](http://travis-ci.org/ruby-rdf/sparql)
 
 This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
