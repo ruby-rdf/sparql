@@ -23,7 +23,7 @@ module RDF::Queryable
   # This results in a subgraph where the object nodes are either URI references, literals, or blank nodes not
   # serving as the subject of any statement in the graph.
   #
-  # Used to implement the SPARQL `describe` operator.
+  # Used to implement the SPARQL `DESCRIBE` operator.
   #
   # @overload concise_bounded_description(*terms, &block)
   #   @param [Array<RDF::Term>] terms

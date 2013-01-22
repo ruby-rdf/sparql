@@ -23,7 +23,7 @@ GIT
 PATH
   remote: .
   specs:
-    sparql (1.0.0)
+    sparql (1.0.1)
       builder (>= 3.0)
       json (>= 1.7)
       rdf (>= 1.0)
