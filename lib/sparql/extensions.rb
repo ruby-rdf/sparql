@@ -33,7 +33,7 @@ module RDF::Queryable
   #   @param [Array<RDF::Term>] terms
   #     List of terms to include in the results.
   #   @param [Hash{Symbol => Object}] options
-  #   @option options [Boolean] :non_subjects (true)
+  #   @option options [Boolean] :non_subjects (false)
   #     If `term` is not a `subject` within `self`
   #     then add all `subject`s referencing the term as a `predicate` or `object`.
   #   @option options [RDF::Graph] graph
@@ -46,7 +46,6 @@ module RDF::Queryable
   # @see http://www.w3.org/Submission/CBD/
   def concise_bounded_description(*terms, &block)
     options = terms.last.is_a?(Hash) ? terms.pop.dup : {}
-    options[:non_subjects] = true unless options.has_key?(:non_subjects)
 
     graph = options[:graph] || RDF::Graph.new
 
