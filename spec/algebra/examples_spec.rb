@@ -55,7 +55,7 @@ describe SPARQL::Algebra do
             end
           else
             it "evaluates to Expression" do
-              eval(example[:expr]).should be_a(Expression)
+              eval(example[:expr]).should be_a(SPARQL::Algebra::Expression)
             end
           end
         end

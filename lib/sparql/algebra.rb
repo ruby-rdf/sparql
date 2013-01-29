@@ -147,17 +147,17 @@ module SPARQL
   # 
   # ## Constructing operator expressions using SSE forms
   # 
-  #     Expression[:isBlank, RDF::Node(:foobar)].to_sxp                          #=> "(isBlank _:foobar)"
-  #     Expression[:isIRI, RDF::URI('http://rdf.rubyforge.org/')].to_sxp         #=> "(isIRI <http://rdf.rubyforge.org/>)"
-  #     Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415)"
-  #     Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415))"
+  #     SPARQL::Algebra::Expression[:isBlank, RDF::Node(:foobar)].to_sxp                          #=> "(isBlank _:foobar)"
+  #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('http://rdf.rubyforge.org/')].to_sxp         #=> "(isIRI <http://rdf.rubyforge.org/>)"
+  #     SPARQL::Algebra::Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415)"
+  #     SPARQL::Algebra::Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415))"
   # 
   # ## Constructing operator expressions using SSE strings
   # 
-  #     Expression.parse('(isBlank _:foobar)')
-  #     Expression.parse('(isIRI <http://rdf.rubyforge.org/>)')
-  #     Expression.parse('(isLiteral 3.1415)')
-  #     Expression.parse('(str (datatype 3.1415))')
+  #     SPARQL::Algebra::Expression.parse('(isBlank _:foobar)')
+  #     SPARQL::Algebra::Expression.parse('(isIRI <http://rdf.rubyforge.org/>)')
+  #     SPARQL::Algebra::Expression.parse('(isLiteral 3.1415)')
+  #     SPARQL::Algebra::Expression.parse('(str (datatype 3.1415))')
   # 
   # ## Evaluating operators standalone
   # 
@@ -167,8 +167,8 @@ module SPARQL
   # 
   # ## Optimizing expressions containing constant subexpressions
   # 
-  #     Expression.parse('(sameTerm ?var ?var)').optimize            #=> RDF::Literal::TRUE
-  #     Expression.parse('(* -2 (- (* (+ 1 2) (+ 3 4))))').optimize  #=> RDF::Literal(42)
+  #     SPARQL::Algebra::Expression.parse('(sameTerm ?var ?var)').optimize            #=> RDF::Literal::TRUE
+  #     SPARQL::Algebra::Expression.parse('(* -2 (- (* (+ 1 2) (+ 3 4))))').optimize  #=> RDF::Literal(42)
   # 
   # ## Evaluating expressions on a solution sequence
   # 
@@ -180,8 +180,8 @@ module SPARQL
   #     end
   # 
   #     # Find people who have a name but don't have a known e-mail address:
-  #     expression = Expression[:not, [:bound, Variable(:email)]]    # ...or just...
-  #     expression = Expression.parse('(not (bound ?email))')
+  #     expression = SPARQL::Algebra::Expression[:not, [:bound, Variable(:email)]]    # ...or just...
+  #     expression = SPARQL::Algebra::Expression.parse('(not (bound ?email))')
   #     solutions.filter!(expression)
   # 
   # @example Optimizations
@@ -189,7 +189,7 @@ module SPARQL
   # Some very simple optimizations are currently implemented for `FILTER`
   # expressions. Use the following to obtain optimized SSE forms:
   # 
-  #     Expression.parse(sse).optimize.to_sxp_bin
+  #     SPARQL::Algebra::Expression.parse(sse).optimize.to_sxp_bin
   # 
   # ## Constant comparison folding
   # 
@@ -209,7 +209,7 @@ module SPARQL
   # Expressions can optionally be [memoized][memoization], which can speed up
   # repeatedly executing the expression on a solution sequence:
   # 
-  #     Expression.parse(sse, :memoize => true)
+  #     SPARQL::Algebra::Expression.parse(sse, :memoize => true)
   #     Operator.new(*operands, :memoize => true)
   # 
   # Memoization is implemented using RDF.rb's [RDF::Util::Cache][] utility
