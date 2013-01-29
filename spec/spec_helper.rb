@@ -1,6 +1,8 @@
 require "bundler/setup"
 require 'psych' if RUBY_VERSION >= "1.9"
 require 'backports' if RUBY_VERSION < "1.9"
+require 'rubygems'
+require 'rspec'
 require 'yaml'
 require 'open-uri/cached'
 require 'rdf'
