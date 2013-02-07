@@ -158,7 +158,6 @@ module SPARQL; module Algebra
             debug(options) {"=> named data source #{uri}"}
             named_datasets << uri
           else
-            debug(options) {"=> array: join #{self.base_uri.inspect} to #{ds.inspect}"}
             uri = self.base_uri ? self.base_uri.join(ds) : ds
             debug(options) {"=> default data source #{uri}"}
             default_datasets << uri
@@ -169,9 +168,10 @@ module SPARQL; module Algebra
             queryable.load(uri.to_s, load_opts)
           end
         end
+        require 'rdf/nquads'
+        debug(options) { queryable.dump(:nquads) }
 
         # Re-write the operand:
-        #require 'debugger'; breakpoint
         operator = self.rewrite do |op|
           case op
           when Operator::Graph
@@ -205,7 +205,7 @@ module SPARQL; module Algebra
             else
               # Several, rewrite as Union
               debug(options) {"=> #{op.to_sxp} => (union ...)"}
-              to_binary(Operator::Union, *default_datasets.map {|u| Operator::Graph.new(u, op)})
+              to_binary(Operator::Union, *default_datasets.map {|u| Operator::Graph.new(u, op.dup)})
             end
           else
             nil
