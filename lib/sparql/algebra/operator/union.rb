@@ -29,11 +29,11 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Union"}
-        solutions1 = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        debug(options) {"=>(left) #{solutions1.inspect}"}
-        solutions2 = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        debug(options) {"=>(right) #{solutions2.inspect}"}
-        @solutions = RDF::Query::Solutions.new(solutions1 + solutions2)
+        @solutions = RDF::Query::Solutions.new(operands.inject([]) do |memo, op|
+          solns = op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+          debug(options) {"=> (op) #{solns.inspect}"}
+          memo + solns
+        end)
         debug(options) {"=> #{@solutions.inspect}"}
         @solutions
       end
@@ -41,8 +41,7 @@ module SPARQL; module Algebra
       ##
       # Returns an optimized version of this query.
       #
-      # If optimize operands, and if the first two operands are both Queries, replace
-      # with the unique sum of the query elements
+      # Optimize operands and remove any which are empty.
       #
       # @return [Union, RDF::Query] `self`
       def optimize

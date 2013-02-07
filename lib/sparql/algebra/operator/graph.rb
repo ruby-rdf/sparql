@@ -45,6 +45,13 @@ module SPARQL; module Algebra
       def optimize
         operands = operands.map(&:optimize)
       end
+      
+      ##
+      # Don't do any more rewriting
+      # @return [SPARQL::Algebra::Expression] `self`
+      def rewrite(&block)
+        self
+      end
     end # Graph
   end # Operator
 end; end # SPARQL::Algebra

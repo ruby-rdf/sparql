@@ -323,6 +323,26 @@ module SPARQL; module Algebra
     end
 
     ##
+    # Rewrite operands by yielding each operand. Recursively descends
+    # through operands implementing this method.
+    #
+    # @yield operand
+    # @yieldparam [] operand
+    # @yieldreturn [SPARQL::Algebra::Expression] the re-written operand
+    # @return [SPARQL::Algebra::Expression] `self`
+    def rewrite(&block)
+      @operands = @operands.map do |op|
+        # Rewrite the operand
+        unless new_op = block.call(op)
+          # Not re-written, rewrite
+          new_op = op.respond_to?(:rewrite) ? op.rewrite(&block) : op
+        end
+        new_op
+      end
+      self
+    end
+
+    ##
     # Returns the SPARQL S-Expression (SSE) representation of this operator.
     #
     # @return [Array]
@@ -362,6 +382,7 @@ module SPARQL; module Algebra
       other.class == self.class && other.operands == self.operands
     end
     alias_method :==, :eql?
+
   protected
 
     ##
@@ -398,6 +419,27 @@ module SPARQL; module Algebra
         # All other arguments, including unbound arguments, produce a type error.
           else raise TypeError, "could not coerce #{literal.inspect} to an RDF::Literal::Boolean"
         end
+      end
+    end
+
+    ##
+    # Transform an array of expressions into a recursive set
+    # of binary operations
+    # e.g.: a || b || c => (|| a (|| b c))
+    # @param [Class] Binary Operator class
+    # @param [Array<SPARQL::Algebra::Expression>] *expressions
+    # @return [SPARQL::Algebra::Expression]
+    def to_binary(klass, *expressions)
+      case expressions.length
+      when 0
+        # Oops!
+        raise "Operator#to_binary requires two or more expressions"
+      when 1
+        expressions.first
+      when 2
+        klass.new(*expressions)
+      else
+        klass.new(expressions.shift, to_binary(klass, *expressions))
       end
     end
 
