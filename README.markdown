@@ -54,6 +54,8 @@ passing HTTP Accept headers for various available RDF formats. For best results,
 a full set of RDF formats in the `GET` request. Also, consider overriding `RDF::Util::File.open_file` with
 an implementation with support for HTTP Get headers (such as `Net::HTTP`).
 
+Queries using datasets are re-written to use the identified graphs for `FROM` and `FROM NAMED` by filtering the results, allowing the use of a repository that contains many graphs without confusing information.
+
 ### Result formats
 
 `SPARQL.serialize_results` may be used on it's own, or in conjunction with {Rack::SPARQL} or {Sinatra::SPARQL}
