@@ -35,12 +35,6 @@ module SPARQL
   #
   #     SELECT * WHERE { ?a ?b ?c }
   # 
-  # SSE:
-  #
-  #     RDF::Query.new {
-  #       pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
-  #     }
-  # 
   # SXP:
   #
   #     (bgp (triple ?a ?b ?c))
@@ -48,15 +42,6 @@ module SPARQL
   # SPARQL:
   #
   #     SELECT * FROM <a> WHERE { ?a ?b ?c }
-  # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::Dataset.new(
-  #       [RDF::URI("a")],
-  #       RDF::Query.new {
-  #         pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
-  #       }
-  #     )
   # 
   # SXP:
   #
@@ -66,15 +51,6 @@ module SPARQL
   #
   #     SELECT * FROM NAMED <a> WHERE { ?a ?b ?c }
   # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::Dataset.new(
-  #       [[:named, RDF::URI("a")]],
-  #       RDF::Query.new {
-  #         pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
-  #       }
-  #     )
-  # 
   # SXP:
   #
   #     (dataset ((named <a>)) (bgp (triple ?a ?b ?c)))
@@ -82,14 +58,6 @@ module SPARQL
   # SPARQL:
   #
   #     SELECT DISTINCT * WHERE {?a ?b ?c}
-  # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::Distinct.new(
-  #       RDF::Query.new {
-  #         pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
-  #       }
-  #     )
   # 
   # SXP:
   #
@@ -99,15 +67,6 @@ module SPARQL
   #
   #     SELECT ?a ?b WHERE {?a ?b ?c}
   # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::Project.new(
-  #       [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b")], 
-  #       RDF::Query.new {
-  #         pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
-  #       }
-  #     )
-  # 
   # SXP:
   #
   #     (project (?a ?b) (bgp (triple ?a ?b ?c)))
@@ -115,18 +74,6 @@ module SPARQL
   # SPARQL:
   #
   #     CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}
-  # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::Construct.new(
-  #       [RDF::Query::Pattern.new(RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c"))],
-  #       SPARQL::Algebra::Operator::Filter.new(
-  #         RDF::Query::Variable.new("a"),
-  #         RDF::Query.new {
-  #           pattern [RDF::Query::Variable.new("a"), RDF::Query::Variable.new("b"), RDF::Query::Variable.new("c")]
-  #         }
-  #       )
-  #     )
   # 
   # SXP:
   #
@@ -136,17 +83,6 @@ module SPARQL
   #
   #     SELECT * WHERE {<a> <b> <c> OPTIONAL {<d> <e> <f>}}
   # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::LeftJoin.new(
-  #       RDF::Query.new {
-  #         pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]
-  #       },
-  #       RDF::Query.new {
-  #         pattern [RDF::URI("d"), RDF::URI("e"), RDF::URI("f")]
-  #       }
-  #     )
-  # 
   # SXP:
   #
   #     (leftjoin (bgp (triple <a> <b> <c>)) (bgp (triple <d> <e> <f>)))
@@ -154,17 +90,6 @@ module SPARQL
   # SPARQL:
   #
   #     SELECT * WHERE {<a> <b> <c> {<d> <e> <f>}}
-  # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::Join.new(
-  #       RDF::Query.new {
-  #         pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]
-  #       },
-  #       RDF::Query.new {
-  #         pattern [RDF::URI("d"), RDF::URI("e"), RDF::URI("f")]
-  #       }
-  #     )
   # 
   # SXP:
   #
@@ -180,20 +105,6 @@ module SPARQL
   #       UNION
   #        { GRAPH ?g { ?s ?p ?o } }
   #     }
-  # 
-  # SSE:
-  #
-  #     SPARQL::Algebra::Operator::Prefix.new(
-  #       [[:":", RDF::URI("http://example/")]],
-  #       SPARQL::Algebra::Operator::Union.new(
-  #         RDF::Query.new {
-  #           pattern [RDF::Query::Variable.new("s"), RDF::Query::Variable.new("p"), RDF::Query::Variable.new("o")]
-  #         },
-  #         RDF::Query.new(:context => RDF::Query::Variable.new("g")) {
-  #           pattern [RDF::Query::Variable.new("s"), RDF::Query::Variable.new("p"), RDF::Query::Variable.new("o")]
-  #         }
-  #       )
-  #     )
   # 
   # SXP:
   #
