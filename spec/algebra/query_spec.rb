@@ -428,12 +428,12 @@ describe SPARQL::Algebra::Query do
       ]
     end
     
-    it "parses " do
-      query = %q((graph ?g
+    it "parses" do
+      query = %q(
           (join
             (bgp (triple :x :b ?a))
             (graph ?g2
-              (bgp (triple :x :p ?x))))))
+              (bgp (triple :x :p ?x)))))
       
       SPARQL::Algebra.parse(query).should be_a(SPARQL::Algebra::Operator::Join)
     end
@@ -829,6 +829,7 @@ describe SPARQL::Algebra::Query do
       queryable.should_receive(:load).with("data-g1.ttl",
         {
           :base_uri => RDF::URI.new("data-g1.ttl"),
+          :context => RDF::URI.new("data-g1.ttl"),
           :headers => kind_of(Hash),
           :debug => kind_of(Object)
         })
@@ -842,7 +843,7 @@ describe SPARQL::Algebra::Query do
         :context => RDF::URI("data-g1.ttl"),
         :base_uri => RDF::URI("data-g1.ttl"),
         :headers => kind_of(Hash),
-          :debug => kind_of(Object)
+        :debug => kind_of(Object)
       })
       query = SPARQL::Algebra::Expression.parse(%q((dataset ((named <data-g1.ttl>)) (bgp))))
       query.execute(queryable)

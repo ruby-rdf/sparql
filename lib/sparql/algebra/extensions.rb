@@ -107,6 +107,13 @@ class RDF::Query
   def ==(other)
     other.is_a?(RDF::Query) && patterns == other.patterns && context == context
   end
+      
+  ##
+  # Don't do any more rewriting
+  # @return [SPARQL::Algebra::Expression] `self`
+  def rewrite(&block)
+    self
+  end
 
   # Transform Query into an Array form of an SSE
   #

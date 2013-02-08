@@ -33,7 +33,7 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#ebv
       def execute(queryable, options = {})
-        debug(options) {"Filter #{operands.first}"}
+        debug(options) {"Filter #{operands.first.to_sxp}"}
         @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"=>(before) #{@solutions.map(&:to_hash).inspect}"}
         @solutions = @solutions.filter do |solution|

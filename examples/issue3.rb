@@ -19,7 +19,6 @@ class TestRepo < RDF::Repository
         :predicate => RDF::URI.new('http://localhost/attribute_types/last_name'),
         :object    => RDF::Literal.new('smith'))
     elsif pattern[:predicate].path == '/attribute_types/middle_name'
-      require 'debugger'; debugger
       statements << RDF::Statement.new(
         :subject   => RDF::URI.new('http://localhost/people/2'),
         :predicate => RDF::URI.new('http://localhost/attribute_types/middle_name'),
