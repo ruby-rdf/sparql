@@ -1,4 +1,5 @@
 require 'sparql/grammar/meta'
+require 'ebnf/ll1/parser'
 
 module SPARQL; module Grammar
   ##
@@ -8,6 +9,7 @@ module SPARQL; module Grammar
   # @see http://en.wikipedia.org/wiki/LR_parser
   class Parser
     include SPARQL::Grammar::Meta
+    include EBNF::LL1::Parser
 
     # Terminals passed to lexer. Order matters!
     terminal(:ANON,                 ANON) do |parser, prod, token, input|

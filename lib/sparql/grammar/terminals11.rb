@@ -1,6 +1,6 @@
 require 'rdf/ll1/lexer'
 
-module RDF::Turtle
+module SPARQL::Grammar
   module Terminals
     # Definitions of token regular expressions used for lexical analysis
   
@@ -60,68 +60,79 @@ module RDF::Turtle
     end
 
     # 26
-    UCHAR                = RDF::LL1::Lexer::UCHAR
+    UCHAR                = EBNF::LL1::Lexer::UCHAR
     # 170s
     PERCENT              = /%[0-9A-Fa-f]{2}/
     # 172s
     PN_LOCAL_ESC         = /\\[_~\.\-\!$\&'\(\)\*\+,;=:\/\?\#@%]/
     # 169s
     PLX                  = /#{PERCENT}|#{PN_LOCAL_ESC}/
-    # 163s
+    # 153
     PN_CHARS_BASE        = /[A-Z]|[a-z]|#{U_CHARS1}/
-    # 164s
+    # 154
     PN_CHARS_U           = /_|#{PN_CHARS_BASE}/
-    # 166s
+    # 155
+    VARNAME              = /(?:[0-9]|#{PN_CHARS_U})
+                            (?:[0-9]|#{PN_CHARS_U}|#{U_CHARS2})*/x              
+    # 156
     PN_CHARS             = /-|[0-9]|#{PN_CHARS_U}|#{U_CHARS2}/
     PN_LOCAL_BODY        = /(?:(?:\.|:|#{PN_CHARS}|#{PLX})*(?:#{PN_CHARS}|:|#{PLX}))?/
     PN_CHARS_BODY        = /(?:(?:\.|#{PN_CHARS})*#{PN_CHARS})?/
-    # 167s
+    # 157
     PN_PREFIX            = /#{PN_CHARS_BASE}#{PN_CHARS_BODY}/
-    # 100s
+    # 158
     PN_LOCAL             = /(?:[0-9]|:|#{PN_CHARS_U}|#{PLX})#{PN_LOCAL_BODY}/
-    # 154s
+    # 144
     EXPONENT             = /[eE][+-]?[0-9]+/
-    # 159s
+    # 149
     ECHAR                = /\\[tbnrf\\"']/
     # 18
     IRIREF               = /<(?:#{IRI_RANGE}|#{UCHAR})*>/
-    # 155
-    VARNAME              = /(?:[0-9]|#{PN_CHARS_U})(?:[0-9]|#{PN_CHARS_U}|\\u00B7)/
-    # 131
-    VAR1                 = /\?#{VARNAME}/
-    # 132
-    VAR2                 = /\$#{VARNAME}/
-    # 139s
+    # 129
     PNAME_NS             = /#{PN_PREFIX}?:/
-    # 140s
+    # 130
     PNAME_LN             = /#{PNAME_NS}#{PN_LOCAL}/
-    # 141s
-    BLANK_NODE_LABEL     = /_:(?:[0-9]|#{PN_CHARS_U})(#{PN_CHARS}|\.)*/
-    # 144s
+    # 131
+    BLANK_NODE_LABEL     = /_:((?:[0-9]|#{PN_CHARS_U})(?:#{PN_CHARS}|\.)*)/
+    # 132
+    VAR1                 = /\?#{VARNAME}/
+    # 133
+    VAR2                 = /\$#{VARNAME}/
+    # 134
     LANGTAG              = /@[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/
-    # 19
-    INTEGER              = /[+-]?[0-9]+/
-    # 20
-    DECIMAL              = /[+-]?(?:[0-9]*\.[0-9]+)/
-    # 21
-    DOUBLE               = /[+-]?(?:[0-9]+\.[0-9]*#{EXPONENT}|\.?[0-9]+#{EXPONENT})/
-    # 22
-    STRING_LITERAL_QUOTE      = /'(?:[^\'\\\n\r]|#{ECHAR}|#{UCHAR})*'/
-    # 23
-    STRING_LITERAL_SINGLE_QUOTE      = /"(?:[^\"\\\n\r]|#{ECHAR}|#{UCHAR})*"/
-    # 24
-    STRING_LITERAL_LONG_SINGLE_QUOTE = /'''(?:(?:'|'')?(?:[^'\\]|#{ECHAR}|#{UCHAR}))*'''/m
-    # 25
-    STRING_LITERAL_LONG_QUOTE = /"""(?:(?:"|"")?(?:[^"\\]|#{ECHAR}|#{UCHAR}))*"""/m
+    # 135
+    INTEGER              = /[0-9]+/
+    # 136
+    DECIMAL              = /(?:[0-9]*\.[0-9]+)/
+    # 137
+    DOUBLE               = /(?:[0-9]+\.[0-9]*#{EXPONENT}|\.?[0-9]+#{EXPONENT})/
+    # 138
+    INTEGER_POSITIVE     = /(\+)([0-9]+)/
+    # 139
+    DECIMAL_POSITIVE     = /(\+)([0-9]*\.[0-9]+)/
+    # 140
+    DOUBLE_POSITIVE      = /(\+)([0-9]+\.[0-9]*#{EXPONENT}|\.?[0-9]+#{EXPONENT})/
+    # 141
+    INTEGER_NEGATIVE     = /(\-)([0-9]+)/
+    # 142
+    DECIMAL_NEGATIVE     = /(\-)([0-9]*\.[0-9]+)/
+    # 143
+    DOUBLE_NEGATIVE      = /(\-)([0-9]+\.[0-9]*#{EXPONENT}|\.?[0-9]+#{EXPONENT})/
+    # 145
+    STRING_LITERAL1      = /'([^\'\\\n\r]|#{ECHAR}|#{UCHAR})*'/
+    # 146
+    STRING_LITERAL2      = /"([^\"\\\n\r]|#{ECHAR}|#{UCHAR})*"/
+    # 147
+    STRING_LITERAL_LONG1 = /'''((?:'|'')?(?:[^'\\]|#{ECHAR}|#{UCHAR}))*'''/m
+    # 148
+    STRING_LITERAL_LONG2 = /"""((?:"|"")?(?:[^"\\]|#{ECHAR}|#{UCHAR}))*"""/m
 
-    # 161s
+    # 151
     WS                   = / |\t|\r|\n  /
-    # 162s
+    # 150
+    NIL                  = /\(#{WS}*\)/
+    # 152
     ANON                 = /\[#{WS}*\]/
-    # 28t
-    SPARQL_PREFIX        = /prefix/i
-    # 29t
-    SPARQL_BASE          = /base/i
   
   end
 end

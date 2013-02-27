@@ -150,10 +150,8 @@ module SPARQL
   # 
   # @see http://www.w3.org/TR/rdf-sparql-query/#grammar
   module Grammar
-    autoload :Lexer,   'sparql/grammar/lexer'
-    autoload :Parser,  'sparql/grammar/parser'
-    autoload :Meta,    'sparql/grammar/parser/meta'
-    autoload :VERSION, 'sparql/grammar/version'
+    autoload :Parser,     'sparql/grammar/parser11'
+    autoload :Terminals,  'sparql/grammar/terminals11'
 
     METHODS   = %w(SELECT CONSTRUCT DESCRIBE ASK).map(&:to_sym)
     KEYWORDS  = %w(BASE PREFIX LIMIT OFFSET DISTINCT REDUCED

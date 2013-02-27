@@ -56,33 +56,14 @@ end
 
 SPARQL_DIR = File.expand_path(File.dirname(__FILE__))
 
-# Use SWAP tools expected to be in ../swap
-# Download from http://www.w3.org/2000/10/swap/
 desc 'Build first, follow and branch tables'
 task :meta => "lib/sparql/grammar/meta.rb"
 
-file "lib/sparql/grammar/meta.rb" => ["etc/sparql-ll1.n3", "script/gramLL1"] do |t|
+file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
   sh %{
-    script/gramLL1 \
-      --grammar etc/sparql-ll1.n3 \
-      --lang 'http://www.w3.org/ns/formats/TriG#language' \
-      --output lib/sparql/grammar/meta.rb
-  }
-end
-
-file "etc/sparql-ll1.n3" => "etc/sparql.n3" do
-  sh %{
-  ( cd ../swap/grammar;
-    PYTHONPATH=../.. python ../cwm.py #{SPARQL_DIR}/etc/sparql.n3 \
-      ebnf2bnf.n3 \
-      first_follow.n3 \
-      --think --data
-  )  > etc/sparql-ll1.n3
-  }
-end
-
-file "etc/sparql.n3" => "etc/sparql.bnf" do
-  sh %{
-    script/ebnf2ttl -f ttl -o etc/sparql.n3 etc/sparql.bnf
+    ebnf --ll1 Query --format rb \
+      --mod-name SPARQL::Grammar::Meta \
+      --output lib/sparql/grammar/meta.rb \
+      etc/sparql11.bnf
   }
 end

@@ -1,8 +1,67 @@
 # -*- encoding: utf-8 -*-
 $:.unshift ".."
 require 'spec_helper'
+require 'ebnf'
+require 'ebnf/ll1/lexer'
 
-describe SPARQL::Grammar::Lexer do
+describe EBNF::LL1::Lexer do
+  before(:all) do
+    require 'sparql/grammar/terminals11'
+
+    @terminals = [
+      [:ANON,                 SPARQL::Grammar::Terminals::ANON],
+      [:NIL,                  SPARQL::Grammar::Terminals::NIL],
+      [:BLANK_NODE_LABEL,     SPARQL::Grammar::Terminals::BLANK_NODE_LABEL],
+      [:IRIREF,               SPARQL::Grammar::Terminals::IRIREF],
+      [:DOUBLE_POSITIVE,      SPARQL::Grammar::Terminals::DOUBLE_POSITIVE],
+      [:DECIMAL_POSITIVE,     SPARQL::Grammar::Terminals::DECIMAL_POSITIVE],
+      [:INTEGER_POSITIVE,     SPARQL::Grammar::Terminals::INTEGER_POSITIVE],
+      [:DOUBLE_NEGATIVE,      SPARQL::Grammar::Terminals::DOUBLE_NEGATIVE],
+      [:DECIMAL_NEGATIVE,     SPARQL::Grammar::Terminals::DECIMAL_NEGATIVE],
+      [:INTEGER_NEGATIVE,     SPARQL::Grammar::Terminals::INTEGER_NEGATIVE],
+      [:DOUBLE,               SPARQL::Grammar::Terminals::DOUBLE],
+      [:DECIMAL,              SPARQL::Grammar::Terminals::DECIMAL],
+      [:INTEGER,              SPARQL::Grammar::Terminals::INTEGER],
+      [:LANGTAG,              SPARQL::Grammar::Terminals::LANGTAG],
+      [:PNAME_LN,             SPARQL::Grammar::Terminals::PNAME_LN],
+      [:PNAME_NS,             SPARQL::Grammar::Terminals::PNAME_NS],
+      [:STRING_LITERAL_LONG1, SPARQL::Grammar::Terminals::STRING_LITERAL_LONG1],
+      [:STRING_LITERAL_LONG2, SPARQL::Grammar::Terminals::STRING_LITERAL_LONG2],
+      [:STRING_LITERAL1,      SPARQL::Grammar::Terminals::STRING_LITERAL1],
+      [:STRING_LITERAL2,      SPARQL::Grammar::Terminals::STRING_LITERAL2],
+      [:VAR1,                 SPARQL::Grammar::Terminals::VAR1],
+      [:VAR2,                 SPARQL::Grammar::Terminals::VAR2],
+      [nil,                   %r([\(\),.;\[\]a\{\}]
+                               |&&|\+|\-|!=|!|<=|=|>=|<|>||\?|\^\^|\^|\|\||\|
+                               |ABS|ADD|ALL|AS|ASC|ASK|BASE|BIND|BINDINGS
+                               |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
+                               |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
+                               |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE|DESC
+                               |DESCRIBE|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
+                               |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
+                               |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
+                               |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
+                               |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
+                               |NAMED|NOT|NOW|OFFSET|OPTIONAL
+                               |ORDER|PREFIX|RAND|REDUCED|REGEX|ROUND|SAMPLE|SECONDS
+                               |SELECT|SEPARATOR|SERVICE
+                               |SHA1|SHA224|SHA256|SHA384|SHA512
+                               |STRDT|STRENDS|STRLAN|STRLEN|STRSTARTS|SUBSTR|STR|SUM
+                               |TIMEZONE|TO|TZ|UCASE|UNDEF|UNION|URI|USING
+                               |WHERE|WITH|YEAR
+                               |isBLANK|isIRI|isLITERAL|isNUMERIC|sameTerm
+                               |true
+                               |false
+                              )x],
+    ]
+    
+    @unescape_terms = [
+      :IRIREF,
+      :STRING_LITERAL1, :STRING_LITERAL2, :STRING_LITERAL_LONG1, :STRING_LITERAL_LONG2,
+      :VAR1, :VAR2
+    ]
+  end
+  
   describe "when unescaping Unicode input" do
     # @see http://www.w3.org/TR/rdf-sparql-query/#codepointEscape
 
@@ -15,7 +74,7 @@ describe SPARQL::Grammar::Lexer do
       }
       inputs.each do |input, output|
         output.force_encoding(Encoding::UTF_8) if output.respond_to?(:force_encoding) # Ruby 1.9+
-        SPARQL::Grammar::Lexer.unescape_codepoints(input).should == output
+        EBNF::LL1::Lexer.unescape_codepoints(input).should == output
       end
     end
 
@@ -27,7 +86,7 @@ describe SPARQL::Grammar::Lexer do
       }
       inputs.each do |input, output|
         output.force_encoding(Encoding::UTF_8) if output.respond_to?(:force_encoding) # Ruby 1.9+
-        SPARQL::Grammar::Lexer.unescape_codepoints(input).should == output
+        EBNF::LL1::Lexer.unescape_codepoints(input).should == output
       end
     end
   end
@@ -35,9 +94,9 @@ describe SPARQL::Grammar::Lexer do
   describe "when unescaping strings" do
     # @see http://www.w3.org/TR/rdf-sparql-query/#grammarEscapes
 
-    SPARQL::Grammar::Lexer::ESCAPE_CHARS.each do |escaped, unescaped|
+    EBNF::LL1::Lexer::ESCAPE_CHARS.each do |escaped, unescaped|
       it "unescapes #{escaped} escape sequences" do
-        SPARQL::Grammar::Lexer.unescape_string(escaped).should == unescaped
+        EBNF::LL1::Lexer.unescape_string(escaped).should == unescaped
       end
     end
   end
@@ -61,7 +120,7 @@ describe SPARQL::Grammar::Lexer do
       strings.each do |range|
         range.each do |string|
           string.force_encoding(Encoding::UTF_8) if string.respond_to?(:force_encoding) # Ruby 1.9+
-          string.should match(SPARQL::Grammar::Lexer::PN_CHARS_BASE)
+          string.should match(SPARQL::Grammar::Terminals::PN_CHARS_BASE)
         end
       end
     end
@@ -78,32 +137,6 @@ describe SPARQL::Grammar::Lexer do
     end
   end
 
-  describe "when tokenizing boolean literals" do
-    it "tokenizes the true literal" do
-      tokenize(%q(true)) do |tokens|
-        tokens.should have(1).element
-        tokens.first.type.should  == :BooleanLiteral
-        tokens.first.value.should == "true"
-      end
-    end
-
-    it "tokenizes the false literal" do
-      tokenize(%q(false)) do |tokens|
-        tokens.should have(1).element
-        tokens.first.type.should  == :BooleanLiteral
-        tokens.first.value.should == "false"
-      end
-    end
-
-    it "tokenizes the nil literal" do
-      tokenize(%q(()), %q(( )), %q((  ))) do |tokens|
-        tokens.should have(1).element
-        tokens.first.type.should  == :NIL
-        tokens.first.value.should == nil
-      end
-    end
-  end
-
   describe "when tokenizing numeric literals" do
     it "tokenizes unsigned integer literals" do
       tokenize(%q(42)) do |tokens|
@@ -115,21 +148,17 @@ describe SPARQL::Grammar::Lexer do
 
     it "tokenizes positive integer literals" do
       tokenize(%q(+42)) do |tokens|
-        tokens.should have(2).element
-        tokens.first.type.should be_nil
-        tokens.first.value.should == "+"
-        tokens.last.type.should  == :INTEGER
-        tokens.last.value.should == "42"
+        tokens.should have(1).element
+        tokens.first.type.should  == :INTEGER_POSITIVE
+        tokens.first.value.should == "+42"
       end
     end
 
     it "tokenizes negative integer literals" do
       tokenize(%q(-42)) do |tokens|
-        tokens.should have(2).element
-        tokens.first.type.should be_nil
-        tokens.first.value.should == "-"
-        tokens.last.type.should  == :INTEGER
-        tokens.last.value.should == "42"
+        tokens.should have(1).element
+        tokens.first.type.should  == :INTEGER_NEGATIVE
+        tokens.first.value.should == "-42"
       end
     end
 
@@ -143,21 +172,17 @@ describe SPARQL::Grammar::Lexer do
 
     it "tokenizes positive decimal literals" do
       tokenize(%q(+3.1415)) do |tokens|
-        tokens.should have(2).element
-        tokens.first.type.should be_nil
-        tokens.first.value.should == "+"
-        tokens.last.type.should  == :DECIMAL
-        tokens.last.value.should == "3.1415"
+        tokens.should have(1).element
+        tokens.last.type.should  == :DECIMAL_POSITIVE
+        tokens.last.value.should == "+3.1415"
       end
     end
 
     it "tokenizes negative decimal literals" do
       tokenize(%q(-3.1415)) do |tokens|
-        tokens.should have(2).element
-        tokens.first.type.should be_nil
-        tokens.first.value.should == "-"
-        tokens.last.type.should  == :DECIMAL
-        tokens.last.value.should == "3.1415"
+        tokens.should have(1).element
+        tokens.last.type.should  == :DECIMAL_NEGATIVE
+        tokens.last.value.should == "-3.1415"
       end
     end
 
@@ -171,21 +196,17 @@ describe SPARQL::Grammar::Lexer do
 
     it "tokenizes positive double literals" do
       tokenize(%q(+1e6)) do |tokens|
-        tokens.should have(2).element
-        tokens.first.type.should be_nil
-        tokens.first.value.should == "+"
-        tokens.last.type.should  == :DOUBLE
-        tokens.last.value.should == "1e6"
+        tokens.should have(1).element
+        tokens.last.type.should  == :DOUBLE_POSITIVE
+        tokens.last.value.should == "+1e6"
       end
     end
 
     it "tokenizes negative double literals" do
       tokenize(%q(-1e6)) do |tokens|
-        tokens.should have(2).element
-        tokens.first.type.should be_nil
-        tokens.first.value.should == "-"
-        tokens.last.type.should  == :DOUBLE
-        tokens.last.value.should == "1e6"
+        tokens.should have(1).element
+        tokens.last.type.should  == :DOUBLE_NEGATIVE
+        tokens.last.value.should == "-1e6"
       end
     end
   end
@@ -195,7 +216,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q('Hello, world!')) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :STRING_LITERAL1
-        tokens.first.value.should == 'Hello, world!'
+        tokens.first.value.should == %q('Hello, world!')
       end
     end
 
@@ -203,7 +224,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q("Hello, world!")) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :STRING_LITERAL2
-        tokens.first.value.should == "Hello, world!"
+        tokens.first.value.should == %q("Hello, world!")
       end
     end
 
@@ -211,7 +232,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q('''Hello, world!''')) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :STRING_LITERAL_LONG1
-        tokens.first.value.should == 'Hello, world!'
+        tokens.first.value.should == %q('''Hello, world!''')
       end
     end
 
@@ -219,7 +240,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q("""Hello, world!""")) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :STRING_LITERAL_LONG2
-        tokens.first.value.should == 'Hello, world!'
+        tokens.first.value.should == %q("""Hello, world!""")
       end
     end
   end
@@ -229,7 +250,14 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q(_:foobar)) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :BLANK_NODE_LABEL
-        tokens.first.value.should == "foobar"
+        tokens.first.value.should == "_:foobar"
+      end
+    end
+
+    it "tokenizes NIL" do
+      tokenize(%q(()), %q(( )), %q((  ))) do |tokens|
+        tokens.should have(1).element
+        tokens.first.type.should  == :NIL
       end
     end
 
@@ -237,7 +265,6 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q([]), %q([ ])) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :ANON
-        tokens.first.value.should be_nil
       end
     end
   end
@@ -247,7 +274,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q(?foo)) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :VAR1
-        tokens.first.value.should == "foo"
+        tokens.first.value.should == "?foo"
       end
     end
 
@@ -255,7 +282,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q($foo)) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :VAR2
-        tokens.first.value.should == "foo"
+        tokens.first.value.should == "$foo"
       end
     end
   end
@@ -264,16 +291,16 @@ describe SPARQL::Grammar::Lexer do
     it "tokenizes absolute IRI references" do
       tokenize(%q(<http://example.org/foobar>)) do |tokens|
         tokens.should have(1).element
-        tokens.first.type.should  == :IRI_REF
-        tokens.first.value.should == 'http://example.org/foobar'
+        tokens.first.type.should  == :IRIREF
+        tokens.first.value.should == '<http://example.org/foobar>'
       end
     end
 
     it "tokenizes relative IRI references" do
       tokenize(%q(<foobar>)) do |tokens|
         tokens.should have(1).element
-        tokens.first.type.should  == :IRI_REF
-        tokens.first.value.should == 'foobar'
+        tokens.first.type.should  == :IRIREF
+        tokens.first.value.should == '<foobar>'
       end
     end
   end
@@ -283,7 +310,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q(:)) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :PNAME_NS
-        tokens.first.value.should == nil
+        tokens.first.value.should == ":"
       end
     end
 
@@ -291,7 +318,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q(dc:)) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should  == :PNAME_NS
-        tokens.first.value.should == "dc"
+        tokens.first.value.should == "dc:"
       end
     end
   end
@@ -301,10 +328,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q(dc:title)) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should == :PNAME_LN
-        tokens.first.value.should be_an(Array)
-        tokens.first.value.should have(2).elements
-        tokens.first.value[0].should == "dc"
-        tokens.first.value[1].should == "title"
+        tokens.first.value.should == "dc:title"
       end
     end
 
@@ -312,10 +336,7 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q(:title)) do |tokens|
         tokens.should have(1).element
         tokens.first.type.should == :PNAME_LN
-        tokens.first.value.should be_an(Array)
-        tokens.first.value.should have(2).elements
-        tokens.first.value[0].should == nil
-        tokens.first.value[1].should == "title"
+        tokens.first.value.should == ":title"
       end
     end
   end
@@ -325,16 +346,16 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q("Hello, world!"@en)) do |tokens|
         tokens.should have(2).elements
         tokens[0].type.should  == :STRING_LITERAL2
-        tokens[0].value.should == 'Hello, world!'
+        tokens[0].value.should == %q("Hello, world!")
         tokens[1].type.should  == :LANGTAG
-        tokens[1].value.should == "en"
+        tokens[1].value.should == "@en"
       end
       tokenize(%q("Hello, world!"@en-US)) do |tokens|
         tokens.should have(2).elements
         tokens[0].type.should  == :STRING_LITERAL2
-        tokens[0].value.should == "Hello, world!"
+        tokens[0].value.should == %q("Hello, world!")
         tokens[1].type.should  == :LANGTAG
-        tokens[1].value.should == 'en-US'
+        tokens[1].value.should == '@en-US'
       end
     end
 
@@ -342,21 +363,21 @@ describe SPARQL::Grammar::Lexer do
       tokenize(%q('3.1415'^^<http://www.w3.org/2001/XMLSchema#double>)) do |tokens|
         tokens.should have(3).elements
         tokens[0].type.should  == :STRING_LITERAL1
-        tokens[0].value.should == '3.1415'
+        tokens[0].value.should == %q('3.1415')
         tokens[1].type.should  == nil
         tokens[1].value.should == '^^'
-        tokens[2].type.should  == :IRI_REF
-        tokens[2].value.should == RDF::XSD.double.to_s
+        tokens[2].type.should  == :IRIREF
+        tokens[2].value.should == "<http://www.w3.org/2001/XMLSchema#double>"
       end
 
       tokenize(%q("3.1415"^^<http://www.w3.org/2001/XMLSchema#double>)) do |tokens|
         tokens.should have(3).elements
         tokens[0].type.should  == :STRING_LITERAL2
-        tokens[0].value.should == '3.1415'
+        tokens[0].value.should == %q("3.1415")
         tokens[1].type.should  == nil
         tokens[1].value.should == '^^'
-        tokens[2].type.should  == :IRI_REF
-        tokens[2].value.should == RDF::XSD.double.to_s
+        tokens[2].type.should  == :IRIREF
+        tokens[2].value.should == "<http://www.w3.org/2001/XMLSchema#double>"
       end
     end
   end
@@ -500,7 +521,7 @@ describe SPARQL::Grammar::Lexer do
         "\r\n" => 1,
       }
       inputs.each do |input, lineno|
-        lexer = SPARQL::Grammar::Lexer.tokenize(input)
+        lexer = EBNF::LL1::Lexer.tokenize(input)
         lexer.to_a # consumes the input
         lexer.lineno.should == lineno
       end
@@ -518,18 +539,18 @@ describe SPARQL::Grammar::Lexer do
 
   describe "when encountering invalid input" do
     it "raises a lexer error" do
-      lambda { tokenize("SELECT foo WHERE {}") }.should raise_error(SPARQL::Grammar::Lexer::Error)
+      lambda { tokenize("SELECT foo WHERE {}") }.should raise_error(EBNF::LL1::Lexer::Error)
     end
 
     it "reports the invalid token which triggered the error" do
       begin
         tokenize("SELECT foo WHERE {}")
-      rescue SPARQL::Grammar::Lexer::Error => error
+      rescue EBNF::LL1::Lexer::Error => error
         error.token.should  == 'foo'
       end
       begin
         tokenize("SELECT ?foo WHERE { bar }")
-      rescue SPARQL::Grammar::Lexer::Error => error
+      rescue EBNF::LL1::Lexer::Error => error
         error.token.should  == 'bar'
       end
     end
@@ -537,7 +558,7 @@ describe SPARQL::Grammar::Lexer do
     it "reports the correct token which triggered the error" do
       begin
         tokenize("SELECT foo#bar\nWHERE {}")
-      rescue SPARQL::Grammar::Lexer::Error => error
+      rescue EBNF::LL1::Lexer::Error => error
         error.token.should  == 'foo'
       end
     end
@@ -545,12 +566,12 @@ describe SPARQL::Grammar::Lexer do
     it "reports the line number where the error occurred" do
       begin
         tokenize("SELECT foo WHERE {}")
-      rescue SPARQL::Grammar::Lexer::Error => error
+      rescue EBNF::LL1::Lexer::Error => error
         error.lineno.should == 0
       end
       begin
         tokenize("SELECT\nfoo WHERE {}")
-      rescue SPARQL::Grammar::Lexer::Error => error
+      rescue EBNF::LL1::Lexer::Error => error
         error.lineno.should == 1
       end
     end
@@ -589,8 +610,8 @@ describe SPARQL::Grammar::Lexer do
   def tokenize(*inputs, &block)
     options = inputs.last.is_a?(Hash) ? inputs.pop : {}
     inputs.each do |input|
-      tokens = SPARQL::Grammar::Lexer.tokenize(input)
-      tokens.should be_a(SPARQL::Grammar::Lexer)
+      tokens = EBNF::LL1::Lexer.tokenize(input, @terminals, :unescape_terms => @unescape_terms)
+      tokens.should be_a(EBNF::LL1::Lexer)
       block.call(tokens.to_a)
     end
   end

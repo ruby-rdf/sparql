@@ -1533,7 +1533,7 @@ describe SPARQL::Grammar::Parser do
   def parser(production = nil, options = {})
     Proc.new do |query|
       parser = SPARQL::Grammar::Parser.new(query, {:resolve_uris => true}.merge(options))
-      production ? parser.parse(SPARQL::Grammar::SPARQL_GRAMMAR[production]) : parser
+      production ? parser.parse(production) : parser
     end
   end
 end
