@@ -1,7 +1,8 @@
-require 'sparql/grammar/meta'
+require 'ebnf'
 require 'ebnf/ll1/parser'
+require 'sparql/grammar/meta'
 
-module SPARQL; module Grammar
+module SPARQL::Grammar
   ##
   # A parser for the SPARQL 1.1 grammar.
   #
@@ -9,27 +10,82 @@ module SPARQL; module Grammar
   # @see http://en.wikipedia.org/wiki/LR_parser
   class Parser
     include SPARQL::Grammar::Meta
+    include SPARQL::Grammar::Terminals
     include EBNF::LL1::Parser
+
+    ##
+    # Any additional options for the parser.
+    #
+    # @return [Hash]
+    attr_reader   :options
+
+    ##
+    # The current input string being processed.
+    #
+    # @return [String]
+    attr_accessor :input
+
+    ##
+    # The current input tokens being processed.
+    #
+    # @return [Array<Token>]
+    attr_reader   :tokens
+
+    ##
+    # The internal representation of the result using hierarch of RDF objects and SPARQL::Algebra::Operator
+    # objects.
+    # @return [Array]
+    # @see http://sparql.rubyforge.org/algebra
+    attr_accessor :result
 
     # Terminals passed to lexer. Order matters!
     terminal(:ANON,                 ANON) do |parser, prod, token, input|
-      input[:resource] = parser.bnode
+      input[:resource] = add_prod_datum(:BlankNode, parser.bnode)
+    end
+    terminal(:NIL,                  NIL) do |parser, prod, token, input|
+      input[:resource] = add_prod_datum(:BlankNode, RDF['nil'])
     end
     terminal(:BLANK_NODE_LABEL,     BLANK_NODE_LABEL) do |parser, prod, token, input|
-      input[:resource] = parser.bnode(token.value[2..-1])
-    end
-    terminal(:VAR1,                 VAR1) do |parser, prod, token, input|
-      input[:resource] = parser.bnode(token.value[2..-1])
-    end
-    terminal(:VAR2,                 VAR1) do |parser, prod, token, input|
-      input[:Var] = parser.variable(token.value[2..-1])
+      input[:resource] = add_prod_datum(:BlankNode, parser.bnode(token.value[2..-1]))
     end
     terminal(:IRIREF,               IRIREF, :unescape => true) do |parser, prod, token, input|
       begin
-        input[:resource] = parser.process_iri(token.value[1..-2])
+        input[:resource] = parser.uri(token.value[1..-2])
       rescue ArgumentError => e
-        raise RDF::ReaderError, e.message
+        raise Error, e.message
       end
+    end
+    terminal(:DOUBLE_POSITIVE,      DOUBLE) do |parser, prod, token, input|
+      # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
+      # zero if necessary
+      value = token.value.sub(/\.([eE])/, '.0\1')
+      input[:resource] = parser.literal(value, :datatype => RDF::XSD.double)
+    end
+    terminal(:DECIMAL_POSITIVE,     DECIMAL) do |parser, prod, token, input|
+      # Note that a Turtle Decimal may begin with a '.', so tack on a leading
+      # zero if necessary
+      value = token.value
+      value = "0#{token.value}" if token.value[0,1] == "."
+      input[:resource] = parser.literal(value, :datatype => RDF::XSD.decimal)
+    end
+    terminal(:INTEGER_POSITIVE,     INTEGER) do |parser, prod, token, input|
+      input[:resource] = parser.literal(token.value, :datatype => RDF::XSD.integer)
+    end
+    terminal(:DOUBLE_NEGATIVE,      DOUBLE) do |parser, prod, token, input|
+      # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
+      # zero if necessary
+      value = token.value.sub(/\.([eE])/, '.0\1')
+      input[:resource] = parser.literal(value, :datatype => RDF::XSD.double)
+    end
+    terminal(:DECIMAL_NEGATIVE,     DECIMAL) do |parser, prod, token, input|
+      # Note that a Turtle Decimal may begin with a '.', so tack on a leading
+      # zero if necessary
+      value = token.value
+      value = "0#{token.value}" if token.value[0,1] == "."
+      input[:resource] = parser.literal(value, :datatype => RDF::XSD.decimal)
+    end
+    terminal(:INTEGER_NEGATIVE,     INTEGER) do |parser, prod, token, input|
+      input[:resource] = parser.literal(token.value, :datatype => RDF::XSD.integer)
     end
     terminal(:DOUBLE,               DOUBLE) do |parser, prod, token, input|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
@@ -47,12 +103,13 @@ module SPARQL; module Grammar
     terminal(:INTEGER,              INTEGER) do |parser, prod, token, input|
       input[:resource] = parser.literal(token.value, :datatype => RDF::XSD.integer)
     end
-    # Spec confusion: spec says : "Literals , prefixed names and IRIs may also contain escape sequences"
+    terminal(:LANGTAG,              LANGTAG) do |parser, prod, token, input|
+      input[:lang] = token.value[1..-1]
+    end
     terminal(:PNAME_LN,             PNAME_LN, :unescape => true) do |parser, prod, token, input|
       prefix, suffix = token.value.split(":", 2)
       input[:resource] = parser.pname(prefix, suffix)
     end
-    # Spec confusion: spec says : "Literals , prefixed names and IRIs may also contain escape sequences"
     terminal(:PNAME_NS,             PNAME_NS) do |parser, prod, token, input|
       prefix = token.value[0..-2]
       
@@ -64,29 +121,54 @@ module SPARQL; module Grammar
         input[:resource] = parser.pname(prefix, '')
       end
     end
-    terminal(:STRING_LITERAL_LONG_SINGLE_QUOTE, STRING_LITERAL_LONG_SINGLE_QUOTE, :unescape => true) do |parser, prod, token, input|
+    terminal(:STRING_LITERAL_LONG1, STRING_LITERAL_LONG1, :unescape => true) do |parser, prod, token, input|
       input[:string_value] = token.value[3..-4]
     end
-    terminal(:STRING_LITERAL_LONG_QUOTE, STRING_LITERAL_LONG_QUOTE, :unescape => true) do |parser, prod, token, input|
+    terminal(:STRING_LITERAL_LONG2, STRING_LITERAL_LONG2, :unescape => true) do |parser, prod, token, input|
       input[:string_value] = token.value[3..-4]
     end
-    terminal(:STRING_LITERAL_QUOTE,      STRING_LITERAL_QUOTE, :unescape => true) do |parser, prod, token, input|
+    terminal(:STRING_LITERAL1,      STRING_LITERAL1, :unescape => true) do |parser, prod, token, input|
       input[:string_value] = token.value[1..-2]
     end
-    terminal(:STRING_LITERAL_SINGLE_QUOTE,      STRING_LITERAL_SINGLE_QUOTE, :unescape => true) do |parser, prod, token, input|
+    terminal(:STRING_LITERAL2,      STRING_LITERAL2, :unescape => true) do |parser, prod, token, input|
       input[:string_value] = token.value[1..-2]
     end
-    
+    terminal(:VAR1,                 VAR1) do |parser, prod, token, input|
+      input[:resource] = parser.bnode(token.value[2..-1])
+    end
+    terminal(:VAR2,                 VAR1) do |parser, prod, token, input|
+      input[:Var] = parser.variable(token.value[2..-1])
+    end
+
+    STR_EXPR = %r([\(\),.;\[\]a\{\}]
+                 |&&|\+|\-|!=|!|<=|=|>=|<|>||\?|\^\^|\^|\|\||\|
+                 |ABS|ADD|ALL|AS|ASC|ASK|BASE|BIND|BINDINGS
+                 |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
+                 |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
+                 |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE|DESC
+                 |DESCRIBE|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
+                 |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
+                 |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
+                 |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
+                 |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
+                 |NAMED|NOT|NOW|OFFSET|OPTIONAL
+                 |ORDER|PREFIX|RAND|REDUCED|REGEX|ROUND|SAMPLE|SECONDS
+                 |SELECT|SEPARATOR|SERVICE
+                 |SHA1|SHA224|SHA256|SHA384|SHA512
+                 |STRDT|STRENDS|STRLAN|STRLEN|STRSTARTS|SUBSTR|STR|SUM
+                 |TIMEZONE|TO|TZ|UCASE|UNDEF|UNION|URI|USING
+                 |WHERE|WITH|YEAR
+                 |isBLANK|isIRI|isLITERAL|isNUMERIC|sameTerm
+                 |true
+                 |false
+                )x
     # String terminals
-    terminal(nil,                  %r([\{\}\(\),.;\[\]a]|\^\^|true|false)) do |parser, prod, token, input|
+    terminal(nil,                  STR_EXPR) do |parser, prod, token, input|
       case token.value
       when 'a'             then input[:resource] = RDF.type
       when 'true', 'false' then input[:resource] = RDF::Literal::Boolean.new(token.value)
       else                      input[:string] = token.value
       end
-    end
-    terminal(:LANGTAG,              LANGTAG) do |parser, prod, token, input|
-      input[:lang] = token.value[1..-1]
     end
 
     # Productions
@@ -130,7 +212,7 @@ module SPARQL; module Grammar
     production(:ConstructQuery) do |parser, phase, input, data, callback|
       return unless phase == :finish
       query = parser.merge_modifiers(data)
-      tempate = data[:ConstructTemplate] || []
+      template = data[:ConstructTemplate] || []
       add_prod_datum :query, Algebra::Expression[:construct, template, query]
     end
 
@@ -377,14 +459,14 @@ module SPARQL; module Grammar
     #                     | '(' 'DISTINCT'? Expression ( ',' Expression )* ')'
     production(:ArgList) do |parser, phase, input, data, callback|
       return unless phase == :finish
-      data.values.each {|v| add_prod_datum(:ArgList, v)
+      data.values.each {|v| add_prod_datum(:ArgList, v)}
     end
 
     # [68]  	ExpressionList	  ::=  	NIL
     #                             | '(' Expression ( ',' Expression )* ')'
     production(:ExpressionList) do |parser, phase, input, data, callback|
       return unless phase == :finish
-      data.values.each {|v| add_prod_datum(:ExpressionList, v)
+      data.values.each {|v| add_prod_datum(:ExpressionList, v)}
     end
 
     # [69]  	ConstructTemplate	  ::=  	'{' ConstructTriples? '}'
@@ -452,7 +534,7 @@ module SPARQL; module Grammar
     # [76]  	Verb	  ::=  	VarOrIRIref | 'a'
     production(:Verb) do |parser, phase, input, data, callback|
       return unless phase == :finish
-      data.values.each {|v| add_prod_datum(:Verb, v)
+      data.values.each {|v| add_prod_datum(:Verb, v)}
     end
 
     # [92]  	TriplesNode	  ::=  	Collection |	BlankNodePropertyList
@@ -501,13 +583,13 @@ module SPARQL; module Grammar
     # [96]  	VarOrTerm	  ::=  	Var | GraphTerm
     production(:VarOrTerm) do |parser, phase, input, data, callback|
       return unless phase == :finish
-      data.values.each {|v| add_prod_datum(:VarOrTerm, v)
+      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
     end
 
     # [97]  	VarOrIRIref	  ::=  	Var | IRIref
     production(:VarOrIRIref) do |parser, phase, input, data, callback|
       return unless phase == :finish
-      data.values.each {|v| add_prod_datum(:VarOrIRIref, v)
+      data.values.each {|v| add_prod_datum(:VarOrIRIref, v)}
     end
 
     # [99]  	GraphTerm	  ::=  	IRIref |	RDFLiteral |	NumericLiteral
@@ -722,7 +804,7 @@ module SPARQL; module Grammar
     #                                 ( ',' Expression )? ')'
     production(:RegexExpression) do |parser, phase, input, data, callback|
       return unless phase == :finish
-      add_prod_datum(:regex, data[:Expression]
+      add_prod_datum(:regex, data[:Expression])
     end
 
     # [113]  	SubstringExpression	  ::=  	'SUBSTR'
@@ -730,7 +812,7 @@ module SPARQL; module Grammar
     #                                     ( ',' Expression )? ')'
     production(:SubstringExpression) do |parser, phase, input, data, callback|
       return unless phase == :finish
-      add_prod_datum(:substr, data[:Expression]
+      add_prod_datum(:substr, data[:Expression])
     end
 
     # [114]  	ExistsFunc	  ::=  	'EXISTS' GroupGraphPattern
@@ -802,7 +884,279 @@ module SPARQL; module Grammar
       add_prod_datum(:iri, data[:PrefixedName])
     end
 
+    ##
+    # Initializes a new parser instance.
+    #
+    # @param  [String, #to_s]          input
+    # @param  [Hash{Symbol => Object}] options
+    # @option options [Hash]     :prefixes     (Hash.new)
+    #   the prefix mappings to use (for acessing intermediate parser productions)
+    # @option options [#to_s]    :base_uri     (nil)
+    #   the base URI to use when resolving relative URIs (for acessing intermediate parser productions)
+    # @option options [#to_s]    :anon_base     ("b0")
+    #   Basis for generating anonymous Nodes
+    # @option options [Boolean] :resolve_uris (false)
+    #   Resolve prefix and relative IRIs, otherwise, when serializing the parsed SSE
+    #   as S-Expressions, use the original prefixed and relative URIs along with `base` and `prefix`
+    #   definitions.
+    # @option options [Boolean]  :validate     (false)
+    #   whether to validate the parsed statements and values
+    # @option options [Boolean] :progress
+    #   Show progress of parser productions
+    # @option options [Boolean] :debug
+    #   Detailed debug output
+    # @return [SPARQL::Grammar::Parser]
+    def initialize(input = nil, options = {})
+      @input = input
+      @options = {:anon_base => "b0", :validate => false}.merge(options)
 
+      debug("base IRI") {base_uri.inspect}
+      debug("validate") {validate?.inspect}
+
+      @vars = {}
+      @nd_var_gen = "0"
+
+      if block_given?
+        case block.arity
+          when 0 then instance_eval(&block)
+          else block.call(self)
+        end
+      end
+    end
+
+    ##
+    # Returns `true` if the input string is syntactically valid.
+    #
+    # @return [Boolean]
+    def valid?
+      parse
+    rescue Error
+      false
+    end
+    
+    # @return [String]
+    def to_sxp_bin
+      @result
+    end
+    
+    def to_s
+      @result.to_sxp
+    end
+
+    alias_method :ll1_parse, :parse
+
+    # Parse query
+    #
+    # The result is a SPARQL Algebra S-List. Productions return an array such as the following:
+    #
+    #   (prefix ((: <http://example/>))
+    #     (union
+    #       (bgp (triple ?s ?p ?o))
+    #       (graph ?g
+    #         (bgp (triple ?s ?p ?o)))))
+    #
+    # @param [Symbol, #to_s] prod The starting production for the parser.
+    #   It may be a URI from the grammar, or a symbol representing the local_name portion of the grammar URI.
+    # @return [Array]
+    # @see http://www.w3.org/2001/sw/DataAccess/rq23/rq24-algebra.html
+    # @see http://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
+    def parse(prod = START)
+      ll1_parse(@input, prod.to_sym, @options.merge(:branch => BRANCH,
+                                                     :first => FIRST,
+                                                     :follow => FOLLOW)
+      ) do |context, *data|
+        loc = data.shift
+        case context
+        when :trace
+          debug(loc, *(data.dup << {:level => 0}))
+        end
+      end
+
+      # The last thing on the @prod_data stack is the result
+      @result = case
+      when !prod_data.is_a?(Hash)
+        prod_data
+      when prod_data.empty?
+        nil
+      when prod_data[:query]
+        prod_data[:query].to_a.length == 1 ? prod_data[:query].first : prod_data[:query]
+      else
+        key = prod_data.keys.first
+        [key] + prod_data[key]  # Creates [:key, [:triple], ...]
+      end
+    end
+
+    ##
+    # Returns the URI prefixes currently defined for this parser.
+    #
+    # @example
+    #   parser.prefixes[:dc]  #=> RDF::URI('http://purl.org/dc/terms/')
+    #
+    # @return [Hash{Symbol => RDF::URI}]
+    # @since  0.3.0
+    def prefixes
+      @options[:prefixes] ||= {}
+    end
+
+    ##
+    # Defines the given URI prefixes for this parser.
+    #
+    # @example
+    #   parser.prefixes = {
+    #     :dc => RDF::URI('http://purl.org/dc/terms/'),
+    #   }
+    #
+    # @param  [Hash{Symbol => RDF::URI}] prefixes
+    # @return [Hash{Symbol => RDF::URI}]
+    # @since  0.3.0
+    def prefixes=(prefixes)
+      @options[:prefixes] = prefixes
+    end
+
+    ##
+    # Defines the given named URI prefix for this parser.
+    #
+    # @example Defining a URI prefix
+    #   parser.prefix :dc, RDF::URI('http://purl.org/dc/terms/')
+    #
+    # @example Returning a URI prefix
+    #   parser.prefix(:dc)    #=> RDF::URI('http://purl.org/dc/terms/')
+    #
+    # @overload prefix(name, uri)
+    #   @param  [Symbol, #to_s]   name
+    #   @param  [RDF::URI, #to_s] uri
+    #
+    # @overload prefix(name)
+    #   @param  [Symbol, #to_s]   name
+    #
+    # @return [RDF::URI]
+    def prefix(name, uri = nil)
+      name = name.to_s.empty? ? nil : (name.respond_to?(:to_sym) ? name.to_sym : name.to_s.to_sym)
+      uri.nil? ? prefixes[name] : prefixes[name] = uri
+    end
+
+    ##
+    # Returns the Base URI defined for the parser,
+    # as specified or when parsing a BASE prologue element.
+    #
+    # @example
+    #   parser.base  #=> RDF::URI('http://example.com/')
+    #
+    # @return [HRDF::URI]
+    def base_uri
+      RDF::URI(@options[:base_uri])
+    end
+
+    ##
+    # Set the Base URI to use for this parser.
+    #
+    # @param  [RDF::URI, #to_s] uri
+    #
+    # @example
+    #   parser.base_uri = RDF::URI('http://purl.org/dc/terms/')
+    #
+    # @return [RDF::URI]
+    def base_uri=(uri)
+      @options[:base_uri] = RDF::URI(uri)
+    end
+
+    ##
+    # Returns `true` if parsed statements and values should be validated.
+    #
+    # @return [Boolean] `true` or `false`
+    # @since  0.3.0
+    def validate?
+      @options[:validate]
+    end
+
+  private
+
+    # Generate a BNode identifier
+    def gen_node(id = nil)
+      if @nd_var_gen
+        # Use non-distinguished variables within patterns
+        variable(id, false)
+      else
+        unless id
+          id = @options[:anon_base]
+          @options[:anon_base] = @options[:anon_base].succ
+        end
+        RDF::Node.new(id)
+      end
+    end
+
+    ##
+    # Return variable allocated to an ID.
+    # If no ID is provided, a new variable
+    # is allocated. Otherwise, any previous assignment will be used.
+    #
+    # The variable has a #distinguished? method applied depending on if this
+    # is a disinguished or non-distinguished variable. Non-distinguished
+    # variables are effectively the same as BNodes.
+    # @return [RDF::Query::Variable]
+    def variable(id, distinguished = true)
+      id = nil if id.to_s.empty?
+      
+      if id
+        @vars[id] ||= begin
+          v = RDF::Query::Variable.new(id)
+          v.distinguished = distinguished
+          v
+        end
+      else
+        unless distinguished
+          # Allocate a non-distinguished variable identifier
+          id = @nd_var_gen
+          @nd_var_gen = id.succ
+        end
+        v = RDF::Query::Variable.new(id)
+        v.distinguished = distinguished
+        v
+      end
+    end
+
+    # Create URIs
+    def uri(value)
+      # If we have a base URI, use that when constructing a new URI
+      uri = if self.base_uri
+        u = self.base_uri.join(value.to_s)
+        u.lexical = "<#{value}>" unless u.to_s == value.to_s || options[:resolve_uris]
+        u
+      else
+        RDF::URI(value)
+      end
+
+      #uri.validate! if validate? && uri.respond_to?(:validate)
+      #uri.canonicalize! if canonicalize?
+      #uri = RDF::URI.intern(uri) if intern?
+      uri
+    end
+
+    ##
+    # Progress output when debugging
+    # @overload debug(node, message)
+    #   @param [String] node relative location in input
+    #   @param [String] message ("")
+    #
+    # @overload debug(message)
+    #   @param [String] message ("")
+    #
+    # @yieldreturn [String] added to message
+    def debug(*args)
+      return unless @options[:debug] || RDF::Turtle.debug?
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      debug_level = options.fetch(:level, 1)
+      return unless debug_level <= DEBUG_LEVEL
+      depth = options[:depth] || self.depth
+      message = args.pop
+      message = message.call if message.is_a?(Proc)
+      args << message if message
+      args << yield if block_given?
+      message = "#{args.join(': ')}"
+      str = "[#{@lineno}]#{' ' * depth}#{message}"
+      @options[:debug] << str if @options[:debug].is_a?(Array)
+      $stderr.puts(str) if RDF::Turtle.debug?
+    end
 
   end # class Parser
 end # module SPARQL::Grammar

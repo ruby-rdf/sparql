@@ -1,6 +1,13 @@
 $:.unshift ".."
 require 'spec_helper'
 
+class SPARQL::Grammar::Parser
+  # Class method version to aid in specs
+  def self.variable(id, distinguished = true)
+    SPARQL::Grammar::Parser.new.send(:variable, id, distinguished)
+  end
+end
+
 module ProductionRequirements
   def with_production(production, &block)
     block.call(production)
@@ -1532,6 +1539,7 @@ describe SPARQL::Grammar::Parser do
 
   def parser(production = nil, options = {})
     Proc.new do |query|
+      require 'debugger'; breakpoint
       parser = SPARQL::Grammar::Parser.new(query, {:resolve_uris => true}.merge(options))
       production ? parser.parse(production) : parser
     end
