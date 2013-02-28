@@ -67,3 +67,19 @@ file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
       etc/sparql11.bnf
   }
 end
+
+file "etc/sparql11.ll1.sxp" => "etc/sparql11.bnf" do |t|
+  sh %{
+    ebnf --ll1 Query --format sxp \
+      --output etc/sparql11.ll1.sxp \
+      etc/sparql11.bnf
+  }
+end
+
+file "etc/sparql11.sxp" => "etc/sparql11.bnf" do |t|
+  sh %{
+    ebnf --bnf --format sxp \
+      --output etc/sparql11.sxp \
+      etc/sparql11.bnf
+  }
+end
