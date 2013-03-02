@@ -1,35 +1,158 @@
 ((rule _empty "0" (seq))
  (rule QueryUnit "1" (seq Query))
- (rule Query "2" (seq Prologue _Query_1 BindingsClause) )
- (rule _Query_1 "2.1" (alt SelectQuery ConstructQuery DescribeQuery AskQuery ) )
+ (rule
+ Query
+ "2"
+ (seq Prologue _Query_1 BindingsClause)
+)
+ (rule
+ _Query_1
+ "2.1"
+ (alt
+  SelectQuery
+  ConstructQuery
+  DescribeQuery
+  AskQuery
+ )
+)
  (rule UpdateUnit "3" (seq Update))
  (rule Prologue "4" (alt _empty _Prologue_2))
- (rule _Prologue_1 "4.1" (alt BaseDecl PrefixDecl) )
- (rule _Prologue_2 "4.2" (seq _Prologue_1 Prologue) )
+ (rule
+ _Prologue_1
+ "4.1"
+ (alt BaseDecl PrefixDecl)
+)
+ (rule
+ _Prologue_2
+ "4.2"
+ (seq _Prologue_1 Prologue)
+)
  (rule BaseDecl "5" (seq "BASE" IRIREF))
- (rule PrefixDecl "6" (seq "PREFIX" PNAME_NS IRIREF) )
- (rule SelectQuery "7" (seq SelectClause _SelectQuery_1 WhereClause
-SolutionModifier ) )
- (rule _SelectQuery_1 "7.1" (alt _empty _SelectQuery_2) )
- (rule _SelectQuery_2 "7.2" (seq DatasetClause _SelectQuery_1) )
- (rule SubSelect "8" (seq SelectClause WhereClause SolutionModifier ) )
- (rule SelectClause "9" (seq "SELECT" _SelectClause_1 _SelectClause_2 ) )
- (rule _SelectClause_1 "9.1" (alt _empty _SelectClause_3) )
- (rule _SelectClause_2 "9.2" (alt _SelectClause_4 "*") )
- (rule _SelectClause_3 "9.3" (alt "DISTINCT" "REDUCED") )
- (rule _SelectClause_4 "9.4" (seq _SelectClause_5 _SelectClause_6) )
- (rule _SelectClause_5 "9.5" (alt Var _SelectClause_8) )
- (rule _SelectClause_6 "9.6" (alt _empty _SelectClause_7) )
- (rule _SelectClause_7 "9.7" (seq _SelectClause_5 _SelectClause_6) )
- (rule _SelectClause_8 "9.8" (seq "(" Expression "AS" Var ")") )
- (rule ConstructQuery "10" (seq "CONSTRUCT" _ConstructQuery_1) )
- (rule _ConstructQuery_1 "10.1" (alt _ConstructQuery_2 _ConstructQuery_3) )
- (rule _ConstructQuery_2 "10.2" (seq ConstructTemplate _ConstructQuery_4
-WhereClause SolutionModifier ) )
- (rule _ConstructQuery_3 "10.3" (seq _ConstructQuery_6 "WHERE" "{"
-_ConstructQuery_7 "}" SolutionModifier ) )
- (rule _ConstructQuery_4 "10.4" (alt _empty _ConstructQuery_5) )
- (rule _ConstructQuery_5 "10.5" (seq DatasetClause _ConstructQuery_4) )
+ (rule
+ PrefixDecl
+ "6"
+ (seq "PREFIX" PNAME_NS IRIREF)
+)
+ (rule
+ SelectQuery
+ "7"
+ (seq
+  SelectClause
+  _SelectQuery_1
+  WhereClause
+  SolutionModifier
+ )
+)
+ (rule
+ _SelectQuery_1
+ "7.1"
+ (alt _empty _SelectQuery_2)
+)
+ (rule
+ _SelectQuery_2
+ "7.2"
+ (seq DatasetClause _SelectQuery_1)
+)
+ (rule
+ SubSelect
+ "8"
+ (seq
+  SelectClause
+  WhereClause
+  SolutionModifier
+ )
+)
+ (rule
+ SelectClause
+ "9"
+ (seq
+  "SELECT"
+  _SelectClause_1
+  _SelectClause_2
+ )
+)
+ (rule
+ _SelectClause_1
+ "9.1"
+ (alt _empty _SelectClause_3)
+)
+ (rule
+ _SelectClause_2
+ "9.2"
+ (alt _SelectClause_4 "*")
+)
+ (rule
+ _SelectClause_3
+ "9.3"
+ (alt "DISTINCT" "REDUCED")
+)
+ (rule
+ _SelectClause_4
+ "9.4"
+ (seq _SelectClause_5 _SelectClause_6)
+)
+ (rule
+ _SelectClause_5
+ "9.5"
+ (alt Var _SelectClause_8)
+)
+ (rule
+ _SelectClause_6
+ "9.6"
+ (alt _empty _SelectClause_7)
+)
+ (rule
+ _SelectClause_7
+ "9.7"
+ (seq _SelectClause_5 _SelectClause_6)
+)
+ (rule
+ _SelectClause_8
+ "9.8"
+ (seq "(" Expression "AS" Var ")")
+)
+ (rule
+ ConstructQuery
+ "10"
+ (seq "CONSTRUCT" _ConstructQuery_1)
+)
+ (rule
+ _ConstructQuery_1
+ "10.1"
+ (alt _ConstructQuery_2 _ConstructQuery_3)
+)
+ (rule
+ _ConstructQuery_2
+ "10.2"
+ (seq
+  ConstructTemplate
+  _ConstructQuery_4
+  WhereClause
+  SolutionModifier
+ )
+)
+ (rule
+ _ConstructQuery_3
+ "10.3"
+ (seq
+  _ConstructQuery_6
+  "WHERE"
+  "{"
+  _ConstructQuery_7
+  "}"
+  SolutionModifier
+ )
+)
+ (rule
+ _ConstructQuery_4
+ "10.4"
+ (alt _empty _ConstructQuery_5)
+)
+ (rule
+ _ConstructQuery_5
+ "10.5"
+ (seq DatasetClause _ConstructQuery_4)
+)
  (rule
  _ConstructQuery_6
  "10.6"
