@@ -1539,7 +1539,6 @@ describe SPARQL::Grammar::Parser do
 
   def parser(production = nil, options = {})
     Proc.new do |query|
-      require 'debugger'; breakpoint
       parser = SPARQL::Grammar::Parser.new(query, {:resolve_uris => true}.merge(options))
       production ? parser.parse(production) : parser
     end

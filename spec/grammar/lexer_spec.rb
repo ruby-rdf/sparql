@@ -31,28 +31,27 @@ describe EBNF::LL1::Lexer do
       [:STRING_LITERAL2,      SPARQL::Grammar::Terminals::STRING_LITERAL2],
       [:VAR1,                 SPARQL::Grammar::Terminals::VAR1],
       [:VAR2,                 SPARQL::Grammar::Terminals::VAR2],
-      [nil,                   %r([\(\),.;\[\]a\{\}]
-                               |&&|\+|\-|!=|!|<=|=|>=|<|>||\?|\^\^|\^|\|\||\|
-                               |ABS|ADD|ALL|AS|ASC|ASK|BASE|BIND|BINDINGS
-                               |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
-                               |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
-                               |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE|DESC
-                               |DESCRIBE|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
-                               |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
-                               |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
-                               |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
-                               |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
-                               |NAMED|NOT|NOW|OFFSET|OPTIONAL
-                               |ORDER|PREFIX|RAND|REDUCED|REGEX|ROUND|SAMPLE|SECONDS
-                               |SELECT|SEPARATOR|SERVICE
-                               |SHA1|SHA224|SHA256|SHA384|SHA512
-                               |STRDT|STRENDS|STRLAN|STRLEN|STRSTARTS|SUBSTR|STR|SUM
-                               |TIMEZONE|TO|TZ|UCASE|UNDEF|UNION|URI|USING
-                               |WHERE|WITH|YEAR
-                               |isBLANK|isIRI|isLITERAL|isNUMERIC|sameTerm
-                               |true
-                               |false
-                              )x],
+      [nil,                   %r(ABS|ADD|ALL|ASC|ASK|AS|BASE|BINDINGS|BIND
+                                |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
+                                |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
+                                |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE
+                                |DESCRIBE|DESC|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
+                                |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
+                                |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
+                                |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
+                                |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
+                                |NAMED|NOT|NOW|OFFSET|OPTIONAL
+                                |ORDER|PREFIX|RAND|REDUCED|REGEX|ROUND|SAMPLE|SECONDS
+                                |SELECT|SEPARATOR|SERVICE
+                                |SHA1|SHA224|SHA256|SHA384|SHA512
+                                |STRDT|STRENDS|STRLAN|STRLEN|STRSTARTS|SUBSTR|STR|SUM
+                                |TIMEZONE|TO|TZ|UCASE|UNDEF|UNION|URI|USING
+                                |WHERE|WITH|YEAR
+                                |isBLANK|isIRI|isLITERAL|isNUMERIC|sameTerm
+                                |true
+                                |false
+                              )xi],
+      [nil,                   %r(&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a])],
     ]
     
     @unescape_terms = [
@@ -406,85 +405,35 @@ describe EBNF::LL1::Lexer do
     end
   end
 
-  describe "when tokenizing declaration keywords" do
-    %w(BASE PREFIX).each do |keyword|
-      it "tokenizes the #{keyword} keyword" do
-        tokenize(keyword.upcase, keyword.downcase) do |tokens|
-          tokens.should have(1).element
-          tokens.first.type.should  == nil
-          tokens.first.value.should == keyword.upcase
-        end
-      end
-    end
-  end
-
-  describe "when tokenizing query form keywords" do
-    %w(SELECT CONSTRUCT DESCRIBE ASK).each do |keyword|
-      it "tokenizes the #{keyword} keyword" do
-        tokenize(keyword.upcase, keyword.downcase) do |tokens|
-          tokens.should have(1).element
-          tokens.first.type.should  == nil
-          tokens.first.value.should == keyword.upcase
-        end
-      end
-    end
-  end
-
-  describe "when tokenizing solution modifier keywords" do
-    %w(LIMIT OFFSET DISTINCT REDUCED).each do |keyword|
-      it "tokenizes the #{keyword} keyword" do
-        tokenize(keyword.upcase, keyword.downcase) do |tokens|
-          tokens.should have(1).element
-          tokens.first.type.should  == nil
-          tokens.first.value.should == keyword.upcase
-        end
-      end
-    end
-  end
-
-  describe "when tokenizing order clause keywords" do
-    %w(ORDER BY ASC DESC).each do |keyword|
-      it "tokenizes the #{keyword} keyword" do
-        tokenize(keyword.upcase, keyword.downcase) do |tokens|
-          tokens.should have(1).element
-          tokens.first.type.should  == nil
-          tokens.first.value.should == keyword.upcase
-        end
-      end
-    end
-  end
-
-  describe "when tokenizing dataset clause keywords" do
-    %w(FROM NAMED WHERE).each do |keyword|
-      it "tokenizes the #{keyword} keyword" do
-        tokenize(keyword.upcase, keyword.downcase) do |tokens|
-          tokens.should have(1).element
-          tokens.first.type.should  == nil
-          tokens.first.value.should == keyword.upcase
-        end
-      end
-    end
-  end
-
-  describe "when tokenizing graph pattern keywords" do
-    %w(GRAPH OPTIONAL UNION FILTER).each do |keyword|
-      it "tokenizes the #{keyword} keyword" do
-        tokenize(keyword.upcase, keyword.downcase) do |tokens|
-          tokens.should have(1).element
-          tokens.first.type.should  == nil
-          tokens.first.value.should == keyword.upcase
-        end
-      end
-    end
-  end
-
-  describe "when tokenizing built-in function keywords" do
-    %w(STR LANGMATCHES LANG DATATYPE BOUND sameTerm isIRI isURI isBLANK isLITERAL REGEX).each do |keyword|
+  describe "when tokenizing keywords" do
+    (%w{
+       ABS ADD ALL AS ASC ASK BASE BIND BINDINGS
+       BNODE BOUND BY CEIL CLEAR COALESCE CONCAT
+       CONSTRUCT CONTAINS COPY COUNT CREATE DATATYPE DAY
+       DEFAULT DELETE DESC
+       DESCRIBE DISTINCT DROP ENCODE_FOR_URI EXISTS
+       FILTER FLOOR FROM GRAPH GROUP_CONCAT GROUP HAVING
+       HOURS IF INSERT INTO IN IRI
+       LANGMATCHES LANGTAG LANG LCASE LIMIT LOAD
+       MAX MD5 MINUS MINUTES MIN MONTH MOVE
+       NAMED NOT NOW OFFSET OPTIONAL
+       ORDER PREFIX RAND REDUCED REGEX ROUND SAMPLE SECONDS
+       SELECT SEPARATOR SERVICE
+       SHA1 SHA224 SHA256 SHA384 SHA512
+       STRDT STRENDS STRLAN STRLEN STRSTARTS SUBSTR STR SUM
+       TIMEZONE TO TZ UCASE UNDEF UNION URI USING
+       WHERE WITH YEAR
+       isBLANK isIRI isLITERAL isNUMERIC sameTerm
+       true
+       false
+    } + [
+      "DELETE DATA", "DELETE WHERE", "INSERT DATA",
+    ]).sort.each do |keyword|
       it "tokenizes the #{keyword} keyword" do
         tokenize(keyword, keyword.upcase, keyword.downcase) do |tokens|
           tokens.should have(1).element
           tokens.first.type.should  == nil
-          tokens.first.value.should == keyword.upcase
+          tokens.first.value.downcase.should == keyword.downcase
         end
       end
     end
@@ -507,21 +456,21 @@ describe EBNF::LL1::Lexer do
       tokenize("# ?foo\n?bar", "# ?foo\r\n?bar") do |tokens|
         tokens.should have(1).elements
         tokens.first.type.should  == :VAR1
-        tokens.first.value.should == "bar"
+        tokens.first.value.should == "?bar"
       end
     end
   end
 
   describe "when skipping white space" do
-    it "tracks the current line number" do
-      inputs = {
-        ""     => 0,
-        "\n"   => 1,
-        "\n\n" => 2,
-        "\r\n" => 1,
-      }
-      inputs.each do |input, lineno|
-        lexer = EBNF::LL1::Lexer.tokenize(input)
+    inputs = {
+      ""     => 1,
+      "\n"   => 2,
+      "\n\n" => 3,
+      "\r\n" => 2,
+    }
+    inputs.each do |input, lineno|
+      it "gets line number #{lineno} for #{input.inspect}" do
+        lexer = EBNF::LL1::Lexer.tokenize(input, @terminals)
         lexer.to_a # consumes the input
         lexer.lineno.should == lineno
       end
@@ -532,7 +481,7 @@ describe EBNF::LL1::Lexer do
     it "annotates tokens with the current line number" do
       tokenize("1\n2\n3\n4") do |tokens|
         tokens.should have(4).elements
-        4.times { |line| tokens[line].lineno.should == line }
+        4.times { |line| tokens[line].lineno.should == line + 1 }
       end
     end
   end
@@ -567,12 +516,12 @@ describe EBNF::LL1::Lexer do
       begin
         tokenize("SELECT foo WHERE {}")
       rescue EBNF::LL1::Lexer::Error => error
-        error.lineno.should == 0
+        error.lineno.should == 1
       end
       begin
         tokenize("SELECT\nfoo WHERE {}")
       rescue EBNF::LL1::Lexer::Error => error
-        error.lineno.should == 1
+        error.lineno.should == 2
       end
     end
   end
