@@ -133,6 +133,28 @@ module SPARQL::Grammar
     NIL                  = /\(#{WS}*\)/
     # 152
     ANON                 = /\[#{WS}*\]/
-  
+
+    # String terminals, case insensitive
+    STR_EXPR = %r(ABS|ADD|ALL|ASC|ASK|AS|BASE|BINDINGS|BIND
+                 |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
+                 |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
+                 |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE
+                 |DESCRIBE|DESC|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
+                 |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
+                 |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
+                 |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
+                 |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
+                 |NAMED|NOT|NOW|OFFSET|OPTIONAL
+                 |ORDER|PREFIX|RAND|REDUCED|REGEX|ROUND|SAMPLE|SECONDS
+                 |SELECT|SEPARATOR|SERVICE
+                 |SHA1|SHA224|SHA256|SHA384|SHA512
+                 |STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|SUBSTR|STR|SUM
+                 |TIMEZONE|TO|TZ|UCASE|UNDEF|UNION|URI|USING
+                 |WHERE|WITH|YEAR
+                 |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
+                 |true
+                 |false
+                 |&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a]
+              )xi
   end
 end

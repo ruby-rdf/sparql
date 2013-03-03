@@ -13,6 +13,20 @@ module SPARQL::Grammar
     include SPARQL::Grammar::Terminals
     include EBNF::LL1::Parser
 
+    # Builtin functions
+    BUILTINS = %w{
+      ABS  BNODE BOUND CEIL COALESCE CONCAT
+      CONTAINS DATATYPE DAY ENCODE_FOR_URI EXISTS
+      FLOOR HOURS IF IRI LANGMATCHES LANG LCASE
+      MD5 MINUTES MONTH NOW RAND ROUND SECONDS
+      SHA1 SHA224 SHA256 SHA384 SHA512
+      STRDT STRENDS STRLANG STRLEN STRSTARTS SUBSTR STR
+      TIMEZONE TZ UCASE URI YEAR
+      isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
+    }.map {|s| s.downcase.to_sym}.freeze
+
+    BUILTIN_RULES = [:regex, :substr, :exists, :not_exists].freeze
+
     ##
     # Any additional options for the parser.
     #
@@ -39,346 +53,319 @@ module SPARQL::Grammar
     attr_accessor :result
 
     # Terminals passed to lexer. Order matters!
-    terminal(:ANON,                 ANON) do |parser, prod, token, input|
-      input[:resource] = parser.add_prod_datum(:BlankNode, parser.bnode)
+    terminal(:ANON,                 ANON) do |prod, token, input|
+      add_prod_datum(:BlankNode,  bnode)
     end
-    terminal(:NIL,                  NIL) do |parser, prod, token, input|
-      input[:resource] = parser.add_prod_datum(:BlankNode, RDF['nil'])
+    terminal(:NIL,                  NIL) do |prod, token, input|
+      add_prod_datum(:NIL, RDF['nil'])
     end
-    terminal(:BLANK_NODE_LABEL,     BLANK_NODE_LABEL) do |parser, prod, token, input|
-      input[:resource] = parser.add_prod_datum(:BlankNode, parser.bnode(token.value[2..-1]))
+    terminal(:BLANK_NODE_LABEL,     BLANK_NODE_LABEL) do |prod, token, input|
+      add_prod_datum(:BlankNode, bnode(token.value[2..-1]))
     end
-    terminal(:IRIREF,               IRIREF, :unescape => true) do |parser, prod, token, input|
+    terminal(:IRIREF,               IRIREF, :unescape => true) do |prod, token, input|
       begin
-        input[:resource] = parser.uri(token.value[1..-2])
+        add_prod_datum(:iri, iri(token.value[1..-2]))
       rescue ArgumentError => e
         raise Error, e.message
       end
     end
-    terminal(:DOUBLE_POSITIVE,      DOUBLE) do |parser, prod, token, input|
+    terminal(:DOUBLE_POSITIVE,      DOUBLE_POSITIVE) do |prod, token, input|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
       value = token.value.sub(/\.([eE])/, '.0\1')
-      input[:resource] = parser.literal(value, :datatype => RDF::XSD.double)
+      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.double))
     end
-    terminal(:DECIMAL_POSITIVE,     DECIMAL) do |parser, prod, token, input|
+    terminal(:DECIMAL_POSITIVE,     DECIMAL_POSITIVE) do |prod, token, input|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
       value = token.value
       value = "0#{token.value}" if token.value[0,1] == "."
-      input[:resource] = parser.literal(value, :datatype => RDF::XSD.decimal)
+      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.decimal))
     end
-    terminal(:INTEGER_POSITIVE,     INTEGER) do |parser, prod, token, input|
-      input[:resource] = parser.literal(token.value, :datatype => RDF::XSD.integer)
+    terminal(:INTEGER_POSITIVE,     INTEGER_POSITIVE) do |prod, token, input|
+      add_prod_datum(:literal, literal(token.value, :datatype => RDF::XSD.integer))
     end
-    terminal(:DOUBLE_NEGATIVE,      DOUBLE) do |parser, prod, token, input|
+    terminal(:DOUBLE_NEGATIVE,      DOUBLE_NEGATIVE) do |prod, token, input|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
       value = token.value.sub(/\.([eE])/, '.0\1')
-      input[:resource] = parser.literal(value, :datatype => RDF::XSD.double)
+      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.double))
     end
-    terminal(:DECIMAL_NEGATIVE,     DECIMAL) do |parser, prod, token, input|
+    terminal(:DECIMAL_NEGATIVE,     DECIMAL_NEGATIVE) do |prod, token, input|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
       value = token.value
       value = "0#{token.value}" if token.value[0,1] == "."
-      input[:resource] = parser.literal(value, :datatype => RDF::XSD.decimal)
+      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.decimal))
     end
-    terminal(:INTEGER_NEGATIVE,     INTEGER) do |parser, prod, token, input|
-      input[:resource] = parser.literal(token.value, :datatype => RDF::XSD.integer)
+    terminal(:INTEGER_NEGATIVE,     INTEGER_NEGATIVE) do |prod, token, input|
+      add_prod_datum(:resource, literal(token.value, :datatype => RDF::XSD.integer))
     end
-    terminal(:DOUBLE,               DOUBLE) do |parser, prod, token, input|
+    terminal(:DOUBLE,               DOUBLE) do |prod, token, input|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
       value = token.value.sub(/\.([eE])/, '.0\1')
-      input[:resource] = parser.literal(value, :datatype => RDF::XSD.double)
+      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.double))
     end
-    terminal(:DECIMAL,              DECIMAL) do |parser, prod, token, input|
+    terminal(:DECIMAL,              DECIMAL) do |prod, token, input|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
       value = token.value
-      value = "0#{token.value}" if token.value[0,1] == "."
-      input[:resource] = parser.literal(value, :datatype => RDF::XSD.decimal)
+      #value = "0#{token.value}" if token.value[0,1] == "."
+      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.decimal))
     end
-    terminal(:INTEGER,              INTEGER) do |parser, prod, token, input|
-      input[:resource] = parser.literal(token.value, :datatype => RDF::XSD.integer)
+    terminal(:INTEGER,              INTEGER) do |prod, token, input|
+      add_prod_datum(:literal, literal(token.value, :datatype => RDF::XSD.integer))
     end
-    terminal(:LANGTAG,              LANGTAG) do |parser, prod, token, input|
-      input[:lang] = token.value[1..-1]
+    terminal(:LANGTAG,              LANGTAG) do |prod, token, input|
+      add_prod_datum(:language, token.value[1..-1])
     end
-    terminal(:PNAME_LN,             PNAME_LN, :unescape => true) do |parser, prod, token, input|
+    terminal(:PNAME_LN,             PNAME_LN, :unescape => true) do |prod, token, input|
       prefix, suffix = token.value.split(":", 2)
-      parser.add_prod_datum(:PrefixedName, parser.ns(prefix, suffix))
+      add_prod_datum(:PrefixedName, ns(prefix, suffix))
     end
-    terminal(:PNAME_NS,             PNAME_NS) do |parser, prod, token, input|
+    terminal(:PNAME_NS,             PNAME_NS) do |prod, token, input|
       prefix = token.value[0..-2]
       # [68] PrefixedName ::= PNAME_LN | PNAME_NS
-      parser.add_prod_datum(:PrefixedName, parser.ns(token, nil))
+      add_prod_datum(:PrefixedName, ns(prefix, nil))
       # [4]  PrefixDecl := 'PREFIX' PNAME_NS IRI_REF";
-      input[:prefix] = prefix && prefix.to_sym
+      add_prod_datum(:prefix, prefix && prefix.to_sym)
     end
-    terminal(:STRING_LITERAL_LONG1, STRING_LITERAL_LONG1, :unescape => true) do |parser, prod, token, input|
-      input[:string_value] = token.value[3..-4]
+    terminal(:STRING_LITERAL_LONG1, STRING_LITERAL_LONG1, :unescape => true) do |prod, token, input|
+      add_prod_datum(:string, token.value[3..-4])
     end
-    terminal(:STRING_LITERAL_LONG2, STRING_LITERAL_LONG2, :unescape => true) do |parser, prod, token, input|
-      input[:string_value] = token.value[3..-4]
+    terminal(:STRING_LITERAL_LONG2, STRING_LITERAL_LONG2, :unescape => true) do |prod, token, input|
+      add_prod_datum(:string, token.value[3..-4])
     end
-    terminal(:STRING_LITERAL1,      STRING_LITERAL1, :unescape => true) do |parser, prod, token, input|
-      input[:string_value] = token.value[1..-2]
+    terminal(:STRING_LITERAL1,      STRING_LITERAL1, :unescape => true) do |prod, token, input|
+      add_prod_datum(:string, token.value[1..-2])
     end
-    terminal(:STRING_LITERAL2,      STRING_LITERAL2, :unescape => true) do |parser, prod, token, input|
-      input[:string_value] = token.value[1..-2]
+    terminal(:STRING_LITERAL2,      STRING_LITERAL2, :unescape => true) do |prod, token, input|
+      add_prod_datum(:string, token.value[1..-2])
     end
-    terminal(:VAR1,                 VAR1) do |parser, prod, token, input|
-      input[:resource] = parser.bnode(token.value[2..-1])
+    terminal(:VAR1,                 VAR1) do |prod, token, input|
+      add_prod_datum(:Var, variable(token.value[2..-1]))
     end
-    terminal(:VAR2,                 VAR1) do |parser, prod, token, input|
-      input[:Var] = parser.variable(token.value[2..-1])
+    terminal(:VAR2,                 VAR2) do |prod, token, input|
+      add_prod_datum(:Var, variable(token.value[2..-1]))
     end
 
-    STR_EXPR = %r(ABS|ADD|ALL|ASC|ASK|AS|BASE|BINDINGS|BIND
-                 |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
-                 |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
-                 |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE
-                 |DESCRIBE|DESC|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
-                 |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
-                 |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
-                 |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
-                 |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
-                 |NAMED|NOT|NOW|OFFSET|OPTIONAL
-                 |ORDER|PREFIX|RAND|REDUCED|REGEX|ROUND|SAMPLE|SECONDS
-                 |SELECT|SEPARATOR|SERVICE
-                 |SHA1|SHA224|SHA256|SHA384|SHA512
-                 |STRDT|STRENDS|STRLAN|STRLEN|STRSTARTS|SUBSTR|STR|SUM
-                 |TIMEZONE|TO|TZ|UCASE|UNDEF|UNION|URI|USING
-                 |WHERE|WITH|YEAR
-                 |isBLANK|isIRI|isLITERAL|isNUMERIC|sameTerm
-                 |true
-                 |false
-              )xi
     # Keyword terminals
-    terminal("keyword", STR_EXPR) do |parser, prod, token, input|
+    terminal(nil, STR_EXPR) do |prod, token, input|
       case token.value
-      when 'a'             then input[:resource] = RDF.type
-      when 'true', 'false' then input[:resource] = RDF::Literal::Boolean.new(token.value)
-      else                      input[:string] = token.value
-      end
-    end
-
-    OP_EXPR = %r(&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a])
-    # Operator terminals
-    terminal("operator", OP_EXPR) do |parser, prod, token, input|
-      case token.value
-      when 'a'             then input[:resource] = RDF.type
-      when 'true', 'false' then input[:resource] = RDF::Literal::Boolean.new(token.value)
-      else                      input[:string] = token.value
+      when '+', '-'
+        case prod
+        when :_AdditiveExpression_1 then add_prod_datum(:AdditiveExpression, token.value)
+        when :UnaryExpression       then add_prod_datum(:UnaryExpression, token.value)
+        else
+          raise "Unexpected production #{prod} for #{token}"
+        end
+      when '*', '/'        then add_prod_datum(:MultiplicativeExpression, token.value)
+      when '=', '!=', '<',
+           '>', '<=', '>-' then add_prod_datum(:RelationalExpression, token.value)
+      when '&&', '||'      then add_prod_datum(:ConditionalAndExpression, token.value)
+      when '!'             then add_prod_datum(:UnaryExpression, token.value)
+      when 'a'             then add_prod_datum(:Verb, RDF.type)
+      when /true|false/i   then add_prod_datum(:literal, RDF::Literal::Boolean.new(token.value.downcase))
+      when /ASC|DESC/i     then add_prod_datum(:OrderDirection, token.value.downcase.to_sym)
+      when /BOUND/i        then add_prod_datum(:BOUND, :bound)
+      when /DISTINCT|REDUCED/ then add_prod_datum(:DISTINCT_REDUCED, token.value.downcase.to_sym)
+      when %r{
+          ABS|BNODE|BOUND|CEIL|COALESCE|CONCAT
+         |CONTAINS|DATATYPE|DAY|ENCODE_FOR_URI|EXISTS
+         |FLOOR|HOURS|IF|IRI|LANGMATCHES|LANG|LCASE
+         |MD5|MINUTES|MONTH|NOW|RAND|ROUND|SECONDS
+         |SHA1|SHA224|SHA256|SHA384|SHA512
+         |STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|SUBSTR|STR
+         |TIMEZONE|TZ|UCASE|URI|YEAR
+         |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
+        }xi
+        add_prod_datum(token.value.downcase.to_sym, token.value.downcase.to_sym)
+      else
+        #add_prod_datum(:string, token.value)
       end
     end
 
     # Productions
     # [2]  	Query	  ::=  	Prologue
     #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery ) BindingsClause
-    production(:Query) do |parser, phase, input, data, callback|
-      if phase == :finish && data[:query]
+    production(:Query) do |input, data, callback|
+      if data[:query]
         query = data[:query].first
-        query = Algebra::Expression[:prefix, data[:PrefixDecl].first, query] if data[:PrefixDecl]
-        query = Algebra::Expression[:base, data[:BaseDecl].first, query] if data[:BaseDecl]
-        input[:query] = query
+        query = SPARQL::Algebra::Expression[:prefix, data[:PrefixDecl].first, query] if data[:PrefixDecl]
+        query = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, query] if data[:BaseDecl]
+        add_prod_datum(:query, query)
       end
     end
 
     # [5]  	BaseDecl	  ::=  	'BASE' IRI_REF
-    production(:BaseDecl) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        iri = data[:resource]
-        callback.call(:trace, "BaseDecl", lambda {"Defined base as #{iri}"})
-        parser.add_prod_datum :BaseDecl, iri
-        parser.options[:base_uri] = iri
-      end
+    production(:BaseDecl) do |input, data, callback|
+      iri = data[:resource]
+      callback.call(:trace, "BaseDecl", lambda {"Defined base as #{iri}"})
+      add_prod_datum :BaseDecl, iri
+      options[:base_uri] = iri
     end
 
     # [6] PrefixDecl	  ::=  	'PREFIX' PNAME_NS IRI_REF
-    production(:PrefixDecl) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        prefix = data[:prefix]
-        iri = data[:resource]
-        callback.call(:trace, "PrefixDecl", lambda {"Defined prefix #{prefix.inspect} mapping to #{iri.inspect}"})
-        parser.add_prod_datum :PrefixDecl, ["#{prefix}:", iri]
-        parser.prefix(prefix, iri)
-      end
+    production(:PrefixDecl) do |input, data, callback|
+      prefix = data[:prefix]
+      iri = data[:resource]
+      callback.call(:trace, "PrefixDecl", lambda {"Defined prefix #{prefix.inspect} mapping to #{iri.inspect}"})
+      add_prod_datum :PrefixDecl, ["#{prefix}:", iri]
+      prefix(prefix, iri)
     end
     
     # [7]  	SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
-    production(:SelectQuery) do |parser, phase, input, data, callback|
-      parser.add_prod_datum :query, query if phase == :finish
+    production(:SelectQuery) do |input, data, callback|
+      add_prod_datum :query, query
     end
 
     # [10]  	ConstructQuery	  ::=  	'CONSTRUCT'
     #                                  ( ConstructTemplate DatasetClause* WhereClause SolutionModifier | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
-    production(:ConstructQuery) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        query = parser.merge_modifiers(data)
-        template = data[:ConstructTemplate] || []
-        parser.add_prod_datum :query, Algebra::Expression[:construct, template, query]
-      end
+    production(:ConstructQuery) do |input, data, callback|
+      query = merge_modifiers(data)
+      template = data[:ConstructTemplate] || []
+      add_prod_datum :query, SPARQL::Algebra::Expression[:construct, template, query]
     end
 
     # [11]  	DescribeQuery	  ::=  	'DESCRIBE' ( VarOrIRIref+ | '*' )
     #                             DatasetClause* WhereClause? SolutionModifier
-    production(:DescribeQuery) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        query = parser.merge_modifiers(data)
-        to_describe = data[:VarOrIRIref] || []
-        parser.add_prod_datum :query, Algebra::Expression[:describe, to_describe, query]
-      end
+    production(:DescribeQuery) do |input, data, callback|
+      query = merge_modifiers(data)
+      to_describe = data[:VarOrIRIref] || []
+      add_prod_datum :query, SPARQL::Algebra::Expression[:describe, to_describe, query]
     end
 
     # [12]  	AskQuery	  ::=  	'ASK' DatasetClause* WhereClause
-    production(:DescribeQuery) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        query = parser.merge_modifiers(data)
-        parser.add_prod_datum :query, Algebra::Expression[:ask, query]
-      end
+    production(:DescribeQuery) do |input, data, callback|
+      query = merge_modifiers(data)
+      add_prod_datum :query, SPARQL::Algebra::Expression[:ask, query]
     end
 
     # [14]  	DefaultGraphClause	  ::=  	SourceSelector
-    production(:DefaultGraphClause) do |parser, phase, input, data, callback|
-      parser.add_prod_datum :dataset, data[:IRIref] if phase == :finish
+    production(:DefaultGraphClause) do |input, data, callback|
+      add_prod_datum :dataset, data[:IRIref]
     end
 
     # [15]  	NamedGraphClause	  ::=  	'NAMED' SourceSelector
-    production(:NamedGraphClause) do |parser, phase, input, data, callback|
-      parser.add_prod_datum :dataset, data[:IRIref].unshift(:named) if phase == :finish
+    production(:NamedGraphClause) do |input, data, callback|
+      add_prod_datum :dataset, data[:IRIref].unshift(:named)
     end
 
     # [18]  	SolutionModifier	  ::=  	GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
 
     # [19]  	GroupClause	  ::=  	'GROUP' 'BY' GroupCondition+
-    #production(:GroupClause) do |parser, phase, input, data, callback|
+    #production(:GroupClause) do |input, data, callback|
     #end
 
     # [20]  	GroupCondition	  ::=  	BuiltInCall | FunctionCall
     #                                | '(' Expression ( 'AS' Var )? ')' | Var
-    #production(:GroupClause) do |parser, phase, input, data, callback|
+    #production(:GroupClause) do |input, data, callback|
     #end
 
     # [21]  	HavingClause	  ::=  	'HAVING' HavingCondition+
-    #production(:GroupClause) do |parser, phase, input, data, callback|
+    #production(:GroupClause) do |input, data, callback|
     #end
 
     # [23]  	OrderClause	  ::=  	'ORDER' 'BY' OrderCondition+
-    production(:OrderClause) do |parser, phase, input, data, callback|
-      if phase == :finish && !(res = data[:OrderCondition]).nil?
+    production(:OrderClause) do |input, data, callback|
+      if res = data[:OrderCondition]
         res = [res] if [:asc, :desc].include?(res[0]) # Special case when there's only one condition and it's ASC (x) or DESC (x)
-        parser.add_prod_data :order, res
+        add_prod_data :order, res
       end
     end
 
     # [24]  	OrderCondition	  ::=  	 ( ( 'ASC' | 'DESC' )
     #                                 BrackettedExpression )
     #                               | ( Constraint | Var )
-    production(:OrderCondition) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        if data[:OrderDirection]
-          parser.add_prod_datum(:OrderCondition, Algebra::Expression.for(data[:OrderDirection] + data[:Expression]))
-        else
-          parser.add_prod_datum(:OrderCondition, data[:Constraint] || data[:Var])
-        end
+    production(:OrderCondition) do |input, data, callback|
+      if data[:OrderDirection]
+        add_prod_datum(:OrderCondition, SPARQL::Algebra::Expression.for(data[:OrderDirection] + data[:Expression]))
+      else
+        add_prod_datum(:OrderCondition, data[:Constraint] || data[:Var])
       end
     end
 
     # [25]  	LimitOffsetClauses	  ::=  	LimitClause OffsetClause?
     #                                 | OffsetClause LimitClause?
-    production(:LimitOffsetClauses) do |parser, phase, input, data, callback|
-      if phase == :finish && (data[:limit] || data[:offset])
+    production(:LimitOffsetClauses) do |input, data, callback|
+      if data[:limit] || data[:offset]
         limit = data[:limit] ? data[:limit].last : :_
         offset = data[:offset] ? data[:offset].last : :_
-        parser.add_prod_data :slice, offset, limit
+        add_prod_data :slice, offset, limit
       end
     end
 
     # [26]  	LimitClause	  ::=  	'LIMIT' INTEGER
-    production(:LimitClause) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:limit, data[:literal]) if phase == :finish
+    production(:LimitClause) do |input, data, callback|
+      add_prod_datum(:limit, data[:literal])
     end
 
     # [27]  	OffsetClause	  ::=  	'OFFSET' INTEGER
-    production(:OffsetClause) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:offset, data[:literal]) if phase == :finish
+    production(:OffsetClause) do |input, data, callback|
+      add_prod_datum(:offset, data[:literal])
     end
 
     # [54]  	[55]  	GroupGraphPatternSub	  ::=  	TriplesBlock?
     #                                             ( GraphPatternNotTriples '.'? TriplesBlock? )*
-    production(:GroupGraphPatternSub) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        query_list = data[:query_list]
-        callback.call :trace, "GroupGraphPatternSub", lambda {"ql #{query_list.to_a.inspect}"}
-        callback.call :trace, "GroupGraphPatternSub", lambda {"q #{data[:query] ? data[:query].first.inspect : 'nil'}"}
+    production(:GroupGraphPatternSub) do |input, data, callback|
+      query_list = data[:query_list]
+      callback.call :trace, "GroupGraphPatternSub", lambda {"ql #{query_list.to_a.inspect}"}
+      callback.call :trace, "GroupGraphPatternSub", lambda {"q #{data[:query] ? data[:query].first.inspect : 'nil'}"}
             
-        if query_list
-          lhs = data[:query].to_a.first
-          while !query_list.empty?
-            rhs = query_list.shift
-            # Make the right-hand-side a Join with only a single operand, if it's not already and Operator
-            rhs = Algebra::Expression.for(:join, :placeholder, rhs) unless rhs.is_a?(Algebra::Operator)
-            callback.call :trace, "GroupGraphPatternSub", lambda {"<= q: #{rhs.inspect}"}
-            callback.call :trace, "GroupGraphPatternSub", lambda {"<= lhs: #{lhs ? lhs.inspect : 'nil'}"}
-            lhs ||= Algebra::Operator::BGP.new if rhs.is_a?(Algebra::Operator::LeftJoin)
-            if lhs
-              if rhs.operand(0) == :placeholder
-                rhs.operands[0] = lhs
-              else
-                rhs = Algebra::Operator::Join.new(lhs, rhs)
-              end
-            end
-            lhs = rhs
-            lhs = lhs.operand(1) if lhs.operand(0) == :placeholder
-            callback.call :trace, "GroupGraphPatternSub(itr)", lambda {"=> lhs: #{lhs.inspect}"}
-          end
-          # Trivial simplification for :join or :union of one query
-          case lhs
-          when Algebra::Operator::Join, Algebra::Operator::Union
-            if lhs.operand(0) == :placeholder
-              lhs = lhs.operand(1)
-              callback.call :trace, "GroupGraphPatternSub(simplify)", lambda {"=> lhs: #{lhs.inspect}"}
+      if query_list
+        lhs = data[:query].to_a.first
+        while !query_list.empty?
+          rhs = query_list.shift
+          # Make the right-hand-side a Join with only a single operand, if it's not already and Operator
+          rhs = SPARQL::Algebra::Expression.for(:join, :placeholder, rhs) unless rhs.is_a?(SPARQL::Algebra::Operator)
+          callback.call :trace, "GroupGraphPatternSub", lambda {"<= q: #{rhs.inspect}"}
+          callback.call :trace, "GroupGraphPatternSub", lambda {"<= lhs: #{lhs ? lhs.inspect : 'nil'}"}
+          lhs ||= SPARQL::Algebra::Operator::BGP.new if rhs.is_a?(SPARQL::Algebra::Operator::LeftJoin)
+          if lhs
+            if rhs.operand(0) == :placeholder
+              rhs.operands[0] = lhs
+            else
+              rhs = SPARQL::Algebra::Operator::Join.new(lhs, rhs)
             end
           end
-          res = lhs
-        elsif data[:query]
-          res = data[:query].first
+          lhs = rhs
+          lhs = lhs.operand(1) if lhs.operand(0) == :placeholder
+          callback.call :trace, "GroupGraphPatternSub(itr)", lambda {"=> lhs: #{lhs.inspect}"}
         end
-            
-        callback.call :trace, "GroupGraphPatternSub(pre-filter)", lambda {"res: #{res.inspect}"}
-
-        if data[:filter]
-          expr, query = parser.flatten_filter(data[:filter])
-          query = res || Algebra::Operator::BGP.new
-          # query should be nil
-          res = Algebra::Operator::Filter.new(expr, query)
+        # Trivial simplification for :join or :union of one query
+        case lhs
+        when SPARQL::Algebra::Operator::Join, SPARQL::Algebra::Operator::Union
+          if lhs.operand(0) == :placeholder
+            lhs = lhs.operand(1)
+            callback.call :trace, "GroupGraphPatternSub(simplify)", lambda {"=> lhs: #{lhs.inspect}"}
+          end
         end
-        parser.add_prod_datum(:query, res)
+        res = lhs
+      elsif data[:query]
+        res = data[:query].first
       end
+            
+      callback.call :trace, "GroupGraphPatternSub(pre-filter)", lambda {"res: #{res.inspect}"}
+
+      if data[:filter]
+        expr, query = flatten_filter(data[:filter])
+        query = res || SPARQL::Algebra::Operator::BGP.new
+        # query should be nil
+        res = SPARQL::Algebra::Operator::Filter.new(expr, query)
+      end
+      add_prod_datum(:query, res)
     end
 
     # [56]  	TriplesBlock	  ::=  	TriplesSameSubjectPath
     #                               ( '.' TriplesBlock? )?
-    production(:TriplesBlock) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        query = Algebra::Operator::BGP.new
-        data[:pattern].each {|p| query << p}
+    production(:TriplesBlock) do |input, data, callback|
+      query = SPARQL::Algebra::Operator::BGP.new
+      data[:pattern].each {|p| query << p}
         
-        # Append triples from ('.' TriplesBlock? )?
-        data[:query].to_a.each {|q| query += q}
-        parser.add_prod_datum(:query, query)
-      end
+      # Append triples from ('.' TriplesBlock? )?
+      data[:query].to_a.each {|q| query += q}
+      add_prod_datum(:query, query)
     end
 
     # [57]  	GraphPatternNotTriples	  ::=  	GroupOrUnionGraphPattern
@@ -387,271 +374,238 @@ module SPARQL::Grammar
     #                                       | GraphGraphPattern
     #                                       | ServiceGraphPattern
     #                                       | Filter | Bind
-    production(:GraphPatternNotTriples) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        parser.add_prod_datum(:filter, data[:filter])
+    production(:GraphPatternNotTriples) do |input, data, callback|
+      add_prod_datum(:filter, data[:filter])
 
-        if data[:query]
-          res = data[:query].to_a.first
-          res = Algebra::Expression.for(:join, :placeholder, res) unless res.is_a?(Algebra::Operator)
-          parser.add_prod_data(:GraphPatternNotTriples, res)
-        end
+      if data[:query]
+        res = data[:query].to_a.first
+        res = SPARQL::Algebra::Expression.for(:join, :placeholder, res) unless res.is_a?(SPARQL::Algebra::Operator)
+        add_prod_data(:GraphPatternNotTriples, res)
       end
     end
 
     # [58]  	OptionalGraphPattern	  ::=  	'OPTIONAL' GroupGraphPattern
-    production(:OptionalGraphPattern) do |parser, phase, input, data, callback|
-      if phase == :finish && data[:query]
+    production(:OptionalGraphPattern) do |input, data, callback|
+      if data[:query]
         expr = nil
         query = data[:query].first
-        if query.is_a?(Algebra::Operator::Filter)
+        if query.is_a?(SPARQL::Algebra::Operator::Filter)
           # Change to expression on left-join with query element
           expr, query = query.operands
-          parser.add_prod_data(:query, Algebra::Expression.for(:leftjoin, :placeholder, query, expr))
+          add_prod_data(:query, SPARQL::Algebra::Expression.for(:leftjoin, :placeholder, query, expr))
         else
-          parser.add_prod_data(:query, Algebra::Expression.for(:leftjoin, :placeholder, query))
+          add_prod_data(:query, SPARQL::Algebra::Expression.for(:leftjoin, :placeholder, query))
         end
       end
     end
 
     # [59]  	GraphGraphPattern	  ::=  	'GRAPH' VarOrIRIref GroupGraphPattern
-    production(:GraphGraphPattern) do |parser, phase, input, data, callback|
-      if phase == :finish && !data[:query].nil?
+    production(:GraphGraphPattern) do |input, data, callback|
+      if data[:query]
         name = (data[:VarOrIRIref]).last
         bgp = data[:query].first
         if name
-          parser.add_prod_data(:query, Algebra::Expression.for(:graph, name, bgp))
+          add_prod_data(:query, SPARQL::Algebra::Expression.for(:graph, name, bgp))
         else
-          parser.add_prod_data(:query, bgp)
+          add_prod_data(:query, bgp)
         end
       end
     end
 
     # [63]  	GroupOrUnionGraphPattern	  ::=  	GroupGraphPattern
     #                                           ( 'UNION' GroupGraphPattern )*
-    production(:GroupOrUnionGraphPattern) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        res = data[:query].to_a.first
-        if data[:union]
-          while !data[:union].empty?
-            # Join union patterns together as Union operators
-            #puts "res: res: #{res}, input_prod: #{input_prod}, data[:union]: #{data[:union].first}"
-            lhs = res
-            rhs = data[:union].shift
-            res = Algebra::Expression.for(:union, lhs, rhs)
-          end
+    production(:GroupOrUnionGraphPattern) do |input, data, callback|
+      res = data[:query].to_a.first
+      if data[:union]
+        while !data[:union].empty?
+          # Join union patterns together as Union operators
+          #puts "res: res: #{res}, input_prod: #{input_prod}, data[:union]: #{data[:union].first}"
+          lhs = res
+          rhs = data[:union].shift
+          res = SPARQL::Algebra::Expression.for(:union, lhs, rhs)
         end
-        parser.add_prod_datum(:query, res)
       end
+      add_prod_datum(:query, res)
     end
 
     # ( 'UNION' GroupGraphPattern )*
-    production(:_UNION_GroupGraphPattern_Star) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        # Add [:union rhs] to stack based on ":union"
-        parser.add_prod_data(:union, data[:query].to_a.first)
-        parser.add_prod_data(:union, data[:union].first) if data[:union]
-      end
+    production(:_UNION_GroupGraphPattern_Star) do |input, data, callback|
+      # Add [:union rhs] to stack based on ":union"
+      add_prod_data(:union, data[:query].to_a.first)
+      add_prod_data(:union, data[:union].first) if data[:union]
     end
 
     # [64]  	Filter	  ::=  	'FILTER' Constraint
-    production(:Filter) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:filter, data[:Constraint]) if phase == :finish
+    production(:Filter) do |input, data, callback|
+      add_prod_datum(:filter, data[:Constraint])
     end
 
     # [65]  	Constraint	  ::=  	BrackettedExpression | BuiltInCall
     #                           | FunctionCall
-    production(:Constraint) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        if data[:Expression]
-          # Resolve expression to the point it is either an atom or an s-exp
-          parser.add_prod_data(:Constraint, data[:Expression].to_a.first)
-        elsif data[:BuiltInCall]
-          parser.add_prod_datum(:Constraint, data[:BuiltInCall])
-        elsif data[:Function]
-          parser.add_prod_datum(:Constraint, data[:Function])
-        end
+    production(:Constraint) do |input, data, callback|
+      if data[:Expression]
+        # Resolve expression to the point it is either an atom or an s-exp
+        add_prod_data(:Constraint, data[:Expression].to_a.first)
+      elsif data[:BuiltInCall]
+        add_prod_datum(:Constraint, data[:BuiltInCall])
+      elsif data[:Function]
+        add_prod_datum(:Constraint, data[:Function])
       end
     end
 
     # [66]  	FunctionCall	  ::=  	IRIref ArgList
-    production(:FunctionCall) do |parser, phase, input, data, callback|
-      parser.add_prod_data(:Function, data[:IRIref] + data[:ArgList]) if phase == :finish
+    production(:FunctionCall) do |input, data, callback|
+      add_prod_data(:Function, data[:IRIref] + data[:ArgList])
     end
 
     # [67]  	ArgList	  ::=  	NIL
     #                     | '(' 'DISTINCT'? Expression ( ',' Expression )* ')'
-    production(:ArgList) do |parser, phase, input, data, callback|
-      data.values.each {|v| parser.add_prod_datum(:ArgList, v)} if phase == :finish
+    production(:ArgList) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:ArgList, v)}
     end
 
     # [68]  	ExpressionList	  ::=  	NIL
     #                             | '(' Expression ( ',' Expression )* ')'
-    production(:ExpressionList) do |parser, phase, input, data, callback|
-      data.values.each {|v| parser.add_prod_datum(:ExpressionList, v)} if phase == :finish
+    production(:ExpressionList) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:ExpressionList, v)}
     end
 
     # [69]  	ConstructTemplate	  ::=  	'{' ConstructTriples? '}'
-    production(:ConstructTemplate) do |parser, phase, input, data, callback|
-      case phase
-      when :start
-        # Generate BNodes instead of non-distinguished variables
-        @nd_var_gen = false
-      when :finish
-        @nd_var_gen = "0"
-        parser.add_prod_datum(:ConstructTemplate, data[:pattern])
-        parser.add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
-      end
+    start_production(:ConstructTemplate) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables
+      @nd_var_gen = false
+    end
+    production(:ConstructTemplate) do |input, data, callback|
+      @nd_var_gen = "0"
+      add_prod_datum(:ConstructTemplate, data[:pattern])
+      add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
 
     # [71]  	TriplesSameSubject	  ::=  	VarOrTerm PropertyListNotEmpty
     #                                 |	TriplesNode PropertyList
-    production(:TriplesSameSubject) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:pattern, data[:pattern]) if phase == :finish
+    production(:TriplesSameSubject) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
     end
 
     # [72]  	PropertyListNotEmpty	  ::=  	Verb ObjectList
     #                                       ( ';' ( Verb ObjectList )? )*
-    production(:PropertyListNotEmpty) do |parser, phase, input, data, callback|
-      case phase
-      when :start
-        subject = input[:VarOrTerm] || input[:TriplesNode] || input[:GraphNode]
-        parser.error(nil, "Expected VarOrTerm or TriplesNode or GraphNode", :production => :PropertyListNotEmpty) if parser.validate? && !subject
-        data[:Subject] = subject
-      when :finish
-        @nd_var_gen = "0"
-        parser.add_prod_datum(:ConstructTemplate, data[:pattern])
-        parser.add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
-      end
+    start_production(:PropertyListNotEmpty) do |input, data, callback|
+      subject = input[:VarOrTerm] || input[:TriplesNode] || input[:GraphNode]
+      error(nil, "Expected VarOrTerm or TriplesNode or GraphNode", :production => :PropertyListNotEmpty) if validate? && !subject
+      data[:Subject] = subject
+    end
+    production(:PropertyListNotEmpty) do |input, data, callback|
+      @nd_var_gen = "0"
+      add_prod_datum(:ConstructTemplate, data[:pattern])
+      add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
 
     # [74]  	ObjectList	  ::=  	Object ( ',' Object )*
-    production(:ObjectList) do |parser, phase, input, data, callback|
-      case phase
-      when :start
-        # Called after Verb. The prod_data stack should have Subject and Verb elements
-        data[:Subject] = prod_data[:Subject]
-        parser.error(nil, "Expected Subject", :production => :ObjectList) if !prod_data[:Subject] && parser.validate?
-        parser.error(nil, "Expected Verb", :production => :ObjectList) if !prod_data[:Verb] && parser.validate?
-        data[:Subject] = prod_data[:Subject]
-        data[:Verb] = prod_data[:Verb].to_a.last
-      when :finish
-        @nd_var_gen = "0"
-        parser.add_prod_datum(:ConstructTemplate, data[:pattern])
-        parser.add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
-      end
+    start_production(:ObjectList) do |input, data, callback|
+      # Called after Verb. The prod_data stack should have Subject and Verb elements
+      data[:Subject] = prod_data[:Subject]
+      error(nil, "Expected Subject", :production => :ObjectList) if !prod_data[:Subject] && validate?
+      error(nil, "Expected Verb", :production => :ObjectList) if !prod_data[:Verb] && validate?
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = prod_data[:Verb].to_a.last
+    end
+    production(:ObjectList) do |input, data, callback|
+      @nd_var_gen = "0"
+      add_prod_datum(:ConstructTemplate, data[:pattern])
+      add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
 
     # [75]  	Object	  ::=  	GraphNode
-    production(:Object) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode]
-        if object
-          add_pattern(:Object, :subject => prod_data[:Subject], :predicate => prod_data[:Verb], :object => object)
-          parser.add_prod_datum(:pattern, data[:pattern])
-        end
+    production(:Object) do |input, data, callback|
+      object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode]
+      if object
+        add_pattern(:Object, :subject => prod_data[:Subject], :predicate => prod_data[:Verb], :object => object)
+        add_prod_datum(:pattern, data[:pattern])
       end
     end
 
     # [76]  	Verb	  ::=  	VarOrIRIref | 'a'
-    production(:Verb) do |parser, phase, input, data, callback|
-      data.values.each {|v| parser.add_prod_datum(:Verb, v)} if phase == :finish
+    production(:Verb) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:Verb, v)}
     end
 
     # [92]  	TriplesNode	  ::=  	Collection |	BlankNodePropertyList
-    production(:TriplesNode) do |parser, phase, input, data, callback|
-      case phase
-      when :start
-        # Called after Verb. The prod_data stack should have Subject and Verb elements
-        data[:TriplesNode] = parser.bnode
-      when :finish
-        if input[:object_list]
-          # Part of an rdf:List collection
-          parser.add_prod_data(:object_list, data[:pattern])
-        else
-          parser.add_prod_datum(:pattern, data[:pattern])
-          parser.add_prod_datum(:TriplesNode, data[:TriplesNode])
-        end
-      end
+    start_production(:TriplesNode) do |input, data, callback|
+      # Called after Verb. The prod_data stack should have Subject and Verb elements
+      data[:TriplesNode] = bnode
+    end
+    production(:TriplesNode) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+      add_prod_datum(:TriplesNode, data[:TriplesNode])
     end
 
     # [94]  	Collection	  ::=  	'(' GraphNode+ ')'
-    production(:Collection) do |parser, phase, input, data, callback|
-      case phase
-      when :start
-        # Tells the TriplesNode production to collect and not generate statements
-        data[:object_list] = []
-      when :finish
-        # Create a Collection using rdf:first/rdf:rest
-        bnode = parser.bnode
-        objects = current[:object_list]
-        list = RDF::List.new(bnode, nil, objects)
-        list.each_statement do |statement|
-          next if statement.predicate == RDF.type && statement.object == RDF.List
-          add_pattern(:Collection, :subject => statement.subject, :predicate => statement.predicate, :object => statement.object)
-        end
+    start_production(:Collection) do |input, data, callback|
+      # Tells the TriplesNode production to collect and not generate statements
+      data[:object_list] = []
+    end
+    production(:Collection) do |input, data, callback|
+      # Create a Collection using rdf:first/rdf:rest
+      bnode = self.bnode
+      objects = current[:object_list]
+      list = RDF::List.new(bnode, nil, objects)
+      list.each_statement do |statement|
+        next if statement.predicate == RDF.type && statement.object == RDF.List
+        add_pattern(:Collection, :subject => statement.subject, :predicate => statement.predicate, :object => statement.object)
       end
     end
 
     # [95]  	GraphNode	  ::=  	VarOrTerm |	TriplesNode
-    production(:GraphNode) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        term = data[:VarOrTerm] || data[:TriplesNode]
-        parser.add_prod_datum(:pattern, data[:pattern])
-        parser.add_prod_datum(:GraphNode, term)
-      end
+    production(:GraphNode) do |input, data, callback|
+      term = data[:VarOrTerm] || data[:TriplesNode]
+      add_prod_datum(:pattern, data[:pattern])
+      add_prod_datum(:GraphNode, term)
     end
 
     # [96]  	VarOrTerm	  ::=  	Var | GraphTerm
-    production(:VarOrTerm) do |parser, phase, input, data, callback|
-      data.values.each {|v| parser.add_prod_datum(:VarOrTerm, v)} if phase == :finish
+    production(:VarOrTerm) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
     end
 
     # [97]  	VarOrIRIref	  ::=  	Var | IRIref
-    production(:VarOrIRIref) do |parser, phase, input, data, callback|
-      data.values.each {|v| parser.add_prod_datum(:VarOrIRIref, v)} if phase == :finish
+    production(:VarOrIRIref) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrIRIref, v)}
     end
 
     # [99]  	GraphTerm	  ::=  	IRIref |	RDFLiteral |	NumericLiteral
     #                         |	BooleanLiteral |	BlankNode |	NIL
-    production(:GraphTerm) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:GraphTerm,
+    production(:GraphTerm) do |input, data, callback|
+      add_prod_datum(:GraphTerm,
                       data[:IRIref] ||
                       data[:literal] ||
                       data[:BlankNode] ||
-                      data[:NIL]) if phase == :finish
+                      data[:NIL])
     end
 
     # [100]  	Expression	  ::=  	ConditionalOrExpression
-    production(:Expression) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:Expression, data[:Expression]) if phase == :finish
+    production(:Expression) do |input, data, callback|
+      add_prod_datum(:Expression, data[:Expression])
     end
 
     # [101]  	ConditionalOrExpression	  ::=  	ConditionalAndExpression
     #                                         ( '||' ConditionalAndExpression )*
-    production(:ConditionalOrExpression) do |parser, phase, input, data, callback|
-      add_operator_expressions(:_OR, data) if phase == :finish
+    production(:ConditionalOrExpression) do |input, data, callback|
+      add_operator_expressions(:_OR, data)
     end
 
     # ( '||' ConditionalAndExpression )*
-    production(:_OR_ConditionalAndExpression) do |parser, phase, input, data, callback|
-      accumulate_operator_expressions(:ConditionalOrExpression, :_OR, data) if phase == :finish
+    production(:_OR_ConditionalAndExpression) do |input, data, callback|
+      accumulate_operator_expressions(:ConditionalOrExpression, :_OR, data)
     end
 
     # [102]  	ConditionalAndExpression	  ::=  	ValueLogical ( '&&' ValueLogical )*
-    production(:ConditionalAndExpression) do |parser, phase, input, data, callback|
-      add_operator_expressions(:_AND, data) if phase == :finish
+    production(:ConditionalAndExpression) do |input, data, callback|
+      add_operator_expressions(:_AND, data)
     end
 
     # ( '||' ConditionalAndExpression )*
-    production(:_AND_ValueLogical_Star) do |parser, phase, input, data, callback|
-      accumulate_operator_expressions(:ConditionalAndExpression, :_AND, data) if phase == :finish
+    production(:_AND_ValueLogical_Star) do |input, data, callback|
+      accumulate_operator_expressions(:ConditionalAndExpression, :_AND, data)
     end
 
     # [104]  	RelationalExpression	  ::=  	NumericExpression
@@ -664,15 +618,12 @@ module SPARQL::Grammar
     #                                        | 'IN' ExpressionList
     #                                        | 'NOT' 'IN' ExpressionList
     #                                        )?
-    production(:RelationalExpression) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        if data[:_Compare_Numeric]
-          parser.add_prod_datum(:Expression, Algebra::Expression.for(data[:_Compare_Numeric].insert(1, *data[:Expression])))
-        else
-          # NumericExpression with no comparitor
-          parser.add_prod_datum(:Expression, data[:Expression])
-        end
+    production(:RelationalExpression) do |input, data, callback|
+      if data[:_Compare_Numeric]
+        add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(data[:_Compare_Numeric].insert(1, *data[:Expression])))
+      else
+        # NumericExpression with no comparitor
+        add_prod_datum(:Expression, data[:Expression])
       end
     end
 
@@ -683,8 +634,8 @@ module SPARQL::Grammar
     #                                       ( ( '*' UnaryExpression )
     #                                     | ( '/' UnaryExpression ) )?
     #                                     )*
-    production(:AdditiveExpression) do |parser, phase, input, data, callback|
-      add_operator_expressions(:_Add_Sub, data) if phase == :finish
+    production(:AdditiveExpression) do |input, data, callback|
+      add_operator_expressions(:_Add_Sub, data)
     end
 
     # ( '+' MultiplicativeExpression
@@ -693,43 +644,40 @@ module SPARQL::Grammar
     #   ( ( '*' UnaryExpression )
     # | ( '/' UnaryExpression ) )?
     # )*
-    production(:_Add_Sub_MultiplicativeExpression_Star) do |parser, phase, input, data, callback|
-      accumulate_operator_expressions(:AdditiveExpression, :_Add_Sub, data) if phase == :finish
+    production(:_Add_Sub_MultiplicativeExpression_Star) do |input, data, callback|
+      accumulate_operator_expressions(:AdditiveExpression, :_Add_Sub, data)
     end
 
     # [107]  	MultiplicativeExpression	  ::=  	UnaryExpression
     #                                           ( '*' UnaryExpression
     #                                           | '/' UnaryExpression )*
-    production(:MultiplicativeExpression) do |parser, phase, input, data, callback|
-      add_operator_expressions(:_Mul_Div, data) if phase == :finish
+    production(:MultiplicativeExpression) do |input, data, callback|
+      add_operator_expressions(:_Mul_Div, data)
     end
 
     # ( '*' UnaryExpression
     # | '/' UnaryExpression )*
-    production(:_Mul_Div_UnaryExpression_Star) do |parser, phase, input, data, callback|
-      accumulate_operator_expressions(:MultiplicativeExpression, :_Mul_Div, data) if phase == :finish
+    production(:_Mul_Div_UnaryExpression_Star) do |input, data, callback|
+      accumulate_operator_expressions(:MultiplicativeExpression, :_Mul_Div, data)
     end
 
     # [108]  	UnaryExpression	  ::=  	  '!' PrimaryExpression 
     #                                 |	'+' PrimaryExpression 
     #                                 |	'-' PrimaryExpression 
     #                                 |	PrimaryExpression
-    production(:UnaryExpression) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        case data[:UnaryExpression]
-        when [:"!"]
-          parser.add_prod_datum(:Expression, Algebra::Expression[:not, data[:Expression].first])
-        when [:"-"]
-          e = data[:Expression].first
-          if e.is_a?(RDF::Literal::Numeric)
-            parser.add_prod_datum(:Expression, -e) # Simple optimization to match ARQ generation
-          else
-            parser.add_prod_datum(:Expression, Algebra::Expression[:minus, e])
-          end
+    production(:UnaryExpression) do |input, data, callback|
+      case data[:UnaryExpression]
+      when [:"!"]
+        add_prod_datum(:Expression, SPARQL::Algebra::Expression[:not, data[:Expression].first])
+      when [:"-"]
+        e = data[:Expression].first
+        if e.is_a?(RDF::Literal::Numeric)
+          add_prod_datum(:Expression, -e) # Simple optimization to match ARQ generation
         else
-          parser.add_prod_datum(:Expression, data[:Expression])
+          add_prod_datum(:Expression, SPARQL::Algebra::Expression[:minus, e])
         end
+      else
+        add_prod_datum(:Expression, data[:Expression])
       end
     end
 
@@ -737,26 +685,23 @@ module SPARQL::Grammar
     #                                 | IRIrefOrFunction | RDFLiteral
     #                                 | NumericLiteral | BooleanLiteral
     #                                 | Var | Aggregate
-    production(:PrimaryExpression) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        if data[:Expression]
-          parser.add_prod_datum(:Expression, data[:Expression])
-        elsif data[:BuiltInCall]
-          parser.add_prod_datum(:Expression, data[:BuiltInCall])
-        elsif data[:IRIref]
-          parser.add_prod_datum(:Expression, data[:IRIref])
-        elsif data[:Function]
-          parser.add_prod_datum(:Expression, data[:Function]) # Maintain array representation
-        elsif data[:literal]
-          parser.add_prod_datum(:Expression, data[:literal])
-        elsif data[:Var]
-          parser.add_prod_datum(:Expression, data[:Var])
-        end
-
-        # Keep track of this for parent UnaryExpression production
-        parser.add_prod_datum(:UnaryExpression, data[:UnaryExpression])
+    production(:PrimaryExpression) do |input, data, callback|
+      if data[:Expression]
+        add_prod_datum(:Expression, data[:Expression])
+      elsif data[:BuiltInCall]
+        add_prod_datum(:Expression, data[:BuiltInCall])
+      elsif data[:IRIref]
+        add_prod_datum(:Expression, data[:IRIref])
+      elsif data[:Function]
+        add_prod_datum(:Expression, data[:Function]) # Maintain array representation
+      elsif data[:literal]
+        add_prod_datum(:Expression, data[:literal])
+      elsif data[:Var]
+        add_prod_datum(:Expression, data[:Var])
       end
+
+      # Keep track of this for parent UnaryExpression production
+      add_prod_datum(:UnaryExpression, data[:UnaryExpression])
     end
 
     # [111]  	BuiltInCall	  ::=  	  'STR' '(' Expression ')' 
@@ -809,108 +754,92 @@ module SPARQL::Grammar
     #                               |	RegexExpression 
     #                               |	ExistsFunc 
     #                               |	NotExistsFunc
-    production(:BuiltInCall) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        if data[:regex]
-          parser.add_prod_datum(:BuiltInCall, Algebra::Expression.for(data[:regex].unshift(:regex)))
-        elsif data[:substr]
-          parser.add_prod_datum(:BuiltInCall, Algebra::Expression.for(data[:substr].unshift(:substr)))
-        elsif data[:exists]
-          parser.add_prod_datum(:BuiltInCall, Algebra::Expression.for(data[:exists].unshift(:exists)))
-        elsif data[:not_exists]
-          parser.add_prod_datum(:BuiltInCall, Algebra::Expression.for(data[:not_exists].unshift(:not_exists)))
-        elsif data[:BOUND]
-          parser.add_prod_datum(:BuiltInCall, Algebra::Expression.for(data[:Var].unshift(:bound)))
-        elsif data[:BuiltInCall]
-          parser.add_prod_datum(:BuiltInCall, Algebra::Expression.for(data[:BuiltInCall] + data[:Expression]))
-        end
+    production(:BuiltInCall) do |input, data, callback|
+      if builtin = data.keys.detect {|k| BUILTINS.include?(k)}
+        add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[:Expression].unshift(builtin)))
+      elsif builtin_rule = data.keys.detect {|k| BUILTIN_RULES.include?(k)}
+        add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[builtin_rule].unshift(builtin_rule)))
+      elsif data[:BOUND]
+        add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[:Var].unshift(:bound)))
+      elsif data[:BuiltInCall]
+        add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[:BuiltInCall] + data[:Expression]))
       end
     end
 
     # [112]  	RegexExpression	  ::=  	'REGEX' '(' Expression ',' Expression
     #                                 ( ',' Expression )? ')'
-    production(:RegexExpression) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:regex, data[:Expression]) if phase == :finish
+    production(:RegexExpression) do |input, data, callback|
+      add_prod_datum(:regex, data[:Expression])
     end
 
     # [113]  	SubstringExpression	  ::=  	'SUBSTR'
     #                                     '(' Expression ',' Expression
     #                                     ( ',' Expression )? ')'
-    production(:SubstringExpression) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:substr, data[:Expression]) if phase == :finish
+    production(:SubstringExpression) do |input, data, callback|
+      add_prod_datum(:substr, data[:Expression])
     end
 
     # [114]  	ExistsFunc	  ::=  	'EXISTS' GroupGraphPattern
-    production(:ExistsFunc) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:exists, data[:query]) if phase == :finish
+    production(:ExistsFunc) do |input, data, callback|
+      add_prod_datum(:exists, data[:query])
     end
 
     # [115]  	NotExistsFunc	  ::=  	'NOT' 'EXISTS' GroupGraphPattern
-    production(:NotExistsFunc) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:not_exists, data[:query]) if phase == :finish
+    production(:NotExistsFunc) do |input, data, callback|
+      add_prod_datum(:not_exists, data[:query])
     end
 
     # [117]  	IRIrefOrFunction	  ::=  	IRIref ArgList?
-    production(:IRIrefOrFunction) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        if data.has_key?(:ArgList)
-          # Function is (func arg1 arg2 ...)
-          parser.add_prod_data(:Function, data[:IRIref] + data[:ArgList])
-        else
-          parser.add_prod_datum(:IRIref, data[:IRIref])
-        end
+    production(:IRIrefOrFunction) do |input, data, callback|
+      if data.has_key?(:ArgList)
+        # Function is (func arg1 arg2 ...)
+        add_prod_data(:Function, data[:IRIref] + data[:ArgList])
+      else
+        add_prod_datum(:IRIref, data[:IRIref])
       end
     end
 
     # [118]  	RDFLiteral	  ::=  	String ( LANGTAG | ( '^^' IRIref ) )?
-    production(:RDFLiteral) do |parser, phase, input, data, callback|
-      if phase == :finish && data[:string]
+    production(:RDFLiteral) do |input, data, callback|
+      if data[:string]
         lit = data.dup
         str = lit.delete(:string).last 
         lit[:datatype] = lit.delete(:IRIref).last if lit[:IRIref]
         lit[:language] = lit.delete(:language).last.downcase if lit[:language]
-        parser.add_prod_datum(:literal, RDF::Literal.new(str, lit)) if str
+        add_prod_datum(:literal, RDF::Literal.new(str, lit)) if str
       end
     end
 
     # [121]  	NumericLiteralPositive	  ::=  	INTEGER_POSITIVE
     #                                       |	DECIMAL_POSITIVE
     #                                       |	DOUBLE_POSITIVE
-    production(:NumericLiteralPositive) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        num = data.values.flatten.last
-        parser.add_prod_datum(:literal, parser.num.class.new("+#{num.value}"))
+    production(:NumericLiteralPositive) do |input, data, callback|
+      num = data.values.flatten.last
+      add_prod_datum(:literal, num)
 
-        # Keep track of this for parent UnaryExpression production
-        parser.add_prod_datum(:UnaryExpression, data[:UnaryExpression])
-      end
+      # Keep track of this for parent UnaryExpression production
+      add_prod_datum(:UnaryExpression, data[:UnaryExpression])
     end
 
     # [122]  	NumericLiteralNegative	  ::=  	INTEGER_NEGATIVE
     #                                       |	DECIMAL_NEGATIVE
     #                                       |	DOUBLE_NEGATIVE
-    production(:NumericLiteralNegative) do |parser, phase, input, data, callback|
-      case phase
-      when :finish
-        num = data.values.flatten.last
-        parser.add_prod_datum(:literal, parser.num.class.new("-#{num.value}"))
+    production(:NumericLiteralNegative) do |input, data, callback|
+      num = data.values.flatten.last
+      add_prod_datum(:literal, num)
 
-        # Keep track of this for parent UnaryExpression production
-        parser.add_prod_datum(:UnaryExpression, data[:UnaryExpression])
-      end
+      # Keep track of this for parent UnaryExpression production
+      add_prod_datum(:UnaryExpression, data[:UnaryExpression])
     end
 
     # [125]  	IRIref	  ::=  	IRI_REF |	PrefixedName
-    production(:IRIref) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:IRIref, data[:iri]) if phase == :finish
+    production(:IRIref) do |input, data, callback|
+      add_prod_datum(:IRIref, data[:iri])
     end
 
     # [126]  	PrefixedName	  ::=  	PNAME_LN | PNAME_NS
-    production(:IRIref) do |parser, phase, input, data, callback|
-      parser.add_prod_datum(:iri, data[:PrefixedName]) if phase == :finish
+    production(:PrefixedName) do |input, data, callback|
+      add_prod_datum(:iri, data[:PrefixedName])
     end
 
     ##
@@ -1019,7 +948,7 @@ module SPARQL::Grammar
     # Returns the URI prefixes currently defined for this parser.
     #
     # @example
-    #   parser.prefixes[:dc]  #=> RDF::URI('http://purl.org/dc/terms/')
+    #   prefixes[:dc]  #=> RDF::URI('http://purl.org/dc/terms/')
     #
     # @return [Hash{Symbol => RDF::URI}]
     # @since  0.3.0
@@ -1031,7 +960,7 @@ module SPARQL::Grammar
     # Defines the given URI prefixes for this parser.
     #
     # @example
-    #   parser.prefixes = {
+    #   prefixes = {
     #     :dc => RDF::URI('http://purl.org/dc/terms/'),
     #   }
     #
@@ -1046,10 +975,10 @@ module SPARQL::Grammar
     # Defines the given named URI prefix for this parser.
     #
     # @example Defining a URI prefix
-    #   parser.prefix :dc, RDF::URI('http://purl.org/dc/terms/')
+    #   prefix :dc, RDF::URI('http://purl.org/dc/terms/')
     #
     # @example Returning a URI prefix
-    #   parser.prefix(:dc)    #=> RDF::URI('http://purl.org/dc/terms/')
+    #   prefix(:dc)    #=> RDF::URI('http://purl.org/dc/terms/')
     #
     # @overload prefix(name, uri)
     #   @param  [Symbol, #to_s]   name
@@ -1059,9 +988,9 @@ module SPARQL::Grammar
     #   @param  [Symbol, #to_s]   name
     #
     # @return [RDF::URI]
-    def prefix(name, uri = nil)
+    def prefix(name, iri = nil)
       name = name.to_s.empty? ? nil : (name.respond_to?(:to_sym) ? name.to_sym : name.to_s.to_sym)
-      uri.nil? ? prefixes[name] : prefixes[name] = uri
+      iri.nil? ? prefixes[name] : prefixes[name] = iri
     end
 
     ##
@@ -1069,7 +998,7 @@ module SPARQL::Grammar
     # as specified or when parsing a BASE prologue element.
     #
     # @example
-    #   parser.base  #=> RDF::URI('http://example.com/')
+    #   base  #=> RDF::URI('http://example.com/')
     #
     # @return [HRDF::URI]
     def base_uri
@@ -1079,14 +1008,14 @@ module SPARQL::Grammar
     ##
     # Set the Base URI to use for this parser.
     #
-    # @param  [RDF::URI, #to_s] uri
+    # @param  [RDF::URI, #to_s] iri
     #
     # @example
-    #   parser.base_uri = RDF::URI('http://purl.org/dc/terms/')
+    #   base_uri = RDF::URI('http://purl.org/dc/terms/')
     #
     # @return [RDF::URI]
-    def base_uri=(uri)
-      @options[:base_uri] = RDF::URI(uri)
+    def base_uri=(iri)
+      @options[:base_uri] = RDF::URI(iri)
     end
 
     ##
@@ -1143,9 +1072,9 @@ module SPARQL::Grammar
     end
 
     # Create URIs
-    def uri(value)
+    def iri(value)
       # If we have a base URI, use that when constructing a new URI
-      uri = if self.base_uri
+      iri = if self.base_uri
         u = self.base_uri.join(value.to_s)
         u.lexical = "<#{value}>" unless u.to_s == value.to_s || options[:resolve_uris]
         u
@@ -1153,22 +1082,34 @@ module SPARQL::Grammar
         RDF::URI(value)
       end
 
-      #uri.validate! if validate? && uri.respond_to?(:validate)
-      #uri.canonicalize! if canonicalize?
-      #uri = RDF::URI.intern(uri) if intern?
-      uri
+      #iri.validate! if validate? && iri.respond_to?(:validate)
+      #iri = RDF::URI.intern(iri) if intern?
+      iri
     end
 
     def ns(prefix, suffix)
       base = prefix(prefix).to_s
       suffix = suffix.to_s.sub(/^\#/, "") if base.index("#")
       debug {"ns(#{prefix.inspect}): base: '#{base}', suffix: '#{suffix}'"}
-      uri = uri(base + suffix.to_s)
+      iri = iri(base + suffix.to_s)
       # Cause URI to be serialized as a lexical
-      uri.lexical = "#{prefix}:#{suffix}" unless options[:resolve_uris]
-      uri
+      iri.lexical = "#{prefix}:#{suffix}" unless options[:resolve_uris]
+      iri
     end
     
+    # Create a literal
+    def literal(value, options = {})
+      options = options.dup
+      # Internal representation is to not use xsd:string, although it could arguably go the other way.
+      options.delete(:datatype) if options[:datatype] == RDF::XSD.string
+      debug("literal") do
+        "value: #{value.inspect}, " +
+        "options: #{options.inspect}, " +
+        "validate: #{validate?.inspect}, "
+      end
+      RDF::Literal.new(value, options.merge(:validate => validate?))
+    end
+
     # add a pattern
     #
     # @param [String] production Production generating pattern
@@ -1188,6 +1129,55 @@ module SPARQL::Grammar
         triple[r] = v
       end
       add_prod_datum(:pattern, RDF::Query::Pattern.new(triple))
+    end
+
+    # Flatten a Data in form of :filter => [op+ bgp?], without a query into filter and query creating exprlist, if necessary
+    # @return [Array[:expr, query]]
+    def flatten_filter(data)
+      query = data.pop if data.last.respond_to?(:execute)
+      expr = data.length > 1 ? SPARQL::Algebra::Operator::Exprlist.new(*data) : data.first
+      [expr, query]
+    end
+    
+    # Merge query modifiers, datasets, and projections
+    def merge_modifiers(data)
+      query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
+      
+      # Add datasets and modifiers in order
+      query = SPARQL::Algebra::Expression[:order, data[:order].first, query] if data[:order]
+
+      query = SPARQL::Algebra::Expression[:project, data[:Var], query] if data[:Var]
+
+      query = SPARQL::Algebra::Expression[data[:DISTINCT_REDUCED].first, query] if data[:DISTINCT_REDUCED]
+
+      query = SPARQL::Algebra::Expression[:slice, data[:slice][0], data[:slice][1], query] if data[:slice]
+      
+      query = SPARQL::Algebra::Expression[:dataset, data[:dataset], query] if data[:dataset]
+      
+      query
+    end
+
+    # Add joined expressions in for prod1 (op prod2)* to form (op (op 1 2) 3)
+    def add_operator_expressions(production, data)
+      # Iterate through expression to create binary operations
+      res = data[:Expression]
+      while data[production] && !data[production].empty?
+        res = SPARQL::Algebra::Expression[data[production].shift + res + data[production].shift]
+      end
+      add_prod_datum(:Expression, res)
+    end
+
+    # Accumulate joined expressions in for prod1 (op prod2)* to form (op (op 1 2) 3)
+    def accumulate_operator_expressions(operator, production, data)
+      if data[operator]
+        # Add [op data] to stack based on "production"
+        add_prod_datum(production, [data[operator], data[:Expression]])
+        # Add previous [op data] information
+        add_prod_datum(production, data[production])
+      else
+        # No operator, forward :Expression
+        add_prod_datum(:Expression, data[:Expression])
+      end
     end
 
     ##
