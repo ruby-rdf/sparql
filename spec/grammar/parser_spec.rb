@@ -15,7 +15,7 @@ module ProductionRequirements
 
   def it_rejects_empty_input_using(production)
     it "rejects empty input" do
-      parser(production).call(%q()).should be_false
+      lambda {parser(production).call(%q())}.should raise_error(EBNF::LL1::Parser::Error)
     end
   end
 
@@ -43,126 +43,126 @@ module ProductionRequirements
     end
   end
 
-  # [28] FunctionCall
+  # [66] FunctionCall
   def it_recognizes_function_using(production)
     it "recognizes the FunctionCall nonterminal" do
       it_recognizes_function(production)
     end
   end
 
-  # [41]    GraphNode
+  # [95]    GraphNode
   def it_recognizes_graph_node_using(production)
     it "recognizes the GraphNode nonterminal" do
       it_recognizes_graph_node(production)
     end
   end
 
-  # [42]    VarOrTerm
+  # [96]    VarOrTerm
   def it_recognizes_var_or_term_using(production)
     it "recognizes the VarOrTerm nonterminal" do
       it_recognizes_var_or_iriref(production)
     end
   end
 
-  # [43]    VarOrIRIref
+  # [97]    VarOrIRIref
   def it_recognizes_var_or_iriref_using(production)
     it "recognizes the VarOrIRIref nonterminal" do
       it_recognizes_var_or_iriref(production)
     end
   end
 
-  # [44] Var
+  # [98] Var
   def it_recognizes_var_using(production)
     it "recognizes the Var nonterminal" do
       it_recognizes_var(production)
     end
   end
 
-  # [45] GraphTerm
+  # [99] GraphTerm
   def it_recognizes_graph_term_using(production)
     it "recognizes the GraphTerm nonterminal" do
       it_recognizes_graph_term(production)
     end
   end
 
-  # [46]    Expression
+  # [100]    Expression
   def it_recognizes_expression_using(production)
     it "recognizes Expression nonterminal" do
       it_recognizes_expression(production)
     end
   end
 
-  # [47]    ConditionalOrExpression
+  # [101]    ConditionalOrExpression
   def it_recognizes_conditional_or_expression_using(production)
     it "recognizes ConditionalOrExpression nonterminal" do
       it_recognizes_conditional_or_expression(production)
     end
   end
 
-  # [48]    ConditionalAndExpression
+  # [102]    ConditionalAndExpression
   def it_recognizes_conditional_and_expression_using(production)
     it "recognizes ConditionalAndExpression nonterminal" do
       it_recognizes_conditional_and_expression(production)
     end
   end
 
-  # [49]    ValueLogical
+  # [103]    ValueLogical
   def it_recognizes_value_logical_using(production)
     it "recognizes ValueLogical nonterminal" do
       it_recognizes_value_logical(production)
     end
   end
 
-  # [50]    RelationalExpression
+  # [104]    RelationalExpression
   def it_recognizes_relational_expression_using(production)
     it "recognizes RelationalExpression nonterminal" do
       it_recognizes_relational_expression(production)
     end
   end
 
-  # [51]    NumericExpression
+  # [105]    NumericExpression
   def it_recognizes_numeric_expression_using(production)
     it "recognizes NumericExpression nonterminal" do
       it_recognizes_numeric_expression(production)
     end
   end
 
-  # [52]    AdditiveExpression
+  # [106]    AdditiveExpression
   def it_recognizes_additive_expression_using(production)
     it "recognizes AdditiveExpression nonterminal" do
       it_recognizes_additive_expression(production)
     end
   end
 
-  # [53]    MultiplicativeExpression
+  # [107]    MultiplicativeExpression
   def it_recognizes_multiplicative_expression_using(production)
     it "recognizes MultiplicativeExpression nonterminal" do
       it_recognizes_multiplicative_expression(production)
     end
   end
 
-  # [54] UnaryExpression
+  # [108] UnaryExpression
   def it_recognizes_unary_expression_using(production)
     it "recognizes UnaryExpression nonterminal" do
       it_recognizes_unary_expression(production)
     end
   end
 
-  # [55]    PrimaryExpression
+  # [109]    PrimaryExpression
   def it_recognizes_primary_expression_using(production)
     it "recognizes PrimaryExpression nonterminal" do
       it_recognizes_primary_expression(production)
     end
   end
 
-  # [56]    BrackettedExpression ::=       '(' Expression ')'
+  # [110]    BrackettedExpression ::=       '(' Expression ')'
   def it_recognizes_bracketted_expression_using(production)
     it "recognizes BrackettedExpression nonterminal" do
       it_recognizes_bracketted_expression(production)
     end
   end
 
-  # [57]    BuiltInCall
+  # [111]    BuiltInCall
   def it_recognizes_built_in_call_using(production)
     it "recognizes BuiltInCall nonterminal" do
       it_recognizes_built_in_call(production)
@@ -176,14 +176,14 @@ module ProductionRequirements
     end
   end
 
-  # [59]    IRIrefOrFunction
+  # [117]    IRIrefOrFunction
   def it_recognizes_iriref_or_function_using(production)
     it "recognizes the IRIrefOrFunction nonterminal" do
       it_recognizes_iriref_or_function(production)
     end
   end
 
-  # [60] RDFLiteral
+  # [118] RDFLiteral
   def it_recognizes_rdf_literal_using(production)
     it "recognizes the RDFLiteral nonterminal" do
       it_recognizes_rdf_literal_without_language_or_datatype(production)
@@ -192,35 +192,35 @@ module ProductionRequirements
     end
   end
 
-  # [61] NumericLiteral
+  # [119] NumericLiteral
   def it_recognizes_numeric_literal_using(production)
     it "recognizes the NumericLiteral nonterminal" do
       it_recognizes_numeric_literal(production)
     end
   end
 
-  # [65] BooleanLiteral
+  # [123] BooleanLiteral
   def it_recognizes_boolean_literal_using(production)
     it "recognizes the BooleanLiteral nonterminal" do
       it_recognizes_boolean_literal(production)
     end
   end
 
-  # [67] IRIref
+  # [125] IRIref
   def it_recognizes_iriref_using(production)
     it "recognizes the IRIref nonterminal" do
       it_recognizes_iriref(production)
     end
   end
 
-  # [69] BlankNode
+  # [127] BlankNode
   def it_recognizes_blank_node_using(production)
     it "recognizes the BlankNode nonterminal" do
       it_recognizes_blank_node(production)
     end
   end
 
-  # [92] NIL
+  # [150] NIL
   def it_recognizes_nil_using(production)
     it "recognizes the NIL terminal" do
       it_recognizes_nil(production)
@@ -234,36 +234,36 @@ module ProductionRequirements
 end
 
 module ProductionExamples
-  # [28] FunctionCall
+  # [66] FunctionCall
   def it_recognizes_function(production)
     parser(production).call(%q(<foo>("bar"))).last.should == [RDF::URI("foo"), RDF::Literal("bar")]
     parser(production).call(%q(<foo>())).last.should == [RDF::URI("foo"), RDF["nil"]]
   end
 
-  # [41]    GraphNode                 ::=       VarOrTerm | TriplesNode
+  # [95]    GraphNode                 ::=       VarOrTerm | TriplesNode
   def it_recognizes_graph_node(production)
     it_recognizes_var_or_term(production)
   end
 
-  # [42]    VarOrTerm                 ::=       Var | GraphTerm
+  # [96]    VarOrTerm                 ::=       Var | GraphTerm
   def it_recognizes_var_or_term(production)
     it_recognizes_var(production)
     it_recognizes_graph_term(production)
   end
 
-  # [43]    VarOrIRIref               ::=       Var | IRIref
+  # [97]    VarOrIRIref               ::=       Var | IRIref
   def it_recognizes_var_or_iriref(production)
     it_recognizes_var(production)
     it_recognizes_iriref(production)
   end
 
-  # [44]    Var                       ::=       VAR1 | VAR2
+  # [98]    Var                       ::=       VAR1 | VAR2
   def it_recognizes_var(production)
     it_recognizes_var1(production)
     it_recognizes_var2(production)
   end
 
-  # [45] GraphTerm ::=       IRIref | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL
+  # [99] GraphTerm ::=       IRIref | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL
   def it_recognizes_graph_term(production)
     it_recognizes_iriref(production)
     it_recognizes_rdf_literal_without_language_or_datatype(production)
@@ -275,12 +275,12 @@ module ProductionExamples
     it_recognizes_nil production
   end
 
-  # [46]    Expression ::=       ConditionalOrExpression
+  # [100]    Expression ::=       ConditionalOrExpression
   def it_recognizes_expression(production)
     it_recognizes_conditional_or_expression(production)
   end
 
-  # [47]    ConditionalOrExpression ::=       ConditionalAndExpression ( '||' ConditionalAndExpression )*
+  # [101]    ConditionalOrExpression ::=       ConditionalAndExpression ( '||' ConditionalAndExpression )*
   def it_recognizes_conditional_or_expression(production)
     parser(production).call(%q(1 || 2)).last.should == SPARQL::Algebra::Expression[:"||", RDF::Literal(1), RDF::Literal(2)]
     parser(production).call(%q(1 || 2 && 3)).last.should == SPARQL::Algebra::Expression[:"||", RDF::Literal(1), [:"&&", RDF::Literal(2), RDF::Literal(3)]]
@@ -290,7 +290,7 @@ module ProductionExamples
     it_recognizes_conditional_and_expression(production)
   end
 
-  # [48]    ConditionalAndExpression ::=       ValueLogical ( '&&' ValueLogical )*
+  # [102]    ConditionalAndExpression ::=       ValueLogical ( '&&' ValueLogical )*
   def it_recognizes_conditional_and_expression(production)
     parser(production).call(%q(1 && 2)).last.should == SPARQL::Algebra::Expression[:"&&", RDF::Literal(1), RDF::Literal(2)]
     parser(production).call(%q(1 && 2 = 3)).last.should == SPARQL::Algebra::Expression[:"&&", RDF::Literal(1), [:"=", RDF::Literal(2), RDF::Literal(3)]]
@@ -299,12 +299,12 @@ module ProductionExamples
     it_recognizes_value_logical(production)
   end
 
-  # [49]    ValueLogical ::=       RelationalExpression
+  # [103]    ValueLogical ::=       RelationalExpression
   def it_recognizes_value_logical(production)
     it_recognizes_relational_expression(production)
   end
 
-  # [50]    RelationalExpression ::= NumericExpression (
+  # [104]    RelationalExpression ::= NumericExpression (
   #                                      '=' NumericExpression
   #                                    | '!=' NumericExpression
   #                                    | '<' NumericExpression
@@ -324,12 +324,12 @@ module ProductionExamples
     it_recognizes_numeric_expression(production)
   end
 
-  # [51]    NumericExpression ::=       AdditiveExpression
+  # [105]    NumericExpression ::=       AdditiveExpression
   def it_recognizes_numeric_expression(production)
     it_recognizes_additive_expression(production)
   end
 
-  # [52]    AdditiveExpression ::= MultiplicativeExpression ( '+' MultiplicativeExpression | '-' MultiplicativeExpression )*
+  # [106]    AdditiveExpression ::= MultiplicativeExpression ( '+' MultiplicativeExpression | '-' MultiplicativeExpression )*
   def it_recognizes_additive_expression(production)
     parser(production).call(%q(1 + 2)).last.should == SPARQL::Algebra::Expression[:"+", RDF::Literal(1), RDF::Literal(2)]
     parser(production).call(%q(1 - 2)).last.should == SPARQL::Algebra::Expression[:"-", RDF::Literal(1), RDF::Literal(2)]
@@ -341,7 +341,7 @@ module ProductionExamples
     it_recognizes_multiplicative_expression(production)
   end
 
-  # [53]    MultiplicativeExpression ::=       UnaryExpression ( '*' UnaryExpression | '/' UnaryExpression )*
+  # [107]    MultiplicativeExpression ::=       UnaryExpression ( '*' UnaryExpression | '/' UnaryExpression )*
   def it_recognizes_multiplicative_expression(production)
     parser(production).call(%q(1 * 2)).last.should == SPARQL::Algebra::Expression[:"*", RDF::Literal(1), RDF::Literal(2)]
     parser(production).call(%q(1 / 2)).last.should == SPARQL::Algebra::Expression[:"/", RDF::Literal(1), RDF::Literal(2)]
@@ -353,7 +353,7 @@ module ProductionExamples
     it_recognizes_unary_expression(production)
   end
 
-  # [54] UnaryExpression ::=  '!' PrimaryExpression | '+' PrimaryExpression | '-' PrimaryExpression | PrimaryExpression
+  # [108] UnaryExpression ::=  '!' PrimaryExpression | '+' PrimaryExpression | '-' PrimaryExpression | PrimaryExpression
   def it_recognizes_unary_expression(production)
     parser(production).call(%q(! "foo")).last.should == SPARQL::Algebra::Expression[:not, RDF::Literal("foo")]
     parser(production).call(%q(+ 1)).last.should == RDF::Literal(1)
@@ -372,7 +372,7 @@ module ProductionExamples
     it_recognizes_var production
   end
 
-  # [55]    PrimaryExpression ::=       BrackettedExpression | BuiltInCall | IRIrefOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
+  # [109]    PrimaryExpression ::=       BrackettedExpression | BuiltInCall | IRIrefOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
   def it_recognizes_primary_expression(production)
     it_recognizes_bracketted_expression production
     it_recognizes_built_in_call production
@@ -385,12 +385,12 @@ module ProductionExamples
     it_recognizes_var production
   end
 
-  # [56]    BrackettedExpression ::=       '(' Expression ')'
+  # [110]    BrackettedExpression ::=       '(' Expression ')'
   def it_recognizes_bracketted_expression(production)
     parser(production).call(%q(("foo")))[1..-1].should == [RDF::Literal("foo")]
   end
 
-  # [57]    BuiltInCall ::=  'STR' '(' Expression ')'
+  # [111]    BuiltInCall ::=  'STR' '(' Expression ')'
   #                        | 'LANG' '(' Expression ')'
   #                        | 'LANGMATCHES' '(' Expression ',' Expression ')'
   #                        | 'DATATYPE' '(' Expression ')'
@@ -404,30 +404,30 @@ module ProductionExamples
   def it_recognizes_built_in_call(production)
     parser(production).call(%q(STR ("foo"))).last.should == SPARQL::Algebra::Expression[:str, RDF::Literal("foo")]
     parser(production).call(%q(LANG ("foo"))).last.should == SPARQL::Algebra::Expression[:lang, RDF::Literal("foo")]
-    parser(production).call(%q(LANGMATCHES ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:langMatches, RDF::Literal("foo"), RDF::Literal("bar")]
+    parser(production).call(%q(LANGMATCHES ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:langmatches, RDF::Literal("foo"), RDF::Literal("bar")]
     parser(production).call(%q(DATATYPE ("foo"))).last.should == SPARQL::Algebra::Expression[:datatype, RDF::Literal("foo")]
-    parser(production).call(%q(sameTerm ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:sameTerm, RDF::Literal("foo"), RDF::Literal("bar")]
-    parser(production).call(%q(isIRI ("foo"))).last.should == SPARQL::Algebra::Expression[:isIRI, RDF::Literal("foo")]
-    parser(production).call(%q(isURI ("foo"))).last.should == SPARQL::Algebra::Expression[:isURI, RDF::Literal("foo")]
-    parser(production).call(%q(isBLANK ("foo"))).last.should == SPARQL::Algebra::Expression[:isBLANK, RDF::Literal("foo")]
-    parser(production).call(%q(isLITERAL ("foo"))).last.should == SPARQL::Algebra::Expression[:isLITERAL, RDF::Literal("foo")]
+    parser(production).call(%q(sameTerm ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:sameterm, RDF::Literal("foo"), RDF::Literal("bar")]
+    parser(production).call(%q(isIRI ("foo"))).last.should == SPARQL::Algebra::Expression[:isiri, RDF::Literal("foo")]
+    parser(production).call(%q(isURI ("foo"))).last.should == SPARQL::Algebra::Expression[:isuri, RDF::Literal("foo")]
+    parser(production).call(%q(isBLANK ("foo"))).last.should == SPARQL::Algebra::Expression[:isblank, RDF::Literal("foo")]
+    parser(production).call(%q(isLITERAL ("foo"))).last.should == SPARQL::Algebra::Expression[:isliteral, RDF::Literal("foo")]
     parser(production).call(%q(BOUND (?foo))).last.should == SPARQL::Algebra::Expression[:bound, RDF::Query::Variable.new("foo")]
     parser(production).call(%q(REGEX ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:regex, RDF::Literal("foo"), RDF::Literal("bar")]
   end
 
-  # [58]    RegexExpression ::=       'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
+  # [112]    RegexExpression ::=       'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
   def it_recognizes_regex_expression(production)
     lambda { parser(production).call(%q(REGEX ("foo"))) }.should raise_error
     parser(production).call(%q(REGEX ("foo", "bar"))).to_sxp.should == %q((regex "foo" "bar"))
   end
 
-  # [59]    IRIrefOrFunction ::=       IRIref ArgList?
+  # [117]    IRIrefOrFunction ::=       IRIref ArgList?
   def it_recognizes_iriref_or_function(production)
     it_recognizes_iriref(production)
     it_recognizes_function(production)
   end
 
-  # [60] RDFLiteral
+  # [118] RDFLiteral
   def it_recognizes_rdf_literal_without_language_or_datatype(production)
     parser(production).call(%q("")).last.should == RDF::Literal.new("")
     parser(production).call(%q("foobar")).last.should == RDF::Literal.new("foobar")
@@ -441,51 +441,51 @@ module ProductionExamples
     end
   end
 
-  # [60] RDFLiteral
+  # [118] RDFLiteral
   def it_recognizes_rdf_literal_with_language(production)
     parser(production).call(%q(""@en)).last.should == RDF::Literal.new("", :language => :en)
     parser(production).call(%q("foobar"@en-US)).last.should == RDF::Literal.new("foobar", :language => :'en-us')
   end
 
-  # [60] RDFLiteral
+  # [118] RDFLiteral
   def it_recognizes_rdf_literal_with_datatype(production)
     parser(production).call(%q(""^^<http://www.w3.org/2001/XMLSchema#string>)).last.should == RDF::Literal.new("", :datatype => RDF::XSD.string)
     parser(production).call(%q("foobar"^^<http://www.w3.org/2001/XMLSchema#string>)).last.should == RDF::Literal.new("foobar", :datatype => RDF::XSD.string)
   end
 
-  # [61] NumericLiteral
+  # [119] NumericLiteral
   def it_recognizes_numeric_literal(production)
     parser(production).call(%q(123)).last.should     == RDF::Literal::Integer.new(123)
     parser(production).call(%q(+3.1415)).last.should == RDF::Literal::Decimal.new(3.1415)
     parser(production).call(%q(-1e6)).last.should    == RDF::Literal::Double.new(-1e6)
   end
 
-  # [65] BooleanLiteral
+  # [123] BooleanLiteral
   def it_recognizes_boolean_literal(production)
     parser(production).call(%q(true)).last.should == RDF::Literal(true)
     parser(production).call(%q(false)).last.should == RDF::Literal(false)
   end
 
-  # [67] IRIref
+  # [125] IRIref
   def it_recognizes_iriref(production)
     parser(production).call(%q(<http://example.org/>)).last.should == RDF::URI('http://example.org/')
     # XXXtest prefixed names
   end
 
-  # [69] BlankNode
+  # [127] BlankNode
   def it_recognizes_blank_node(production)
     parser(production).call(%q(_:foobar)).last.should == SPARQL::Grammar::Parser.variable("foobar", false)
     parser(production).call(%q([])).last.should_not be_distinguished
   end
 
-  # [74] VAR1
+  # [132] VAR1
   def it_recognizes_var1(production)
     %w(foo bar).each do |input|
       parser(production).call("?#{input}").last.should == RDF::Query::Variable.new(input.to_sym)
     end
   end
 
-  # [75] VAR2
+  # [133] VAR2
   def it_recognizes_var2(production)
     %w(foo bar).each do |input|
       parser(production).call("$#{input}").last.should == RDF::Query::Variable.new(input.to_sym)
@@ -651,7 +651,7 @@ describe SPARQL::Grammar::Parser do
   include ProductionRequirements
   include ProductionExamples
 
-  describe "when matching the [1] Query production rule" do
+  describe "when matching the [2] Query production rule" do
     with_production(:Query) do |production|
       it_rejects_empty_input_using production
 
@@ -731,7 +731,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [2] Prologue production rule" do
+  describe "when matching the [4] Prologue production rule" do
     with_production(:Prologue) do |production|
       it "sets base_uri to <http://example.org> given 'BASE <http://example.org/>'" do
         p = parser(nil, :resolve_uris => true).call(%q(BASE <http://example.org/>))
@@ -767,8 +767,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [5]     SelectQuery               ::=       'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( Var+ | '*' ) DatasetClause* WhereClause SolutionModifier
-  describe "when matching the [5] SelectQuery production rule" do
+  # [7]     SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
+  describe "when matching the [7] SelectQuery production rule" do
     with_production(:SelectQuery) do |production|
       describe "SELECT * WHERE {...}" do
         bgp_patterns.each_pair do |input, result|
@@ -813,8 +813,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [6]     ConstructQuery            ::=       'CONSTRUCT' ConstructTemplate DatasetClause* WhereClause SolutionModifier
-  describe "when matching the [6] ConstructQuery production rule" do
+  # [10]     ConstructQuery	  ::=  	'CONSTRUCT' ( ConstructTemplate DatasetClause* WhereClause SolutionModifier | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
+  describe "when matching the [10] ConstructQuery production rule" do
     with_production(:ConstructQuery) do |production|
       given_it_generates(production, "CONSTRUCT {?a ?b ?c} FROM <a> WHERE {?a ?b ?c}", %q((construct ((triple ?a ?b ?c)) (dataset (<a>) (bgp (triple ?a ?b ?c))))))
       given_it_generates(production, "CONSTRUCT {?a ?b ?c} FROM NAMED <a> WHERE {?a ?b ?c}", %q((construct ((triple ?a ?b ?c)) (dataset ((named <a>)) (bgp (triple ?a ?b ?c))))))
@@ -829,7 +829,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [7] DescribeQuery production rule" do
+  describe "when matching the [11] DescribeQuery production rule" do
     with_production(:DescribeQuery) do |production|
       given_it_generates(production, "DESCRIBE * FROM <a> WHERE {?a ?b ?c}", %q((describe () (dataset (<a>) (bgp (triple ?a ?b ?c))))))
       given_it_generates(production, "DESCRIBE * FROM <a> WHERE {?a ?b ?c}", %q((describe () (dataset (<a>) (bgp (triple ?a ?b ?c))))))
@@ -855,7 +855,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [8] AskQuery production rule" do
+  describe "when matching the [12] AskQuery production rule" do
     with_production(:AskQuery) do |production|
       given_it_generates(production, "ASK FROM <a> WHERE {?a ?b ?c}", %q((ask (dataset (<a>) (bgp (triple ?a ?b ?c))))))
       given_it_generates(production, "ASK FROM NAMED <a> WHERE {?a ?b ?c}", %q((ask (dataset ((named <a>))(bgp (triple ?a ?b ?c))))))
@@ -868,7 +868,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [9] DatasetClause production rule" do
+  describe "when matching the [13] DatasetClause production rule" do
     with_production(:DatasetClause) do |production|
       it_rejects_empty_input_using production
       given_it_generates(production, %q(FROM <http://example.org/foaf/aliceFoaf>), [:dataset, RDF::URI("http://example.org/foaf/aliceFoaf")])
@@ -877,10 +877,10 @@ describe SPARQL::Grammar::Parser do
   end
 
   # No specs for the following, as nothing is produced in SSE.
-  #   [10] DefaultGraphClause
-  #   [11] NamedGraphClause
-  #   [12] SourceSelector
-  describe "when matching the [13] WhereClause production rule" do
+  #   [14] DefaultGraphClause
+  #   [15] NamedGraphClause
+  #   [16] SourceSelector
+  describe "when matching the [17] WhereClause production rule" do
     with_production(:WhereClause) do |production|
       it_rejects_empty_input_using production
 
@@ -900,8 +900,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [14]    SolutionModifier          ::=       OrderClause? LimitOffsetClauses?
-  describe "when matching the [14] SolutionModifier production rule" do
+  # [18]    SolutionModifier          ::=       GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
+  describe "when matching the [18] SolutionModifier production rule" do
     with_production(:SolutionModifier) do |production|
       it_rejects_empty_input_using production
 
@@ -919,18 +919,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [15]    LimitOffsetClauses        ::=       ( LimitClause OffsetClause? | OffsetClause LimitClause? )
-  describe "when matching the [15] LimitOffsetClauses production rule" do
-    with_production(:LimitOffsetClauses) do |production|
-      given_it_generates(production, "LIMIT 1", [:slice, :_, RDF::Literal(1)])
-      given_it_generates(production, "OFFSET 1", [:slice, RDF::Literal(1), :_])
-      given_it_generates(production, "LIMIT 1 OFFSET 2", [:slice, RDF::Literal(2), RDF::Literal(1)])
-      given_it_generates(production, "OFFSET 2 LIMIT 1", [:slice, RDF::Literal(2), RDF::Literal(1)])
-    end
-  end
-
-  # [16]    OrderClause               ::=       'ORDER' 'BY' OrderCondition+
-  describe "when matching the [16] OrderClause production rule" do
+  # [23]    OrderClause               ::=       'ORDER' 'BY' OrderCondition+
+  describe "when matching the [23] OrderClause production rule" do
     with_production(:OrderClause) do |production|
       given_it_generates(production, "ORDER BY ASC (1)", [:order, [SPARQL::Algebra::Operator::Asc.new(RDF::Literal(1))]])
       given_it_generates(production, "ORDER BY DESC (?a)", [:order, [SPARQL::Algebra::Operator::Desc.new(RDF::Query::Variable.new("a"))]])
@@ -939,8 +929,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [17]    OrderCondition            ::=       ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )
-  describe "when matching the [17] OrderCondition production rule" do
+  # [24]    OrderCondition            ::=       ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )
+  describe "when matching the [24] OrderCondition production rule" do
     with_production(:OrderCondition) do |production|
       given_it_generates(production, "ASC (1)", [:OrderCondition, SPARQL::Algebra::Expression[:asc, RDF::Literal(1)]])
       given_it_generates(production, "DESC (?a)", [:OrderCondition, SPARQL::Algebra::Expression[:desc, RDF::Query::Variable.new("a")]])
@@ -954,7 +944,17 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [18] LimitClause production rule" do
+  # [25]    LimitOffsetClauses        ::=       ( LimitClause OffsetClause? | OffsetClause LimitClause? )
+  describe "when matching the [25] LimitOffsetClauses production rule" do
+    with_production(:LimitOffsetClauses) do |production|
+      given_it_generates(production, "LIMIT 1", [:slice, :_, RDF::Literal(1)])
+      given_it_generates(production, "OFFSET 1", [:slice, RDF::Literal(1), :_])
+      given_it_generates(production, "LIMIT 1 OFFSET 2", [:slice, RDF::Literal(2), RDF::Literal(1)])
+      given_it_generates(production, "OFFSET 2 LIMIT 1", [:slice, RDF::Literal(2), RDF::Literal(1)])
+    end
+  end
+
+  describe "when matching the [26] LimitClause production rule" do
     with_production(:LimitClause) do |production|
       it "recognizes LIMIT clauses" do
         parser(production).call(%q(LIMIT 10)).should == [:limit, RDF::Literal.new(10)]
@@ -962,7 +962,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [19] OffsetClause production rule" do
+  describe "when matching the [27] OffsetClause production rule" do
     with_production(:OffsetClause) do |production|
       it "recognizes OFFSET clauses" do
         parser(production).call(%q(OFFSET 10)).should == [:offset, RDF::Literal(10)]
@@ -970,8 +970,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [20]    GroupGraphPattern         ::=       '{' TriplesBlock? ( ( GraphPatternNotTriples | Filter ) '.'? TriplesBlock? )* '}'
-  describe "when matching the [20] GroupGraphPattern production rule" do
+  # [54]  	GroupGraphPattern	  ::=  	'{' ( SubSelect | GroupGraphPatternSub ) '}'
+  describe "when matching the [54] GroupGraphPattern production rule" do
     with_production(:GroupGraphPattern) do |production|
       {
         # From data/Optional/q-opt-1.rq
@@ -1003,7 +1003,7 @@ describe SPARQL::Grammar::Parser do
                 (bgp (triple <x> <y> <z>)))
               (bgp (triple <d> <e> <f>)))),
         # From data/extracted-examples/query-4.1-q1.rq
-       "{{:x :y :z} {<d><e><f>}}" =>
+        "{{:x :y :z} {<d><e><f>}}" =>
           %q((join
               (bgp (triple <x> <y> <z>))
               (bgp (triple <d> <e> <f>)))),
@@ -1054,8 +1054,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [21]    TriplesBlock              ::=       TriplesSameSubject ( '.' TriplesBlock? )?
-  describe "when matching the [21] TriplesBlock production rule" do
+  # [56]    TriplesBlock              ::=       TriplesSameSubject ( '.' TriplesBlock? )?
+  describe "when matching the [56] TriplesBlock production rule" do
     with_production(:TriplesBlock) do |production|
       bgp_patterns.each_pair do |input, result|
         given_it_generates(production, input, result,
@@ -1066,8 +1066,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [22] GraphPatternNotTriples ::= OptionalGraphPattern | GroupOrUnionGraphPattern | GraphGraphPattern
-  describe "when matching the [22] GraphPatternNotTriples production rule" do
+  # [57] GraphPatternNotTriples ::= GroupOrUnionGraphPattern | OptionalGraphPattern | MinusGraphPattern | GraphGraphPattern | ServiceGraphPattern | Filter | Bind
+  describe "when matching the [57] GraphPatternNotTriples production rule" do
     with_production(:GraphPatternNotTriples) do |production|
       it_rejects_empty_input_using production
       {
@@ -1097,8 +1097,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [23]    OptionalGraphPattern      ::=       'OPTIONAL' GroupGraphPattern
-  describe "when matching the [23] OptionalGraphPattern production rule" do
+  # [58]    OptionalGraphPattern      ::=       'OPTIONAL' GroupGraphPattern
+  describe "when matching the [58] OptionalGraphPattern production rule" do
     with_production(:OptionalGraphPattern) do |production|
       it_rejects_empty_input_using production
       {
@@ -1113,8 +1113,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [24]    GraphGraphPattern         ::=       'GRAPH' VarOrIRIref GroupGraphPattern
-  describe "when matching the [24] GraphGraphPattern production rule" do
+  # [59]    GraphGraphPattern         ::=       'GRAPH' VarOrIRIref GroupGraphPattern
+  describe "when matching the [59] GraphGraphPattern production rule" do
     with_production(:GraphGraphPattern) do |production|
       it_rejects_empty_input_using production
 
@@ -1128,8 +1128,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [25]    GroupOrUnionGraphPattern  ::=       GroupGraphPattern ( 'UNION' GroupGraphPattern )*
-  describe "when matching the [25] GroupOrUnionGraphPattern production rule" do
+  # [63]    GroupOrUnionGraphPattern  ::=       GroupGraphPattern ( 'UNION' GroupGraphPattern )*
+  describe "when matching the [63] GroupOrUnionGraphPattern production rule" do
     with_production(:GroupOrUnionGraphPattern) do |production|
       it_rejects_empty_input_using production
 
@@ -1152,8 +1152,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [26]    Filter                    ::=       'FILTER' Constraint
-  describe "when matching the [26] Filter production rule" do
+  # [64]    Filter                    ::=       'FILTER' Constraint
+  describe "when matching the [64] Filter production rule" do
     with_production(:Filter) do |production|
       # Can't test against SSE, as filter also requires a BGP or other query operator
       given_it_generates(production, %(FILTER (1)), [:filter, RDF::Literal(1)])
@@ -1170,8 +1170,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [27] Constraint ::=  BrackettedExpression | BuiltInCall | FunctionCall
-  describe "when matching the [27] Constraint production rule" do
+  # [65] Constraint ::=  BrackettedExpression | BuiltInCall | FunctionCall
+  describe "when matching the [65] Constraint production rule" do
     with_production(:Constraint) do |production|
       it_rejects_empty_input_using production
       it_recognizes_bracketted_expression_using production
@@ -1180,13 +1180,13 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [28] FunctionCall production rule" do
+  describe "when matching the [66] FunctionCall production rule" do
     with_production(:FunctionCall) do |production|
       it_recognizes_function_using production
     end
   end
 
-  describe "when matching the [29] ArgList production rule" do
+  describe "when matching the [67] ArgList production rule" do
     with_production(:ArgList) do |production|
       it_recognizes_nil_using production
 
@@ -1196,7 +1196,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [30] ConstructTemplate production rule" do
+  describe "when matching the [69] ConstructTemplate production rule" do
     with_production(:ConstructTemplate) do |production|
       {
         # From sytax-sparql1/syntax-basic-03.rq
@@ -1234,29 +1234,47 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # Not testing [31] ConstructTriples
+  # Not testing [70] ConstructTriples
+
+  # [72]  	PropertyListNotEmpty	  ::=  	Verb ObjectList ( ';' ( Verb ObjectList )? )*
+  describe "when matching the [72] PropertyListNotEmpty production rule" do
+    with_production(:PropertyListNotEmpty) do |production|
+      {
+        %q(<p> <o>) => [:pattern, RDF::Query::Pattern.new(:predicate => RDF::URI("http://example.org/p"), :object => RDF::URI("http://example.org/o"))],
+        %q(?y ?z) => [:pattern, RDF::Query::Pattern.new(:predicate => RDF::Query::Variable.new("y"), :object => RDF::Query::Variable.new("z"))],
+        %q(?y ?z; :b <c>) => [:pattern,
+                              RDF::Query::Pattern.new(:predicate => RDF::Query::Variable.new("y"), :object => RDF::Query::Variable.new("z")),
+                              RDF::Query::Pattern.new(:predicate => RDF::URI("http://example.com/b"), :object => RDF::URI("http://example.org/c"))],
+      }.each_pair do |input, result|
+        given_it_generates(production, input, result,
+          :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
+          :base_uri => RDF::URI("http://example.org/"),
+          :anon_base => "b0")
+      end
+    end
+  end
 
   # Productions that can be tested individually
   describe "individual nonterminal productions" do
-    describe "when matching the [41] GraphNode production rule" do
+    describe "when matching the [95] GraphNode production rule" do
       with_production(:GraphNode) do |production|
         it_recognizes_graph_node_using(production)
       end
     end
 
-    describe "when matching the [42] VarOrTerm production rule" do
+    describe "when matching the [96] VarOrTerm production rule" do
       with_production(:VarOrTerm) do |production|
         it_recognizes_var_or_term_using production
       end
     end
 
-    describe "when matching the [43] VarOrIRIref production rule" do
+    describe "when matching the [97] VarOrIRIref production rule" do
       with_production(:VarOrIRIref) do |production|
         it_recognizes_var_or_iriref_using production
       end
     end
 
-    describe "when matching the [44] Var production rule" do
+    describe "when matching the [98] Var production rule" do
       with_production(:Var) do |production|
         it_rejects_empty_input_using production
 
@@ -1270,98 +1288,98 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [45] GraphTerm production rule" do
+    describe "when matching the [99] GraphTerm production rule" do
       with_production(:GraphTerm) do |production|
         it_recognizes_graph_term_using(production)
       end
     end
 
-    describe "when matching the [46] Expression production rule" do
+    describe "when matching the [100] Expression production rule" do
       with_production(:Expression) do |production|
         it_recognizes_expression_using production
       end
     end
 
-    describe "when matching the [47] ConditionalOrExpression production rule" do
+    describe "when matching the [101] ConditionalOrExpression production rule" do
       with_production(:ConditionalOrExpression) do |production|
         it_recognizes_conditional_or_expression_using production
       end
     end
 
-    describe "when matching the [48] ConditionalAndExpression production rule" do
+    describe "when matching the [102] ConditionalAndExpression production rule" do
       with_production(:ConditionalAndExpression) do |production|
         it_recognizes_conditional_and_expression_using production
       end
     end
 
-    describe "when matching the [49] ValueLogical production rule" do
+    describe "when matching the [103] ValueLogical production rule" do
       with_production(:ValueLogical) do |production|
         it_recognizes_value_logical_using production
       end
     end
 
-    describe "when matching the [50] RelationalExpression production rule" do
+    describe "when matching the [104] RelationalExpression production rule" do
       with_production(:RelationalExpression) do |production|
         it_recognizes_relational_expression_using production
       end
     end
 
-    describe "when matching the [51] NumericExpression production rule" do
+    describe "when matching the [105] NumericExpression production rule" do
       with_production(:NumericExpression) do |production|
         it_recognizes_numeric_expression_using production
       end
     end
 
-    describe "when matching the [52] AdditiveExpression production rule" do
+    describe "when matching the [106] AdditiveExpression production rule" do
       with_production(:AdditiveExpression) do |production|
         it_recognizes_additive_expression_using production
       end
     end
 
-    describe "when matching the [53] MultiplicativeExpression production rule" do
+    describe "when matching the [107] MultiplicativeExpression production rule" do
       with_production(:MultiplicativeExpression) do |production|
         it_recognizes_multiplicative_expression_using production
       end
     end
 
-    describe "when matching the [54] UnaryExpression production rule" do
+    describe "when matching the [108] UnaryExpression production rule" do
       with_production(:UnaryExpression) do |production|
         it_recognizes_unary_expression_using production
       end
     end
 
-    describe "when matching the [55] PrimaryExpression production rule" do
+    describe "when matching the [109] PrimaryExpression production rule" do
       # [55] PrimaryExpression ::= BrackettedExpression | BuiltInCall | IRIrefOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
       with_production(:PrimaryExpression) do |production|
         it_recognizes_primary_expression_using production
       end
     end
 
-    describe "when matching the [56] BrackettedExpression production rule" do
+    describe "when matching the [110] BrackettedExpression production rule" do
       with_production(:BrackettedExpression) do |production|
         it_recognizes_bracketted_expression_using production
       end
     end
 
-    describe "when matching the [57] BuiltInCall production rule" do
+    describe "when matching the [111] BuiltInCall production rule" do
       with_production(:BuiltInCall) do |production|
         it_recognizes_built_in_call_using production
       end
     end
 
-    describe "when matching the [58] RegexExpression production rule" do
+    describe "when matching the [112] RegexExpression production rule" do
       with_production(:RegexExpression) do |production|
         it_recognizes_regex_expression_using production
       end
     end
 
-    describe "when matching the [59] IRIrefOrFunction production rule" do
+    describe "when matching the [117] IRIrefOrFunction production rule" do
       with_production(:IRIrefOrFunction) do |production|
         it_recognizes_iriref_or_function_using production
       end
     end
 
-    describe "when matching the [60] RDFLiteral production rule" do
+    describe "when matching the [118] RDFLiteral production rule" do
       with_production(:RDFLiteral) do |production|
         it_rejects_empty_input_using production
 
@@ -1380,7 +1398,7 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [61] NumericLiteral production rule" do
+    describe "when matching the [119] NumericLiteral production rule" do
       with_production(:NumericLiteral) do |production|
         it_rejects_empty_input_using production
         it_recognizes_numeric_literal_using production
@@ -1405,7 +1423,7 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [62] NumericLiteralUnsigned production rule" do
+    describe "when matching the [120] NumericLiteralUnsigned production rule" do
       with_production(:NumericLiteralUnsigned) do |production|
         it_rejects_empty_input_using production
 
@@ -1416,7 +1434,7 @@ describe SPARQL::Grammar::Parser do
         end
 
         it "recognizes the DECIMAL terminal" do
-          %w(1. 3.1415 .123).each do |input|
+          %w(1.0 3.1415 .123).each do |input|
             parser(production).call(input).last.should eql RDF::Literal::Decimal.new(input)
           end
         end
@@ -1429,7 +1447,7 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [63] NumericLiteralPositive production rule" do
+    describe "when matching the [121] NumericLiteralPositive production rule" do
       with_production(:NumericLiteralPositive) do |production|
         it "recognizes the INTEGER_POSITIVE terminal" do
           %w(+1 +2 +3 +42 +123).each do |input|
@@ -1438,7 +1456,7 @@ describe SPARQL::Grammar::Parser do
         end
 
         it "recognizes the DECIMAL_POSITIVE terminal" do
-          %w(+1. +3.1415 +.123).each do |input|
+          %w(+1.0 +3.1415 +.123).each do |input|
             parser(production).call(input).last.should eql RDF::Literal::Decimal.new(input)
           end
         end
@@ -1451,7 +1469,7 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [64] NumericLiteralNegative production rule" do
+    describe "when matching the [122] NumericLiteralNegative production rule" do
       with_production(:NumericLiteralNegative) do |production|
         it "recognizes the INTEGER_NEGATIVE terminal" do
           %w(-1 -2 -3 -42 -123).each do |input|
@@ -1460,7 +1478,7 @@ describe SPARQL::Grammar::Parser do
         end
 
         it "recognizes the DECIMAL_NEGATIVE terminal" do
-          %w(-1. -3.1415 -.123).each do |input|
+          %w(-1.0 -3.1415 -.123).each do |input|
             parser(production).call(input).last.should eql RDF::Literal::Decimal.new(input)
           end
         end
@@ -1476,9 +1494,9 @@ describe SPARQL::Grammar::Parser do
   
   # Individual terminal productions
   describe "individual terminal productions" do
-    describe "when matching the [67] IRIref production rule" do
+    describe "when matching the [125] IRIref production rule" do
       with_production(:IRIref) do |production|
-        it "recognizes the IRI_REF terminal" do
+        it "recognizes the IRIREF terminal" do
           %w(<> <foobar> <http://example.org/foobar>).each do |input|
             parser(production).call(input).last.should_not == false # TODO
           end
@@ -1492,7 +1510,7 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [68] PrefixedName production rule" do
+    describe "when matching the [126] PrefixedName production rule" do
       with_production(:PrefixedName) do |production|
         inputs = {
           :PNAME_LN => {
@@ -1515,7 +1533,7 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [69] BlankNode production rule" do
+    describe "when matching the [127] BlankNode production rule" do
       with_production(:BlankNode) do |production|
         it "recognizes the BlankNode terminal" do
           if output = parser(production).call(%q(_:foobar))
