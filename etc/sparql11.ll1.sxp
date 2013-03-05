@@ -61,6 +61,7 @@
   "FLOOR"
   "FROM"
   "GRAPH"
+  "GROUP"
   "GROUP_CONCAT"
   "HAVING"
   "HOURS"
@@ -354,37 +355,74 @@
   SelectClause
   _SelectQuery_1
   WhereClause
-  SolutionModifier
+  _SelectQuery_2
  )
 )
  (rule
  _SelectQuery_1
  "7.1"
  (first "FROM" _eps)
- (alt _empty _SelectQuery_2)
+ (follow "WHERE" "{")
+ (alt _empty _SelectQuery_3)
 )
  (rule
  _SelectQuery_2
  "7.2"
- (first "FROM")
- (seq DatasetClause _SelectQuery_1)
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  _eps
+ )
+ (follow "BINDINGS")
+ (alt _empty SolutionModifier)
 )
  (rule
  _SelectQuery_3
  "7.3"
  (first "FROM")
- (follow "BINDINGS")
- (seq
-  _SelectQuery_1
-  WhereClause
-  SolutionModifier
- )
+ (follow "WHERE" "{")
+ (seq DatasetClause _SelectQuery_1)
 )
  (rule
  _SelectQuery_4
  "7.4"
+ (first "FROM" "WHERE" "{")
+ (follow "BINDINGS")
+ (seq
+  _SelectQuery_1
+  WhereClause
+  _SelectQuery_2
+ )
+)
+ (rule
+ _SelectQuery_5
+ "7.5"
  (first "FROM")
+ (follow "WHERE" "{")
  (seq _SelectQuery_1)
+)
+ (rule
+ _SelectQuery_6
+ "7.6"
+ (first "WHERE" "{")
+ (follow "BINDINGS")
+ (seq WhereClause _SelectQuery_2)
+)
+ (rule
+ _SelectQuery_7
+ "7.7"
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+ )
+ (follow "BINDINGS")
+ (seq _SelectQuery_2)
 )
  (rule
  SubSelect
@@ -393,18 +431,31 @@
  (seq
   SelectClause
   WhereClause
-  SolutionModifier
+  _SubSelect_1
  )
 )
  (rule
  _SubSelect_1
  "8.1"
- (first "WHERE" "{")
- (seq WhereClause SolutionModifier)
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  _eps
+ )
+ (alt _empty SolutionModifier)
 )
  (rule
  _SubSelect_2
  "8.2"
+ (first "WHERE" "{")
+ (seq WhereClause _SubSelect_1)
+)
+ (rule
+ _SubSelect_3
+ "8.3"
  (first
   "GROUP"
   "HAVING"
@@ -412,7 +463,7 @@
   "OFFSET"
   "ORDER"
  )
- (seq SolutionModifier)
+ (seq _SubSelect_1)
 )
  (rule
  SelectClause
@@ -630,54 +681,89 @@
  _ConstructQuery_10
  "10.10"
  (first "FROM")
- (follow "BINDINGS")
- (seq
-  _ConstructQuery_4
-  WhereClause
-  SolutionModifier
- )
+ (follow "WHERE")
+ (seq DatasetClause _ConstructQuery_7)
 )
  (rule
  _ConstructQuery_11
  "10.11"
- (first "FROM")
- (seq _ConstructQuery_4)
+ (first "FROM" "WHERE" "{")
+ (follow "BINDINGS")
+ (seq _ConstructQuery_1)
 )
  (rule
  _ConstructQuery_12
  "10.12"
- (first "WHERE")
+ (first "FROM" "WHERE" "{")
  (follow "BINDINGS")
  (seq
-  "WHERE"
-  "{"
-  _ConstructQuery_7
-  "}"
-  SolutionModifier
+  _ConstructQuery_4
+  WhereClause
+  _ConstructQuery_5
  )
 )
  (rule
  _ConstructQuery_13
  "10.13"
  (first "FROM")
- (follow "WHERE")
- (seq _ConstructQuery_6)
+ (follow "WHERE" "{")
+ (seq _ConstructQuery_4)
 )
  (rule
  _ConstructQuery_14
  "10.14"
- (first "{")
+ (first "WHERE")
  (follow "BINDINGS")
  (seq
+  "WHERE"
   "{"
-  _ConstructQuery_7
+  _ConstructQuery_8
   "}"
-  SolutionModifier
+  _ConstructQuery_9
  )
 )
  (rule
  _ConstructQuery_15
  "10.15"
+ (first "FROM")
+ (follow "WHERE")
+ (seq _ConstructQuery_7)
+)
+ (rule
+ _ConstructQuery_16
+ "10.16"
+ (first "WHERE" "{")
+ (follow "BINDINGS")
+ (seq WhereClause _ConstructQuery_5)
+)
+ (rule
+ _ConstructQuery_17
+ "10.17"
+ (first "{")
+ (follow "BINDINGS")
+ (seq
+  "{"
+  _ConstructQuery_8
+  "}"
+  _ConstructQuery_9
+ )
+)
+ (rule
+ _ConstructQuery_18
+ "10.18"
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+ )
+ (follow "BINDINGS")
+ (seq _ConstructQuery_5)
+)
+ (rule
+ _ConstructQuery_19
+ "10.19"
  (first
   "("
   ANON
@@ -708,17 +794,10 @@
  )
  (follow "BINDINGS")
  (seq
-  _ConstructQuery_7
+  _ConstructQuery_8
   "}"
-  SolutionModifier
+  _ConstructQuery_9
  )
-)
- (rule
- _ConstructQuery_16
- "10.16"
- (first "}")
- (follow "BINDINGS")
- (seq "}" SolutionModifier)
 )
  (rule
  _ConstructQuery_2
@@ -729,8 +808,28 @@
   ConstructTemplate
   _ConstructQuery_4
   WhereClause
-  SolutionModifier
+  _ConstructQuery_5
  )
+)
+ (rule
+ _ConstructQuery_20
+ "10.20"
+ (first "}")
+ (follow "BINDINGS")
+ (seq "}" _ConstructQuery_9)
+)
+ (rule
+ _ConstructQuery_21
+ "10.21"
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+ )
+ (follow "BINDINGS")
+ (seq _ConstructQuery_9)
 )
  (rule
  _ConstructQuery_3
@@ -738,36 +837,52 @@
  (first "FROM" "WHERE")
  (follow "BINDINGS")
  (seq
-  _ConstructQuery_6
+  _ConstructQuery_7
   "WHERE"
   "{"
-  _ConstructQuery_7
+  _ConstructQuery_8
   "}"
-  SolutionModifier
+  _ConstructQuery_9
  )
 )
  (rule
  _ConstructQuery_4
  "10.4"
  (first "FROM" _eps)
- (alt _empty _ConstructQuery_5)
+ (follow "WHERE" "{")
+ (alt _empty _ConstructQuery_6)
 )
  (rule
  _ConstructQuery_5
  "10.5"
- (first "FROM")
- (seq DatasetClause _ConstructQuery_4)
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  _eps
+ )
+ (follow "BINDINGS")
+ (alt _empty SolutionModifier)
 )
  (rule
  _ConstructQuery_6
  "10.6"
- (first "FROM" _eps)
- (follow "WHERE")
- (alt _empty _ConstructQuery_8)
+ (first "FROM")
+ (follow "WHERE" "{")
+ (seq DatasetClause _ConstructQuery_4)
 )
  (rule
  _ConstructQuery_7
  "10.7"
+ (first "FROM" _eps)
+ (follow "WHERE")
+ (alt _empty _ConstructQuery_10)
+)
+ (rule
+ _ConstructQuery_8
+ "10.8"
  (first
   "("
   ANON
@@ -800,18 +915,18 @@
  (alt _empty TriplesTemplate)
 )
  (rule
- _ConstructQuery_8
- "10.8"
- (first "FROM")
- (follow "WHERE")
- (seq DatasetClause _ConstructQuery_6)
-)
- (rule
  _ConstructQuery_9
  "10.9"
- (first "FROM" "WHERE" "{")
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  _eps
+ )
  (follow "BINDINGS")
- (seq _ConstructQuery_1)
+ (alt _empty SolutionModifier)
 )
  (rule
  DescribeQuery
@@ -823,7 +938,7 @@
   _DescribeQuery_1
   _DescribeQuery_2
   _DescribeQuery_3
-  SolutionModifier
+  _DescribeQuery_4
  )
 )
  (rule
@@ -837,64 +952,174 @@
   VAR1
   VAR2
  )
- (follow "FROM" "WHERE" "{")
- (alt _DescribeQuery_4 "*")
+ (follow
+  "FROM"
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (alt _DescribeQuery_5 "*")
 )
  (rule
  _DescribeQuery_10
  "11.10"
  (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
- (follow "FROM" "WHERE" "{")
- (seq _DescribeQuery_5)
+ (follow
+  "FROM"
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (seq _DescribeQuery_6)
 )
  (rule
  _DescribeQuery_11
  "11.11"
- (first "FROM")
- (follow "WHERE" "{")
- (seq _DescribeQuery_2)
+ (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
+ (follow
+  "FROM"
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (seq _DescribeQuery_6)
 )
  (rule
  _DescribeQuery_12
  "11.12"
- (first "FROM" "WHERE" "{")
- (follow "BINDINGS")
- (seq
-  _DescribeQuery_2
-  _DescribeQuery_3
-  SolutionModifier
+ (first "FROM")
+ (follow
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
  )
+ (seq _DescribeQuery_2)
 )
  (rule
  _DescribeQuery_13
  "11.13"
- (first "WHERE" "{")
+ (first
+  "FROM"
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
  (follow "BINDINGS")
- (seq _DescribeQuery_3 SolutionModifier)
+ (seq
+  _DescribeQuery_2
+  _DescribeQuery_3
+  _DescribeQuery_4
+ )
+)
+ (rule
+ _DescribeQuery_14
+ "11.14"
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (follow "BINDINGS")
+ (seq _DescribeQuery_3 _DescribeQuery_4)
+)
+ (rule
+ _DescribeQuery_15
+ "11.15"
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+ )
+ (follow "BINDINGS")
+ (seq _DescribeQuery_4)
 )
  (rule
  _DescribeQuery_2
  "11.2"
  (first "FROM" _eps)
- (follow "WHERE" "{")
- (alt _empty _DescribeQuery_7)
+ (follow
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (alt _empty _DescribeQuery_8)
 )
  (rule
  _DescribeQuery_3
  "11.3"
  (first "WHERE" _eps "{")
+ (follow
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+ )
  (alt _empty WhereClause)
 )
  (rule
  _DescribeQuery_4
  "11.4"
- (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
- (follow "FROM" "WHERE" "{")
- (seq VarOrIRIref _DescribeQuery_5)
+ (first
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  _eps
+ )
+ (follow "BINDINGS")
+ (alt _empty SolutionModifier)
 )
  (rule
  _DescribeQuery_5
  "11.5"
+ (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
+ (follow
+  "FROM"
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (seq VarOrIRIref _DescribeQuery_6)
+)
+ (rule
+ _DescribeQuery_6
+ "11.6"
  (first
   IRIREF
   PNAME_LN
@@ -903,26 +1128,52 @@
   VAR2
   _eps
  )
- (follow "FROM" "WHERE" "{")
- (alt _empty _DescribeQuery_6)
-)
- (rule
- _DescribeQuery_6
- "11.6"
- (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
- (follow "FROM" "WHERE" "{")
- (seq VarOrIRIref _DescribeQuery_5)
+ (follow
+  "FROM"
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (alt _empty _DescribeQuery_7)
 )
  (rule
  _DescribeQuery_7
  "11.7"
- (first "FROM")
- (follow "WHERE" "{")
- (seq DatasetClause _DescribeQuery_2)
+ (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
+ (follow
+  "FROM"
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (seq VarOrIRIref _DescribeQuery_6)
 )
  (rule
  _DescribeQuery_8
  "11.8"
+ (first "FROM")
+ (follow
+  "GROUP"
+  "HAVING"
+  "LIMIT"
+  "OFFSET"
+  "ORDER"
+  "WHERE"
+  "{"
+ )
+ (seq DatasetClause _DescribeQuery_2)
+)
+ (rule
+ _DescribeQuery_9
+ "11.9"
  (first
   "*"
   IRIREF
@@ -936,15 +1187,8 @@
   _DescribeQuery_1
   _DescribeQuery_2
   _DescribeQuery_3
-  SolutionModifier
+  _DescribeQuery_4
  )
-)
- (rule
- _DescribeQuery_9
- "11.9"
- (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
- (follow "FROM" "WHERE" "{")
- (seq _DescribeQuery_5)
 )
  (rule
  AskQuery
@@ -7976,7 +8220,7 @@
  ConstructTemplate
  "69"
  (first "{")
- (follow "FROM")
+ (follow "FROM" "WHERE" "{")
  (seq "{" _ConstructTemplate_1 "}")
 )
  (rule
@@ -8042,7 +8286,7 @@
   "false"
   "true"
  )
- (follow "FROM")
+ (follow "FROM" "WHERE" "{")
  (seq _ConstructTemplate_1 "}")
 )
  (rule

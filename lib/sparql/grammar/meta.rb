@@ -811,6 +811,7 @@ module SPARQL::Grammar::Meta
     },
     :ConstructTemplate => {
       "FROM" => [],
+      "WHERE" => [],
       "{" => ["{", :_ConstructTemplate_1, "}"],
     },
     :ConstructTriples => {
@@ -851,7 +852,7 @@ module SPARQL::Grammar::Meta
     },
     :DescribeQuery => {
       "BINDINGS" => [],
-      "DESCRIBE" => ["DESCRIBE", :_DescribeQuery_1, :_DescribeQuery_2, :_DescribeQuery_3, :SolutionModifier],
+      "DESCRIBE" => ["DESCRIBE", :_DescribeQuery_1, :_DescribeQuery_2, :_DescribeQuery_3, :_DescribeQuery_4],
     },
     :ExistsFunc => {
       "(" => [],
@@ -2843,7 +2844,7 @@ module SPARQL::Grammar::Meta
     },
     :SelectQuery => {
       "BINDINGS" => [],
-      "SELECT" => [:SelectClause, :_SelectQuery_1, :WhereClause, :SolutionModifier],
+      "SELECT" => [:SelectClause, :_SelectQuery_1, :WhereClause, :_SelectQuery_2],
     },
     :ServiceGraphPattern => {
       "(" => [],
@@ -2897,7 +2898,7 @@ module SPARQL::Grammar::Meta
       :STRING_LITERAL_LONG2 => [:STRING_LITERAL_LONG2],
     },
     :SubSelect => {
-      "SELECT" => [:SelectClause, :WhereClause, :SolutionModifier],
+      "SELECT" => [:SelectClause, :WhereClause, :_SubSelect_1],
     },
     :SubstringExpression => {
       "(" => [],
@@ -8471,28 +8472,45 @@ module SPARQL::Grammar::Meta
       "WHERE" => [:_ConstructQuery_3],
       "{" => [:_ConstructQuery_2],
     },
+    :_ConstructQuery_10 => {
+      "FROM" => [:DatasetClause, :_ConstructQuery_7],
+      "WHERE" => [],
+    },
     :_ConstructQuery_2 => {
       "BINDINGS" => [],
-      "{" => [:ConstructTemplate, :_ConstructQuery_4, :WhereClause, :SolutionModifier],
+      "{" => [:ConstructTemplate, :_ConstructQuery_4, :WhereClause, :_ConstructQuery_5],
     },
     :_ConstructQuery_3 => {
       "BINDINGS" => [],
-      "FROM" => [:_ConstructQuery_6, "WHERE", "{", :_ConstructQuery_7, "}", :SolutionModifier],
-      "WHERE" => [:_ConstructQuery_6, "WHERE", "{", :_ConstructQuery_7, "}", :SolutionModifier],
+      "FROM" => [:_ConstructQuery_7, "WHERE", "{", :_ConstructQuery_8, "}", :_ConstructQuery_9],
+      "WHERE" => [:_ConstructQuery_7, "WHERE", "{", :_ConstructQuery_8, "}", :_ConstructQuery_9],
     },
     :_ConstructQuery_4 => {
-      "FROM" => [:_ConstructQuery_5],
+      "FROM" => [:_ConstructQuery_6],
+      "WHERE" => [],
+      "{" => [],
       :_empty => [],
     },
     :_ConstructQuery_5 => {
-      "FROM" => [:DatasetClause, :_ConstructQuery_4],
+      "BINDINGS" => [],
+      "GROUP" => [:SolutionModifier],
+      "HAVING" => [:SolutionModifier],
+      "LIMIT" => [:SolutionModifier],
+      "OFFSET" => [:SolutionModifier],
+      "ORDER" => [:SolutionModifier],
+      :_empty => [],
     },
     :_ConstructQuery_6 => {
-      "FROM" => [:_ConstructQuery_8],
+      "FROM" => [:DatasetClause, :_ConstructQuery_4],
+      "WHERE" => [],
+      "{" => [],
+    },
+    :_ConstructQuery_7 => {
+      "FROM" => [:_ConstructQuery_10],
       "WHERE" => [],
       :_empty => [],
     },
-    :_ConstructQuery_7 => {
+    :_ConstructQuery_8 => {
       "(" => [:TriplesTemplate],
       "[" => [:TriplesTemplate],
       "false" => [:TriplesTemplate],
@@ -8521,9 +8539,14 @@ module SPARQL::Grammar::Meta
       :VAR2 => [:TriplesTemplate],
       :_empty => [],
     },
-    :_ConstructQuery_8 => {
-      "FROM" => [:DatasetClause, :_ConstructQuery_6],
-      "WHERE" => [],
+    :_ConstructQuery_9 => {
+      "BINDINGS" => [],
+      "GROUP" => [:SolutionModifier],
+      "HAVING" => [:SolutionModifier],
+      "LIMIT" => [:SolutionModifier],
+      "OFFSET" => [:SolutionModifier],
+      "ORDER" => [:SolutionModifier],
+      :_empty => [],
     },
     :_ConstructTemplate_1 => {
       "(" => [:ConstructTriples],
@@ -8598,58 +8621,102 @@ module SPARQL::Grammar::Meta
     :_DescribeQuery_1 => {
       "*" => ["*"],
       "FROM" => [],
+      "GROUP" => [],
+      "HAVING" => [],
+      "LIMIT" => [],
+      "OFFSET" => [],
+      "ORDER" => [],
       "WHERE" => [],
       "{" => [],
-      :IRIREF => [:_DescribeQuery_4],
-      :PNAME_LN => [:_DescribeQuery_4],
-      :PNAME_NS => [:_DescribeQuery_4],
-      :VAR1 => [:_DescribeQuery_4],
-      :VAR2 => [:_DescribeQuery_4],
+      :IRIREF => [:_DescribeQuery_5],
+      :PNAME_LN => [:_DescribeQuery_5],
+      :PNAME_NS => [:_DescribeQuery_5],
+      :VAR1 => [:_DescribeQuery_5],
+      :VAR2 => [:_DescribeQuery_5],
     },
     :_DescribeQuery_2 => {
-      "FROM" => [:_DescribeQuery_7],
+      "FROM" => [:_DescribeQuery_8],
+      "GROUP" => [],
+      "HAVING" => [],
+      "LIMIT" => [],
+      "OFFSET" => [],
+      "ORDER" => [],
       "WHERE" => [],
       "{" => [],
       :_empty => [],
     },
     :_DescribeQuery_3 => {
+      "GROUP" => [],
+      "HAVING" => [],
+      "LIMIT" => [],
+      "OFFSET" => [],
+      "ORDER" => [],
       "WHERE" => [:WhereClause],
       "{" => [:WhereClause],
       :_empty => [],
     },
     :_DescribeQuery_4 => {
-      "FROM" => [],
-      "WHERE" => [],
-      "{" => [],
-      :IRIREF => [:VarOrIRIref, :_DescribeQuery_5],
-      :PNAME_LN => [:VarOrIRIref, :_DescribeQuery_5],
-      :PNAME_NS => [:VarOrIRIref, :_DescribeQuery_5],
-      :VAR1 => [:VarOrIRIref, :_DescribeQuery_5],
-      :VAR2 => [:VarOrIRIref, :_DescribeQuery_5],
+      "BINDINGS" => [],
+      "GROUP" => [:SolutionModifier],
+      "HAVING" => [:SolutionModifier],
+      "LIMIT" => [:SolutionModifier],
+      "OFFSET" => [:SolutionModifier],
+      "ORDER" => [:SolutionModifier],
+      :_empty => [],
     },
     :_DescribeQuery_5 => {
       "FROM" => [],
+      "GROUP" => [],
+      "HAVING" => [],
+      "LIMIT" => [],
+      "OFFSET" => [],
+      "ORDER" => [],
       "WHERE" => [],
       "{" => [],
-      :IRIREF => [:_DescribeQuery_6],
-      :PNAME_LN => [:_DescribeQuery_6],
-      :PNAME_NS => [:_DescribeQuery_6],
-      :VAR1 => [:_DescribeQuery_6],
-      :VAR2 => [:_DescribeQuery_6],
-      :_empty => [],
+      :IRIREF => [:VarOrIRIref, :_DescribeQuery_6],
+      :PNAME_LN => [:VarOrIRIref, :_DescribeQuery_6],
+      :PNAME_NS => [:VarOrIRIref, :_DescribeQuery_6],
+      :VAR1 => [:VarOrIRIref, :_DescribeQuery_6],
+      :VAR2 => [:VarOrIRIref, :_DescribeQuery_6],
     },
     :_DescribeQuery_6 => {
       "FROM" => [],
+      "GROUP" => [],
+      "HAVING" => [],
+      "LIMIT" => [],
+      "OFFSET" => [],
+      "ORDER" => [],
       "WHERE" => [],
       "{" => [],
-      :IRIREF => [:VarOrIRIref, :_DescribeQuery_5],
-      :PNAME_LN => [:VarOrIRIref, :_DescribeQuery_5],
-      :PNAME_NS => [:VarOrIRIref, :_DescribeQuery_5],
-      :VAR1 => [:VarOrIRIref, :_DescribeQuery_5],
-      :VAR2 => [:VarOrIRIref, :_DescribeQuery_5],
+      :IRIREF => [:_DescribeQuery_7],
+      :PNAME_LN => [:_DescribeQuery_7],
+      :PNAME_NS => [:_DescribeQuery_7],
+      :VAR1 => [:_DescribeQuery_7],
+      :VAR2 => [:_DescribeQuery_7],
+      :_empty => [],
     },
     :_DescribeQuery_7 => {
+      "FROM" => [],
+      "GROUP" => [],
+      "HAVING" => [],
+      "LIMIT" => [],
+      "OFFSET" => [],
+      "ORDER" => [],
+      "WHERE" => [],
+      "{" => [],
+      :IRIREF => [:VarOrIRIref, :_DescribeQuery_6],
+      :PNAME_LN => [:VarOrIRIref, :_DescribeQuery_6],
+      :PNAME_NS => [:VarOrIRIref, :_DescribeQuery_6],
+      :VAR1 => [:VarOrIRIref, :_DescribeQuery_6],
+      :VAR2 => [:VarOrIRIref, :_DescribeQuery_6],
+    },
+    :_DescribeQuery_8 => {
       "FROM" => [:DatasetClause, :_DescribeQuery_2],
+      "GROUP" => [],
+      "HAVING" => [],
+      "LIMIT" => [],
+      "OFFSET" => [],
+      "ORDER" => [],
       "WHERE" => [],
       "{" => [],
     },
@@ -10386,11 +10453,24 @@ module SPARQL::Grammar::Meta
       :VAR2 => [],
     },
     :_SelectQuery_1 => {
-      "FROM" => [:_SelectQuery_2],
+      "FROM" => [:_SelectQuery_3],
+      "WHERE" => [],
+      "{" => [],
       :_empty => [],
     },
     :_SelectQuery_2 => {
+      "BINDINGS" => [],
+      "GROUP" => [:SolutionModifier],
+      "HAVING" => [:SolutionModifier],
+      "LIMIT" => [:SolutionModifier],
+      "OFFSET" => [:SolutionModifier],
+      "ORDER" => [:SolutionModifier],
+      :_empty => [],
+    },
+    :_SelectQuery_3 => {
       "FROM" => [:DatasetClause, :_SelectQuery_1],
+      "WHERE" => [],
+      "{" => [],
     },
     :_ServiceGraphPattern_1 => {
       "SILENT" => ["SILENT"],
@@ -10421,6 +10501,14 @@ module SPARQL::Grammar::Meta
       "BINDINGS" => [],
       "LIMIT" => [:LimitOffsetClauses],
       "OFFSET" => [:LimitOffsetClauses],
+      :_empty => [],
+    },
+    :_SubSelect_1 => {
+      "GROUP" => [:SolutionModifier],
+      "HAVING" => [:SolutionModifier],
+      "LIMIT" => [:SolutionModifier],
+      "OFFSET" => [:SolutionModifier],
+      "ORDER" => [:SolutionModifier],
       :_empty => [],
     },
     :_SubstringExpression_1 => {
@@ -15276,14 +15364,31 @@ module SPARQL::Grammar::Meta
     :_ConstructQuery_10 => [
       "FROM"],
     :_ConstructQuery_11 => [
+      "{",
+      "WHERE",
       "FROM"],
     :_ConstructQuery_12 => [
-      "WHERE"],
+      "FROM",
+      "WHERE",
+      "{"],
     :_ConstructQuery_13 => [
       "FROM"],
     :_ConstructQuery_14 => [
-      "{"],
+      "WHERE"],
     :_ConstructQuery_15 => [
+      "FROM"],
+    :_ConstructQuery_16 => [
+      "WHERE",
+      "{"],
+    :_ConstructQuery_17 => [
+      "{"],
+    :_ConstructQuery_18 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_ConstructQuery_19 => [
       "}",
       :VAR1,
       :VAR2,
@@ -15310,10 +15415,16 @@ module SPARQL::Grammar::Meta
       :DOUBLE_NEGATIVE,
       :PNAME_NS,
       :PNAME_LN],
-    :_ConstructQuery_16 => [
-      "}"],
     :_ConstructQuery_2 => [
       "{"],
+    :_ConstructQuery_20 => [
+      "}"],
+    :_ConstructQuery_21 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_ConstructQuery_3 => [
       "WHERE",
       "FROM"],
@@ -15321,11 +15432,18 @@ module SPARQL::Grammar::Meta
       :_eps,
       "FROM"],
     :_ConstructQuery_5 => [
-      "FROM"],
-    :_ConstructQuery_6 => [
       :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_ConstructQuery_6 => [
       "FROM"],
     :_ConstructQuery_7 => [
+      :_eps,
+      "FROM"],
+    :_ConstructQuery_8 => [
       :_eps,
       :VAR1,
       :VAR2,
@@ -15352,12 +15470,13 @@ module SPARQL::Grammar::Meta
       :DOUBLE_NEGATIVE,
       :PNAME_NS,
       :PNAME_LN],
-    :_ConstructQuery_8 => [
-      "FROM"],
     :_ConstructQuery_9 => [
-      "{",
-      "WHERE",
-      "FROM"],
+      :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_ConstructTemplate_1 => [
       :_eps,
       :VAR1,
@@ -15521,14 +15640,36 @@ module SPARQL::Grammar::Meta
       :PNAME_NS,
       :PNAME_LN],
     :_DescribeQuery_11 => [
-      "FROM"],
+      :VAR1,
+      :VAR2,
+      :IRIREF,
+      :PNAME_NS,
+      :PNAME_LN],
     :_DescribeQuery_12 => [
+      "FROM"],
+    :_DescribeQuery_13 => [
       "FROM",
       "WHERE",
-      "{"],
-    :_DescribeQuery_13 => [
+      "{",
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_DescribeQuery_14 => [
       "WHERE",
-      "{"],
+      "{",
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_DescribeQuery_15 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_DescribeQuery_2 => [
       :_eps,
       "FROM"],
@@ -15537,34 +15678,35 @@ module SPARQL::Grammar::Meta
       "WHERE",
       "{"],
     :_DescribeQuery_4 => [
-      :VAR1,
-      :VAR2,
-      :IRIREF,
-      :PNAME_NS,
-      :PNAME_LN],
-    :_DescribeQuery_5 => [
       :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_DescribeQuery_5 => [
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_NS,
       :PNAME_LN],
     :_DescribeQuery_6 => [
+      :_eps,
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_NS,
       :PNAME_LN],
     :_DescribeQuery_7 => [
-      "FROM"],
-    :_DescribeQuery_8 => [
-      "*",
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_NS,
       :PNAME_LN],
+    :_DescribeQuery_8 => [
+      "FROM"],
     :_DescribeQuery_9 => [
+      "*",
       :VAR1,
       :VAR2,
       :IRIREF,
@@ -19077,11 +19219,29 @@ module SPARQL::Grammar::Meta
       :_eps,
       "FROM"],
     :_SelectQuery_2 => [
-      "FROM"],
+      :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_SelectQuery_3 => [
       "FROM"],
     :_SelectQuery_4 => [
+      "FROM",
+      "WHERE",
+      "{"],
+    :_SelectQuery_5 => [
       "FROM"],
+    :_SelectQuery_6 => [
+      "WHERE",
+      "{"],
+    :_SelectQuery_7 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_ServiceGraphPattern_1 => [
       "SILENT",
       :_eps],
@@ -19113,9 +19273,16 @@ module SPARQL::Grammar::Meta
       "LIMIT",
       "OFFSET"],
     :_SubSelect_1 => [
+      :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_SubSelect_2 => [
       "WHERE",
       "{"],
-    :_SubSelect_2 => [
+    :_SubSelect_3 => [
       "GROUP",
       "HAVING",
       "ORDER",
@@ -24123,13 +24290,32 @@ module SPARQL::Grammar::Meta
       "FROM"],
     :_ConstructQuery_10 => [
       "FROM"],
+    :_ConstructQuery_11 => [
+      "{",
+      "WHERE",
+      "FROM"],
     :_ConstructQuery_12 => [
-      "WHERE"],
+      "FROM",
+      "WHERE",
+      "{"],
     :_ConstructQuery_13 => [
       "FROM"],
     :_ConstructQuery_14 => [
-      "{"],
+      "WHERE"],
     :_ConstructQuery_15 => [
+      "FROM"],
+    :_ConstructQuery_16 => [
+      "WHERE",
+      "{"],
+    :_ConstructQuery_17 => [
+      "{"],
+    :_ConstructQuery_18 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_ConstructQuery_19 => [
       "}",
       :VAR1,
       :VAR2,
@@ -24156,17 +24342,35 @@ module SPARQL::Grammar::Meta
       :DOUBLE_NEGATIVE,
       :PNAME_NS,
       :PNAME_LN],
-    :_ConstructQuery_16 => [
-      "}"],
     :_ConstructQuery_2 => [
       "{"],
+    :_ConstructQuery_20 => [
+      "}"],
+    :_ConstructQuery_21 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_ConstructQuery_3 => [
       "WHERE",
       "FROM"],
-    :_ConstructQuery_6 => [
+    :_ConstructQuery_4 => [
       :_eps,
       "FROM"],
+    :_ConstructQuery_5 => [
+      :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_ConstructQuery_6 => [
+      "FROM"],
     :_ConstructQuery_7 => [
+      :_eps,
+      "FROM"],
+    :_ConstructQuery_8 => [
       :_eps,
       :VAR1,
       :VAR2,
@@ -24193,12 +24397,13 @@ module SPARQL::Grammar::Meta
       :DOUBLE_NEGATIVE,
       :PNAME_NS,
       :PNAME_LN],
-    :_ConstructQuery_8 => [
-      "FROM"],
     :_ConstructQuery_9 => [
-      "{",
-      "WHERE",
-      "FROM"],
+      :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_ConstructTemplate_2 => [
       :VAR1,
       :VAR2,
@@ -24272,46 +24477,73 @@ module SPARQL::Grammar::Meta
       :PNAME_NS,
       :PNAME_LN],
     :_DescribeQuery_11 => [
-      "FROM"],
-    :_DescribeQuery_12 => [
-      "FROM",
-      "WHERE",
-      "{"],
-    :_DescribeQuery_13 => [
-      "WHERE",
-      "{"],
-    :_DescribeQuery_2 => [
-      :_eps,
-      "FROM"],
-    :_DescribeQuery_4 => [
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_NS,
       :PNAME_LN],
-    :_DescribeQuery_5 => [
+    :_DescribeQuery_12 => [
+      "FROM"],
+    :_DescribeQuery_13 => [
+      "FROM",
+      "WHERE",
+      "{",
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_DescribeQuery_14 => [
+      "WHERE",
+      "{",
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_DescribeQuery_15 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_DescribeQuery_2 => [
       :_eps,
+      "FROM"],
+    :_DescribeQuery_3 => [
+      :_eps,
+      "WHERE",
+      "{"],
+    :_DescribeQuery_4 => [
+      :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
+    :_DescribeQuery_5 => [
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_NS,
       :PNAME_LN],
     :_DescribeQuery_6 => [
+      :_eps,
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_NS,
       :PNAME_LN],
     :_DescribeQuery_7 => [
-      "FROM"],
-    :_DescribeQuery_8 => [
-      "*",
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_NS,
       :PNAME_LN],
+    :_DescribeQuery_8 => [
+      "FROM"],
     :_DescribeQuery_9 => [
+      "*",
       :VAR1,
       :VAR2,
       :IRIREF,
@@ -27615,8 +27847,33 @@ module SPARQL::Grammar::Meta
       "(",
       :VAR1,
       :VAR2],
+    :_SelectQuery_1 => [
+      :_eps,
+      "FROM"],
+    :_SelectQuery_2 => [
+      :_eps,
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_SelectQuery_3 => [
       "FROM"],
+    :_SelectQuery_4 => [
+      "FROM",
+      "WHERE",
+      "{"],
+    :_SelectQuery_5 => [
+      "FROM"],
+    :_SelectQuery_6 => [
+      "WHERE",
+      "{"],
+    :_SelectQuery_7 => [
+      "GROUP",
+      "HAVING",
+      "ORDER",
+      "LIMIT",
+      "OFFSET"],
     :_ServiceGraphPattern_2 => [
       "SILENT"],
     :_SolutionModifier_1 => [
