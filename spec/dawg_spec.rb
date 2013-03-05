@@ -16,7 +16,7 @@ describe SPARQL::Grammar do
           when MF.QueryEvaluationTest
             it "evaluates #{t.name}" do
               case t.name
-              when 'Basic - Term 7'
+              when 'Basic - Term 6', 'Basic - Term 7'
                 pending "Decimal format changed in SPARQL 1.1"
               end
 

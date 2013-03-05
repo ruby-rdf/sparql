@@ -11,7 +11,7 @@ describe SPARQL::Grammar::Parser do
           when MF.QueryEvaluationTest
             it "parses #{t.name} to correct SSE" do
               case t.name
-              when 'Basic - Term 7'
+              when 'Basic - Term 6', 'Basic - Term 7'
                 pending "Decimal format changed in SPARQL 1.1"
               end
               parser_opts = {:base_uri => t.action.query_file}

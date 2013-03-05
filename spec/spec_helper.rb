@@ -92,12 +92,12 @@ def sparql_query(opts)
 
   query_str = opts[:query]
   query_opts = {:debug => opts[:debug] || !!ENV['PARSER_DEBUG']}
-  query_opts[:progress] = opts[:progress]
   query_opts[:base_uri] = opts[:base_uri]
   
   query = if opts[:sse]
     SPARQL::Algebra.parse(query_str, query_opts)
   else
+    query_opts[:progress] = opts.delete(:progress)
     SPARQL.parse(query_str, query_opts)
   end
 
