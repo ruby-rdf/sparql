@@ -10,6 +10,10 @@ describe SPARQL::Grammar::Parser do
           case t.type
           when MF.QueryEvaluationTest
             it "parses #{t.name} to correct SSE" do
+              case t.name
+              when 'Basic - Term 6', 'Basic - Term 7'
+                pending "Decimal format changed in SPARQL 1.1"
+              end
               parser_opts = {:base_uri => t.action.query_file}
               parser_opts[:debug] = true if ENV['PARSER_DEBUG']
               query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
@@ -18,6 +22,10 @@ describe SPARQL::Grammar::Parser do
             end
 
             it "parses #{t.name} to lexically equivalent SSE" do
+              case t.name
+              when 'Basic - Term 7'
+                pending "Decimal format changed in SPARQL 1.1"
+              end
               query = SPARQL::Grammar.parse(t.action.query_string)
               normalized_query = query.to_sxp.
                 gsub(/\s+/m, " ").

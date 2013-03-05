@@ -1,5 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
+require "bundler/setup"
 $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
 require 'sparql'
 require 'getoptlong'
@@ -43,7 +44,7 @@ input = nil
 
 parser_options = {
   :progress   => false,
-  :production => SPARQL::Grammar::SPARQL_GRAMMAR.Query,
+  :production => :Query,
   :prefixes   => {},
 }
 
@@ -67,9 +68,9 @@ opts.each do |opt, arg|
   when '--dump' then $dump = true
   when '--execute' then input = arg
   when '--quiet' then $quiet = true
-  when '--production' then parser_options[:production] = arg.match(/http/) ? arg : SPARQL::Grammar::SPARQL_GRAMMAR[arg]
+  when '--production' then parser_options[:production] = arg.to_sym
   when '--progress' then parser_options[:progress] = true
-  when '--resolve-uris' then parser_options[:resolve_uris] = true
+  when '--resolve-uris' then parser_options[:resolve_iris] = true
   when '--standard-prefixes'
     # Use a standard prefixes
     RDF::Vocabulary.each do |v|

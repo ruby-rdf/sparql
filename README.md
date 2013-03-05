@@ -13,20 +13,37 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
-* Compatible with Ruby 1.9.x.
+* Compatible with Ruby >= 1.9.3.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
-* Supports Unicode query strings both on Ruby 1.8.x and 1.9.x.
+* Supports Unicode query strings both on all versions of Ruby.
 
 ## Description
 
-The {SPARQL} gem implements [SPARQL 1.0][] and provides [Rack][] and [Sinatra][]
+The {SPARQL} gem implements the [SPARQL 1.0][] using the [SPARQL 1.1][] grammar,
+and provides [Rack][] and [Sinatra][]
 middleware to provide results using [HTTP Content Negotiation][conneg].
 
-* {SPARQL::Grammar} implements a [SPARQL 1.0][] parser generating [SPARQL S-Expressions (SSE)][SSE].
+* {SPARQL::Grammar} implements a [SPARQL 1.1][] parser generating [SPARQL S-Expressions (SSE)][SSE].
+  * [SPARQL 1.1][] capabilities beyond [SPARQL 1.0][] are not yet supported.
+    See the section on [SPARQL 1.1][] extensions and limitations for further detail.
 * {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including
   compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
   using an appropriate format based on [HTTP content negotiation][conneg].
+
+### [SPARQL 1.1][] Extensions and Limitations
+The {SPARQL} gem uses the [SPARQL 1.1][] {file:etc/sparql11.bnf EBNF grammar}, which provides
+much more capability than [SPARQL 1.0][], but has a few limitations:
+
+* The format for decimal datatypes has changed in [RDF 1.1][]; they may no
+  longer have a trailing ".", although they do not need a leading digit.
+* BNodes may now include extended characters, including ".". As a consequence, BNodes
+  used in the object position, where the statement or pattern is terminated by a "."
+  must contain whitespace separating the BNode label, and the ".".
+
+With this release, no new functionality is added beyond [SPARQL 1.0][]. Future releases
+will add more capabilities from [SPARQL 1.1][] with the ultimate objective of being
+completely [SPARQL 1.1][] Query and Update compliant.
 
 ### Middleware
 
@@ -162,7 +179,6 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
     * {SPARQL::Algebra::Operator}
   * {SPARQL::Grammar}
     * {SPARQL::Grammar::Parser}
-    * {SPARQL::Grammar::Lexer}
 * {Sinatra::SPARQL}
 * {Rack::SPARQL}
   * {Rack::SPARQL::ContentNegotiation}
@@ -239,6 +255,7 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [SSE]:              http://openjena.org/wiki/SSE
 [SXP]:              http://sxp.rubyforge.org/
 [grammar]:          http://www.w3.org/TR/rdf-sparql-query/#grammar
+[RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           http://rdf.rubyforge.org/
 [YARD]:             http://yardoc.org/
 [YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md

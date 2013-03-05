@@ -21,7 +21,7 @@ Gem::Specification.new do |gem|
   gem.email              = 'public-rdf-ruby@w3.org'
 
   gem.platform           = Gem::Platform::RUBY
-  gem.files              = %w(AUTHORS CREDITS README.markdown UNLICENSE VERSION bin/sparql) + Dir.glob('lib/**/*.rb')
+  gem.files              = %w(AUTHORS CREDITS README.md UNLICENSE VERSION bin/sparql) + Dir.glob('lib/**/*.rb')
   gem.bindir             = %q(bin)
   gem.executables        = %w(sparql)
   gem.default_executable = gem.executables.first
@@ -36,6 +36,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version      = '>= 1.8.7'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',             '>= 1.0.1'
+  gem.add_runtime_dependency     'ebnf',            '>= 0.1.1'
   gem.add_runtime_dependency     'builder',         '>= 3.0'
   gem.add_runtime_dependency     'json',            '>= 1.7'
   gem.add_runtime_dependency     'sxp'

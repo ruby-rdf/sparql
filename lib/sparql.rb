@@ -17,8 +17,7 @@ module SPARQL
   # Parse the given SPARQL `query` string.
   #
   # @example
-  #   parser = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-  #   result = parser.parse
+  #   query = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
   #
   # @param  [IO, StringIO, String, #to_s]  query
   # @param  [Hash{Symbol => Object}] options

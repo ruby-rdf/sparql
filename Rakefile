@@ -53,3 +53,33 @@ namespace :doc do
     spec.rspec_opts = ["--format", "html", "-o", "doc/spec.html"]
   end
 end
+
+SPARQL_DIR = File.expand_path(File.dirname(__FILE__))
+
+desc 'Build first, follow and branch tables'
+task :meta => "lib/sparql/grammar/meta.rb"
+
+file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
+  sh %{
+    ebnf --ll1 Query --format rb \
+      --mod-name SPARQL::Grammar::Meta \
+      --output lib/sparql/grammar/meta.rb \
+      etc/sparql11.bnf
+  }
+end
+
+file "etc/sparql11.ll1.sxp" => "etc/sparql11.bnf" do |t|
+  sh %{
+    ebnf --ll1 Query --format sxp \
+      --output etc/sparql11.ll1.sxp \
+      etc/sparql11.bnf
+  }
+end
+
+file "etc/sparql11.sxp" => "etc/sparql11.bnf" do |t|
+  sh %{
+    ebnf --bnf --format sxp \
+      --output etc/sparql11.sxp \
+      etc/sparql11.bnf
+  }
+end

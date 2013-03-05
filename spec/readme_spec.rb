@@ -8,7 +8,7 @@ describe "README" do
   
   def self.read_examples
     examples = []
-    readme = File.join(File.expand_path(File.dirname(__FILE__)), "..", "README.markdown")
+    readme = File.join(File.expand_path(File.dirname(__FILE__)), "..", "README.md")
     scanner = StringScanner.new(File.read(readme))
     scanner.skip_until(/^## Examples$/)
     until scanner.eos?

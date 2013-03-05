@@ -91,20 +91,21 @@ def sparql_query(opts)
   end
 
   query_str = opts[:query]
-  query_opts = {:debug => !!ENV['PARSER_DEBUG']}
+  query_opts = {:debug => opts[:debug] || !!ENV['PARSER_DEBUG']}
   query_opts[:base_uri] = opts[:base_uri]
   
   query = if opts[:sse]
     SPARQL::Algebra.parse(query_str, query_opts)
   else
+    query_opts[:progress] = opts.delete(:progress)
     SPARQL.parse(query_str, query_opts)
   end
 
   case opts[:form]
   when :ask, :describe, :construct
-    query.execute(repo, :debug => !!ENV['EXEC_DEBUG'])
+    query.execute(repo, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
   else
-    results = query.execute(repo, :debug => !!ENV['EXEC_DEBUG'])
+    results = query.execute(repo, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
     opts[:to_hash] ? results.map(&:to_hash) : results
   end
 end
