@@ -736,7 +736,7 @@ describe SPARQL::Grammar::Parser do
       it "sets base_uri to <http://example.org> given 'BASE <http://example.org/>'" do
         p = parser(nil, :resolve_uris => true).call(%q(BASE <http://example.org/>))
         p.parse(production)
-        p.base_uri.should == RDF::URI('http://example.org/')
+        p.send(:base_uri).should == RDF::URI('http://example.org/')
       end
 
       given_it_generates(production, %q(BASE <http://example.org/>), [:BaseDecl, RDF::URI("http://example.org/")], :resolve_uris => false)
@@ -744,26 +744,31 @@ describe SPARQL::Grammar::Parser do
       it "sets prefix : to 'foobar' given 'PREFIX : <foobar>'" do
         p = parser(nil, :resolve_uris => true).call(%q(PREFIX : <foobar>))
         p.parse(production)
-        p.prefix(nil).should == 'foobar'
-        p.prefixes[nil].should == 'foobar'
+        p.send(:prefix, nil).should == 'foobar'
+        p.send(:prefixes)[nil].should == 'foobar'
       end
 
-      given_it_generates(production, %q(PREFIX : <foobar>), [:PrefixDecl, [[:":", RDF::URI("foobar")]]], :resolve_uris => false)
+      given_it_generates(production, %q(PREFIX : <foobar>),
+        [:PrefixDecl, SPARQL::Algebra::Operator::Prefix.new([[:":", RDF::URI("foobar")]], [])],
+        :resolve_uris => false)
 
       it "sets prefix foo: to 'bar' given 'PREFIX foo: <bar>'" do
         p = parser(nil, :resolve_uris => true).call(%q(PREFIX foo: <bar>))
         p.parse(production)
-        p.prefix(:foo).should == 'bar'
-        p.prefix("foo").should == 'bar'
-        p.prefixes[:foo].should == 'bar'
+        p.send(:prefix, :foo).should == 'bar'
+        p.send(:prefix, "foo").should == 'bar'
+        p.send(:prefixes)[:foo].should == 'bar'
       end
 
-      given_it_generates(production, %q(PREFIX foo: <bar>), [:PrefixDecl, [[:"foo:", RDF::URI("bar")]]], :resolve_uris => false)
+      given_it_generates(production, %q(PREFIX foo: <bar>),
+        [:PrefixDecl, SPARQL::Algebra::Operator::Prefix.new([[:"foo:", RDF::URI("bar")]], [])],
+        :resolve_uris => false)
 
       given_it_generates(production, %q(PREFIX : <foobar> PREFIX foo: <bar>),
-        [:PrefixDecl, [
-          [:":", RDF::URI("foobar")],
-          [:"foo:", RDF::URI("bar")]]], :resolve_uris => false);
+        [:PrefixDecl,
+          SPARQL::Algebra::Operator::Prefix.new([[:":", RDF::URI("foobar")]], []),
+          SPARQL::Algebra::Operator::Prefix.new([[:"foo:", RDF::URI("bar")]], [])
+        ], :resolve_uris => false);
     end
   end
 
@@ -825,7 +830,6 @@ describe SPARQL::Grammar::Parser do
       given_it_generates(production, "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c {?d ?e ?f}}", %q((construct ((triple ?a ?b ?c)) (join (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))))
       given_it_generates(production, "CONSTRUCT {?a ?b ?c} WHERE {{?a ?b ?c} UNION {?d ?e ?f}}", %q((construct ((triple ?a ?b ?c)) (union (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))))
       given_it_generates(production, "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}", %q((construct ((triple ?a ?b ?c)) (filter ?a (bgp (triple ?a ?b ?c))))))
-      given_it_generates(production, "CONSTRUCT {} WHERE {}", %q((construct () (bgp))))
     end
   end
 

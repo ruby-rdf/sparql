@@ -194,31 +194,47 @@ module SPARQL::Grammar
     production(:Query) do |input, data, callback|
       if data[:query]
         query = data[:query].first
-        query = SPARQL::Algebra::Expression[:prefix, data[:PrefixDecl].first, query] if data[:PrefixDecl]
+        if data[:PrefixDecl]
+          pfx = data[:PrefixDecl].shift
+          data[:PrefixDecl].each {|p| pfx.merge!(p)}
+          pfx.operands[1] = query
+          query = pfx
+        end
         query = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, query] if data[:BaseDecl]
         add_prod_datum(:query, query)
       end
     end
 
+    # [4]  	Prologue	  ::=  	( BaseDecl | PrefixDecl )*
+    production(:Prologue) do |input, data, callback|
+      unless options[:resolve_uris]
+        # Only output if we're not resolving URIs internally
+        add_prod_datum(:BaseDecl, data[:BaseDecl])
+        add_prod_datum(:PrefixDecl, data[:PrefixDecl]) if data[:PrefixDecl]
+      end
+    end
+
     # [5]  	BaseDecl	  ::=  	'BASE' IRI_REF
     production(:BaseDecl) do |input, data, callback|
-      iri = data[:resource]
+      iri = data[:iri].last
       debug("BaseDecl") {"Defined base as #{iri}"}
-      add_prod_datum :BaseDecl, iri
-      options[:base_uri] = iri
+      self.base_uri = iri(iri)
+      add_prod_datum(:BaseDecl, iri) unless options[:resolve_uris]
     end
 
     # [6] PrefixDecl	  ::=  	'PREFIX' PNAME_NS IRI_REF
     production(:PrefixDecl) do |input, data, callback|
-      prefix = data[:prefix]
-      iri = data[:resource]
-      debug("PrefixDecl") {"Defined prefix #{prefix.inspect} mapping to #{iri.inspect}"}
-      add_prod_datum :PrefixDecl, ["#{prefix}:", iri]
-      prefix(prefix, iri)
+      if data[:iri]
+        pfx = data[:prefix].last
+        self.prefix(pfx, data[:iri].last)
+        prefix_op = SPARQL::Algebra::Operator::Prefix.new([["#{pfx}:".to_sym, data[:iri].last]], [])
+        add_prod_datum(:PrefixDecl, prefix_op)
+      end
     end
     
     # [7]  	SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
     production(:SelectQuery) do |input, data, callback|
+      query = merge_modifiers(data)
       add_prod_datum :query, query
     end
 
@@ -239,7 +255,7 @@ module SPARQL::Grammar
     end
 
     # [12]  	AskQuery	  ::=  	'ASK' DatasetClause* WhereClause
-    production(:DescribeQuery) do |input, data, callback|
+    production(:AskQuery) do |input, data, callback|
       query = merge_modifiers(data)
       add_prod_datum :query, SPARQL::Algebra::Expression[:ask, query]
     end
@@ -251,7 +267,7 @@ module SPARQL::Grammar
 
     # [15]  	NamedGraphClause	  ::=  	'NAMED' SourceSelector
     production(:NamedGraphClause) do |input, data, callback|
-      add_prod_datum :dataset, data[:IRIref].unshift(:named)
+      add_prod_data :dataset, data[:IRIref].unshift(:named)
     end
 
     # [18]  	SolutionModifier	  ::=  	GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
@@ -490,10 +506,11 @@ module SPARQL::Grammar
     # [69]  	ConstructTemplate	  ::=  	'{' ConstructTriples? '}'
     start_production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
-      @nd_var_gen = false
+      self.nd_var_gen = false
     end
     production(:ConstructTemplate) do |input, data, callback|
-      @nd_var_gen = "0"
+      # Generate BNodes instead of non-distinguished variables
+      self.nd_var_gen = "0"
       add_prod_datum(:ConstructTemplate, data[:pattern])
       add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
@@ -979,6 +996,7 @@ module SPARQL::Grammar
       end
     end
 
+    private
     ##
     # Returns the URI prefixes currently defined for this parser.
     #
@@ -1062,6 +1080,8 @@ module SPARQL::Grammar
       @options[:validate]
     end
 
+    attr_accessor :nd_var_gen
+
     # Generate a BNode identifier
     def bnode(id = nil)
       if @nd_var_gen
@@ -1109,8 +1129,8 @@ module SPARQL::Grammar
     # Create URIs
     def iri(value)
       # If we have a base URI, use that when constructing a new URI
-      iri = if self.base_uri
-        u = self.base_uri.join(value.to_s)
+      iri = if base_uri
+        u = base_uri.join(value.to_s)
         u.lexical = "<#{value}>" unless u.to_s == value.to_s || options[:resolve_uris]
         u
       else
