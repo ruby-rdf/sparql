@@ -426,8 +426,8 @@ module SPARQL; module Algebra
     # Transform an array of expressions into a recursive set
     # of binary operations
     # e.g.: a || b || c => (|| a (|| b c))
-    # @param [Class] Binary Operator class
-    # @param [Array<SPARQL::Algebra::Expression>] *expressions
+    # @param [Class] klass Binary Operator class
+    # @param [Array<SPARQL::Algebra::Expression>] expressions
     # @return [SPARQL::Algebra::Expression]
     def to_binary(klass, *expressions)
       case expressions.length

@@ -31,8 +31,8 @@ middleware to provide results using [HTTP Content Negotiation][conneg].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
   using an appropriate format based on [HTTP content negotiation][conneg].
 
-### SPARQL 1.1][] Extensions and Limitations
-The {SPARQL} gem uses the [SPARQL 1.1][] EBNF grammar (see {file:etc/sparql11.bnf}), which provides
+### [SPARQL 1.1][] Extensions and Limitations
+The {SPARQL} gem uses the [SPARQL 1.1][] {file:etc/sparql11.bnf EBNF grammar}, which provides
 much more capability than [SPARQL 1.0][], but has a few limitations:
 
 * The format for decimal datatypes has changed in [RDF 1.1][]; they may no
@@ -179,7 +179,6 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
     * {SPARQL::Algebra::Operator}
   * {SPARQL::Grammar}
     * {SPARQL::Grammar::Parser}
-    * {SPARQL::Grammar::Lexer}
 * {Sinatra::SPARQL}
 * {Rack::SPARQL}
   * {Rack::SPARQL::ContentNegotiation}
