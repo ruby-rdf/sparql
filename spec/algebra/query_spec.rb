@@ -636,7 +636,7 @@ describe SPARQL::Algebra::Query do
       ]
     }.each do |example, (source, result, query)|
       it "describes #{example}" do
-        graph_r = RDF::Graph.new << RDF::N3::Reader.new(result)
+        graph_r = RDF::Graph.new << RDF::Turtle::Reader.new(result)
 
         sparql_query(
           :form => :describe, :sse => true,
