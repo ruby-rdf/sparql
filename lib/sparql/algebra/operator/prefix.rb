@@ -40,6 +40,14 @@ module SPARQL; module Algebra
       def optimize
         operands.last.optimize
       end
+
+      # Combine two prefix definitions, merging their definitions
+      # @param [Prefix] other
+      # @return [Prefix] self
+      def merge!(other)
+        operands[0] += other.operands[0]
+        self
+      end
     end # Prefix
   end # Operator
 end; end # SPARQL::Algebra
