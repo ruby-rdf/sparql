@@ -15,6 +15,10 @@ describe SPARQL::Grammar do
           case t.type
           when MF.QueryEvaluationTest
             it "evaluates #{t.name}" do
+              case t.name
+              when 'Basic - Term 7'
+                pending "Decimal format changed in SPARQL 1.1"
+              end
 
               graphs = t.graphs
               query = t.action.query_string

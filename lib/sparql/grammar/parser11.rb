@@ -207,7 +207,7 @@ module SPARQL::Grammar
 
     # [4]  	Prologue	  ::=  	( BaseDecl | PrefixDecl )*
     production(:Prologue) do |input, data, callback|
-      unless options[:resolve_uris]
+      unless resolve_iris?
         # Only output if we're not resolving URIs internally
         add_prod_datum(:BaseDecl, data[:BaseDecl])
         add_prod_datum(:PrefixDecl, data[:PrefixDecl]) if data[:PrefixDecl]
@@ -219,7 +219,7 @@ module SPARQL::Grammar
       iri = data[:iri].last
       debug("BaseDecl") {"Defined base as #{iri}"}
       self.base_uri = iri(iri)
-      add_prod_datum(:BaseDecl, iri) unless options[:resolve_uris]
+      add_prod_datum(:BaseDecl, iri) unless resolve_iris?
     end
 
     # [6] PrefixDecl	  ::=  	'PREFIX' PNAME_NS IRI_REF
@@ -911,7 +911,7 @@ module SPARQL::Grammar
     #   the base URI to use when resolving relative URIs (for acessing intermediate parser productions)
     # @option options [#to_s]    :anon_base     ("b0")
     #   Basis for generating anonymous Nodes
-    # @option options [Boolean] :resolve_uris (false)
+    # @option options [Boolean] :resolve_iris (false)
     #   Resolve prefix and relative IRIs, otherwise, when serializing the parsed SSE
     #   as S-Expressions, use the original prefixed and relative URIs along with `base` and `prefix`
     #   definitions.
@@ -1077,10 +1077,20 @@ module SPARQL::Grammar
     #
     # @return [Boolean] `true` or `false`
     # @since  0.3.0
+    def resolve_iris?
+      @options[:resolve_iris]
+    end
+
+    ##
+    # Returns `true` when resolving IRIs, otherwise BASE and PREFIX are retained in the output algebra.
+    #
+    # @return [Boolean] `true` or `false`
+    # @since  1.0.3
     def validate?
       @options[:validate]
     end
 
+    # Used for generating BNode labels
     attr_accessor :nd_var_gen
 
     # Generate a BNode identifier
@@ -1132,7 +1142,7 @@ module SPARQL::Grammar
       # If we have a base URI, use that when constructing a new URI
       iri = if base_uri
         u = base_uri.join(value.to_s)
-        u.lexical = "<#{value}>" unless u.to_s == value.to_s || options[:resolve_uris]
+        u.lexical = "<#{value}>" unless u.to_s == value.to_s || resolve_iris?
         u
       else
         RDF::URI(value)
@@ -1149,7 +1159,7 @@ module SPARQL::Grammar
       debug {"ns(#{prefix.inspect}): base: '#{base}', suffix: '#{suffix}'"}
       iri = iri(base + suffix.to_s)
       # Cause URI to be serialized as a lexical
-      iri.lexical = "#{prefix}:#{suffix}" unless options[:resolve_uris]
+      iri.lexical = "#{prefix}:#{suffix}" unless resolve_iris?
       iri
     end
     

@@ -665,7 +665,7 @@ describe SPARQL::Grammar::Parser do
         "BASE <http://baz/> PREFIX : <http://foo#> PREFIX bar: <http://bar#> SELECT * WHERE { <a> :b bar:c }" =>
         %q((base <http://baz/> (prefix ((: <http://foo#>) (bar: <http://bar#>)) (bgp (triple <a> :b bar:c))))),
       }.each_pair do |input, result|
-        given_it_generates(production, input, result, :resolve_uris => false)
+        given_it_generates(production, input, result, :resolve_iris => false)
       end
 
       {
@@ -678,7 +678,7 @@ describe SPARQL::Grammar::Parser do
         "BASE <http://baz/> PREFIX : <http://foo#> PREFIX bar: <http://bar#> SELECT * WHERE { <a> :b bar:c }" =>
           RDF::Query.new { pattern [RDF::URI("http://baz/a"), RDF::URI("http://foo#b"), RDF::URI("http://bar#c")]},
       }.each_pair do |input, result|
-        given_it_generates(production, input, result, :resolve_uris => true)
+        given_it_generates(production, input, result, :resolve_iris => true)
       end
 
       bgp_patterns.each_pair do |input, result|
@@ -734,15 +734,15 @@ describe SPARQL::Grammar::Parser do
   describe "when matching the [4] Prologue production rule" do
     with_production(:Prologue) do |production|
       it "sets base_uri to <http://example.org> given 'BASE <http://example.org/>'" do
-        p = parser(nil, :resolve_uris => true).call(%q(BASE <http://example.org/>))
+        p = parser(nil, :resolve_iris => true).call(%q(BASE <http://example.org/>))
         p.parse(production)
         p.send(:base_uri).should == RDF::URI('http://example.org/')
       end
 
-      given_it_generates(production, %q(BASE <http://example.org/>), [:BaseDecl, RDF::URI("http://example.org/")], :resolve_uris => false)
+      given_it_generates(production, %q(BASE <http://example.org/>), [:BaseDecl, RDF::URI("http://example.org/")], :resolve_iris => false)
 
       it "sets prefix : to 'foobar' given 'PREFIX : <foobar>'" do
-        p = parser(nil, :resolve_uris => true).call(%q(PREFIX : <foobar>))
+        p = parser(nil, :resolve_iris => true).call(%q(PREFIX : <foobar>))
         p.parse(production)
         p.send(:prefix, nil).should == 'foobar'
         p.send(:prefixes)[nil].should == 'foobar'
@@ -750,10 +750,10 @@ describe SPARQL::Grammar::Parser do
 
       given_it_generates(production, %q(PREFIX : <foobar>),
         [:PrefixDecl, SPARQL::Algebra::Operator::Prefix.new([[:":", RDF::URI("foobar")]], [])],
-        :resolve_uris => false)
+        :resolve_iris => false)
 
       it "sets prefix foo: to 'bar' given 'PREFIX foo: <bar>'" do
-        p = parser(nil, :resolve_uris => true).call(%q(PREFIX foo: <bar>))
+        p = parser(nil, :resolve_iris => true).call(%q(PREFIX foo: <bar>))
         p.parse(production)
         p.send(:prefix, :foo).should == 'bar'
         p.send(:prefix, "foo").should == 'bar'
@@ -762,13 +762,13 @@ describe SPARQL::Grammar::Parser do
 
       given_it_generates(production, %q(PREFIX foo: <bar>),
         [:PrefixDecl, SPARQL::Algebra::Operator::Prefix.new([[:"foo:", RDF::URI("bar")]], [])],
-        :resolve_uris => false)
+        :resolve_iris => false)
 
       given_it_generates(production, %q(PREFIX : <foobar> PREFIX foo: <bar>),
         [:PrefixDecl,
           SPARQL::Algebra::Operator::Prefix.new([[:":", RDF::URI("foobar")]], []),
           SPARQL::Algebra::Operator::Prefix.new([[:"foo:", RDF::URI("bar")]], [])
-        ], :resolve_uris => false);
+        ], :resolve_iris => false);
     end
   end
 
@@ -1053,7 +1053,7 @@ describe SPARQL::Grammar::Parser do
               (triple ?s <q> ?w)
             ))),
       }.each_pair do |input, result|
-        given_it_generates(production, input, result, :resolve_uris => false)
+        given_it_generates(production, input, result, :resolve_iris => false)
       end
     end
   end
@@ -1112,7 +1112,7 @@ describe SPARQL::Grammar::Parser do
         %q(OPTIONAL {?y :q ?w . FILTER(?v=2) FILTER(?w=3)}) =>
           %q((leftjoin placeholder (bgp (triple ?y :q ?w)) (exprlist (= ?v 2) (= ?w 3)))).to_sym,
       }.each_pair do |input, result|
-        given_it_generates(production, input, result, :resolve_uris => false)
+        given_it_generates(production, input, result, :resolve_iris => false)
       end
     end
   end
@@ -1127,7 +1127,7 @@ describe SPARQL::Grammar::Parser do
         "GRAPH :a {<d><e><f>}" => %q((graph <a> (bgp (triple <d> <e> <f>)))),
         "GRAPH <a> {<d><e><f>}" => %q((graph <a> (bgp (triple <d> <e> <f>)))),
       }.each_pair do |input, result|
-        given_it_generates(production, input, result, :resolve_uris => false)
+        given_it_generates(production, input, result, :resolve_iris => false)
       end
     end
   end
@@ -1151,7 +1151,7 @@ describe SPARQL::Grammar::Parser do
                 (bgp (triple <d> <e> <f>)))
               (bgp (triple ?a ?b ?c)))),
       }.each_pair do |input, result|
-        given_it_generates(production, input, result, :resolve_uris => false)
+        given_it_generates(production, input, result, :resolve_iris => false)
       end
     end
   end
@@ -1561,7 +1561,7 @@ describe SPARQL::Grammar::Parser do
 
   def parser(production = nil, options = {})
     Proc.new do |query|
-      parser = SPARQL::Grammar::Parser.new(query, {:resolve_uris => true}.merge(options))
+      parser = SPARQL::Grammar::Parser.new(query, {:resolve_iris => true}.merge(options))
       production ? parser.parse(production) : parser
     end
   end

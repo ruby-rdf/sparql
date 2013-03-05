@@ -70,7 +70,7 @@ opts.each do |opt, arg|
   when '--quiet' then $quiet = true
   when '--production' then parser_options[:production] = arg.to_sym
   when '--progress' then parser_options[:progress] = true
-  when '--resolve-uris' then parser_options[:resolve_uris] = true
+  when '--resolve-uris' then parser_options[:resolve_iris] = true
   when '--standard-prefixes'
     # Use a standard prefixes
     RDF::Vocabulary.each do |v|
