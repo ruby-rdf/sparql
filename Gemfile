@@ -1,4 +1,4 @@
-source "http://rubygems.org"
+source "https://rubygems.org"
 
 gemspec :name => ""
 
@@ -9,7 +9,7 @@ gem 'ebnf',           :git => "git://github.com/gkellogg/ebnf.git"
 
 group :debug do
   gem 'shotgun'
-  gem 'debugger'
+  gem 'debugger' if RUBY_VERSION == "1.9.3"
   gem "wirble"
   gem 'redcarpet'
 end
