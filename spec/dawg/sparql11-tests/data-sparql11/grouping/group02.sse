@@ -1,3 +1,0 @@
-(prefix ((: <http://example/>))
-  (group (?s)
-    (bgp (triple ?s :p ?v))))

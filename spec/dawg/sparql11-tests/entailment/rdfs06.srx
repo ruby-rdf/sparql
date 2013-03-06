@@ -9,12 +9,7 @@
   <results>
     <result>
       <binding name="x">
-        <uri>http://example.org/ns#a1</uri>
-      </binding>
-    </result>
-    <result>
-      <binding name="x">
-        <uri>http://example.org/ns#a2</uri>
+        <uri>http://example.org/ns#a</uri>
       </binding>
     </result>
   </results>

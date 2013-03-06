@@ -1,3 +1,0 @@
-(leftjoin
-  (table unit)
-  (bgp (triple ?s ?p ?o)))

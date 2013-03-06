@@ -12,7 +12,7 @@
       <binding name="x">
         <uri>http://example.org/x/x</uri>
       </binding>
-      <binding name="c">
+      <binding name="y">
         <uri>http://example.org/x/y</uri>
       </binding>
     </result>
@@ -21,7 +21,7 @@
         <uri>http://example.org/x/x</uri>
       </binding>
       <binding name="y">
-        <uri>bnode://yy</uri>
+        <bnode>y</bnode>
       </binding>
     </result>
   </results>

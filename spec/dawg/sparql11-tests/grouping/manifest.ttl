@@ -10,17 +10,20 @@
     mf:entries
     ( 
     :group01
-    :group02
+##    :group02 # Now the same as group01
     :group03
     :group04
     :group05
+    :group06
+    :group07
     ) .
 
 
 :group01 rdf:type mf:QueryEvaluationTest ;
     mf:name "Group-1";
     rdfs:comment    "Simple grouping" ;
-    dawgt:approval dawgt:NotClassified ;
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:action
          [ qt:query  <group01.rq> ;
            qt:data   <group-data-1.ttl> ] ;
@@ -30,7 +33,8 @@
 :group02 rdf:type mf:QueryEvaluationTest ;
     mf:name "Group-2";
     rdfs:comment    "Grouping, simple, using *" ;
-    dawgt:approval dawgt:NotClassified ;
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:action
          [ qt:query  <group02.rq> ;
            qt:data   <group-data-1.ttl> ] ;
@@ -40,7 +44,8 @@
 :group03 rdf:type mf:QueryEvaluationTest ;
     mf:name "Group-3";
     rdfs:comment    "Grouping with an unbound" ;
-    dawgt:approval dawgt:NotClassified ;
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:action
          [ qt:query  <group03.rq> ;
            qt:data   <group-data-1.ttl> ] ;
@@ -50,7 +55,8 @@
 :group04 rdf:type mf:QueryEvaluationTest ;
     mf:name "Group-4";
     rdfs:comment    "Grouping with expression" ;
-    dawgt:approval dawgt:NotClassified ;
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:action
          [ qt:query  <group04.rq> ;
            qt:data   <group-data-1.ttl> ] ;
@@ -60,9 +66,24 @@
 :group05 rdf:type mf:QueryEvaluationTest ;
     mf:name "Group-5";
     rdfs:comment    "Grouping with unbound " ;
-    dawgt:approval dawgt:NotClassified ;
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:action
          [ qt:query  <group05.rq> ;
            qt:data   <group-data-2.ttl> ] ;
     mf:result  <group05.srx>
     .
+
+:group06 rdf:type  mf:NegativeSyntaxTest11;
+    mf:name    "Group-6" ;
+    rdfs:comment "projection of ungrouped variable";
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
+    mf:action <group06.rq> .
+
+:group07 rdf:type  mf:NegativeSyntaxTest11;
+    mf:name    "Group-7" ;
+    rdfs:comment "projection of ungrouped variable, more complex example than Group-6";
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
+    mf:action <group07.rq> .

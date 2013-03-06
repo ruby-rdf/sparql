@@ -1,5 +1,0 @@
-(prefix ((: <http://example/>))
-  (project (?count)
-    (extend ((?count ?.0))
-      (group () ((?.0 (count)))
-        (table unit)))))

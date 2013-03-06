@@ -1,2 +1,0 @@
-(service <file:///Users/gregg/Projects/sparql-tests/tests/sparql11-tests/data-sparql11/syntax-query/g>
-  (bgp (triple ?s ?p ?o)))

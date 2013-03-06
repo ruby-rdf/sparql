@@ -1,2 +1,0 @@
-(filter (notin ?o 1 2 (+ ?s 57))
-  (bgp (triple ?s ?p ?o)))
