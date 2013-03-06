@@ -46,7 +46,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'sinatra',         '>= 1.3.3'
   gem.add_development_dependency 'rack',            '>= 1.4.4'
   gem.add_development_dependency 'rack-test',       '>= 0.6.2'
-  gem.add_development_dependency 'linkeddata'
+  #gem.add_development_dependency 'linkeddata'
   gem.add_development_dependency 'rdf-spec',        '>= 1.0'
   gem.add_development_dependency 'open-uri-cached', '>= 0.0.5'
   gem.add_development_dependency 'equivalent-xml'
