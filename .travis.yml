@@ -3,8 +3,9 @@ bundler_args: --without debug
 script: "bundle exec rspec spec"
 env:
   - CI=true
+  - DEBUG_RESOLVER=1
 rvm:
-  - 2.0.0
+  #- 2.0.0
   - 1.9.3
-  - jruby-19mode # JRuby in 1.9 mode
-  - rbx-19mode
+  #- jruby-19mode # JRuby in 1.9 mode
+  #- rbx-19mode
