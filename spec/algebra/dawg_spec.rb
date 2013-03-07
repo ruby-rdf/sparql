@@ -4,7 +4,7 @@ require 'dawg_helper'
 require 'rdf/rdfxml'
 
 describe SPARQL::Algebra do
-  describe "w3c dawg SPARQL evaluation tests" do
+  describe "w3c dawg SPARQL 1.0 evaluation tests" do
     SPARQL::Spec.sparql1_0_tests.group_by(&:manifest).each do |man, tests|
       describe man.to_s.split("/")[-2] do
         tests.each do |t|

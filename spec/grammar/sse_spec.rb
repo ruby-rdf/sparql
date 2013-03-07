@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'dawg_helper'
 
 describe SPARQL::Grammar::Parser do
-  describe "w3c dawg SPARQL tests to SSE" do
+  describe "w3c dawg SPARQL 1.0 tests to SSE" do
     SPARQL::Spec.sparql1_0_tests.group_by(&:manifest).each do |man, tests|
       describe man.to_s.split("/")[-2] do
         tests.each do |t|
