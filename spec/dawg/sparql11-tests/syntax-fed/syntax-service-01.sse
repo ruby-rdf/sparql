@@ -1,0 +1,2 @@
+(service <file:///Users/gregg/Projects/sparql/spec/dawg/sparql11-tests/syntax-fed/g>
+  (bgp (triple ?s ?p ?o)))

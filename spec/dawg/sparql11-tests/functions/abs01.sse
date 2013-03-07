@@ -1,0 +1,3 @@
+(prefix ((: <http://example.org/>))
+  (filter (>= (abs ?num) 2)
+    (bgp (triple ?s :num ?num))))

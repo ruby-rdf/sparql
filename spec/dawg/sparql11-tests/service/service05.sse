@@ -1,0 +1,12 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (void: <http://rdfs.org/ns/void#>)
+         (doap: <http://usefulinc.com/ns/doap#>))
+  (project (?service ?title)
+    (join
+      (filter (regex ?projectSubject "remote")
+        (bgp
+          (triple ?p dc:subject ?projectSubject)
+          (triple ?p void:sparqlEndpoint ?service)
+        ))
+      (service ?service
+        (bgp (triple ?project doap:name ?title))))))

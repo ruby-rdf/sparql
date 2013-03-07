@@ -1,0 +1,4 @@
+(project (?y)
+  (extend ((?y ?.0))
+    (group () ((?.0 (avg distinct ?x)))
+      (table unit))))

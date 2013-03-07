@@ -1,0 +1,3 @@
+(project (?uri ?iri)
+  (extend ((?uri (uri "uri")) (?iri (iri "iri")))
+    (table unit)))

@@ -1,0 +1,3 @@
+(project (?x ?y ?z)
+  (extend ((?z (+ ?x ?y)))
+    (table unit)))

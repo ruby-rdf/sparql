@@ -1,0 +1,5 @@
+(prefix ((: <http://www.example.org/>))
+  (project (?t)
+    (filter (= ?g <file:///Users/gregg/Projects/sparql/spec/dawg/sparql11-tests/property-path/ng-01.ttl>)
+      (graph ?g
+        (path ?s (path* :p1) ?t)))))

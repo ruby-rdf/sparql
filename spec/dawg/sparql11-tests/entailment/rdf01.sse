@@ -1,0 +1,4 @@
+(prefix ((ex: <http://example.org/ns#>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+  (project (?x)
+    (bgp (triple ex:b ?x rdf:Property))))

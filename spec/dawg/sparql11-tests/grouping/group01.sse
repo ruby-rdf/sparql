@@ -1,0 +1,4 @@
+(prefix ((: <http://example/>))
+  (project (?s)
+    (group (?s)
+      (bgp (triple ?s :p ?v)))))

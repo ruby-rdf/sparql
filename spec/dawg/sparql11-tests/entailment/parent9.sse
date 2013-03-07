@@ -1,0 +1,9 @@
+(prefix ((: <http://example.org/test#>)
+         (rdfs: <http://www.w3.org/2000/01/rdf-schema#>)
+         (owl: <http://www.w3.org/2002/07/owl#>))
+  (bgp
+    (triple ?C rdfs:subClassOf ??0)
+    (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> owl:Restriction)
+    (triple ??0 owl:onProperty :hasChild)
+    (triple ??0 owl:someValuesFrom owl:Thing)
+  ))

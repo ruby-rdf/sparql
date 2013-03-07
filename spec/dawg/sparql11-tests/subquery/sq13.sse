@@ -1,0 +1,15 @@
+(prefix ((: <http://www.example.org>)
+         (rdfs: <http://www.w3.org/2000/01/rdf-schema#>))
+  (distinct
+    (project (?O1 ?O2)
+      (order (?O1 ?O2)
+        (join
+          (bgp
+            (triple ?O1 :hasItem ??0)
+            (triple ??0 rdfs:label ?L)
+          )
+          (project (?O2)
+            (bgp
+              (triple ?O2 :hasItem ??1)
+              (triple ??1 rdfs:label ?L)
+            )))))))

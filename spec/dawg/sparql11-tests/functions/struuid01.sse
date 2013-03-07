@@ -1,0 +1,7 @@
+(prefix ((: <http://example.org/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?length)
+    (extend ((?length (strlen ?uuid)))
+      (filter (&& (isLiteral ?uuid) (regex ?uuid "^[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$" "i"))
+        (extend ((?uuid (struuid)))
+          (table unit))))))

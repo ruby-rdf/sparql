@@ -1,0 +1,6 @@
+(prefix ((: <http://example.org/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?s ?str1)
+    (extend ((?str1 (strdt ?str xsd:string)))
+      (filter (langMatches (lang ?str) "en")
+        (bgp (triple ?s :str ?str))))))

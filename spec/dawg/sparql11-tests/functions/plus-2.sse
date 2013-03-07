@@ -1,0 +1,8 @@
+(prefix ((: <http://example/>))
+  (project (?x ?y ?sum)
+    (order (?x ?y ?sum)
+      (extend ((?sum (+ (str ?x) (str ?y))))
+        (bgp
+          (triple ?s :p ?x)
+          (triple ?s :q ?y)
+        )))))

@@ -1,0 +1,16 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#>))
+  (project (?exam ?date)
+    (filter (notexists
+               (bgp
+                 (triple ?otherExam <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ex:PhysicalExamination)
+                 (triple ?otherExam ex:follows ?exam)
+                 (triple ?otherExam ex:precedes ex:operation1)
+               ))
+      (bgp
+        (triple ?exam <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ex:PhysicalExamination)
+        (triple ?exam dc:date ?date)
+        (triple ?exam ex:precedes ex:operation1)
+        (triple ?op <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ex:SurgicalProcedure)
+        (triple ?op dc:date ?opDT)
+      ))))

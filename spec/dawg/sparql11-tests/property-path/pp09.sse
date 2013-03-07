@@ -1,0 +1,3 @@
+(prefix ((ex: <http://www.example.org/schema#>)
+         (in: <http://www.example.org/instance#>))
+  (path in:c (reverse (seq ex:p1 ex:p2)) ?x))

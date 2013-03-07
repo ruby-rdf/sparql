@@ -1,0 +1,4 @@
+(prefix ((: <http://example/>))
+  (project (?F ?z)
+    (extend ((?F (:function (+ ?x ?y))))
+      (table unit))))

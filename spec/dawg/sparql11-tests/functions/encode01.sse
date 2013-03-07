@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?s ?str ?encoded)
+    (extend ((?encoded (encode_for_uri ?str)))
+      (bgp (triple ?s :str ?str)))))

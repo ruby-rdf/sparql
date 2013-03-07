@@ -1,0 +1,10 @@
+(prefix ((: <http://example.org/test#>)
+         (owl: <http://www.w3.org/2002/07/owl#>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (bgp
+    (triple ?parent <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ??0)
+    (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> owl:Restriction)
+    (triple ??0 owl:onProperty :hasChild)
+    (triple ??0 owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger)
+    (triple ??0 owl:onClass :Female)
+  ))

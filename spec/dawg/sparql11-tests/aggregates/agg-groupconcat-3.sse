@@ -1,0 +1,6 @@
+(prefix ((: <http://www.example.org/>))
+  (filter (|| (= ?g "1:22") (= ?g "22:1"))
+    (project (?g)
+      (extend ((?g ?.0))
+        (group () ((?.0 (group_concat (separator ':') ?o)))
+          (bgp (triple ??0 :p1 ?o)))))))

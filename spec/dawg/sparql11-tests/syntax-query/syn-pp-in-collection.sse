@@ -1,0 +1,13 @@
+(prefix ((: <http://example.org/>))
+  (sequence
+    (bgp
+      (triple ?s ?p ??0)
+      (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ??1)
+    )
+    (path ??1 (seq (path* :p) :q) 123)
+    (bgp
+      (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> ??2)
+      (triple ??2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ??3)
+    )
+    (path ??3 (reverse :r) "hello")
+    (bgp (triple ??2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> <http://www.w3.org/1999/02/22-rdf-syntax-ns#nil>))))

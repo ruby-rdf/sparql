@@ -1,0 +1,2 @@
+(prefix ((z: <http://example/>))
+  (bgp (triple ??0 z:b ??1)))

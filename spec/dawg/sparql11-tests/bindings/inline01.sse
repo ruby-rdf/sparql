@@ -1,0 +1,12 @@
+(prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+         (: <http://example.org/book/>)
+         (ns: <http://example.org/ns#>))
+  (project (?book ?title ?price)
+    (join
+      (table (vars ?book)
+        (row [?book :book1])
+      )
+      (bgp
+        (triple ?book dc:title ?title)
+        (triple ?book ns:price ?price)
+      ))))
