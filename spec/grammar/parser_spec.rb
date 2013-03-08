@@ -907,8 +907,6 @@ describe SPARQL::Grammar::Parser do
   # [18]    SolutionModifier          ::=       GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
   describe "when matching the [18] SolutionModifier production rule" do
     with_production(:SolutionModifier) do |production|
-      it_rejects_empty_input_using production
-
       given_it_generates(production, "LIMIT 1", [:slice, :_, RDF::Literal(1)])
       given_it_generates(production, "OFFSET 1", [:slice, RDF::Literal(1), :_])
       given_it_generates(production, "LIMIT 1 OFFSET 2", [:slice, RDF::Literal(2), RDF::Literal(1)])
