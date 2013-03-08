@@ -1,4 +1,4 @@
-require 'rdf/ll1/lexer'
+require 'ebnf/ll1/lexer'
 
 module SPARQL::Grammar
   module Terminals
