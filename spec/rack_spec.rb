@@ -96,8 +96,8 @@ describe Rack::SPARQL do
             last_response.body.should == fmt.to_s
           end
 
-          it "sets content type to #{RDF::Query::Solutions::MIME_TYPES[fmt]}" do
-            last_response.content_type.should == RDF::Query::Solutions::MIME_TYPES[fmt]
+          it "sets content type to #{SPARQL::Results::MIME_TYPES[fmt]}" do
+            last_response.content_type.should == SPARQL::Results::MIME_TYPES[fmt]
           end
           
           it "sets content length" do
