@@ -168,7 +168,7 @@ module SPARQL::Grammar
       when '&&'            then add_prod_datum(:ConditionalAndExpression, token.value)
       when '||'            then add_prod_datum(:ConditionalOrExpression, token.value)
       when '!'             then add_prod_datum(:UnaryExpression, token.value)
-      when 'a'             then add_prod_datum(:Verb, RDF.type)
+      when 'a'             then add_prod_datum(:Verb, (a = RDF.type.dup; a.lexical = 'a'; a))
       when /true|false/    then add_prod_datum(:literal, RDF::Literal::Boolean.new(token.value.downcase))
       when /ASC|DESC/      then add_prod_datum(:OrderDirection, token.value.downcase.to_sym)
       when /DISTINCT|REDUCED/  then add_prod_datum(:DISTINCT_REDUCED, token.value.downcase.to_sym)
@@ -434,14 +434,12 @@ module SPARQL::Grammar
 
     # [59]  	GraphGraphPattern	  ::=  	'GRAPH' VarOrIRIref GroupGraphPattern
     production(:GraphGraphPattern) do |input, data, callback|
-      if data[:query]
-        name = (data[:VarOrIRIref]).last
-        bgp = data[:query].first
-        if name
-          add_prod_data(:query, SPARQL::Algebra::Expression.for(:graph, name, bgp))
-        else
-          add_prod_data(:query, bgp)
-        end
+      name = (data[:VarOrIRIref]).last
+      bgp = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
+      if name
+        add_prod_data(:query, SPARQL::Algebra::Expression.for(:graph, name, bgp))
+      else
+        add_prod_data(:query, bgp)
       end
     end
 
@@ -1281,7 +1279,7 @@ module SPARQL::Grammar
     #
     # @yieldreturn [String] added to message
     def debug(*args)
-      return unless @options[:debug] || RDF::Turtle.debug?
+      return unless @options[:debug]
       options = args.last.is_a?(Hash) ? args.pop : {}
       debug_level = options.fetch(:level, 1)
       return unless debug_level <= DEBUG_LEVEL

@@ -36,7 +36,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version      = '>= 1.8.7'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',             '>= 1.0.1'
-  gem.add_runtime_dependency     'ebnf',            '>= 0.1.1'
+  gem.add_runtime_dependency     'ebnf',            '>= 0.2.1'
   gem.add_runtime_dependency     'builder',         '>= 3.0'
   gem.add_runtime_dependency     'json',            '>= 1.7'
   gem.add_runtime_dependency     'sxp',             '>= 0.1.0'

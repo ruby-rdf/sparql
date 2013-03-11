@@ -40,22 +40,17 @@
   SelectClause
   _SelectQuery_1
   WhereClause
-  _SelectQuery_2
+  SolutionModifier
  )
 )
  (rule
  _SelectQuery_1
  "7.1"
- (alt _empty _SelectQuery_3)
+ (alt _empty _SelectQuery_2)
 )
  (rule
  _SelectQuery_2
  "7.2"
- (alt _empty SolutionModifier)
-)
- (rule
- _SelectQuery_3
- "7.3"
  (seq DatasetClause _SelectQuery_1)
 )
  (rule
@@ -64,13 +59,8 @@
  (seq
   SelectClause
   WhereClause
-  _SubSelect_1
+  SolutionModifier
  )
-)
- (rule
- _SubSelect_1
- "8.1"
- (alt _empty SolutionModifier)
 )
  (rule
  SelectClause
@@ -132,61 +122,51 @@
  (alt _ConstructQuery_2 _ConstructQuery_3)
 )
  (rule
- _ConstructQuery_10
- "10.10"
- (seq DatasetClause _ConstructQuery_7)
-)
- (rule
  _ConstructQuery_2
  "10.2"
  (seq
   ConstructTemplate
   _ConstructQuery_4
   WhereClause
-  _ConstructQuery_5
+  SolutionModifier
  )
 )
  (rule
  _ConstructQuery_3
  "10.3"
  (seq
-  _ConstructQuery_7
+  _ConstructQuery_6
   "WHERE"
   "{"
-  _ConstructQuery_8
+  _ConstructQuery_7
   "}"
-  _ConstructQuery_9
+  SolutionModifier
  )
 )
  (rule
  _ConstructQuery_4
  "10.4"
- (alt _empty _ConstructQuery_6)
+ (alt _empty _ConstructQuery_5)
 )
  (rule
  _ConstructQuery_5
  "10.5"
- (alt _empty SolutionModifier)
+ (seq DatasetClause _ConstructQuery_4)
 )
  (rule
  _ConstructQuery_6
  "10.6"
- (seq DatasetClause _ConstructQuery_4)
+ (alt _empty _ConstructQuery_8)
 )
  (rule
  _ConstructQuery_7
  "10.7"
- (alt _empty _ConstructQuery_10)
+ (alt _empty TriplesTemplate)
 )
  (rule
  _ConstructQuery_8
  "10.8"
- (alt _empty TriplesTemplate)
-)
- (rule
- _ConstructQuery_9
- "10.9"
- (alt _empty SolutionModifier)
+ (seq DatasetClause _ConstructQuery_6)
 )
  (rule
  DescribeQuery
@@ -196,18 +176,18 @@
   _DescribeQuery_1
   _DescribeQuery_2
   _DescribeQuery_3
-  _DescribeQuery_4
+  SolutionModifier
  )
 )
  (rule
  _DescribeQuery_1
  "11.1"
- (alt _DescribeQuery_5 "*")
+ (alt _DescribeQuery_4 "*")
 )
  (rule
  _DescribeQuery_2
  "11.2"
- (alt _empty _DescribeQuery_8)
+ (alt _empty _DescribeQuery_7)
 )
  (rule
  _DescribeQuery_3
@@ -217,26 +197,21 @@
  (rule
  _DescribeQuery_4
  "11.4"
- (alt _empty SolutionModifier)
+ (seq VarOrIRIref _DescribeQuery_5)
 )
  (rule
  _DescribeQuery_5
  "11.5"
- (seq VarOrIRIref _DescribeQuery_6)
+ (alt _empty _DescribeQuery_6)
 )
  (rule
  _DescribeQuery_6
  "11.6"
- (alt _empty _DescribeQuery_7)
+ (seq VarOrIRIref _DescribeQuery_5)
 )
  (rule
  _DescribeQuery_7
  "11.7"
- (seq VarOrIRIref _DescribeQuery_6)
-)
- (rule
- _DescribeQuery_8
- "11.8"
  (seq DatasetClause _DescribeQuery_2)
 )
  (rule

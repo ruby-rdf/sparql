@@ -1,4 +1,4 @@
-/* SPARQL 1.1 Grammar/
+# SPARQL 1.1 Grammar
 
     [1]  	QueryUnit	  ::=  	Query
     [2]  	Query	  ::=  	Prologue
@@ -8,11 +8,11 @@
     [4]  	Prologue	  ::=  	( BaseDecl | PrefixDecl )*
     [5]  	BaseDecl	  ::=  	'BASE' IRIREF
     [6]  	PrefixDecl	  ::=  	'PREFIX' PNAME_NS IRIREF
-    [7]  	SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier?
-    [8]  	SubSelect	  ::=  	SelectClause WhereClause SolutionModifier?
+    [7]  	SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
+    [8]  	SubSelect	  ::=  	SelectClause WhereClause SolutionModifier
     [9]  	SelectClause	  ::=  	'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
-    [10]  	ConstructQuery	  ::=  	'CONSTRUCT' ( ConstructTemplate DatasetClause* WhereClause SolutionModifier? | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier? )
-    [11]  	DescribeQuery	  ::=  	'DESCRIBE' ( VarOrIRIref+ | '*' ) DatasetClause* WhereClause? SolutionModifier?
+    [10]  	ConstructQuery	  ::=  	'CONSTRUCT' ( ConstructTemplate DatasetClause* WhereClause SolutionModifier | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
+    [11]  	DescribeQuery	  ::=  	'DESCRIBE' ( VarOrIRIref+ | '*' ) DatasetClause* WhereClause? SolutionModifier
     [12]  	AskQuery	  ::=  	'ASK' DatasetClause* WhereClause
     [13]  	DatasetClause	  ::=  	'FROM' ( DefaultGraphClause | NamedGraphClause )
     [14]  	DefaultGraphClause	  ::=  	SourceSelector
