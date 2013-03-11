@@ -1,1 +1,1 @@
-(bgp (triple <a> <b> -0.1))
+(bgp (triple <a> <b> -1.0e-1))
