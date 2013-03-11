@@ -1,2 +1,2 @@
 (filter (notin 2 (/ 1 0) 2)
-  (table unit))
+  (bgp))

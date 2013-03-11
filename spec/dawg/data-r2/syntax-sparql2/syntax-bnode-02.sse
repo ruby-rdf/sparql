@@ -1,0 +1,2 @@
+(prefix ((: <http://example.org/>))
+  (bgp (triple ??0 :p ??1)))

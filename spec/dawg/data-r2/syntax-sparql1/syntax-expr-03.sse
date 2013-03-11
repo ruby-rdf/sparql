@@ -1,0 +1,2 @@
+(filter (regex ?o "foo" "i")
+  (bgp (triple ?s ?p ?o)))

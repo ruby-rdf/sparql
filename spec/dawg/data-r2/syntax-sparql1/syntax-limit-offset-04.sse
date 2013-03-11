@@ -1,0 +1,4 @@
+(prefix ((: <http://example.org/ns#>))
+  (slice 3 _
+    (order (?o)
+      (bgp (triple ?s ?p ?o)))))

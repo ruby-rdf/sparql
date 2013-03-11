@@ -5,4 +5,4 @@
       (triple :s :q ?o1)
     )
     (extend ((?o1 (+ 1 ?o)))
-      (table unit))))
+      (bgp))))

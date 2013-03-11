@@ -2,6 +2,6 @@
   (project (?s ?v ?z)
     (join
       (extend ((?z 4))
-        (table unit))
+        (bgp))
       (filter (= ?v ?z)
         (bgp (triple ?s :p ?v))))))

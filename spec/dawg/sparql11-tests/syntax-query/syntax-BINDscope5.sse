@@ -2,4 +2,4 @@
   (union
     (bgp (triple :s :p ?Y))
     (extend ((?Y 1))
-      (table unit))))
+      (bgp))))

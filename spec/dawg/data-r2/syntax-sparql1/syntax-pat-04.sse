@@ -1,0 +1,10 @@
+(prefix ((: <http://example.org/ns#>))
+  (join
+    (join
+      (leftjoin
+        (bgp)
+        (bgp (triple :x :y :z)))
+      (bgp (triple ?a :b :c)))
+    (union
+      (bgp (triple :x1 :y1 :z1))
+      (bgp (triple :x2 :y2 :z2)))))

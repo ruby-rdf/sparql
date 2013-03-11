@@ -1,5 +1,5 @@
 (join
-  (table unit)
+  (bgp)
   (table (vars)
     (row)
   ))

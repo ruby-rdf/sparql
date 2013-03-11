@@ -1,4 +1,4 @@
 (prefix ((ex: <http://www.example.org/>))
-  (graph <file:///Users/gregg/Projects/sparql/spec/dawg/sparql11-tests/exists/exists02.ttl>
+  (graph <exists02.ttl>
     (filter (exists (bgp (triple ?s ?p ex:o2)))
       (bgp (triple ?s ?p ex:o1)))))

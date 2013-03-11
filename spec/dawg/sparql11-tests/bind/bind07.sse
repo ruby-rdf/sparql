@@ -4,6 +4,6 @@
       (bgp (triple ?s ?p ?o))
       (union
         (extend ((?z (+ ?o 1)))
-          (table unit))
+          (bgp))
         (extend ((?z (+ ?o 2)))
-          (table unit))))))
+          (bgp))))))

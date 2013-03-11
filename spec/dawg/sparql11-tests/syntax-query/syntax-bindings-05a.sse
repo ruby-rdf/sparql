@@ -1,5 +1,5 @@
 (join
-  (table unit)
+  (bgp)
   (table (vars ?x ?y)
     (row [?y 2] [?x 1])
   ))

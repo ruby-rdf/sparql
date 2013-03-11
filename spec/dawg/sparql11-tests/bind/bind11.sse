@@ -3,5 +3,5 @@
     (filter (= ?v ?z)
       (join
         (extend ((?z 4))
-          (table unit))
+          (bgp))
         (bgp (triple ?s :p ?v))))))

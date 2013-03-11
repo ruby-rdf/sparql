@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>))
+  (join
+    (bgp (triple :x :p :z))
+    (graph ?g
+      (bgp (triple :x :b ?a)))))

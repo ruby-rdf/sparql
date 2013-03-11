@@ -1,0 +1,4 @@
+(base <http://example.org/> 
+  (prefix ((: <#>)
+           (x.y: <x#>))
+    (bgp (triple :a.b x.y: :))))

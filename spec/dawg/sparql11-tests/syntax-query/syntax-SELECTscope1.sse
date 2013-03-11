@@ -1,7 +1,7 @@
 (union
   (project (?X)
     (extend ((?X 1))
-      (table unit)))
+      (bgp)))
   (project (?X)
     (extend ((?X 2))
-      (table unit))))
+      (bgp))))

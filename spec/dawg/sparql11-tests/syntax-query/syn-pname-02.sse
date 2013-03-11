@@ -1,2 +1,2 @@
 (prefix ((ex: <http://example/>))
-  (table unit))
+  (bgp))

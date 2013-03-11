@@ -1,0 +1,2 @@
+(prefix ((: <http://example.org/ns#>))
+  (bgp (triple ??0 :p :q)))

@@ -2,6 +2,6 @@
   (join
     (bgp (triple ?s ?p ?o))
     (service silent 
-      <file:///Users/gregg/Projects/sparql/spec/dawg/sparql11-tests/syntax-fed/g>
+      <g>
       (bgp (triple ?s ?p ?o))))
   (bgp (triple ?s ?p ?o)))

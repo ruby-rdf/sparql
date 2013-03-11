@@ -1,0 +1,3 @@
+(prefix ((: <http://example.org/>))
+  (dataset (:g1 :g2 (named :graph1) (named :graph2))
+    (project (?x) (bgp))))
