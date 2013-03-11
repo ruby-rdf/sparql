@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     class Or < Operator::Binary
       include Evaluatable
 
-      NAME = [:or, :'||']
+      NAME = [:'||', :or]
 
       ##
       # Initializes a new operator instance.

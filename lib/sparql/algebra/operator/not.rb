@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     class Not < Operator::Unary
       include Evaluatable
 
-      NAME = [:not, :'!']
+      NAME = [:'!', :not]
 
       ##
       # Returns the logical `NOT` (inverse) of the operand.
