@@ -6,8 +6,8 @@ shared_examples "SSE" do |man, tests|
   describe man.to_s.split("/")[-2] do
     tests.each do |t|
       case t.type
-      when MF.QueryEvaluationTest, MF.PositiveSyntaxTest
-        it "parses #{t.name} to correct SSE" do
+      when MF.QueryEvaluationTest, MF.PositiveSyntaxTest, MF.PositiveUpdateSyntaxTest11
+        it "parses #{t.entry} - #{t.name} to correct SSE" do
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
@@ -21,7 +21,7 @@ shared_examples "SSE" do |man, tests|
           query.should == sse
         end
 
-        it "parses #{t.name} to lexically equivalent SSE" do
+        it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
@@ -45,16 +45,22 @@ shared_examples "SSE" do |man, tests|
             strip
           normalized_query.should == normalized_result
         end
-      when MF.NegativeSyntaxTest
-        it "detects syntax error for #{t.name}" do
+      when MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
+        it "detects syntax error for #{t.entry} - #{t.name}" do
           begin
             lambda {SPARQL::Grammar.parse(t.action.query_string, :validate => true)}.should raise_error
           rescue
             pending "Detecting syntax errors better"
           end
         end
+      when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest,
+           MF.PositiveUpdateSyntaxTest11, MF.NegativeUpdateSyntaxTest11,
+           MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
+           MF.GraphStoreProtocolTest
+        it "parses #{t.entry} - #{t.name} to correct SSE"
+        it "parses #{t.entry} - #{t.name} to lexically equivalent SSE"
       else
-        it "??? #{t.name}" do
+        it "??? #{t.entry} - #{t.name}" do
           puts t.inspect
           fail "Unknown test type #{t.type}"
         end
@@ -66,13 +72,19 @@ end
 unless ENV['CI']
   describe SPARQL::Grammar::Parser do
     describe "w3c dawg SPARQL 1.0 syntax tests" do
-      SPARQL::Spec.sparql1_0_syntax_tests.group_by(&:manifest).each do |man, tests|
+      SPARQL::Spec.sparql1_0_syntax_tests(true).group_by(&:manifest).each do |man, tests|
         it_behaves_like "SSE", man, tests
       end
     end
 
     describe "w3c dawg SPARQL 1.0 tests" do
-      SPARQL::Spec.sparql1_0_tests.group_by(&:manifest).each do |man, tests|
+      SPARQL::Spec.sparql1_0_tests(true).group_by(&:manifest).each do |man, tests|
+        it_behaves_like "SSE", man, tests
+      end
+    end
+
+    describe "w3c dawg SPARQL 1.1 tests" do
+      SPARQL::Spec.sparql1_1_tests(true).group_by(&:manifest).each do |man, tests|
         it_behaves_like "SSE", man, tests
       end
     end
