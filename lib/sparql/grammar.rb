@@ -115,40 +115,17 @@ module SPARQL
   #           (bgp (triple ?s ?p ?o)))))
   # 
   # ## Implementation Notes
-  # The parser is driven through a rules table contained in lib/sparql/grammar/parser/meta.rb. This includes
-  # branch rules to indicate productions to be taken based on a current production.
+  # The parser is driven through a rules table contained in lib/sparql/grammar/meta.rb. This includes branch rules to indicate productions to be taken based on a current production.
   # 
-  # The meta.rb file is generated from etc/sparql-selectors.n3 which is the result of parsing
-  # http://www.w3.org/2000/10/swap/grammar/sparql.n3 (along with bnf-token-rules.n3) using cwm using the following command sequence:
+  # The meta.rb file is generated from etc/sparql11.bnf using the `ebnf` gem.
   # 
-  #     cwm ../grammar/sparql.n3 bnf-token-rules.n3 --think --purge --data > sparql-selectors.n3
-  # 
-  # sparql-selectors.n3 is itself used to generate lib/sparql/grammar/parser/meta.rb using script/build_meta.
-  # 
-  # Note that The SWAP version of sparql.n3 is an older version of the grammar with the newest in http://www.w3.org/2001/sw/DataAccess/rq23/parsers/sparql.ttl,
-  # which uses the EBNF form. Sparql.n3 file has been updated by hand to be consistent with the etc/sparql.ttl version.
-  # A future direction will be to generate rules from etc/sparql.ttl to generate branch tables similar to those
-  # expressed in meta.rb, but this requires rules not currently available.
-  # 
-  # ## Next Steps for Parsing EBNF
-  # A more modern approach is to use the EBNF grammar (e.g., etc/sparql.bnf) to generate a Turtle/N3 representation of the grammar, transform
-  # this to and LL1 representation and use this to create meta.rb.
-  # 
-  # Using SWAP utilities, this would seemingly be done as follows:
-  # 
-  #     python http://www.w3.org/2000/10/swap/grammar/ebnf2turtle.py \
-  #       http://www.w3.org/2001/sw/DataAccess/rq23/parsers/sparql.bnf \
-  #       en \
-  #       'http://www.w3.org/2001/sw/DataAccess/parsers/sparql#' > etc/sparql.ttl
-  # 
-  #     python http://www.w3.org/2000/10/swap/cwm.py etc/sparql.ttl \
-  #       http://www.w3.org/2000/10/swap/grammar/ebnf2bnf.n3 \
-  #       http://www.w3.org/2000/10/swap/grammar/first_follow.n3 \
-  #       --think --data > etc/sparql-ll1.n3
-  # 
-  # At this point, a variation of script/build_meta should be able to extract first/follow information to re-create the meta branch tables.
+  #     ebnf --ll1 Query --format rb \
+  #       --mod-name SPARQL::Grammar::Meta \
+  #       --output lib/sparql/grammar/meta.rb \
+  #       etc/sparql11.bnf
   # 
   # @see http://www.w3.org/TR/rdf-sparql-query/#grammar
+  # @see http://rubygems.org/gems/ebnf
   module Grammar
     autoload :Parser,     'sparql/grammar/parser11'
     autoload :Terminals,  'sparql/grammar/terminals11'
