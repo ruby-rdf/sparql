@@ -10,12 +10,12 @@ describe SPARQL::Algebra do
         tests.each do |t|
           case t
           when SPARQL::Spec::QueryTest
-            it "evaluates #{t.name}" do
+            it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
               case t.name
               when 'Basic - Term 6', 'Basic - Term 7'
                 pending "Decimal format changed in SPARQL 1.1"
-              when 'open-eq-08', 'open-eq-10', 'open-eq-11', 'Strings: Distinct', 'All: Distinct'
-                pending 'Changed due to new equivalence of "foo" and "foo"^^xsd:string. Equivalent tests in graph_spec.'
+              when 'Strings: Distinct', 'All: Distinct'
+                pending "obsolete because of plain/xsd:string equivalence"
               when /Cast to xsd:boolean/
                 pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
               when /normalization-02/
@@ -48,7 +48,7 @@ describe SPARQL::Algebra do
               end
             end
           else
-            it "??? #{t.name}" do
+            it "??? #{t.entry} - #{t.name}: #{t.comment}" do
               puts t.inspect
               fail "Unknown test type #{t.type}"
             end
