@@ -93,7 +93,7 @@ module SPARQL::Grammar
     # 130
     PNAME_LN             = /(?:#{PNAME_NS})(?:#{PN_LOCAL})/
     # 131
-    BLANK_NODE_LABEL     = /_:((?:[0-9]|#{PN_CHARS_U})(?:#{PN_CHARS}|\.)*)/
+    BLANK_NODE_LABEL     = /_:(?:[0-9]|#{PN_CHARS_U})((#{PN_CHARS}|\.)*#{PN_CHARS})?/
     # 132
     VAR1                 = /\?#{VARNAME}/
     # 133
