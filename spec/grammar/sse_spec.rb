@@ -83,10 +83,10 @@ unless ENV['CI']
       end
     end
 
-    describe "w3c dawg SPARQL 1.1 tests" do
-      SPARQL::Spec.sparql1_1_tests(true).group_by(&:manifest).each do |man, tests|
-        it_behaves_like "SSE", man, tests
-      end
-    end
+    #describe "w3c dawg SPARQL 1.1 tests" do
+    #  SPARQL::Spec.sparql1_1_tests(true).group_by(&:manifest).each do |man, tests|
+    #    it_behaves_like "SSE", man, tests
+    #  end
+    #end
   end
 end
