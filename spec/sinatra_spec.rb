@@ -1,15 +1,10 @@
 $:.unshift "."
 require 'spec_helper'
 require 'sinatra/sparql'
-require 'rack/test'
 require 'sinatra'
 
-describe Sinatra::SPARQL do
-  include ::Rack::Test::Methods
-
-  def app
-    Sinatra::Application
-  end
+class SPTest < Sinatra::Base
+  register Sinatra::SPARQL
 
   get '/' do
     body "A String"
@@ -37,6 +32,16 @@ describe Sinatra::SPARQL do
     repo << [RDF::URI('a'), RDF::URI('b'), "c"]
     repo << [RDF::URI('a'), RDF::URI('b'), "d", RDF::URI('e')]
     body service_description(:repository => repo, :endpoint => RDF::URI("/endpoint"))
+  end
+end
+
+require 'rack/test'
+
+describe Sinatra::SPARQL do
+  include ::Rack::Test::Methods
+
+  def app
+    SPTest.new
   end
 
   describe "self.registered" do
