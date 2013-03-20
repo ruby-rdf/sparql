@@ -150,7 +150,7 @@ a full set of RDF formats.
     require 'uri'
 
     get '/' do
-    settings.sparql_options.replace(:standard_prefixes => true)
+      settings.sparql_options.replace(:standard_prefixes => true)
       repository = RDF::Repository.new do |graph|
         graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
       end
