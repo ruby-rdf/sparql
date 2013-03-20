@@ -1,3 +1,0 @@
-@prefix ex: <http://example.org/ns#> .
-
-ex:s ex:p "foo" .

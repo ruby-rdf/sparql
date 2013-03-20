@@ -1,0 +1,3 @@
+(prefix ((: <http://www.example.org/>))
+  (project (?t)
+    (path :a (seq (alt :p1 :p2) (alt :p3 :p4)) ?t)))

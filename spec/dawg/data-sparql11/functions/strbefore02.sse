@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?s ?str ?bb ?bbc ?bbcy ?b ?ben ?bbx ?bxyzx)
+    (extend ((?bb (strbefore ?str "b")) (?bbc (strbefore ?str "bc")) (?bbcy (strbefore ?str "b"@cy)) (?b (strbefore ?str "")) (?ben (strbefore ?str ""@en)) (?bbx (strbefore ?str "b"^^xsd:string)) (?bxyzx (strbefore ?str "xyz"^^xsd:string)))
+      (bgp (triple ?s :str ?str)))))

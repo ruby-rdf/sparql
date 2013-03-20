@@ -1,0 +1,3 @@
+(leftjoin
+  (bgp)
+  (bgp (triple ?s ?p ?o)))

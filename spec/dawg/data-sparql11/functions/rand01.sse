@@ -1,0 +1,4 @@
+(prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (filter (&& (&& (= (datatype ?r) xsd:double) (>= ?r 0.0)) (< ?r 1.0))
+    (extend ((?r (rand)))
+      (bgp))))

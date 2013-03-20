@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>))
+  (bgp
+    (triple :s1 :p ?o)
+    (triple ?s2 :p ?o)
+  ))

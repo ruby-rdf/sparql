@@ -136,7 +136,7 @@ module SPARQL
     format = options[:format].to_sym if options[:format]
     content_type = options[:content_type].to_s.split(';').first
     content_types = options[:content_types] || ['*/*']
-    format ||= RDF::Query::Solutions::MIME_TYPES.invert[content_type] if content_type
+    format ||= SPARQL::Results::MIME_TYPES.invert[content_type] if content_type
 
     if !format && !content_type
       case solutions
@@ -144,8 +144,8 @@ module SPARQL
         content_type = first_content_type(content_types, RDF::Format.content_types.keys) || 'text/plain'
         format = RDF::Writer.for(:content_type => content_type).to_sym
       else
-        content_type = first_content_type(content_types, RDF::Query::Solutions::MIME_TYPES.values) || 'application/sparql-results+xml'
-        format = RDF::Query::Solutions::MIME_TYPES.invert[content_type]
+        content_type = first_content_type(content_types, SPARQL::Results::MIME_TYPES.values) || 'application/sparql-results+xml'
+        format = SPARQL::Results::MIME_TYPES.invert[content_type]
       end
     end
 
@@ -194,7 +194,7 @@ module SPARQL
       end
     end
 
-    content_type ||= RDF::Query::Solutions::MIME_TYPES[format] if format
+    content_type ||= SPARQL::Results::MIME_TYPES[format] if format
     
     serialization.instance_eval do
       if RUBY_VERSION < "1.9"
@@ -257,7 +257,7 @@ module SPARQL
   def serialize_exception(exception, options = {})
     format = options[:format]
     content_type = options[:content_type]
-    content_type ||= RDF::Query::Solutions::MIME_TYPES[format]
+    content_type ||= SPARQL::Results::MIME_TYPES[format]
     serialization = case content_type
     when 'text/html'
       title = exception.respond_to?(:title) ? exception.title : exception.class.to_s

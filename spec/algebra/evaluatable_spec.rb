@@ -40,7 +40,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @not.new(true).to_sxp_bin.should == [:not, RDF::Literal::TRUE]
+        @not.new(true).to_sxp_bin.should == [:!, RDF::Literal::TRUE]
       end
     end
   end
@@ -204,7 +204,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @or.new(true, false).to_sxp_bin.should == [:or, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @or.new(true, false).to_sxp_bin.should == [:"||", RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -220,7 +220,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @and.new(true, false).to_sxp_bin.should == [:and, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        @and.new(true, false).to_sxp_bin.should == [:"&&", RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end

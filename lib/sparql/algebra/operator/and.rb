@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     class And < Operator::Binary
       include Evaluatable
 
-      NAME = [:and, :'&&']
+      NAME = [:'&&', :and]
 
       ##
       # Initializes a new operator instance.

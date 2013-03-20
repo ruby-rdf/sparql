@@ -1,0 +1,5 @@
+(prefix ((: <http://example.org/>))
+  (order (?s ?p ?o ?p2 ?o2)
+    (leftjoin
+      (bgp (triple ?s ?p ?o))
+      (bgp (triple ?o ?p2 ?o2)))))

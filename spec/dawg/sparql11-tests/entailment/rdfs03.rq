@@ -1,6 +1,0 @@
-PREFIX ex: <http://example.org/ns#>
-SELECT ?x
-WHERE {
-  ex:a ex:b1 ?x .
-}
-

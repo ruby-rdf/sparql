@@ -13,6 +13,12 @@ module ProductionRequirements
     block.call(production)
   end
 
+  def it_ignores_empty_input_using(production)
+    it "ignores empty input" do
+      parser(production).call(%q()).should be_nil
+    end
+  end
+
   def it_rejects_empty_input_using(production)
     it "rejects empty input" do
       lambda {parser(production).call(%q())}.should raise_error(EBNF::LL1::Parser::Error)
@@ -653,7 +659,7 @@ describe SPARQL::Grammar::Parser do
 
   describe "when matching the [2] Query production rule" do
     with_production(:Query) do |production|
-      it_rejects_empty_input_using production
+      it_ignores_empty_input_using production
 
       {
         "BASE <foo/> SELECT * WHERE { <a> <b> <c> }" =>
@@ -874,7 +880,7 @@ describe SPARQL::Grammar::Parser do
 
   describe "when matching the [13] DatasetClause production rule" do
     with_production(:DatasetClause) do |production|
-      it_rejects_empty_input_using production
+      it_ignores_empty_input_using production
       given_it_generates(production, %q(FROM <http://example.org/foaf/aliceFoaf>), [:dataset, RDF::URI("http://example.org/foaf/aliceFoaf")])
       given_it_generates(production, %q(FROM NAMED <http://example.org/foaf/aliceFoaf>), [:dataset, [:named, RDF::URI("http://example.org/foaf/aliceFoaf")]])
     end
@@ -886,7 +892,7 @@ describe SPARQL::Grammar::Parser do
   #   [16] SourceSelector
   describe "when matching the [17] WhereClause production rule" do
     with_production(:WhereClause) do |production|
-      it_rejects_empty_input_using production
+      it_ignores_empty_input_using production
 
       bgp_patterns.each_pair do |input, result|
         given_it_generates(production, "WHERE {#{input}}", result,
@@ -907,8 +913,6 @@ describe SPARQL::Grammar::Parser do
   # [18]    SolutionModifier          ::=       GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
   describe "when matching the [18] SolutionModifier production rule" do
     with_production(:SolutionModifier) do |production|
-      it_rejects_empty_input_using production
-
       given_it_generates(production, "LIMIT 1", [:slice, :_, RDF::Literal(1)])
       given_it_generates(production, "OFFSET 1", [:slice, RDF::Literal(1), :_])
       given_it_generates(production, "LIMIT 1 OFFSET 2", [:slice, RDF::Literal(2), RDF::Literal(1)])
@@ -1177,7 +1181,7 @@ describe SPARQL::Grammar::Parser do
   # [65] Constraint ::=  BrackettedExpression | BuiltInCall | FunctionCall
   describe "when matching the [65] Constraint production rule" do
     with_production(:Constraint) do |production|
-      it_rejects_empty_input_using production
+      it_ignores_empty_input_using production
       it_recognizes_bracketted_expression_using production
       it_recognizes_built_in_call_using production
       it_recognizes_function_using production
@@ -1280,7 +1284,7 @@ describe SPARQL::Grammar::Parser do
 
     describe "when matching the [98] Var production rule" do
       with_production(:Var) do |production|
-        it_rejects_empty_input_using production
+        it_ignores_empty_input_using production
 
         it "recognizes the VAR1 terminal" do
           it_recognizes_var1(production)

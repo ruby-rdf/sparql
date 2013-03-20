@@ -54,7 +54,8 @@ namespace :doc do
   end
 end
 
-SPARQL_DIR = File.expand_path(File.dirname(__FILE__))
+desc 'Create versions of ebnf files in etc'
+task :etc => %w{etc/sparql11.sxp etc/sparql11.ll1.sxp}
 
 desc 'Build first, follow and branch tables'
 task :meta => "lib/sparql/grammar/meta.rb"
@@ -82,4 +83,21 @@ file "etc/sparql11.sxp" => "etc/sparql11.bnf" do |t|
       --output etc/sparql11.sxp \
       etc/sparql11.bnf
   }
+end
+
+sse_files = Dir.glob("./spec/dawg/**/*.rq").map do |f|
+  f.sub(".rq", ".sse")
+end
+desc "Build SSE versions of test '.rq' files using Jena ARQ"
+task :sse => sse_files
+
+# Rule to create SSE files
+rule ".sse" => %w{.rq} do |t|
+  puts "build #{t.name}"
+  sse = `qparse --print op --file #{t.source} 2> /dev/null` rescue nil
+  if $? == 0
+    File.open(t.name, "w") {|f| f.write(sse)}
+  else
+    puts "skipped #{t.source}"
+  end
 end

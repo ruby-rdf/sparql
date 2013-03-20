@@ -1,0 +1,6 @@
+(prefix ((: <http://example/>)
+         (z: <http://example/z#>))
+  (bgp
+    (triple :a :123 :12.3)
+    (triple <http://example/:> <http://example/z#:> :_12.3_)
+  ))

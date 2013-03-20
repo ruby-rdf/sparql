@@ -1,0 +1,8 @@
+(prefix ((: <http://example.org/>)
+         (foaf: <http://xmlns.com/foaf/0.1/>))
+  (project (?s ?p1 ?o1)
+    (join
+      (bgp (triple ?s ?p1 ?o1))
+      (table (vars ?p1)
+        (row [?p1 foaf:knows])
+      ))))

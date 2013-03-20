@@ -1,0 +1,5 @@
+(prefix ((: <http://example.com/data/#>))
+  (project (?g ?avg ?c)
+    (extend ((?avg ?.0) (?c (/ (+ ?.1 ?.2) 2)))
+      (group (?g) ((?.0 (avg ?p)) (?.1 (min ?p)) (?.2 (max ?p)))
+        (bgp (triple ?g :p ?p))))))

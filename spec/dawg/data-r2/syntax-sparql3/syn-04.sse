@@ -1,0 +1,4 @@
+(bgp
+  (triple ?s ?p ?o)
+  (triple ?s ?p ?o)
+)

@@ -1,0 +1,8 @@
+(prefix ((: <http://example.org/test#>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+  (bgp
+    (triple :a :p ??0)
+    (triple ??0 :r ??1)
+    (triple ??1 :t ??2)
+    (triple ??2 :s :a)
+  ))

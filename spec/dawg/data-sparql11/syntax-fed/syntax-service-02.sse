@@ -1,0 +1,6 @@
+(join
+  (join
+    (bgp (triple ?s ?p ?o))
+    (service <g>
+      (bgp (triple ?s ?p ?o))))
+  (bgp (triple ?s ?p ?o)))

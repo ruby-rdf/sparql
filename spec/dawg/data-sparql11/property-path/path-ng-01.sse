@@ -1,0 +1,4 @@
+(prefix ((: <http://www.example.org/>))
+  (project (?t)
+    (graph <ng-01.ttl>
+      (path ?s (path* :p1) ?t))))

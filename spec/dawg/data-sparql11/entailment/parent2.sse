@@ -1,0 +1,3 @@
+(prefix ((: <http://example.org/test#>))
+  (project (?parent)
+    (bgp (triple ?parent :hasChild ?child))))

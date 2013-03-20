@@ -98,7 +98,7 @@ end
 test_cases = SPARQL::Spec.sparql1_0_tests
 
 test_cases.each do |tc|
-  next unless ARGV.empty? || ARGV.any? {|n| tc.name.match(/#{n}/)}
+  next unless ARGV.empty? || ARGV.any? {|n| tc.entry.match(/#{n}/)}
   run_tc(tc, options)
 end
 

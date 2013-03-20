@@ -15,8 +15,9 @@ module SPARQL
   # @author [Ben Lavender](http://bhuga.net/)
   # @author [Gregg Kellogg](http://greggkellogg.net/)
   module Spec
-    BASE_DIRECTORY = File.join(File.expand_path(File.dirname(__FILE__)), 'dawg/')
-    BASE_URI = RDF::URI("http://www.w3.org/2001/sw/DataAccess/tests/");
+    BASE_DIRECTORY = File.expand_path("../dawg", __FILE__) + "/"
+    BASE_URI_10 = RDF::URI("http://www.w3.org/2001/sw/DataAccess/tests/")
+    BASE_URI_11 = RDF::URI("http://www.w3.org/2009/sparql/docs/tests/")
 
     # Module functions
     
@@ -47,7 +48,7 @@ module SPARQL
         #puts test_repo.dump(:ttl,
         #  :base_uri => BASE_URI,
         #  :prefixes => {
-        #    :dawg => DAWG.to_uri,
+        #    :dawg => DAWGT.to_uri,
         #    :mf => MF.to_uri,
         #    :qt => QT.to_uri,
         #    :rs => RS.to_uri,
@@ -62,14 +63,10 @@ module SPARQL
         }
           
         if options[:save_cache] && RUBY_VERSION >= "1.9"
-          #if Kernel.const_defined?(:Psych)
-            puts "write test cases to #{options[:cache_file]}"
-            File.open(options[:cache_file], 'w') do |f|
-              YAML.dump(tests, f)
-            end
-          #else
-          #  puts "saving cached test-cases requires Ruby 1.9 for Psych"
-          #end
+          puts "write test cases to #{options[:cache_file]}"
+          File.open(options[:cache_file], 'w') do |f|
+            YAML.dump(tests, f)
+          end
         end
         
         tests
@@ -77,19 +74,19 @@ module SPARQL
     end
 
     def self.sparql1_0_tests(save_cache = false)
-      self.load_tests(File.join(BASE_URI, "data-r2/manifest-evaluation.ttl"),
+      self.load_tests(File.join(BASE_URI_10, "data-r2/manifest-evaluation.ttl"),
         :cache_file => File.join(BASE_DIRECTORY, "sparql-specs-1_0-cache.yml"),
         :save_cache => save_cache)
     end
 
     def self.sparql1_0_syntax_tests(save_cache = false)
-      self.load_tests(File.join(BASE_URI, "data-r2/manifest-syntax.ttl"),
+      self.load_tests(File.join(BASE_URI_10, "data-r2/manifest-syntax.ttl"),
         :cache_file => File.join(BASE_DIRECTORY, "sparql-specs-1_0_syntax-cache.yml"),
         :save_cache => save_cache)
     end
 
     def self.sparql1_1_tests(save_cache = false)
-      self.load_tests(File.join(BASE_URI, "sparql11-tests/manifest-all.ttl"),
+      self.load_tests(File.join(BASE_URI_11, "data-sparql11/manifest-all.ttl"),
         :cache_file => File.join(BASE_DIRECTORY, "sparql-specs-1_1_cache.yml"),
         :save_cache => save_cache)
     end

@@ -1,4 +1,4 @@
-require 'rdf/ll1/lexer'
+require 'ebnf/ll1/lexer'
 
 module SPARQL::Grammar
   module Terminals
@@ -91,9 +91,9 @@ module SPARQL::Grammar
     # 129
     PNAME_NS             = /#{PN_PREFIX}?:/
     # 130
-    PNAME_LN             = /#{PNAME_NS}#{PN_LOCAL}/
+    PNAME_LN             = /(?:#{PNAME_NS})(?:#{PN_LOCAL})/
     # 131
-    BLANK_NODE_LABEL     = /_:((?:[0-9]|#{PN_CHARS_U})(?:#{PN_CHARS}|\.)*)/
+    BLANK_NODE_LABEL     = /_:(?:[0-9]|#{PN_CHARS_U})((#{PN_CHARS}|\.)*#{PN_CHARS})?/
     # 132
     VAR1                 = /\?#{VARNAME}/
     # 133
@@ -128,11 +128,11 @@ module SPARQL::Grammar
     STRING_LITERAL_LONG2 = /"""((?:"|"")?(?:[^"\\]|#{ECHAR}|#{UCHAR}))*"""/m
 
     # 151
-    WS                   = / |\t|\r|\n  /
+    WS                   = / |\t|\r|\n/
     # 150
-    NIL                  = /\(#{WS}*\)/
+    NIL                  = /\(#{WS}*\)/m
     # 152
-    ANON                 = /\[#{WS}*\]/
+    ANON                 = /\[#{WS}*\]/m
 
     # String terminals, case insensitive
     STR_EXPR = %r(ABS|ADD|ALL|ASC|ASK|AS|BASE|BINDINGS|BIND

@@ -1,0 +1,14 @@
+(prefix ((: <http://example.org/>)
+         (owl: <http://www.w3.org/2002/07/owl#>)
+         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+  (project (?z ?s1)
+    (join
+      (extend ((?z (+ ?o 1)))
+        (bgp
+          (triple ?s ?p ?o)
+          (triple ?p rdf:type owl:DatatypeProperty)
+        ))
+      (bgp
+        (triple ?s1 ?p1 ?z)
+        (triple ?p1 rdf:type owl:DatatypeProperty)
+      ))))

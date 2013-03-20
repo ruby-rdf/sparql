@@ -1,0 +1,14 @@
+(prefix ((: <http://example/>))
+  (project (?a ?b ?c)
+    (order (?a)
+      (minus
+        (leftjoin
+          (leftjoin
+            (bgp (triple ?a <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> :Min))
+            (bgp (triple ?a :p1 ?b)))
+          (bgp (triple ?a :p2 ?c)))
+        (leftjoin
+          (leftjoin
+            (bgp (triple ?d <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> :Sub))
+            (bgp (triple ?d :q1 ?b)))
+          (bgp (triple ?d :q2 ?c)))))))

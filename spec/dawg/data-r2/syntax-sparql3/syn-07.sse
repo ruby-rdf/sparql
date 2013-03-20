@@ -1,0 +1,3 @@
+(prefix ((: <http://example/ns#>))
+  (filter ?x
+    (bgp (triple :s :p :o))))

@@ -4,11 +4,12 @@ require 'rdf/turtle'
 require 'sparql/client'
 
 module SPARQL; module Spec
-  DAWG = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#')
-  MF = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#')
-  UT = RDF::Vocabulary.new('http://www.w3.org/2009/sparql/tests/test-update#')
-  QT = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-query#')
-  RS = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/result-set#')
+  DAWGT = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#')
+  ENT   = RDF::Vocabulary.new('http://www.w3.org/ns/entailment/RDF')
+  MF    = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#')
+  QT    = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-query#')
+  RS    = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/result-set#')
+  UT    = RDF::Vocabulary.new('http://www.w3.org/2009/sparql/tests/test-update#')
 
   class Manifest < Spira::Base
     type MF.Manifest
@@ -18,15 +19,19 @@ module SPARQL; module Spec
 
     def entries
       RDF::List.new(entry_list, self.class.repository).map do |entry|
-        type = self.class.repository.query(:subject => entry, :predicate => RDF.type).first.object
+        type = self.class.repository.first_object(:subject => entry, :predicate => RDF.type)
         case type
           when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest
             entry.as(UpdateTest)
           when MF.QueryEvaluationTest
             entry.as(QueryTest)
           # known types to ignore
-          when MF.PositiveSyntaxTest, MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
+          when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11, MF.PositiveUpdateSyntaxTest11,
+               MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11, MF.NegativeUpdateSyntaxTest11
             entry.as(SyntaxTest)
+          when MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
+               MF.GraphStoreProtocolTest
+            # Ignore
           else
             warn "Unknown test type for #{entry}: #{type}"
         end
@@ -67,14 +72,16 @@ module SPARQL; module Spec
     property :name, :predicate => MF.name
     property :type, :predicate => RDF.type
     property :comment, :predicate => RDFS.comment
-    property :approval, :predicate => DAWG.approval
-    property :approved_by, :predicate => DAWG.approvedBy
+    property :approval, :predicate => DAWGT.approval
+    property :approved_by, :predicate => DAWGT.approvedBy
     property :manifest, :predicate => MF.manifest_file
     has_many :tags, :predicate => MF.tag
 
     def approved?
-      approval == DAWG.Approved
+      approval == DAWGT.Approved
     end
+
+    def entry; "??"; end
 
     def form
       query_data = begin action.query_string rescue nil end
@@ -98,6 +105,8 @@ module SPARQL; module Spec
     def query_file
       action.request
     end
+
+    def entry; query_file.to_s.split('/').last; end
 
     def template_file
       'update-test.rb.erb'
@@ -157,6 +166,8 @@ module SPARQL; module Spec
       action.query_file
     end
 
+    def entry; query_file.to_s.split('/').last; end
+
     def template_file
       'query-test.rb.erb'
     end
@@ -204,6 +215,8 @@ module SPARQL; module Spec
       action.request
     end
 
+    def entry; query_file.to_s.split('/').last; end
+
     def template_file
       'update-test.rb.erb'
     end
@@ -220,6 +233,9 @@ module SPARQL; module Spec
     def action
       @action ||= QueryAction.new {|a| a.query_file = _action; a.graphData = []; }
     end
+
+    def entry; _action.to_s.to_s.split('/').last; end
+
   end
 
   class QueryAction < Spira::Base
@@ -232,7 +248,10 @@ module SPARQL; module Spec
     end
 
     def sse_file
-      file = query_file.to_s.sub(BASE_URI, BASE_DIRECTORY).to_s.sub(/.rq$/, ".sse")
+      file = query_file.to_s.
+        sub(BASE_URI_10, BASE_DIRECTORY).
+        sub(BASE_URI_11, BASE_DIRECTORY).
+        sub(/\.rq$/, ".sse")
       RDF::URI(file)
     end
   

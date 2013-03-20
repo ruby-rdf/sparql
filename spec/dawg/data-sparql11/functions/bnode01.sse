@@ -1,0 +1,9 @@
+(prefix ((: <http://example.org/>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>))
+  (project (?s1 ?s2 ?b1 ?b2)
+    (extend ((?b1 (bnode ?s1)) (?b2 (bnode ?s2)))
+      (filter (exprlist (|| (= ?a :s1) (= ?a :s3)) (|| (= ?b :s1) (= ?b :s3)))
+        (bgp
+          (triple ?a :str ?s1)
+          (triple ?b :str ?s2)
+        )))))

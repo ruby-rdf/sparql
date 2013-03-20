@@ -1,0 +1,3 @@
+(prefix ((ex: <http://www.example.org/>))
+  (filter (exists (bgp (triple ?s ?p ex:o)))
+    (bgp (triple ?s ?p ?o))))

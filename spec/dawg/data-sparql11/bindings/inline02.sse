@@ -1,0 +1,7 @@
+(prefix ((: <http://example.org/>))
+  (project (?s ?o)
+    (join
+      (bgp (triple ?s ?p ?o))
+      (table (vars ?o)
+        (row [?o :b])
+      ))))
