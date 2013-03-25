@@ -18,14 +18,14 @@ module SPARQL::Grammar
       ABS  BNODE CEIL COALESCE CONCAT
       CONTAINS DATATYPE DAY ENCODE_FOR_URI EXISTS
       FLOOR HOURS IF IRI LANGMATCHES LANG LCASE
-      MD5 MINUTES MONTH NOW RAND ROUND SECONDS
+      MD5 MINUTES MONTH NOW RAND REPLACE ROUND SECONDS
       SHA1 SHA224 SHA256 SHA384 SHA512
-      STRDT STRENDS STRLANG STRLEN STRSTARTS STR
-      TIMEZONE TZ UCASE URI YEAR
+      STRAFTER STRBEFORE STRDT STRENDS STRLANG STRLEN STRSTARTS STRUUID STR
+      TIMEZONE TZ UCASE URI UUID YEAR
       isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
     }.map {|s| s.downcase.to_sym}.freeze
 
-    BUILTIN_RULES = [:regex, :substr, :exists, :not_exists].freeze
+    BUILTIN_RULES = [:regex, :substr, :replace, :exists, :not_exists].freeze
 
     ##
     # Any additional options for the parser.
@@ -176,10 +176,10 @@ module SPARQL::Grammar
           ABS|BNODE|BOUND|CEIL|COALESCE|CONCAT
          |CONTAINS|DATATYPE|DAY|ENCODE_FOR_URI|EXISTS
          |FLOOR|HOURS|IF|IRI|LANGMATCHES|LANG|LCASE
-         |MD5|MINUTES|MONTH|NOW|RAND|ROUND|SECONDS
+         |MD5|MINUTES|MONTH|NOW|RAND|REPLACE|ROUND|SECONDS
          |SHA1|SHA224|SHA256|SHA384|SHA512
-         |STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|SUBSTR|STR
-         |TIMEZONE|TZ|UCASE|URI|YEAR
+         |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR
+         |TIMEZONE|TZ|UCASE|URI|UUID|YEAR
          |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
         }x
         add_prod_datum(token.value.downcase.to_sym, token.value.downcase.to_sym)
@@ -190,7 +190,7 @@ module SPARQL::Grammar
 
     # Productions
     # [2]  	Query	  ::=  	Prologue
-    #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery ) BindingsClause
+    #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery ) ValuesClause
     production(:Query) do |input, data, callback|
       if data[:query]
         query = data[:query].first
@@ -256,11 +256,11 @@ module SPARQL::Grammar
       add_prod_datum :query, SPARQL::Algebra::Expression[:construct, template, query]
     end
 
-    # [11]  	DescribeQuery	  ::=  	'DESCRIBE' ( VarOrIRIref+ | '*' )
+    # [11]  	DescribeQuery	  ::=  	'DESCRIBE' ( VarOrIri+ | '*' )
     #                             DatasetClause* WhereClause? SolutionModifier
     production(:DescribeQuery) do |input, data, callback|
       query = merge_modifiers(data)
-      to_describe = data[:VarOrIRIref] || []
+      to_describe = data[:VarOrIri] || []
       add_prod_datum :query, SPARQL::Algebra::Expression[:describe, to_describe, query]
     end
 
@@ -272,12 +272,12 @@ module SPARQL::Grammar
 
     # [14]  	DefaultGraphClause	  ::=  	SourceSelector
     production(:DefaultGraphClause) do |input, data, callback|
-      add_prod_datum :dataset, data[:IRIref]
+      add_prod_datum :dataset, data[:iri]
     end
 
     # [15]  	NamedGraphClause	  ::=  	'NAMED' SourceSelector
     production(:NamedGraphClause) do |input, data, callback|
-      add_prod_data :dataset, data[:IRIref].unshift(:named)
+      add_prod_data :dataset, data[:iri].unshift(:named)
     end
 
     # [18]  	SolutionModifier	  ::=  	GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
@@ -442,9 +442,9 @@ module SPARQL::Grammar
       end
     end
 
-    # [59]  	GraphGraphPattern	  ::=  	'GRAPH' VarOrIRIref GroupGraphPattern
+    # [59]  	GraphGraphPattern	  ::=  	'GRAPH' VarOrIri GroupGraphPattern
     production(:GraphGraphPattern) do |input, data, callback|
-      name = (data[:VarOrIRIref]).last
+      name = (data[:VarOrIri]).last
       bgp = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
       if name
         add_prod_data(:query, SPARQL::Algebra::Expression.for(:graph, name, bgp))
@@ -494,9 +494,9 @@ module SPARQL::Grammar
       end
     end
 
-    # [66]  	FunctionCall	  ::=  	IRIref ArgList
+    # [66]  	FunctionCall	  ::=  	iri ArgList
     production(:FunctionCall) do |input, data, callback|
-      add_prod_data(:Function, data[:IRIref] + data[:ArgList])
+      add_prod_data(:Function, data[:iri] + data[:ArgList])
     end
 
     # [67]  	ArgList	  ::=  	NIL
@@ -562,7 +562,7 @@ module SPARQL::Grammar
       end
     end
 
-    # [76]  	Verb	  ::=  	VarOrIRIref | 'a'
+    # [76]  	Verb	  ::=  	VarOrIri | 'a'
     production(:Verb) do |input, data, callback|
       data.values.each {|v| add_prod_datum(:Verb, v)}
     end
@@ -618,16 +618,16 @@ module SPARQL::Grammar
       data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
     end
 
-    # [97]  	VarOrIRIref	  ::=  	Var | IRIref
-    production(:VarOrIRIref) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrIRIref, v)}
+    # [97]  	VarOrIri	  ::=  	Var | iri
+    production(:VarOrIri) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrIri, v)}
     end
 
-    # [99]  	GraphTerm	  ::=  	IRIref |	RDFLiteral |	NumericLiteral
+    # [99]  	GraphTerm	  ::=  	iri |	RDFLiteral |	NumericLiteral
     #                         |	BooleanLiteral |	BlankNode |	NIL
     production(:GraphTerm) do |input, data, callback|
       add_prod_datum(:GraphTerm,
-                      data[:IRIref] ||
+                      data[:iri] ||
                       data[:literal] ||
                       data[:BlankNode] ||
                       data[:NIL])
@@ -748,7 +748,7 @@ module SPARQL::Grammar
     end
 
     # [109]  	PrimaryExpression	  ::=  	BrackettedExpression | BuiltInCall
-    #                                 | IRIrefOrFunction | RDFLiteral
+    #                                 | iriOrFunction | RDFLiteral
     #                                 | NumericLiteral | BooleanLiteral
     #                                 | Var | Aggregate
     production(:PrimaryExpression) do |input, data, callback|
@@ -756,8 +756,8 @@ module SPARQL::Grammar
         add_prod_datum(:Expression, data[:Expression])
       elsif data[:BuiltInCall]
         add_prod_datum(:Expression, data[:BuiltInCall])
-      elsif data[:IRIref]
-        add_prod_datum(:Expression, data[:IRIref])
+      elsif data[:iri]
+        add_prod_datum(:Expression, data[:iri])
       elsif data[:Function]
         add_prod_datum(:Expression, data[:Function]) # Maintain array representation
       elsif data[:literal]
@@ -841,11 +841,19 @@ module SPARQL::Grammar
       add_prod_datum(:regex, data[:Expression])
     end
 
-    # [113]  	SubstringExpression	  ::=  	'SUBSTR'
+    # [123]  	SubstringExpression	  ::=  	'SUBSTR'
     #                                     '(' Expression ',' Expression
     #                                     ( ',' Expression )? ')'
     production(:SubstringExpression) do |input, data, callback|
       add_prod_datum(:substr, data[:Expression])
+    end
+
+    # [124] StrReplaceExpression    ::= 'REPLACE'
+    #                                   '(' Expression ','
+    #                                   Expression ',' Expression
+    #                                   ( ',' Expression )? ')'
+    production(:StrReplaceExpression) do |input, data, callback|
+      add_prod_datum(:replace, data[:Expression])
     end
 
     # [114]  	ExistsFunc	  ::=  	'EXISTS' GroupGraphPattern
@@ -858,22 +866,22 @@ module SPARQL::Grammar
       add_prod_datum(:not_exists, data[:query])
     end
 
-    # [117]  	IRIrefOrFunction	  ::=  	IRIref ArgList?
-    production(:IRIrefOrFunction) do |input, data, callback|
+    # [117]  	iriOrFunction	  ::=  	iri ArgList?
+    production(:iriOrFunction) do |input, data, callback|
       if data.has_key?(:ArgList)
         # Function is (func arg1 arg2 ...)
-        add_prod_data(:Function, data[:IRIref] + data[:ArgList])
+        add_prod_data(:Function, data[:iri] + data[:ArgList])
       else
-        add_prod_datum(:IRIref, data[:IRIref])
+        add_prod_datum(:iri, data[:iri])
       end
     end
 
-    # [118]  	RDFLiteral	  ::=  	String ( LANGTAG | ( '^^' IRIref ) )?
+    # [118]  	RDFLiteral	  ::=  	String ( LANGTAG | ( '^^' iri ) )?
     production(:RDFLiteral) do |input, data, callback|
       if data[:string]
         lit = data.dup
         str = lit.delete(:string).last 
-        lit[:datatype] = lit.delete(:IRIref).last if lit[:IRIref]
+        lit[:datatype] = lit.delete(:iri).last if lit[:iri]
         lit[:language] = lit.delete(:language).last.downcase if lit[:language]
         add_prod_datum(:literal, RDF::Literal.new(str, lit)) if str
       end
@@ -899,11 +907,6 @@ module SPARQL::Grammar
 
       # Keep track of this for parent UnaryExpression production
       add_prod_datum(:UnaryExpression, data[:UnaryExpression])
-    end
-
-    # [125]  	IRIref	  ::=  	IRI_REF |	PrefixedName
-    production(:IRIref) do |input, data, callback|
-      add_prod_datum(:IRIref, data[:iri])
     end
 
     # [126]  	PrefixedName	  ::=  	PNAME_LN | PNAME_NS

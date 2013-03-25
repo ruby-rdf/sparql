@@ -70,9 +70,9 @@ module ProductionRequirements
     end
   end
 
-  # [97]    VarOrIRIref
+  # [97]    VarOrIri
   def it_recognizes_var_or_iriref_using(production)
-    it "recognizes the VarOrIRIref nonterminal" do
+    it "recognizes the VarOrIri nonterminal" do
       it_recognizes_var_or_iriref(production)
     end
   end
@@ -182,9 +182,9 @@ module ProductionRequirements
     end
   end
 
-  # [117]    IRIrefOrFunction
+  # [117]    iriOrFunction
   def it_recognizes_iriref_or_function_using(production)
-    it "recognizes the IRIrefOrFunction nonterminal" do
+    it "recognizes the iriOrFunction nonterminal" do
       it_recognizes_iriref_or_function(production)
     end
   end
@@ -212,9 +212,9 @@ module ProductionRequirements
     end
   end
 
-  # [125] IRIref
+  # [125] iri
   def it_recognizes_iriref_using(production)
-    it "recognizes the IRIref nonterminal" do
+    it "recognizes the iri nonterminal" do
       it_recognizes_iriref(production)
     end
   end
@@ -257,7 +257,7 @@ module ProductionExamples
     it_recognizes_graph_term(production)
   end
 
-  # [97]    VarOrIRIref               ::=       Var | IRIref
+  # [97]    VarOrIri               ::=       Var | iri
   def it_recognizes_var_or_iriref(production)
     it_recognizes_var(production)
     it_recognizes_iriref(production)
@@ -269,7 +269,7 @@ module ProductionExamples
     it_recognizes_var2(production)
   end
 
-  # [99] GraphTerm ::=       IRIref | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL
+  # [99] GraphTerm ::=       iri | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL
   def it_recognizes_graph_term(production)
     it_recognizes_iriref(production)
     it_recognizes_rdf_literal_without_language_or_datatype(production)
@@ -378,7 +378,7 @@ module ProductionExamples
     it_recognizes_var production
   end
 
-  # [109]    PrimaryExpression ::=       BrackettedExpression | BuiltInCall | IRIrefOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
+  # [109]    PrimaryExpression ::=       BrackettedExpression | BuiltInCall | iriOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
   def it_recognizes_primary_expression(production)
     it_recognizes_bracketted_expression production
     it_recognizes_built_in_call production
@@ -470,7 +470,7 @@ module ProductionExamples
     parser(production).call(%q(REGEX ("foo", "bar"))).to_sxp.should == %q((regex "foo" "bar"))
   end
 
-  # [117]    IRIrefOrFunction ::=       IRIref ArgList?
+  # [117]    iriOrFunction ::=       iri ArgList?
   def it_recognizes_iriref_or_function(production)
     it_recognizes_iriref(production)
     it_recognizes_function(production)
@@ -515,7 +515,7 @@ module ProductionExamples
     parser(production).call(%q(false)).last.should == RDF::Literal(false)
   end
 
-  # [125] IRIref
+  # [125] iri
   def it_recognizes_iriref(production)
     parser(production).call(%q(<http://example.org/>)).last.should == RDF::URI('http://example.org/')
     # XXXtest prefixed names
@@ -911,7 +911,7 @@ describe SPARQL::Grammar::Parser do
         given_it_generates(production, "DESCRIBE * FROM <a>", %q((describe () (dataset (<a>) (bgp)))))
       end
 
-      describe "VarOrIRIref+" do
+      describe "VarOrIri+" do
         given_it_generates(production, "DESCRIBE <a> WHERE {?a ?b ?c}", %q((describe (<a>) (bgp (triple ?a ?b ?c)))))
         given_it_generates(production, "DESCRIBE ?a <a> WHERE {?a ?b ?c}", %q((describe (?a <a>) (bgp (triple ?a ?b ?c)))))
         given_it_generates(production, "DESCRIBE ?a ?b WHERE {?a ?b ?c}", %q((describe (?a ?b) (bgp (triple ?a ?b ?c)))))
@@ -1175,7 +1175,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [59]    GraphGraphPattern         ::=       'GRAPH' VarOrIRIref GroupGraphPattern
+  # [59]    GraphGraphPattern         ::=       'GRAPH' VarOrIri GroupGraphPattern
   describe "when matching the [59] GraphGraphPattern production rule" do
     with_production(:GraphGraphPattern) do |production|
       it_rejects_empty_input_using production
@@ -1330,8 +1330,8 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [97] VarOrIRIref production rule" do
-      with_production(:VarOrIRIref) do |production|
+    describe "when matching the [97] VarOrIri production rule" do
+      with_production(:VarOrIri) do |production|
         it_recognizes_var_or_iriref_using production
       end
     end
@@ -1411,7 +1411,7 @@ describe SPARQL::Grammar::Parser do
     end
 
     describe "when matching the [109] PrimaryExpression production rule" do
-      # [55] PrimaryExpression ::= BrackettedExpression | BuiltInCall | IRIrefOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
+      # [55] PrimaryExpression ::= BrackettedExpression | BuiltInCall | iriOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
       with_production(:PrimaryExpression) do |production|
         it_recognizes_primary_expression_using production
       end
@@ -1435,8 +1435,8 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [117] IRIrefOrFunction production rule" do
-      with_production(:IRIrefOrFunction) do |production|
+    describe "when matching the [117] iriOrFunction production rule" do
+      with_production(:iriOrFunction) do |production|
         it_recognizes_iriref_or_function_using production
       end
     end
@@ -1556,8 +1556,8 @@ describe SPARQL::Grammar::Parser do
   
   # Individual terminal productions
   describe "individual terminal productions" do
-    describe "when matching the [125] IRIref production rule" do
-      with_production(:IRIref) do |production|
+    describe "when matching the [125] iri production rule" do
+      with_production(:iri) do |production|
         it "recognizes the IRIREF terminal" do
           %w(<> <foobar> <http://example.org/foobar>).each do |input|
             parser(production).call(input).last.should_not == false # TODO
