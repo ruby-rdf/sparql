@@ -60,6 +60,8 @@ actual:\n#{result.inspect}
     STDOUT.puts "unknown form #{t.form.inspect}"
     exit(1)
   end
+rescue Interrupt
+  exit(1)
 rescue Exception => e
   if options[:quiet]
     STDOUT.write("E")
@@ -95,7 +97,7 @@ opts.each do |opt, arg|
   end
 end
 
-test_cases = SPARQL::Spec.sparql1_0_tests
+test_cases = SPARQL::Spec.sparql1_1_tests
 
 test_cases.each do |tc|
   next unless ARGV.empty? || ARGV.any? {|n| tc.entry.match(/#{n}/)}

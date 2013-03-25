@@ -396,29 +396,72 @@ module ProductionExamples
     parser(production).call(%q(("foo")))[1..-1].should == [RDF::Literal("foo")]
   end
 
-  # [111]    BuiltInCall ::=  'STR' '(' Expression ')'
-  #                        | 'LANG' '(' Expression ')'
-  #                        | 'LANGMATCHES' '(' Expression ',' Expression ')'
-  #                        | 'DATATYPE' '(' Expression ')'
-  #                        | 'BOUND' '(' Var ')'
-  #                        | 'sameTerm' '(' Expression ',' Expression ')'
-  #                        | 'isIRI' '(' Expression ')'
-  #                        | 'isURI' '(' Expression ')'
-  #                        | 'isBLANK' '(' Expression ')'
-  #                        | 'isLITERAL' '(' Expression ')'
-  #                        | RegexExpression
+  # [111]  	BuiltInCall	  ::= 'STR' '(' Expression ')' 
+  #                         | 'LANG' '(' Expression ')' 
+  #                         | 'LANGMATCHES' '(' Expression ',' Expression ')' 
+  #                         | 'DATATYPE' '(' Expression ')' 
+  #                         | 'BOUND' '(' Var ')' 
+  #                         | 'IRI' '(' Expression ')' 
+  #                         | 'URI' '(' Expression ')' 
+  #                         | 'BNODE' ( '(' Expression ')' | NIL ) 
+  #                         | 'RAND' NIL 
+  #                         | 'ABS' '(' Expression ')' 
+  #                         | 'CEIL' '(' Expression ')' 
+  #                         | 'FLOOR' '(' Expression ')' 
+  #                         | 'ROUND' '(' Expression ')' 
+  #                         | 'CONCAT' ExpressionList 
+  #                         | SubstringExpression 
+  #                         | 'STRLEN' '(' Expression ')' 
+  #                         | 'UCASE' '(' Expression ')' 
+  #                         | 'LCASE' '(' Expression ')' 
+  #                         | 'ENCODE_FOR_URI' '(' Expression ')' 
+  #                         | 'CONTAINS' '(' Expression ',' Expression ')' 
+  #                         | 'STRSTARTS' '(' Expression ',' Expression ')' 
+  #                         | 'STRENDS' '(' Expression ',' Expression ')' 
+  #                         | 'YEAR' '(' Expression ')' 
+  #                         | 'MONTH' '(' Expression ')' 
+  #                         | 'DAY' '(' Expression ')' 
+  #                         | 'HOURS' '(' Expression ')' 
+  #                         | 'MINUTES' '(' Expression ')' 
+  #                         | 'SECONDS' '(' Expression ')' 
+  #                         | 'TIMEZONE' '(' Expression ')' 
+  #                         | 'TZ' '(' Expression ')' 
+  #                         | 'NOW' NIL 
+  #                         | 'MD5' '(' Expression ')' 
+  #                         | 'SHA1' '(' Expression ')' 
+  #                         | 'SHA224' '(' Expression ')' 
+  #                         | 'SHA256' '(' Expression ')' 
+  #                         | 'SHA384' '(' Expression ')' 
+  #                         | 'SHA512' '(' Expression ')' 
+  #                         | 'COALESCE' ExpressionList 
+  #                         | 'IF' '(' Expression ',' Expression ',' Expression ')' 
+  #                         | 'STRLANG' '(' Expression ',' Expression ')' 
+  #                         | 'STRDT' '(' Expression ',' Expression ')' 
+  #                         | 'sameTerm' '(' Expression ',' Expression ')' 
+  #                         | 'isIRI' '(' Expression ')' 
+  #                         | 'isURI' '(' Expression ')' 
+  #                         | 'isBLANK' '(' Expression ')' 
+  #                         | 'isLITERAL' '(' Expression ')' 
+  #                         | 'isNUMERIC' '(' Expression ')' 
+  #                         | RegexExpression 
+  #                         | ExistsFunc 
+  #                         | NotExistsFunc
   def it_recognizes_built_in_call(production)
-    parser(production).call(%q(STR ("foo"))).last.should == SPARQL::Algebra::Expression[:str, RDF::Literal("foo")]
+    parser(production).call(%q(BOUND (?foo))).last.should == SPARQL::Algebra::Expression[:bound, RDF::Query::Variable.new("foo")]
+    parser(production).call(%q(BNODE (?s2))).last.should == SPARQL::Algebra::Expression[:bnode, RDF::Query::Variable.new("s2")]
+    parser(production).call(%q(BNODE ())).last.should == SPARQL::Algebra::Expression[:bnode]
+    parser(production).call(%q(CONCAT (?str1, ?str2))).last.should == SPARQL::Algebra::Expression[:concat, RDF::Query::Variable.new("str1"), RDF::Query::Variable.new("str2")]
+    parser(production).call(%q(DATATYPE ("foo"))).last.should == SPARQL::Algebra::Expression[:datatype, RDF::Literal("foo")]
+    parser(production).call(%q(isBLANK ("foo"))).last.should == SPARQL::Algebra::Expression[:isblank, RDF::Literal("foo")]
+    parser(production).call(%q(isIRI ("foo"))).last.should == SPARQL::Algebra::Expression[:isiri, RDF::Literal("foo")]
+    parser(production).call(%q(isLITERAL ("foo"))).last.should == SPARQL::Algebra::Expression[:isliteral, RDF::Literal("foo")]
+    parser(production).call(%q(isURI ("foo"))).last.should == SPARQL::Algebra::Expression[:isuri, RDF::Literal("foo")]
     parser(production).call(%q(LANG ("foo"))).last.should == SPARQL::Algebra::Expression[:lang, RDF::Literal("foo")]
     parser(production).call(%q(LANGMATCHES ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:langmatches, RDF::Literal("foo"), RDF::Literal("bar")]
-    parser(production).call(%q(DATATYPE ("foo"))).last.should == SPARQL::Algebra::Expression[:datatype, RDF::Literal("foo")]
-    parser(production).call(%q(sameTerm ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:sameterm, RDF::Literal("foo"), RDF::Literal("bar")]
-    parser(production).call(%q(isIRI ("foo"))).last.should == SPARQL::Algebra::Expression[:isiri, RDF::Literal("foo")]
-    parser(production).call(%q(isURI ("foo"))).last.should == SPARQL::Algebra::Expression[:isuri, RDF::Literal("foo")]
-    parser(production).call(%q(isBLANK ("foo"))).last.should == SPARQL::Algebra::Expression[:isblank, RDF::Literal("foo")]
-    parser(production).call(%q(isLITERAL ("foo"))).last.should == SPARQL::Algebra::Expression[:isliteral, RDF::Literal("foo")]
-    parser(production).call(%q(BOUND (?foo))).last.should == SPARQL::Algebra::Expression[:bound, RDF::Query::Variable.new("foo")]
     parser(production).call(%q(REGEX ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:regex, RDF::Literal("foo"), RDF::Literal("bar")]
+    parser(production).call(%q(sameTerm ("foo", "bar"))).last.should == SPARQL::Algebra::Expression[:sameterm, RDF::Literal("foo"), RDF::Literal("bar")]
+    parser(production).call(%q(STR ("foo"))).last.should == SPARQL::Algebra::Expression[:str, RDF::Literal("foo")]
+    parser(production).call(%q(SUBSTR(?str,1,2))).last.should == SPARQL::Algebra::Expression[:substr, RDF::Query::Variable.new("str"), RDF::Literal(1), RDF::Literal(2)]
   end
 
   # [112]    RegexExpression ::=       'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
@@ -821,6 +864,17 @@ describe SPARQL::Grammar::Parser do
         given_it_generates(production, "SELECT * WHERE {FILTER (?a) ?a ?b ?c}", %q((filter ?a (bgp (triple ?a ?b ?c)))))
         given_it_generates(production, "SELECT * WHERE { FILTER (?o>5) . ?s ?p ?o }", %q((filter (> ?o 5) (bgp (triple ?s ?p ?o)))))
       end
+    end
+  end
+
+  # [9]  	SelectClause	  ::=  	'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
+  describe "when matching the [9] SelectClause production rule" do
+    with_production(:SelectClause) do |production|
+      given_it_generates(production, "SELECT ?a", %q((Var ?a)))
+      given_it_generates(production, "SELECT ?a ?b", %q((Var ?a ?b)))
+      given_it_generates(production, "SELECT ?a ?b", %q((Var ?a ?b)))
+      given_it_generates(production, "SELECT (BNODE(?s1) AS ?b1)", %q((extend (?b1 (bnode ?s1)))))
+      given_it_generates(production, "SELECT (BNODE(?s1) AS ?b1) (BNODE(?s2) AS ?b2)", %q((extend (?b1 (bnode ?s1)) (?b2 (bnode ?s2)))))
     end
   end
 

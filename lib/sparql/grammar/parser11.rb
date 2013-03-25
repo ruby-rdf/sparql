@@ -20,7 +20,7 @@ module SPARQL::Grammar
       FLOOR HOURS IF IRI LANGMATCHES LANG LCASE
       MD5 MINUTES MONTH NOW RAND ROUND SECONDS
       SHA1 SHA224 SHA256 SHA384 SHA512
-      STRDT STRENDS STRLANG STRLEN STRSTARTS SUBSTR STR
+      STRDT STRENDS STRLANG STRLEN STRSTARTS STR
       TIMEZONE TZ UCASE URI YEAR
       isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
     }.map {|s| s.downcase.to_sym}.freeze
@@ -236,6 +236,16 @@ module SPARQL::Grammar
     production(:SelectQuery) do |input, data, callback|
       query = merge_modifiers(data)
       add_prod_datum :query, query
+    end
+
+    # [8]  	SubSelect	  ::=  	SelectClause WhereClause SolutionModifier
+
+    # [9]  	SelectClause	  ::=  	'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
+
+    # [9.8] _SelectClause_8 ::= ( '(' Expression 'AS' Var ')' )
+    production(:_SelectClause_8) do |input, data, callback|
+      add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
+      add_prod_datum :Var, data[:Var]
     end
 
     # [10]  	ConstructQuery	  ::=  	'CONSTRUCT'
@@ -812,7 +822,10 @@ module SPARQL::Grammar
     #                               |	NotExistsFunc
     production(:BuiltInCall) do |input, data, callback|
       if builtin = data.keys.detect {|k| BUILTINS.include?(k)}
-        add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[:Expression].unshift(builtin)))
+        add_prod_datum(:BuiltInCall,
+          SPARQL::Algebra::Expression.for(
+            (data[:ExpressionList] || data[:Expression] || []).
+            unshift(builtin)))
       elsif builtin_rule = data.keys.detect {|k| BUILTIN_RULES.include?(k)}
         add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[builtin_rule].unshift(builtin_rule)))
       elsif data[:bound]
@@ -1232,6 +1245,8 @@ module SPARQL::Grammar
       query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
       
       # Add datasets and modifiers in order
+      query = SPARQL::Algebra::Expression[:extend, data[:extend], query] if data[:extend]
+
       query = SPARQL::Algebra::Expression[:order, data[:order].first, query] if data[:order]
 
       query = SPARQL::Algebra::Expression[:project, data[:Var], query] if data[:Var]
