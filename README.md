@@ -257,9 +257,6 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [grammar]:          http://www.w3.org/TR/rdf-sparql-query/#grammar
 [RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           http://rdf.rubyforge.org/
-[YARD]:             http://yardoc.org/
-[YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
-[PDD]:              http://unlicense.org/#unlicensing-contributions
 [Backports]:        http://rubygems.org/gems/backports
 [Linked Data]:      http://rubygems.org/gems/linkeddata
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames

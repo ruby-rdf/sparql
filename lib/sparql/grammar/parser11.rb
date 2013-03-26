@@ -248,11 +248,18 @@ module SPARQL::Grammar
       add_prod_datum :Var, data[:Var]
     end
 
-    # [10]  	ConstructQuery	  ::=  	'CONSTRUCT'
-    #                                  ( ConstructTemplate DatasetClause* WhereClause SolutionModifier | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
+    # [10]  ConstructQuery ::= 'CONSTRUCT'
+    #                          ( ConstructTemplate
+    #                            DatasetClause*
+    #                            WhereClause
+    #                            SolutionModifier | DatasetClause*
+    #                            'WHERE' '{' TriplesTemplate? '}'
+    #                            SolutionModifier
+    #                          )
     production(:ConstructQuery) do |input, data, callback|
+      data[:query] ||= [SPARQL::Algebra::Operator::BGP.new(*data[:pattern])]
       query = merge_modifiers(data)
-      template = data[:ConstructTemplate] || []
+      template = data[:ConstructTemplate] || data[:pattern] || []
       add_prod_datum :query, SPARQL::Algebra::Expression[:construct, template, query]
     end
 
@@ -420,7 +427,7 @@ module SPARQL::Grammar
     #                               ( '.' TriplesBlock? )?
     production(:TriplesBlock) do |input, data, callback|
       query = SPARQL::Algebra::Operator::BGP.new
-      data[:pattern].each {|p| query << p}
+      data[:pattern].to_a.each {|p| query << p}
         
       # Append triples from ('.' TriplesBlock? )?
       data[:query].to_a.each {|q| query += q}
