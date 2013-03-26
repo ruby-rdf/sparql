@@ -24,6 +24,7 @@ module SPARQL; module Algebra
     autoload :And,                'sparql/algebra/operator/and'
     autoload :Compare,            'sparql/algebra/operator/compare'
     autoload :Equal,              'sparql/algebra/operator/equal'
+    autoload :Extend,             'sparql/algebra/operator/extend'
     autoload :NotEqual,           'sparql/algebra/operator/not_equal'
     autoload :LessThan,           'sparql/algebra/operator/less_than'
     autoload :GreaterThan,        'sparql/algebra/operator/greater_than'
@@ -117,6 +118,7 @@ module SPARQL; module Algebra
         when :construct   then Construct
         when :describe    then Describe
         when :distinct    then Distinct
+        when :extend      then Extend
         when :filter      then Filter
         when :graph       then Graph
         when :join        then Join

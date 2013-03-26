@@ -1,3 +1,3 @@
 (prefix ((: <http://example.org/ns#>))
-  (order ((desc (+ ?o +57)) (:func2 ?o) (asc ?s))
+  (order ((desc (+ ?o 57)) (:func2 ?o) (asc ?s))
     (bgp (triple ?s ?p ?o))))
