@@ -12,6 +12,7 @@ describe RDF::Queryable do
         @prefix owl: <http://www.w3.org/2002/07/owl#> .
         @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
         @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
         <http://example.com/aBookCritic> <http://example.com/dislikes> <http://example.com/anotherGreatBook>;
            <http://example.com/likes> <http://example.com/aReallyGreatBook> .
@@ -60,6 +61,7 @@ describe RDF::Queryable do
         @prefix foaf: <http://xmlns.com/foaf/0.1/> .
         @prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
         @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+        @prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
 
         <http://example.com/aReallyGreatBook> dc11:contributor [ a foaf:Person;
              foaf:name "Jane Doe"];
