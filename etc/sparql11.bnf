@@ -1,6 +1,6 @@
 # SPARQL 1.1 Grammar
 
-    [1]  	QueryUnit	  ::=  	Query
+    [1]  	QueryUnit	  ::=  	Query?
     [2]  	Query	  ::=  	Prologue
     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
     BindingsClause

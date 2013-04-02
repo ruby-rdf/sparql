@@ -62,7 +62,7 @@ task :meta => "lib/sparql/grammar/meta.rb"
 
 file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
   sh %{
-    ebnf --ll1 Query --format rb \
+    ebnf --ll1 QueryUnit --format rb \
       --mod-name SPARQL::Grammar::Meta \
       --output lib/sparql/grammar/meta.rb \
       etc/sparql11.bnf
@@ -71,7 +71,7 @@ end
 
 file "etc/sparql11.ll1.sxp" => "etc/sparql11.bnf" do |t|
   sh %{
-    ebnf --ll1 Query --format sxp \
+    ebnf --ll1 QueryUnit --format sxp \
       --output etc/sparql11.ll1.sxp \
       etc/sparql11.bnf
   }
