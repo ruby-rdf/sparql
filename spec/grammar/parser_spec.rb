@@ -705,10 +705,18 @@ describe SPARQL::Grammar::Parser do
   include ProductionRequirements
   include ProductionExamples
 
+  describe "when matching the [1] QueryUnit production rule" do
+    with_production(:QueryUnit) do |production|
+      it_ignores_empty_input_using production
+      given_it_generates(production, "SELECT * FROM <a> WHERE {?a ?b ?c}", %q((dataset (<a>) (bgp (triple ?a ?b ?c)))))
+      given_it_generates(production, "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}", %q((construct ((triple ?a ?b ?c)) (filter ?a (bgp (triple ?a ?b ?c))))))
+      given_it_generates(production, "DESCRIBE * FROM <a> WHERE {?a ?b ?c}", %q((describe () (dataset (<a>) (bgp (triple ?a ?b ?c))))))
+      given_it_generates(production, "ASK WHERE {GRAPH <a> {?a ?b ?c}}", %q((ask (graph <a> (bgp (triple ?a ?b ?c))))))
+    end
+  end
+
   describe "when matching the [2] Query production rule" do
     with_production(:Query) do |production|
-      it_ignores_empty_input_using production
-
       {
         "BASE <foo/> SELECT * WHERE { <a> <b> <c> }" =>
           %q((base <foo/> (bgp (triple <a> <b> <c>)))),
@@ -937,7 +945,6 @@ describe SPARQL::Grammar::Parser do
 
   describe "when matching the [13] DatasetClause production rule" do
     with_production(:DatasetClause) do |production|
-      it_ignores_empty_input_using production
       given_it_generates(production, %q(FROM <http://example.org/foaf/aliceFoaf>), [:dataset, RDF::URI("http://example.org/foaf/aliceFoaf")])
       given_it_generates(production, %q(FROM NAMED <http://example.org/foaf/aliceFoaf>), [:dataset, [:named, RDF::URI("http://example.org/foaf/aliceFoaf")]])
     end
@@ -949,8 +956,6 @@ describe SPARQL::Grammar::Parser do
   #   [16] SourceSelector
   describe "when matching the [17] WhereClause production rule" do
     with_production(:WhereClause) do |production|
-      it_ignores_empty_input_using production
-
       bgp_patterns.each_pair do |input, result|
         given_it_generates(production, "WHERE {#{input}}", result,
           :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
@@ -1238,7 +1243,6 @@ describe SPARQL::Grammar::Parser do
   # [69] Constraint ::=  BrackettedExpression | BuiltInCall | FunctionCall
   describe "when matching the [69] Constraint production rule" do
     with_production(:Constraint) do |production|
-      it_ignores_empty_input_using production
       it_recognizes_bracketted_expression_using production
       it_recognizes_built_in_call_using production
       it_recognizes_function_using production
@@ -1341,8 +1345,6 @@ describe SPARQL::Grammar::Parser do
 
     describe "when matching the [108] Var production rule" do
       with_production(:Var) do |production|
-        it_ignores_empty_input_using production
-
         it "recognizes the VAR1 terminal" do
           it_recognizes_var1(production)
         end

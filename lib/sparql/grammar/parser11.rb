@@ -1043,8 +1043,7 @@ module SPARQL::Grammar
     def parse(prod = START)
       ll1_parse(@input, prod.to_sym, @options.merge(:branch => BRANCH,
                                                      :first => FIRST,
-                                                     :follow => FOLLOW)
-      ) {}
+                                                     :follow => FOLLOW))
 
       # The last thing on the @prod_data stack is the result
       @result = case

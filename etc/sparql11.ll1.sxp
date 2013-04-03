@@ -1,10 +1,11 @@
 (
  (rule _empty "0" (first _eps) (seq))
  (rule QueryUnit "1"
-  (first "ASK" "BASE" "CONSTRUCT" "DESCRIBE" "PREFIX" "SELECT")
-  (seq Query))
- (rule Query "2"
   (start #t)
+  (first "ASK" "BASE" "CONSTRUCT" "DESCRIBE" "PREFIX" "SELECT" _eps)
+  (follow _eof)
+  (alt _empty Query))
+ (rule Query "2"
   (first "ASK" "BASE" "CONSTRUCT" "DESCRIBE" "PREFIX" "SELECT")
   (follow _eof)
   (seq Prologue _Query_1 ValuesClause))

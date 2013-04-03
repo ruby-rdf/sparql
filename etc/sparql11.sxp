@@ -1,6 +1,6 @@
 (
  (rule _empty "0" (seq))
- (rule QueryUnit "1" (seq Query))
+ (rule QueryUnit "1" (alt _empty Query))
  (rule Query "2" (seq Prologue _Query_1 ValuesClause))
  (rule _Query_1 "2.1" (alt SelectQuery ConstructQuery DescribeQuery AskQuery))
  (rule UpdateUnit "3" (seq Update))
