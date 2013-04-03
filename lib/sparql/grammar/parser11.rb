@@ -978,7 +978,24 @@ module SPARQL::Grammar
     def parse(prod = START)
       ll1_parse(@input, prod.to_sym, @options.merge(:branch => BRANCH,
                                                      :first => FIRST,
-                                                     :follow => FOLLOW))
+                                                     :follow => FOLLOW)
+      ) do |context, *data|
+        case context
+        when :trace
+          level, lineno, depth, *args = data
+          message = "#{args.join(': ')}"
+          d_str = depth > 100 ? ' ' * 100 + '+' : ' ' * depth
+          str = "[#{lineno}](#{level})#{d_str}#{message}"
+          case @options[:debug]
+          when Array
+            @options[:debug] << str
+          when TrueClass
+            $stderr.puts str
+          when Integer
+            $stderr.puts(str) if level <= @options[:debug]
+          end
+        end
+      end
 
       # The last thing on the @prod_data stack is the result
       @result = case
@@ -1266,36 +1283,5 @@ module SPARQL::Grammar
         add_prod_datum(:Expression, data[:Expression])
       end
     end
-
-    ##
-    # Progress output when debugging
-    # @overload debug(node, message)
-    #   @param [String] node relative location in input
-    #   @param [String] message ("")
-    #
-    # @overload debug(message)
-    #   @param [String] message ("")
-    #
-    # @yieldreturn [String] added to message
-    def debug(*args)
-      return unless @options[:debug]
-      options = args.last.is_a?(Hash) ? args.pop : {}
-      debug_level = options.fetch(:level, 1)
-      return unless debug_level <= DEBUG_LEVEL
-      depth = options[:depth] || self.depth
-      message = args.pop
-      message = message.call if message.is_a?(Proc)
-      args << message if message
-      args << yield if block_given?
-      message = "#{args.join(': ')}"
-      str = "[#{@lineno}]#{' ' * depth}#{message}"
-      case @options[:debug]
-      when Array
-        options[:debug] << str
-      else
-        $stderr.puts str
-      end
-    end
-
   end # class Parser
 end # module SPARQL::Grammar
