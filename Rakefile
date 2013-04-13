@@ -40,8 +40,8 @@ namespace :spec do
     SPARQL::Spec.sparql1_0_tests(true)
     puts "load 1.0 syntax tests"
     SPARQL::Spec.sparql1_0_syntax_tests(true)
-    #puts "load 1.1 tests"
-    #SPARQL::Spec.sparql1_1_tests(true)
+    puts "load 1.1 tests"
+    SPARQL::Spec.sparql1_1_tests(true)
   end
 end
 

@@ -335,13 +335,14 @@ module SPARQL; module Spec
   end
 end; end
 
-# Save short version of URI, without all the Addressable stuff.
+# Save short version of URI, without all the other stuff.
 class RDF::URI
   def encode_with(coder)
     coder["uri"] = self.to_s
   end
   
   def init_with(coder)
-    @uri = Addressable::URI.parse(coder["uri"])
+    self.instance_variable_set(:@value, coder["uri"])
+    self.instance_variable_set(:@object, nil)
   end
 end
