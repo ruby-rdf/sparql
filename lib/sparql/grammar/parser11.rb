@@ -987,7 +987,7 @@ module SPARQL::Grammar
     # @return [SPARQL::Grammar::Parser]
     def initialize(input = nil, options = {})
       @input = input.to_s.dup
-      @input.force_encoding(Encoding::UTF_8) if @input.respond_to?(:force_encoding) 
+      @input.force_encoding(Encoding::UTF_8)
       @options = {:anon_base => "b0", :validate => false}.merge(options)
 
       debug("base IRI") {base_uri.inspect}

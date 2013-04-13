@@ -197,12 +197,7 @@ module SPARQL
     content_type ||= SPARQL::Results::MIME_TYPES[format] if format
     
     serialization.instance_eval do
-      if RUBY_VERSION < "1.9"
-        singleton = class << self; self end
-        singleton.send :define_method, :content_type, lambda { content_type }
-      else
-        define_singleton_method(:content_type) { content_type }
-      end
+      define_singleton_method(:content_type) { content_type }
     end
     
     serialization
@@ -268,12 +263,7 @@ module SPARQL
     end
     
     serialization.instance_eval do
-      if RUBY_VERSION < "1.9"
-        singleton = class << self; self end
-        singleton.send :define_method, :content_type, lambda { content_type }
-      else
-        define_singleton_method(:content_type) { content_type }
-      end
+      define_singleton_method(:content_type) { content_type }
     end
 
     serialization

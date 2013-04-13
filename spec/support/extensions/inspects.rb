@@ -33,37 +33,35 @@ class RDF::Query
 end
 
 class Array
-  if RUBY_VERSION >= "1.9"
-    alias_method :inspect_without_formatting, :inspect
-    def inspect_with_formatting
-      if all? { |item| item.is_a?(Hash) }
-        string = "[\n"
-        each do |item|
-          string += "  {\n"
-            item.keys.map(&:to_s).sort.each do |key|
-              string += "      #{key}: #{item[key.to_sym].inspect}\n"
-            end
-          string += "  },\n"
-        end
-        string += "]"
-        string
-      elsif all? { |item| item.is_a?(RDF::Query::Solution)}
-        string = "[\n"
-        each do |item|
-          string += "  {\n"
-            item.bindings.keys.map(&:to_s).sort.each do |key|
-              string += "      #{key}: #{item.bindings[key.to_sym].inspect}\n"
-            end
-          string += "  },\n"
-        end
-        string += "]"
-        string
-      else
-        inspect_without_formatting
+  alias_method :inspect_without_formatting, :inspect
+  def inspect_with_formatting
+    if all? { |item| item.is_a?(Hash) }
+      string = "[\n"
+      each do |item|
+        string += "  {\n"
+          item.keys.map(&:to_s).sort.each do |key|
+            string += "      #{key}: #{item[key.to_sym].inspect}\n"
+          end
+        string += "  },\n"
       end
+      string += "]"
+      string
+    elsif all? { |item| item.is_a?(RDF::Query::Solution)}
+      string = "[\n"
+      each do |item|
+        string += "  {\n"
+          item.bindings.keys.map(&:to_s).sort.each do |key|
+            string += "      #{key}: #{item.bindings[key.to_sym].inspect}\n"
+          end
+        string += "  },\n"
+      end
+      string += "]"
+      string
+    else
+      inspect_without_formatting
     end
-    alias_method :inspect, :inspect_with_formatting
   end
+  alias_method :inspect, :inspect_with_formatting
 end
 
 class RDF::Query::Solutions
