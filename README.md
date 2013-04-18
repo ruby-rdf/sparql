@@ -1,6 +1,9 @@
-# SPARQL for RDF.rb  [![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](http://travis-ci.org/ruby-rdf/sparql)
+# SPARQL for RDF.rb
 
 This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
+
+[![Gem Version](https://badge.fury.io/rb/sparql.png)][gem]
+[![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](http://travis-ci.org/ruby-rdf/sparql)
 
 ## Features
 
