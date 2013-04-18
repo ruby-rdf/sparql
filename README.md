@@ -2,7 +2,8 @@
 
 This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
-[![Gem Version](https://badge.fury.io/rb/sparql.png)][gem]
+[![Gem Version](https://badge.fury.io/rb/sparql.png)](http://badge.fury.io/rb/sparql)
+
 [![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](http://travis-ci.org/ruby-rdf/sparql)
 
 ## Features
