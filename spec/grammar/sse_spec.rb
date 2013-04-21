@@ -6,7 +6,7 @@ shared_examples "SSE" do |man, tests|
   describe man.to_s.split("/")[-2] do
     tests.each do |t|
       case t.type
-      when MF.QueryEvaluationTest, MF.PositiveSyntaxTest, MF.PositiveUpdateSyntaxTest11
+      when MF.QueryEvaluationTest, MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11
         it "parses #{t.entry} - #{t.name} to correct SSE" do
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
@@ -69,24 +69,40 @@ shared_examples "SSE" do |man, tests|
   end
 end
 
-unless ENV['CI']
-  describe SPARQL::Grammar::Parser do
-    describe "w3c dawg SPARQL 1.0 syntax tests" do
-      SPARQL::Spec.sparql1_0_syntax_tests(true).group_by(&:manifest).each do |man, tests|
-        it_behaves_like "SSE", man, tests
-      end
+describe SPARQL::Grammar::Parser do
+  describe "w3c dawg SPARQL 1.0 syntax tests" do
+    SPARQL::Spec.sparql1_0_syntax_tests(true).group_by(&:manifest).each do |man, tests|
+      it_behaves_like "SSE", man, tests
     end
-
-    describe "w3c dawg SPARQL 1.0 tests" do
-      SPARQL::Spec.sparql1_0_tests(true).group_by(&:manifest).each do |man, tests|
-        it_behaves_like "SSE", man, tests
-      end
-    end
-
-    #describe "w3c dawg SPARQL 1.1 tests" do
-    #  SPARQL::Spec.sparql1_1_tests(true).group_by(&:manifest).each do |man, tests|
-    #    it_behaves_like "SSE", man, tests
-    #  end
-    #end
   end
+
+  describe "w3c dawg SPARQL 1.0 tests" do
+    SPARQL::Spec.sparql1_0_tests(true).group_by(&:manifest).each do |man, tests|
+      it_behaves_like "SSE", man, tests
+    end
+  end
+
+  #describe "w3c dawg SPARQL 1.1 tests", :pending => ENV['CI'] do
+  #  SPARQL::Spec.sparql1_1_tests(true).
+  #    reject do |tc|
+  #      %w{basic-update
+  #        clear
+  #        copy
+  #        csv-tsv
+  #        delete
+  #        drop
+  #        entailment
+  #        http
+  #        json
+  #        move
+  #        protocol
+  #        service
+  #        syntax-fed
+  #      }.include? tc.manifest.to_s.split('/')[-2]
+  #    end.
+  #    group_by(&:manifest).
+  #    each do |man, tests|
+  #    it_behaves_like "SSE", man, tests
+  #  end
+  #end
 end

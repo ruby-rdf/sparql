@@ -72,7 +72,7 @@ describe EBNF::LL1::Lexer do
         %q(a\u003Ab)     => %Q(a\x3Ab),
       }
       inputs.each do |input, output|
-        output.force_encoding(Encoding::UTF_8) if output.respond_to?(:force_encoding) # Ruby 1.9+
+        output.force_encoding(Encoding::UTF_8)
         EBNF::LL1::Lexer.unescape_codepoints(input).should == output
       end
     end
@@ -84,7 +84,7 @@ describe EBNF::LL1::Lexer do
         %q(\U000EFFFF)   => %Q(\xF3\xAF\xBF\xBF),
       }
       inputs.each do |input, output|
-        output.force_encoding(Encoding::UTF_8) if output.respond_to?(:force_encoding) # Ruby 1.9+
+        output.force_encoding(Encoding::UTF_8)
         EBNF::LL1::Lexer.unescape_codepoints(input).should == output
       end
     end
@@ -118,13 +118,13 @@ describe EBNF::LL1::Lexer do
       ]
       strings.each do |range|
         range.each do |string|
-          string.force_encoding(Encoding::UTF_8) if string.respond_to?(:force_encoding) # Ruby 1.9+
+          string.force_encoding(Encoding::UTF_8)
           string.should match(SPARQL::Grammar::Terminals::PN_CHARS_BASE)
         end
       end
     end
     
-    it "matches kanji test input", :ruby => "1.9" do
+    it "matches kanji test input" do
       tokenize('"食"') do |tokens|
         tokens.should have(1).element
         tokens.first.type.should == :STRING_LITERAL2

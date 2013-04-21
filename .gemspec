@@ -33,7 +33,7 @@ Gem::Specification.new do |gem|
     Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
     and includes SPARQL Client for accessing remote repositories.)
 
-  gem.required_ruby_version      = '>= 1.8.7'
+  gem.required_ruby_version      = '>= 1.9.2'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',             '>= 1.0.4'
   gem.add_runtime_dependency     'ebnf',            '>= 0.3.0'
@@ -53,8 +53,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'equivalent-xml'
   gem.add_development_dependency 'nokogiri' ,       '>= 1.5.0'
   gem.add_development_dependency 'rspec',           '>= 2.12.0'
-  gem.add_development_dependency 'spira'
+  gem.add_development_dependency 'spira',           '= 0.0.12'
   gem.add_development_dependency 'yard' ,           '>= 0.8.3'
-  gem.add_runtime_dependency     'backports'                    if RUBY_VERSION < "1.9"
   gem.post_install_message       = nil
 end

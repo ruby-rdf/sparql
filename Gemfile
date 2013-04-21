@@ -14,3 +14,7 @@ group :debug do
   gem "wirble"
   gem 'redcarpet', :platforms => :ruby
 end
+
+group :test do
+  gem 'rake'
+end

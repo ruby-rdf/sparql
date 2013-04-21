@@ -22,13 +22,13 @@ def run(input, parser_options)
   elsif $dump
     puts res.inspect
   else
-    puts parser.to_s
+    puts res.to_sse
   end
   puts
   secs = Time.new - start
   puts "Parsed in #{secs} seconds."
 rescue Exception => e
-  if parser_options[:debug]
+  if parser_options[:debug] || parser_options[:progress]
     fname = input.respond_to?(:path) ? input.path : "-stdin-"
     STDERR.puts("\nIn #{fname}: #{e.message}")
     raise e

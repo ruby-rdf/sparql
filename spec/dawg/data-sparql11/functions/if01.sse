@@ -1,4 +1,4 @@
-(prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
+(base <http://example.org/> (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
   (project (?o ?integer)
     (extend ((?integer (if (= (lang ?o) "ja") true false)))
-      (bgp (triple ?s ?p ?o)))))
+      (bgp (triple ?s ?p ?o))))))

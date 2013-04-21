@@ -17,7 +17,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
-* Compatible with Ruby >= 1.9.3.
+* Compatible with Ruby >= 1.9.2.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on all versions of Ruby.
 
@@ -189,8 +189,8 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Dependencies
 
-* [Ruby](http://ruby-lang.org/) (>= 1.9) or (>= 1.8.1 with [Backports][])
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0)
+* [Ruby](http://ruby-lang.org/) (>= 1.9.2)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.1)
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.0)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.1.0)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
@@ -261,9 +261,6 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [grammar]:          http://www.w3.org/TR/rdf-sparql-query/#grammar
 [RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           http://rdf.rubyforge.org/
-[YARD]:             http://yardoc.org/
-[YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
-[PDD]:              http://unlicense.org/#unlicensing-contributions
 [Backports]:        http://rubygems.org/gems/backports
 [Linked Data]:      http://rubygems.org/gems/linkeddata
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames

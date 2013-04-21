@@ -1,2 +1,1 @@
-(filter (in 2 1 2 3)
-  (bgp))
+(ask (filter (in 2 1 2 3) (bgp)))

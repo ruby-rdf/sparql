@@ -1,2 +1,5 @@
 (prefix ((: <http://example.org/>))
-  (bgp (triple ?s ?p ?o)))
+  (construct
+    ((triple ?s ?p ?o))
+    (dataset (<data.ttl>)
+      (bgp (triple ?s ?p ?o)))))
