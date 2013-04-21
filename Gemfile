@@ -10,7 +10,7 @@ gem 'ebnf',           :git => "git://github.com/gkellogg/ebnf.git"
 
 group :debug do
   gem 'shotgun'  unless ENV['CI']
-  gem 'debugger', :platforms => :ruby_19
+  gem 'debugger', :platforms => :mri_19
   gem "wirble"
   gem 'redcarpet', :platforms => :ruby
 end

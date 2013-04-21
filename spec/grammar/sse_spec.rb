@@ -82,7 +82,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  #describe "w3c dawg SPARQL 1.1 tests", :pending => ENV['CI'] do
+  #describe "w3c dawg SPARQL 1.1 tests" do
   #  SPARQL::Spec.sparql1_1_tests(true).
   #    reject do |tc|
   #      %w{basic-update
@@ -105,4 +105,4 @@ describe SPARQL::Grammar::Parser do
   #    it_behaves_like "SSE", man, tests
   #  end
   #end
-end
+end unless ENV['CI']

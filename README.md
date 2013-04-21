@@ -190,7 +190,7 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 ## Dependencies
 
 * [Ruby](http://ruby-lang.org/) (>= 1.9.2)
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.1)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0)
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.0)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.1.0)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
