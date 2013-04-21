@@ -1,0 +1,14 @@
+PREFIX ex: <urn:example#>
+
+SELECT ?subj ?pred ?obj
+WHERE {
+  ?subj ?pred ?obj . {
+    { ?subj ex:pred1 ?obj }
+    { ?subj ex:pred2 ?obj }
+    { ?subj ex:pred3 ?obj }
+    { ?subj ex:pred4 ?obj }
+    { ?subj ex:pred5 ?obj }
+    { ?subj ex:pred6 ?obj }
+    { ?subj ex:pred7 ?obj }
+  }
+}
