@@ -499,9 +499,7 @@ module SPARQL::Grammar
 
     # ( 'UNION' GroupGraphPattern )*
     production(:_GroupOrUnionGraphPattern_1) do |input, data, callback|
-      # Add [:union rhs] to stack based on ":union"
-      add_prod_data(:union, data[:query].to_a.first)
-      add_prod_data(:union, data[:union].first) if data[:union]
+      input[:union] = data[:union].to_a.unshift(data[:query].first)
     end
 
     # [68]  	Filter	  ::=  	'FILTER' Constraint
@@ -989,6 +987,10 @@ module SPARQL::Grammar
       @input = input.to_s.dup
       @input.force_encoding(Encoding::UTF_8)
       @options = {:anon_base => "b0", :validate => false}.merge(options)
+      @options[:debug] ||= case
+      when @options[:progress] then 2
+      when @options[:validate] then 1
+      end
 
       debug("base IRI") {base_uri.inspect}
       debug("validate") {validate?.inspect}

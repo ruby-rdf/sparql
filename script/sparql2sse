@@ -22,7 +22,7 @@ def run(input, parser_options)
   elsif $dump
     puts res.inspect
   else
-    puts parser.to_sse
+    puts res.to_sse
   end
   puts
   secs = Time.new - start

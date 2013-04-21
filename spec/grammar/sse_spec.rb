@@ -83,27 +83,27 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "w3c dawg SPARQL 1.1 tests", :pending => ENV['CI'] do
-    SPARQL::Spec.sparql1_1_tests(true).
-      reject do |tc|
-        %w{basic-update
-          clear
-          copy
-          csv-tsv
-          delete
-          drop
-          entailment
-          http
-          json
-          move
-          protocol
-          service
-          syntax-fed
-        }.include? tc.manifest.to_s.split('/')[-2]
-      end.
-      group_by(&:manifest).
-      each do |man, tests|
-      it_behaves_like "SSE", man, tests
-    end
-  end
+  #describe "w3c dawg SPARQL 1.1 tests", :pending => ENV['CI'] do
+  #  SPARQL::Spec.sparql1_1_tests(true).
+  #    reject do |tc|
+  #      %w{basic-update
+  #        clear
+  #        copy
+  #        csv-tsv
+  #        delete
+  #        drop
+  #        entailment
+  #        http
+  #        json
+  #        move
+  #        protocol
+  #        service
+  #        syntax-fed
+  #      }.include? tc.manifest.to_s.split('/')[-2]
+  #    end.
+  #    group_by(&:manifest).
+  #    each do |man, tests|
+  #    it_behaves_like "SSE", man, tests
+  #  end
+  #end
 end
