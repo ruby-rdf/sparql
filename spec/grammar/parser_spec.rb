@@ -1016,6 +1016,10 @@ describe SPARQL::Grammar::Parser do
         "SELECT ?a ?b WHERE {?a ?b ?c}",
         %q((project (?a ?b) (bgp (triple ?a ?b ?c))))
       ],
+      "Expression" => [
+        "SELECT (?c+10 AS ?z) WHERE {?a ?b ?c}",
+        %q((project (?z) (extend ((?z (+ ?c 10))) (bgp (triple ?a ?b ?c)))))
+      ],
       "distinct(1)" => [
         "SELECT DISTINCT * WHERE {?a ?b ?c}",
         %q((distinct (bgp (triple ?a ?b ?c))))
@@ -1041,6 +1045,41 @@ describe SPARQL::Grammar::Parser do
       "filter(3)" => [
         "SELECT * WHERE { FILTER (?o>5) . ?s ?p ?o }", %q((filter (> ?o 5) (bgp (triple ?s ?p ?o))))
       ],
+      "bind(1)" => [
+        "SELECT ?z {?s ?p ?o . BIND(?o+10 AS ?z)}",
+        %q(
+        (project (?z)
+          (extend ((?z (+ ?o 10)))
+            (bgp (triple ?s ?p ?o))))
+        )
+      ],
+      "bind(2)" => [
+        "SELECT ?o ?z ?z2 {?s ?p ?o . BIND(?o+10 AS ?z) BIND(?o+100 AS ?z2)}",
+        %q(
+        (project (?o ?z ?z2)
+          (extend ((?z (+ ?o 10)) (?z2 (+ ?o 100)))
+            (bgp (triple ?s ?p ?o))))
+        )
+      ],
+      "group(1)" => [
+        "SELECT ?s {?s :p ?v .} GROUP BY ?s",
+        %q(
+        (project (?s)
+          (group (?s)
+            (bgp (triple ?s <p> ?v))))
+        )
+      ],
+      "group+expression" => [
+        "SELECT ?w (SAMPLE(?v) AS ?S) {?s :p ?v . OPTIONAL { ?s :q ?w }} GROUP BY ?w",
+        %q(
+        (project (?w ?S)
+          (extend ((?S ?.0))
+            (group (?w) ((?.0 (sample ?v)))
+              (leftjoin
+                (bgp (triple ?s <p> ?v))
+                (bgp (triple ?s <q> ?w))))))
+        )
+      ]
     }.each do |title, (input, output)|
       it title do
         input.should generate(output, :resolve_iris => true)
@@ -1059,6 +1098,12 @@ describe SPARQL::Grammar::Parser do
       "var+var" => [
         "SELECT ?a ?b", %q((Var ?a ?b))
       ],
+      "*" => [
+        "SELECT *", %q((MultiplicativeExpression "*"))
+      ],
+      "Expression" => [
+        "SELECT (?o+10 AS ?z)", %q((extend (?z (+ ?o 10))))
+      ]
     }.each do |title, (input, output)|
       it title do
         input.should generate(output, :resolve_iris => true)
@@ -1234,6 +1279,9 @@ describe SPARQL::Grammar::Parser do
   # [18]    SolutionModifier          ::=       GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
   describe "when matching the [18] SolutionModifier production rule", :production => :SolutionModifier do
     {
+      "group" => [
+        "GROUP BY ?s", %q((group (?s)))
+      ],
       "limit" => [
         "LIMIT 1", [:slice, :_, RDF::Literal(1)]
       ],
@@ -1258,6 +1306,50 @@ describe SPARQL::Grammar::Parser do
       "order var+asc+isURI" => [
         "ORDER BY ?a ASC (1) isURI(<b>)", [:order, [RDF::Query::Variable.new("a"), SPARQL::Algebra::Operator::Asc.new(RDF::Literal(1)), SPARQL::Algebra::Operator::IsURI.new(RDF::URI("b"))]]
       ],
+    }.each do |title, (input, output)|
+      it title do
+        input.should generate(output, :resolve_iris => false)
+      end
+    end
+  end
+
+  # [19]  GroupClause             ::= 'GROUP' 'BY' GroupCondition+
+  describe "when matching the [19] GroupClause production rule", :production => :GroupClause do
+    {
+      "Var" => [
+        "GROUP BY ?s", %q((group (?s)))
+      ],
+      "Var+Var" => [
+        "GROUP BY ?s ?w", %q((group (?s ?w)))
+      ]
+    }.each do |title, (input, output)|
+      it title do
+        input.should generate(output, :resolve_iris => false)
+      end
+    end
+  end
+
+  # [20]  GroupCondition          ::= BuiltInCall | FunctionCall
+  #                                 | '(' Expression ( 'AS' Var )? ')' | Var
+  describe "when matching the [20] GroupCondition production rule", :production => :GroupCondition do
+    {
+      "BuiltInCall" => [
+        %q(STR ("foo")), %q((GroupCondition (str "foo")))
+      ],
+      "FunctionCall" => [
+        "<foo>('bar')", %q((GroupCondition (<foo> "bar")))
+      ],
+      "Expression" => [
+        %q((COALESCE(?w, "1605-11-05"^^xsd:date))),
+        %q((GroupCondition (coalesce ?w "1605-11-05"^^xsd:date)))
+      ],
+      "Expression+VAR" => [
+        %q((COALESCE(?w, "1605-11-05"^^xsd:date) AS ?X)),
+        %q((GroupCondition (?X (coalesce ?w "1605-11-05"^^xsd:date))))
+      ],
+      "Var" => [
+        "?s", %q((GroupCondition ?s))
+      ]
     }.each do |title, (input, output)|
       it title do
         input.should generate(output, :resolve_iris => false)
@@ -1401,6 +1493,9 @@ describe SPARQL::Grammar::Parser do
         "GRAPH <a> {<d><e><f>}",
         %q((graph <a> (bgp (triple <d> <e> <f>)))),
       ],
+      "Bind" => [
+        "BIND(?o+10 AS ?z)", %q((extend (?z (+ ?o 10)))),
+      ],
     }.each do |title, (input, output)|
       it title do
         input.should generate(output, :resolve_iris => true)
@@ -1442,6 +1537,19 @@ describe SPARQL::Grammar::Parser do
       ],
       "iri" => [
         "GRAPH <a> {<d><e><f>}", %q((graph <a> (bgp (triple <d> <e> <f>)))),
+      ],
+    }.each do |title, (input, output)|
+      it title do
+        input.should generate(output, :resolve_iris => true)
+      end
+    end
+  end
+
+  # [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
+  describe "when matching the [60] Bind production rule", :production => :Bind do
+    {
+      "Expression" => [
+        "BIND(?o+10 AS ?z)", %q((extend (?z (+ ?o 10)))),
       ],
     }.each do |title, (input, output)|
       it title do

@@ -30,7 +30,7 @@ shared_examples "SSE" do |man, tests|
             pending "Fixing PNAME_LN not matching :\\u0070"
           end
           query = begin
-            SPARQL::Grammar.parse(t.action.query_string, :debug => ENV['PARSER_DEBUG'])
+            SPARQL::Grammar.parse(t.action.query_string, :debug => ENV['PARSER_DEBUG'].to_i)
           rescue Exception => e
             "Error: #{e.message}"
           end
@@ -44,7 +44,7 @@ shared_examples "SSE" do |man, tests|
             gsub(/\(\s+\(/, '((').
             gsub(/\)\s+\)/, '))').
             strip
-          normalized_query.should == normalized_result
+          normalized_query.should produce(normalized_result, ["original query:", t.action.query_string])
         end
       when MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
         it "detects syntax error for #{t.entry} - #{t.name}" do
@@ -86,7 +86,8 @@ describe SPARQL::Grammar::Parser do
   describe "w3c dawg SPARQL 1.1 tests" do
     SPARQL::Spec.sparql1_1_tests(true).
       reject do |tc|
-        %w{basic-update
+        %w{
+          basic-update
           clear
           copy
           csv-tsv
@@ -99,6 +100,11 @@ describe SPARQL::Grammar::Parser do
           protocol
           service
           syntax-fed
+
+          aggregates
+          bindings
+          property-path
+          subquery
         }.include? tc.manifest.to_s.split('/')[-2]
       end.
       group_by(&:manifest).

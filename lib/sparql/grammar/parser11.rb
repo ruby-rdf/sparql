@@ -246,7 +246,6 @@ module SPARQL::Grammar
     # [9.8] _SelectClause_8 ::= ( '(' Expression 'AS' Var ')' )
     production(:_SelectClause_8) do |input, data, callback|
       add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
-      add_prod_datum :Var, data[:Var]
     end
 
     # [10]  ConstructQuery ::= 'CONSTRUCT'
@@ -291,13 +290,25 @@ module SPARQL::Grammar
     # [18]  	SolutionModifier	  ::=  	GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
 
     # [19]  	GroupClause	  ::=  	'GROUP' 'BY' GroupCondition+
-    #production(:GroupClause) do |input, data, callback|
-    #end
+    production(:GroupClause) do |input, data, callback|
+      add_prod_data :group, data[:GroupCondition]
+    end
 
     # [20]  	GroupCondition	  ::=  	BuiltInCall | FunctionCall
     #                                | '(' Expression ( 'AS' Var )? ')' | Var
-    #production(:GroupClause) do |input, data, callback|
-    #end
+    production(:GroupCondition) do |input, data, callback|
+      add_prod_datum :GroupCondition, data.values.first
+    end
+
+    # _GroupCondition_1 ::= '(' Expression ( 'AS' Var )? ')'
+    production(:_GroupCondition_1) do |input, data, callback|
+      cond = if data[:Var]
+        [data[:Expression].unshift(data[:Var].first)]
+      else
+        data[:Expression]
+      end
+      add_prod_datum(:GroupCondition, cond)
+    end
 
     # [21]  	HavingClause	  ::=  	'HAVING' HavingCondition+
     #production(:GroupClause) do |input, data, callback|
@@ -1338,15 +1349,35 @@ module SPARQL::Grammar
     end
     
     # Merge query modifiers, datasets, and projections
+    #
+    # This includes tranforming aggregates if also used with a GROUP BY
+    #
+    # @see http://www.w3.org/TR/sparql11-query/#convertGroupAggSelectExpressions
     def merge_modifiers(data)
       query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
-      
+
+      vars = data[:Var] || []
+      order = data[:order] ? data[:order].first : []
+
       # Add datasets and modifiers in order
-      query = SPARQL::Algebra::Expression[:extend, data[:extend], query] if data[:extend]
+      if data[:group]
+        query = SPARQL::Algebra::Expression[:group, data[:group].first, query]
+      end
 
-      query = SPARQL::Algebra::Expression[:order, data[:order].first, query] if data[:order]
+      if data[:extend]
+        # extension variables must not appear in projected variables.
+        # Add them to the projection otherwise
+        data[:extend].each do |(var, expr)|
+          raise Error, "Extension variable #{var} also in SELECT" if vars.map(&:to_s).include?(var.to_s)
+          vars << var
+        end
 
-      query = SPARQL::Algebra::Expression[:project, data[:Var], query] if data[:Var]
+        query = SPARQL::Algebra::Expression[:extend, data[:extend], query]
+      end
+
+      query = SPARQL::Algebra::Expression[:order, data[:order].first, query] unless order.empty?
+
+      query = SPARQL::Algebra::Expression[:project, vars, query] unless vars.empty?
 
       query = SPARQL::Algebra::Expression[data[:DISTINCT_REDUCED].first, query] if data[:DISTINCT_REDUCED]
 
