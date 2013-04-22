@@ -91,7 +91,7 @@ module SPARQL::Grammar
     ANON                 = /\[#{WS}*\]/m
 
     # String terminals, case insensitive
-    STR_EXPR = %r(ABS|ADD|ALL|ASC|ASK|AS|BASE|BINDINGS|BIND
+    STR_EXPR = %r(ABS|ADD|ALL|ASC|ASK|AS|AVG|BASE|BINDINGS|BIND
                  |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
                  |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
                  |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE
@@ -114,7 +114,7 @@ module SPARQL::Grammar
               )xi
 
     # Map terminals to canonical form
-    STR_MAP = (%w{ABS ADD ALL ASC ASK AS BASE BINDINGS BIND
+    STR_MAP = (%w{ABS ADD ALL ASC ASK AS AVG BASE BINDINGS BIND
       BNODE BOUND BY CEIL CLEAR COALESCE CONCAT
       CONSTRUCT CONTAINS COPY COUNT CREATE DATATYPE DAY
       DEFAULT DELETE
@@ -131,12 +131,11 @@ module SPARQL::Grammar
       TIMEZONE TO TZ UCASE UNDEF UNION URI USING UUID
       WHERE WITH YEAR
       isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
-      true
-      false
+      true false
     } + [
       "DELETE DATA",
       "DELETE WHERE",
       "INSERT DATA",
-    ]).inject({}) {|memo, t| memo[t.downcase] = t; memo}.freeze
+    ]).inject({}) {|memo, t| memo[t.sub(' ', '_').downcase] = t; memo}.freeze
   end
 end

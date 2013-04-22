@@ -342,7 +342,11 @@ class RDF::URI
   end
   
   def init_with(coder)
-    self.instance_variable_set(:@value, coder["uri"])
-    self.instance_variable_set(:@object, nil)
+    if RDF::VERSION.to_s >= "1.1"
+      self.instance_variable_set(:@value, coder["uri"])
+      self.instance_variable_set(:@object, nil)
+    else
+      @uri = Addressable::URI.parse(coder["uri"])
+    end
   end
 end

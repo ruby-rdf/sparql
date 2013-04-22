@@ -8,6 +8,124 @@ class SPARQL::Grammar::Parser
   end
 end
 
+# [55] GroupGraphPattern
+shared_examples "GroupGraphPattern" do
+  context "GroupGraphPattern" do
+    {
+      # From data/Optional/q-opt-1.rq
+      "q-opt-1.rq" => [
+        "{<a><b><c> OPTIONAL {<d><e><f>}}",
+        %q((leftjoin
+          (bgp (triple <a> <b> <c>))
+          (bgp (triple <d> <e> <f>))))
+      ],
+      "q-opt-1.rq(2)" => [
+        "{OPTIONAL {<d><e><f>}}",
+        %q((leftjoin
+          (bgp)
+          (bgp (triple <d> <e> <f>))))
+      ],
+      # From data/Optional/q-opt-2.rq
+      "q-opt-2.rq(1)" => [
+        "{<a><b><c> OPTIONAL {<d><e><f>} OPTIONAL {<g><h><i>}}",
+        %q((leftjoin
+            (leftjoin
+              (bgp (triple <a> <b> <c>))
+              (bgp (triple <d> <e> <f>)))
+            (bgp (triple <g> <h> <i>))))
+      ],
+      "q-opt-2.rq(2)" => [
+        "{<a><b><c> {:x :y :z} {<d><e><f>}}",
+        %q((join
+            (join
+              (bgp (triple <a> <b> <c>))
+              (bgp (triple <x> <y> <z>)))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      "q-opt-2.rq(3)" => [
+        "{<a><b><c> {:x :y :z} <d><e><f>}",
+        %q((join
+            (join
+              (bgp (triple <a> <b> <c>))
+              (bgp (triple <x> <y> <z>)))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      # From data/extracted-examples/query-4.1-q1.rq
+      "query-4.1-q1.rq(1)" => [
+        "{{:x :y :z} {<d><e><f>}}",
+        %q((join
+            (bgp (triple <x> <y> <z>))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      "query-4.1-q1.rq(2)" => [
+        "{<a><b><c> {:x :y :z} UNION {<d><e><f>}}",
+        %q((join
+            (bgp (triple <a> <b> <c>))
+            (union
+              (bgp (triple <x> <y> <z>))
+              (bgp (triple <d> <e> <f>)))))
+      ],
+      # From data/Optional/q-opt-3.rq
+      "q-opt-3.rq(1)" => [
+        "{{:x :y :z} UNION {<d><e><f>}}",
+        %q((union
+            (bgp (triple <x> <y> <z>))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      "q-opt-3.rq(2)" => [
+        "{GRAPH ?src { :x :y :z}}",
+        %q((graph ?src (bgp (triple <x> <y> <z>))))
+      ],
+      "q-opt-3.rq(3)" => [
+        "{<a><b><c> GRAPH <graph> {<d><e><f>}}",
+        %q((join
+            (bgp (triple <a> <b> <c>))
+            (graph <graph>
+              (bgp (triple <d> <e> <f>)))))
+      ],
+      "q-opt-3.rq(4)" => [
+        "{ ?a :b ?c .  OPTIONAL { ?c :d ?e } . FILTER (! bound(?e))}",
+        %q((filter (! (bound ?e))
+            (leftjoin
+              (bgp (triple ?a <b> ?c))
+              (bgp (triple ?c <d> ?e)))))
+      ],
+      # From data/Expr1/expr-2
+      "expr-2" => [
+        "{ ?book dc:title ?title . 
+          OPTIONAL
+            { ?book x:price ?price . 
+              FILTER (?price < 15) .
+            } .
+        }",
+        %q((leftjoin (bgp (triple ?book <title> ?title)) (bgp (triple ?book <price> ?price)) (< ?price 15)))
+      ],
+      # From data-r2/filter-nested-2
+      "filter-nested-2(1)" => [
+        "{ :x :p ?v . { FILTER(?v = 1) } }",
+        %q((join
+          (bgp (triple <x> <p> ?v))
+          (filter (= ?v 1)
+            (bgp))))
+      ],
+      "filter-nested-2(2)" => [
+        "{FILTER (?v = 2) FILTER (?w = 3) ?s :p ?v . ?s :q ?w . }",
+        %q((filter (exprlist (= ?v 2) (= ?w 3))
+          (bgp
+            (triple ?s <p> ?v)
+            (triple ?s <q> ?w)
+          )))
+      ],
+    }.each do |title, (input, output)|
+      it title do
+        input.should generate(output, :resolve_iris => true)
+      end
+    end
+  end
+
+  include_examples "BGP Patterns", "{%s}"
+end
+
 # [70] FunctionCall
 shared_examples "FunctionCall" do
   context "FunctionCall nonterminal" do
@@ -202,7 +320,7 @@ shared_examples "PrimaryExpression" do
     include_examples "RDFLiteral"
     include_examples "NumericLiteral"
     include_examples "BooleanLiteral"
-    include_examples "BrackettedExpression"
+    include_examples "Var"
   end
 end
 
@@ -219,56 +337,62 @@ shared_examples "BrackettedExpression" do
   end
 end
 
-# [122]  	BuiltInCall	  ::= 'STR' '(' Expression ')' 
-#                         | 'LANG' '(' Expression ')' 
-#                         | 'LANGMATCHES' '(' Expression ',' Expression ')' 
-#                         | 'DATATYPE' '(' Expression ')' 
-#                         | 'BOUND' '(' Var ')' 
-#                         | 'IRI' '(' Expression ')' 
-#                         | 'URI' '(' Expression ')' 
-#                         | 'BNODE' ( '(' Expression ')' | NIL ) 
-#                         | 'RAND' NIL 
-#                         | 'ABS' '(' Expression ')' 
-#                         | 'CEIL' '(' Expression ')' 
-#                         | 'FLOOR' '(' Expression ')' 
-#                         | 'ROUND' '(' Expression ')' 
-#                         | 'CONCAT' ExpressionList 
-#                         | SubstringExpression 
-#                         | 'STRLEN' '(' Expression ')' 
-#                         | 'UCASE' '(' Expression ')' 
-#                         | 'LCASE' '(' Expression ')' 
-#                         | 'ENCODE_FOR_URI' '(' Expression ')' 
-#                         | 'CONTAINS' '(' Expression ',' Expression ')' 
-#                         | 'STRSTARTS' '(' Expression ',' Expression ')' 
-#                         | 'STRENDS' '(' Expression ',' Expression ')' 
-#                         | 'YEAR' '(' Expression ')' 
-#                         | 'MONTH' '(' Expression ')' 
-#                         | 'DAY' '(' Expression ')' 
-#                         | 'HOURS' '(' Expression ')' 
-#                         | 'MINUTES' '(' Expression ')' 
-#                         | 'SECONDS' '(' Expression ')' 
-#                         | 'TIMEZONE' '(' Expression ')' 
-#                         | 'TZ' '(' Expression ')' 
-#                         | 'NOW' NIL 
-#                         | 'MD5' '(' Expression ')' 
-#                         | 'SHA1' '(' Expression ')' 
-#                         | 'SHA224' '(' Expression ')' 
-#                         | 'SHA256' '(' Expression ')' 
-#                         | 'SHA384' '(' Expression ')' 
-#                         | 'SHA512' '(' Expression ')' 
-#                         | 'COALESCE' ExpressionList 
-#                         | 'IF' '(' Expression ',' Expression ',' Expression ')' 
-#                         | 'STRLANG' '(' Expression ',' Expression ')' 
-#                         | 'STRDT' '(' Expression ',' Expression ')' 
-#                         | 'sameTerm' '(' Expression ',' Expression ')' 
-#                         | 'isIRI' '(' Expression ')' 
-#                         | 'isURI' '(' Expression ')' 
-#                         | 'isBLANK' '(' Expression ')' 
-#                         | 'isLITERAL' '(' Expression ')' 
-#                         | 'isNUMERIC' '(' Expression ')' 
-#                         | RegexExpression 
-#                         | ExistsFunc 
-#                         | NotExistsFunc
+# [121] BuiltInCall             ::= Aggregate
+#                                 | 'STR' '(' Expression ')' 
+#                                 | 'LANG' '(' Expression ')' 
+#                                 | 'LANGMATCHES' '(' Expression ',' Expression ')' 
+#                                 | 'DATATYPE' '(' Expression ')' 
+#                                 | 'BOUND' '(' Var ')' 
+#                                 | 'IRI' '(' Expression ')' 
+#                                 | 'URI' '(' Expression ')' 
+#                                 | 'BNODE' ( '(' Expression ')' | NIL ) 
+#                                 | 'RAND' NIL 
+#                                 | 'ABS' '(' Expression ')' 
+#                                 | 'CEIL' '(' Expression ')' 
+#                                 | 'FLOOR' '(' Expression ')' 
+#                                 | 'ROUND' '(' Expression ')' 
+#                                 | 'CONCAT' ExpressionList 
+#                                 | SubstringExpression 
+#                                 | 'STRLEN' '(' Expression ')' 
+#                                 | StrReplaceExpression 
+#                                 | 'UCASE' '(' Expression ')' 
+#                                 | 'LCASE' '(' Expression ')' 
+#                                 | 'ENCODE_FOR_URI' '(' Expression ')' 
+#                                 | 'CONTAINS' '(' Expression ',' Expression ')' 
+#                                 | 'STRSTARTS' '(' Expression ',' Expression ')' 
+#                                 | 'STRENDS' '(' Expression ',' Expression ')' 
+#                                 | 'STRBEFORE' '(' Expression ',' Expression ')' 
+#                                 | 'STRAFTER' '(' Expression ',' Expression ')' 
+#                                 | 'YEAR' '(' Expression ')' 
+#                                 | 'MONTH' '(' Expression ')' 
+#                                 | 'DAY' '(' Expression ')' 
+#                                 | 'HOURS' '(' Expression ')' 
+#                                 | 'MINUTES' '(' Expression ')' 
+#                                 | 'SECONDS' '(' Expression ')' 
+#                                 | 'TIMEZONE' '(' Expression ')' 
+#                                 | 'TZ' '(' Expression ')' 
+#                                 | 'NOW' NIL 
+#                                 | 'UUID' NIL
+#                                 | 'STRUUID' NIL
+#                                 | 'MD5' '(' Expression ')' 
+#                                 | 'SHA1' '(' Expression ')' 
+#                                 | 'SHA224' '(' Expression ')' 
+#                                 | 'SHA256' '(' Expression ')' 
+#                                 | 'SHA384' '(' Expression ')' 
+#                                 | 'SHA512' '(' Expression ')' 
+#                                 | 'COALESCE' ExpressionList 
+#                                 | 'IF' '(' Expression ',' Expression ',' Expression ')' 
+#                                 | 'STRLANG' '(' Expression ',' Expression ')' 
+#                                 | 'STRDT' '(' Expression ',' Expression ')' 
+#                                 | 'sameTerm' '(' Expression ',' Expression ')' 
+#                                 | 'isIRI' '(' Expression ')' 
+#                                 | 'isURI' '(' Expression ')' 
+#                                 | 'isBLANK' '(' Expression ')' 
+#                                 | 'isLITERAL' '(' Expression ')' 
+#                                 | 'isNUMERIC' '(' Expression ')' 
+#                                 | RegexExpression 
+#                                 | ExistsFunc 
+#                                 | NotExistsFunc
 shared_examples "BuiltInCall" do
   context "BuiltInCall" do
     {
@@ -283,27 +407,31 @@ shared_examples "BuiltInCall" do
       %q(isURI ("foo"))              => SPARQL::Algebra::Expression[:isuri, RDF::Literal("foo")],
       %q(LANG ("foo"))               => SPARQL::Algebra::Expression[:lang, RDF::Literal("foo")],
       %q(LANGMATCHES ("foo", "bar")) => SPARQL::Algebra::Expression[:langmatches, RDF::Literal("foo"), RDF::Literal("bar")],
-      %q(REGEX ("foo", "bar"))       => SPARQL::Algebra::Expression[:regex, RDF::Literal("foo"), RDF::Literal("bar")],
       %q(sameTerm ("foo", "bar"))    => SPARQL::Algebra::Expression[:sameterm, RDF::Literal("foo"), RDF::Literal("bar")],
       %q(STR ("foo"))                => SPARQL::Algebra::Expression[:str, RDF::Literal("foo")],
       %q(SUBSTR(?str,1,2))           => SPARQL::Algebra::Expression[:substr, RDF::Query::Variable.new("str"), RDF::Literal(1), RDF::Literal(2)],
+      %q(EXISTS {?s ?p ?o})          => %q((exists (bgp (triple ?s ?p ?o)))),
+      %q(NOT EXISTS {?s ?p ?o})      => %q((notexists (bgp (triple ?s ?p ?o)))),
     }.each do |input, output|
       it input do
         input.should generate(output, :resolve_iris => false, :last => true)
       end
     end
+
+    include_examples "Aggregate"
+    include_examples "RegexExpression"
   end
 end
 
 # [122]    RegexExpression ::=       'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
-shared_examples "RegexExpression" do
+shared_examples "RegexExpression" do |options = {}|
   context "RegexExpression" do
     {
       %q(REGEX ("foo"))        => EBNF::LL1::Parser::Error,
-      %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar")),
+      %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar" "")),
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false)
+        input.should generate(output, {:resolve_iris => false, :last => true}.merge(options))
       end
     end
   end
@@ -333,6 +461,44 @@ shared_examples "RDFLiteral" do
     }.each do |input, output|
       it input do
         input.should generate(output, :resolve_iris => false, :last => true)
+      end
+    end
+  end
+end
+
+# [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')' 
+#                                 | 'SUM' '(' 'DISTINCT'? Expression ')' 
+#                                 | 'MIN' '(' 'DISTINCT'? Expression ')' 
+#                                 | 'MAX' '(' 'DISTINCT'? Expression ')' 
+#                                 | 'AVG' '(' 'DISTINCT'? Expression ')' 
+#                                 | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
+#                                 | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression
+#                                   ( ';' 'SEPARATOR' '=' String )? ')'
+shared_examples "Aggregate" do
+  context "Aggregate" do
+    {
+      %q(COUNT(*)) => %q((count)),
+      %q(COUNT(?o)) => %q((count ?o)),
+      %q(SUM(?o)) => %q((sum ?o)),
+      %q(MIN(?value)) => %q((min ?value)),
+      %q(MAX(?value)) => %q((max ?value)),
+      %q(AVG(?o)) => %q((avg ?o)),
+      %q(SAMPLE(?o)) => %q((sample ?o)),
+      %q(GROUP_CONCAT(?o)) => %q((group_concat ?o)),
+      %q(GROUP_CONCAT(?o;SEPARATOR=":")) => %q((group_concat (separator ":") ?o)),
+
+      %q(COUNT(DISTINCT *)) => %q((count distinct)),
+      %q(COUNT(DISTINCT ?o)) => %q((count distinct ?o)),
+      %q(SUM(DISTINCT ?o)) => %q((sum distinct ?o)),
+      %q(MIN(DISTINCT ?value)) => %q((min distinct ?value)),
+      %q(MAX(DISTINCT ?value)) => %q((max distinct ?value)),
+      %q(AVG(DISTINCT ?o)) => %q((avg distinct ?o)),
+      %q(SAMPLE(DISTINCT ?o)) => %q((sample distinct ?o)),
+      %q(GROUP_CONCAT(DISTINCT ?o)) => %q((group_concat distinct ?o)),
+      %q(GROUP_CONCAT(DISTINCT ?o;SEPARATOR=":")) => %q((group_concat (separator ":") distinct ?o)),
+    }.each do |input, output|
+      it input do
+        input.should generate(output, :last => true, :progress => true)
       end
     end
   end
@@ -1189,116 +1355,7 @@ describe SPARQL::Grammar::Parser do
 
   # [53]  	GroupGraphPattern	  ::=  	'{' ( SubSelect | GroupGraphPatternSub ) '}'
   describe "when matching the [53] GroupGraphPattern production rule", :production => :GroupGraphPattern do
-    {
-      # From data/Optional/q-opt-1.rq
-      "q-opt-1.rq" => [
-        "{<a><b><c> OPTIONAL {<d><e><f>}}",
-        %q((leftjoin
-          (bgp (triple <a> <b> <c>))
-          (bgp (triple <d> <e> <f>))))
-      ],
-      "q-opt-1.rq(2)" => [
-        "{OPTIONAL {<d><e><f>}}",
-        %q((leftjoin
-          (bgp)
-          (bgp (triple <d> <e> <f>))))
-      ],
-      # From data/Optional/q-opt-2.rq
-      "q-opt-2.rq(1)" => [
-        "{<a><b><c> OPTIONAL {<d><e><f>} OPTIONAL {<g><h><i>}}",
-        %q((leftjoin
-            (leftjoin
-              (bgp (triple <a> <b> <c>))
-              (bgp (triple <d> <e> <f>)))
-            (bgp (triple <g> <h> <i>))))
-      ],
-      "q-opt-2.rq(2)" => [
-        "{<a><b><c> {:x :y :z} {<d><e><f>}}",
-        %q((join
-            (join
-              (bgp (triple <a> <b> <c>))
-              (bgp (triple <x> <y> <z>)))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      "q-opt-2.rq(3)" => [
-        "{<a><b><c> {:x :y :z} <d><e><f>}",
-        %q((join
-            (join
-              (bgp (triple <a> <b> <c>))
-              (bgp (triple <x> <y> <z>)))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      # From data/extracted-examples/query-4.1-q1.rq
-      "query-4.1-q1.rq(1)" => [
-        "{{:x :y :z} {<d><e><f>}}",
-        %q((join
-            (bgp (triple <x> <y> <z>))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      "query-4.1-q1.rq(2)" => [
-        "{<a><b><c> {:x :y :z} UNION {<d><e><f>}}",
-        %q((join
-            (bgp (triple <a> <b> <c>))
-            (union
-              (bgp (triple <x> <y> <z>))
-              (bgp (triple <d> <e> <f>)))))
-      ],
-      # From data/Optional/q-opt-3.rq
-      "q-opt-3.rq(1)" => [
-        "{{:x :y :z} UNION {<d><e><f>}}",
-        %q((union
-            (bgp (triple <x> <y> <z>))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      "q-opt-3.rq(2)" => [
-        "{GRAPH ?src { :x :y :z}}",
-        %q((graph ?src (bgp (triple <x> <y> <z>))))
-      ],
-      "q-opt-3.rq(3)" => [
-        "{<a><b><c> GRAPH <graph> {<d><e><f>}}",
-        %q((join
-            (bgp (triple <a> <b> <c>))
-            (graph <graph>
-              (bgp (triple <d> <e> <f>)))))
-      ],
-      "q-opt-3.rq(4)" => [
-        "{ ?a :b ?c .  OPTIONAL { ?c :d ?e } . FILTER (! bound(?e))}",
-        %q((filter (! (bound ?e))
-            (leftjoin
-              (bgp (triple ?a <b> ?c))
-              (bgp (triple ?c <d> ?e)))))
-      ],
-      # From data/Expr1/expr-2
-      "expr-2" => [
-        "{ ?book dc:title ?title . 
-          OPTIONAL
-            { ?book x:price ?price . 
-              FILTER (?price < 15) .
-            } .
-        }",
-        %q((leftjoin (bgp (triple ?book <title> ?title)) (bgp (triple ?book <price> ?price)) (< ?price 15)))
-      ],
-      # From data-r2/filter-nested-2
-      "filter-nested-2(1)" => [
-        "{ :x :p ?v . { FILTER(?v = 1) } }",
-        %q((join
-          (bgp (triple <x> <p> ?v))
-          (filter (= ?v 1)
-            (bgp))))
-      ],
-      "filter-nested-2(2)" => [
-        "{FILTER (?v = 2) FILTER (?w = 3) ?s :p ?v . ?s :q ?w . }",
-        %q((filter (exprlist (= ?v 2) (= ?w 3))
-          (bgp
-            (triple ?s <p> ?v)
-            (triple ?s <q> ?w)
-          )))
-      ],
-    }.each do |title, (input, output)|
-      it title do
-        input.should generate(output, :resolve_iris => true)
-      end
-    end
+    include_examples "GroupGraphPattern"
   end
 
   # [55]    TriplesBlock              ::=       TriplesSameSubject ( '.' TriplesBlock? )?
@@ -1637,10 +1694,6 @@ describe SPARQL::Grammar::Parser do
 
     describe "when matching the [122] BuiltInCall production rule", :production => :BuiltInCall do
       include_examples "BuiltInCall"
-    end
-
-    describe "when matching the [112] RegexExpression production rule", :production => :RegexExpression do
-      include_examples "RegexExpression"
     end
 
     describe "when matching the [128] iriOrFunction production rule", :production => :iriOrFunction do

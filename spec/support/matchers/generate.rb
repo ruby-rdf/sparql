@@ -2,7 +2,7 @@ require 'rspec/matchers'
 
 RSpec::Matchers.define :generate do |expected, options|
   def parser(options = {})
-    @debug = []
+    @debug = options[:progress] ? 2 : []
     Proc.new do |query|
       parser = SPARQL::Grammar::Parser.new(query, {:debug => @debug, :resolve_iris => true}.merge(options))
       options[:production] ? parser.parse(options[:production]) : parser
@@ -22,18 +22,22 @@ RSpec::Matchers.define :generate do |expected, options|
 
   match do |input|
     case
+    when expected == EBNF::LL1::Parser::Error
+      lambda {parser(example.metadata.merge(options)).call(input)}.should raise_error(expected)
     when options[:last]
       # Only look at end of production
       @actual = parser(example.metadata.merge(options)).call(input).last
-      @actual.should == expected
+      if expected.is_a?(String)
+        normalize(@actual.to_sxp).should == normalize(expected)
+      else
+        @actual.should == expected
+      end
     when options[:shift]
       @actual = parser(example.metadata.merge(options)).call(input)[1..-1]
       @actual.should == expected
     when expected.nil?
       @actual = parser(example.metadata.merge(options)).call(input)
       @actual.should be_nil
-    when expected == EBNF::LL1::Parser::Error
-      lambda {parser(example.metadata.merge(options)).call(%q())}.should raise_error(expected)
     when expected.is_a?(String)
       @actual = parser(example.metadata.merge(options)).call(input).to_sxp
       normalize(@actual).should == normalize(expected)
@@ -62,6 +66,6 @@ RSpec::Matchers.define :generate do |expected, options|
       "Actual       : #{actual.inspect}\n" +
       "Actual(sse)  : #{actual.to_sxp}\n"
     end +
-    "Processing results:\n#{@debug.join("\n")}"
+    "Processing results:\n#{@debug.is_a?(Array) ? @debug.join("\n") : ''}"
   end
 end
