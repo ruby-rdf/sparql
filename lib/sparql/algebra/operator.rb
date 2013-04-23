@@ -6,39 +6,46 @@ module SPARQL; module Algebra
   class Operator
     include Expression
 
+    # Nullary operatos
+    autoload :Rand,               'sparql/algebra/operator/rand'
+
     # Unary operators
-    autoload :Not,                'sparql/algebra/operator/not'
-    autoload :Plus,               'sparql/algebra/operator/plus'
-    autoload :Minus,              'sparql/algebra/operator/minus'
+    autoload :Abs,                'sparql/algebra/operator/abs'
     autoload :Bound,              'sparql/algebra/operator/bound'
+    autoload :Ceil,               'sparql/algebra/operator/ceil'
+    autoload :Datatype,           'sparql/algebra/operator/datatype'
+    autoload :Floor,              'sparql/algebra/operator/floor'
     autoload :IsBlank,            'sparql/algebra/operator/is_blank'
     autoload :IsIRI,              'sparql/algebra/operator/is_iri'
-    autoload :IsURI,              'sparql/algebra/operator/is_iri'
     autoload :IsLiteral,          'sparql/algebra/operator/is_literal'
-    autoload :Str,                'sparql/algebra/operator/str'
+    autoload :IsNumeric,          'sparql/algebra/operator/is_numeric'
+    autoload :IsURI,              'sparql/algebra/operator/is_iri'
     autoload :Lang,               'sparql/algebra/operator/lang'
-    autoload :Datatype,           'sparql/algebra/operator/datatype'
+    autoload :Minus,              'sparql/algebra/operator/minus'
+    autoload :Not,                'sparql/algebra/operator/not'
+    autoload :Plus,               'sparql/algebra/operator/plus'
+    autoload :Round,              'sparql/algebra/operator/round'
+    autoload :Str,                'sparql/algebra/operator/str'
 
     # Binary operators
-    autoload :Or,                 'sparql/algebra/operator/or'
+    autoload :Add,                'sparql/algebra/operator/add'
     autoload :And,                'sparql/algebra/operator/and'
     autoload :Compare,            'sparql/algebra/operator/compare'
-    autoload :Equal,              'sparql/algebra/operator/equal'
-    autoload :Extend,             'sparql/algebra/operator/extend'
-    autoload :NotEqual,           'sparql/algebra/operator/not_equal'
-    autoload :LessThan,           'sparql/algebra/operator/less_than'
-    autoload :GreaterThan,        'sparql/algebra/operator/greater_than'
-    autoload :LessThanOrEqual,    'sparql/algebra/operator/less_than_or_equal'
-    autoload :GreaterThanOrEqual, 'sparql/algebra/operator/greater_than_or_equal'
-    autoload :Multiply,           'sparql/algebra/operator/multiply'
     autoload :Divide,             'sparql/algebra/operator/divide'
-    autoload :Add,                'sparql/algebra/operator/add'
-    autoload :Subtract,           'sparql/algebra/operator/subtract'
-    autoload :SameTerm,           'sparql/algebra/operator/same_term'
-    autoload :StrLang,            'sparql/algebra/operator/strlang'
-    autoload :StrDT,              'sparql/algebra/operator/strdt'
+    autoload :Equal,              'sparql/algebra/operator/equal'
+    autoload :GreaterThan,        'sparql/algebra/operator/greater_than'
+    autoload :GreaterThanOrEqual, 'sparql/algebra/operator/greater_than_or_equal'
     autoload :LangMatches,        'sparql/algebra/operator/lang_matches'
+    autoload :LessThan,           'sparql/algebra/operator/less_than'
+    autoload :LessThanOrEqual,    'sparql/algebra/operator/less_than_or_equal'
+    autoload :Multiply,           'sparql/algebra/operator/multiply'
+    autoload :NotEqual,           'sparql/algebra/operator/not_equal'
+    autoload :Or,                 'sparql/algebra/operator/or'
     autoload :Regex,              'sparql/algebra/operator/regex'
+    autoload :SameTerm,           'sparql/algebra/operator/same_term'
+    autoload :StrDT,              'sparql/algebra/operator/strdt'
+    autoload :StrLang,            'sparql/algebra/operator/strlang'
+    autoload :Subtract,           'sparql/algebra/operator/subtract'
 
     # Miscellaneous
     autoload :Asc,                'sparql/algebra/operator/asc'
@@ -53,6 +60,7 @@ module SPARQL; module Algebra
     autoload :Dataset,            'sparql/algebra/operator/dataset'
     autoload :Describe,           'sparql/algebra/operator/describe'
     autoload :Distinct,           'sparql/algebra/operator/distinct'
+    autoload :Extend,             'sparql/algebra/operator/extend'
     autoload :Filter,             'sparql/algebra/operator/filter'
     autoload :Graph,              'sparql/algebra/operator/graph'
     autoload :Join,               'sparql/algebra/operator/join'
@@ -84,14 +92,18 @@ module SPARQL; module Algebra
         when :<=>         then Compare # non-standard
         when :>           then GreaterThan
         when :>=          then GreaterThanOrEqual
+        when :abs         then Abs
         when :add         then Add
         when :and, :'&&'  then And
         when :bound       then Bound
+        when :ceil        then Ceil
         when :datatype    then Datatype
         when :divide      then Divide
+        when :floor       then Floor
         when :isblank     then IsBlank
         when :isiri       then IsIRI
         when :isliteral   then IsLiteral
+        when :isnumeric   then IsNumeric
         when :isuri       then IsIRI # alias
         when :lang        then Lang
         when :langmatches then LangMatches
@@ -100,7 +112,9 @@ module SPARQL; module Algebra
         when :not, :'!'   then Not
         when :or, :'||'   then Or
         when :plus        then Plus
+        when :rand        then Rand
         when :regex       then Regex
+        when :round       then Round
         when :sameterm    then SameTerm
         when :str         then Str
         when :strdt       then StrDT

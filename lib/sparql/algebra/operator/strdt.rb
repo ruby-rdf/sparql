@@ -25,9 +25,9 @@ module SPARQL; module Algebra
       # @return [RDF::Literal] a datatyped literal
       # @see http://www.w3.org/TR/sparql11-query/#func-strdt
       def apply(value, datatypeIRI)
-        raise TypeError, "Literal #{value.inspect} is not simple" unless value.plain?
+        raise TypeError, "Literal #{value.inspect} is not simple" unless value.simple?
         RDF::Literal.new(value.to_s, :datatype => datatypeIRI)
       end
-    end # Str
+    end # StrDT
   end # Operator
 end; end # SPARQL::Algebra

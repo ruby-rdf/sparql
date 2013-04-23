@@ -4,8 +4,8 @@ module SPARQL; module Algebra
     # The SPARQL logical `not` operator.
     #
     # @example
-    #   (! ?x ?y)
-    #   (not ?x ?y)
+    #   (! ?x)
+    #   (not ?x)
     #
     # @see http://www.w3.org/TR/xpath-functions/#func-not
     class Not < Operator::Unary
