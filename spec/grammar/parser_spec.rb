@@ -1069,17 +1069,17 @@ describe SPARQL::Grammar::Parser do
             (bgp (triple ?s <p> ?v))))
         )
       ],
-      "group+expression" => [
-        "SELECT ?w (SAMPLE(?v) AS ?S) {?s :p ?v . OPTIONAL { ?s :q ?w }} GROUP BY ?w",
-        %q(
-        (project (?w ?S)
-          (extend ((?S ?.0))
-            (group (?w) ((?.0 (sample ?v)))
-              (leftjoin
-                (bgp (triple ?s <p> ?v))
-                (bgp (triple ?s <q> ?w))))))
-        )
-      ]
+      #"group+expression" => [
+      #  "SELECT ?w (SAMPLE(?v) AS ?S) {?s :p ?v . OPTIONAL { ?s :q ?w }} GROUP BY ?w",
+      #  %q(
+      #  (project (?w ?S)
+      #    (extend ((?S ?.0))
+      #      (group (?w) ((?.0 (sample ?v)))
+      #        (leftjoin
+      #          (bgp (triple ?s <p> ?v))
+      #          (bgp (triple ?s <q> ?w))))))
+      #  )
+      #]
     }.each do |title, (input, output)|
       it title do
         input.should generate(output, :resolve_iris => true)

@@ -35,6 +35,8 @@ module SPARQL; module Algebra
     autoload :Add,                'sparql/algebra/operator/add'
     autoload :Subtract,           'sparql/algebra/operator/subtract'
     autoload :SameTerm,           'sparql/algebra/operator/same_term'
+    autoload :StrLang,            'sparql/algebra/operator/strlang'
+    autoload :StrDT,              'sparql/algebra/operator/strdt'
     autoload :LangMatches,        'sparql/algebra/operator/lang_matches'
     autoload :Regex,              'sparql/algebra/operator/regex'
 
@@ -71,37 +73,39 @@ module SPARQL; module Algebra
     def self.for(name, arity = nil)
       # TODO: refactor this to dynamically introspect loaded operator classes.
       case (name.to_s.downcase.to_sym rescue nil)
-        when :<=>         then Compare # non-standard
-        when :'='         then Equal
         when :'!='        then NotEqual
-        when :<           then LessThan
-        when :>           then GreaterThan
-        when :<=          then LessThanOrEqual
-        when :>=          then GreaterThanOrEqual
-        when :*           then Multiply
         when :'/'         then Divide
+        when :'='         then Equal
+        when :*           then Multiply
         when :+           then arity.eql?(1) ? Plus  : Add
         when :-           then arity.eql?(1) ? Minus : Subtract
-        when :not, :'!'   then Not
-        when :plus        then Plus
-        when :minus       then Minus
+        when :<           then LessThan
+        when :<=          then LessThanOrEqual
+        when :<=>         then Compare # non-standard
+        when :>           then GreaterThan
+        when :>=          then GreaterThanOrEqual
+        when :add         then Add
+        when :and, :'&&'  then And
         when :bound       then Bound
+        when :datatype    then Datatype
+        when :divide      then Divide
         when :isblank     then IsBlank
         when :isiri       then IsIRI
-        when :isuri       then IsIRI # alias
         when :isliteral   then IsLiteral
-        when :str         then Str
+        when :isuri       then IsIRI # alias
         when :lang        then Lang
-        when :datatype    then Datatype
-        when :or, :'||'   then Or
-        when :and, :'&&'  then And
-        when :multiply    then Multiply
-        when :divide      then Divide
-        when :add         then Add
-        when :subtract    then Subtract
-        when :sameterm    then SameTerm
         when :langmatches then LangMatches
+        when :minus       then Minus
+        when :multiply    then Multiply
+        when :not, :'!'   then Not
+        when :or, :'||'   then Or
+        when :plus        then Plus
         when :regex       then Regex
+        when :sameterm    then SameTerm
+        when :str         then Str
+        when :strdt       then StrDT
+        when :strlang     then StrLang
+        when :subtract    then Subtract
         
         # Miscellaneous
         when :asc         then Asc
