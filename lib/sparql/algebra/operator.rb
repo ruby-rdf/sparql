@@ -14,6 +14,7 @@ module SPARQL; module Algebra
     autoload :Bound,              'sparql/algebra/operator/bound'
     autoload :Ceil,               'sparql/algebra/operator/ceil'
     autoload :Datatype,           'sparql/algebra/operator/datatype'
+    autoload :EncodeForURI,       'sparql/algebra/operator/encode_for_uri'
     autoload :Floor,              'sparql/algebra/operator/floor'
     autoload :IsBlank,            'sparql/algebra/operator/is_blank'
     autoload :IsIRI,              'sparql/algebra/operator/is_iri'
@@ -21,6 +22,7 @@ module SPARQL; module Algebra
     autoload :IsNumeric,          'sparql/algebra/operator/is_numeric'
     autoload :IsURI,              'sparql/algebra/operator/is_iri'
     autoload :Lang,               'sparql/algebra/operator/lang'
+    autoload :LCase,              'sparql/algebra/operator/lcase'
     autoload :Minus,              'sparql/algebra/operator/minus'
     autoload :Not,                'sparql/algebra/operator/not'
     autoload :Plus,               'sparql/algebra/operator/plus'
@@ -31,6 +33,8 @@ module SPARQL; module Algebra
     autoload :Add,                'sparql/algebra/operator/add'
     autoload :And,                'sparql/algebra/operator/and'
     autoload :Compare,            'sparql/algebra/operator/compare'
+    autoload :Concat,             'sparql/algebra/operator/concat'
+    autoload :Contains,           'sparql/algebra/operator/contains'
     autoload :Divide,             'sparql/algebra/operator/divide'
     autoload :Equal,              'sparql/algebra/operator/equal'
     autoload :GreaterThan,        'sparql/algebra/operator/greater_than'
@@ -42,10 +46,18 @@ module SPARQL; module Algebra
     autoload :NotEqual,           'sparql/algebra/operator/not_equal'
     autoload :Or,                 'sparql/algebra/operator/or'
     autoload :Regex,              'sparql/algebra/operator/regex'
+    autoload :Replace,            'sparql/algebra/operator/replace'
     autoload :SameTerm,           'sparql/algebra/operator/same_term'
+    autoload :StrAfter,           'sparql/algebra/operator/strafter'
+    autoload :StrBefore,          'sparql/algebra/operator/strbefore'
     autoload :StrDT,              'sparql/algebra/operator/strdt'
+    autoload :StrEnds,            'sparql/algebra/operator/strends'
     autoload :StrLang,            'sparql/algebra/operator/strlang'
+    autoload :StrLen,             'sparql/algebra/operator/strlen'
+    autoload :StrStarts,          'sparql/algebra/operator/strstarts'
+    autoload :SubStr,             'sparql/algebra/operator/substr'
     autoload :Subtract,           'sparql/algebra/operator/subtract'
+    autoload :UCase,              'sparql/algebra/operator/ucase'
 
     # Miscellaneous
     autoload :Asc,                'sparql/algebra/operator/asc'
@@ -81,74 +93,86 @@ module SPARQL; module Algebra
     def self.for(name, arity = nil)
       # TODO: refactor this to dynamically introspect loaded operator classes.
       case (name.to_s.downcase.to_sym rescue nil)
-        when :'!='        then NotEqual
-        when :'/'         then Divide
-        when :'='         then Equal
-        when :*           then Multiply
-        when :+           then arity.eql?(1) ? Plus  : Add
-        when :-           then arity.eql?(1) ? Minus : Subtract
-        when :<           then LessThan
-        when :<=          then LessThanOrEqual
-        when :<=>         then Compare # non-standard
-        when :>           then GreaterThan
-        when :>=          then GreaterThanOrEqual
-        when :abs         then Abs
-        when :add         then Add
-        when :and, :'&&'  then And
-        when :bound       then Bound
-        when :ceil        then Ceil
-        when :datatype    then Datatype
-        when :divide      then Divide
-        when :floor       then Floor
-        when :isblank     then IsBlank
-        when :isiri       then IsIRI
-        when :isliteral   then IsLiteral
-        when :isnumeric   then IsNumeric
-        when :isuri       then IsIRI # alias
-        when :lang        then Lang
-        when :langmatches then LangMatches
-        when :minus       then Minus
-        when :multiply    then Multiply
-        when :not, :'!'   then Not
-        when :or, :'||'   then Or
-        when :plus        then Plus
-        when :rand        then Rand
-        when :regex       then Regex
-        when :round       then Round
-        when :sameterm    then SameTerm
-        when :str         then Str
-        when :strdt       then StrDT
-        when :strlang     then StrLang
-        when :subtract    then Subtract
+        when :'!='            then NotEqual
+        when :'/'             then Divide
+        when :'='             then Equal
+        when :*               then Multiply
+        when :+               then arity.eql?(1) ? Plus  : Add
+        when :-               then arity.eql?(1) ? Minus : Subtract
+        when :<               then LessThan
+        when :<=              then LessThanOrEqual
+        when :<=>             then Compare # non-standard
+        when :>               then GreaterThan
+        when :>=              then GreaterThanOrEqual
+        when :abs             then Abs
+        when :add             then Add
+        when :and, :'&&'      then And
+        when :bound           then Bound
+        when :ceil            then Ceil
+        when :concat          then Concat
+        when :contains        then Contains
+        when :datatype        then Datatype
+        when :encode_for_uri  then EncodeForURI
+        when :divide          then Divide
+        when :floor           then Floor
+        when :isblank         then IsBlank
+        when :isiri           then IsIRI
+        when :isliteral       then IsLiteral
+        when :isnumeric       then IsNumeric
+        when :isuri           then IsIRI # alias
+        when :lang            then Lang
+        when :langmatches     then LangMatches
+        when :lcase           then LCase
+        when :minus           then Minus
+        when :multiply        then Multiply
+        when :not, :'!'       then Not
+        when :or, :'||'       then Or
+        when :plus            then Plus
+        when :rand            then Rand
+        when :regex           then Regex
+        when :replace         then Replace
+        when :round           then Round
+        when :sameterm        then SameTerm
+        when :str             then Str
+        when :strafter        then StrAfter
+        when :strbefore       then StrBefore
+        when :strdt           then StrDT
+        when :strends         then StrEnds
+        when :strlang         then StrLang
+        when :strlen          then StrLen
+        when :strstarts       then StrStarts
+        when :substr          then SubStr
+        when :subtract        then Subtract
+        when :ucase           then UCase
         
         # Miscellaneous
-        when :asc         then Asc
-        when :desc        then Desc
-        when :exprlist    then Exprlist
+        when :asc             then Asc
+        when :desc            then Desc
+        when :exprlist        then Exprlist
 
         # Datasets
-        when :dataset     then Dataset
+        when :dataset         then Dataset
         
         # Query forms
-        when :ask         then Ask
-        when :base        then Base
-        when :bgp         then BGP
-        when :construct   then Construct
-        when :describe    then Describe
-        when :distinct    then Distinct
-        when :extend      then Extend
-        when :filter      then Filter
-        when :graph       then Graph
-        when :join        then Join
-        when :leftjoin    then LeftJoin
-        when :order       then Order
-        when :prefix      then Prefix
-        when :project     then Project
-        when :reduced     then Reduced
-        when :slice       then Slice
-        when :triple      then RDF::Query::Pattern
-        when :union       then Union
-        else nil # not found
+        when :ask             then Ask
+        when :base            then Base
+        when :bgp             then BGP
+        when :construct       then Construct
+        when :describe        then Describe
+        when :distinct        then Distinct
+        when :extend          then Extend
+        when :filter          then Filter
+        when :graph           then Graph
+        when :join            then Join
+        when :leftjoin        then LeftJoin
+        when :order           then Order
+        when :prefix          then Prefix
+        when :project         then Project
+        when :reduced         then Reduced
+        when :slice           then Slice
+        when :triple          then RDF::Query::Pattern
+        when :union           then Union
+        else                       nil # not found
       end
     end
 
@@ -551,6 +575,31 @@ module SPARQL; module Algebra
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
       def initialize(arg1, arg2, arg3, options = {})
+        super
+      end
+    end # Ternary
+
+    ##
+    # A SPARQL quaternary operator.
+    #
+    # Operators of this kind take four operands.
+    #
+    # @abstract
+    class Quaternary < Operator
+      ARITY = 4
+
+      ##
+      # @param  [RDF::Term] arg1
+      #   the first operand
+      # @param  [RDF::Term] arg2
+      #   the second operand
+      # @param  [RDF::Term] arg3
+      #   the third operand
+      # @param  [RDF::Term] arg4
+      #   the forth operand
+      # @param  [Hash{Symbol => Object}] options
+      #   any additional options (see {Operator#initialize})
+      def initialize(arg1, arg2, arg3, arg4, options = {})
         super
       end
     end # Ternary
