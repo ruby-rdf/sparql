@@ -23,10 +23,14 @@ module SPARQL; module Algebra
     autoload :IsURI,              'sparql/algebra/operator/is_iri'
     autoload :Lang,               'sparql/algebra/operator/lang'
     autoload :LCase,              'sparql/algebra/operator/lcase'
+    autoload :MD5,                'sparql/algebra/operator/md5'
     autoload :Minus,              'sparql/algebra/operator/minus'
     autoload :Not,                'sparql/algebra/operator/not'
     autoload :Plus,               'sparql/algebra/operator/plus'
     autoload :Round,              'sparql/algebra/operator/round'
+    autoload :SHA1,               'sparql/algebra/operator/sha1'
+    autoload :SHA256,             'sparql/algebra/operator/sha256'
+    autoload :SHA512,             'sparql/algebra/operator/sha512'
     autoload :Str,                'sparql/algebra/operator/str'
 
     # Binary operators
@@ -123,6 +127,7 @@ module SPARQL; module Algebra
         when :lang            then Lang
         when :langmatches     then LangMatches
         when :lcase           then LCase
+        when :md5             then MD5
         when :minus           then Minus
         when :multiply        then Multiply
         when :not, :'!'       then Not
@@ -133,6 +138,9 @@ module SPARQL; module Algebra
         when :replace         then Replace
         when :round           then Round
         when :sameterm        then SameTerm
+        when :sha1            then SHA1
+        when :sha256          then SHA256
+        when :sha512          then SHA512
         when :str             then Str
         when :strafter        then StrAfter
         when :strbefore       then StrBefore
