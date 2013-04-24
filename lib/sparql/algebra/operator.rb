@@ -7,6 +7,7 @@ module SPARQL; module Algebra
     include Expression
 
     # Nullary operatos
+    autoload :Now,                'sparql/algebra/operator/now'
     autoload :Rand,               'sparql/algebra/operator/rand'
 
     # Unary operators
@@ -14,8 +15,10 @@ module SPARQL; module Algebra
     autoload :Bound,              'sparql/algebra/operator/bound'
     autoload :Ceil,               'sparql/algebra/operator/ceil'
     autoload :Datatype,           'sparql/algebra/operator/datatype'
+    autoload :Day,                'sparql/algebra/operator/day'
     autoload :EncodeForURI,       'sparql/algebra/operator/encode_for_uri'
     autoload :Floor,              'sparql/algebra/operator/floor'
+    autoload :Hours,              'sparql/algebra/operator/hours'
     autoload :IsBlank,            'sparql/algebra/operator/is_blank'
     autoload :IsIRI,              'sparql/algebra/operator/is_iri'
     autoload :IsLiteral,          'sparql/algebra/operator/is_literal'
@@ -25,13 +28,19 @@ module SPARQL; module Algebra
     autoload :LCase,              'sparql/algebra/operator/lcase'
     autoload :MD5,                'sparql/algebra/operator/md5'
     autoload :Minus,              'sparql/algebra/operator/minus'
+    autoload :Minutes,            'sparql/algebra/operator/minutes'
+    autoload :Month,              'sparql/algebra/operator/month'
     autoload :Not,                'sparql/algebra/operator/not'
     autoload :Plus,               'sparql/algebra/operator/plus'
     autoload :Round,              'sparql/algebra/operator/round'
+    autoload :Seconds,            'sparql/algebra/operator/seconds'
     autoload :SHA1,               'sparql/algebra/operator/sha1'
     autoload :SHA256,             'sparql/algebra/operator/sha256'
     autoload :SHA512,             'sparql/algebra/operator/sha512'
     autoload :Str,                'sparql/algebra/operator/str'
+    autoload :Timezone,           'sparql/algebra/operator/timezone'
+    autoload :TZ,                 'sparql/algebra/operator/tz'
+    autoload :Year,               'sparql/algebra/operator/year'
 
     # Binary operators
     autoload :Add,                'sparql/algebra/operator/add'
@@ -116,9 +125,11 @@ module SPARQL; module Algebra
         when :concat          then Concat
         when :contains        then Contains
         when :datatype        then Datatype
+        when :day             then Day
         when :encode_for_uri  then EncodeForURI
         when :divide          then Divide
         when :floor           then Floor
+        when :hours           then Hours
         when :isblank         then IsBlank
         when :isiri           then IsIRI
         when :isliteral       then IsLiteral
@@ -129,8 +140,11 @@ module SPARQL; module Algebra
         when :lcase           then LCase
         when :md5             then MD5
         when :minus           then Minus
+        when :minutes         then Minutes
+        when :month           then Month
         when :multiply        then Multiply
         when :not, :'!'       then Not
+        when :now             then Now
         when :or, :'||'       then Or
         when :plus            then Plus
         when :rand            then Rand
@@ -138,6 +152,7 @@ module SPARQL; module Algebra
         when :replace         then Replace
         when :round           then Round
         when :sameterm        then SameTerm
+        when :seconds         then Seconds
         when :sha1            then SHA1
         when :sha256          then SHA256
         when :sha512          then SHA512
@@ -151,7 +166,10 @@ module SPARQL; module Algebra
         when :strstarts       then StrStarts
         when :substr          then SubStr
         when :subtract        then Subtract
+        when :timezone        then Timezone
+        when :tz              then TZ
         when :ucase           then UCase
+        when :year            then Year
         
         # Miscellaneous
         when :asc             then Asc
