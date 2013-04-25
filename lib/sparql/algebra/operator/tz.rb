@@ -18,17 +18,13 @@ module SPARQL; module Algebra
       ##
       # Returns the timezone part of arg as a simple literal. Returns the empty string if there is no timezone.
       #
-      # Note: RDF::Literal::DateTime cannot distinguish no zimezone from Zulu, as the core Ruby DateTime class does not distinguish this.
-      #
       # @param  [RDF::Literal] operand
       #   the operand
       # @return [RDF::Literal]
       # @raise  [TypeError] if the operand is not a simple literal
       def apply(operand)
         raise TypeError, "expected an RDF::Literal::DateTime, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::DateTime)
-        zone = operand.object.zone
-        zone = "Z" if zone == "+00:00"
-        RDF::Literal(zone)
+        operand.tz
       end
     end # TZ
   end # Operator
