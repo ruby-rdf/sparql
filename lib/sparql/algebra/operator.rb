@@ -12,6 +12,7 @@ module SPARQL; module Algebra
 
     # Unary operators
     autoload :Abs,                'sparql/algebra/operator/abs'
+    autoload :BNode,              'sparql/algebra/operator/bnode'
     autoload :Bound,              'sparql/algebra/operator/bound'
     autoload :Ceil,               'sparql/algebra/operator/ceil'
     autoload :Datatype,           'sparql/algebra/operator/datatype'
@@ -24,6 +25,7 @@ module SPARQL; module Algebra
     autoload :IsLiteral,          'sparql/algebra/operator/is_literal'
     autoload :IsNumeric,          'sparql/algebra/operator/is_numeric'
     autoload :IsURI,              'sparql/algebra/operator/is_iri'
+    autoload :IRI,                'sparql/algebra/operator/iri'
     autoload :Lang,               'sparql/algebra/operator/lang'
     autoload :LCase,              'sparql/algebra/operator/lcase'
     autoload :MD5,                'sparql/algebra/operator/md5'
@@ -120,6 +122,7 @@ module SPARQL; module Algebra
         when :abs             then Abs
         when :add             then Add
         when :and, :'&&'      then And
+        when :bnode           then BNode
         when :bound           then Bound
         when :ceil            then Ceil
         when :concat          then Concat
@@ -130,6 +133,7 @@ module SPARQL; module Algebra
         when :divide          then Divide
         when :floor           then Floor
         when :hours           then Hours
+        when :iri, :uri       then IRI
         when :isblank         then IsBlank
         when :isiri           then IsIRI
         when :isliteral       then IsLiteral
@@ -170,7 +174,7 @@ module SPARQL; module Algebra
         when :tz              then TZ
         when :ucase           then UCase
         when :year            then Year
-        
+
         # Miscellaneous
         when :asc             then Asc
         when :desc            then Desc
