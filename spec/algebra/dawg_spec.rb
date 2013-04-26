@@ -95,7 +95,6 @@ describe SPARQL::Grammar::Parser do
           bindings
           property-path
           subquery
-          bind
           exists
           grouping
           negation
