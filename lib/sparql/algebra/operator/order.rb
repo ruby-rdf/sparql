@@ -33,20 +33,16 @@ module SPARQL; module Algebra
           operand(0).inject(false) do |memo, op|
             debug(options) {"=> #{op.inspect}"}
             memo ||= begin
-              comp = case op
-              when RDF::Query::Variable
-                a[op.to_sym] <=> b[op.to_sym]
-              when Operator, Array
-                a_eval, b_eval = op.evaluate(a), op.evaluate(b)
-                if a_eval.nil?
-                  RDF::Literal(-1)
-                elsif b_eval.nil?
-                  RDF::Literal(1)
-                else
-                  Operator::Compare.evaluate(a_eval, b_eval)
-                end
+              a_eval = op.evaluate(a) rescue nil
+              b_eval = op.evaluate(b) rescue nil
+              comp = if a_eval.nil?
+                RDF::Literal(-1)
+              elsif b_eval.nil?
+                RDF::Literal(1)
+              elsif op.is_a?(RDF::Query::Variable)
+                a_eval <=> b_eval
               else
-                raise TypeError, "Unexpected order expression #{op.inspect}"
+                Operator::Compare.evaluate(a_eval, b_eval)
               end
               comp = -comp if op.is_a?(Operator::Desc)
               comp == 0 ? false : comp

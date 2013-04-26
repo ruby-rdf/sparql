@@ -173,7 +173,9 @@ class RDF::Query::Variable
   #
   # @param  [RDF::Query::Solution, #[]] bindings
   # @return [RDF::Term] the value of this variable
+  # @raise [TypeError] if the variable is not bound
   def evaluate(bindings = {})
+    raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
   end
 end # RDF::Query::Variable
