@@ -59,7 +59,7 @@ module SPARQL; module Algebra
         @@bindings ||= bindings
         @@bnodes ||= {}
 
-        res = if literal == RDF::Literal::FALSE
+        if literal == RDF::Literal::FALSE
           l, @@bnode_base = @@bnode_base, @@bnode_base.succ
           RDF::Node.new(l)
         else
@@ -71,8 +71,6 @@ module SPARQL; module Algebra
             RDF::Node.new(l)
           end
         end
-        puts "l: #{literal.inspect}, bn: #{res}"
-        res
       end
     end # BNode
   end # Operator

@@ -9,6 +9,8 @@ module SPARQL; module Algebra
     # Nullary operatos
     autoload :Now,                'sparql/algebra/operator/now'
     autoload :Rand,               'sparql/algebra/operator/rand'
+    autoload :StrUUID,            'sparql/algebra/operator/struuid'
+    autoload :UUID,               'sparql/algebra/operator/uuid'
 
     # Unary operators
     autoload :Abs,                'sparql/algebra/operator/abs'
@@ -52,6 +54,7 @@ module SPARQL; module Algebra
     autoload :Contains,           'sparql/algebra/operator/contains'
     autoload :Divide,             'sparql/algebra/operator/divide'
     autoload :Equal,              'sparql/algebra/operator/equal'
+    autoload :If,                 'sparql/algebra/operator/if'
     autoload :GreaterThan,        'sparql/algebra/operator/greater_than'
     autoload :GreaterThanOrEqual, 'sparql/algebra/operator/greater_than_or_equal'
     autoload :LangMatches,        'sparql/algebra/operator/lang_matches'
@@ -76,6 +79,7 @@ module SPARQL; module Algebra
 
     # Miscellaneous
     autoload :Asc,                'sparql/algebra/operator/asc'
+    autoload :Coalesce,           'sparql/algebra/operator/coalesce'
     autoload :Desc,               'sparql/algebra/operator/desc'
     autoload :Exprlist,           'sparql/algebra/operator/exprlist'
 
@@ -124,6 +128,7 @@ module SPARQL; module Algebra
         when :and, :'&&'      then And
         when :bnode           then BNode
         when :bound           then Bound
+        when :coalesce        then Coalesce
         when :ceil            then Ceil
         when :concat          then Concat
         when :contains        then Contains
@@ -133,6 +138,7 @@ module SPARQL; module Algebra
         when :divide          then Divide
         when :floor           then Floor
         when :hours           then Hours
+        when :if              then If
         when :iri, :uri       then IRI
         when :isblank         then IsBlank
         when :isiri           then IsIRI
@@ -168,11 +174,13 @@ module SPARQL; module Algebra
         when :strlang         then StrLang
         when :strlen          then StrLen
         when :strstarts       then StrStarts
+        when :struuid         then StrUUID
         when :substr          then SubStr
         when :subtract        then Subtract
         when :timezone        then Timezone
         when :tz              then TZ
         when :ucase           then UCase
+        when :uuid            then UUID
         when :year            then Year
 
         # Miscellaneous
