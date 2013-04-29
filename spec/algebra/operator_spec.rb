@@ -122,8 +122,8 @@ describe SPARQL::Algebra do
     end
 
     describe "#boolean(RDF::Literal) with a language-tagged literal" do
-      it "raises a TypeError" do
-        lambda { @op.new.send(:boolean, RDF::Literal("Hello", :language => :en)) }.should raise_error TypeError
+      it "returns RDF::Literal::TRUE" do
+        @op.new.send(:boolean, RDF::Literal("Hello", :language => :en)).should eql RDF::Literal::TRUE
       end
     end
 
