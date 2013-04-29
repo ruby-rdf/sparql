@@ -36,6 +36,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version      = '>= 1.9.2'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',             '>= 1.0.4'
+  gem.add_runtime_dependency     'rdf-aggregate-repo'
   gem.add_runtime_dependency     'ebnf',            '>= 0.3.0'
   gem.add_runtime_dependency     'builder',         '>= 3.0'
   gem.add_runtime_dependency     'json',            '>= 1.7'
