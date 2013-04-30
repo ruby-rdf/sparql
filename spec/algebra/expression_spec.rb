@@ -132,7 +132,7 @@ describe SPARQL::Algebra do
           if spec =~ /raises/
             lambda { op.evaluate }.should raise_error(TypeError)
           else
-            op.evaluate.should be_true
+            op.evaluate.should == RDF::Literal::TRUE
           end
         end
       end

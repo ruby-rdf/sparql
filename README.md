@@ -48,8 +48,7 @@ much more capability than [SPARQL 1.0][], but has a few limitations:
 
 The SPARQL gem now implements the following [SPARQL 1.1][] operations:
 
-* Support for all [functions](http://www.w3.org/TR/sparql11-query/#SparqlOps)
-  except `IN` and `NOT IN`.
+* Support for all [functions](http://www.w3.org/TR/sparql11-query/#SparqlOps).
 * Support for [BIND](http://www.w3.org/TR/sparql11-query/#bind)
 
 ### Middleware

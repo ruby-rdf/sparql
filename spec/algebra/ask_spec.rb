@@ -40,7 +40,7 @@ describe SPARQL::Algebra::Query do
             (bgp (triple :x :p 1))))
         },
         :sse => true
-      ).should be_true
+      ).should == RDF::Literal::TRUE
     end
   end
 end

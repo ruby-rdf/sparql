@@ -54,6 +54,40 @@ module RDF::Term
   def evaluate(bindings)
     self
   end
+
+  # Term compatibility according to SPARQL
+  #
+  # Compatibility of two arguments is defined as:
+  # * The arguments are simple literals or literals typed as xsd:string
+  # * The arguments are plain literals with identical language tags
+  # * The first argument is a plain literal with language tag and the second argument is a simple literal or literal typed as xsd:string
+  #
+  # @example
+  #     compatible?("abc"	"b")                         #=> true
+  #     compatible?("abc"	"b"^^xsd:string)             #=> true
+  #     compatible?("abc"^^xsd:string	"b")             #=> true
+  #     compatible?("abc"^^xsd:string	"b"^^xsd:string) #=> true
+  #     compatible?("abc"@en	"b")                     #=> true
+  #     compatible?("abc"@en	"b"^^xsd:string)         #=> true
+  #     compatible?("abc"@en	"b"@en)                  #=> true
+  #     compatible?("abc"@fr	"b"@ja)                  #=> false
+  #     compatible?("abc"	"b"@ja)                      #=> false
+  #     compatible?("abc"	"b"@en)                      #=> false
+  #     compatible?("abc"^^xsd:string	"b"@en)          #=> false
+  #
+  # @see http://www.w3.org/TR/sparql11-query/#func-arg-compatibility
+  def compatible?(other)
+    return false unless literal?  && other.literal? && plain? && other.plain?
+
+    dtr = RDF::VERSION.to_s >= "1.1" ? other.datatype : (other.has_language? ? RDF.langString : RDF::XSD.string)
+
+    # * The arguments are simple literals or literals typed as xsd:string
+    # * The arguments are plain literals with identical language tags
+    # * The first argument is a plain literal with language tag and the second argument is a simple literal or literal typed as xsd:string
+    has_language? ?
+      (language == other.language || dtr == RDF::XSD.string) :
+      dtr == RDF::XSD.string
+  end
 end # RDF::Term
 
 # Override RDF::Queryable to execute against SPARQL::Algebra::Query elements as well as RDF::Query and RDF::Pattern
@@ -139,7 +173,9 @@ class RDF::Query::Variable
   #
   # @param  [RDF::Query::Solution, #[]] bindings
   # @return [RDF::Term] the value of this variable
+  # @raise [TypeError] if the variable is not bound
   def evaluate(bindings = {})
+    raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
   end
 end # RDF::Query::Variable

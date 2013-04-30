@@ -43,7 +43,7 @@ shared_examples "SSE" do |man, tests|
             gsub(/\(\s+\(/, '((').
             gsub(/\)\s+\)/, '))').
             strip
-          normalized_query.should == normalized_result
+          normalized_query.should produce(normalized_result, ["original query:", t.action.query_string])
         end
       when MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
         it "detects syntax error for #{t.entry} - #{t.name}" do
@@ -70,6 +70,8 @@ shared_examples "SSE" do |man, tests|
 end
 
 describe SPARQL::Grammar::Parser do
+  before(:each) {$stderr = StringIO.new}
+  after(:each) {$stderr = STDERR}
   describe "w3c dawg SPARQL 1.0 syntax tests" do
     SPARQL::Spec.sparql1_0_syntax_tests(true).group_by(&:manifest).each do |man, tests|
       it_behaves_like "SSE", man, tests
@@ -82,27 +84,39 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  #describe "w3c dawg SPARQL 1.1 tests" do
-  #  SPARQL::Spec.sparql1_1_tests(true).
-  #    reject do |tc|
-  #      %w{basic-update
-  #        clear
-  #        copy
-  #        csv-tsv
-  #        delete
-  #        drop
-  #        entailment
-  #        http
-  #        json
-  #        move
-  #        protocol
-  #        service
-  #        syntax-fed
-  #      }.include? tc.manifest.to_s.split('/')[-2]
-  #    end.
-  #    group_by(&:manifest).
-  #    each do |man, tests|
-  #    it_behaves_like "SSE", man, tests
-  #  end
-  #end
+  describe "w3c dawg SPARQL 1.1 tests" do
+    SPARQL::Spec.sparql1_1_tests(true).
+      reject do |tc|
+        %w{
+          basic-update
+          clear
+          copy
+          csv-tsv
+          csv-tsv-res
+          delete
+          drop
+          entailment
+          http
+          json
+          json-res
+          move
+          protocol
+          service
+          syntax-fed
+
+          aggregates
+          bindings
+          property-path
+          subquery
+          exists
+          grouping
+          negation
+          syntax-query
+        }.include? tc.manifest.to_s.split('/')[-2]
+      end.
+      group_by(&:manifest).
+      each do |man, tests|
+      it_behaves_like "SSE", man, tests
+    end
+  end
 end unless ENV['CI']

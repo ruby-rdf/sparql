@@ -49,7 +49,7 @@ actual:\n#{result.inspect}
       STDOUT.write(options[:quiet] ? "F" : (" failed" + options[:failures][t]))
     end
   when :ask
-    if result
+    if result == RDF::Literal::TRUE
       STDOUT.write(options[:quiet] ? "." : " ok\n")
     else
       options[:failures] ||= {}
@@ -89,11 +89,11 @@ opts = GetoptLong.new(
 opts.each do |opt, arg|
   case opt
   when '--validate' then options[:validate] = true
-  when '--verbose' then options[:verbose] = true
+  when '--verbose' then options[:verbose] = true; ENV['PARSER_DEBUG'] = "2"
   when '--quiet' then options[:quiet] = true
   when '--sse' then options[:sse] = true
   when '--exec-debug' then ENV['EXEC_DEBUG'] = "true"; options[:verbose] = true
-  when '--parser-debug' then ENV['PARSER_DEBUG'] = "true"; options[:verbose] = true
+  when '--parser-debug' then ENV['PARSER_DEBUG'] = "3"; options[:verbose] = true
   end
 end
 

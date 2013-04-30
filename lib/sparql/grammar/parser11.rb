@@ -16,7 +16,7 @@ module SPARQL::Grammar
     # Builtin functions
     BUILTINS = %w{
       ABS  BNODE CEIL COALESCE CONCAT
-      CONTAINS DATATYPE DAY ENCODE_FOR_URI EXISTS
+      CONTAINS DATATYPE DAY ENCODE_FOR_URI
       FLOOR HOURS IF IRI LANGMATCHES LANG LCASE
       MD5 MINUTES MONTH NOW RAND ROUND SECONDS
       SHA1 SHA224 SHA256 SHA384 SHA512
@@ -25,8 +25,9 @@ module SPARQL::Grammar
       isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
     }.map {|s| s.downcase.to_sym}.freeze
 
-    BUILTIN_RULES = [:regex, :substr, :replace, :exists, :not_exists].freeze
+    BUILTIN_RULES = [:aggregate, :regex, :substr, :replace, :exists, :notexists].freeze
 
+    AGGREGATE_RULES = [:count, :sum, :min, :max, :avg, :sample, :group_concat]
     ##
     # Any additional options for the parser.
     #
@@ -173,12 +174,12 @@ module SPARQL::Grammar
       when /ASC|DESC/      then add_prod_datum(:OrderDirection, token.value.downcase.to_sym)
       when /DISTINCT|REDUCED/  then add_prod_datum(:DISTINCT_REDUCED, token.value.downcase.to_sym)
       when %r{
-          ABS|BNODE|BOUND|CEIL|COALESCE|CONCAT
-         |CONTAINS|DATATYPE|DAY|ENCODE_FOR_URI|EXISTS
-         |FLOOR|HOURS|IF|IRI|LANGMATCHES|LANG|LCASE
-         |MD5|MINUTES|MONTH|NOW|RAND|REPLACE|ROUND|SECONDS
+          ABS|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
+         |CONTAINS|COUNT|DATATYPE|DAY|ENCODE_FOR_URI|EXISTS
+         |FLOOR|HOURS|IF|GROUP_CONCAT|IRI|LANGMATCHES|LANG|LCASE
+         |MAX|MD5|MINUTES|MIN|MONTH|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
          |SHA1|SHA224|SHA256|SHA384|SHA512
-         |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR
+         |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR|SUM
          |TIMEZONE|TZ|UCASE|URI|UUID|YEAR
          |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
         }x
@@ -245,7 +246,6 @@ module SPARQL::Grammar
     # [9.8] _SelectClause_8 ::= ( '(' Expression 'AS' Var ')' )
     production(:_SelectClause_8) do |input, data, callback|
       add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
-      add_prod_datum :Var, data[:Var]
     end
 
     # [10]  ConstructQuery ::= 'CONSTRUCT'
@@ -290,13 +290,25 @@ module SPARQL::Grammar
     # [18]  	SolutionModifier	  ::=  	GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
 
     # [19]  	GroupClause	  ::=  	'GROUP' 'BY' GroupCondition+
-    #production(:GroupClause) do |input, data, callback|
-    #end
+    production(:GroupClause) do |input, data, callback|
+      add_prod_data :group, data[:GroupCondition]
+    end
 
     # [20]  	GroupCondition	  ::=  	BuiltInCall | FunctionCall
     #                                | '(' Expression ( 'AS' Var )? ')' | Var
-    #production(:GroupClause) do |input, data, callback|
-    #end
+    production(:GroupCondition) do |input, data, callback|
+      add_prod_datum :GroupCondition, data.values.first
+    end
+
+    # _GroupCondition_1 ::= '(' Expression ( 'AS' Var )? ')'
+    production(:_GroupCondition_1) do |input, data, callback|
+      cond = if data[:Var]
+        [data[:Expression].unshift(data[:Var].first)]
+      else
+        data[:Expression]
+      end
+      add_prod_datum(:GroupCondition, cond)
+    end
 
     # [21]  	HavingClause	  ::=  	'HAVING' HavingCondition+
     #production(:GroupClause) do |input, data, callback|
@@ -797,7 +809,7 @@ module SPARQL::Grammar
     # [119]  	PrimaryExpression	  ::=  	BrackettedExpression | BuiltInCall
     #                                 | iriOrFunction | RDFLiteral
     #                                 | NumericLiteral | BooleanLiteral
-    #                                 | Var | Aggregate
+    #                                 | Var
     production(:PrimaryExpression) do |input, data, callback|
       if data[:Expression]
         add_prod_datum(:Expression, data[:Expression])
@@ -817,56 +829,62 @@ module SPARQL::Grammar
       add_prod_datum(:UnaryExpression, data[:UnaryExpression])
     end
 
-    # [122]  	BuiltInCall	  ::=  	  'STR' '(' Expression ')' 
-    #                               |	'LANG' '(' Expression ')' 
-    #                               |	'LANGMATCHES' '(' Expression ',' Expression ')' 
-    #                               |	'DATATYPE' '(' Expression ')' 
-    #                               |	'BOUND' '(' Var ')' 
-    #                               |	'IRI' '(' Expression ')' 
-    #                               |	'URI' '(' Expression ')' 
-    #                               |	'BNODE' ( '(' Expression ')' | NIL ) 
-    #                               |	'RAND' NIL 
-    #                               |	'ABS' '(' Expression ')' 
-    #                               |	'CEIL' '(' Expression ')' 
-    #                               |	'FLOOR' '(' Expression ')' 
-    #                               |	'ROUND' '(' Expression ')' 
-    #                               |	'CONCAT' ExpressionList 
-    #                               |	SubstringExpression 
-    #                               |	'STRLEN' '(' Expression ')' 
-    #                               |	'UCASE' '(' Expression ')' 
-    #                               |	'LCASE' '(' Expression ')' 
-    #                               |	'ENCODE_FOR_URI' '(' Expression ')' 
-    #                               |	'CONTAINS' '(' Expression ',' Expression ')' 
-    #                               |	'STRSTARTS' '(' Expression ',' Expression ')' 
-    #                               |	'STRENDS' '(' Expression ',' Expression ')' 
-    #                               |	'YEAR' '(' Expression ')' 
-    #                               |	'MONTH' '(' Expression ')' 
-    #                               |	'DAY' '(' Expression ')' 
-    #                               |	'HOURS' '(' Expression ')' 
-    #                               |	'MINUTES' '(' Expression ')' 
-    #                               |	'SECONDS' '(' Expression ')' 
-    #                               |	'TIMEZONE' '(' Expression ')' 
-    #                               |	'TZ' '(' Expression ')' 
-    #                               |	'NOW' NIL 
-    #                               |	'MD5' '(' Expression ')' 
-    #                               |	'SHA1' '(' Expression ')' 
-    #                               |	'SHA224' '(' Expression ')' 
-    #                               |	'SHA256' '(' Expression ')' 
-    #                               |	'SHA384' '(' Expression ')' 
-    #                               |	'SHA512' '(' Expression ')' 
-    #                               |	'COALESCE' ExpressionList 
-    #                               |	'IF' '(' Expression ',' Expression ',' Expression ')' 
-    #                               |	'STRLANG' '(' Expression ',' Expression ')' 
-    #                               |	'STRDT' '(' Expression ',' Expression ')' 
-    #                               |	'sameTerm' '(' Expression ',' Expression ')' 
-    #                               |	'isIRI' '(' Expression ')' 
-    #                               |	'isURI' '(' Expression ')' 
-    #                               |	'isBLANK' '(' Expression ')' 
-    #                               |	'isLITERAL' '(' Expression ')' 
-    #                               |	'isNUMERIC' '(' Expression ')' 
-    #                               |	RegexExpression 
-    #                               |	ExistsFunc 
-    #                               |	NotExistsFunc
+    # [121] BuiltInCall             ::= Aggregate
+    #                                 | 'STR' '(' Expression ')' 
+    #                                 | 'LANG' '(' Expression ')' 
+    #                                 | 'LANGMATCHES' '(' Expression ',' Expression ')' 
+    #                                 | 'DATATYPE' '(' Expression ')' 
+    #                                 | 'BOUND' '(' Var ')' 
+    #                                 | 'IRI' '(' Expression ')' 
+    #                                 | 'URI' '(' Expression ')' 
+    #                                 | 'BNODE' ( '(' Expression ')' | NIL ) 
+    #                                 | 'RAND' NIL 
+    #                                 | 'ABS' '(' Expression ')' 
+    #                                 | 'CEIL' '(' Expression ')' 
+    #                                 | 'FLOOR' '(' Expression ')' 
+    #                                 | 'ROUND' '(' Expression ')' 
+    #                                 | 'CONCAT' ExpressionList 
+    #                                 | SubstringExpression 
+    #                                 | 'STRLEN' '(' Expression ')' 
+    #                                 | StrReplaceExpression 
+    #                                 | 'UCASE' '(' Expression ')' 
+    #                                 | 'LCASE' '(' Expression ')' 
+    #                                 | 'ENCODE_FOR_URI' '(' Expression ')' 
+    #                                 | 'CONTAINS' '(' Expression ',' Expression ')' 
+    #                                 | 'STRSTARTS' '(' Expression ',' Expression ')' 
+    #                                 | 'STRENDS' '(' Expression ',' Expression ')' 
+    #                                 | 'STRBEFORE' '(' Expression ',' Expression ')' 
+    #                                 | 'STRAFTER' '(' Expression ',' Expression ')' 
+    #                                 | 'YEAR' '(' Expression ')' 
+    #                                 | 'MONTH' '(' Expression ')' 
+    #                                 | 'DAY' '(' Expression ')' 
+    #                                 | 'HOURS' '(' Expression ')' 
+    #                                 | 'MINUTES' '(' Expression ')' 
+    #                                 | 'SECONDS' '(' Expression ')' 
+    #                                 | 'TIMEZONE' '(' Expression ')' 
+    #                                 | 'TZ' '(' Expression ')' 
+    #                                 | 'NOW' NIL 
+    #                                 | 'UUID' NIL
+    #                                 | 'STRUUID' NIL
+    #                                 | 'MD5' '(' Expression ')' 
+    #                                 | 'SHA1' '(' Expression ')' 
+    #                                 | 'SHA224' '(' Expression ')' 
+    #                                 | 'SHA256' '(' Expression ')' 
+    #                                 | 'SHA384' '(' Expression ')' 
+    #                                 | 'SHA512' '(' Expression ')' 
+    #                                 | 'COALESCE' ExpressionList 
+    #                                 | 'IF' '(' Expression ',' Expression ',' Expression ')' 
+    #                                 | 'STRLANG' '(' Expression ',' Expression ')' 
+    #                                 | 'STRDT' '(' Expression ',' Expression ')' 
+    #                                 | 'sameTerm' '(' Expression ',' Expression ')' 
+    #                                 | 'isIRI' '(' Expression ')' 
+    #                                 | 'isURI' '(' Expression ')' 
+    #                                 | 'isBLANK' '(' Expression ')' 
+    #                                 | 'isLITERAL' '(' Expression ')' 
+    #                                 | 'isNUMERIC' '(' Expression ')' 
+    #                                 | RegexExpression 
+    #                                 | ExistsFunc 
+    #                                 | NotExistsFunc
     production(:BuiltInCall) do |input, data, callback|
       if builtin = data.keys.detect {|k| BUILTINS.include?(k)}
         add_prod_datum(:BuiltInCall,
@@ -875,6 +893,8 @@ module SPARQL::Grammar
             unshift(builtin)))
       elsif builtin_rule = data.keys.detect {|k| BUILTIN_RULES.include?(k)}
         add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[builtin_rule].unshift(builtin_rule)))
+      elsif aggregate_rule = data.keys.detect {|k| AGGREGATE_RULES.include?(k)}
+        add_prod_datum(:BuiltInCall, data[aggregate_rule].first)
       elsif data[:bound]
         add_prod_datum(:BuiltInCall, SPARQL::Algebra::Expression.for(data[:Var].unshift(:bound)))
       elsif data[:BuiltInCall]
@@ -910,7 +930,25 @@ module SPARQL::Grammar
 
     # [126]  	NotExistsFunc	  ::=  	'NOT' 'EXISTS' GroupGraphPattern
     production(:NotExistsFunc) do |input, data, callback|
-      add_prod_datum(:not_exists, data[:query])
+      add_prod_datum(:notexists, data[:query])
+    end
+
+    # [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')' 
+    #                                 | 'SUM' '(' 'DISTINCT'? Expression ')' 
+    #                                 | 'MIN' '(' 'DISTINCT'? Expression ')' 
+    #                                 | 'MAX' '(' 'DISTINCT'? Expression ')' 
+    #                                 | 'AVG' '(' 'DISTINCT'? Expression ')' 
+    #                                 | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
+    #                                 | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression
+    #                                   ( ';' 'SEPARATOR' '=' String )? ')'
+    production(:Aggregate) do |input, data, callback|
+      if aggregate_rule = data.keys.detect {|k| AGGREGATE_RULES.include?(k)}
+        parts = [aggregate_rule]
+        parts << [:separator, data[:string].first] if data[:separator] && data[:string]
+        parts << :distinct if data[:DISTINCT_REDUCED]
+        parts << data[:Expression].first if data[:Expression]
+        add_prod_data(aggregate_rule, SPARQL::Algebra::Expression.for(parts))
+      end
     end
 
     # [128]  	iriOrFunction	  ::=  	iri ArgList?
@@ -988,8 +1026,8 @@ module SPARQL::Grammar
       @input.force_encoding(Encoding::UTF_8)
       @options = {:anon_base => "b0", :validate => false}.merge(options)
       @options[:debug] ||= case
-      when @options[:progress] then 2
-      when @options[:validate] then 1
+      when options[:progress] then 2
+      when options[:validate] then 1
       end
 
       debug("base IRI") {base_uri.inspect}
@@ -1311,15 +1349,35 @@ module SPARQL::Grammar
     end
     
     # Merge query modifiers, datasets, and projections
+    #
+    # This includes tranforming aggregates if also used with a GROUP BY
+    #
+    # @see http://www.w3.org/TR/sparql11-query/#convertGroupAggSelectExpressions
     def merge_modifiers(data)
       query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
-      
+
+      vars = data[:Var] || []
+      order = data[:order] ? data[:order].first : []
+
       # Add datasets and modifiers in order
-      query = SPARQL::Algebra::Expression[:extend, data[:extend], query] if data[:extend]
+      if data[:group]
+        query = SPARQL::Algebra::Expression[:group, data[:group].first, query]
+      end
 
-      query = SPARQL::Algebra::Expression[:order, data[:order].first, query] if data[:order]
+      if data[:extend]
+        # extension variables must not appear in projected variables.
+        # Add them to the projection otherwise
+        data[:extend].each do |(var, expr)|
+          raise Error, "Extension variable #{var} also in SELECT" if vars.map(&:to_s).include?(var.to_s)
+          vars << var
+        end
 
-      query = SPARQL::Algebra::Expression[:project, data[:Var], query] if data[:Var]
+        query = SPARQL::Algebra::Expression[:extend, data[:extend], query]
+      end
+
+      query = SPARQL::Algebra::Expression[:order, data[:order].first, query] unless order.empty?
+
+      query = SPARQL::Algebra::Expression[:project, vars, query] unless vars.empty?
 
       query = SPARQL::Algebra::Expression[data[:DISTINCT_REDUCED].first, query] if data[:DISTINCT_REDUCED]
 

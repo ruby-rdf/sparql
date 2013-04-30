@@ -7,7 +7,7 @@ gem "rdf-spec",       :git => "git://github.com/ruby-rdf/rdf-spec.git"
 gem "rdf-xsd",        :git => "git://github.com/ruby-rdf/rdf-xsd.git"
 gem "rdf-turtle",     :git => "git://github.com/ruby-rdf/rdf-turtle.git"
 gem 'ebnf',           :git => "git://github.com/gkellogg/ebnf.git"
-gem 'rdf-aggregate-repo', :path => "../rdf-aggregate-repo"
+gem 'rdf-aggregate-repo', :git => "git://github.com/ruby-rdf/rdf-aggregate-repo.git"
 
 group :debug do
   gem 'shotgun'  unless ENV['CI']

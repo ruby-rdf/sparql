@@ -27,6 +27,7 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Base #{operands.first}"}
+        Operator.base_uri = operands.first
         @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"=> #{@solutions.inspect}"}
         @solutions
