@@ -82,6 +82,8 @@ module SPARQL; module Algebra
     autoload :Coalesce,           'sparql/algebra/operator/coalesce'
     autoload :Desc,               'sparql/algebra/operator/desc'
     autoload :Exprlist,           'sparql/algebra/operator/exprlist'
+    autoload :In,                 'sparql/algebra/operator/in'
+    autoload :NotIn,              'sparql/algebra/operator/notin'
 
     # Query operators
     autoload :Ask,                'sparql/algebra/operator/ask'
@@ -139,6 +141,7 @@ module SPARQL; module Algebra
         when :floor           then Floor
         when :hours           then Hours
         when :if              then If
+        when :in              then In
         when :iri, :uri       then IRI
         when :isblank         then IsBlank
         when :isiri           then IsIRI
@@ -154,6 +157,7 @@ module SPARQL; module Algebra
         when :month           then Month
         when :multiply        then Multiply
         when :not, :'!'       then Not
+        when :notin           then NotIn
         when :now             then Now
         when :or, :'||'       then Or
         when :plus            then Plus
