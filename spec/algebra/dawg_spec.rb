@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'dawg_helper'
 require 'rdf/rdfxml'
 
-shared_examples "DAWG" do |man, tests|
+shared_examples "DAWG-SSE" do |man, tests|
   describe man.to_s.split("/")[-2] do
     tests.each do |t|
       case t.type
@@ -69,7 +69,7 @@ end
 describe SPARQL::Grammar::Parser do
   describe "w3c dawg SPARQL 1.0 tests" do
     SPARQL::Spec.sparql1_0_tests(true).group_by(&:manifest).each do |man, tests|
-      it_behaves_like "DAWG", man, tests
+      it_behaves_like "DAWG-SSE", man, tests
     end
   end
 
@@ -104,7 +104,7 @@ describe SPARQL::Grammar::Parser do
       end.
       group_by(&:manifest).
       each do |man, tests|
-      it_behaves_like "DAWG", man, tests
+      it_behaves_like "DAWG-SSE", man, tests
     end
   end
 end unless ENV['CI']
