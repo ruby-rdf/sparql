@@ -10,6 +10,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
 * [SPARQL 1.0][] query parsing and execution
+* Limited [SPARQL 1.1][] query parsing and execution
 * SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON] or HTML.
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data][])
@@ -45,9 +46,11 @@ much more capability than [SPARQL 1.0][], but has a few limitations:
   used in the object position, where the statement or pattern is terminated by a "."
   must contain whitespace separating the BNode label, and the ".".
 
-With this release, no new functionality is added beyond [SPARQL 1.0][]. Future releases
-will add more capabilities from [SPARQL 1.1][] with the ultimate objective of being
-completely [SPARQL 1.1][] Query and Update compliant.
+The SPARQL gem now implements the following [SPARQL 1.1][] operations:
+
+* Support for all [functions](http://www.w3.org/TR/sparql11-query/#SparqlOps)
+  except `IN` and `NOT IN`.
+* Support for [BIND](http://www.w3.org/TR/sparql11-query/#bind)
 
 ### Middleware
 
@@ -190,7 +193,7 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 ## Dependencies
 
 * [Ruby](http://ruby-lang.org/) (>= 1.9.2)
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.1)
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.0)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.1.0)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
@@ -245,6 +248,8 @@ To get a local working copy of the development repository, do:
 This is free and unencumbered public domain software. For more information,
 see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 
+A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are included in the repository, which are not covered under the UNLICENSE; see the references for test copyright information.
+
 [Ruby]:             http://ruby-lang.org/
 [RDF]:              http://www.w3.org/RDF/
 [RDF::DO]:          http://rubygems.org/gems/rdf-do
@@ -255,6 +260,8 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [PDD]:              http://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html
 [SPARQL]:           http://en.wikipedia.org/wiki/SPARQL
 [SPARQL 1.0]:       http://www.w3.org/TR/rdf-sparql-query/
+[SPARQL 1.0 tests]:http://www.w3.org/2001/sw/DataAccess/tests/
+[SPARQL 1.1 tests]: http://www.w3.org/2009/sparql/docs/tests/
 [SPARQL 1.1]:       http://www.w3.org/TR/sparql11-query/
 [SSE]:              http://openjena.org/wiki/SSE
 [SXP]:              http://sxp.rubyforge.org/
@@ -271,3 +278,4 @@ see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 [Rack]:             http://rack.rubyforge.org/
 [Sinatra]:          http://www.sinatrarb.com/
 [conneg]:           http://en.wikipedia.org/wiki/Content_negotiation
+

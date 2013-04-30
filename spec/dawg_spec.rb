@@ -16,6 +16,8 @@ describe SPARQL::Grammar do
                 pending "Decimal format changed in SPARQL 1.1"
               when 'open-eq-08', 'open-eq-10', 'open-eq-11', 'Strings: Distinct', 'All: Distinct'
                 pending "obsolete because of plain/xsd:string equivalence"
+              when 'datatype-2 : Literals with a datatype'
+                pending("datatype now returns rdf:langString for language-tagged literals")
               when /Cast to xsd:boolean/
                 pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
               when /normalization-02/

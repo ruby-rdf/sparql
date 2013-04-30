@@ -8,7 +8,7 @@
 
 (equal (datatype "Hello"^^xsd:string) xsd:string)
 (equal (datatype "Hello"^^xsd:token) xsd:token)
+(equal (datatype "Hello"@en) rdf:langString)
 
-(error (datatype "Hello"@en) TypeError)
 (error (datatype _:foobar) TypeError)
 (error (datatype <mailto:alice@example.org>) TypeError)

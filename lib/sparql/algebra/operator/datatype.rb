@@ -30,9 +30,11 @@ module SPARQL; module Algebra
       def apply(literal)
         case literal
           when RDF::Literal then case
-            when literal.typed?  then RDF::URI(literal.datatype)
+            when RDF::VERSION.to_s >= "1.1" then literal.datatype
             when literal.simple? then RDF::XSD.string
-            else raise TypeError, "expected a typed or simple RDF::Literal, but got #{literal.inspect}"
+            when literal.datatype == RDF::XSD.string then RDF::XSD.string
+            when literal.plain? then RDF.langString
+            else RDF::URI(literal.datatype)
           end
           else raise TypeError, "expected an RDF::Literal, but got #{literal.inspect}"
         end
