@@ -36,6 +36,7 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version      = '>= 1.9.2'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',             '~> 1.0.5'
+  gem.add_runtime_dependency     'rdf-aggregate-repo'
   gem.add_runtime_dependency     'ebnf',            '>= 0.3.0'
   gem.add_runtime_dependency     'builder',         '>= 3.0'
   gem.add_runtime_dependency     'json',            '>= 1.7'
@@ -46,7 +47,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'sinatra',         '>= 1.3.3'
   gem.add_development_dependency 'rack',            '>= 1.4.4'
   gem.add_development_dependency 'rack-test',       '>= 0.6.2'
-  gem.add_development_dependency 'rdf-turtle',      '~> 1.0'
+  gem.add_development_dependency 'rdf-turtle',      '>= 1.0.4'
   gem.add_development_dependency 'linkeddata'
   gem.add_development_dependency 'rdf-spec',        '~> 1.0'
   gem.add_development_dependency 'open-uri-cached', '>= 0.0.5'

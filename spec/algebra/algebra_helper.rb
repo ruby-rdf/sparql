@@ -10,15 +10,16 @@ def sse_examples(filename)
   input.gsub!(/\s\+INF/, " \"INF\"^^<#{RDF::XSD.double}>")  # Shorthand
   input.gsub!(/\sNaN/,  " \"NaN\"^^<#{RDF::XSD.double}>")   # Shorthand
   datatypes = {
-    'xsd:double'   => RDF::XSD.double,
-    'xsd:float'    => RDF::XSD.float,
-    'xsd:integer'  => RDF::XSD.integer,
-    'xsd:int'      => RDF::XSD.int,
-    'xsd:decimal'  => RDF::XSD.decimal,
-    'xsd:string'   => RDF::XSD.string,
-    'xsd:token'    => RDF::XSD.token,
-    'xsd:boolean'  => RDF::XSD.boolean,
-    'xsd:dateTime' => RDF::XSD.dateTime,
+    'rdf:langString' => RDF.langString,
+    'xsd:double'     => RDF::XSD.double,
+    'xsd:float'      => RDF::XSD.float,
+    'xsd:integer'    => RDF::XSD.integer,
+    'xsd:int'        => RDF::XSD.int,
+    'xsd:decimal'    => RDF::XSD.decimal,
+    'xsd:string'     => RDF::XSD.string,
+    'xsd:token'      => RDF::XSD.token,
+    'xsd:boolean'    => RDF::XSD.boolean,
+    'xsd:dateTime'   => RDF::XSD.dateTime,
   }
   datatypes.each { |qname, uri| input.gsub!(qname, "<#{uri}>") } # Shorthand
   examples = SXP::Reader::SPARQL.read_all(input)

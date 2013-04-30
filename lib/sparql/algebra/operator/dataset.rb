@@ -3,9 +3,8 @@ begin
 rescue LoadError => e
   require 'rdf/ntriples'
 end
+require 'rdf/aggregate_repo'
 
-# FIXME: This version uses named graphs for default graphs, which violates the condition in RDF::Repository#query_pattern, where it specifically does not match variables against the default graph. To work properly, RDF.rb will need to allow some way to specify a set of graphs as being default, and affect the matching within #query_pattern so that variables don't match against this.
-# Note that a graph may be both default and named, so the context of the query is significant.
 module SPARQL; module Algebra
   class Operator
     ##
@@ -168,53 +167,17 @@ module SPARQL; module Algebra
             queryable.load(uri.to_s, load_opts)
           end
         end
-        require 'rdf/nquads'
-        debug(options) { queryable.dump(:nquads) }
+        debug(options) {
+          require 'rdf/nquads'
+          queryable.dump(:nquads)
+        }
 
-        # Re-write the operand:
-        operator = self.rewrite do |op|
-          case op
-          when Operator::Graph
-            if named_datasets.empty?
-              # * If there are no named datasets, remove all (graph)
-              #   operations.
-              debug(options) {"=> #{op.to_sxp} => (bgp)"}
-              Operator::BGP.new
-            elsif (name = op.operand(0)).is_a?(RDF::Resource)
-              # It must match one of the named_datasets
-              debug(options) {"=> #{op.to_sxp} => (bgp)"}
-              named_datasets.include?(name) ? op : Operator::BGP.new
-            else
-              # Name is a variable, replace op with a filter on that
-              # variable and op
-              filter_expressions = named_datasets.map {|u| Operator::Equal.new(name, u)}
-              debug(options) {"=> #{op.to_sxp} => (filter (...) #{op.to_sxp})"}
-              filt = to_binary(Operator::Or, *filter_expressions)
-              Operator::Filter.new(filt, op)
-            end
-          when RDF::Query # Operator::BGP
-            case default_datasets.length
-            when 0
-              # No Default Datasets, no query to run
-              debug(options) {"=> #{op.to_sxp} => (bgp)"}
-              Operator::BGP.new
-            when 1
-              # A single dataset, write as (graph <dataset> (bgp))
-              debug(options) {"=> #{op.to_sxp} => (graph <#{default_datasets.first}> #{op.to_sxp})"}
-              Operator::Graph.new(default_datasets.first, op)
-            else
-              # Several, rewrite as Union
-              debug(options) {"=> #{op.to_sxp} => (union ...)"}
-              to_binary(Operator::Union, *default_datasets.map {|u| Operator::Graph.new(u, op.dup)})
-            end
-          else
-            nil
-          end
-        end
-        executable = operator.operands.last
-        debug(options) {"=> rewritten: #{executable.to_sxp}"}
-
-        @solutions = executable.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        # Create an aggregate based on queryable having just the bits we want
+        aggregate = RDF::AggregateRepo.new(queryable)
+        named_datasets.each {|name| aggregate.named(name) if queryable.has_context?(name)}
+        aggregate.default(*default_datasets.select {|name| queryable.has_context?(name)})
+        executable = operands.last
+        @solutions = executable.execute(aggregate, options.merge(:depth => options[:depth].to_i + 1))
       end
       
       ##

@@ -65,6 +65,17 @@ module SPARQL; module Algebra
         options |= Regexp::EXTENDED   if flags.include?(?x)
         RDF::Literal(text.to_s.gsub(Regexp.new(pattern, options), replacement), :datatype => text.datatype, :language => text.language)
       end
+
+      ##
+      # Returns the SPARQL S-Expression (SSE) representation of this expression.
+      #
+      # Remove the optional argument.
+      #
+      # @return [Array] `self`
+      # @see    http://openjena.org/wiki/SSE
+      def to_sxp_bin
+        [NAME] + operands.reject {|o| o.to_s == ""}
+      end
     end # Replace
   end # Operator
 end; end # SPARQL::Algebra

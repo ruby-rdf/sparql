@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     class StrLen < Operator::Unary
       include Evaluatable
 
-      NAME = [:abs]
+      NAME = :strlen
 
       ##
       # The strlen function corresponds to the XPath fn:string-length function and returns an xsd:integer equal to the length in characters of the lexical form of the literal.

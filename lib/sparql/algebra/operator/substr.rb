@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     class SubStr < Operator::Ternary
       include Evaluatable
 
-      NAME = :contains
+      NAME = :substr
 
       ##
       # Initializes a new operator instance.
@@ -22,7 +22,7 @@ module SPARQL; module Algebra
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
       # @raise  [TypeError] if any operand is invalid
-      def initialize(source, startingLoc, length = RDF::Literal(-1), options = {})
+      def initialize(source, startingLoc, length = RDF::Literal(""), options = {})
         super
       end
 
@@ -49,21 +49,31 @@ module SPARQL; module Algebra
       #   an optional length of the substring.
       # @return [RDF::Literal]
       # @raise  [TypeError] if operands are not compatible
-      def apply(source, startingLoc, length = -1)
+      def apply(source, startingLoc, length)
         raise TypeError, "expected a plain RDF::Literal, but got #{source.inspect}" unless source.literal? && source.plain?
         text = text.to_s
 
         raise TypeError, "expected an integer, but got #{startingLoc.inspect}" unless startingLoc.is_a?(RDF::Literal::Integer)
         startingLoc = startingLoc.to_i
 
-        raise TypeError, "expected an integer, but got #{length.inspect}" unless length.is_a?(RDF::Literal::Integer)
-        length = length.to_i
-
-        if length == -1
+        if length == RDF::Literal("")
           RDF::Literal(source.to_s[(startingLoc-1)..-1], :datatype => source.datatype, :language => source.language)
         else
+          raise TypeError, "expected an integer, but got #{length.inspect}" unless length.is_a?(RDF::Literal::Integer)
+          length = length.to_i
           RDF::Literal(source.to_s[(startingLoc-1), length], :datatype => source.datatype, :language => source.language)
         end
+      end
+
+      ##
+      # Returns the SPARQL S-Expression (SSE) representation of this expression.
+      #
+      # Remove the optional argument.
+      #
+      # @return [Array] `self`
+      # @see    http://openjena.org/wiki/SSE
+      def to_sxp_bin
+        [NAME] + operands.reject {|o| o.to_s == ""}
       end
     end # SubStr
   end # Operator

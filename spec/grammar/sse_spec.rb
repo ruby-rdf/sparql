@@ -29,7 +29,7 @@ shared_examples "SSE" do |man, tests|
             pending "Fixing PNAME_LN not matching :\\u0070"
           end
           query = begin
-            SPARQL::Grammar.parse(t.action.query_string, :debug => ENV['PARSER_DEBUG'].to_i)
+            SPARQL::Grammar.parse(t.action.query_string, :debug => ENV['PARSER_DEBUG'])
           rescue Exception => e
             "Error: #{e.message}"
           end
@@ -90,11 +90,13 @@ describe SPARQL::Grammar::Parser do
           clear
           copy
           csv-tsv
+          csv-tsv-res
           delete
           drop
           entailment
           http
           json
+          json-res
           move
           protocol
           service
@@ -104,6 +106,10 @@ describe SPARQL::Grammar::Parser do
           bindings
           property-path
           subquery
+          exists
+          grouping
+          negation
+          syntax-query
         }.include? tc.manifest.to_s.split('/')[-2]
       end.
       group_by(&:manifest).

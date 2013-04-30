@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     class StrAfter < Operator::Binary
       include Evaluatable
 
-      NAME = :contains
+      NAME = :strafter
 
       ##
       # The STRAFTER function corresponds to the XPath fn:substring-after function. The arguments must be argument compatible otherwise an error is raised.

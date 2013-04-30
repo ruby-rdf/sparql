@@ -16,6 +16,8 @@ shared_examples "DAWG" do |man, tests|
             pending "Fixing PNAME_LN not matching :\\u0070"
           when 'Strings: Distinct', 'All: Distinct'
             pending "obsolete because of plain/xsd:string equivalence"
+          when 'datatype-2 : Literals with a datatype'
+            pending("datatype now returns rdf:langString for language-tagged literals")
           when /Cast to xsd:boolean/
             pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
           when /normalization-02/

@@ -16,7 +16,7 @@ module SPARQL; module Algebra
     class IsNumeric < Operator::Unary
       include Evaluatable
 
-      NAME = :isNumeric
+      NAME = :isnumeric
 
       ##
       # Returns `true` if the operand is an `RDF::Literal::Numeric`, `false`

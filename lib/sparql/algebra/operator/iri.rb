@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     class IRI < Operator::Unary
       include Evaluatable
 
-      NAME = [:uri, :iri]
+      NAME = [:iri, :uri]
 
       ##
       # The IRI function constructs an IRI by resolving the string argument (see RFC 3986 and RFC 3987 or any later RFC that superceeds RFC 3986 or RFC 3987). The IRI is resolved against the base IRI of the query and must result in an absolute IRI.

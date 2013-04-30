@@ -14,7 +14,7 @@ module SPARQL; module Algebra
     class StrLang < Operator::Binary
       include Evaluatable
 
-      NAME = :strdt
+      NAME = :strlang
 
       ##
       # Constructs a literal with lexical form and type as specified by the arguments.

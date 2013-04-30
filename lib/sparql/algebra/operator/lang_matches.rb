@@ -28,10 +28,10 @@ module SPARQL; module Algebra
       # @raise  [TypeError] if either operand is unbound
       # @raise  [TypeError] if either operand is not a simple literal
       def apply(language_tag, language_range)
-        raise TypeError, "expected a plain RDF::Literal for language_tag, but got #{language_tag.inspect}" unless language_tag.is_a?(RDF::Literal) && language_tag.plain?
+        raise TypeError, "expected a plain RDF::Literal for language_tag, but got #{language_tag.inspect}" unless language_tag.is_a?(RDF::Literal) && language_tag.simple?
         language_tag = language_tag.to_s.downcase
 
-        raise TypeError, "expected a plain RDF::Literal for language_range, but got #{language_range.inspect}" unless language_range.is_a?(RDF::Literal) && language_range.plain?
+        raise TypeError, "expected a plain RDF::Literal for language_range, but got #{language_range.inspect}" unless language_range.is_a?(RDF::Literal) && language_range.simple?
         language_range = language_range.to_s.downcase
 
         case

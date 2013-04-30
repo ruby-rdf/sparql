@@ -478,28 +478,29 @@ module SPARQL; module Algebra
       case literal
         when FalseClass then RDF::Literal::FALSE
         when TrueClass  then RDF::Literal::TRUE
-        # If the argument is a typed literal with a datatype of
-        # `xsd:boolean`, the EBV is the value of that argument.
-        # However, the EBV of any literal whose type is `xsd:boolean` is
-        # false if the lexical form is not valid for that datatype.
         when RDF::Literal::Boolean
+          # If the argument is a typed literal with a datatype of
+          # `xsd:boolean`, the EBV is the value of that argument.
+          # However, the EBV of any literal whose type is `xsd:boolean` is
+          # false if the lexical form is not valid for that datatype.
           RDF::Literal(literal.valid? && literal.true?)
-        # If the argument is a numeric type or a typed literal with a
-        # datatype derived from a numeric type, the EBV is false if the
-        # operand value is NaN or is numerically equal to zero; otherwise
-        # the EBV is true.
-        # However, the EBV of any literal whose type is numeric is
-        # false if the lexical form is not valid for that datatype.
         when RDF::Literal::Numeric
+          # If the argument is a numeric type or a typed literal with a
+          # datatype derived from a numeric type, the EBV is false if the
+          # operand value is NaN or is numerically equal to zero; otherwise
+          # the EBV is true.
+          # However, the EBV of any literal whose type is numeric is
+          # false if the lexical form is not valid for that datatype.
           RDF::Literal(literal.valid? && !(literal.zero?) && !(literal.respond_to?(:nan?) && literal.nan?))
-        # If the argument is a plain literal or a typed literal with a
-        # datatype of `xsd:string`, the EBV is false if the operand value
-        # has zero length; otherwise the EBV is true.
         else case
-          when literal.is_a?(RDF::Literal) && (literal.plain? || literal.datatype.eql?(RDF::XSD.string))
+          when literal.is_a?(RDF::Literal) && literal.plain?
+            # If the argument is a plain literal or a typed literal with a
+            # datatype of `xsd:string`, the EBV is false if the operand value
+            # has zero length; otherwise the EBV is true.
             RDF::Literal(!(literal.value.empty?))
-        # All other arguments, including unbound arguments, produce a type error.
-          else raise TypeError, "could not coerce #{literal.inspect} to an RDF::Literal::Boolean"
+          else
+            # All other arguments, including unbound arguments, produce a type error.
+            raise TypeError, "could not coerce #{literal.inspect} to an RDF::Literal::Boolean"
         end
       end
     end

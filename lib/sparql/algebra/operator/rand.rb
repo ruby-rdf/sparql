@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     class Rand < Operator::Nullary
       include Evaluatable
 
-      NAME = [:round]
+      NAME = :rand
 
       ##
       # Returns a pseudo-random number between 0 (inclusive) and 1.0e0 (exclusive). Different numbers can be produced every time this function is invoked. Numbers should be produced with approximately equal probability.

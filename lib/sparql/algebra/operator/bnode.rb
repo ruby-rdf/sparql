@@ -72,6 +72,17 @@ module SPARQL; module Algebra
           end
         end
       end
+
+      ##
+      # Returns the SPARQL S-Expression (SSE) representation of this expression.
+      #
+      # Remove the optional argument.
+      #
+      # @return [Array] `self`
+      # @see    http://openjena.org/wiki/SSE
+      def to_sxp_bin
+        [NAME] + operands.reject {|o| o == false}
+      end
     end # BNode
   end # Operator
 end; end # SPARQL::Algebra
