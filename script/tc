@@ -49,7 +49,7 @@ actual:\n#{result.inspect}
       STDOUT.write(options[:quiet] ? "F" : (" failed" + options[:failures][t]))
     end
   when :ask
-    if result
+    if result == RDF::Literal::TRUE
       STDOUT.write(options[:quiet] ? "." : " ok\n")
     else
       options[:failures] ||= {}

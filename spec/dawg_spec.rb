@@ -29,6 +29,8 @@ shared_examples "DAWG" do |man, tests|
             pending("Addressable normalizes when joining URIs")
           when /REDUCED/
             pending("REDUCED equivalent to DISTINCT")
+          when /tP-/
+            pending("Type promotion")
           end
           
           graphs = t.graphs
@@ -50,7 +52,7 @@ shared_examples "DAWG" do |man, tests|
             result.should be_a(RDF::Queryable)
             result.should describe_solutions(expected)
           when :ask
-            result.should be_true
+            result.should == t.solutions ? RDF::Literal::TRUE : RDF::Literal::FALSE
           end
         end
       when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11,

@@ -189,7 +189,7 @@ module SPARQL; module Spec
       return nil if !respond_to?(:result) || result.nil?
 
       case form
-      when :select
+      when :select, :ask
         if File.extname(result.path) == '.srx'
           SPARQL::Client.parse_xml_bindings(Kernel.open(result, &:read))
         else
@@ -198,8 +198,6 @@ module SPARQL; module Spec
           expected_repository.load(result)
           SPARQL::Spec::ResultBindings.each.first.solutions
         end
-      when :ask
-        return true
       when :describe, :create, :construct
         RDF::Graph.load(result, :base_uri => result, :format => :ttl)
       end

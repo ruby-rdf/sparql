@@ -783,7 +783,7 @@ describe SPARQL::Algebra::Query do
       )
       queryable = RDF::Repository.new << RDF::Turtle::Reader.new(ttl)
       query = SPARQL::Algebra::Expression.parse(sse)
-      query.execute(queryable).should be_true
+      query.execute(queryable).should == RDF::Literal::TRUE
     end
   end
 
