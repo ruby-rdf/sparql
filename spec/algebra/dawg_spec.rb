@@ -10,18 +10,12 @@ shared_examples "DAWG-SSE" do |man, tests|
       when MF.QueryEvaluationTest
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           case t.name
-          when 'Basic - Term 6', 'Basic - Term 7'
-            pending "Decimal format changed in SPARQL 1.1"
-          when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
-            pending "Fixing PNAME_LN not matching :\\u0070"
           when 'Strings: Distinct', 'All: Distinct'
             pending "obsolete because of plain/xsd:string equivalence"
           when 'datatype-2 : Literals with a datatype'
             pending("datatype now returns rdf:langString for language-tagged literals")
           when /Cast to xsd:boolean/
             pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
-          when /normalization-02/
-            pending("Addressable normalizes when joining URIs")
           when /REDUCED/
             pending("REDUCED equivalent to DISTINCT")
           when /tP-/

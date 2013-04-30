@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     class NotIn < Operator
       include Evaluatable
 
-      NAME = :in
+      NAME = :notin
 
       ##
       # The NOT IN operator tests whether the RDF term on the left-hand side is not found in the values of list of expressions on the right-hand side. The test is done with "!=" operator, which tests for not the same value, as determined by the operator mapping.
