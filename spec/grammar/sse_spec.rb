@@ -70,6 +70,8 @@ shared_examples "SSE" do |man, tests|
 end
 
 describe SPARQL::Grammar::Parser do
+  before(:each) {$stderr = StringIO.new}
+  after(:each) {$stderr = STDERR}
   describe "w3c dawg SPARQL 1.0 syntax tests" do
     SPARQL::Spec.sparql1_0_syntax_tests(true).group_by(&:manifest).each do |man, tests|
       it_behaves_like "SSE", man, tests

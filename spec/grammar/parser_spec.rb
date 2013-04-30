@@ -794,6 +794,8 @@ shared_examples "BGP Patterns" do |wrapper|
 end
 
 describe SPARQL::Grammar::Parser do
+  before(:each) {$stderr = StringIO.new}
+  after(:each) {$stderr = STDERR}
   let(:production) {example.metadata[:production]}
 
   describe "when matching the [1] QueryUnit production rule", :production => :QueryUnit do
