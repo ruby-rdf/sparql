@@ -1,0 +1,54 @@
+PREFIX cdm: <http://publications.europa.eu/ontology/cdm#>
+PREFIX eli: <http://eurlex.europa.eu/eli#>
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+CONSTRUCT {
+  ?eli eli:id_document ?eli_str ;
+  eli:type_document <http://publications.europa.eu/resource/authority/resource-type/dir> ;
+  eli:agent_document ?agent_document ;
+  eli:id_local ?celex ;
+  eli:is_about ?eurovoc ;
+  eli:date_document ?date_document ;
+  eli:date_entry-in-force ?date_entry_in_force ;
+  eli:date_no-longer-in-force ?date_no_longer_in_force ;
+  eli:cites ?cites ;
+  eli:transposes ?transposes ;
+  eli:based_on ?based_on ;
+  eli:basis_for ?basis_for ;
+  eli:changes ?changes ;
+  eli:changed_by ?changed_by .
+  ?expr_eli eli:expression_title ?title ;
+  eli:language_expression ?lang ;
+  eli:belongs_to ?eli .
+  ?manif_eli eli:manifests ?expr_eli ;
+  eli:link_manifestation ?item ;
+  eli:publisher "Publications Office"@en .
+} WHERE {
+  ?subj cdm:work_created_by_agent ?agent_document ;
+  cdm:resource_legal_id_celex ?celex ;
+  cdm:work_is_about_concept_eurovoc ?eurovoc ;
+  cdm:work_date_document ?date_document ;
+  cdm:resource_legal_date_entry-into-force ?date_entry_in_force ;
+  cdm:resource_legal_date_end-of-validity ?date_no_longer_in_force .
+  OPTIONAL { ?subj cdm:work_cites_work ?cites }
+  OPTIONAL { ?subj cdm:resource_legal_based_on_resource_legal ?based_on }
+  OPTIONAL {  ?subj cdm:resource_legal_implemented_by_resource_legal ?transposes  }
+  OPTIONAL {  ?subj cdm:directive_implemented_by_measure_national_implementing ?transposes  }
+  OPTIONAL {  ?subj cdm:resource_legal_basis_for_resource_legal ?basis_for  }
+  OPTIONAL {  ?subj cdm:resource_legal_amends_resource_legal ?changes  } #and many more variants
+  OPTIONAL {  ?subj cdm:resource_legal_amended_by_resource_legal ?changed_by  }
+  BIND (<http://eli.budabe.eu/eli/dir/2010/24/consil/oj> AS ?eli)
+  BIND (str(?eli) AS ?eli_str)
+
+  ?expr cdm:expression_title ?title .
+  ?expr cdm:expression_uses_language ?lang .
+  BIND ( IRI(lcase(replace(str(?expr), "^.*\\.([A-Z]{3})$", concat(?eli_str, "/", "$1")))) AS ?expr_eli)
+
+  ?manif cdm:manifestation_manifests_expression ?expr .
+  OPTIONAL { 
+    ?manif_cellar_id owl:sameAs ?manif .
+    ?item cdm:item_belongs_to_manifestation ?manif_cellar_id . 
+  } #Print manifestations have no link to a file
+  BIND ( IRI(lcase(replace(str(?manif), "^.*\\.([A-Z]{3})\\.([a-z0-9]+)$", concat(?eli_str, "/", "$1", "/", "$2")))) AS ?manif_eli)
+}
