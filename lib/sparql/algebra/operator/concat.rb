@@ -4,11 +4,11 @@ module SPARQL; module Algebra
     # A SPARQL `concat` operator.
     #
     # @example
-    #   (concat ?a ?b)
+    #   (concat ?a ?b ...)
     #
     # @see http://www.w3.org/TR/sparql11-query/#func-concat
     # @see http://www.w3.org/TR/xpath-functions/#func-concat
-    class Concat < Operator::Binary
+    class Concat < Operator
       include Evaluatable
 
       NAME = :concat
@@ -24,24 +24,23 @@ module SPARQL; module Algebra
       #     concat("foo"@en, "bar")                      #=> "foobar"
       #     concat("foo"@en, "bar"^^xsd:string)          #=> "foobar"
       #
-      # @param  [RDF::Literal] left
-      #   a literal
-      # @param  [RDF::Literal] right
-      #   a literal
-      # @return [RDF::Literal] 
-      # @raise  [TypeError] if either operand is not a literal
-      def apply(left, right)
-        case
-        when !left.literal? || !right.literal?
-          raise TypeError, "expected two plain literal operands, but got #{left.inspect} and #{right.inspect}"
-        when ![left.datatype, right.datatype].compact.all? {|dt| dt == RDF::XSD.string}
-          raise TypeError, "expected two plain literal operands, but got #{left.inspect} and #{right.inspect}"
-        when left.datatype == RDF::XSD.string && right.datatype == RDF::XSD.string
-          RDF::Literal.new("#{left}#{right}", :datatype => RDF::XSD.string)
-        when left.has_language? && left.language == right.language
-          RDF::Literal.new("#{left}#{right}", :language => left.language)
-        else
-          RDF::Literal.new("#{left}#{right}")
+      # @param  [RDF::Query::Solution, #[]] bindings
+      # @return [RDF::Term]
+      # @raise  [TypeError] if any operand is not a literal
+      def evaluate(bindings = {})
+        ops = operands.map {|op| op.evaluate(bindings)}
+
+        raise TypeError, "expected all plain literal operands" unless ops.all? {|op| op.literal? && op.plain?}
+
+        ops.inject do |memo, op|
+          case
+          when memo.datatype == RDF::XSD.string && op.datatype == RDF::XSD.string
+            RDF::Literal.new("#{memo}#{op}", :datatype => RDF::XSD.string)
+          when memo.has_language? && memo.language == op.language
+            RDF::Literal.new("#{memo}#{op}", :language => memo.language)
+          else
+            RDF::Literal.new("#{memo}#{op}")
+          end
         end
       end
     end # Concat
