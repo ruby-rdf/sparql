@@ -17,7 +17,7 @@ Gem::Specification.new do |gem|
   gem.summary            = "SPARQL library for Ruby."
   gem.rubyforge_project  = 'sparql'
 
-  gem.authors            = ['Gregg Kellogg', 'Arto Bendiken', 'Pius Uzamere']
+  gem.authors            = ['Gregg Kellogg', 'Arto Bendiken']
   gem.email              = 'public-rdf-ruby@w3.org'
 
   gem.platform           = Gem::Platform::RUBY
