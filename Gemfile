@@ -11,7 +11,7 @@ gem 'rdf-aggregate-repo', :git => "git://github.com/ruby-rdf/rdf-aggregate-repo.
 
 group :debug do
   gem 'shotgun'  unless ENV['CI']
-  gem 'debugger', :platforms => :mri_19
+  gem 'debugger', :platforms => [:mri_19, :mri_20]
   gem "wirble"
   gem 'redcarpet', :platforms => :ruby
 end

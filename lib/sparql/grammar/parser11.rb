@@ -232,7 +232,7 @@ module SPARQL::Grammar
         add_prod_datum(:PrefixDecl, prefix_op)
       end
     end
-    
+
     # [7]  	SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
     production(:SelectQuery) do |input, data, callback|
       query = merge_modifiers(data)
@@ -356,59 +356,9 @@ module SPARQL::Grammar
     # [54]  	GroupGraphPatternSub	  ::=  	TriplesBlock?
     #                                             ( GraphPatternNotTriples '.'? TriplesBlock? )*
     production(:GroupGraphPatternSub) do |input, data, callback|
-      query_list = data[:query_list]
-      debug("GroupGraphPatternSub") {"ql #{query_list.to_a.inspect}"}
-      debug("GroupGraphPatternSub") {"q #{data[:query] ? data[:query].first.inspect : 'nil'}"}
-            
-      if query_list
-        lhs = data[:query].to_a.first
+      debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
 
-        # Bind terminates the TriplesBlock?
-        if data[:extend]
-          lhs ||= SPARQL::Algebra::Operator::BGP.new
-          # query should be nil
-          lhs = SPARQL::Algebra::Operator::Extend.new(data.delete(:extend), lhs)
-        end
-
-        while !query_list.empty?
-          rhs = query_list.shift
-          # Make the right-hand-side a Join with only a single operand, if it's not already and Operator
-          rhs = SPARQL::Algebra::Expression.for(:join, :placeholder, rhs) unless rhs.is_a?(SPARQL::Algebra::Operator)
-          debug("GroupGraphPatternSub") {"<= q: #{rhs.inspect}"}
-          debug("GroupGraphPatternSub") {"<= lhs: #{lhs ? lhs.inspect : 'nil'}"}
-          lhs ||= SPARQL::Algebra::Operator::BGP.new if rhs.is_a?(SPARQL::Algebra::Operator::LeftJoin)
-          if lhs
-            if rhs.operand(0) == :placeholder
-              rhs.operands[0] = lhs
-            else
-              rhs = SPARQL::Algebra::Operator::Join.new(lhs, rhs)
-            end
-          end
-          lhs = rhs
-          lhs = lhs.operand(1) if lhs.operand(0) == :placeholder
-          debug("GroupGraphPatternSub(itr)") {"=> lhs: #{lhs.inspect}"}
-        end
-        # Trivial simplification for :join or :union of one query
-        case lhs
-        when SPARQL::Algebra::Operator::Join, SPARQL::Algebra::Operator::Union
-          if lhs.operand(0) == :placeholder
-            lhs = lhs.operand(1)
-            debug("GroupGraphPatternSub(simplify)") {"=> lhs: #{lhs.inspect}"}
-          end
-        end
-        res = lhs
-      elsif data[:query]
-        res = data[:query].first
-      end
-
-      debug("GroupGraphPatternSub(pre-extend)") {"res: #{res.inspect}"}
-
-      if data[:extend]
-        res ||= SPARQL::Algebra::Operator::BGP.new
-        # query should be nil
-        res = SPARQL::Algebra::Operator::Extend.new(data[:extend], res)
-      end
-
+      res = data[:query].first
       debug("GroupGraphPatternSub(pre-filter)") {"res: #{res.inspect}"}
 
       if data[:filter]
@@ -420,29 +370,17 @@ module SPARQL::Grammar
       add_prod_datum(:query, res)
     end
 
-    # _GroupGraphPatternSub_2 ::= ( GraphPatternNotTriples '.'? TriplesBlock? )
-    # Create a stack of GroupQuerys having a single graph element and resolve in GroupGraphPattern
-    production(:_GroupGraphPatternSub_2) do |input, data, callback|
-      lhs = data[:query_list]
-      [data[:query]].flatten.compact.each do |rhs|
-        rhs = SPARQL::Algebra::Expression.for(:join, :placeholder, rhs) if rhs.is_a?(RDF::Query)
-        add_prod_data(:query_list, rhs)
-      end
-      add_prod_datum(:query_list, lhs)
-      add_prod_datum(:extend, data[:extend])
-      add_prod_datum(:filter, data[:filter])
-    end
-
-    # _GroupGraphPatternSub_3
-
     # [55]  	TriplesBlock	  ::=  	TriplesSameSubjectPath
     #                               ( '.' TriplesBlock? )?
     production(:TriplesBlock) do |input, data, callback|
       query = SPARQL::Algebra::Operator::BGP.new
       data[:pattern].to_a.each {|p| query << p}
-        
+
       # Append triples from ('.' TriplesBlock? )?
       data[:query].to_a.each {|q| query += q}
+      if (lhs = (input.delete(:query) || []).first) && !lhs.empty?
+        query = SPARQL::Algebra::Expression.for(:join, lhs, query)
+      end
       add_prod_datum(:query, query)
     end
 
@@ -452,28 +390,44 @@ module SPARQL::Grammar
     #                                       | GraphGraphPattern
     #                                       | ServiceGraphPattern
     #                                       | Filter | Bind
+    start_production(:GraphPatternNotTriples) do |input, data, callback|
+      # Modifies previous graph
+      data[:input_query] = input.delete(:query) || [SPARQL::Algebra::Operator::BGP.new]
+    end
     production(:GraphPatternNotTriples) do |input, data, callback|
-      add_prod_datum(:extend, data[:extend])
+      lhs = data[:input_query].first
+
+      # Filter trickls up to GroupGraphPatternSub
       add_prod_datum(:filter, data[:filter])
 
-      if data[:query]
-        res = data[:query].to_a.first
-        add_prod_data(:query, res)
+      if data[:extend] && lhs.is_a?(SPARQL::Algebra::Operator::Extend)
+        # Coalesce extensions
+        lhs = lhs.dup
+        lhs.operands.first.concat(data[:extend])
+        add_prod_datum(:query, lhs)
+      elsif data[:extend]
+        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:extend, data[:extend], lhs))
+      elsif data[:leftjoin]
+        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:leftjoin, lhs, *data[:leftjoin]))
+      elsif data[:query] && !lhs.empty?
+        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:join, lhs, *data[:query]))
+      elsif data[:query]
+        add_prod_datum(:query, data[:query])
+      else
+        add_prod_datum(:query, lhs)
       end
     end
 
     # [57]  	OptionalGraphPattern	  ::=  	'OPTIONAL' GroupGraphPattern
     production(:OptionalGraphPattern) do |input, data, callback|
-      if data[:query]
-        expr = nil
-        query = data[:query].first
-        if query.is_a?(SPARQL::Algebra::Operator::Filter)
-          # Change to expression on left-join with query element
-          expr, query = query.operands
-          add_prod_data(:query, SPARQL::Algebra::Expression.for(:leftjoin, :placeholder, query, expr))
-        else
-          add_prod_data(:query, SPARQL::Algebra::Expression.for(:leftjoin, :placeholder, query))
-        end
+      expr = nil
+      query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
+      if query.is_a?(SPARQL::Algebra::Operator::Filter)
+        # Change to expression on left-join with query element
+        expr, query = query.operands
+        add_prod_data(:leftjoin, query, expr)
+      elsif !query.empty?
+        add_prod_data(:leftjoin, query)
       end
     end
 
@@ -786,9 +740,9 @@ module SPARQL::Grammar
       accumulate_operator_expressions(:MultiplicativeExpression, :_Mul_Div, data)
     end
 
-    # [118]  	UnaryExpression	  ::=  	  '!' PrimaryExpression 
-    #                                 |	'+' PrimaryExpression 
-    #                                 |	'-' PrimaryExpression 
+    # [118]  	UnaryExpression	  ::=  	  '!' PrimaryExpression
+    #                                 |	'+' PrimaryExpression
+    #                                 |	'-' PrimaryExpression
     #                                 |	PrimaryExpression
     production(:UnaryExpression) do |input, data, callback|
       case data[:UnaryExpression]
@@ -830,60 +784,60 @@ module SPARQL::Grammar
     end
 
     # [121] BuiltInCall             ::= Aggregate
-    #                                 | 'STR' '(' Expression ')' 
-    #                                 | 'LANG' '(' Expression ')' 
-    #                                 | 'LANGMATCHES' '(' Expression ',' Expression ')' 
-    #                                 | 'DATATYPE' '(' Expression ')' 
-    #                                 | 'BOUND' '(' Var ')' 
-    #                                 | 'IRI' '(' Expression ')' 
-    #                                 | 'URI' '(' Expression ')' 
-    #                                 | 'BNODE' ( '(' Expression ')' | NIL ) 
-    #                                 | 'RAND' NIL 
-    #                                 | 'ABS' '(' Expression ')' 
-    #                                 | 'CEIL' '(' Expression ')' 
-    #                                 | 'FLOOR' '(' Expression ')' 
-    #                                 | 'ROUND' '(' Expression ')' 
-    #                                 | 'CONCAT' ExpressionList 
-    #                                 | SubstringExpression 
-    #                                 | 'STRLEN' '(' Expression ')' 
-    #                                 | StrReplaceExpression 
-    #                                 | 'UCASE' '(' Expression ')' 
-    #                                 | 'LCASE' '(' Expression ')' 
-    #                                 | 'ENCODE_FOR_URI' '(' Expression ')' 
-    #                                 | 'CONTAINS' '(' Expression ',' Expression ')' 
-    #                                 | 'STRSTARTS' '(' Expression ',' Expression ')' 
-    #                                 | 'STRENDS' '(' Expression ',' Expression ')' 
-    #                                 | 'STRBEFORE' '(' Expression ',' Expression ')' 
-    #                                 | 'STRAFTER' '(' Expression ',' Expression ')' 
-    #                                 | 'YEAR' '(' Expression ')' 
-    #                                 | 'MONTH' '(' Expression ')' 
-    #                                 | 'DAY' '(' Expression ')' 
-    #                                 | 'HOURS' '(' Expression ')' 
-    #                                 | 'MINUTES' '(' Expression ')' 
-    #                                 | 'SECONDS' '(' Expression ')' 
-    #                                 | 'TIMEZONE' '(' Expression ')' 
-    #                                 | 'TZ' '(' Expression ')' 
-    #                                 | 'NOW' NIL 
+    #                                 | 'STR' '(' Expression ')'
+    #                                 | 'LANG' '(' Expression ')'
+    #                                 | 'LANGMATCHES' '(' Expression ',' Expression ')'
+    #                                 | 'DATATYPE' '(' Expression ')'
+    #                                 | 'BOUND' '(' Var ')'
+    #                                 | 'IRI' '(' Expression ')'
+    #                                 | 'URI' '(' Expression ')'
+    #                                 | 'BNODE' ( '(' Expression ')' | NIL )
+    #                                 | 'RAND' NIL
+    #                                 | 'ABS' '(' Expression ')'
+    #                                 | 'CEIL' '(' Expression ')'
+    #                                 | 'FLOOR' '(' Expression ')'
+    #                                 | 'ROUND' '(' Expression ')'
+    #                                 | 'CONCAT' ExpressionList
+    #                                 | SubstringExpression
+    #                                 | 'STRLEN' '(' Expression ')'
+    #                                 | StrReplaceExpression
+    #                                 | 'UCASE' '(' Expression ')'
+    #                                 | 'LCASE' '(' Expression ')'
+    #                                 | 'ENCODE_FOR_URI' '(' Expression ')'
+    #                                 | 'CONTAINS' '(' Expression ',' Expression ')'
+    #                                 | 'STRSTARTS' '(' Expression ',' Expression ')'
+    #                                 | 'STRENDS' '(' Expression ',' Expression ')'
+    #                                 | 'STRBEFORE' '(' Expression ',' Expression ')'
+    #                                 | 'STRAFTER' '(' Expression ',' Expression ')'
+    #                                 | 'YEAR' '(' Expression ')'
+    #                                 | 'MONTH' '(' Expression ')'
+    #                                 | 'DAY' '(' Expression ')'
+    #                                 | 'HOURS' '(' Expression ')'
+    #                                 | 'MINUTES' '(' Expression ')'
+    #                                 | 'SECONDS' '(' Expression ')'
+    #                                 | 'TIMEZONE' '(' Expression ')'
+    #                                 | 'TZ' '(' Expression ')'
+    #                                 | 'NOW' NIL
     #                                 | 'UUID' NIL
     #                                 | 'STRUUID' NIL
-    #                                 | 'MD5' '(' Expression ')' 
-    #                                 | 'SHA1' '(' Expression ')' 
-    #                                 | 'SHA224' '(' Expression ')' 
-    #                                 | 'SHA256' '(' Expression ')' 
-    #                                 | 'SHA384' '(' Expression ')' 
-    #                                 | 'SHA512' '(' Expression ')' 
-    #                                 | 'COALESCE' ExpressionList 
-    #                                 | 'IF' '(' Expression ',' Expression ',' Expression ')' 
-    #                                 | 'STRLANG' '(' Expression ',' Expression ')' 
-    #                                 | 'STRDT' '(' Expression ',' Expression ')' 
-    #                                 | 'sameTerm' '(' Expression ',' Expression ')' 
-    #                                 | 'isIRI' '(' Expression ')' 
-    #                                 | 'isURI' '(' Expression ')' 
-    #                                 | 'isBLANK' '(' Expression ')' 
-    #                                 | 'isLITERAL' '(' Expression ')' 
-    #                                 | 'isNUMERIC' '(' Expression ')' 
-    #                                 | RegexExpression 
-    #                                 | ExistsFunc 
+    #                                 | 'MD5' '(' Expression ')'
+    #                                 | 'SHA1' '(' Expression ')'
+    #                                 | 'SHA224' '(' Expression ')'
+    #                                 | 'SHA256' '(' Expression ')'
+    #                                 | 'SHA384' '(' Expression ')'
+    #                                 | 'SHA512' '(' Expression ')'
+    #                                 | 'COALESCE' ExpressionList
+    #                                 | 'IF' '(' Expression ',' Expression ',' Expression ')'
+    #                                 | 'STRLANG' '(' Expression ',' Expression ')'
+    #                                 | 'STRDT' '(' Expression ',' Expression ')'
+    #                                 | 'sameTerm' '(' Expression ',' Expression ')'
+    #                                 | 'isIRI' '(' Expression ')'
+    #                                 | 'isURI' '(' Expression ')'
+    #                                 | 'isBLANK' '(' Expression ')'
+    #                                 | 'isLITERAL' '(' Expression ')'
+    #                                 | 'isNUMERIC' '(' Expression ')'
+    #                                 | RegexExpression
+    #                                 | ExistsFunc
     #                                 | NotExistsFunc
     production(:BuiltInCall) do |input, data, callback|
       if builtin = data.keys.detect {|k| BUILTINS.include?(k)}
@@ -933,12 +887,12 @@ module SPARQL::Grammar
       add_prod_datum(:notexists, data[:query])
     end
 
-    # [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')' 
-    #                                 | 'SUM' '(' 'DISTINCT'? Expression ')' 
-    #                                 | 'MIN' '(' 'DISTINCT'? Expression ')' 
-    #                                 | 'MAX' '(' 'DISTINCT'? Expression ')' 
-    #                                 | 'AVG' '(' 'DISTINCT'? Expression ')' 
-    #                                 | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
+    # [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')'
+    #                                 | 'SUM' '(' 'DISTINCT'? Expression ')'
+    #                                 | 'MIN' '(' 'DISTINCT'? Expression ')'
+    #                                 | 'MAX' '(' 'DISTINCT'? Expression ')'
+    #                                 | 'AVG' '(' 'DISTINCT'? Expression ')'
+    #                                 | 'SAMPLE' '(' 'DISTINCT'? Expression ')'
     #                                 | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression
     #                                   ( ';' 'SEPARATOR' '=' String )? ')'
     production(:Aggregate) do |input, data, callback|
@@ -965,7 +919,7 @@ module SPARQL::Grammar
     production(:RDFLiteral) do |input, data, callback|
       if data[:string]
         lit = data.dup
-        str = lit.delete(:string).last 
+        str = lit.delete(:string).last
         lit[:datatype] = lit.delete(:iri).last if lit[:iri]
         lit[:language] = lit.delete(:language).last.downcase if lit[:language]
         add_prod_datum(:literal, RDF::Literal.new(str, lit)) if str
@@ -1053,12 +1007,12 @@ module SPARQL::Grammar
     rescue Error
       false
     end
-    
+
     # @return [String]
     def to_sxp_bin
       @result
     end
-    
+
     def to_s
       @result.to_sxp
     end
@@ -1237,7 +1191,7 @@ module SPARQL::Grammar
     # @return [RDF::Query::Variable]
     def variable(id, distinguished = true)
       id = nil if id.to_s.empty?
-      
+
       if id
         @vars[id] ||= begin
           v = RDF::Query::Variable.new(id)
@@ -1281,7 +1235,7 @@ module SPARQL::Grammar
       iri.lexical = "#{prefix}:#{suffix}" unless resolve_iris?
       iri
     end
-    
+
     # Create a literal
     def literal(value, options = {})
       options = options.dup
@@ -1300,7 +1254,7 @@ module SPARQL::Grammar
     def expand_collection(data)
       # Add any triples generated from deeper productions
       add_prod_datum(:pattern, data[:pattern])
-      
+
       # Create list items for each element in data[:GraphNode]
       first = data[:Collection]
       list = data[:GraphNode].to_a.flatten.compact
@@ -1312,7 +1266,7 @@ module SPARQL::Grammar
         add_pattern(:Collection, :subject => first, :predicate => RDF["rest"], :object => rest)
         first = rest
       end
-      
+
       if last
         add_pattern(:Collection, :subject => first, :predicate => RDF["first"], :object => last)
       end
@@ -1347,7 +1301,7 @@ module SPARQL::Grammar
       expr = data.length > 1 ? SPARQL::Algebra::Operator::Exprlist.new(*data) : data.first
       [expr, query]
     end
-    
+
     # Merge query modifiers, datasets, and projections
     #
     # This includes tranforming aggregates if also used with a GROUP BY
@@ -1364,7 +1318,7 @@ module SPARQL::Grammar
         query = SPARQL::Algebra::Expression[:group, data[:group].first, query]
       end
 
-      if data[:extend]
+      if data[:extend] # FIXME: needed?
         # extension variables must not appear in projected variables.
         # Add them to the projection otherwise
         data[:extend].each do |(var, expr)|
@@ -1382,9 +1336,9 @@ module SPARQL::Grammar
       query = SPARQL::Algebra::Expression[data[:DISTINCT_REDUCED].first, query] if data[:DISTINCT_REDUCED]
 
       query = SPARQL::Algebra::Expression[:slice, data[:slice][0], data[:slice][1], query] if data[:slice]
-      
+
       query = SPARQL::Algebra::Expression[:dataset, data[:dataset], query] if data[:dataset]
-      
+
       query
     end
 
