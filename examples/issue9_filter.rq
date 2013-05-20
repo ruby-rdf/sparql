@@ -1,0 +1,10 @@
+SELECT * WHERE {
+  {
+    ?subj ?p ?o .
+    FILTER isIRI(?o)
+  }
+  {
+    ?o ?p1 "foo" .
+    FILTER isIRI(?p1)
+  }
+}

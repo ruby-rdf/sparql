@@ -85,6 +85,11 @@ module SPARQL; module Algebra
       !failed?
     end
 
+    # Determine if this is an empty query, having no operands
+    def empty?
+      self.operands.empty?
+    end
+
     ##
     # Enumerates over each matching query solution.
     #

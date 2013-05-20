@@ -1,0 +1,6 @@
+SELECT * WHERE {
+  ?subj ?p ?o .
+  BIND (?o AS ?v)
+  ?o ?p1 "foo" .
+  BIND (?p1 AS ?v2)
+}
