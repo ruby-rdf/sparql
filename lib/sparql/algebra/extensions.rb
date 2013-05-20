@@ -44,6 +44,20 @@ class Array
     dt, val = self.map {|o| o.evaluate(bindings)}
     SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings)})
   end
+
+  ##
+  # If `#execute` is invoked, it implies that a non-implemented Algebra operator
+  # is being invoked
+  #
+  # @param  [RDF::Queryable] queryable
+  #   the graph or repository to query
+  # @param  [Hash{Symbol => Object}] options
+  # @raise [NotImplementedError]
+  #   If an attempt is made to perform an unsupported operation
+  # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+  def execute(queryable, options = {})
+    raise NotImplementedError, "SPARQL::Algebra '#{first}' operator not implemented"
+  end
 end
 
 ##
