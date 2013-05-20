@@ -126,6 +126,69 @@ module SPARQL; module Algebra
     end
 
     ##
+    # Register an extension function.
+    #
+    # Extension functions take zero or more arguments of type `RDF::Term`
+    # and return an argument of type `RDF::Term`, or raise `TypeError`.
+    #
+    # Functions are identified using the `uri` parameter and specified using a block.
+    #
+    # Arguments are evaluated, and the block is called with argument values (if a variable was unbound, an error will have been generated).
+    # 
+    # It is possible to get unevaluated arguments but care must be taken not to violate the rules of function evaluation.
+    # 
+    # Normally, block should be a pure evaluation based on it's arguments. It should not access a graph nor return different values for the same arguments (to allow expression optimization). Blocks can't bind a variables.
+    #
+    # @example registering a function definition applying the Ruby `crypt` method to its unary argument.
+    #   SPARQL::Algebra::Expression.register_extension(RDF::URI("http://example/crypt") do |literal|
+    #     raise TypeError, "argument must be a literal" unless literal.literal?
+    #     RDF::Literal(literal.to_s.crypt("salt"))
+    #   end
+    #
+    # @param [RDF::URI] uri
+    # @yield *args
+    # @yieldparam [Array<RDF::Term>] *aregs
+    # @yieldreturn [RDF::Term]
+    # @param [Proc] function
+    # @return [void]
+    # @raise [TypeError] if `uri` is not an RDF::URI or no block is given
+    def self.register_extension(uri, &block)
+      raise TypeError, "uri must be an IRI" unless uri.is_a?(RDF::URI)
+      raise TypeError, "must pass a block" unless block_given?
+      self.extensions[uri] = block
+    end
+
+    ##
+    # Registered extensions
+    #
+    # @return [Hash{RDF::URI => Proc}]
+    def self.extensions
+      @extensions ||= {}
+    end
+
+    ##
+    # Invoke an extension function.
+    #
+    # Applies a registered extension function, if registered.
+    # Otherwise, if it is an XSD Constructor function, apply
+    # that.
+    #
+    # @param [RDF::URI] function
+    # @param [Array<RDF::Term>] *args
+    # @return [RDF::Term]
+    # @see http://www.w3.org/TR/sparql11-query/#extensionFunctions
+    # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping
+    def self.extension(function, *args)
+      if function.to_s.start_with?(RDF::XSD.to_s)
+        self.cast(function, args.first)
+      elsif extension_function = self.extensions[function]
+        extension_function.call(*args)
+      else
+        raise TypeError, "Extension function #{function} not recognized"
+      end
+    end
+
+    ##
     # Casts operand as the specified datatype
     #
     # @param [RDF::URI] datatype
@@ -134,8 +197,8 @@ module SPARQL; module Algebra
     # @param [RDF::Term] value
     #   Value, which should be a typed literal, where the type must be that specified
     # @raise [TypeError] if datatype is not a URI or value cannot be cast to datatype
-    # @return [Boolean]
-    # @see http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping
+    # @return [RDF::Term]
+    # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping
     def self.cast(datatype, value)
       case datatype
       when RDF::XSD.dateTime
@@ -149,8 +212,10 @@ module SPARQL; module Algebra
         end
       when RDF::XSD.float, RDF::XSD.double
         case value
-        when RDF::Literal::Numeric, RDF::Literal::Boolean
-          RDF::Literal.new(value, :datatype => datatype)
+        when RDF::Literal::Boolean
+          RDF::Literal.new(value.object ? 1 : 0, :datatype => datatype)
+        when RDF::Literal::Numeric
+          RDF::Literal.new(value.to_f, :datatype => datatype)
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
@@ -161,7 +226,7 @@ module SPARQL; module Algebra
         when RDF::Literal::Boolean
           value
         when RDF::Literal::Numeric
-          RDF::Literal::Boolean.new(value.value != 0)
+          RDF::Literal::Boolean.new(value.object != 0)
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
@@ -169,7 +234,9 @@ module SPARQL; module Algebra
         end
       when RDF::XSD.decimal, RDF::XSD.integer
         case value
-        when RDF::Literal::Integer, RDF::Literal::Decimal, RDF::Literal::Boolean
+        when RDF::Literal::Boolean
+          RDF::Literal.new(value.object ? 1 : 0, :datatype => datatype)
+        when RDF::Literal::Integer, RDF::Literal::Decimal
           RDF::Literal.new(value, :datatype => datatype)
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
@@ -179,7 +246,7 @@ module SPARQL; module Algebra
       when RDF::XSD.string
          RDF::Literal.new(value, :datatype => datatype)
       else
-        raise TypeError, "Expected datatype (#{datatype}) to be an XSD type"
+        raise TypeError, "Expected datatype (#{datatype}) to be a recognized XPath function"
       end
     rescue
       raise TypeError, $!.message

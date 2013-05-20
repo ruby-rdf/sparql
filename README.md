@@ -51,6 +51,26 @@ The SPARQL gem now implements the following [SPARQL 1.1][] operations:
 * Support for all [functions](http://www.w3.org/TR/sparql11-query/#SparqlOps).
 * Support for [BIND](http://www.w3.org/TR/sparql11-query/#bind)
 
+### SPARQL Extension Functions
+Extension functions may be defined, which will be invoked during query evaluation. For example:
+
+    # Register a function using the IRI <http://rubygems.org/gems/sparql#crypt>
+    crypt_iri = RDF::URI("http://rubygems.org/gems/sparql#crypt")
+    SPARQL::Algebra::Expression.register_extension(crypt_iri) do |literal|
+      raise TypeError, "argument must be a literal" unless literal.literal?
+      RDF::Literal(literal.to_s.crypt)
+    end
+
+Then, use the function in a query:
+
+    PREFIX rsp: <http://rubygems.org/gems/sparql#>
+    PREFIX schema: <http://schema.org/>
+    SELECT ?crypted
+    {
+      [ schema:email ?email]
+      BIND(rsp:crypt(?email) AS ?crypted)
+    }
+
 ### Middleware
 
 `Rack::SPARQL` is a superset of [Rack::LinkedData][] to allow content negotiated results
