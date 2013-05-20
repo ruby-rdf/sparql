@@ -1297,7 +1297,7 @@ module SPARQL::Grammar
     # Flatten a Data in form of :filter => [op+ bgp?], without a query into filter and query creating exprlist, if necessary
     # @return [Array[:expr, query]]
     def flatten_filter(data)
-      query = data.pop if data.last.respond_to?(:execute)
+      query = data.pop if data.last.is_a?(SPARQL::Algebra::Query)
       expr = data.length > 1 ? SPARQL::Algebra::Operator::Exprlist.new(*data) : data.first
       [expr, query]
     end
