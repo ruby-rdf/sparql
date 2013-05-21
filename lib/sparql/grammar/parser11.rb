@@ -956,7 +956,7 @@ module SPARQL::Grammar
     ##
     # Initializes a new parser instance.
     #
-    # @param  [String, #to_s]          input
+    # @param  [String, IO, StringIO, #to_s]          input
     # @param  [Hash{Symbol => Object}] options
     # @option options [Hash]     :prefixes     (Hash.new)
     #   the prefix mappings to use (for acessing intermediate parser productions)
@@ -974,9 +974,15 @@ module SPARQL::Grammar
     #   Show progress of parser productions
     # @option options [Boolean] :debug
     #   Detailed debug output
+    # @yield  [parser] `self`
+    # @yieldparam  [SPARQL::Grammar::Parser] parser
+    # @yieldreturn [void] ignored
     # @return [SPARQL::Grammar::Parser]
-    def initialize(input = nil, options = {})
-      @input = input.to_s.dup
+    def initialize(input = nil, options = {}, &block)
+      @input = case input
+      when IO, StringIO then input.read
+      else input.to_s.dup
+      end
       @input.force_encoding(Encoding::UTF_8)
       @options = {:anon_base => "b0", :validate => false}.merge(options)
       @options[:debug] ||= case

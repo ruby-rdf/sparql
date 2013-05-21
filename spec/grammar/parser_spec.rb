@@ -798,6 +798,16 @@ describe SPARQL::Grammar::Parser do
   after(:each) {$stderr = STDERR}
   let(:production) {example.metadata[:production]}
 
+  describe "#initialize" do
+    it "accepts a string query" do
+      SPARQL::Grammar::Parser.new("foo") {input.should == "foo"}
+    end
+
+    it "accepts a StringIO query" do
+      SPARQL::Grammar::Parser.new(StringIO.new("foo")) {input.should == "foo"}
+    end
+  end
+
   describe "when matching the [1] QueryUnit production rule", :production => :QueryUnit do
     {
       :empty => ["", nil],

@@ -52,6 +52,7 @@ describe "README" do
       }
     }}
     before(:all) {SPARQL::Algebra::Expression.extensions.clear}
+
     it "returns encrypted string" do
       # Register a function using the IRI <http://rubygems.org/gems/sparql#crypt>
       crypt_iri = RDF::URI("http://rubygems.org/gems/sparql#crypt")

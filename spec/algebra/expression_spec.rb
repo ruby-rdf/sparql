@@ -160,6 +160,12 @@ describe SPARQL::Algebra do
         }.should raise_error(TypeError)
       end
 
+      it "raises error unless function is registered" do
+        lambda {
+          [RDF::URI("func"), RDF::Literal("foo")].evaluate({})
+        }.should raise_error(TypeError)
+      end
+
       it "calls extension function" do
         @did_yeild = false
         SPARQL::Algebra::Expression.register_extension(RDF::URI("func")) do |literal|
