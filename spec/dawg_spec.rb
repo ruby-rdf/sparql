@@ -17,8 +17,6 @@ shared_examples "DAWG" do |man, tests|
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7'
             pending "Decimal format changed in SPARQL 1.1"
-          when 'Strings: Distinct', 'All: Distinct'
-            pending "obsolete because of plain/xsd:string equivalence"
           when 'datatype-2 : Literals with a datatype'
             pending("datatype now returns rdf:langString for language-tagged literals")
           when /Cast to xsd:boolean/

@@ -10,8 +10,6 @@ shared_examples "DAWG-SSE" do |man, tests|
       when MF.QueryEvaluationTest
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           case t.name
-          when 'Strings: Distinct', 'All: Distinct'
-            pending "obsolete because of plain/xsd:string equivalence"
           when 'datatype-2 : Literals with a datatype'
             pending("datatype now returns rdf:langString for language-tagged literals")
           when /Cast to xsd:boolean/

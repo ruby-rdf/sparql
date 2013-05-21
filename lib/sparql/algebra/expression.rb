@@ -147,7 +147,7 @@ module SPARQL; module Algebra
     #
     # @param [RDF::URI] uri
     # @yield *args
-    # @yieldparam [Array<RDF::Term>] *aregs
+    # @yieldparam [Array<RDF::Term>] *args
     # @yieldreturn [RDF::Term]
     # @param [Proc] function
     # @return [void]
