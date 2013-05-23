@@ -58,6 +58,24 @@ class Array
   def execute(queryable, options = {})
     raise NotImplementedError, "SPARQL::Algebra '#{first}' operator not implemented"
   end
+
+  ##
+  # Returns `true` if any of the operands are variables, `false`
+  # otherwise.
+  #
+  # @return [Boolean] `true` or `false`
+  # @see    #constant?
+  def variable?
+    any? do |operand|
+      operand.is_a?(Variable) ||
+        (operand.respond_to?(:variable?) && operand.variable?)
+    end
+  end
+  def constant?; !(variable?); end
+  def evaluatable?; true; end
+  def executable?; false; end
+  def aggregate?; false; end
+  def replace_vars!; end
 end
 
 ##

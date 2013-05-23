@@ -387,6 +387,16 @@ module SPARQL; module Algebra
     end
 
     ##
+    # Returns `true` if this is an aggregate
+    #
+    # Overridden in evaluatables which are aggregates
+    #
+    # @return [Boolean] `true` or `false`
+    def aggregate?
+      false
+    end
+
+    ##
     # Returns an optimized version of this expression.
     #
     # For constant expressions containing no variables, returns the result

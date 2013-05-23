@@ -33,5 +33,27 @@ module SPARQL; module Algebra
     def apply(*operands)
       raise NotImplementedError, "#{self.class}#apply(#{operands.map(&:class).join(', ')})"
     end
+
+    ##
+    # Replace operators which are variables with the result of the block
+    # descending into operators which are also evaluatable
+    #
+    # @yield var
+    # @yieldparam [RDF::Query::Variable] var
+    # @yieldreturn [RDF::Query::Variable, SPARQL::Algebra::Evaluatable]
+    # @return [SPARQL::Algebra::Evaluatable] self
+    def replace_vars!(&block)
+      operands = operands.map! do |op|
+        case
+        when op.variable?
+          yield op
+        when op.respond_to?(:replace_vars!)
+          op.replace_vars!(&block) 
+        else
+          op
+        end
+      end
+      self
+    end
   end # Query
 end; end # SPARQL::Algebra

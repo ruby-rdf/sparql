@@ -1314,26 +1314,57 @@ module SPARQL::Grammar
     #
     # @see http://www.w3.org/TR/sparql11-query/#convertGroupAggSelectExpressions
     def merge_modifiers(data)
+      debug("merge modifiers") {data.inspect}
       query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
 
       vars = data[:Var] || []
       order = data[:order] ? data[:order].first : []
+      extensions = data.fetch(:extend, [])
+
+      # extension variables must not appear in projected variables.
+      # Add them to the projection otherwise
+      extensions.each do |(var, expr)|
+        raise Error, "Extension variable #{var} also in SELECT" if vars.map(&:to_s).include?(var.to_s)
+        vars << var
+      end
 
       # Add datasets and modifiers in order
       if data[:group]
-        query = SPARQL::Algebra::Expression[:group, data[:group].first, query]
-      end
+        group_vars = data[:group].first
 
-      if data[:extend] # FIXME: needed?
-        # extension variables must not appear in projected variables.
-        # Add them to the projection otherwise
-        data[:extend].each do |(var, expr)|
-          raise Error, "Extension variable #{var} also in SELECT" if vars.map(&:to_s).include?(var.to_s)
-          vars << var
+        # For creating temporary variables
+        agg = 0
+
+        # Find aggregated varirables in extensions
+        aggregates = []
+        aggregated_vars = extensions.map do |(var, function)|
+          var if function.aggregate?
+        end.compact
+
+        # If there are extensions, they are aggregated if necessary and bound
+        # to temporary variables
+        extensions = extensions.map do |(var, function)|
+          # Replace unaggregated variables in function
+          # - For each unaggregated variable V in X
+          function.replace_vars! do |v|
+            aggregated_vars.include?(v) ? v : SPARQL::Algebra::Expression[:sample, v]
+          end
+
+          # Allocate a temporary variable for this function, and retain the mapping for outside the group
+          av = RDF::Query::Variable.new(".#{agg}")
+          agg += 1
+          aggregates << [av, function]
+          [var, av]
         end
 
-        query = SPARQL::Algebra::Expression[:extend, data[:extend], query]
+        query = if aggregates.empty?
+          SPARQL::Algebra::Expression[:group, group_vars, query]
+        else
+          SPARQL::Algebra::Expression[:group, group_vars, aggregates, query]
+        end
       end
+
+      query = SPARQL::Algebra::Expression[:extend, extensions, query] unless extensions.empty?
 
       query = SPARQL::Algebra::Expression[:order, data[:order].first, query] unless order.empty?
 
