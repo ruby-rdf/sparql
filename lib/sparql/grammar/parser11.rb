@@ -1352,6 +1352,7 @@ module SPARQL::Grammar
 
           # Allocate a temporary variable for this function, and retain the mapping for outside the group
           av = RDF::Query::Variable.new(".#{agg}")
+          av.distinguished = false
           agg += 1
           aggregates << [av, function]
           [var, av]

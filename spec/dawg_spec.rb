@@ -100,7 +100,6 @@ describe SPARQL::Grammar::Parser do
           property-path
           subquery
           exists
-          grouping
           negation
         }.include? tc.manifest.to_s.split('/')[-2]
       end.

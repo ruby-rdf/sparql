@@ -55,5 +55,5 @@ module SPARQL; module Algebra
       end
       self
     end
-  end # Query
+  end # Evaluatable
 end; end # SPARQL::Algebra

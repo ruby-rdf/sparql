@@ -210,6 +210,11 @@ class RDF::Query::Variable
     raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
   end
+
+  def to_s
+    prefix = distinguished? || name.to_s[0,1] == '.' ? '?' : "??"
+    unbound? ? "#{prefix}#{name}" : "#{prefix}#{name}=#{value}"
+  end
 end # RDF::Query::Variable
 
 ##

@@ -37,6 +37,7 @@ module SPARQL; module Algebra
     autoload :Not,                'sparql/algebra/operator/not'
     autoload :Plus,               'sparql/algebra/operator/plus'
     autoload :Round,              'sparql/algebra/operator/round'
+    autoload :Sample,             'sparql/algebra/operator/sample'
     autoload :Seconds,            'sparql/algebra/operator/seconds'
     autoload :SHA1,               'sparql/algebra/operator/sha1'
     autoload :SHA256,             'sparql/algebra/operator/sha256'
@@ -96,6 +97,7 @@ module SPARQL; module Algebra
     autoload :Extend,             'sparql/algebra/operator/extend'
     autoload :Filter,             'sparql/algebra/operator/filter'
     autoload :Graph,              'sparql/algebra/operator/graph'
+    autoload :Group,              'sparql/algebra/operator/group'
     autoload :Join,               'sparql/algebra/operator/join'
     autoload :LeftJoin,           'sparql/algebra/operator/left_join'
     autoload :Order,              'sparql/algebra/operator/order'
@@ -166,6 +168,7 @@ module SPARQL; module Algebra
         when :replace         then Replace
         when :round           then Round
         when :sameterm        then SameTerm
+        when :sample          then Sample
         when :seconds         then Seconds
         when :sha1            then SHA1
         when :sha256          then SHA256
@@ -205,6 +208,7 @@ module SPARQL; module Algebra
         when :extend          then Extend
         when :filter          then Filter
         when :graph           then Graph
+        when :group           then Group
         when :join            then Join
         when :leftjoin        then LeftJoin
         when :order           then Order
