@@ -104,7 +104,6 @@ describe SPARQL::Grammar::Parser do
           service
           syntax-fed
 
-          aggregates
           bindings
           property-path
           subquery

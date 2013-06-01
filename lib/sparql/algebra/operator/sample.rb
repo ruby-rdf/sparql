@@ -1,13 +1,17 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # The SPARQL logical `lcase` operator.
+    # The SPARQL `sample` set function.
     #
     # @example
-    #   (lcase ?x)
+    #   (prefix ((: <http://www.example.org/>))
+    #     (filter (|| (|| (= ?sample 1.0) (= ?sample 2.2)) (= ?sample 3.5))
+    #       (project (?sample)
+    #         (extend ((?sample ?.0))
+    #           (group () ((?.0 (sample ?o)))
+    #             (bgp (triple ?s :dec ?o)))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-lcase
-    # @see http://www.w3.org/TR/xpath-functions/#func-lcase
+    # @see http://www.w3.org/TR/sparql11-query/#defn_aggSample
     class Sample < Operator::Unary
       include Aggregate
 
