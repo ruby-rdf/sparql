@@ -21,7 +21,7 @@ module SPARQL; module Algebra
       #
       # @param  [Enumerable<Array<RDF::Term>>] enum
       #   enum of evaluated operand
-      # @return [RDF::Term] The number of non-error terms in the multiset
+      # @return [RDF::Literal::Integer] The number of non-error terms in the multiset
       def apply(enum)
         RDF::Literal(enum.length)
       end

@@ -46,7 +46,7 @@ module SPARQL; module Algebra
       # @return [RDF::Term] An arbitrary term
       # @raise  [TypeError] If enum is empty
       def apply(enum, separator)
-        RDF::Literal(enum.join(separator.to_s))
+        RDF::Literal(enum.flatten.map(&:to_s).join(separator.to_s))
       end
     end # GroupConcat
   end # Operator

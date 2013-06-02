@@ -21,12 +21,14 @@ module SPARQL; module Algebra
       #
       # @param  [Enumerable<Array<RDF::Term>>] enum
       #   enum of evaluated operand
-      # @return [RDF::Term] The numeric average of the terms
+      # @return [RDF::Literal::Numeric] The numeric average of the terms
       def apply(enum)
         if enum.empty?
           RDF::Literal(0)
+        elsif enum.flatten.all? {|n| n.is_a?(RDF::Literal::Numeric)}
+          enum.flatten.reduce(:+) / RDF::Literal::Decimal.new(enum.length)
         else
-          enum.collect(:+) / enum.length
+          raise TypeError, "Averaging non-numeric types: #{enum.flatten}"
         end
       end
     end # Avg

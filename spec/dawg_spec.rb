@@ -66,7 +66,7 @@ shared_examples "DAWG" do |man, tests|
   end
 end
 
-describe SPARQL::Grammar::Parser do
+describe SPARQL do
   before(:each) {$stderr = StringIO.new}
   after(:each) {$stderr = STDERR}
   describe "w3c dawg SPARQL 1.0 tests" do
@@ -95,7 +95,6 @@ describe SPARQL::Grammar::Parser do
           service
           syntax-fed
 
-          aggregates
           bindings
           property-path
           subquery
