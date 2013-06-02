@@ -1,0 +1,12 @@
+SELECT * WHERE {
+  ?subj ?p ?o .
+  OPTIONAL { ?subj ?p2 ?o2 }
+  BIND (<http://eli.budabe.eu/eli/dir/2010/24/consil/oj> AS ?eli)
+  BIND (str(?eli) AS ?eli_str)
+  ?o ?p1 "foo" .
+  BIND (IRI(?eli) AS ?expr_eli)
+  OPTIONAL { 
+    ?manif_cellar_id ?p ?manif .
+  }
+  BIND (?p1 AS ?v2)
+}

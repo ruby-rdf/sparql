@@ -1,0 +1,64 @@
+(prefix ((eli: <http://eurlex.europa.eu/eli#>)
+         (cdm: <http://publications.europa.eu/ontology/cdm#>)
+         (xsd: <http://www.w3.org/2001/XMLSchema#>)
+         (owl: <http://www.w3.org/2002/07/owl#>))
+ (construct
+  (
+   (triple ?eli eli:id_document ?eli_str)
+   (triple ?eli eli:type_document <http://publications.europa.eu/resource/authority/resource-type/dir> )
+   (triple ?eli eli:agent_document ?agent_document)
+   (triple ?eli eli:id_local ?celex)
+   (triple ?eli eli:is_about ?eurovoc)
+   (triple ?eli eli:date_document ?date_document)
+   (triple ?eli eli:date_entry-in-force ?date_entry_in_force)
+   (triple ?eli eli:date_no-longer-in-force ?date_no_longer_in_force)
+   (triple ?eli eli:cites ?cites)
+   (triple ?eli eli:transposes ?transposes)
+   (triple ?eli eli:based_on ?based_on)
+   (triple ?eli eli:basis_for ?basis_for)
+   (triple ?eli eli:changes ?changes)
+   (triple ?eli eli:changed_by ?changed_by)
+   (triple ?expr_eli eli:expression_title ?title)
+   (triple ?expr_eli eli:language_expression ?lang)
+   (triple ?expr_eli eli:belongs_to ?eli)
+   (triple ?manif_eli eli:manifests ?expr_eli)
+   (triple ?manif_eli eli:link_manifestation ?item)
+   (triple ?manif_eli eli:publisher "Publications Office"@en))
+  (extend ((?manif_eli (iri (lcase (replace (str ?manif) "^.*\\.([A-Z]{3})\\.([a-z0-9]+)$" (concat ?eli_str "/" "$1" "/" "$2"))))))
+    (leftjoin
+      (join
+        (extend ((?expr_eli (iri (lcase (replace (str ?expr) "^.*\\.([A-Z]{3})$" (concat ?eli_str "/" "$1"))))))
+          (join
+            (extend ((?eli <http://eli.budabe.eu/eli/dir/2010/24/consil/oj>)
+                     (?eli_str (str ?eli)))
+              (leftjoin
+                (leftjoin
+                  (leftjoin
+                    (leftjoin
+                      (leftjoin
+                        (leftjoin
+                          (leftjoin
+                            (bgp
+                              (triple ?subj cdm:work_created_by_agent ?agent_document)
+                              (triple ?subj cdm:resource_legal_id_celex ?celex)
+                              (triple ?subj cdm:work_is_about_concept_eurovoc ?eurovoc)
+                              (triple ?subj cdm:work_date_document ?date_document)
+                              (triple ?subj cdm:resource_legal_date_entry-into-force ?date_entry_in_force)
+                              (triple ?subj cdm:resource_legal_date_end-of-validity ?date_no_longer_in_force)
+                            )
+                            (bgp (triple ?subj cdm:work_cites_work ?cites)))
+                          (bgp (triple ?subj cdm:resource_legal_based_on_resource_legal ?based_on)))
+                        (bgp (triple ?subj cdm:resource_legal_implemented_by_resource_legal ?transposes)))
+                      (bgp (triple ?subj cdm:directive_implemented_by_measure_national_implementing ?transposes)))
+                    (bgp (triple ?subj cdm:resource_legal_basis_for_resource_legal ?basis_for)))
+                  (bgp (triple ?subj cdm:resource_legal_amends_resource_legal ?changes)))
+                (bgp (triple ?subj cdm:resource_legal_amended_by_resource_legal ?changed_by))))
+            (bgp
+              (triple ?expr cdm:expression_title ?title)
+              (triple ?expr cdm:expression_uses_language ?lang)
+            )))
+        (bgp (triple ?manif cdm:manifestation_manifests_expression ?expr)))
+      (bgp
+        (triple ?manif_cellar_id owl:sameAs ?manif)
+        (triple ?item cdm:item_belongs_to_manifestation ?manif_cellar_id)
+      ))))

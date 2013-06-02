@@ -5,7 +5,7 @@ require 'algebra/algebra_helper'
 include SPARQL::Algebra
 
 describe SPARQL::Algebra do
-  context Expression do
+  describe Expression do
     context "cast values" do
       {
         # String
@@ -133,6 +133,218 @@ describe SPARQL::Algebra do
             lambda { op.evaluate }.should raise_error(TypeError)
           else
             op.evaluate.should == RDF::Literal::TRUE
+          end
+        end
+      end
+    end
+
+    ##########################################################################
+    # EXTENSION FUNCTIONS
+
+    # @see http://www.w3.org/TR/sparql11-query/#extensionFunctions
+    # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping
+    describe "extension function" do
+      before :all do
+        SPARQL::Algebra::Expression.extensions.clear
+      end
+
+      it "raises error unless uri is a URI" do
+        lambda {
+          SPARQL::Algebra::Expression.register_extension("not a uri") {}
+        }.should raise_error(TypeError)
+      end
+
+      it "raises error unless function is a Proc" do
+        lambda {
+          SPARQL::Algebra::Expression.register_extension(RDF::URI("func"))
+        }.should raise_error(TypeError)
+      end
+
+      it "raises error unless function is registered" do
+        lambda {
+          [RDF::URI("func"), RDF::Literal("foo")].evaluate({})
+        }.should raise_error(TypeError)
+      end
+
+      it "calls extension function" do
+        @did_yeild = false
+        SPARQL::Algebra::Expression.register_extension(RDF::URI("func")) do |literal|
+          @did_yield = true
+          literal.should == RDF::Literal("foo")
+        end
+        [RDF::URI("func"), RDF::Literal("foo")].evaluate({})
+        @did_yield.should be_true
+      end
+    end
+
+    describe "xsd:dateTime" do
+      {
+        RDF::Literal(true) => TypeError,
+        RDF::Literal(false) => TypeError,
+        RDF::Literal("2013-05-17T00:00:00") => RDF::Literal(DateTime.parse("2013-05-17T00:00:00")),
+        RDF::Literal(1) => TypeError,
+        RDF::Literal(0) => TypeError,
+        RDF::Literal::Decimal.new(1.1) => TypeError,
+        RDF::Literal::Float.new(1.1) => TypeError,
+        RDF::Literal::Double.new(1.1) => TypeError,
+        RDF::Literal(Date.parse("2013-05-17Z")) => RDF::Literal(DateTime.parse("2013-05-17T00:00:00")),
+        RDF::Literal(DateTime.parse("2013-05-17T00:00:00Z")) => RDF::Literal(DateTime.parse("2013-05-17T00:00:00")),
+        RDF::Literal(Time.parse("00:00:00Z")) => RDF::Literal(DateTime.parse("00:00:00Z")),
+        RDF::URI("foo") => TypeError,
+        RDF::Node.new => TypeError,
+      }.each do |given, expected|
+        if expected == TypeError
+          it "raises TypeError given #{given.inspect}" do
+            lambda {[RDF::XSD.dateTime, given].evaluate({})}.should raise_error(TypeError)
+          end
+        else
+          it "generates #{expected.inspect} given #{given.inspect}" do
+            [RDF::XSD.dateTime, given].evaluate({}).should == expected
+          end
+        end
+      end
+    end
+
+    describe "xsd:float" do
+      {
+        RDF::Literal(true) => RDF::Literal::Float.new(1),
+        RDF::Literal(false) => RDF::Literal::Float.new(0),
+        RDF::Literal("1") => RDF::Literal::Float.new(1),
+        RDF::Literal("0") => RDF::Literal::Float.new(0),
+        RDF::Literal(1) => RDF::Literal::Float.new(1),
+        RDF::Literal(0) => RDF::Literal::Float.new(0),
+        RDF::Literal::Decimal.new(1.1) => RDF::Literal::Float.new(1.1),
+        RDF::Literal::Float.new(1.1) => RDF::Literal::Float.new(1.1),
+        RDF::Literal::Double.new(1.1) => RDF::Literal::Float.new(1.1),
+        RDF::Literal(Date.parse("2013-05-17")) => TypeError,
+        RDF::Literal(DateTime.parse("2013-05-17T00:00:00")) => TypeError,
+        RDF::Literal(Time.parse("00:00:00")) => TypeError,
+        RDF::URI("foo") => TypeError,
+        RDF::Node.new => TypeError,
+      }.each do |given, expected|
+        if expected == TypeError
+          it "raises TypeError given #{given.inspect}" do
+            lambda {[RDF::XSD.float, given].evaluate({})}.should raise_error(TypeError)
+          end
+        else
+          it "generates #{expected.inspect} given #{given.inspect}" do
+            [RDF::XSD.float, given].evaluate({}).should == expected
+          end
+        end
+      end
+    end
+
+    describe "xsd:double" do
+      {
+        RDF::Literal(true) => RDF::Literal::Double.new(1),
+        RDF::Literal(false) => RDF::Literal::Double.new(0),
+        RDF::Literal("1") => RDF::Literal::Double.new(1),
+        RDF::Literal("0") => RDF::Literal::Double.new(0),
+        RDF::Literal(1) => RDF::Literal::Double.new(1),
+        RDF::Literal(0) => RDF::Literal::Double.new(0),
+        RDF::Literal::Decimal.new(1.1) => RDF::Literal::Double.new(1.1),
+        RDF::Literal::Float.new(1.1) => RDF::Literal::Double.new(1.1),
+        RDF::Literal::Double.new(1.1) => RDF::Literal::Double.new(1.1),
+        RDF::Literal(Date.parse("2013-05-17")) => TypeError,
+        RDF::Literal(DateTime.parse("2013-05-17T00:00:00")) => TypeError,
+        RDF::Literal(Time.parse("00:00:00")) => TypeError,
+        RDF::URI("foo") => TypeError,
+        RDF::Node.new => TypeError,
+      }.each do |given, expected|
+        if expected == TypeError
+          it "raises TypeError given #{given.inspect}" do
+            lambda {[RDF::XSD.double, given].evaluate({})}.should raise_error(TypeError)
+          end
+        else
+          it "generates #{expected.inspect} given #{given.inspect}" do
+            [RDF::XSD.double, given].evaluate({}).should == expected
+          end
+        end
+      end
+    end
+
+    describe "xsd:decimal" do
+      {
+        RDF::Literal(true) => RDF::Literal::Decimal.new(1),
+        RDF::Literal(false) => RDF::Literal::Decimal.new(0),
+        RDF::Literal("1") => RDF::Literal::Decimal.new(1),
+        RDF::Literal("0") => RDF::Literal::Decimal.new(0),
+        RDF::Literal(1) => RDF::Literal::Decimal.new(1),
+        RDF::Literal(0) => RDF::Literal::Decimal.new(0),
+        RDF::Literal::Decimal.new(1.1) => RDF::Literal::Decimal.new(1.1),
+        RDF::Literal::Float.new(1.1) => RDF::Literal::Decimal.new(1.1),
+        RDF::Literal::Double.new(1.1) => RDF::Literal::Decimal.new(1.1),
+        RDF::Literal(Date.parse("2013-05-17")) => TypeError,
+        RDF::Literal(DateTime.parse("2013-05-17T00:00:00")) => TypeError,
+        RDF::Literal(Time.parse("00:00:00")) => TypeError,
+        RDF::URI("foo") => TypeError,
+        RDF::Node.new => TypeError,
+      }.each do |given, expected|
+        if expected == TypeError
+          it "raises TypeError given #{given.inspect}" do
+            lambda {[RDF::XSD.decimal, given].evaluate({})}.should raise_error(TypeError)
+          end
+        else
+          it "generates #{expected.inspect} given #{given.inspect}" do
+            [RDF::XSD.decimal, given].evaluate({}).should == expected
+          end
+        end
+      end
+    end
+
+    describe "xsd:integer" do
+      {
+        RDF::Literal(true) => RDF::Literal::Integer.new(1),
+        RDF::Literal(false) => RDF::Literal::Integer.new(0),
+        RDF::Literal("1") => RDF::Literal::Integer.new(1),
+        RDF::Literal("0") => RDF::Literal::Integer.new(0),
+        RDF::Literal(1) => RDF::Literal::Integer.new(1),
+        RDF::Literal(0) => RDF::Literal::Integer.new(0),
+        RDF::Literal::Decimal.new(1.1) => RDF::Literal::Integer.new(1),
+        RDF::Literal::Float.new(1.1) => TypeError,
+        RDF::Literal::Double.new(1.1) => TypeError,
+        RDF::Literal(Date.parse("2013-05-17")) => TypeError,
+        RDF::Literal(DateTime.parse("2013-05-17T00:00:00")) => TypeError,
+        RDF::Literal(Time.parse("00:00:00")) => TypeError,
+        RDF::URI("foo") => TypeError,
+        RDF::Node.new => TypeError,
+      }.each do |given, expected|
+        if expected == TypeError
+          it "raises TypeError given #{given.inspect}" do
+            lambda {[RDF::XSD.integer, given].evaluate({})}.should raise_error(TypeError)
+          end
+        else
+          it "generates #{expected.inspect} given #{given.inspect}" do
+            [RDF::XSD.integer, given].evaluate({}).should == expected
+          end
+        end
+      end
+    end
+
+    describe "xsd:boolean" do
+      {
+        RDF::Literal(true) => RDF::Literal(true),
+        RDF::Literal(false) => RDF::Literal(false),
+        RDF::Literal("true") => RDF::Literal(true),
+        RDF::Literal("false") => RDF::Literal(true),
+        RDF::Literal(1) => RDF::Literal(true),
+        RDF::Literal(0) => RDF::Literal(false),
+        RDF::Literal::Decimal.new(1.1) => RDF::Literal(true),
+        RDF::Literal::Float.new(1.1) => RDF::Literal(true),
+        RDF::Literal::Double.new(1.1) => RDF::Literal(true),
+        RDF::Literal(Date.parse("2013-05-17")) => TypeError,
+        RDF::Literal(DateTime.parse("2013-05-17T00:00:00")) => TypeError,
+        RDF::Literal(Time.parse("00:00:00")) => TypeError,
+        RDF::URI("foo") => TypeError,
+        RDF::Node.new => TypeError,
+      }.each do |given, expected|
+        if expected == TypeError
+          it "raises TypeError given #{given.inspect}" do
+            lambda {[RDF::XSD.boolean, given].evaluate({})}.should raise_error(TypeError)
+          end
+        else
+          it "generates #{expected.inspect} given #{given.inspect}" do
+            [RDF::XSD.boolean, given].evaluate({}).should == expected
           end
         end
       end

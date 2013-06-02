@@ -283,6 +283,7 @@ module SPARQL
   module Algebra
     include RDF
 
+    autoload :Aggregate,   'sparql/algebra/aggregate'
     autoload :Evaluatable, 'sparql/algebra/evaluatable'
     autoload :Expression,  'sparql/algebra/expression'
     autoload :Operator,    'sparql/algebra/operator'

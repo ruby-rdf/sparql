@@ -92,9 +92,9 @@ shared_examples "GroupGraphPattern" do
       ],
       # From data/Expr1/expr-2
       "expr-2" => [
-        "{ ?book dc:title ?title . 
+        "{ ?book dc:title ?title .
           OPTIONAL
-            { ?book x:price ?price . 
+            { ?book x:price ?price .
               FILTER (?price < 15) .
             } .
         }",
@@ -338,60 +338,60 @@ shared_examples "BrackettedExpression" do
 end
 
 # [121] BuiltInCall             ::= Aggregate
-#                                 | 'STR' '(' Expression ')' 
-#                                 | 'LANG' '(' Expression ')' 
-#                                 | 'LANGMATCHES' '(' Expression ',' Expression ')' 
-#                                 | 'DATATYPE' '(' Expression ')' 
-#                                 | 'BOUND' '(' Var ')' 
-#                                 | 'IRI' '(' Expression ')' 
-#                                 | 'URI' '(' Expression ')' 
-#                                 | 'BNODE' ( '(' Expression ')' | NIL ) 
-#                                 | 'RAND' NIL 
-#                                 | 'ABS' '(' Expression ')' 
-#                                 | 'CEIL' '(' Expression ')' 
-#                                 | 'FLOOR' '(' Expression ')' 
-#                                 | 'ROUND' '(' Expression ')' 
-#                                 | 'CONCAT' ExpressionList 
-#                                 | SubstringExpression 
-#                                 | 'STRLEN' '(' Expression ')' 
-#                                 | StrReplaceExpression 
-#                                 | 'UCASE' '(' Expression ')' 
-#                                 | 'LCASE' '(' Expression ')' 
-#                                 | 'ENCODE_FOR_URI' '(' Expression ')' 
-#                                 | 'CONTAINS' '(' Expression ',' Expression ')' 
-#                                 | 'STRSTARTS' '(' Expression ',' Expression ')' 
-#                                 | 'STRENDS' '(' Expression ',' Expression ')' 
-#                                 | 'STRBEFORE' '(' Expression ',' Expression ')' 
-#                                 | 'STRAFTER' '(' Expression ',' Expression ')' 
-#                                 | 'YEAR' '(' Expression ')' 
-#                                 | 'MONTH' '(' Expression ')' 
-#                                 | 'DAY' '(' Expression ')' 
-#                                 | 'HOURS' '(' Expression ')' 
-#                                 | 'MINUTES' '(' Expression ')' 
-#                                 | 'SECONDS' '(' Expression ')' 
-#                                 | 'TIMEZONE' '(' Expression ')' 
-#                                 | 'TZ' '(' Expression ')' 
-#                                 | 'NOW' NIL 
+#                                 | 'STR' '(' Expression ')'
+#                                 | 'LANG' '(' Expression ')'
+#                                 | 'LANGMATCHES' '(' Expression ',' Expression ')'
+#                                 | 'DATATYPE' '(' Expression ')'
+#                                 | 'BOUND' '(' Var ')'
+#                                 | 'IRI' '(' Expression ')'
+#                                 | 'URI' '(' Expression ')'
+#                                 | 'BNODE' ( '(' Expression ')' | NIL )
+#                                 | 'RAND' NIL
+#                                 | 'ABS' '(' Expression ')'
+#                                 | 'CEIL' '(' Expression ')'
+#                                 | 'FLOOR' '(' Expression ')'
+#                                 | 'ROUND' '(' Expression ')'
+#                                 | 'CONCAT' ExpressionList
+#                                 | SubstringExpression
+#                                 | 'STRLEN' '(' Expression ')'
+#                                 | StrReplaceExpression
+#                                 | 'UCASE' '(' Expression ')'
+#                                 | 'LCASE' '(' Expression ')'
+#                                 | 'ENCODE_FOR_URI' '(' Expression ')'
+#                                 | 'CONTAINS' '(' Expression ',' Expression ')'
+#                                 | 'STRSTARTS' '(' Expression ',' Expression ')'
+#                                 | 'STRENDS' '(' Expression ',' Expression ')'
+#                                 | 'STRBEFORE' '(' Expression ',' Expression ')'
+#                                 | 'STRAFTER' '(' Expression ',' Expression ')'
+#                                 | 'YEAR' '(' Expression ')'
+#                                 | 'MONTH' '(' Expression ')'
+#                                 | 'DAY' '(' Expression ')'
+#                                 | 'HOURS' '(' Expression ')'
+#                                 | 'MINUTES' '(' Expression ')'
+#                                 | 'SECONDS' '(' Expression ')'
+#                                 | 'TIMEZONE' '(' Expression ')'
+#                                 | 'TZ' '(' Expression ')'
+#                                 | 'NOW' NIL
 #                                 | 'UUID' NIL
 #                                 | 'STRUUID' NIL
-#                                 | 'MD5' '(' Expression ')' 
-#                                 | 'SHA1' '(' Expression ')' 
-#                                 | 'SHA224' '(' Expression ')' 
-#                                 | 'SHA256' '(' Expression ')' 
-#                                 | 'SHA384' '(' Expression ')' 
-#                                 | 'SHA512' '(' Expression ')' 
-#                                 | 'COALESCE' ExpressionList 
-#                                 | 'IF' '(' Expression ',' Expression ',' Expression ')' 
-#                                 | 'STRLANG' '(' Expression ',' Expression ')' 
-#                                 | 'STRDT' '(' Expression ',' Expression ')' 
-#                                 | 'sameTerm' '(' Expression ',' Expression ')' 
-#                                 | 'isIRI' '(' Expression ')' 
-#                                 | 'isURI' '(' Expression ')' 
-#                                 | 'isBLANK' '(' Expression ')' 
-#                                 | 'isLITERAL' '(' Expression ')' 
-#                                 | 'isNUMERIC' '(' Expression ')' 
-#                                 | RegexExpression 
-#                                 | ExistsFunc 
+#                                 | 'MD5' '(' Expression ')'
+#                                 | 'SHA1' '(' Expression ')'
+#                                 | 'SHA224' '(' Expression ')'
+#                                 | 'SHA256' '(' Expression ')'
+#                                 | 'SHA384' '(' Expression ')'
+#                                 | 'SHA512' '(' Expression ')'
+#                                 | 'COALESCE' ExpressionList
+#                                 | 'IF' '(' Expression ',' Expression ',' Expression ')'
+#                                 | 'STRLANG' '(' Expression ',' Expression ')'
+#                                 | 'STRDT' '(' Expression ',' Expression ')'
+#                                 | 'sameTerm' '(' Expression ',' Expression ')'
+#                                 | 'isIRI' '(' Expression ')'
+#                                 | 'isURI' '(' Expression ')'
+#                                 | 'isBLANK' '(' Expression ')'
+#                                 | 'isLITERAL' '(' Expression ')'
+#                                 | 'isNUMERIC' '(' Expression ')'
+#                                 | RegexExpression
+#                                 | ExistsFunc
 #                                 | NotExistsFunc
 shared_examples "BuiltInCall" do
   context "BuiltInCall" do
@@ -466,12 +466,12 @@ shared_examples "RDFLiteral" do
   end
 end
 
-# [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')' 
-#                                 | 'SUM' '(' 'DISTINCT'? Expression ')' 
-#                                 | 'MIN' '(' 'DISTINCT'? Expression ')' 
-#                                 | 'MAX' '(' 'DISTINCT'? Expression ')' 
-#                                 | 'AVG' '(' 'DISTINCT'? Expression ')' 
-#                                 | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
+# [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')'
+#                                 | 'SUM' '(' 'DISTINCT'? Expression ')'
+#                                 | 'MIN' '(' 'DISTINCT'? Expression ')'
+#                                 | 'MAX' '(' 'DISTINCT'? Expression ')'
+#                                 | 'AVG' '(' 'DISTINCT'? Expression ')'
+#                                 | 'SAMPLE' '(' 'DISTINCT'? Expression ')'
 #                                 | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression
 #                                   ( ';' 'SEPARATOR' '=' String )? ')'
 shared_examples "Aggregate" do
@@ -798,6 +798,16 @@ describe SPARQL::Grammar::Parser do
   after(:each) {$stderr = STDERR}
   let(:production) {example.metadata[:production]}
 
+  describe "#initialize" do
+    it "accepts a string query" do
+      SPARQL::Grammar::Parser.new("foo") {input.should == "foo"}
+    end
+
+    it "accepts a StringIO query" do
+      SPARQL::Grammar::Parser.new(StringIO.new("foo")) {input.should == "foo"}
+    end
+  end
+
   describe "when matching the [1] QueryUnit production rule", :production => :QueryUnit do
     {
       :empty => ["", nil],
@@ -922,6 +932,9 @@ describe SPARQL::Grammar::Parser do
       "ask" => [
         "ASK WHERE {GRAPH <a> {?a ?b ?c}}", %q((ask (graph <a> (bgp (triple ?a ?b ?c)))))
       ],
+      "count" => [
+        %q(SELECT (COUNT(?O) AS ?C) WHERE {?S ?P ?O}), %q((project (?C) (extend ((?C ?.0)) (group () ((?.0 (count ?O))) (bgp (triple ?S ?P ?O))))))
+      ]
     }.each do |title, (input, output)|
       it title do
         input.should generate(output, :resolve_iris => false)
@@ -1463,7 +1476,7 @@ describe SPARQL::Grammar::Parser do
       "empty" => ["", EBNF::LL1::Parser::Error],
       "OptionalGraphPattern" => [
         "OPTIONAL {<d><e><f>}",
-        %q((leftjoin placeholder (bgp (triple <d> <e> <f>)))),
+        %q((leftjoin (bgp) (bgp (triple <d> <e> <f>)))),
       ],
       "GroupOrUnionGraphPattern(1)" => [
         "{:x :y :z}",
@@ -1496,7 +1509,7 @@ describe SPARQL::Grammar::Parser do
         %q((graph <a> (bgp (triple <d> <e> <f>)))),
       ],
       "Bind" => [
-        "BIND(?o+10 AS ?z)", %q((extend (?z (+ ?o 10)))),
+        "BIND(?o+10 AS ?z)", %q((extend ((?z (+ ?o 10))) (bgp))),
       ],
     }.each do |title, (input, output)|
       it title do
@@ -1510,15 +1523,15 @@ describe SPARQL::Grammar::Parser do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       "OptionalGraphPattern" => [
-        "OPTIONAL {<d><e><f>}", %q((leftjoin placeholder (bgp (triple <d> <e> <f>)))).to_sym,
+        "OPTIONAL {<d><e><f>}", %q((leftjoin (bgp (triple <d> <e> <f>)))).to_sym,
       ],
       "optional filter (1)" => [
         "OPTIONAL {?book :price ?price . FILTER (?price < 15)}",
-        %q((leftjoin placeholder (bgp (triple ?book :price ?price)) (< ?price 15))).to_sym,
+        %q((leftjoin (bgp (triple ?book :price ?price)) (< ?price 15))).to_sym,
       ],
-      "optional filter(2)" => [
+      "optional filter (2)" => [
         %q(OPTIONAL {?y :q ?w . FILTER(?v=2) FILTER(?w=3)}),
-        %q((leftjoin placeholder (bgp (triple ?y :q ?w)) (exprlist (= ?v 2) (= ?w 3)))).to_sym,
+        %q((leftjoin (bgp (triple ?y :q ?w)) (exprlist (= ?v 2) (= ?w 3)))).to_sym,
       ],
     }.each do |title, (input, output)|
       it title do
@@ -1818,7 +1831,7 @@ describe SPARQL::Grammar::Parser do
       include_examples "NumericLiteral"
     end
   end
-  
+
   # Individual terminal productions
   describe "individual terminal productions" do
     describe "when matching the [136] iri production rule", :production => :iri do
@@ -1929,7 +1942,50 @@ describe SPARQL::Grammar::Parser do
                     (bgp (triple ?subj ex:pred6 ?obj)))
                   (bgp (triple ?subj ex:pred7 ?obj))))))
         }
-      ]
+      ],
+      :issue9_short => [
+        %q{
+          SELECT * WHERE {
+            ?subj ?p ?o .
+            BIND (?o AS ?v)
+            ?o ?p1 "foo" .
+            BIND (?p1 AS ?v2)
+          }
+        },
+        %q{
+          (extend ((?v2 ?p1))
+            (join
+              (extend ((?v ?o))
+                (bgp (triple ?subj ?p ?o)))
+              (bgp (triple ?o ?p1 "foo"))))
+        }
+      ],
+      :issue9_short2 => [
+        %q{
+          SELECT * WHERE {
+            ?subj ?p ?o .
+            BIND (<http://eli.budabe.eu/eli/dir/2010/24/consil/oj> AS ?eli)
+            BIND (str(?eli) AS ?eli_str)
+            ?o ?p1 "foo" .
+            BIND (IRI(?eli) AS ?expr_eli)
+            OPTIONAL { 
+              ?manif_cellar_id ?p ?manif .
+            }
+            BIND (?p1 AS ?v2)
+          }
+        },
+        %q{
+          (extend ((?v2 ?p1))
+            (leftjoin
+              (extend ((?expr_eli (iri ?eli)))
+                (join
+                  (extend ((?eli <http://eli.budabe.eu/eli/dir/2010/24/consil/oj>)
+                           (?eli_str (str ?eli)))
+                    (bgp (triple ?subj ?p ?o)))
+                  (bgp (triple ?o ?p1 "foo"))))
+              (bgp (triple ?manif_cellar_id ?p ?manif))))
+        }
+      ],
     }.each do |title, (input, result)|
       it title do
         input.should generate(result, :resolve_iris => false)

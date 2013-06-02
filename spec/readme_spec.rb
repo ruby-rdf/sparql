@@ -3,9 +3,6 @@ require 'linkeddata'
 require 'strscan'
 
 describe "README" do
-  describe SPARQL do
-  end
-  
   def self.read_examples
     examples = []
     readme = File.join(File.expand_path(File.dirname(__FILE__)), "..", "README.md")
@@ -40,6 +37,34 @@ describe "README" do
           sub('etc', File.join(File.dirname(__FILE__), '..', 'etc'))
         IO.popen(cmd) {|io| io.read}.should be_true
       end
+    end
+  end
+
+  context "Extension Functions" do
+    let(:repo) {RDF::Repository.new << RDF::Statement.new(:s, RDF::URI("http://schema.org/email"), "gregg@greggkellogg.com")}
+    let(:query) {%{
+      PREFIX rsp: <http://rubygems.org/gems/sparql#>
+      PREFIX schema: <http://schema.org/>
+      SELECT ?crypted
+      {
+        [ schema:email ?email]
+        BIND(rsp:crypt(?email) AS ?crypted)
+      }
+    }}
+    before(:all) {SPARQL::Algebra::Expression.extensions.clear}
+
+    it "returns encrypted string" do
+      # Register a function using the IRI <http://rubygems.org/gems/sparql#crypt>
+      crypt_iri = RDF::URI("http://rubygems.org/gems/sparql#crypt")
+      SPARQL::Algebra::Expression.register_extension(crypt_iri) do |literal|
+        raise TypeError, "argument must be a literal" unless literal.literal?
+        RDF::Literal(literal.to_s.crypt("salt"))
+      end
+
+      results = SPARQL.execute(query, repo)
+      results.should describe_solutions([
+        RDF::Query::Solution.new({:crypted => RDF::Literal("gregg@greggkellogg.net".crypt("salt"))})
+      ])
     end
   end
 end

@@ -104,12 +104,10 @@ describe SPARQL::Grammar::Parser do
           service
           syntax-fed
 
-          aggregates
           bindings
           property-path
           subquery
           exists
-          grouping
           negation
           syntax-query
         }.include? tc.manifest.to_s.split('/')[-2]

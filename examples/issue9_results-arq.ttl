@@ -1,0 +1,73 @@
+@prefix eli:     <http://eurlex.europa.eu/eli#> .
+@prefix cdm:     <http://publications.europa.eu/ontology/cdm#> .
+@prefix xsd:     <http://www.w3.org/2001/XMLSchema#> .
+@prefix owl:     <http://www.w3.org/2002/07/owl#> .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/fra/pdfa1a>
+      eli:link_manifestation
+                    <http://publications.europa.eu/resource/cellar/9d591360-c832-4ca7-b9b9-fcaae395ef00.0010.01/DOC_1> ;
+      eli:manifests  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj/fra> ;
+      eli:publisher  "Publications Office"@en .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/fra/print>
+      eli:manifests  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj/fra> ;
+      eli:publisher  "Publications Office"@en .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj>
+      eli:agent_document  <http://publications.europa.eu/resource/authority/corporate-body/CONSIL> ;
+      eli:based_on  <http://publications.europa.eu/resource/celex/12008E113> ;
+      eli:based_on  <http://publications.europa.eu/resource/celex/12008E115> ;
+      eli:cites     <http://publications.europa.eu/resource/celex/12007P%2FTXT> ;
+      eli:cites     <http://publications.europa.eu/resource/celex/31999D0468> ;
+      eli:cites     <http://publications.europa.eu/resource/celex/31976L0308> ;
+      eli:date_document  "2010-03-16"^^xsd:date ;
+      eli:date_entry-in-force
+                    "2010-04-20"^^xsd:date ;
+      eli:date_no-longer-in-force
+                    "9999-12-31"^^xsd:date ;
+      eli:id_document  "http://eli.budabe.eu/eli/dir/2010/24/consil/oj" ;
+      eli:id_local  "32010L0024"^^xsd:string ;
+      eli:is_about  <http://eurovoc.europa.eu/206> ;
+      eli:is_about  <http://eurovoc.europa.eu/5559> ;
+      eli:is_about  <http://eurovoc.europa.eu/979> ;
+      eli:is_about  <http://eurovoc.europa.eu/4120> ;
+      eli:is_about  <http://eurovoc.europa.eu/1021> ;
+      eli:is_about  <http://eurovoc.europa.eu/3263> ;
+      eli:is_about  <http://eurovoc.europa.eu/1005> ;
+      eli:type_document  <http://publications.europa.eu/resource/authority/resource-type/dir> .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/fra/xhtml>
+      eli:link_manifestation
+                    <http://publications.europa.eu/resource/cellar/9d591360-c832-4ca7-b9b9-fcaae395ef00.0010.02/DOC_1> ;
+      eli:manifests  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj/fra> ;
+      eli:publisher  "Publications Office"@en .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/fra>
+      eli:belongs_to  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj> ;
+      eli:expression_title
+                    "Directive 2010/24/UE du Conseil du 16 mars 2010 concernant l’assistance mutuelle en matière de recouvrement des créances relatives aux taxes, impôts, droits et autres mesures"^^xsd:string ;
+      eli:language_expression
+                    <http://publications.europa.eu/resource/authority/language/FRA> .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/eng/xhtml>
+      eli:link_manifestation
+                    <http://publications.europa.eu/resource/cellar/9d591360-c832-4ca7-b9b9-fcaae395ef00.0006.02/DOC_1> ;
+      eli:manifests  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj/eng> ;
+      eli:publisher  "Publications Office"@en .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/eng>
+      eli:belongs_to  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj> ;
+      eli:expression_title
+                    "Council Directive 2010/24/EU of 16 March 2010 concerning mutual assistance for the recovery of claims relating to taxes, duties and other measures"^^xsd:string ;
+      eli:language_expression
+                    <http://publications.europa.eu/resource/authority/language/ENG> .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/eng/pdfa1a>
+      eli:link_manifestation
+                    <http://publications.europa.eu/resource/cellar/9d591360-c832-4ca7-b9b9-fcaae395ef00.0006.01/DOC_1> ;
+      eli:manifests  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj/eng> ;
+      eli:publisher  "Publications Office"@en .
+
+<http://eli.budabe.eu/eli/dir/2010/24/consil/oj/eng/print>
+      eli:manifests  <http://eli.budabe.eu/eli/dir/2010/24/consil/oj/eng> ;
+      eli:publisher  "Publications Office"@en .

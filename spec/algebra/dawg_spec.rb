@@ -10,8 +10,6 @@ shared_examples "DAWG-SSE" do |man, tests|
       when MF.QueryEvaluationTest
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           case t.name
-          when 'Strings: Distinct', 'All: Distinct'
-            pending "obsolete because of plain/xsd:string equivalence"
           when 'datatype-2 : Literals with a datatype'
             pending("datatype now returns rdf:langString for language-tagged literals")
           when /Cast to xsd:boolean/
@@ -62,7 +60,7 @@ shared_examples "DAWG-SSE" do |man, tests|
   end
 end
 
-describe SPARQL::Grammar::Parser do
+describe SPARQL::Algebra do
   describe "w3c dawg SPARQL 1.0 tests" do
     SPARQL::Spec.sparql1_0_tests(true).group_by(&:manifest).each do |man, tests|
       it_behaves_like "DAWG-SSE", man, tests
@@ -89,12 +87,10 @@ describe SPARQL::Grammar::Parser do
           service
           syntax-fed
 
-          aggregates
           bindings
           property-path
           subquery
           exists
-          grouping
           negation
         }.include? tc.manifest.to_s.split('/')[-2]
       end.

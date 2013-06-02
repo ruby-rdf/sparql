@@ -42,7 +42,81 @@ class Array
   # @return [RDF::Term]
   def evaluate(bindings)
     dt, val = self.map {|o| o.evaluate(bindings)}
-    SPARQL::Algebra::Expression.cast(*self.map {|o| o.evaluate(bindings)})
+    SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings)})
+  end
+
+  ##
+  # If `#execute` is invoked, it implies that a non-implemented Algebra operator
+  # is being invoked
+  #
+  # @param  [RDF::Queryable] queryable
+  #   the graph or repository to query
+  # @param  [Hash{Symbol => Object}] options
+  # @raise [NotImplementedError]
+  #   If an attempt is made to perform an unsupported operation
+  # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+  def execute(queryable, options = {})
+    raise NotImplementedError, "SPARQL::Algebra '#{first}' operator not implemented"
+  end
+
+  ##
+  # Returns `true` if any of the operands are variables, `false`
+  # otherwise.
+  #
+  # @return [Boolean] `true` or `false`
+  # @see    #constant?
+  def variable?
+    any? do |operand|
+      operand.is_a?(Variable) ||
+        (operand.respond_to?(:variable?) && operand.variable?)
+    end
+  end
+  def constant?; !(variable?); end
+  def evaluatable?; true; end
+  def executable?; false; end
+  def aggregate?; false; end
+
+  ##
+  # Replace operators which are variables with the result of the block
+  # descending into operators which are also evaluatable
+  #
+  # @yield var
+  # @yieldparam [RDF::Query::Variable] var
+  # @yieldreturn [RDF::Query::Variable, SPARQL::Algebra::Evaluatable]
+  # @return [SPARQL::Algebra::Evaluatable] self
+  def replace_vars!(&block)
+    map! do |op|
+      case
+      when op.respond_to?(:variable?) && op.variable?
+        yield op
+      when op.respond_to?(:replace_vars!)
+        op.replace_vars!(&block) 
+      else
+        op
+      end
+    end
+    self
+  end
+
+  ##
+  # Recursively re-map operators to replace aggregates with temporary variables returned from the block
+  #
+  # @yield agg
+  # @yieldparam [SPARQL::Algebra::Aggregate] agg
+  # @yieldreturn [RDF::Query::Variable]
+  # @return [SPARQL::Algebra::Evaluatable, RDF::Query::Variable] self
+  def replace_aggregate!(&block)
+    map! do |op|
+      case
+      when op.respond_to?(:aggregate?) && op.aggregate?
+        yield op
+      when op.respond_to?(:replace_aggregate!)
+        op.replace_aggregate!(&block) 
+      else
+        op
+      end
+    end
+    self
   end
 end
 
@@ -54,6 +128,8 @@ module RDF::Term
   def evaluate(bindings)
     self
   end
+
+  def aggregate?; false; end
 
   # Term compatibility according to SPARQL
   #
@@ -177,6 +253,11 @@ class RDF::Query::Variable
   def evaluate(bindings = {})
     raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
+  end
+
+  def to_s
+    prefix = distinguished? || name.to_s[0,1] == '.' ? '?' : "??"
+    unbound? ? "#{prefix}#{name}" : "#{prefix}#{name}=#{value}"
   end
 end # RDF::Query::Variable
 
