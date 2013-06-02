@@ -21,16 +21,7 @@ module SPARQL; module Algebra
     # @raise [TypeError]
     # @abstract
     def aggregate(solutions = [])
-      args_enum = solutions.map do |solution|
-        operands.map do |operand|
-          begin
-            operand.evaluate(solution)
-          rescue TypeError
-            # Ignore errors
-            nil
-          end
-        end.compact
-      end
+      args_enum = solutions.map {|bindings| operands.map {|operand| operand.evaluate(bindings)}}
       apply(args_enum)
     end
 
@@ -49,17 +40,6 @@ module SPARQL; module Algebra
     # @return [SPARQL::Algebra::Evaluatable] self
     def replace_vars!(&block)
       self
-    end
-
-    ##
-    # Replace ourselves with a variable returned from the block
-    #
-    # @yield agg
-    # @yieldparam [SPARQL::Algebra::Aggregate] agg
-    # @yieldreturn [RDF::Query::Variable]
-    # @return [RDF::Query::Variable] the returned variable
-    def replace_aggregate!(&block)
-      yield self
     end
   end # Aggregate
 end; end # SPARQL::Algebra

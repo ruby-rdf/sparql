@@ -14,11 +14,9 @@ module SPARQL; module Algebra
 
     # Unary operators
     autoload :Abs,                'sparql/algebra/operator/abs'
-    autoload :Avg,                'sparql/algebra/operator/avg'
     autoload :BNode,              'sparql/algebra/operator/bnode'
     autoload :Bound,              'sparql/algebra/operator/bound'
     autoload :Ceil,               'sparql/algebra/operator/ceil'
-    autoload :Count,              'sparql/algebra/operator/count'
     autoload :Datatype,           'sparql/algebra/operator/datatype'
     autoload :Day,                'sparql/algebra/operator/day'
     autoload :EncodeForURI,       'sparql/algebra/operator/encode_for_uri'
@@ -32,9 +30,7 @@ module SPARQL; module Algebra
     autoload :IRI,                'sparql/algebra/operator/iri'
     autoload :Lang,               'sparql/algebra/operator/lang'
     autoload :LCase,              'sparql/algebra/operator/lcase'
-    autoload :Max,                'sparql/algebra/operator/max'
     autoload :MD5,                'sparql/algebra/operator/md5'
-    autoload :Min,                'sparql/algebra/operator/min'
     autoload :Minus,              'sparql/algebra/operator/minus'
     autoload :Minutes,            'sparql/algebra/operator/minutes'
     autoload :Month,              'sparql/algebra/operator/month'
@@ -43,7 +39,6 @@ module SPARQL; module Algebra
     autoload :Round,              'sparql/algebra/operator/round'
     autoload :Sample,             'sparql/algebra/operator/sample'
     autoload :Seconds,            'sparql/algebra/operator/seconds'
-    autoload :Sum,                'sparql/algebra/operator/sum'
     autoload :SHA1,               'sparql/algebra/operator/sha1'
     autoload :SHA256,             'sparql/algebra/operator/sha256'
     autoload :SHA512,             'sparql/algebra/operator/sha512'
@@ -88,7 +83,6 @@ module SPARQL; module Algebra
     autoload :Coalesce,           'sparql/algebra/operator/coalesce'
     autoload :Desc,               'sparql/algebra/operator/desc'
     autoload :Exprlist,           'sparql/algebra/operator/exprlist'
-    autoload :GroupConcat,        'sparql/algebra/operator/group_concat'
     autoload :In,                 'sparql/algebra/operator/in'
     autoload :NotIn,              'sparql/algebra/operator/notin'
 
@@ -142,13 +136,11 @@ module SPARQL; module Algebra
         when :ceil            then Ceil
         when :concat          then Concat
         when :contains        then Contains
-        when :count           then Count
         when :datatype        then Datatype
         when :day             then Day
         when :encode_for_uri  then EncodeForURI
         when :divide          then Divide
         when :floor           then Floor
-        when :group_concat    then GroupConcat
         when :hours           then Hours
         when :if              then If
         when :in              then In
@@ -162,8 +154,6 @@ module SPARQL; module Algebra
         when :langmatches     then LangMatches
         when :lcase           then LCase
         when :md5             then MD5
-        when :max             then Max
-        when :min             then Min
         when :minus           then Minus
         when :minutes         then Minutes
         when :month           then Month
@@ -194,7 +184,6 @@ module SPARQL; module Algebra
         when :struuid         then StrUUID
         when :substr          then SubStr
         when :subtract        then Subtract
-        when :sum             then Sum
         when :timezone        then Timezone
         when :tz              then TZ
         when :ucase           then UCase
@@ -408,7 +397,7 @@ module SPARQL; module Algebra
     #
     # @return [Boolean] `true` or `false`
     def aggregate?
-      respond_to?(:aggregate)
+      false
     end
 
     ##

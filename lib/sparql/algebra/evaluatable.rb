@@ -43,33 +43,12 @@ module SPARQL; module Algebra
     # @yieldreturn [RDF::Query::Variable, SPARQL::Algebra::Evaluatable]
     # @return [SPARQL::Algebra::Evaluatable] self
     def replace_vars!(&block)
-      @operands.map! do |op|
+      operands = operands.map! do |op|
         case
-        when op.is_a?(RDF::Query::Variable)
+        when op.variable?
           yield op
         when op.respond_to?(:replace_vars!)
           op.replace_vars!(&block) 
-        else
-          op
-        end
-      end
-      self
-    end
-
-    ##
-    # Recursively re-map operators to replace aggregates with temporary variables returned from the block
-    #
-    # @yield agg
-    # @yieldparam [SPARQL::Algebra::Aggregate] agg
-    # @yieldreturn [RDF::Query::Variable]
-    # @return [SPARQL::Algebra::Evaluatable, RDF::Query::Variable] self
-    def replace_aggregate!(&block)
-      @operands.map! do |op|
-        case
-        when op.aggregate?
-          yield op
-        when op.respond_to?(:replace_aggregate!)
-          op.replace_aggregate!(&block) 
         else
           op
         end

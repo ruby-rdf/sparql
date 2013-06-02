@@ -932,9 +932,6 @@ describe SPARQL::Grammar::Parser do
       "ask" => [
         "ASK WHERE {GRAPH <a> {?a ?b ?c}}", %q((ask (graph <a> (bgp (triple ?a ?b ?c)))))
       ],
-      "count" => [
-        %q(SELECT (COUNT(?O) AS ?C) WHERE {?S ?P ?O}), %q((project (?C) (extend ((?C ?.0)) (group () ((?.0 (count ?O))) (bgp (triple ?S ?P ?O))))))
-      ]
     }.each do |title, (input, output)|
       it title do
         input.should generate(output, :resolve_iris => false)
