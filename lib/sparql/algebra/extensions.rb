@@ -75,7 +75,49 @@ class Array
   def evaluatable?; true; end
   def executable?; false; end
   def aggregate?; false; end
-  def replace_vars!; end
+
+  ##
+  # Replace operators which are variables with the result of the block
+  # descending into operators which are also evaluatable
+  #
+  # @yield var
+  # @yieldparam [RDF::Query::Variable] var
+  # @yieldreturn [RDF::Query::Variable, SPARQL::Algebra::Evaluatable]
+  # @return [SPARQL::Algebra::Evaluatable] self
+  def replace_vars!(&block)
+    map! do |op|
+      case
+      when op.respond_to?(:variable?) && op.variable?
+        yield op
+      when op.respond_to?(:replace_vars!)
+        op.replace_vars!(&block) 
+      else
+        op
+      end
+    end
+    self
+  end
+
+  ##
+  # Recursively re-map operators to replace aggregates with temporary variables returned from the block
+  #
+  # @yield agg
+  # @yieldparam [SPARQL::Algebra::Aggregate] agg
+  # @yieldreturn [RDF::Query::Variable]
+  # @return [SPARQL::Algebra::Evaluatable, RDF::Query::Variable] self
+  def replace_aggregate!(&block)
+    map! do |op|
+      case
+      when op.respond_to?(:aggregate?) && op.aggregate?
+        yield op
+      when op.respond_to?(:replace_aggregate!)
+        op.replace_aggregate!(&block) 
+      else
+        op
+      end
+    end
+    self
+  end
 end
 
 ##
@@ -86,6 +128,8 @@ module RDF::Term
   def evaluate(bindings)
     self
   end
+
+  def aggregate?; false; end
 
   # Term compatibility according to SPARQL
   #

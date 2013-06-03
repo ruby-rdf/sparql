@@ -311,8 +311,9 @@ module SPARQL::Grammar
     end
 
     # [21]  	HavingClause	  ::=  	'HAVING' HavingCondition+
-    #production(:GroupClause) do |input, data, callback|
-    #end
+    production(:HavingClause) do |input, data, callback|
+      add_prod_datum(:having, data[:Constraint])
+    end
 
     # [23]  	OrderClause	  ::=  	'ORDER' 'BY' OrderCondition+
     production(:OrderClause) do |input, data, callback|
@@ -1038,7 +1039,7 @@ module SPARQL::Grammar
     # @param [Symbol, #to_s] prod The starting production for the parser.
     #   It may be a URI from the grammar, or a symbol representing the local_name portion of the grammar URI.
     # @return [Array]
-    # @see http://www.w3.org/2001/sw/DataAccess/rq23/rq24-algebra.html
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     # @see http://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
     def parse(prod = START)
       ll1_parse(@input, prod.to_sym, @options.merge(:branch => BRANCH,
@@ -1320,12 +1321,21 @@ module SPARQL::Grammar
       vars = data[:Var] || []
       order = data[:order] ? data[:order].first : []
       extensions = data.fetch(:extend, [])
+      having = data.fetch(:having, [])
 
       # extension variables must not appear in projected variables.
       # Add them to the projection otherwise
       extensions.each do |(var, expr)|
         raise Error, "Extension variable #{var} also in SELECT" if vars.map(&:to_s).include?(var.to_s)
         vars << var
+      end
+
+      # If any extension contains an aggregate, and there is now group, implicitly group by 1
+      if !data[:group] &&
+         extensions.any? {|(var, function)| function.aggregate?} ||
+         having.any? {|c| c.aggregate? }
+        debug {"Implicit group"}
+        data[:group] = [[]]
       end
 
       # Add datasets and modifiers in order
@@ -1343,7 +1353,7 @@ module SPARQL::Grammar
 
         # If there are extensions, they are aggregated if necessary and bound
         # to temporary variables
-        extensions = extensions.map do |(var, function)|
+        extensions.map! do |(var, function)|
           # Replace unaggregated variables in function
           # - For each unaggregated variable V in X
           function.replace_vars! do |v|
@@ -1358,6 +1368,29 @@ module SPARQL::Grammar
           [var, av]
         end
 
+        # Having clauses
+        having.map! do |clause|
+          # Replace unaggregated variables in clause
+          # - For each unaggregated variable V in X
+          clause.replace_vars! do |v|
+            aggregated_vars.include?(v) ? v : SPARQL::Algebra::Expression[:sample, v]
+          end
+
+          # Replace aggregates in clause as above
+          clause = clause.replace_aggregate! do |function|
+            if avf = aggregates.detect {|(v, f)| f == function}
+              avf.first
+            else
+              # Allocate a temporary variable for this function, and retain the mapping for outside the group
+              av = RDF::Query::Variable.new(".#{agg}")
+              av.distinguished = false
+              agg += 1
+              aggregates << [av, function]
+              av
+            end
+          end
+        end
+
         query = if aggregates.empty?
           SPARQL::Algebra::Expression[:group, group_vars, query]
         else
@@ -1366,6 +1399,8 @@ module SPARQL::Grammar
       end
 
       query = SPARQL::Algebra::Expression[:extend, extensions, query] unless extensions.empty?
+
+      query = SPARQL::Algebra::Expression[:filter, *having, query] unless having.empty?
 
       query = SPARQL::Algebra::Expression[:order, data[:order].first, query] unless order.empty?
 
