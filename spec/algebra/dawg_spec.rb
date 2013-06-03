@@ -60,7 +60,7 @@ shared_examples "DAWG-SSE" do |man, tests|
   end
 end
 
-describe SPARQL::Grammar::Parser do
+describe SPARQL::Algebra do
   describe "w3c dawg SPARQL 1.0 tests" do
     SPARQL::Spec.sparql1_0_tests(true).group_by(&:manifest).each do |man, tests|
       it_behaves_like "DAWG-SSE", man, tests

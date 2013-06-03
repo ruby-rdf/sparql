@@ -136,6 +136,7 @@ module SPARQL; module Algebra
         when :abs             then Abs
         when :add             then Add
         when :and, :'&&'      then And
+        when :avg             then Avg
         when :bnode           then BNode
         when :bound           then Bound
         when :coalesce        then Coalesce

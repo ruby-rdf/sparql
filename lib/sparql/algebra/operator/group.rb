@@ -66,10 +66,17 @@ module SPARQL; module Algebra
         # Aggregate solutions in each group using aggregates to get solutions
         @solutions = groups.map do |group_soln, solns|
           aggregates.each do |(var, aggregate)|
-            group_soln[var] = aggregate.aggregate(solns)
+            begin
+              group_soln[var] = aggregate.aggregate(solns)
+            rescue TypeError
+              # Ignored in output
+            end
           end
           group_soln
         end
+
+        # Make sure that's at least an empty solution
+        @solutions << RDF::Query::Solution.new if @solutions.empty?
 
         debug(options) {"=>(solutions) #{@solutions.inspect}"}
         @solutions = RDF::Query::Solutions.new(@solutions)

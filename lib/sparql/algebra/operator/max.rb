@@ -23,10 +23,15 @@ module SPARQL; module Algebra
       #
       # @param  [Enumerable<Array<RDF::Term>>] enum
       #   enum of evaluated operand
-      # @return [RDF::Term] The maximum value of the terms
+      # @return [RDF::Literal] The maximum value of the terms
       def apply(enum)
-        raise TypeError, "Maximum of an empty multiset" if enum.empty?
-        RDF::Literal(enum.max)
+        if enum.empty?
+          raise TypeError, "Maximum of an empty multiset"
+        elsif enum.flatten.all? {|n| n.literal?}
+          RDF::Literal(enum.flatten.max)
+        else
+          raise TypeError, "Maximum of non-literals: #{enum.flatten}"
+        end
       end
     end # Max
   end # Operator

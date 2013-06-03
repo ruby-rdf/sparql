@@ -899,7 +899,7 @@ module SPARQL::Grammar
     production(:Aggregate) do |input, data, callback|
       if aggregate_rule = data.keys.detect {|k| AGGREGATE_RULES.include?(k)}
         parts = [aggregate_rule]
-        parts << [:separator, data[:string].first] if data[:separator] && data[:string]
+        parts << [:separator, RDF::Literal(data[:string].first)] if data[:separator] && data[:string]
         parts << :distinct if data[:DISTINCT_REDUCED]
         parts << data[:Expression].first if data[:Expression]
         add_prod_data(aggregate_rule, SPARQL::Algebra::Expression.for(parts))
@@ -1351,33 +1351,17 @@ module SPARQL::Grammar
           var if function.aggregate?
         end.compact
 
-        # If there are extensions, they are aggregated if necessary and bound
-        # to temporary variables
-        extensions.map! do |(var, function)|
-          # Replace unaggregated variables in function
+        # Common function for replacing aggregates with temporary variables,
+        # as defined in http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#convertGroupAggSelectExpressions
+        aggregate_expression = lambda do |expr|
+          # Replace unaggregated variables in expr
           # - For each unaggregated variable V in X
-          function.replace_vars! do |v|
+          expr.replace_vars! do |v|
             aggregated_vars.include?(v) ? v : SPARQL::Algebra::Expression[:sample, v]
           end
 
-          # Allocate a temporary variable for this function, and retain the mapping for outside the group
-          av = RDF::Query::Variable.new(".#{agg}")
-          av.distinguished = false
-          agg += 1
-          aggregates << [av, function]
-          [var, av]
-        end
-
-        # Having clauses
-        having.map! do |clause|
-          # Replace unaggregated variables in clause
-          # - For each unaggregated variable V in X
-          clause.replace_vars! do |v|
-            aggregated_vars.include?(v) ? v : SPARQL::Algebra::Expression[:sample, v]
-          end
-
-          # Replace aggregates in clause as above
-          clause = clause.replace_aggregate! do |function|
+          # Replace aggregates in expr as above
+          expr.replace_aggregate! do |function|
             if avf = aggregates.detect {|(v, f)| f == function}
               avf.first
             else
@@ -1389,6 +1373,17 @@ module SPARQL::Grammar
               av
             end
           end
+        end
+
+        # If there are extensions, they are aggregated if necessary and bound
+        # to temporary variables
+        extensions.map! do |(var, expr)|
+          [var, aggregate_expression.call(expr)]
+        end
+
+        # Having clauses
+        having.map! do |expr|
+          aggregate_expression.call(expr)
         end
 
         query = if aggregates.empty?
