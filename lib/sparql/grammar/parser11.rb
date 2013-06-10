@@ -240,6 +240,10 @@ module SPARQL::Grammar
     end
 
     # [8]  	SubSelect	  ::=  	SelectClause WhereClause SolutionModifier
+    production(:SubSelect) do |input, data, callback|
+      query = merge_modifiers(data)
+      add_prod_datum :query, query
+    end
 
     # [9]  	SelectClause	  ::=  	'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
 

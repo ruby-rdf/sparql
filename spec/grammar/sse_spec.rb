@@ -106,7 +106,6 @@ describe SPARQL::Grammar::Parser do
 
           bindings
           property-path
-          subquery
           exists
           negation
           syntax-query
