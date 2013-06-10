@@ -48,11 +48,12 @@ much more capability than [SPARQL 1.0][], but has a few limitations:
 
 The SPARQL gem now implements the following [SPARQL 1.1][] operations:
 
-* Support for all [Functions](http://www.w3.org/TR/sparql11-query/#SparqlOps).
-* Support for [BIND](http://www.w3.org/TR/sparql11-query/#bind)
-* Support for [GROUP BY](http://www.w3.org/TR/sparql11-query/#groupby)
-* Support for [Aggregates](http://www.w3.org/TR/sparql11-query/#aggregates)
-* Support for [Subqueries](http://www.w3.org/TR/sparql11-query/#subqueries)
+* [Functions](http://www.w3.org/TR/sparql11-query/#SparqlOps).
+* [BIND](http://www.w3.org/TR/sparql11-query/#bind)
+* [GROUP BY](http://www.w3.org/TR/sparql11-query/#groupby)
+* [Aggregates](http://www.w3.org/TR/sparql11-query/#aggregates)
+* [Subqueries](http://www.w3.org/TR/sparql11-query/#subqueries)
+* [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
 
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:

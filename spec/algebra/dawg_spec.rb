@@ -76,21 +76,24 @@ describe SPARQL::Algebra do
           basic-update
           clear
           copy
-          csv-tsv
-          csv-tsv-res
           delete
           drop
-          entailment
-          http
-          json
-          json-res
           move
+          syntax-update-1
+          syntax-update-2
+          update-silent
+
+          property-path
+
+          entailment
+
+          csv-tsv-res
+          http-rdf-dupdate
+          json-res
           protocol
           service
           syntax-fed
 
-          bindings
-          property-path
           exists
           negation
         }.include? tc.manifest.to_s.split('/')[-2]

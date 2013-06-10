@@ -32,6 +32,7 @@ module SPARQL; module Algebra
         operands[1..-1].each do |row|
           bindings = row[1..-1].inject({}) do |memo, (var, value)|
             memo[var.to_sym] = value
+            memo
           end
           @solutions << RDF::Query::Solution.new(bindings)
         end
