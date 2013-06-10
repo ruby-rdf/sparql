@@ -18,6 +18,8 @@ shared_examples "DAWG-SSE" do |man, tests|
             pending("REDUCED equivalent to DISTINCT")
           when /tP-/
             pending("Type promotion")
+          when /sq03/
+            pending("Graph variable binding differences")
           end
           
           graphs = t.graphs
@@ -89,7 +91,6 @@ describe SPARQL::Algebra do
 
           bindings
           property-path
-          subquery
           exists
           negation
         }.include? tc.manifest.to_s.split('/')[-2]
