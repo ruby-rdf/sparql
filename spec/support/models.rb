@@ -176,9 +176,14 @@ module SPARQL; module Spec
     def graphs
       @graphs ||= begin
         graphs = {}
-        graphs[:default] = {:data => action.test_data_string, :format => :ttl} if action.test_data
+        graphs[:default] = {:data => action.test_data_string, :format => RDF::Format.for(action.test_data.to_s).to_sym} if action.test_data
         action.graphData.each do |g|
-          graphs[g] = {:data => Kernel.open(g, &:read), :format => :ttl}
+          data = Kernel.open(g, &:read)
+          graphs[g] = {
+            :data => data,
+            :format => RDF::Format.for(g.to_s).to_sym,
+            :base_uri => g
+          }
         end
         graphs
       end

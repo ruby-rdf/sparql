@@ -83,7 +83,7 @@ def sparql_query(opts)
       next if key == :result
       data, format, default = info[:data], info[:format], info[:default]
       if data
-        RDF::Reader.for(format).new(data).each_statement do |st|
+        RDF::Reader.for(format).new(data, info).each_statement do |st|
           st.context = key unless key == :default || default
           r << st
         end
