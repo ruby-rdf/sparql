@@ -8,6 +8,6 @@
         (triple ?book ns:price ?price)
       )
       (table (vars ?book ?title)
-        (row [?title "SPARQL Tutorial"])
-        (row [?book :book2])
+        (row (?title "SPARQL Tutorial"))
+        (row (?book :book2))
       ))))

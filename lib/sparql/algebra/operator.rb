@@ -111,6 +111,7 @@ module SPARQL; module Algebra
     autoload :Project,            'sparql/algebra/operator/project'
     autoload :Reduced,            'sparql/algebra/operator/reduced'
     autoload :Slice,              'sparql/algebra/operator/slice'
+    autoload :Table,              'sparql/algebra/operator/table'
     autoload :Union,              'sparql/algebra/operator/union'
 
     ##
@@ -228,6 +229,7 @@ module SPARQL; module Algebra
         when :project         then Project
         when :reduced         then Reduced
         when :slice           then Slice
+        when :table           then Table
         when :triple          then RDF::Query::Pattern
         when :union           then Union
         else                       nil # not found

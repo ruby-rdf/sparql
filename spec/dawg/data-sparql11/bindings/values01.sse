@@ -8,5 +8,5 @@
         (triple ?book ns:price ?price)
       )
       (table (vars ?book)
-        (row [?book :book1])
+        (row (?book :book1))
       ))))

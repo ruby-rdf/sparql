@@ -3,21 +3,21 @@
     [1]   QueryUnit               ::= Query?
     [2]   Query                   ::= Prologue
                                       ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
-                                      ValuesClause
     [3]   UpdateUnit              ::= Update
     [4]   Prologue                ::= ( BaseDecl | PrefixDecl )*
     [5]   BaseDecl                ::= 'BASE' IRIREF
     [6]   PrefixDecl              ::= 'PREFIX' PNAME_NS IRIREF
-    [7]   SelectQuery             ::= SelectClause DatasetClause* WhereClause SolutionModifier
+    [7]   SelectQuery             ::= SelectClause DatasetClause* WhereClause SolutionModifier ValuesClause
     [8]   SubSelect               ::= SelectClause WhereClause SolutionModifier
     [9]   SelectClause            ::= 'SELECT' ( 'DISTINCT' | 'REDUCED' )?
                                       ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
     [10]  ConstructQuery          ::= 'CONSTRUCT'
                                       ( ConstructTemplate DatasetClause* WhereClause SolutionModifier
                                       | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
-    [11]  DescribeQuery           ::= 'DESCRIBE' ( VarOrIri+ | '*' )
+                                      ValuesClause
+    [11]  DescribeQuery           ::= 'DESCRIBE' ( VarOrIri+ | '*' ) ValuesClause
                                       DatasetClause* WhereClause? SolutionModifier
-    [12]  AskQuery                ::= 'ASK' DatasetClause* WhereClause
+    [12]  AskQuery                ::= 'ASK' DatasetClause* WhereClause ValuesClause
     [13]  DatasetClause           ::= 'FROM' ( DefaultGraphClause | NamedGraphClause )
     [14]  DefaultGraphClause      ::= SourceSelector
     [15]  NamedGraphClause        ::= 'NAMED' SourceSelector
@@ -69,7 +69,7 @@
     [55]  TriplesBlock            ::= TriplesSameSubjectPath ( '.' TriplesBlock? )?
     [56]  GraphPatternNotTriples  ::= GroupOrUnionGraphPattern | OptionalGraphPattern
                                     | MinusGraphPattern | GraphGraphPattern
-                                    | ServiceGraphPattern | Filter | Bind
+                                    | ServiceGraphPattern | Filter | Bind | InlineData
     [57]  OptionalGraphPattern    ::= 'OPTIONAL' GroupGraphPattern
     [58]  GraphGraphPattern       ::= 'GRAPH' VarOrIri GroupGraphPattern
     [59]  ServiceGraphPattern     ::= 'SERVICE' 'SILENT'? VarOrIri GroupGraphPattern

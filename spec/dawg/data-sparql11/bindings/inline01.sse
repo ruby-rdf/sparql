@@ -4,7 +4,7 @@
   (project (?book ?title ?price)
     (join
       (table (vars ?book)
-        (row [?book :book1])
+        (row (?book :book1))
       )
       (bgp
         (triple ?book dc:title ?title)

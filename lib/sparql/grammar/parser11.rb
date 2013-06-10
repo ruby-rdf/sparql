@@ -180,7 +180,7 @@ module SPARQL::Grammar
          |MAX|MD5|MINUTES|MIN|MONTH|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
          |SHA1|SHA224|SHA256|SHA384|SHA512
          |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR|SUM
-         |TIMEZONE|TZ|UCASE|URI|UUID|YEAR
+         |TIMEZONE|TZ|UCASE|UNDEF|URI|UUID|YEAR
          |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
         }x
         add_prod_datum(token.value.downcase.to_sym, token.value.downcase.to_sym)
@@ -191,19 +191,24 @@ module SPARQL::Grammar
 
     # Productions
     # [2]  	Query	  ::=  	Prologue
-    #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery ) ValuesClause
+    #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
     production(:Query) do |input, data, callback|
-      if data[:query]
-        query = data[:query].first
-        if data[:PrefixDecl]
-          pfx = data[:PrefixDecl].shift
-          data[:PrefixDecl].each {|p| pfx.merge!(p)}
-          pfx.operands[1] = query
-          query = pfx
-        end
-        query = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, query] if data[:BaseDecl]
-        add_prod_datum(:query, query)
+      return unless data[:query]
+
+      query = data[:query].first
+
+      # Add prefix
+      if data[:PrefixDecl]
+        pfx = data[:PrefixDecl].shift
+        data[:PrefixDecl].each {|p| pfx.merge!(p)}
+        pfx.operands[1] = query
+        query = pfx
       end
+
+      # Add base
+      query = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, query] if data[:BaseDecl]
+
+      add_prod_datum(:query, query)
     end
 
     # [4]  	Prologue	  ::=  	( BaseDecl | PrefixDecl )*
@@ -233,7 +238,7 @@ module SPARQL::Grammar
       end
     end
 
-    # [7]  	SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
+    # [7]  	SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier ValuesClause
     production(:SelectQuery) do |input, data, callback|
       query = merge_modifiers(data)
       add_prod_datum :query, query
@@ -260,6 +265,7 @@ module SPARQL::Grammar
     #                            'WHERE' '{' TriplesTemplate? '}'
     #                            SolutionModifier
     #                          )
+    #                          ValuesClause
     production(:ConstructQuery) do |input, data, callback|
       data[:query] ||= [SPARQL::Algebra::Operator::BGP.new(*data[:pattern])]
       query = merge_modifiers(data)
@@ -268,14 +274,14 @@ module SPARQL::Grammar
     end
 
     # [11]  	DescribeQuery	  ::=  	'DESCRIBE' ( VarOrIri+ | '*' )
-    #                             DatasetClause* WhereClause? SolutionModifier
+    #                             DatasetClause* WhereClause? SolutionModifier ValuesClause
     production(:DescribeQuery) do |input, data, callback|
       query = merge_modifiers(data)
       to_describe = data[:VarOrIri] || []
       add_prod_datum :query, SPARQL::Algebra::Expression[:describe, to_describe, query]
     end
 
-    # [12]  	AskQuery	  ::=  	'ASK' DatasetClause* WhereClause
+    # [12]  	AskQuery	  ::=  	'ASK' DatasetClause* WhereClause ValuesClause
     production(:AskQuery) do |input, data, callback|
       query = merge_modifiers(data)
       add_prod_datum :query, SPARQL::Algebra::Expression[:ask, query]
@@ -356,6 +362,15 @@ module SPARQL::Grammar
     # [27]  	OffsetClause	  ::=  	'OFFSET' INTEGER
     production(:OffsetClause) do |input, data, callback|
       add_prod_datum(:offset, data[:literal])
+    end
+
+    # [28]  ValuesClause	          ::= ( 'VALUES' DataBlock )?
+    production(:ValuesClause) do |input, data, callback|
+      debug("ValuesClause") {"vars: #{data[:Var].inspect}, row: #{data[:row].inspect}"}
+      add_prod_datum :ValuesClause, SPARQL::Algebra::Expression.for(:table,
+        data[:Var].unshift(:vars),
+        *data[:row]
+      )
     end
 
     # [54]  	GroupGraphPatternSub	  ::=  	TriplesBlock?
@@ -450,6 +465,49 @@ module SPARQL::Grammar
     # [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
     production(:Bind) do |input, data, callback|
       add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
+    end
+
+    # [61]  InlineData	            ::= 'VALUES' DataBlock
+    production(:InlineData) do |input, data, callback|
+      debug("InlineData") {"vars: #{data[:Var].inspect}, row: #{data[:row].inspect}"}
+      add_prod_datum :query, SPARQL::Algebra::Expression.for(:table,
+        data[:Var].unshift(:vars),
+        *data[:row]
+      )
+    end
+
+    # [63]  InlineDataOneVar	      ::= Var '{' DataBlockValue* '}'
+    production(:InlineDataOneVar) do |input, data, callback|
+      add_prod_datum :Var, data[:Var]
+
+      data[:DataBlockValue].each do |d|
+        add_prod_datum :row, [[:row, data[:Var].dup << d]]
+      end
+    end
+
+    # [64]  InlineDataFull	        ::= ( NIL | '(' Var* ')' )
+    #                                '{' ( '(' DataBlockValue* ')' | NIL )* '}'
+    production(:InlineDataFull) do |input, data, callback|
+      vars = data[:Var]
+      add_prod_datum :Var, vars
+
+      data[:DataBlockValue].each do |ds|
+        r = [:row]
+        ds.each_with_index do |d, i|
+          r << [vars[i], d] if d
+        end
+        add_prod_data :row, r unless r.empty?
+      end
+    end
+
+    # _InlineDataFull_8	        ::=  '(' DataBlockValue* ')'
+    production(:_InlineDataFull_8) do |input, data, callback|
+      add_prod_data :DataBlockValue, data[:DataBlockValue].map {|v| v unless v == :undef}
+    end
+
+    # [65]  DataBlockValue	        ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
+    production(:DataBlockValue) do |input, data, callback|
+      add_prod_datum :DataBlockValue, data.values.first
     end
 
     # [67]  	GroupOrUnionGraphPattern	  ::=  	GroupGraphPattern
@@ -1326,6 +1384,7 @@ module SPARQL::Grammar
       order = data[:order] ? data[:order].first : []
       extensions = data.fetch(:extend, [])
       having = data.fetch(:having, [])
+      values = data.fetch(:ValuesClause, []).first
 
       # extension variables must not appear in projected variables.
       # Add them to the projection otherwise
@@ -1395,6 +1454,10 @@ module SPARQL::Grammar
         else
           SPARQL::Algebra::Expression[:group, group_vars, aggregates, query]
         end
+      end
+
+      if values
+        query = query ? SPARQL::Algebra::Expression[:join, query, values] : values
       end
 
       query = SPARQL::Algebra::Expression[:extend, extensions, query] unless extensions.empty?

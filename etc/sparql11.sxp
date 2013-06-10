@@ -1,7 +1,7 @@
 (
  (rule _empty "0" (seq))
  (rule QueryUnit "1" (alt _empty Query))
- (rule Query "2" (seq Prologue _Query_1 ValuesClause))
+ (rule Query "2" (seq Prologue _Query_1))
  (rule _Query_1 "2.1" (alt SelectQuery ConstructQuery DescribeQuery AskQuery))
  (rule UpdateUnit "3" (seq Update))
  (rule Prologue "4" (alt _empty _Prologue_2))
@@ -10,7 +10,7 @@
  (rule BaseDecl "5" (seq "BASE" IRIREF))
  (rule PrefixDecl "6" (seq "PREFIX" PNAME_NS IRIREF))
  (rule SelectQuery "7"
-  (seq SelectClause _SelectQuery_1 WhereClause SolutionModifier))
+  (seq SelectClause _SelectQuery_1 WhereClause SolutionModifier ValuesClause))
  (rule _SelectQuery_1 "7.1" (alt _empty _SelectQuery_2))
  (rule _SelectQuery_2 "7.2" (seq DatasetClause _SelectQuery_1))
  (rule SubSelect "8" (seq SelectClause WhereClause SolutionModifier))
@@ -23,7 +23,7 @@
  (rule _SelectClause_6 "9.6" (alt _empty _SelectClause_7))
  (rule _SelectClause_7 "9.7" (seq _SelectClause_5 _SelectClause_6))
  (rule _SelectClause_8 "9.8" (seq "(" Expression "AS" Var ")"))
- (rule ConstructQuery "10" (seq "CONSTRUCT" _ConstructQuery_1))
+ (rule ConstructQuery "10" (seq "CONSTRUCT" _ConstructQuery_1 ValuesClause))
  (rule _ConstructQuery_1 "10.1" (alt _ConstructQuery_2 _ConstructQuery_3))
  (rule _ConstructQuery_2 "10.2"
   (seq ConstructTemplate _ConstructQuery_4 WhereClause SolutionModifier))
@@ -43,8 +43,8 @@
  (rule _DescribeQuery_4 "11.4" (seq VarOrIri _DescribeQuery_5))
  (rule _DescribeQuery_5 "11.5" (alt _empty _DescribeQuery_6))
  (rule _DescribeQuery_6 "11.6" (seq VarOrIri _DescribeQuery_5))
- (rule _DescribeQuery_7 "11.7" (seq DatasetClause _DescribeQuery_2))
- (rule AskQuery "12" (seq "ASK" _AskQuery_1 WhereClause))
+ (rule _DescribeQuery_7 "11.7" (seq ValuesClauseDatasetClause _DescribeQuery_2))
+ (rule AskQuery "12" (seq "ASK" _AskQuery_1 WhereClause ValuesClause))
  (rule _AskQuery_1 "12.1" (alt _empty _AskQuery_2))
  (rule _AskQuery_2 "12.2" (seq DatasetClause _AskQuery_1))
  (rule DatasetClause "13" (seq "FROM" _DatasetClause_1))
@@ -169,7 +169,7 @@
  (rule _TriplesBlock_3 "55.3" (alt _empty TriplesBlock))
  (rule GraphPatternNotTriples "56"
   (alt GroupOrUnionGraphPattern OptionalGraphPattern MinusGraphPattern
-   GraphGraphPattern ServiceGraphPattern Filter Bind ))
+   GraphGraphPattern ServiceGraphPattern Filter Bind InlineData ))
  (rule OptionalGraphPattern "57" (seq "OPTIONAL" GroupGraphPattern))
  (rule GraphGraphPattern "58" (seq "GRAPH" VarOrIri GroupGraphPattern))
  (rule ServiceGraphPattern "59"

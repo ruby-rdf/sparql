@@ -6,6 +6,6 @@
         (triple ?s ?p2 ?o2)
       )
       (table (vars ?o1 ?o2)
-        (row [?o2 "Alan"])
-        (row [?o1 :b])
+        (row (?o2 "Alan"))
+        (row (?o1 :b))
       ))))

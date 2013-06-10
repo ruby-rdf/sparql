@@ -3,5 +3,5 @@
     (join
       (bgp (triple ?s ?p ?o))
       (table (vars ?o)
-        (row [?o :b])
+        (row (?o :b))
       ))))
