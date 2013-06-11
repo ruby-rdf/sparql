@@ -8,15 +8,15 @@
     [5]   BaseDecl                ::= 'BASE' IRIREF
     [6]   PrefixDecl              ::= 'PREFIX' PNAME_NS IRIREF
     [7]   SelectQuery             ::= SelectClause DatasetClause* WhereClause SolutionModifier ValuesClause
-    [8]   SubSelect               ::= SelectClause WhereClause SolutionModifier
+    [8]   SubSelect               ::= SelectClause WhereClause SolutionModifier ValuesClause
     [9]   SelectClause            ::= 'SELECT' ( 'DISTINCT' | 'REDUCED' )?
                                       ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
     [10]  ConstructQuery          ::= 'CONSTRUCT'
                                       ( ConstructTemplate DatasetClause* WhereClause SolutionModifier
                                       | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
                                       ValuesClause
-    [11]  DescribeQuery           ::= 'DESCRIBE' ( VarOrIri+ | '*' ) ValuesClause
-                                      DatasetClause* WhereClause? SolutionModifier
+    [11]  DescribeQuery           ::= 'DESCRIBE' ( VarOrIri+ | '*' )
+                                      DatasetClause* WhereClause? SolutionModifier ValuesClause
     [12]  AskQuery                ::= 'ASK' DatasetClause* WhereClause ValuesClause
     [13]  DatasetClause           ::= 'FROM' ( DefaultGraphClause | NamedGraphClause )
     [14]  DefaultGraphClause      ::= SourceSelector

@@ -90,26 +90,18 @@
   (first "FROM" _eps)
   (follow "WHERE" "{")
   (seq _SelectQuery_1))
- (rule _SelectQuery_5 "7.5"
-  (first "WHERE" "{")
-  (follow _eof)
-  (seq WhereClause SolutionModifier ValuesClause))
- (rule _SelectQuery_6 "7.6"
-  (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eps)
-  (follow _eof)
-  (seq SolutionModifier ValuesClause))
  (rule SubSelect "8"
   (first "SELECT")
   (follow "}")
-  (seq SelectClause WhereClause SolutionModifier))
+  (seq SelectClause WhereClause SolutionModifier ValuesClause))
  (rule _SubSelect_1 "8.1"
   (first "WHERE" "{")
-  (follow "VALUES" _eof "}")
-  (seq WhereClause SolutionModifier))
+  (follow _eof "}")
+  (seq WhereClause SolutionModifier ValuesClause))
  (rule _SubSelect_2 "8.2"
-  (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" _eps)
-  (follow "VALUES" _eof "}")
-  (seq SolutionModifier))
+  (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eps)
+  (follow _eof "}")
+  (seq SolutionModifier ValuesClause))
  (rule SelectClause "9"
   (first "SELECT")
   (follow "FROM" "WHERE" "{")
@@ -220,12 +212,23 @@
   (first "FROM" _eps)
   (follow "WHERE")
   (seq _ConstructQuery_6))
- (rule _ConstructQuery_14 "10.14" (first "VALUES" _eps) (follow _eof) (seq ValuesClause))
+ (rule _ConstructQuery_14 "10.14"
+  (first "VALUES" _eps)
+  (follow _eof "}")
+  (seq ValuesClause))
  (rule _ConstructQuery_15 "10.15"
+  (first "WHERE" "{")
+  (follow "VALUES" _eof)
+  (seq WhereClause SolutionModifier))
+ (rule _ConstructQuery_16 "10.16"
   (first "{")
   (follow "VALUES" _eof)
   (seq "{" _ConstructQuery_7 "}" SolutionModifier))
- (rule _ConstructQuery_16 "10.16"
+ (rule _ConstructQuery_17 "10.17"
+  (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" _eps)
+  (follow "VALUES" _eof)
+  (seq SolutionModifier))
+ (rule _ConstructQuery_18 "10.18"
   (first "(" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE
    DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE
    INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS STRING_LITERAL1
@@ -233,7 +236,7 @@
    "false" "true" "}" )
   (follow "VALUES" _eof)
   (seq _ConstructQuery_7 "}" SolutionModifier))
- (rule _ConstructQuery_17 "10.17"
+ (rule _ConstructQuery_19 "10.19"
   (first "}")
   (follow "VALUES" _eof)
   (seq "}" SolutionModifier))
@@ -277,57 +280,65 @@
   (first "DESCRIBE")
   (follow _eof)
   (seq "DESCRIBE" _DescribeQuery_1 _DescribeQuery_2 _DescribeQuery_3
-   SolutionModifier ))
+   SolutionModifier ValuesClause ))
  (rule _DescribeQuery_10 "11.10"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 _eps)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq _DescribeQuery_5))
  (rule _DescribeQuery_1 "11.1"
   (first "*" IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (alt _DescribeQuery_4 "*"))
  (rule _DescribeQuery_11 "11.11"
-  (first _eps)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (first "FROM" _eps)
+  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE" _eof "{")
   (seq _DescribeQuery_2))
  (rule _DescribeQuery_12 "11.12"
-  (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eps "{")
+  (first "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE" _eps "{")
   (follow _eof)
-  (seq _DescribeQuery_2 _DescribeQuery_3 SolutionModifier))
+  (seq _DescribeQuery_2 _DescribeQuery_3 SolutionModifier ValuesClause))
  (rule _DescribeQuery_13 "11.13"
-  (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eps "{")
+  (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE" _eps "{")
   (follow _eof)
-  (seq _DescribeQuery_3 SolutionModifier))
+  (seq _DescribeQuery_3 SolutionModifier ValuesClause))
  (rule _DescribeQuery_2 "11.2"
-  (first _eps)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (first "FROM" _eps)
+  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE" _eof "{")
   (alt _empty _DescribeQuery_7))
  (rule _DescribeQuery_3 "11.3"
   (first "WHERE" _eps "{")
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" _eof)
+  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eof)
   (alt _empty WhereClause))
  (rule _DescribeQuery_4 "11.4"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq VarOrIri _DescribeQuery_5))
  (rule _DescribeQuery_5 "11.5"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 _eps)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (alt _empty _DescribeQuery_6))
  (rule _DescribeQuery_6 "11.6"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq VarOrIri _DescribeQuery_5))
  (rule _DescribeQuery_7 "11.7"
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
-  (seq ValuesClauseDatasetClause _DescribeQuery_2))
+  (first "FROM")
+  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE" _eof "{")
+  (seq DatasetClause _DescribeQuery_2))
  (rule _DescribeQuery_8 "11.8"
   (first "*" IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
   (follow _eof)
-  (seq _DescribeQuery_1 _DescribeQuery_2 _DescribeQuery_3 SolutionModifier))
+  (seq _DescribeQuery_1 _DescribeQuery_2 _DescribeQuery_3 SolutionModifier
+   ValuesClause ))
  (rule _DescribeQuery_9 "11.9"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 _eps)
-  (follow "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "WHERE" _eof "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq _DescribeQuery_5))
  (rule AskQuery "12"
   (first "ASK")
@@ -352,34 +363,39 @@
   (seq WhereClause ValuesClause))
  (rule DatasetClause "13"
   (first "FROM")
-  (follow "FROM" "WHERE" "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq "FROM" _DatasetClause_1))
  (rule _DatasetClause_1 "13.1"
   (first IRIREF "NAMED" PNAME_LN PNAME_NS)
-  (follow "FROM" "WHERE" "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (alt DefaultGraphClause NamedGraphClause))
  (rule _DatasetClause_2 "13.2"
   (first IRIREF "NAMED" PNAME_LN PNAME_NS)
-  (follow "FROM" "WHERE" "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq _DatasetClause_1))
  (rule DefaultGraphClause "14"
   (first IRIREF PNAME_LN PNAME_NS)
-  (follow "FROM" "WHERE" "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq SourceSelector))
  (rule NamedGraphClause "15"
   (first "NAMED")
-  (follow "FROM" "WHERE" "{")
+  (follow "FROM" "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" "WHERE"
+   _eof "{" )
   (seq "NAMED" SourceSelector))
  (rule SourceSelector "16"
   (first IRIREF PNAME_LN PNAME_NS)
   (follow "!" "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<=" "=" ">"
    ">=" ANON "AS" "BIND" BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
    DECIMAL_POSITIVE "DELETE" DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE "FILTER"
-   "FROM" "GRAPH" "IN" "INSERT" INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
-   IRIREF "MINUS" NIL "NOT" "OPTIONAL" PNAME_LN PNAME_NS "SERVICE"
-   STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   "TO" "UNDEF" "USING" "VALUES" VAR1 VAR2 "WHERE" "[" "]" "^" "a" "false"
-   "true" "{" "||" "}" )
+   "FROM" "GRAPH" "GROUP" "HAVING" "IN" "INSERT" INTEGER INTEGER_NEGATIVE
+   INTEGER_POSITIVE IRIREF "LIMIT" "MINUS" NIL "NOT" "OFFSET" "OPTIONAL"
+   "ORDER" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1 STRING_LITERAL2
+   STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "TO" "UNDEF" "USING" "VALUES" VAR1
+   VAR2 "WHERE" "[" "]" "^" _eof "a" "false" "true" "{" "||" "}" )
   (seq iri))
  (rule WhereClause "17"
   (first "WHERE" "{")
@@ -848,10 +864,16 @@
   (seq "OFFSET" INTEGER))
  (rule ValuesClause "28"
   (first "VALUES" _eps)
-  (follow _eof)
+  (follow _eof "}")
   (alt _empty _ValuesClause_1))
- (rule _ValuesClause_1 "28.1" (first "VALUES") (follow _eof) (seq "VALUES" DataBlock))
- (rule _ValuesClause_2 "28.2" (first "(" NIL VAR1 VAR2) (follow _eof) (seq DataBlock))
+ (rule _ValuesClause_1 "28.1"
+  (first "VALUES")
+  (follow _eof "}")
+  (seq "VALUES" DataBlock))
+ (rule _ValuesClause_2 "28.2"
+  (first "(" NIL VAR1 VAR2)
+  (follow _eof "}")
+  (seq DataBlock))
  (rule Update "29"
   (first "ADD" "BASE" "CLEAR" "COPY" "CREATE" "DELETE" "DELETE DATA"
    "DELETE WHERE" "DROP" "INSERT" "INSERT DATA" "LOAD" "MOVE" "PREFIX" "WITH"
@@ -3084,10 +3106,11 @@
  (rule VarOrIri "107"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2)
   (follow "(" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE
-   DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE "GROUP" "HAVING" INTEGER
+   DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE "FROM" "GROUP" "HAVING" INTEGER
    INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "LIMIT" NIL "OFFSET" "ORDER"
    PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
-   STRING_LITERAL_LONG2 VAR1 VAR2 "WHERE" "[" _eof "false" "true" "{" )
+   STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2 "WHERE" "[" _eof "false" "true" "{"
+  )
   (alt Var iri))
  (rule Var "108"
   (first VAR1 VAR2)
