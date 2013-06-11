@@ -5,13 +5,13 @@ module SPARQL; module Algebra
     #
     # @example
     #   (- ?x)
-    #   (minus ?x)
+    #   (negate ?x)
     #
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
-    class Minus < Operator::Unary
+    class Negate < Operator::Unary
       include Evaluatable
 
-      NAME = [:-, :minus]
+      NAME = [:-, :negate]
 
       ##
       # Returns the operand with its sign reversed.
@@ -26,6 +26,6 @@ module SPARQL; module Algebra
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{term.inspect}"
         end
       end
-    end # Minus
+    end # Negate
   end # Operator
 end; end # SPARQL::Algebra

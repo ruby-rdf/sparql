@@ -39,6 +39,7 @@ module SPARQL; module Algebra
     autoload :Minus,              'sparql/algebra/operator/minus'
     autoload :Minutes,            'sparql/algebra/operator/minutes'
     autoload :Month,              'sparql/algebra/operator/month'
+    autoload :Negate,             'sparql/algebra/operator/negate'
     autoload :Not,                'sparql/algebra/operator/not'
     autoload :NotExists,          'sparql/algebra/operator/notexists'
     autoload :Plus,               'sparql/algebra/operator/plus'
@@ -130,7 +131,7 @@ module SPARQL; module Algebra
         when :'='             then Equal
         when :*               then Multiply
         when :+               then arity.eql?(1) ? Plus  : Add
-        when :-               then arity.eql?(1) ? Minus : Subtract
+        when :-               then arity.eql?(1) ? Negate : Subtract
         when :<               then LessThan
         when :<=              then LessThanOrEqual
         when :<=>             then Compare # non-standard

@@ -1,4 +1,4 @@
 (prefix ((: <http://example/>)
          (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
   (filter (exists (bgp (triple ?set :member 7)))
-    (bgp (triple ?set rdf:type :Set))))
+    (bgp (triple ?set a :Set))))

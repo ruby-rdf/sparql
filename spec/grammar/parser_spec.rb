@@ -300,7 +300,7 @@ shared_examples "UnaryExpression" do
       %q(+ 1)     => RDF::Literal(1),
       %q(- 1)     => -RDF::Literal(1),
       %q(+ "foo") => RDF::Literal("foo"),
-      %q(- "foo") => SPARQL::Algebra::Expression[:minus, RDF::Literal("foo")],
+      %q(- "foo") => SPARQL::Algebra::Expression[:"-", RDF::Literal("foo")],
     }.each do |input, output|
       it input do
         input.should generate(output, :resolve_iris => false, :last => true)

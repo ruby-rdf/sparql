@@ -61,12 +61,12 @@ describe SPARQL::Algebra do
   end
 
   # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
-  describe Operator::Minus do
+  describe Operator::Negate do
     before :all do
-      @op = @minus = SPARQL::Algebra::Operator::Minus
+      @op = @minus = SPARQL::Algebra::Operator::Negate
     end
 
-    verify sse_examples('operator/minus/numeric.sse')
+    verify sse_examples('operator/negate/numeric.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do

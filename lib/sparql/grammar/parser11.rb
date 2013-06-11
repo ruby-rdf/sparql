@@ -816,7 +816,7 @@ module SPARQL::Grammar
         if e.is_a?(RDF::Literal::Numeric)
           add_prod_datum(:Expression, -e) # Simple optimization to match ARQ generation
         else
-          add_prod_datum(:Expression, SPARQL::Algebra::Expression[:minus, e])
+          add_prod_datum(:Expression, SPARQL::Algebra::Expression[:"-", e])
         end
       else
         add_prod_datum(:Expression, data[:Expression])
