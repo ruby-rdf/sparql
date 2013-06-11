@@ -36,6 +36,7 @@ module SPARQL; module Algebra
         debug(options) {"Filter #{operands.first.to_sxp}"}
         @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"=>(before) #{@solutions.map(&:to_hash).inspect}"}
+        opts = options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)
         @solutions = @solutions.filter do |solution|
           # Evaluate the solution, which will return true or false
           #debug(options) {"===>(evaluate) #{operands.first.inspect} against #{solution.to_hash.inspect}"}
@@ -44,7 +45,7 @@ module SPARQL; module Algebra
           # FILTERs eliminate any solutions that, when substituted into the expression, either
           # result in an effective boolean value of false or produce an error.
           begin
-            res = boolean(operands.first.evaluate(solution)).true?
+            res = boolean(operands.first.evaluate(solution, opts)).true?
             debug(options) {"===>#{res} #{solution.to_hash.inspect}"}
             res
           rescue

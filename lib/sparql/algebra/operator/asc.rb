@@ -19,10 +19,13 @@ module SPARQL; module Algebra
       # Returns the evaluation of it's operand. Default comparison is in
       # ascending order. Ordering is applied in {Order}.
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
+      #   a query solution containing zero or more variable bindings
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Term]
-      def evaluate(bindings = {})
-        operand(0).evaluate(bindings)
+      def evaluate(bindings, options = {})
+        operand(0).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
       end
     end # Asc
   end # Operator

@@ -33,10 +33,13 @@ module SPARQL; module Algebra
       # Returns `true` if the operand is a variable that is bound to a
       # value in the given `bindings`, `false` otherwise.
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
+      #   a query solution containing zero or more variable bindings
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operand is not a variable
-      def evaluate(bindings = {})
+      def evaluate(bindings, options = {})
         case var = operand
           when Variable
             bindings.respond_to?(:bound?) && bindings.bound?(var) ?

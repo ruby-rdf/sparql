@@ -289,9 +289,12 @@ module SPARQL; module Algebra
     # Subclasses can override this method in order to implement something
     # more useful.
     #
-    # @param  [RDF::Query::Solution, #[]] bindings
+    # @param  [RDF::Query::Solution] bindings
+    #   a query solution containing zero or more variable bindings
+    # @param [Hash{Symbol => Object}] options ({})
+    #   options passed from query
     # @return [Expression] `self`
-    def evaluate(bindings = {})
+    def evaluate(bindings, options = {})
       self
     end
 

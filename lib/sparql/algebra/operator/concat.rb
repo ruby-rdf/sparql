@@ -24,11 +24,14 @@ module SPARQL; module Algebra
       #     concat("foo"@en, "bar")                      #=> "foobar"
       #     concat("foo"@en, "bar"^^xsd:string)          #=> "foobar"
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
+      #   a query solution containing zero or more variable bindings
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Term]
       # @raise  [TypeError] if any operand is not a literal
-      def evaluate(bindings = {})
-        ops = operands.map {|op| op.evaluate(bindings)}
+      def evaluate(bindings, options = {})
+        ops = operands.map {|op| op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))}
 
         raise TypeError, "expected all plain literal operands" unless ops.all? {|op| op.literal? && op.plain?}
 

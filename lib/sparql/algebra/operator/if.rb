@@ -29,14 +29,14 @@ module SPARQL; module Algebra
       #
       # Evaluates the first operand and returns the evaluation of either the second or third operands
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
       #   a query solution containing zero or more variable bindings
       # @return [RDF::Term]
       # @raise [TypeError]
-      def evaluate(bindings = {})
-        operand(0).evaluate(bindings) == RDF::Literal::TRUE ?
-          operand(1).evaluate(bindings) :
-          operand(2).evaluate(bindings)
+      def evaluate(bindings, options = {})
+        operand(0).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1)) == RDF::Literal::TRUE ?
+          operand(1).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1).merge(:depth => options[:depth].to_i + 1)) :
+          operand(2).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
         rescue
           raise TypeError
       end

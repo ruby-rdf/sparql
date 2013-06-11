@@ -33,8 +33,8 @@ module SPARQL; module Algebra
           operand(0).inject(false) do |memo, op|
             debug(options) {"=> #{op.inspect}"}
             memo ||= begin
-              a_eval = op.evaluate(a) rescue nil
-              b_eval = op.evaluate(b) rescue nil
+              a_eval = op.evaluate(a, options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)) rescue nil
+              b_eval = op.evaluate(b, options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)) rescue nil
               comp = if a_eval.nil?
                 RDF::Literal(-1)
               elsif b_eval.nil?

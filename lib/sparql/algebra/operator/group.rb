@@ -49,10 +49,15 @@ module SPARQL; module Algebra
             begin
               if operand.is_a?(Array)
                 # Form is [variable, expression]
-                soln[operand.first] = operand.last.evaluate(solution)
+                soln[operand.first] = operand.last.evaluate(solution,
+                                                            options.merge(
+                                                             :queryable => queryable,
+                                                             :depth => options[:depth].to_i + 1))
               else
                 # Form is variable
-                soln[operand] = operand.evaluate(solution)
+                soln[operand] = operand.evaluate(solution, options.merge(
+                                                            :queryable => queryable,
+                                                            :depth => options[:depth].to_i + 1))
               end
             rescue TypeError
               # Ignore expression
@@ -67,7 +72,7 @@ module SPARQL; module Algebra
         @solutions = groups.map do |group_soln, solns|
           aggregates.each do |(var, aggregate)|
             begin
-              group_soln[var] = aggregate.aggregate(solns)
+              group_soln[var] = aggregate.aggregate(solns, options)
             rescue TypeError
               # Ignored in output
             end

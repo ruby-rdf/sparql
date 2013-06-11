@@ -37,7 +37,9 @@ module SPARQL; module Algebra
           debug(options) {"===> soln #{solution.to_hash.inspect}"}
           operands.first.each do |(var, expr)|
             begin
-              val = expr.evaluate(solution)
+              val = expr.evaluate(solution, options.merge(
+                                              :queryable => queryable,
+                                              :depth => options[:depth].to_i + 1))
               debug(options) {"===> + #{var} => #{val.inspect}"}
               solution.bindings[var.to_sym] = val
             rescue TypeError => e

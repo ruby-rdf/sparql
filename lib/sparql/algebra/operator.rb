@@ -22,6 +22,7 @@ module SPARQL; module Algebra
     autoload :Datatype,           'sparql/algebra/operator/datatype'
     autoload :Day,                'sparql/algebra/operator/day'
     autoload :EncodeForURI,       'sparql/algebra/operator/encode_for_uri'
+    autoload :Exists,             'sparql/algebra/operator/exists'
     autoload :Floor,              'sparql/algebra/operator/floor'
     autoload :Hours,              'sparql/algebra/operator/hours'
     autoload :IsBlank,            'sparql/algebra/operator/is_blank'
@@ -39,6 +40,7 @@ module SPARQL; module Algebra
     autoload :Minutes,            'sparql/algebra/operator/minutes'
     autoload :Month,              'sparql/algebra/operator/month'
     autoload :Not,                'sparql/algebra/operator/not'
+    autoload :NotExists,          'sparql/algebra/operator/notexists'
     autoload :Plus,               'sparql/algebra/operator/plus'
     autoload :Round,              'sparql/algebra/operator/round'
     autoload :Sample,             'sparql/algebra/operator/sample'
@@ -149,6 +151,7 @@ module SPARQL; module Algebra
         when :day             then Day
         when :encode_for_uri  then EncodeForURI
         when :divide          then Divide
+        when :exists          then Exists
         when :floor           then Floor
         when :group_concat    then GroupConcat
         when :hours           then Hours
@@ -171,6 +174,7 @@ module SPARQL; module Algebra
         when :month           then Month
         when :multiply        then Multiply
         when :not, :'!'       then Not
+        when :notexists      then NotExists
         when :notin           then NotIn
         when :now             then Now
         when :or, :'||'       then Or
@@ -430,7 +434,7 @@ module SPARQL; module Algebra
       if constant?
         # Note that if evaluation results in a `TypeError` or other error,
         # we must return `self` so that the error is conserved at runtime:
-        evaluate rescue self
+        evaluate(RDF::Query::Solution.new) rescue self
       else
         super # returns `self`
       end

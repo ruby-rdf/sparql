@@ -37,12 +37,13 @@ class Array
   # an XSD datatype, and the second is the expression to be evaluated.
   # The result is cast as a literal of the appropriate type
   #
-  # @param  [RDF::Query::Solution, #[]] bindings
+  # @param  [RDF::Query::Solution] bindings
   #   a query solution containing zero or more variable bindings
+  # @param [Hash{Symbol => Object}] options ({})
+  #   options passed from query
   # @return [RDF::Term]
-  def evaluate(bindings)
-    dt, val = self.map {|o| o.evaluate(bindings)}
-    SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings)})
+  def evaluate(bindings, options = {})
+    SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings, options)})
   end
 
   ##
@@ -125,7 +126,12 @@ end
 module RDF::Term
   include SPARQL::Algebra::Expression
   
-  def evaluate(bindings)
+  # @param  [RDF::Query::Solution] bindings
+  #   a query solution containing zero or more variable bindings
+  # @param [Hash{Symbol => Object}] options ({})
+  #   options passed from query
+  # @return [RDF::Term]
+  def evaluate(bindings, options = {})
     self
   end
 
@@ -247,10 +253,13 @@ class RDF::Query::Variable
   ##
   # Returns the value of this variable in the given `bindings`.
   #
-  # @param  [RDF::Query::Solution, #[]] bindings
+  # @param  [RDF::Query::Solution] bindings
+  #   a query solution containing zero or more variable bindings
+  # @param [Hash{Symbol => Object}] options ({})
+  #   options passed from query
   # @return [RDF::Term] the value of this variable
   # @raise [TypeError] if the variable is not bound
-  def evaluate(bindings = {})
+  def evaluate(bindings, options = {})
     raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
   end

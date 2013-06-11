@@ -54,6 +54,8 @@ The SPARQL gem now implements the following [SPARQL 1.1][] operations:
 * [Aggregates](http://www.w3.org/TR/sparql11-query/#aggregates)
 * [Subqueries](http://www.w3.org/TR/sparql11-query/#subqueries)
 * [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
+* [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
+* [Exists](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#func-filter-exists)
 
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:

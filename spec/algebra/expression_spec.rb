@@ -130,9 +130,9 @@ describe SPARQL::Algebra do
       }.each do |spec, op|
         it spec do
           if spec =~ /raises/
-            lambda { op.evaluate }.should raise_error(TypeError)
+            lambda { op.evaluate(RDF::Query::Solution.new) }.should raise_error(TypeError)
           else
-            op.evaluate.should == RDF::Literal::TRUE
+            op.evaluate(RDF::Query::Solution.new).should == RDF::Literal::TRUE
           end
         end
       end
@@ -162,7 +162,7 @@ describe SPARQL::Algebra do
 
       it "raises error unless function is registered" do
         lambda {
-          [RDF::URI("func"), RDF::Literal("foo")].evaluate({})
+          [RDF::URI("func"), RDF::Literal("foo")].evaluate(RDF::Query::Solution.new)
         }.should raise_error(TypeError)
       end
 
@@ -172,7 +172,7 @@ describe SPARQL::Algebra do
           @did_yield = true
           literal.should == RDF::Literal("foo")
         end
-        [RDF::URI("func"), RDF::Literal("foo")].evaluate({})
+        [RDF::URI("func"), RDF::Literal("foo")].evaluate(RDF::Query::Solution.new)
         @did_yield.should be_true
       end
     end
@@ -195,11 +195,11 @@ describe SPARQL::Algebra do
       }.each do |given, expected|
         if expected == TypeError
           it "raises TypeError given #{given.inspect}" do
-            lambda {[RDF::XSD.dateTime, given].evaluate({})}.should raise_error(TypeError)
+            lambda {[RDF::XSD.dateTime, given].evaluate(RDF::Query::Solution.new)}.should raise_error(TypeError)
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.dateTime, given].evaluate({}).should == expected
+            [RDF::XSD.dateTime, given].evaluate(RDF::Query::Solution.new).should == expected
           end
         end
       end
@@ -224,11 +224,11 @@ describe SPARQL::Algebra do
       }.each do |given, expected|
         if expected == TypeError
           it "raises TypeError given #{given.inspect}" do
-            lambda {[RDF::XSD.float, given].evaluate({})}.should raise_error(TypeError)
+            lambda {[RDF::XSD.float, given].evaluate(RDF::Query::Solution.new)}.should raise_error(TypeError)
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.float, given].evaluate({}).should == expected
+            [RDF::XSD.float, given].evaluate(RDF::Query::Solution.new).should == expected
           end
         end
       end
@@ -253,11 +253,11 @@ describe SPARQL::Algebra do
       }.each do |given, expected|
         if expected == TypeError
           it "raises TypeError given #{given.inspect}" do
-            lambda {[RDF::XSD.double, given].evaluate({})}.should raise_error(TypeError)
+            lambda {[RDF::XSD.double, given].evaluate(RDF::Query::Solution.new)}.should raise_error(TypeError)
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.double, given].evaluate({}).should == expected
+            [RDF::XSD.double, given].evaluate(RDF::Query::Solution.new).should == expected
           end
         end
       end
@@ -282,11 +282,11 @@ describe SPARQL::Algebra do
       }.each do |given, expected|
         if expected == TypeError
           it "raises TypeError given #{given.inspect}" do
-            lambda {[RDF::XSD.decimal, given].evaluate({})}.should raise_error(TypeError)
+            lambda {[RDF::XSD.decimal, given].evaluate(RDF::Query::Solution.new)}.should raise_error(TypeError)
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.decimal, given].evaluate({}).should == expected
+            [RDF::XSD.decimal, given].evaluate(RDF::Query::Solution.new).should == expected
           end
         end
       end
@@ -311,11 +311,11 @@ describe SPARQL::Algebra do
       }.each do |given, expected|
         if expected == TypeError
           it "raises TypeError given #{given.inspect}" do
-            lambda {[RDF::XSD.integer, given].evaluate({})}.should raise_error(TypeError)
+            lambda {[RDF::XSD.integer, given].evaluate(RDF::Query::Solution.new)}.should raise_error(TypeError)
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.integer, given].evaluate({}).should == expected
+            [RDF::XSD.integer, given].evaluate(RDF::Query::Solution.new).should == expected
           end
         end
       end
@@ -340,11 +340,11 @@ describe SPARQL::Algebra do
       }.each do |given, expected|
         if expected == TypeError
           it "raises TypeError given #{given.inspect}" do
-            lambda {[RDF::XSD.boolean, given].evaluate({})}.should raise_error(TypeError)
+            lambda {[RDF::XSD.boolean, given].evaluate(RDF::Query::Solution.new)}.should raise_error(TypeError)
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.boolean, given].evaluate({}).should == expected
+            [RDF::XSD.boolean, given].evaluate(RDF::Query::Solution.new).should == expected
           end
         end
       end

@@ -109,7 +109,6 @@ describe SPARQL::Grammar::Parser do
           service
           syntax-fed
 
-          exists
           negation
           syntax-query
         }.include? tc.manifest.to_s.split('/')[-2]

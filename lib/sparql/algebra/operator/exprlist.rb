@@ -30,11 +30,14 @@ module SPARQL; module Algebra
       #
       #   (exprlist (= 1 1) (!= 1 0))
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
+      #   a query solution containing zero or more variable bindings
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operands could not be coerced to a boolean literal
-      def evaluate(bindings = {})
-        res = operands.all? {|op| boolean(op.evaluate(bindings)).true? }
+      def evaluate(bindings, options = {})
+        res = operands.all? {|op| boolean(op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))).true? }
         RDF::Literal(res) # FIXME: error handling
       end
 

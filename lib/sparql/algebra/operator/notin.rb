@@ -36,15 +36,18 @@ module SPARQL; module Algebra
       #     2 NOT IN (2, 1/0)	false
       #     2 NOT IN (3, 1/0)	raises an error
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
+      #   a query solution containing zero or more variable bindings
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if term is not found and any operand raises an error
-      def evaluate(bindings = {})
-        lhs = operands.shift.evaluate(bindings)
+      def evaluate(bindings, options = {})
+        lhs = operands.shift.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
         error_found = false
         found = operands.any? do |op|
           begin
-            lhs == op.evaluate(bindings)
+            lhs == op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
           rescue TypeError
             error_found = true
           end

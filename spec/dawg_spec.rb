@@ -102,7 +102,6 @@ describe SPARQL do
           service
           syntax-fed
 
-          exists
           negation
         }.include? tc.manifest.to_s.split('/')[-2]
       end.

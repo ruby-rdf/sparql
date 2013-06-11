@@ -34,18 +34,21 @@ module SPARQL; module Algebra
       # Note that this operator operates on the effective boolean value
       # (EBV) of its operands.
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
+      #   a query solution containing zero or more variable bindings
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operands could not be coerced to boolean literals
-      def evaluate(bindings = {})
+      def evaluate(bindings, options = {})
         begin
-          left = boolean(operand(0).evaluate(bindings)).true?
+          left = boolean(operand(0).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))).true?
         rescue TypeError
           left = nil
         end
         
         begin
-          right = boolean(operand(1).evaluate(bindings)).true?
+          right = boolean(operand(1).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))).true?
         rescue TypeError
           right = nil
         end

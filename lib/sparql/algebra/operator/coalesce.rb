@@ -38,13 +38,16 @@ module SPARQL; module Algebra
       #     COALESCE(?y, 3) #=> 3
       #     COALESCE(?y) #=> raises an error because y is not bound.
       #
-      # @param  [RDF::Query::Solution, #[]] bindings
+      # @param  [RDF::Query::Solution] bindings
+      #   a query solution containing zero or more variable bindings
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Term]
       # @raise  [TypeError] if none of the operands succeeds
-      def evaluate(bindings = {})
+      def evaluate(bindings, options = {})
         operands.each do |op|
           begin
-            return op.evaluate(bindings)
+            return op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
           rescue
           end
         end

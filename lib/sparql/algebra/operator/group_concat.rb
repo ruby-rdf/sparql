@@ -21,14 +21,16 @@ module SPARQL; module Algebra
       #
       # @param  [Enumerable<RDF::Query::Solution>] solutions ([])
       #   an enumerable set of query solutions
+      # @param [Hash{Symbol => Object}] options ({})
+      #   options passed from query
       # @return [RDF::Term]
       # @raise [TypeError]
       # @abstract
-      def aggregate(solutions = [])
+      def aggregate(solutions = [], options = {})
         sep = operands.length == 2 ? operand(0).last : RDF::Literal(' ')
         args_enum = solutions.map do |solution|
           begin
-            operands.last.evaluate(solution)
+            operands.last.evaluate(solution, options.merge(:depth => options[:depth].to_i + 1))
           rescue TypeError
             # Ignore errors
             nil
