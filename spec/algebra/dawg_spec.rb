@@ -93,8 +93,6 @@ describe SPARQL::Algebra do
           protocol
           service
           syntax-fed
-
-          negation
         }.include? tc.manifest.to_s.split('/')[-2]
       end.
       group_by(&:manifest).

@@ -109,6 +109,7 @@ module SPARQL; module Algebra
     autoload :Group,              'sparql/algebra/operator/group'
     autoload :Join,               'sparql/algebra/operator/join'
     autoload :LeftJoin,           'sparql/algebra/operator/left_join'
+    autoload :Minus,              'sparql/algebra/operator/minus'
     autoload :Order,              'sparql/algebra/operator/order'
     autoload :Prefix,             'sparql/algebra/operator/prefix'
     autoload :Project,            'sparql/algebra/operator/project'
@@ -230,6 +231,7 @@ module SPARQL; module Algebra
         when :join            then Join
         when :leftjoin        then LeftJoin
         when :order           then Order
+        when :minus           then Minus
         when :prefix          then Prefix
         when :project         then Project
         when :reduced         then Reduced
