@@ -431,6 +431,8 @@ module SPARQL::Grammar
         add_prod_datum(:query, SPARQL::Algebra::Expression.for(:leftjoin, lhs, *data[:leftjoin]))
       elsif data[:query] && !lhs.empty?
         add_prod_datum(:query, SPARQL::Algebra::Expression.for(:join, lhs, *data[:query]))
+      elsif data[:minus]
+        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:minus, lhs, *data[:minus]))
       elsif data[:query]
         add_prod_datum(:query, data[:query])
       else
@@ -508,6 +510,13 @@ module SPARQL::Grammar
     # [65]  DataBlockValue	        ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
     production(:DataBlockValue) do |input, data, callback|
       add_prod_datum :DataBlockValue, data.values.first
+    end
+
+    # [66]  MinusGraphPattern       ::= 'MINUS' GroupGraphPattern
+    production(:MinusGraphPattern) do |input, data, callback|
+      expr = nil
+      query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
+      add_prod_data(:minus, query)
     end
 
     # [67]  	GroupOrUnionGraphPattern	  ::=  	GroupGraphPattern

@@ -42,7 +42,7 @@ module SPARQL; module Algebra
         debug(options) {"=>(left) #{solutions1.inspect}"}
         solutions2 = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
         debug(options) {"=>(right) #{solutions2.inspect}"}
-        @solutions = solutions1 - solutions2
+        @solutions = solutions1.minus(solutions2)
         debug(options) {"=> #{@solutions.inspect}"}
         @solutions
       end

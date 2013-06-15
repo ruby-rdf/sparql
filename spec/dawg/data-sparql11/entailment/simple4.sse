@@ -3,8 +3,8 @@
          (owl: <http://www.w3.org/2002/07/owl#>))
   (project (?x)
     (bgp
-      (triple ?x <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ??0)
-      (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> owl:Class)
+      (triple ?x a ??0)
+      (triple ??0 a owl:Class)
       (triple ??0 owl:unionOf ??1)
       (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> :B)
       (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest> ??2)

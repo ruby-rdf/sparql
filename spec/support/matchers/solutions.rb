@@ -9,8 +9,8 @@ RSpec::Matchers.define :describe_solutions do |expected_solutions|
     msg = "expected solutions to be isomorphic\n" +
     "expected:\n#{expected_solutions.inspect}" +
     "\nactual:\n#{actual_solutions.inspect}"
-    missing = (expected_solutions - actual_solutions)
-    extra = (actual_solutions - expected_solutions)
+    missing = (expected_solutions - actual_solutions) rescue []
+    extra = (actual_solutions - expected_solutions) rescue []
     msg += "\nmissing:\n#{missing.inspect}" unless missing.empty?
     msg += "\nextra:\n#{extra.inspect}" unless extra.empty?
     msg

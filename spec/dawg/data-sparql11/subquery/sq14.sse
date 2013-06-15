@@ -5,7 +5,7 @@
         (project (?person ?name)
           (order (?name)
             (bgp
-              (triple ?person <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> foaf:Person)
+              (triple ?person a foaf:Person)
               (triple ?person foaf:name ?name)
             ))))
       (bgp (triple ?person foaf:homepage ?homepage)))

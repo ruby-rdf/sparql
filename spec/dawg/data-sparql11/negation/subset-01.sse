@@ -9,8 +9,6 @@
             (triple ?s1 rdf:type :Set)
           )
           (filter (exprlist (!= ?s1 ?s2) (notexists (bgp (triple ?s2 :member ?x))))
-            (bgp
-              (triple ?s1 rdf:type :Set)
-              (triple ?s2 rdf:type :Set)
-              (triple ?s1 :member ?x)
-            )))))))
+            (join
+             (bgp (triple ?s1 rdf:type :Set) (triple ?s2 rdf:type :Set))
+             (bgp (triple ?s1 :member ?x)))))))))

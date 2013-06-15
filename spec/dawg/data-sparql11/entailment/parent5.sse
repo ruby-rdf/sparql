@@ -1,8 +1,8 @@
 (prefix ((: <http://example.org/test#>)
          (owl: <http://www.w3.org/2002/07/owl#>))
   (bgp
-    (triple ?parent <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ??0)
-    (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> owl:Restriction)
+    (triple ?parent a ??0)
+    (triple ??0 a owl:Restriction)
     (triple ??0 owl:onProperty :hasChild)
     (triple ??0 owl:someValuesFrom :Female)
   ))

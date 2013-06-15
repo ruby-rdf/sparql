@@ -10,7 +10,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
 * [SPARQL 1.0][] query parsing and execution
-* Limited [SPARQL 1.1][] query parsing and execution
+* Limited [SPARQL 1.1 Query][] query parsing and execution
 * SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON] or HTML.
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data][])
@@ -24,20 +24,20 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 ## Description
 
-The {SPARQL} gem implements the [SPARQL 1.0][] using the [SPARQL 1.1][] grammar,
+The {SPARQL} gem implements the [SPARQL 1.0][] using the [SPARQL 1.1 Query][] grammar,
 and provides [Rack][] and [Sinatra][]
 middleware to provide results using [HTTP Content Negotiation][conneg].
 
-* {SPARQL::Grammar} implements a [SPARQL 1.1][] parser generating [SPARQL S-Expressions (SSE)][SSE].
-  * [SPARQL 1.1][] capabilities beyond [SPARQL 1.0][] are not yet supported.
-    See the section on [SPARQL 1.1][] extensions and limitations for further detail.
+* {SPARQL::Grammar} implements a [SPARQL 1.1 Query][] parser generating [SPARQL S-Expressions (SSE)][SSE].
+  * [SPARQL 1.1 Query][] capabilities beyond [SPARQL 1.0][] are not yet supported.
+    See the section on [SPARQL 1.1 Query][] extensions and limitations for further detail.
 * {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including
   compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
   using an appropriate format based on [HTTP content negotiation][conneg].
 
-### [SPARQL 1.1][] Extensions and Limitations
-The {SPARQL} gem uses the [SPARQL 1.1][] {file:etc/sparql11.bnf EBNF grammar}, which provides
+### [SPARQL 1.1 Query][] Extensions and Limitations
+The {SPARQL} gem uses the [SPARQL 1.1 Query][] {file:etc/sparql11.bnf EBNF grammar}, which provides
 much more capability than [SPARQL 1.0][], but has a few limitations:
 
 * The format for decimal datatypes has changed in [RDF 1.1][]; they may no
@@ -46,7 +46,7 @@ much more capability than [SPARQL 1.0][], but has a few limitations:
   used in the object position, where the statement or pattern is terminated by a "."
   must contain whitespace separating the BNode label, and the ".".
 
-The SPARQL gem now implements the following [SPARQL 1.1][] operations:
+The SPARQL gem now implements the following [SPARQL 1.1 Query][] operations:
 
 * [Functions](http://www.w3.org/TR/sparql11-query/#SparqlOps).
 * [BIND](http://www.w3.org/TR/sparql11-query/#bind)
@@ -56,6 +56,19 @@ The SPARQL gem now implements the following [SPARQL 1.1][] operations:
 * [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
 * [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
 * [Exists](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#func-filter-exists)
+* [Negation](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation)
+
+The only major area of [SPARQL 1.1 Query][] missing is
+[Property Paths][], which
+will be in later release along with:
+* [Update][SPARQL 1.1 Update],
+* [Service Description][SPARQL 1.1 Service Description],
+* [Federated Query][SPARQL 1.1 Federated Query],
+* [CSV and TSV Formats][SPARQL 1.1 Query Results CSV and TSV Formats],
+* [Entailment Regimes][SPARQL 1.1 Entailment Regimes],
+* [Protocol][SPARQL 1.1 Protocol], and
+* [Graph Store HTTP Protocol][SPARQL 1.1 Graph Store HTTP Protocol],
+either in this, or related gems.
 
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:
@@ -287,7 +300,6 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are included in the 
 [SPARQL 1.0]:       http://www.w3.org/TR/rdf-sparql-query/
 [SPARQL 1.0 tests]:http://www.w3.org/2001/sw/DataAccess/tests/
 [SPARQL 1.1 tests]: http://www.w3.org/2009/sparql/docs/tests/
-[SPARQL 1.1]:       http://www.w3.org/TR/sparql11-query/
 [SSE]:              http://openjena.org/wiki/SSE
 [SXP]:              http://sxp.rubyforge.org/
 [grammar]:          http://www.w3.org/TR/rdf-sparql-query/#grammar
@@ -298,9 +310,20 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are included in the 
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames
 [SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
-[SPARQL Protocol]:  http://www.w3.org/TR/rdf-sparql-protocol/
+
 [SSD]:              http://www.w3.org/TR/sparql11-service-description/
 [Rack]:             http://rack.rubyforge.org/
 [Sinatra]:          http://www.sinatrarb.com/
 [conneg]:           http://en.wikipedia.org/wiki/Content_negotiation
+
+[SPARQL 1.1 Query]:                             http://www.w3.org/TR/sparql11-query/
+[SPARQL 1.1 Update]:                            http://www.w3.org/TR/sparql11-update/
+[SPARQL 1.1 Service Description]:               http://www.w3.org/TR/sparql11-service-description/
+[SPARQL 1.1 Federated Query]:                   http://www.w3.org/TR/sparql11-federated-query/
+[SPARQL 1.1 Query Results JSON Format]:         http://www.w3.org/TR/sparql11-results-json/
+[SPARQL 1.1 Query Results CSV and TSV Formats]: http://www.w3.org/TR/sparql11-results-csv-tsv/
+[SPARQL Query Results XML Format]:              http://www.w3.org/TR/rdf-sparql-XMLres/
+[SPARQL 1.1 Entailment Regimes]:                http://www.w3.org/TR/sparql11-entailment/
+[SPARQL 1.1 Protocol]:                          http://www.w3.org/TR/sparql11-protocol/
+[SPARQL 1.1 Graph Store HTTP Protocol]:         http://www.w3.org/TR/sparql11-http-rdf-update/
 

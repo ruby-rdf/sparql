@@ -149,7 +149,6 @@ module SPARQL; module Algebra
     # @yield *args
     # @yieldparam [Array<RDF::Term>] *args
     # @yieldreturn [RDF::Term]
-    # @param [Proc] function
     # @return [void]
     # @raise [TypeError] if `uri` is not an RDF::URI or no block is given
     def self.register_extension(uri, &block)
@@ -174,7 +173,7 @@ module SPARQL; module Algebra
     # that.
     #
     # @param [RDF::URI] function
-    # @param [Array<RDF::Term>] *args
+    # @param [Array<RDF::Term>] args splat of args to function
     # @return [RDF::Term]
     # @see http://www.w3.org/TR/sparql11-query/#extensionFunctions
     # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping

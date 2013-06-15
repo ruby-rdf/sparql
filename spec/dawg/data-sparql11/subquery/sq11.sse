@@ -11,4 +11,4 @@
           (distinct
             (project (?O)
               (order (?O)
-                (bgp (triple ?O <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> :Order))))))))))
+                (bgp (triple ?O a :Order))))))))))

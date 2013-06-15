@@ -21,7 +21,7 @@ module SPARQL; module Algebra
       #
       # @param  [RDF::Literal] value
       #   a literal
-      # @param  [RDF::Literal] datatypeIRI
+      # @param  [RDF::Literal] langTag
       #   datatype
       # @return [RDF::Literal] a datatyped literal
       # @see http://www.w3.org/TR/sparql11-query/#func-strlang
