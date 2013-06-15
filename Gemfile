@@ -12,6 +12,7 @@ group :development do
   gem "rdf-turtle",   :git => "git://github.com/ruby-rdf/rdf-turtle.git"
   gem "rdf-trig",     :git => "git://github.com/ruby-rdf/rdf-trig.git"
   gem "rdf-isomorphic", "= 1.0.0"
+  gem "equivalent-xml", '>= 0.2.8'
 end
 
 group :debug do
