@@ -9,8 +9,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 ## Features
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
-* [SPARQL 1.0][] query parsing and execution
-* Limited [SPARQL 1.1 Query][] query parsing and execution
+* [SPARQL 1.1 Query][] parsing and execution (excluding Property Paths)
 * SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON] or HTML.
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data][])
@@ -24,12 +23,11 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 ## Description
 
-The {SPARQL} gem implements the [SPARQL 1.0][] using the [SPARQL 1.1 Query][] grammar,
-and provides [Rack][] and [Sinatra][]
+The {SPARQL} gem implements [SPARQL 1.1 Query][], and provides [Rack][] and [Sinatra][]
 middleware to provide results using [HTTP Content Negotiation][conneg].
 
 * {SPARQL::Grammar} implements a [SPARQL 1.1 Query][] parser generating [SPARQL S-Expressions (SSE)][SSE].
-  * [SPARQL 1.1 Query][] capabilities beyond [SPARQL 1.0][] are not yet supported.
+  * Support for [Property Paths][] is excluded.
     See the section on [SPARQL 1.1 Query][] extensions and limitations for further detail.
 * {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including
   compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
