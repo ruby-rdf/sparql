@@ -204,7 +204,7 @@ module SPARQL; module Spec
           SPARQL::Spec::ResultBindings.each.first.solutions
         end
       when :describe, :create, :construct
-        RDF::Graph.load(result, :base_uri => result, :format => :ttl)
+        RDF::Repository.load(result, :base_uri => result, :format => :ttl)
       end
     end
 

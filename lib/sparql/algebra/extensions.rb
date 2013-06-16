@@ -29,7 +29,7 @@ class Array
   def to_sxp_bin
     map {|x| x.to_sxp_bin}
   end
-  
+
   ##
   # Evaluates the array using the given variable `bindings`.
   #
@@ -42,6 +42,7 @@ class Array
   # @param [Hash{Symbol => Object}] options ({})
   #   options passed from query
   # @return [RDF::Term]
+  # @see {SPARQL::Algebra::Expression.evaluate}
   def evaluate(bindings, options = {})
     SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings, options)})
   end

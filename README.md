@@ -90,6 +90,8 @@ Then, use the function in a query:
       BIND(rsp:crypt(?email) AS ?crypted)
     }
 
+See {SPARQL::Algebra::Expression.register_extension} for details.
+
 ### Middleware
 
 `Rack::SPARQL` is a superset of [Rack::LinkedData][] to allow content negotiated results
