@@ -88,7 +88,6 @@ describe SPARQL::Algebra do
 
           csv-tsv-res
           http-rdf-dupdate
-          json-res
           protocol
           service
           syntax-fed

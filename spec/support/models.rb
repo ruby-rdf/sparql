@@ -197,6 +197,8 @@ module SPARQL; module Spec
       when :select, :ask
         if File.extname(result.path) == '.srx'
           SPARQL::Client.parse_xml_bindings(Kernel.open(result, &:read))
+        elsif File.extname(result.path) == '.srj'
+          SPARQL::Client.parse_json_bindings(Kernel.open(result, &:read))
         else
           expected_repository = RDF::Repository.new 
           Spira.add_repository!(:results, expected_repository)

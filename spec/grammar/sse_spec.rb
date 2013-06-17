@@ -108,7 +108,6 @@ describe SPARQL::Grammar::Parser do
 
           csv-tsv-res
           http-rdf-dupdate
-          json-res
           protocol
           service
           syntax-fed
