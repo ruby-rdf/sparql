@@ -367,10 +367,14 @@ module SPARQL::Grammar
     # [28]  ValuesClause	          ::= ( 'VALUES' DataBlock )?
     production(:ValuesClause) do |input, data, callback|
       debug("ValuesClause") {"vars: #{data[:Var].inspect}, row: #{data[:row].inspect}"}
-      add_prod_datum :ValuesClause, SPARQL::Algebra::Expression.for(:table,
-        data[:Var].unshift(:vars),
-        *data[:row]
-      )
+      if data[:row]
+        add_prod_datum :ValuesClause, SPARQL::Algebra::Expression.for(:table,
+          data[:Var].to_a.unshift(:vars),
+          *data[:row]
+        )
+      else
+        add_prod_datum :ValuesClause, SPARQL::Algebra::Expression.for(:table, :empty)
+      end
     end
 
     # [54]  	GroupGraphPatternSub	  ::=  	TriplesBlock?
@@ -493,12 +497,16 @@ module SPARQL::Grammar
       vars = data[:Var]
       add_prod_datum :Var, vars
 
-      data[:DataBlockValue].each do |ds|
-        r = [:row]
-        ds.each_with_index do |d, i|
-          r << [vars[i], d] if d
+      if data[:NIL].to_a.length > 1
+        add_prod_data :row, [:row]
+      else
+        data[:DataBlockValue].to_a.each do |ds|
+          r = [:row]
+          ds.each_with_index do |d, i|
+            r << [vars[i], d] if d
+          end
+          add_prod_data :row, r unless r.empty?
         end
-        add_prod_data :row, r unless r.empty?
       end
     end
 
