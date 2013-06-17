@@ -28,6 +28,7 @@ shared_examples "DAWG" do |man, tests|
           when /sq03/
             pending("Graph variable binding differences")
           end
+          pending "Property Paths" if man.to_s.split("/")[-2] == 'property-path'
           
           graphs = t.graphs
           query = t.action.query_string
@@ -90,8 +91,6 @@ describe SPARQL do
           syntax-update-1
           syntax-update-2
           update-silent
-
-          property-path
 
           entailment
 

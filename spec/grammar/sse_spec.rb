@@ -13,7 +13,10 @@ shared_examples "SSE" do |man, tests|
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
+          when /propertyPaths|syn-pp/
+            pending "Property Paths"
           end
+          pending "Property Paths" if man.to_s.split("/")[-2] == 'property-path'
           parser_opts = {:base_uri => t.action.query_file}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
@@ -27,7 +30,10 @@ shared_examples "SSE" do |man, tests|
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
+          when /propertyPaths|syn-pp/
+            pending "Property Paths"
           end
+          pending "Property Paths" if man.to_s.split("/")[-2] == 'property-path'
           query = begin
             SPARQL::Grammar.parse(t.action.query_string, :debug => ENV['PARSER_DEBUG'])
           rescue Exception => e
@@ -98,8 +104,6 @@ describe SPARQL::Grammar::Parser do
           syntax-update-2
           update-silent
 
-          property-path
-
           entailment
 
           csv-tsv-res
@@ -109,7 +113,6 @@ describe SPARQL::Grammar::Parser do
           service
           syntax-fed
 
-          syntax-query
         }.include? tc.manifest.to_s.split('/')[-2]
       end.
       group_by(&:manifest).
