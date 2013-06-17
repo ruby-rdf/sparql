@@ -1,6 +1,6 @@
-(prefix ((: <http://example/>)
-         (z: <http://example/z#>))
+(prefix ((z: <http://example/z#>)
+         (: <http://example/>))
   (bgp
     (triple :a :123 :12.3)
-    (triple <http://example/:> <http://example/z#:> :_12.3_)
+    (triple :: z:: :_12.3_)
   ))

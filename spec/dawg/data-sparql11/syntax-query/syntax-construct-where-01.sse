@@ -1,1 +1,3 @@
-(bgp (triple ?s ?p 1816))
+(construct
+  ((triple ?s ?p 1816))
+  (bgp (triple ?s ?p 1816)))
