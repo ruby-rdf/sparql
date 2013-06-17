@@ -20,7 +20,7 @@ class Object
 end
 
 ##
-# Extensions for Ruby's `Object` class.
+# Extensions for Ruby's `Array` class.
 class Array
   ##
   # Returns the SXP representation of this object, defaults to `self`.
@@ -120,6 +120,19 @@ class Array
     end
     self
   end
+end
+
+##
+# Extensions for Ruby's `Hash` class.
+class Hash
+  ##
+  # Returns the SXP representation of this object, defaults to `self`.
+  #
+  # @return [String]
+  def to_sxp_bin
+    to_a.to_sxp_bin
+  end
+  def to_sxp; to_sxp_bin; end
 end
 
 ##

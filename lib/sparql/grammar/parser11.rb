@@ -737,10 +737,10 @@ module SPARQL::Grammar
       if data[:_Compare_Numeric]
         add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(data[:_Compare_Numeric].insert(1, *data[:Expression])))
       elsif data[:in]
-        expr = (data[:Expression] + data[:in]).reject {|v| v == RDF.nil}
+        expr = (data[:Expression] + data[:in]).reject {|v| v.equal?(RDF.nil)}
         add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(expr.unshift(:in)))
       elsif data[:notin]
-        expr = (data[:Expression] + data[:notin]).reject {|v| v == RDF.nil}
+        expr = (data[:Expression] + data[:notin]).reject {|v| v.equal?(RDF.nil)}
         add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(expr.unshift(:notin)))
       else
         # NumericExpression with no comparitor
@@ -1120,7 +1120,7 @@ module SPARQL::Grammar
         case context
         when :trace
           level, lineno, depth, *args = data
-          message = "#{args.join(': ')}"
+          message = args.to_sse
           d_str = depth > 100 ? ' ' * 100 + '+' : ' ' * depth
           str = "[#{lineno}](#{level})#{d_str}#{message}"
           case @options[:debug]
