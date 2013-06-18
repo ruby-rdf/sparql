@@ -9,7 +9,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 ## Features
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
-* [SPARQL 1.1 Query][] parsing and execution (excluding Property Paths)
+* [SPARQL 1.1 Query][] parsing and execution (excluding [Property Paths][])
 * SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON],
   [CSV][SPARQL 1.1 Query Results CSV and TSV Formats],
   [TSV][SPARQL 1.1 Query Results CSV and TSV Formats]
@@ -43,13 +43,11 @@ much more capability than [SPARQL 1.0][], but has a few limitations:
 
 * The format for decimal datatypes has changed in [RDF 1.1][]; they may no
   longer have a trailing ".", although they do not need a leading digit.
-* BNodes may now include extended characters, including ".". As a consequence, BNodes
-  used in the object position, where the statement or pattern is terminated by a "."
-  must contain whitespace separating the BNode label, and the ".".
+* BNodes may now include extended characters, including ".".
 
 The SPARQL gem now implements the following [SPARQL 1.1 Query][] operations:
 
-* [Functions](http://www.w3.org/TR/sparql11-query/#SparqlOps).
+* [Functions](http://www.w3.org/TR/sparql11-query/#SparqlOps)
 * [BIND](http://www.w3.org/TR/sparql11-query/#bind)
 * [GROUP BY](http://www.w3.org/TR/sparql11-query/#groupby)
 * [Aggregates](http://www.w3.org/TR/sparql11-query/#aggregates)
@@ -62,12 +60,13 @@ The SPARQL gem now implements the following [SPARQL 1.1 Query][] operations:
 The only major area of [SPARQL 1.1 Query][] missing is
 [Property Paths][], which
 will be in later release along with:
+
 * [Update][SPARQL 1.1 Update],
-* [Service Description][SPARQL 1.1 Service Description],
 * [Federated Query][SPARQL 1.1 Federated Query],
 * [Entailment Regimes][SPARQL 1.1 Entailment Regimes],
 * [Protocol][SPARQL 1.1 Protocol], and
-* [Graph Store HTTP Protocol][SPARQL 1.1 Graph Store HTTP Protocol],
+* [Graph Store HTTP Protocol][SPARQL 1.1 Graph Store HTTP Protocol]
+
 either in this, or related gems.
 
 ### SPARQL Extension Functions
@@ -94,16 +93,17 @@ See {SPARQL::Algebra::Expression.register_extension} for details.
 
 ### Middleware
 
-`Rack::SPARQL` is a superset of [Rack::LinkedData][] to allow content negotiated results
+{Rack::SPARQL} is a superset of [Rack::LinkedData][] to allow content negotiated results
 to be returned any `RDF::Enumerable` or `RDF::Query::Solutions` compatible results.
 You would typically return an instance of `RDF::Graph`, `RDF::Repository` or `RDF::Query::Solutions`
 from your Rack application, and let the `Rack::SPARQL::ContentNegotiation` middleware
 take care of serializing your response into whatever format the HTTP
 client requested and understands.
 
-`Sinatra::SPARQL` is a thin Sinatra-specific wrapper around the
+{Sinatra::SPARQL} is a thin Sinatra-specific wrapper around the
 {Rack::SPARQL} middleware, which implements SPARQL
- content negotiation for Rack applications.
+ content negotiation for Rack applications. {Sinatra::SPARQL} also supports
+ [SPARQL 1.1 Service Description][].
 
 The middleware queries [RDF.rb][] for the MIME content types of known RDF
 serialization formats, so it will work with whatever serialization plugins
@@ -233,8 +233,8 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 ## Dependencies
 
 * [Ruby](http://ruby-lang.org/) (>= 1.9.2)
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.1)
-* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.0)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0.7)
+* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.0.3)
 * [SXP](https://rubygems.org/gems/sxp) (>= 0.1.0)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
 * [JSON](https://rubygems.org/gems/json) (>= 1.5.1)
@@ -312,6 +312,7 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are included in the 
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames
 [SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
+[Property Paths]:   http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#propertypaths
 
 [SSD]:              http://www.w3.org/TR/sparql11-service-description/
 [Rack]:             http://rack.rubyforge.org/
