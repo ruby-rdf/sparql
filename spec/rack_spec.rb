@@ -83,7 +83,7 @@ describe Rack::SPARQL do
     before(:each) { @results = RDF::Query::Solutions.new << RDF::Query::Solution.new(:a => RDF::Literal("b"))}
 
     context "with format" do
-      %w(json html xml).map(&:to_sym).each do |fmt|
+      %w(json html xml csv tsv).map(&:to_sym).each do |fmt|
         context fmt do
           before(:each) do
             @options[:format] = fmt
@@ -112,6 +112,8 @@ describe Rack::SPARQL do
         :json => ::SPARQL::Results::MIME_TYPES[:json],
         :html => ::SPARQL::Results::MIME_TYPES[:html],
         :xml => ::SPARQL::Results::MIME_TYPES[:xml],
+        :csv => ::SPARQL::Results::MIME_TYPES[:csv],
+        :tsv => ::SPARQL::Results::MIME_TYPES[:tsv],
       }.each do |fmt, content_types|
         context content_types do
           before(:each) do

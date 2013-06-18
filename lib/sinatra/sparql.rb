@@ -42,7 +42,7 @@ module Sinatra
         node = RDF::Node.new
         g << [node, RDF.type, sd.join("#Service")]
         g << [node, sd.join("#endpoint"), options[:endpoint] || url("/sparql")]
-        g << [node, sd.join("#supportedLanguage"), sd.join("#SPARQL10Query")]
+        g << [node, sd.join("#supportedLanguage"), sd.join("#SPARQL11Query")]
       
         # Result formats, both RDF and SPARQL Results.
         # FIXME: We should get this from the avaliable serializers
@@ -50,8 +50,10 @@ module Sinatra
         g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/Turtle")]
         g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/RDFa")]
         g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/N-Triples")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_RESULTS_XML")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_RESULTS_JSON")]
+        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_XML")]
+        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_JSON")]
+        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_CSV")]
+        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_TSV")]
       
         # Features
         g << [node, sd.join("#feature"), sd.join("#DereferencesURIs")]

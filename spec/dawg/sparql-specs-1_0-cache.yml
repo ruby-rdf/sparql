@@ -16,7 +16,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288163220
+      id: g70115157739360
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-1.rq
     test_data: !ruby/object:RDF::URI
@@ -42,7 +42,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288377640
+      id: g70115157865260
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-2.rq
     test_data: !ruby/object:RDF::URI
@@ -68,7 +68,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288569640
+      id: g70115158162360
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-3.rq
     test_data: !ruby/object:RDF::URI
@@ -94,7 +94,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288537760
+      id: g70115158290740
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-4.rq
     test_data: !ruby/object:RDF::URI
@@ -120,7 +120,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288325540
+      id: g70115158425780
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-5.rq
     test_data: !ruby/object:RDF::URI
@@ -146,7 +146,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288113120
+      id: g70115158537800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-1.rq
     test_data: !ruby/object:RDF::URI
@@ -172,7 +172,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287900520
+      id: g70115159591380
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-2.rq
     test_data: !ruby/object:RDF::URI
@@ -198,7 +198,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287688020
+      id: g70115158853720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-3.rq
     test_data: !ruby/object:RDF::URI
@@ -224,7 +224,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287471020
+      id: g70115158965760
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-4.rq
     test_data: !ruby/object:RDF::URI
@@ -250,7 +250,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274652960
+      id: g70115158856300
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-1.rq
     test_data: !ruby/object:RDF::URI
@@ -276,7 +276,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274344300
+      id: g70115159572100
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-2.rq
     test_data: !ruby/object:RDF::URI
@@ -302,7 +302,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363267296540
+      id: g70115158512760
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-3.rq
     test_data: !ruby/object:RDF::URI
@@ -328,7 +328,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271306080
+      id: g70115158356820
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-4.rq
     test_data: !ruby/object:RDF::URI
@@ -354,7 +354,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271726220
+      id: g70115158223020
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-1.rq
     test_data: !ruby/object:RDF::URI
@@ -380,7 +380,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272626320
+      id: g70115158088660
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-2.rq
     test_data: !ruby/object:RDF::URI
@@ -406,7 +406,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272987420
+      id: g70115157769560
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-3.rq
     test_data: !ruby/object:RDF::URI
@@ -432,7 +432,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273354680
+      id: g70115157473680
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-4.rq
     test_data: !ruby/object:RDF::URI
@@ -458,7 +458,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273642820
+      id: g70115159889520
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-5.rq
     test_data: !ruby/object:RDF::URI
@@ -484,7 +484,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273909120
+      id: g70115157568400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-6.rq
     test_data: !ruby/object:RDF::URI
@@ -510,7 +510,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274184600
+      id: g70115158536500
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-7.rq
     test_data: !ruby/object:RDF::URI
@@ -536,7 +536,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274491300
+      id: g70115169307080
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-8.rq
     test_data: !ruby/object:RDF::URI
@@ -562,7 +562,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274769440
+      id: g70115182197000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-9.rq
     test_data: !ruby/object:RDF::URI
@@ -588,7 +588,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287585500
+      id: g70115182553360
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-1.rq
     test_data: !ruby/object:RDF::URI
@@ -614,7 +614,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287833280
+      id: g70115159647300
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-2.rq
     test_data: !ruby/object:RDF::URI
@@ -641,7 +641,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274774780
+      id: g70115157695660
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/bgp-no-match.rq
     test_data: !ruby/object:RDF::URI
@@ -668,7 +668,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287948640
+      id: g70115157652700
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/spoo-1.rq
     test_data: !ruby/object:RDF::URI
@@ -683,7 +683,7 @@
   name: Prefix name 1
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'No local name - foo:'
+  comment: ! 'No local name - foo:'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -695,7 +695,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287704640
+      id: g70115159843780
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/prefix-name-1.rq
     test_data: !ruby/object:RDF::URI
@@ -722,7 +722,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288427580
+      id: g70115157527600
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-01.rq
     test_data: !ruby/object:RDF::URI
@@ -749,7 +749,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288650440
+      id: g70115157750620
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-02.rq
     test_data: !ruby/object:RDF::URI
@@ -776,7 +776,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288378520
+      id: g70115158086520
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-03.rq
     test_data: !ruby/object:RDF::URI
@@ -803,7 +803,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288116080
+      id: g70115158253640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-04.rq
     test_data: !ruby/object:RDF::URI
@@ -830,7 +830,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274302140
+      id: g70115158869040
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-01.rq
     test_data: !ruby/object:RDF::URI
@@ -857,7 +857,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273957480
+      id: g70115158925600
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-02.rq
     test_data: !ruby/object:RDF::URI
@@ -884,7 +884,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273658780
+      id: g70115159612220
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-03.rq
     test_data: !ruby/object:RDF::URI
@@ -911,7 +911,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273285400
+      id: g70115158524540
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-04.rq
     test_data: !ruby/object:RDF::URI
@@ -938,7 +938,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272825560
+      id: g70115158339800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-05.rq
     test_data: !ruby/object:RDF::URI
@@ -965,7 +965,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272399540
+      id: g70115158174640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-06.rq
     test_data: !ruby/object:RDF::URI
@@ -980,7 +980,7 @@
   name: open-eq-07
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Test of ''='' '
+  comment: ! 'Test of ''='' '
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -992,7 +992,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271417540
+      id: g70115157826040
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-07.rq
     test_data: !ruby/object:RDF::URI
@@ -1019,7 +1019,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271339640
+      id: g70115157649480
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-08.rq
     test_data: !ruby/object:RDF::URI
@@ -1046,7 +1046,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272532360
+      id: g70115157590860
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-09.rq
     test_data: !ruby/object:RDF::URI
@@ -1073,7 +1073,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273023960
+      id: g70115159545140
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-10.rq
     test_data: !ruby/object:RDF::URI
@@ -1100,7 +1100,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273584520
+      id: g70115181781940
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-11.rq
     test_data: !ruby/object:RDF::URI
@@ -1127,7 +1127,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273938120
+      id: g70115182523620
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-12.rq
     test_data: !ruby/object:RDF::URI
@@ -1142,7 +1142,7 @@
   name: date-2
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Added type : xsd:date ''!='''
+  comment: ! 'Added type : xsd:date ''!='''
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -1154,7 +1154,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274685300
+      id: g70115159831440
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/date-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1169,7 +1169,7 @@
   name: date-3
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Added type : xsd:date ''>'''
+  comment: ! 'Added type : xsd:date ''>'''
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -1181,7 +1181,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287591440
+      id: g70115156929420
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/date-3.rq
     test_data: !ruby/object:RDF::URI
@@ -1208,7 +1208,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287882800
+      id: g70115157826740
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/date-4.rq
     test_data: !ruby/object:RDF::URI
@@ -1235,7 +1235,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288182700
+      id: g70115158174680
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-cmp-01.rq
     test_data: !ruby/object:RDF::URI
@@ -1262,7 +1262,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288443000
+      id: g70115158336740
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-cmp-02.rq
     test_data: !ruby/object:RDF::URI
@@ -1291,7 +1291,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274602540
+      id: g70115158548800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.rq
     test_data: !ruby/object:RDF::URI
@@ -1318,7 +1318,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274223520
+      id: g70115158347140
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt-alt.rq
     test_data: !ruby/object:RDF::URI
@@ -1346,7 +1346,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273890000
+      id: g70115158170480
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1374,7 +1374,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273551140
+      id: g70115157810020
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1402,7 +1402,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273108000
+      id: g70115157472980
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-3.rq
     test_data: !ruby/object:RDF::URI
@@ -1429,7 +1429,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272650180
+      id: g70115159834080
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1457,7 +1457,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271662040
+      id: g70115159700940
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1485,7 +1485,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271100580
+      id: g70115158269200
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-3.rq
     test_data: !ruby/object:RDF::URI
@@ -1513,7 +1513,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363267082580
+      id: g70115170497320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1540,7 +1540,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271402340
+      id: g70115182413380
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1568,7 +1568,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272451300
+      id: g70115182817800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-scope-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1595,7 +1595,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272959500
+      id: g70115157605480
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/var-scope-join-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1622,7 +1622,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287788740
+      id: g70115158991160
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1649,7 +1649,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287507660
+      id: g70115159323060
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1679,7 +1679,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273745940
+      id: g70115159959700
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/query.rq
     test_data: !ruby/object:RDF::URI
@@ -1706,7 +1706,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288436880
+      id: g70115159296340
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/q-opt-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1733,7 +1733,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288568840
+      id: g70115158535400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/q-opt-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1760,7 +1760,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288278040
+      id: g70115158331700
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/q-opt-3.rq
     test_data: !ruby/object:RDF::URI
@@ -1772,10 +1772,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/manifest#dawg-optional-complex-1
-  name: 'Complex optional semantics: 1'
+  name: ! 'Complex optional semantics: 1'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Complex optional: LeftJoin(LeftJoin(BGP(..),{..}),Join(BGP(..),Union(..,..)))'
+  comment: ! 'Complex optional: LeftJoin(LeftJoin(BGP(..),{..}),Join(BGP(..),Union(..,..)))'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -1787,7 +1787,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274686340
+      id: g70115158348580
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/q-opt-complex-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1799,10 +1799,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/manifest#dawg-optional-complex-2
-  name: 'Complex optional semantics: 2'
+  name: ! 'Complex optional semantics: 2'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Complex optional: LeftJoin(Join(BGP(..),Graph(var,{..})),Union(..,..))'
+  comment: ! 'Complex optional: LeftJoin(Join(BGP(..),Graph(var,{..})),Union(..,..))'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -1814,7 +1814,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287574640
+      id: g70115156949860
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/q-opt-complex-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1829,10 +1829,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/manifest#dawg-optional-complex-3
-  name: 'Complex optional semantics: 3'
+  name: ! 'Complex optional semantics: 3'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Complex optional: LeftJoin(Join(BGP(..),Graph(var,{..})),LeftJoin(BGP(..),{..}))'
+  comment: ! 'Complex optional: LeftJoin(Join(BGP(..),Graph(var,{..})),LeftJoin(BGP(..),{..}))'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -1844,7 +1844,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287884740
+      id: g70115159328520
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/q-opt-complex-3.rq
     test_data: !ruby/object:RDF::URI
@@ -1859,10 +1859,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/manifest#dawg-optional-complex-4
-  name: 'Complex optional semantics: 4'
+  name: ! 'Complex optional semantics: 4'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Complex optional: LeftJoin(Join(BGP(..),Union(..,..)),Join(BGP(..),Graph(varOrIRI,{..})))'
+  comment: ! 'Complex optional: LeftJoin(Join(BGP(..),Union(..,..)),Join(BGP(..),Graph(varOrIRI,{..})))'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -1874,7 +1874,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288192900
+      id: g70115158946760
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/q-opt-complex-4.rq
     test_data: !ruby/object:RDF::URI
@@ -1904,7 +1904,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287536960
+      id: g70115159969120
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-1.rq
     test_data: !ruby/object:RDF::URI
@@ -1931,7 +1931,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274640940
+      id: g70115157112400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-2.rq
     test_data: !ruby/object:RDF::URI
@@ -1958,7 +1958,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274298920
+      id: g70115157572000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-3.rq
     test_data: !ruby/object:RDF::URI
@@ -1985,7 +1985,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273924780
+      id: g70115156730340
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-4.rq
     test_data: !ruby/object:RDF::URI
@@ -2000,7 +2000,7 @@
   name: graph-01
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default graph / Query: default graph'
+  comment: ! 'Data: default graph / Query: default graph'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2012,7 +2012,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271111320
+      id: g70115159828660
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-01.rq
     test_data: !ruby/object:RDF::URI
@@ -2027,7 +2027,7 @@
   name: graph-02
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: named graph / Query: default graph'
+  comment: ! 'Data: named graph / Query: default graph'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2039,7 +2039,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271709900
+      id: g70115156933660
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-02.rq
     graphData: !ruby/object:Set
@@ -2055,7 +2055,7 @@
   name: graph-03
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: named graph / Query: named graph graph'
+  comment: ! 'Data: named graph / Query: named graph graph'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2067,7 +2067,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272745540
+      id: g70115157841960
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-03.rq
     graphData: !ruby/object:Set
@@ -2083,7 +2083,7 @@
   name: graph-04
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: named graph / Query: default graph'
+  comment: ! 'Data: named graph / Query: default graph'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2095,7 +2095,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273303460
+      id: g70115158215820
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-04.rq
     test_data: !ruby/object:RDF::URI
@@ -2110,7 +2110,7 @@
   name: graph-05
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: default graph'
+  comment: ! 'Data: default and named / Query: default graph'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2122,7 +2122,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273745560
+      id: g70115158424620
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-05.rq
     test_data: !ruby/object:RDF::URI
@@ -2140,7 +2140,7 @@
   name: graph-06
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: named graph'
+  comment: ! 'Data: default and named / Query: named graph'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2152,7 +2152,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274136020
+      id: g70115159564180
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-06.rq
     test_data: !ruby/object:RDF::URI
@@ -2170,7 +2170,7 @@
   name: graph-07
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: all data by UNION'
+  comment: ! 'Data: default and named / Query: all data by UNION'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2182,7 +2182,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274569740
+      id: g70115158916600
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-07.rq
     test_data: !ruby/object:RDF::URI
@@ -2200,7 +2200,7 @@
   name: graph-08
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: common subjects'
+  comment: ! 'Data: default and named / Query: common subjects'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2212,7 +2212,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287525280
+      id: g70115159336840
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-08.rq
     test_data: !ruby/object:RDF::URI
@@ -2230,7 +2230,7 @@
   name: graph-09
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named (bnodes) / Query: common subjects'
+  comment: ! 'Data: default and named (bnodes) / Query: common subjects'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2242,7 +2242,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287867600
+      id: g70115158536620
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-09.rq
     test_data: !ruby/object:RDF::URI
@@ -2260,7 +2260,7 @@
   name: graph-10b
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named (same data, with bnodes) / Query: common subjects'
+  comment: ! 'Data: default and named (same data, with bnodes) / Query: common subjects'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2272,7 +2272,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288542880
+      id: g70115158095220
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-10.rq
     test_data: !ruby/object:RDF::URI
@@ -2290,7 +2290,7 @@
   name: graph-11
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named (several) / Query: get everything'
+  comment: ! 'Data: default and named (several) / Query: get everything'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2302,7 +2302,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288425020
+      id: g70115159938360
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-11.rq
     test_data: !ruby/object:RDF::URI
@@ -2329,7 +2329,7 @@
   name: dataset-01
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default dataset / Query: default dataset'
+  comment: ! 'Data: default dataset / Query: default dataset'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2341,7 +2341,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274488020
+      id: g70115182452680
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-01.rq
     graphData: !ruby/object:Set
@@ -2354,7 +2354,7 @@
   name: dataset-02
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: named dataset / Query: default dataset'
+  comment: ! 'Data: named dataset / Query: default dataset'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2366,7 +2366,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274138920
+      id: g70115158103620
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-02.rq
     graphData: !ruby/object:Set
@@ -2379,7 +2379,7 @@
   name: dataset-03
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: named dataset / Query: named dataset dataset'
+  comment: ! 'Data: named dataset / Query: named dataset dataset'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2391,7 +2391,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273806120
+      id: g70115170380120
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-03.rq
     graphData: !ruby/object:Set
@@ -2404,7 +2404,7 @@
   name: dataset-04
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: named dataset / Query: default dataset'
+  comment: ! 'Data: named dataset / Query: default dataset'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2416,7 +2416,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273431160
+      id: g70115182393760
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-04.rq
     graphData: !ruby/object:Set
@@ -2429,7 +2429,7 @@
   name: dataset-05
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: default dataset'
+  comment: ! 'Data: default and named / Query: default dataset'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2441,7 +2441,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272954900
+      id: g70115182785380
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-05.rq
     graphData: !ruby/object:Set
@@ -2454,7 +2454,7 @@
   name: dataset-06
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: named dataset'
+  comment: ! 'Data: default and named / Query: named dataset'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2466,7 +2466,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272453420
+      id: g70115157568020
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-06.rq
     graphData: !ruby/object:Set
@@ -2479,7 +2479,7 @@
   name: dataset-07
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: all data by UNION'
+  comment: ! 'Data: default and named / Query: all data by UNION'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2491,7 +2491,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271446900
+      id: g70115157114040
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-07.rq
     graphData: !ruby/object:Set
@@ -2504,7 +2504,7 @@
   name: dataset-08
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named / Query: common subjects'
+  comment: ! 'Data: default and named / Query: common subjects'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2516,7 +2516,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363267377780
+      id: g70115159979080
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-08.rq
     graphData: !ruby/object:Set
@@ -2529,7 +2529,7 @@
   name: dataset-11
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named (several) / Query: get everything'
+  comment: ! 'Data: default and named (several) / Query: get everything'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2541,7 +2541,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274755840
+      id: g70115158859200
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-11.rq
     graphData: !ruby/object:Set
@@ -2554,7 +2554,7 @@
   name: dataset-09b
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named (bnodes) / Query: common subjects'
+  comment: ! 'Data: default and named (bnodes) / Query: common subjects'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2566,7 +2566,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288227280
+      id: g70115158245060
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-09b.rq
     graphData: !ruby/object:Set
@@ -2579,7 +2579,7 @@
   name: dataset-10b
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default and named (same data, with bnodes) / Query: common subjects'
+  comment: ! 'Data: default and named (same data, with bnodes) / Query: common subjects'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2591,7 +2591,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287641340
+      id: g70115157011620
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-10b.rq
     graphData: !ruby/object:Set
@@ -2604,7 +2604,7 @@
   name: dataset-12b
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Data: default (several) and named (several) / Query: get everything'
+  comment: ! 'Data: default (several) and named (several) / Query: get everything'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2616,7 +2616,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274057300
+      id: g70115159607300
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-12b.rq
     graphData: !ruby/object:Set
@@ -2629,7 +2629,8 @@
   name: tP-double-double
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2641,7 +2642,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288294980
+      id: g70115159454580
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-double-double.rq
     test_data: !ruby/object:RDF::URI
@@ -2656,7 +2657,8 @@
   name: tP-double-float
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2668,7 +2670,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287920360
+      id: g70115159801420
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-double-float.rq
     test_data: !ruby/object:RDF::URI
@@ -2683,7 +2685,8 @@
   name: tP-double-decimal
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2695,7 +2698,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287559100
+      id: g70115182792780
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-double-decimal.rq
     test_data: !ruby/object:RDF::URI
@@ -2710,7 +2713,8 @@
   name: tP-float-float
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2722,7 +2726,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274606020
+      id: g70115169467480
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-float-float.rq
     test_data: !ruby/object:RDF::URI
@@ -2737,7 +2741,8 @@
   name: tP-float-decimal
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2749,7 +2754,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274156140
+      id: g70115169641540
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-float-decimal.rq
     test_data: !ruby/object:RDF::URI
@@ -2764,7 +2769,8 @@
   name: tP-decimal-decimal
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2776,7 +2782,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273727340
+      id: g70115182410520
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-decimal-decimal.rq
     test_data: !ruby/object:RDF::URI
@@ -2791,7 +2797,8 @@
   name: tP-integer-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2803,7 +2810,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273206900
+      id: g70115159651320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-integer-short.rq
     test_data: !ruby/object:RDF::URI
@@ -2818,7 +2825,8 @@
   name: tP-nonPositiveInteger-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2830,7 +2838,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272617080
+      id: g70115159863940
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-nonPositiveInteger-short.rq
     test_data: !ruby/object:RDF::URI
@@ -2845,7 +2853,8 @@
   name: tP-negativeInteger-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2857,7 +2866,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271465600
+      id: g70115159944420
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-negativeInteger-short.rq
     test_data: !ruby/object:RDF::URI
@@ -2872,7 +2881,8 @@
   name: tP-long-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2884,7 +2894,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363270987300
+      id: g70115158109740
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-long-short.rq
     test_data: !ruby/object:RDF::URI
@@ -2899,7 +2909,8 @@
   name: tP-int-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2911,7 +2922,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288355580
+      id: g70115158319640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-int-short.rq
     test_data: !ruby/object:RDF::URI
@@ -2926,7 +2937,8 @@
   name: tP-short-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2938,7 +2950,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287984160
+      id: g70115156958180
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-short.rq
     test_data: !ruby/object:RDF::URI
@@ -2953,7 +2965,8 @@
   name: tP-byte-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2965,7 +2978,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287602560
+      id: g70115158862000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-byte-short.rq
     test_data: !ruby/object:RDF::URI
@@ -2980,7 +2993,8 @@
   name: tP-nonNegativeInteger-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -2992,7 +3006,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274636620
+      id: g70115158876400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-nonNegativeInteger-short.rq
     test_data: !ruby/object:RDF::URI
@@ -3007,7 +3021,8 @@
   name: tP-unsignedLong-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3019,7 +3034,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274182720
+      id: g70115156962960
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-unsignedLong-short.rq
     test_data: !ruby/object:RDF::URI
@@ -3034,7 +3049,8 @@
   name: tP-unsignedInt-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3046,7 +3062,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273730860
+      id: g70115158315440
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-unsignedInt-short.rq
     test_data: !ruby/object:RDF::URI
@@ -3061,7 +3077,8 @@
   name: tP-unsignedShort-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3073,7 +3090,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273216080
+      id: g70115158086640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-unsignedShort-short.rq
     test_data: !ruby/object:RDF::URI
@@ -3088,7 +3105,8 @@
   name: tP-unsignedByte-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3100,7 +3118,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272613800
+      id: g70115159477260
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-unsignedByte-short.rq
     test_data: !ruby/object:RDF::URI
@@ -3115,7 +3133,8 @@
   name: tP-positiveInteger-short
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3127,7 +3146,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271447440
+      id: g70115159817640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-positiveInteger-short.rq
     test_data: !ruby/object:RDF::URI
@@ -3142,7 +3161,8 @@
   name: tP-short-double
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3154,7 +3174,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363270918800
+      id: g70115182805920
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-double.rq
     test_data: !ruby/object:RDF::URI
@@ -3169,7 +3189,8 @@
   name: tP-short-float
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3181,7 +3202,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288322620
+      id: g70115182340260
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-float.rq
     test_data: !ruby/object:RDF::URI
@@ -3196,7 +3217,8 @@
   name: tP-short-decimal
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3208,7 +3230,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287931860
+      id: g70115160956900
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-decimal.rq
     test_data: !ruby/object:RDF::URI
@@ -3223,7 +3245,8 @@
   name: tP-short-short-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3235,7 +3258,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287543580
+      id: g70115159620320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-short-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3250,7 +3273,8 @@
   name: tP-byte-short-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3262,7 +3286,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274569180
+      id: g70115158460580
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-byte-short-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3277,7 +3301,8 @@
   name: tP-short-long-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3289,7 +3314,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274054200
+      id: g70115158202260
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-long-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3304,7 +3329,8 @@
   name: tP-short-int-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3316,7 +3342,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273627380
+      id: g70115157787140
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-int-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3331,7 +3357,8 @@
   name: tP-short-byte-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3343,7 +3370,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273003680
+      id: g70115157128280
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-short-byte-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3358,7 +3385,8 @@
   name: tP-double-float-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3370,7 +3398,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272305040
+      id: g70115159724000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-double-float-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3385,7 +3413,8 @@
   name: tP-double-decimal-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3397,7 +3426,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271097540
+      id: g70115182466320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-double-decimal-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3412,7 +3441,8 @@
   name: tP-float-decimal-fail
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'Positive test: product of type promotion within the xsd:decimal type tree.'
+  comment: ! 'Positive test: product of type promotion within the xsd:decimal type
+    tree.'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3424,7 +3454,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288457660
+      id: g70115169556580
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/tP-float-decimal-fail.rq
     test_data: !ruby/object:RDF::URI
@@ -3450,7 +3480,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287522160
+      id: g70115158452940
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-str.rq
     test_data: !ruby/object:RDF::URI
@@ -3476,7 +3506,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274633900
+      id: g70115158247400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-flt.rq
     test_data: !ruby/object:RDF::URI
@@ -3502,7 +3532,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274264620
+      id: g70115158071720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dbl.rq
     test_data: !ruby/object:RDF::URI
@@ -3528,7 +3558,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273892520
+      id: g70115159951120
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dec.rq
     test_data: !ruby/object:RDF::URI
@@ -3554,7 +3584,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273548920
+      id: g70115159922400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-int.rq
     test_data: !ruby/object:RDF::URI
@@ -3580,7 +3610,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273074360
+      id: g70115158005000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dT.rq
     test_data: !ruby/object:RDF::URI
@@ -3606,7 +3636,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272627220
+      id: g70115182750080
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-bool.rq
     test_data: !ruby/object:RDF::URI
@@ -3632,7 +3662,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288604080
+      id: g70115158931780
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-boolean-literal.rq
     test_data: !ruby/object:RDF::URI
@@ -3660,7 +3690,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288226700
+      id: g70115159577900
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-1.rq
     test_data: !ruby/object:RDF::URI
@@ -3688,7 +3718,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287866340
+      id: g70115158438780
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-2.rq
     test_data: !ruby/object:RDF::URI
@@ -3715,7 +3745,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287519280
+      id: g70115158200920
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-3.rq
     test_data: !ruby/object:RDF::URI
@@ -3742,7 +3772,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274557780
+      id: g70115157806000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-4.rq
     test_data: !ruby/object:RDF::URI
@@ -3770,7 +3800,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274120760
+      id: g70115158039460
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-5.rq
     test_data: !ruby/object:RDF::URI
@@ -3797,7 +3827,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273709320
+      id: g70115157582320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-6.rq
     test_data: !ruby/object:RDF::URI
@@ -3824,7 +3854,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272708580
+      id: g70115182346720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/bound1.rq
     test_data: !ruby/object:RDF::URI
@@ -3850,7 +3880,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274719780
+      id: g70115158194540
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-str-1.rq
     test_data: !ruby/object:RDF::URI
@@ -3876,7 +3906,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274361680
+      id: g70115157836720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-str-2.rq
     test_data: !ruby/object:RDF::URI
@@ -3902,7 +3932,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273989820
+      id: g70115159463660
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-str-3.rq
     test_data: !ruby/object:RDF::URI
@@ -3928,7 +3958,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273665920
+      id: g70115159862840
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-str-4.rq
     test_data: !ruby/object:RDF::URI
@@ -3954,7 +3984,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273237820
+      id: g70115159732680
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-blank-1.rq
     test_data: !ruby/object:RDF::URI
@@ -3980,7 +4010,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287605500
+      id: g70115158370960
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-isliteral-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4006,7 +4036,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272730780
+      id: g70115182624420
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-datatype-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4018,10 +4048,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/manifest#dawg-datatype-2
-  name: 'datatype-2 : Literals with a datatype'
+  name: ! 'datatype-2 : Literals with a datatype'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'updated from original test case: eliminated ordering from test'
+  comment: ! 'updated from original test case: eliminated ordering from test'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4033,7 +4063,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271660540
+      id: g70115182106800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-datatype-2.rq
     test_data: !ruby/object:RDF::URI
@@ -4045,10 +4075,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/manifest#dawg-datatype-3
-  name: 'datatype-3 : Literals with a datatype of xsd:string'
+  name: ! 'datatype-3 : Literals with a datatype of xsd:string'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'updated from original test case: eliminated ordering from test'
+  comment: ! 'updated from original test case: eliminated ordering from test'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4060,7 +4090,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363267676700
+      id: g70115158932640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-datatype-3.rq
     test_data: !ruby/object:RDF::URI
@@ -4072,10 +4102,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/manifest#dawg-lang-1
-  name: 'lang-1 : Literals with a lang tag of some kind'
+  name: ! 'lang-1 : Literals with a lang tag of some kind'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'updated from original test case: eliminated ordering from test'
+  comment: ! 'updated from original test case: eliminated ordering from test'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4087,7 +4117,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288460780
+      id: g70115159566720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-lang-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4099,10 +4129,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/manifest#dawg-lang-2
-  name: 'lang-2 : Literals with a lang tag of '''''
+  name: ! 'lang-2 : Literals with a lang tag of '''''
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'updated from original test case: eliminated ordering from test'
+  comment: ! 'updated from original test case: eliminated ordering from test'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4114,7 +4144,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288092740
+      id: g70115158424340
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-lang-2.rq
     test_data: !ruby/object:RDF::URI
@@ -4126,10 +4156,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/manifest#dawg-lang-3
-  name: 'lang-3 : Graph matching with lang tag being a different case'
+  name: ! 'lang-3 : Graph matching with lang tag being a different case'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: 'updated from original test case: eliminated ordering from test'
+  comment: ! 'updated from original test case: eliminated ordering from test'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4141,7 +4171,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287721600
+      id: g70115158184340
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-lang-3.rq
     test_data: !ruby/object:RDF::URI
@@ -4167,7 +4197,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287411320
+      id: g70115157819200
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-uri-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4193,7 +4223,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274472900
+      id: g70115156926380
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-iri-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4220,7 +4250,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274006720
+      id: g70115157620100
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-langMatches-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4247,7 +4277,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273598360
+      id: g70115182775420
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-langMatches-2.rq
     test_data: !ruby/object:RDF::URI
@@ -4274,7 +4304,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273011060
+      id: g70115182316780
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-langMatches-3.rq
     test_data: !ruby/object:RDF::URI
@@ -4289,7 +4319,7 @@
   name: LangMatches-4
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: '! langMatches(lang(?v), ''*'') matches ''abc'''
+  comment: ! '! langMatches(lang(?v), ''*'') matches ''abc'''
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4301,7 +4331,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272380560
+      id: g70115160880960
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-langMatches-4.rq
     test_data: !ruby/object:RDF::URI
@@ -4328,7 +4358,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271235800
+      id: g70115159614700
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/q-langMatches-de-de.rq
     test_data: !ruby/object:RDF::URI
@@ -4343,7 +4373,7 @@
   name: lang-case-insensitive-eq
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: '''xyz''@en = ''xyz''@EN'
+  comment: ! '''xyz''@en = ''xyz''@EN'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4355,7 +4385,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288521260
+      id: g70115158385960
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/lang-case-sensitivity-eq.rq
     test_data: !ruby/object:RDF::URI
@@ -4370,7 +4400,7 @@
   name: lang-case-insensitive-ne
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: '''xyz''@en != ''xyz''@EN'
+  comment: ! '''xyz''@en != ''xyz''@EN'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4382,7 +4412,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288110180
+      id: g70115158150300
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/lang-case-sensitivity-ne.rq
     test_data: !ruby/object:RDF::URI
@@ -4409,7 +4439,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287782800
+      id: g70115157774360
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/sameTerm.rq
     test_data: !ruby/object:RDF::URI
@@ -4436,7 +4466,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287393860
+      id: g70115160038800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/sameTerm-eq.rq
     test_data: !ruby/object:RDF::URI
@@ -4451,7 +4481,7 @@
   name: sameTerm-not-eq
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: '!sameTerm(?v1, ?v2) && ?v1 = ?v2'
+  comment: ! '!sameTerm(?v1, ?v2) && ?v1 = ?v2'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4463,7 +4493,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274317160
+      id: g70115159722220
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/sameTerm-not-eq.rq
     test_data: !ruby/object:RDF::URI
@@ -4478,7 +4508,7 @@
   name: Greater-than or equals
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: '>= in FILTER expressions'
+  comment: ! '>= in FILTER expressions'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4490,7 +4520,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287617720
+      id: g70115159872840
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-ge-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4517,7 +4547,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274634360
+      id: g70115159659140
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-le-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4544,7 +4574,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288012580
+      id: g70115159960940
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-mul-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4571,7 +4601,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363267441220
+      id: g70115158355320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-plus-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4598,7 +4628,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288404860
+      id: g70115158128260
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-minus-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4625,7 +4655,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272744700
+      id: g70115158908080
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-unplus-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4652,7 +4682,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271632120
+      id: g70115156997580
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-unminus-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4679,7 +4709,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272841100
+      id: g70115159347780
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4706,7 +4736,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271712440
+      id: g70115158530400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-2.rq
     test_data: !ruby/object:RDF::URI
@@ -4733,7 +4763,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363268099300
+      id: g70115158271560
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-3.rq
     test_data: !ruby/object:RDF::URI
@@ -4761,7 +4791,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288455840
+      id: g70115157855860
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-4.rq
     test_data: !ruby/object:RDF::URI
@@ -4788,7 +4818,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288049100
+      id: g70115157463060
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-5.rq
     test_data: !ruby/object:RDF::URI
@@ -4815,7 +4845,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287650980
+      id: g70115157593220
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq2-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4827,10 +4857,10 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-2-2
-  name: 'Equality - 2 var - test not equals '
+  name: ! 'Equality - 2 var - test not equals '
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
-  comment: '!= in FILTER is value inequality'
+  comment: ! '!= in FILTER is value inequality'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -4842,7 +4872,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274655220
+      id: g70115182696880
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq2-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4869,7 +4899,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274154820
+      id: g70115182093200
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-1.rq
     test_data: !ruby/object:RDF::URI
@@ -4896,7 +4926,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273666220
+      id: g70115158908140
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-2.rq
     test_data: !ruby/object:RDF::URI
@@ -4923,7 +4953,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273039580
+      id: g70115156988800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-3.rq
     test_data: !ruby/object:RDF::URI
@@ -4950,7 +4980,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272370300
+      id: g70115158334840
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-4.rq
     test_data: !ruby/object:RDF::URI
@@ -4977,7 +5007,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271179560
+      id: g70115158097420
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-5.rq
     test_data: !ruby/object:RDF::URI
@@ -5004,7 +5034,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287998580
+      id: g70115157584800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-001.rq
     test_data: !ruby/object:RDF::URI
@@ -5031,7 +5061,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287586260
+      id: g70115182622720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-002.rq
     test_data: !ruby/object:RDF::URI
@@ -5058,7 +5088,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274585600
+      id: g70115182026620
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-003.rq
     test_data: !ruby/object:RDF::URI
@@ -5085,7 +5115,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274026160
+      id: g70115158881320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-004.rq
     test_data: !ruby/object:RDF::URI
@@ -5111,7 +5141,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272742140
+      id: g70115158262000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/i18n/kanji-01.rq
     test_data: !ruby/object:RDF::URI
@@ -5137,7 +5167,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271693780
+      id: g70115158060340
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/i18n/kanji-02.rq
     test_data: !ruby/object:RDF::URI
@@ -5163,7 +5193,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363268409880
+      id: g70115159470560
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/i18n/normalization-01.rq
     test_data: !ruby/object:RDF::URI
@@ -5190,7 +5220,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288441240
+      id: g70115159793720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/i18n/normalization-02.rq
     test_data: !ruby/object:RDF::URI
@@ -5217,7 +5247,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288016240
+      id: g70115182731740
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/i18n/normalization-03.rq
     test_data: !ruby/object:RDF::URI
@@ -5244,7 +5274,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274309440
+      id: g70115159322340
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-ident.rq
     test_data: !ruby/object:RDF::URI
@@ -5271,7 +5301,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273725100
+      id: g70115158462180
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-subgraph.rq
     test_data: !ruby/object:RDF::URI
@@ -5298,7 +5328,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273007440
+      id: g70115158154680
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-reif-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5325,7 +5355,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271726720
+      id: g70115159930860
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-reif-2.rq
     test_data: !ruby/object:RDF::URI
@@ -5352,7 +5382,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363267068820
+      id: g70115157613520
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-construct-optional.rq
     test_data: !ruby/object:RDF::URI
@@ -5378,7 +5408,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287772740
+      id: g70115170710460
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5404,7 +5434,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287390960
+      id: g70115158853500
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.rq
     test_data: !ruby/object:RDF::URI
@@ -5430,7 +5460,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274311700
+      id: g70115158538720
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.rq
     test_data: !ruby/object:RDF::URI
@@ -5456,7 +5486,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273797040
+      id: g70115158276700
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.rq
     test_data: !ruby/object:RDF::URI
@@ -5468,7 +5498,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#no-distinct-1
-  name: 'Numbers: No distinct'
+  name: ! 'Numbers: No distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5482,7 +5512,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288604300
+      id: g70115182815020
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/no-distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5494,7 +5524,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#distinct-1
-  name: 'Numbers: Distinct'
+  name: ! 'Numbers: Distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5508,7 +5538,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288225760
+      id: g70115182360520
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5520,7 +5550,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#no-distinct-2
-  name: 'Strings: No distinct'
+  name: ! 'Strings: No distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5534,7 +5564,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287851960
+      id: g70115169339560
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/no-distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5546,7 +5576,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#distinct-2
-  name: 'Strings: Distinct'
+  name: ! 'Strings: Distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5560,7 +5590,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287490200
+      id: g70115159307900
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5572,7 +5602,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#no-distinct-3
-  name: 'Nodes: No distinct'
+  name: ! 'Nodes: No distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5586,7 +5616,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274493820
+      id: g70115158508000
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/no-distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5598,7 +5628,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#distinct-3
-  name: 'Nodes: Distinct'
+  name: ! 'Nodes: Distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5612,7 +5642,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273993980
+      id: g70115158261860
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5624,7 +5654,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#no-distinct-4
-  name: 'Opt: No distinct'
+  name: ! 'Opt: No distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5638,7 +5668,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273581960
+      id: g70115157859220
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/no-distinct-2.rq
     test_data: !ruby/object:RDF::URI
@@ -5650,7 +5680,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#distinct-4
-  name: 'Opt: Distinct'
+  name: ! 'Opt: Distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5664,7 +5694,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273003120
+      id: g70115156932680
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/distinct-2.rq
     test_data: !ruby/object:RDF::URI
@@ -5676,7 +5706,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#no-distinct-9
-  name: 'All: No distinct'
+  name: ! 'All: No distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5690,7 +5720,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272369100
+      id: g70115159797240
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/no-distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5702,7 +5732,7 @@
 - !ruby/object:SPARQL::Spec::QueryTest
   subject: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest#distinct-9
-  name: 'All: Distinct'
+  name: ! 'All: Distinct'
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#QueryEvaluationTest
   approval: !ruby/object:RDF::URI
@@ -5716,7 +5746,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271212400
+      id: g70115182785640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/distinct-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5742,7 +5772,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271235940
+      id: g70115159810400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/distinct-star-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5769,7 +5799,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287477960
+      id: g70115159574220
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-1.rq
     test_data: !ruby/object:RDF::URI
@@ -5796,7 +5826,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274299080
+      id: g70115158313680
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-2.rq
     test_data: !ruby/object:RDF::URI
@@ -5823,7 +5853,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273741480
+      id: g70115157867740
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-3.rq
     test_data: !ruby/object:RDF::URI
@@ -5850,7 +5880,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273101380
+      id: g70115158049280
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq
     test_data: !ruby/object:RDF::URI
@@ -5878,7 +5908,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272335760
+      id: g70115157719340
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-5.rq
     test_data: !ruby/object:RDF::URI
@@ -5905,7 +5935,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363268431060
+      id: g70115182494880
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-6.rq
     test_data: !ruby/object:RDF::URI
@@ -5932,7 +5962,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288406520
+      id: g70115169593320
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq
     test_data: !ruby/object:RDF::URI
@@ -5959,7 +5989,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287950420
+      id: g70115159628760
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq
     test_data: !ruby/object:RDF::URI
@@ -5986,7 +6016,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287488600
+      id: g70115158436380
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-9.rq
     test_data: !ruby/object:RDF::URI
@@ -6013,7 +6043,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274341980
+      id: g70115158147260
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-10.rq
     test_data: !ruby/object:RDF::URI
@@ -6040,7 +6070,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273894180
+      id: g70115157745860
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-numbers.rq
     test_data: !ruby/object:RDF::URI
@@ -6067,7 +6097,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273305960
+      id: g70115159860640
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-builtin.rq
     test_data: !ruby/object:RDF::URI
@@ -6094,7 +6124,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272599860
+      id: g70115182799100
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-function.rq
     test_data: !ruby/object:RDF::URI
@@ -6120,7 +6150,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287769100
+      id: g70115156958360
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-01.rq
     test_data: !ruby/object:RDF::URI
@@ -6146,7 +6176,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287395120
+      id: g70115158312800
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-02.rq
     test_data: !ruby/object:RDF::URI
@@ -6172,7 +6202,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274322280
+      id: g70115158086980
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-03.rq
     test_data: !ruby/object:RDF::URI
@@ -6198,7 +6228,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273827700
+      id: g70115159478020
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-04.rq
     test_data: !ruby/object:RDF::URI
@@ -6224,7 +6254,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273319660
+      id: g70115159820980
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-10.rq
     test_data: !ruby/object:RDF::URI
@@ -6250,7 +6280,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272693360
+      id: g70115182810060
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-11.rq
     test_data: !ruby/object:RDF::URI
@@ -6276,7 +6306,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271470800
+      id: g70115182312400
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-12.rq
     test_data: !ruby/object:RDF::URI
@@ -6302,7 +6332,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363270704020
+      id: g70115156687900
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-13.rq
     test_data: !ruby/object:RDF::URI
@@ -6328,7 +6358,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363288289400
+      id: g70115159597660
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-20.rq
     test_data: !ruby/object:RDF::URI
@@ -6354,7 +6384,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287886000
+      id: g70115158434880
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-21.rq
     test_data: !ruby/object:RDF::URI
@@ -6380,7 +6410,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363287491580
+      id: g70115158175280
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-22.rq
     test_data: !ruby/object:RDF::URI
@@ -6406,7 +6436,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363274425360
+      id: g70115157757700
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-23.rq
     test_data: !ruby/object:RDF::URI
@@ -6432,7 +6462,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363273924060
+      id: g70115159911900
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-24.rq
     test_data: !ruby/object:RDF::URI
@@ -6458,7 +6488,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363272450640
+      id: g70115182123760
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-1.rq
     test_data: !ruby/object:RDF::URI
@@ -6484,7 +6514,7 @@
       status:unverified: true
   action: !ruby/object:SPARQL::Spec::QueryAction
     subject: !ruby/object:RDF::Node
-      id: g70363271115640
+      id: g70115158890480
     query_file: !ruby/object:RDF::URI
       uri: http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-2.rq
     test_data: !ruby/object:RDF::URI

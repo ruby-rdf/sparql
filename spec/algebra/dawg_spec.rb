@@ -46,11 +46,25 @@ shared_examples "DAWG-SSE" do |man, tests|
             result.should == t.solutions ? RDF::Literal::TRUE : RDF::Literal::FALSE
           end
         end
+      when MF.CSVResultFormatTest
+        it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
+          graphs = t.graphs
+          query = t.action.sse_string
+          expected = t.solutions
+
+          result = sparql_query(:graphs => graphs, :query => query,
+                                :base_uri => t.action.query_file,
+                                :repository => "sparql-spec", :form => t.form,
+                                :to_hash => false, :sse => true)
+
+          result.should describe_csv_solutions(expected)
+          lambda {result.to_csv}.should_not raise_error
+        end
       when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11,
            MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11,
            UT.UpdateEvaluationTest, MF.UpdateEvaluationTest,
            MF.PositiveUpdateSyntaxTest11, MF.NegativeUpdateSyntaxTest11,
-           MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
+           MF.ServiceDescriptionTest, MF.ProtocolTest,
            MF.GraphStoreProtocolTest
         # Skip Other
       else
@@ -86,9 +100,7 @@ describe SPARQL::Algebra do
 
           entailment
 
-          csv-tsv-res
           http-rdf-dupdate
-          json-res
           protocol
           service
           syntax-fed

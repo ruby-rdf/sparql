@@ -25,11 +25,13 @@ module SPARQL; module Spec
             entry.as(UpdateTest)
           when MF.QueryEvaluationTest
             entry.as(QueryTest)
+          when MF.CSVResultFormatTest
+            entry.as(CSVTest)
           # known types to ignore
           when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11, MF.PositiveUpdateSyntaxTest11,
                MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11, MF.NegativeUpdateSyntaxTest11
             entry.as(SyntaxTest)
-          when MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
+          when MF.ServiceDescriptionTest, MF.ProtocolTest,
                MF.GraphStoreProtocolTest
             # Ignore
           else
@@ -195,8 +197,15 @@ module SPARQL; module Spec
 
       case form
       when :select, :ask
-        if File.extname(result.path) == '.srx'
+        case File.extname(result.path)
+        when '.srx'
           SPARQL::Client.parse_xml_bindings(Kernel.open(result, &:read))
+        when '.srj'
+          SPARQL::Client.parse_json_bindings(Kernel.open(result, &:read))
+        when '.csv'
+          SPARQL::Client.parse_csv_bindings(Kernel.open(result, &:read))
+        when '.tsv'
+          SPARQL::Client.parse_tsv_bindings(Kernel.open(result, &:read))
         else
           expected_repository = RDF::Repository.new 
           Spira.add_repository!(:results, expected_repository)
@@ -208,6 +217,9 @@ module SPARQL; module Spec
       end
     end
 
+  end
+
+  class CSVTest < QueryTest
   end
 
   class UpdateTest < SPARQLTest
