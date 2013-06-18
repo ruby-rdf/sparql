@@ -1,6 +1,7 @@
 $:.unshift "."
 require 'spec_helper'
 require 'linkeddata'
+require 'csv'
 
 describe SPARQL::Results do
   describe RDF::Query::Solutions do
@@ -10,6 +11,8 @@ describe SPARQL::Results do
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "uri", :value => "a" }}]}
                          },
+                         :csv => %(a\r\na\r\n),
+                         :tsv => %(?a\n<a>\n),
                          :xml      => [
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:uri/text()", "a"],
@@ -24,6 +27,8 @@ describe SPARQL::Results do
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "bnode", :value => "a" }}]}
                          },
+                         :csv => %(a\r\n_:a\r\n),
+                         :tsv => %(?a\n_:a\n),
                          :xml      => [
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:bnode/text()", "a"],
@@ -38,6 +43,8 @@ describe SPARQL::Results do
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "literal", :value => "a" }}]}
                          },
+                         :csv => %(a\r\na\r\n),
+                         :tsv => %(?a\n"a"\n),
                          :xml      => [
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:literal/text()", "a"],
@@ -52,6 +59,8 @@ describe SPARQL::Results do
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "literal", "xml:lang" => "en", :value => "a" }}]}
                          },
+                         :csv => %(a\r\na\r\n),
+                         :tsv => %(?a\n"a"@en\n),
                          :xml      => [
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:literal[@xml:lang='en']/text()", "a"],
@@ -66,6 +75,8 @@ describe SPARQL::Results do
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "typed-literal", "datatype" => RDF::XSD.integer.to_s, :value => "1" }}]}
                          },
+                         :csv => %(a\r\n1\r\n),
+                         :tsv => %(?a\n1\n),
                          :xml      => [
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:literal[@datatype='#{RDF::XSD.integer}']/text()", "1"],
@@ -73,6 +84,37 @@ describe SPARQL::Results do
                          :html     => [
                            ["/table[@class='sparql']/tbody/tr/th/text()", "a"],
                            ["/table[@class='sparql']/tbody/tr/td/text()", %("1"^^&lt;#{RDF::XSD.integer}&gt;)],
+                         ],
+                        },
+      :literals    => {:solution => {:integer => RDF::Literal(1), :decimal => RDF::Literal::Decimal.new(1.1), :double => RDF::Literal(1.1), :token => RDF::Literal(:tok)},
+                         :json     => {
+                           :head => {:vars => %w(integer decimal double token)},
+                           :results => {:bindings => [{
+                             "integer" => {:type => "typed-literal", "datatype" => RDF::XSD.integer.to_s, :value => "1"},
+                             "decimal" => {:type => "typed-literal", "datatype" => RDF::XSD.decimal.to_s, :value => "1.1"},
+                             "double" => {:type => "typed-literal", "datatype" => RDF::XSD.double.to_s, :value => "1.1"},
+                             "token" => {:type => "typed-literal", "datatype" => RDF::XSD.token.to_s, :value => "tok"},
+                            }]}
+                         },
+                         :csv => %(integer,decimal,double,token\r\n) +
+                                 %(1,1.1,1.1,tok\r\n),
+                         :tsv => %(?integer\t?decimal\t?double\t?token\n) +
+                                 %(1\t1.1\t1.1E0\t"tok"^^<http://www.w3.org/2001/XMLSchema#token>\n),
+                         :xml      => [
+                           ["/sr:sparql/sr:results/sr:result/sr:binding[@name='integer']/sr:literal[@datatype='#{RDF::XSD.integer}']/text()", "1"],
+                           ["/sr:sparql/sr:results/sr:result/sr:binding[@name='decimal']/sr:literal[@datatype='#{RDF::XSD.decimal}']/text()", "1.1"],
+                           ["/sr:sparql/sr:results/sr:result/sr:binding[@name='double']/sr:literal[@datatype='#{RDF::XSD.double}']/text()", "1.1"],
+                           ["/sr:sparql/sr:results/sr:result/sr:binding[@name='token']/sr:literal[@datatype='#{RDF::XSD.token}']/text()", "tok"],
+                         ],
+                         :html     => [
+                           ["/table[@class='sparql']/tbody/tr/th[1]/text()", "integer"],
+                           ["/table[@class='sparql']/tbody/tr/th[2]/text()", "decimal"],
+                           ["/table[@class='sparql']/tbody/tr/th[3]/text()", "double"],
+                           ["/table[@class='sparql']/tbody/tr/th[4]/text()", "token"],
+                           ["/table[@class='sparql']/tbody/tr/td[1]/text()", %("1"^^&lt;#{RDF::XSD.integer}&gt;)],
+                           ["/table[@class='sparql']/tbody/tr/td[2]/text()", %("1.1"^^&lt;#{RDF::XSD.decimal}&gt;)],
+                           ["/table[@class='sparql']/tbody/tr/td[3]/text()", %("1.1"^^&lt;#{RDF::XSD.double}&gt;)],
+                           ["/table[@class='sparql']/tbody/tr/td[4]/text()", %("tok"^^&lt;#{RDF::XSD.token}&gt;)],
                          ],
                         },
       :missing_var   => {:solution => [
@@ -86,6 +128,12 @@ describe SPARQL::Results do
                              {"entity" => {:type => "uri", "value" => "http://localhost/people/2"}}
                            ]}
                          },
+                         :csv => %(entity,middle_name\r\n) +
+                                 %(http://localhost/people/1,blah\r\n) +
+                                 %(http://localhost/people/2,""\r\n),
+                         :tsv => %(?entity\t?middle_name\n) +
+                                 %(<http://localhost/people/1>\t"blah"\n) +
+                                 %(<http://localhost/people/2>\t\n),
                          :xml      => [
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='entity']/sr:uri/text()", "http://localhost/people/1"],
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='middle_name']/sr:literal/text()", "blah"],
@@ -121,6 +169,12 @@ describe SPARQL::Results do
                              ]
                            }
                          },
+                         :csv => %(x,y,z\r\n) +
+                                 %(_:a,http://purl.org/dc/terms/title,"Hello, world!"\r\n) +
+                                 %(_:b,http://purl.org/dc/terms/title,Foo bar\r\n),
+                         :tsv => %(?x\t?y\t?z\n) +
+                                 %(_:a\t<http://purl.org/dc/terms/title>\t"Hello, world!"\n) +
+                                 %(_:b\t<http://purl.org/dc/terms/title>\t"Foo bar"\n),
                          :xml => [
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='x']/sr:bnode/text()", "a"],
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='y']/sr:uri/text()", "http://purl.org/dc/terms/title"],
@@ -148,6 +202,24 @@ describe SPARQL::Results do
         it "encodes a #{n}" do
           s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
           s.to_json.should == r[:json].to_json
+        end
+      end
+    end
+    
+    describe "#to_csv" do
+      SOLUTIONS.each do |n, r|
+        it "encodes a #{n}" do
+          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+          s.to_csv.should == r[:csv]
+        end
+      end
+    end
+    
+    describe "#to_tsv" do
+      SOLUTIONS.each do |n, r|
+        it "encodes a #{n}" do
+          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+          s.to_tsv.should == r[:tsv]
         end
       end
     end

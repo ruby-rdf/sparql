@@ -7,6 +7,8 @@ module SPARQL
       :json => 'application/sparql-results+json',
       :html => 'text/html',
       :xml  => 'application/sparql-results+xml',
+      :csv => 'text/csv',
+      :tsv => 'text/tab-separated-values'
     }
     
     ##
@@ -112,6 +114,57 @@ module SPARQL
         end
       end
     end
+
+    ##
+    # Generate Solutions as CSV
+    # @return [String]
+    # @see http://www.w3.org/TR/rdf-sparql-json-res/#results
+    def to_csv
+      require 'csv' unless defined?(::CSV)
+      bnode_map = {}
+      bnode_gen = "_:a"
+      CSV.generate(:row_sep => "\r\n") do |csv|
+        csv << variable_names.to_a
+        self.each do |solution|
+          csv << variable_names.map do |n|
+            case term = solution[n]
+            when RDF::Node then bnode_map[term] ||=
+              begin
+                this = bnode_gen
+                bnode_gen = bnode_gen.succ
+                this
+              end
+            else
+              solution[n].to_s
+            end
+          end
+        end
+      end
+    end
+    ##
+    # Generate Solutions as TSV
+    # @return [String]
+    # @see http://www.w3.org/TR/rdf-sparql-json-res/#results
+    def to_tsv
+      require 'csv' unless defined?(::CSV)
+      bnode_map = {}
+      bnode_gen = "_:a"
+      results = [
+        variable_names.map {|v| "?#{v}"}.join("\t")
+      ] + self.map do |solution|
+        variable_names.map do |n|
+          case term = solution[n]
+          when RDF::Literal::Integer, RDF::Literal::Decimal, RDF::Literal::Double
+            term.canonicalize.to_s
+          when nil
+            ""
+          else
+            RDF::NTriples.serialize(term)
+          end
+        end.join("\t")
+      end
+      results.join("\n") + "\n"
+    end
   end
   
   ##
@@ -189,6 +242,8 @@ module SPARQL
       when :json  then solutions.to_json
       when :xml   then solutions.to_xml
       when :html  then solutions.to_html
+      when :csv   then solutions.to_csv
+      when :tsv   then solutions.to_tsv
       else
         raise RDF::WriterError, "Unknown format #{(format || content_type).inspect} for #{solutions.class}"
       end

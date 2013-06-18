@@ -106,7 +106,6 @@ describe SPARQL::Grammar::Parser do
 
           entailment
 
-          csv-tsv-res
           http-rdf-dupdate
           protocol
           service

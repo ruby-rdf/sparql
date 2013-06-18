@@ -102,6 +102,8 @@ describe Sinatra::SPARQL do
         :json => /\{\s*"head"/,
         :html => /<table class="sparql"/,
         :xml => /<\?xml version/,
+        :csv => /a\r\nb\r\n/m,
+        :tsv => /\?a\n"b"\n/,
       }.each do |fmt, expected|
         context fmt do
           it "returns serialization" do
@@ -120,6 +122,8 @@ describe Sinatra::SPARQL do
         ::SPARQL::Results::MIME_TYPES[:json] => /\{\s*"head"/,
         ::SPARQL::Results::MIME_TYPES[:html] => /<table class="sparql"/,
         ::SPARQL::Results::MIME_TYPES[:xml] => /<\?xml version/,
+        ::SPARQL::Results::MIME_TYPES[:csv] => /a\r\nb\r\n/m,
+        ::SPARQL::Results::MIME_TYPES[:tsv] => /\?a\n"b"\n/,
       }.each do |content_types, expected|
         context content_types do
           it "returns serialization" do

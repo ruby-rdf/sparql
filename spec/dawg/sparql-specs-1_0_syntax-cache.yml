@@ -3286,7 +3286,7 @@
   name: syn-bad-OPT-breaks-BGP
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest
-  comment: 'bad: re-used BNode label after OPTIONAL'
+  comment: ! 'bad: re-used BNode label after OPTIONAL'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3304,7 +3304,7 @@
   name: syn-bad-UNION-breaks-BGP
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest
-  comment: 'bad: re-used BNode label after UNION'
+  comment: ! 'bad: re-used BNode label after UNION'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI
@@ -3322,7 +3322,7 @@
   name: syn-bad-GRAPH-breaks-BGP
   type: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#NegativeSyntaxTest
-  comment: 'bad: re-used BNode label after GRAPH'
+  comment: ! 'bad: re-used BNode label after GRAPH'
   approval: !ruby/object:RDF::URI
     uri: http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#Approved
   approved_by: !ruby/object:RDF::URI

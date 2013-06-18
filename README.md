@@ -10,7 +10,10 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
 * [SPARQL 1.1 Query][] parsing and execution (excluding Property Paths)
-* SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON] or HTML.
+* SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON],
+  [CSV][SPARQL 1.1 Query Results CSV and TSV Formats],
+  [TSV][SPARQL 1.1 Query Results CSV and TSV Formats]
+  or HTML.
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data][])
 * SPARQL Client for accessing remote SPARQL endpoints.
@@ -62,7 +65,6 @@ will be in later release along with:
 * [Update][SPARQL 1.1 Update],
 * [Service Description][SPARQL 1.1 Service Description],
 * [Federated Query][SPARQL 1.1 Federated Query],
-* [CSV and TSV Formats][SPARQL 1.1 Query Results CSV and TSV Formats],
 * [Entailment Regimes][SPARQL 1.1 Entailment Regimes],
 * [Protocol][SPARQL 1.1 Protocol], and
 * [Graph Store HTTP Protocol][SPARQL 1.1 Graph Store HTTP Protocol],
@@ -121,8 +123,8 @@ Queries using datasets are re-written to use the identified graphs for `FROM` an
 ### Result formats
 
 `SPARQL.serialize_results` may be used on it's own, or in conjunction with {Rack::SPARQL} or {Sinatra::SPARQL}
-to provide content-negotiated query results. For basic `SELECT` and `ASK` this includes HTML, XML and JSON formats.
-`DESCRIBE` and `CONSTRUCT` create an `RDF::Graph`, which can be serialized through [HTTP Content Netogiation][conneg]
+to provide content-negotiated query results. For basic `SELECT` and `ASK` this includes HTML, XML, CSV, TSV and JSON formats.
+`DESCRIBE` and `CONSTRUCT` create an `RDF::Graph`, which can be serialized through [HTTP Content Negotiation][conneg]
 using available RDF writers. For best results, require [Linked Data][] to enable
 a full set of RDF formats.
 
