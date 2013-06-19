@@ -12,18 +12,22 @@
    doap:description """
      Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
      and includes SPARQL Client for accessing remote repositories."""@en;
-   doap:implements <http://www.w3.org/TR/rdf-sparql-query/>;
-   doap:developer <http://greggkellogg.net/foaf#me>;
-   doap:maintainer <http://greggkellogg.net/foaf#me>;
-   doap:documenter <http://greggkellogg.net/foaf#me>;
-   dc:creator <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>, _:pius;
-   foaf:maker <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>, _:pius;
-   doap:blog <http://greggkellogg.net/>, <http://ar.to/>, <http://blog.datagraph.org/>;
+   doap:implements  <http://www.w3.org/TR/sparql11-query/>,
+                    <http://www.w3.org/TR/sparql11-update/>,
+                    <http://www.w3.org/TR/sparql11-results-json/>,
+                    <http://www.w3.org/TR/sparql11-results-csv-tsv/>,
+                    <http://www.w3.org/TR/rdf-sparql-XMLres/> ;
+   doap:developer   <http://greggkellogg.net/foaf#me>;
+   doap:maintainer  <http://greggkellogg.net/foaf#me>;
+   doap:documenter  <http://greggkellogg.net/foaf#me>;
+   dc:creator       <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>, _:pius;
+   foaf:maker       <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>, _:pius;
+   doap:blog        <http://greggkellogg.net/>, <http://ar.to/>, <http://blog.datagraph.org/>;
    doap:bug-database <http://github.com/ruby-rdf/sparql/issues>;
    doap:category <http://dbpedia.org/resource/Resource_Description_Framework>,
      <http://dbpedia.org/resource/Ruby_(programming_language)>;
    doap:created "2008-07-15"^^xsd:date;
-   doap:download-page <httphttp://rubygems.org/gems/sparql>;
+   doap:download-page <phttp://rubygems.org/gems/sparql>;
    doap:homepage <http://github.com/ruby-rdf/sparql>;
    doap:license <http://creativecommons.org/licenses/publicdomain/>;
    doap:platform "Ruby";
