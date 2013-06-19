@@ -139,15 +139,15 @@ a full set of RDF formats.
     sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
     sse.execute(queryable)
 
-### Rendering solutions as JSON, XML or HTML
+### Rendering solutions as JSON, XML, CSV, TSV or HTML
     queryable = RDF::Repository.load("etc/doap.ttl")
     solutions = SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", queryable)
-    solutions.to_json #to_xml #to_html
+    solutions.to_json #to_xml #to_csv #to_tsv #to_html
 
 ### Parsing a SPARQL query string to SSE
 
     sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    sse.to_sxp
+    sse.to_sxp #=> (bgp (triple ?s ?p ?o))
 
 ### Command line processing
 
@@ -212,6 +212,8 @@ a full set of RDF formats.
         service_description(:repo => repository)
       end
     end
+
+Find more examples in {SPARQL::Grammar} and {SPARQL::Algebra}.
 
 ## Documentation
 
