@@ -762,7 +762,7 @@ describe SPARQL::Algebra::Query do
       queryable = RDF::Graph.new
       queryable.should_receive(:immutable?).and_return(true)
       query = SPARQL::Algebra::Expression.parse(%q((dataset (<data-g1.ttl>) (bgp))))
-      lambda {query.execute(queryable)}.should raise_error(TypeError)
+      expect {query.execute(queryable)}.to raise_error(TypeError)
     end
   end
 

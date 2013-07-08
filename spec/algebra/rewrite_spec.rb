@@ -11,7 +11,7 @@ describe SPARQL::Algebra::Operator do
 
   describe "#to_binary" do
     it "raises exception if there are no expressions" do
-      lambda {op.send(:to_binary, Operator::Union)}.should raise_error("Operator#to_binary requires two or more expressions")
+      expect {op.send(:to_binary, Operator::Union)}.to raise_error("Operator#to_binary requires two or more expressions")
     end
 
     it "raises exception if there is one expressions" do

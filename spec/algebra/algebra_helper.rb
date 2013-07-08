@@ -38,7 +38,7 @@ def verify(examples)
     describe ".evaluate(#{input.to_sse})" do
       if output.is_a?(Class)
         it "raises #{output.inspect}" do
-          lambda { @op.evaluate(*input[1..-1]) }.should raise_error(output)
+          expect { @op.evaluate(*input[1..-1]) }.to raise_error(output)
         end
       else
         it "returns #{repr(output)}" do

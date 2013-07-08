@@ -54,7 +54,7 @@ shared_examples "SSE" do |man, tests|
       when MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
         it "detects syntax error for #{t.entry} - #{t.name}" do
           begin
-            lambda {SPARQL::Grammar.parse(t.action.query_string, :validate => true)}.should raise_error
+            expect {SPARQL::Grammar.parse(t.action.query_string, :validate => true)}.to raise_error
           rescue
             pending "Detecting syntax errors better"
           end

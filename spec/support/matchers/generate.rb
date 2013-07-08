@@ -23,7 +23,7 @@ RSpec::Matchers.define :generate do |expected, options|
   match do |input|
     case
     when expected == EBNF::LL1::Parser::Error
-      lambda {parser(example.metadata.merge(options)).call(input)}.should raise_error(expected)
+      expect {parser(example.metadata.merge(options)).call(input)}.to raise_error(expected)
     when options[:last]
       # Only look at end of production
       @actual = parser(example.metadata.merge(options)).call(input).last

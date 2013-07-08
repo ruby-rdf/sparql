@@ -58,7 +58,7 @@ shared_examples "DAWG-SSE" do |man, tests|
                                 :to_hash => false, :sse => true)
 
           result.should describe_csv_solutions(expected)
-          lambda {result.to_csv}.should_not raise_error
+          expect {result.to_csv}.not_to raise_error
         end
       when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11,
            MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11,
