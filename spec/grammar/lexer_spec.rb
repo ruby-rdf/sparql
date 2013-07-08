@@ -488,7 +488,7 @@ describe EBNF::LL1::Lexer do
 
   describe "when encountering invalid input" do
     it "raises a lexer error" do
-      lambda { tokenize("SELECT foo WHERE {}") }.should raise_error(EBNF::LL1::Lexer::Error)
+      expect { tokenize("SELECT foo WHERE {}") }.to raise_error(EBNF::LL1::Lexer::Error)
     end
 
     it "reports the invalid token which triggered the error" do

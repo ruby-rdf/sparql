@@ -401,11 +401,11 @@ describe SPARQL::Results do
       
       context "rdf content-types" do
         it "raises error with format :ntriples" do
-          lambda {SPARQL.serialize_results(true, :format => :ntriples)}.should raise_error(RDF::WriterError, /Unknown format :ntriples/)
+          expect {SPARQL.serialize_results(true, :format => :ntriples)}.to raise_error(RDF::WriterError, /Unknown format :ntriples/)
         end
 
         it "raises error content type text/plain" do
-          lambda {SPARQL.serialize_results(true, :content_type => "text/plain")}.should raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
+          expect {SPARQL.serialize_results(true, :content_type => "text/plain")}.to raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
         end
       end
     end
@@ -417,15 +417,15 @@ describe SPARQL::Results do
       }.each do |format, content_type|
         context "with format #{format}" do
           before(:each) do
-            @solutions = mock("Solutions")
+            @solutions = double("Solutions")
             @solutions.extend(RDF::Queryable)
-            fmt = mock("Format")
-            writer = mock("Writer")
-            buffer = mock("Buffer")
+            fmt = double("Format")
+            writer = double("Writer")
+            buffer = double("Buffer")
             RDF::Format.should_receive(:for).at_least(1).times.and_return(fmt)
             fmt.should_receive(:content_type).and_return([content_type])
             @solutions.should_receive(:dump).at_least(1).times.and_return("serialized graph")
-            fmt.stub!(:to_sym).and_return(format)
+            fmt.stub(:to_sym).and_return(format)
           end
 
           subject {SPARQL.serialize_results(@solutions, :format => format)}
@@ -464,11 +464,11 @@ describe SPARQL::Results do
 
       context "rdf content-types" do
         it "raises error with format :ntriples" do
-          lambda {SPARQL.serialize_results(@solutions, :format => :ntriples)}.should raise_error(RDF::WriterError)
+          expect {SPARQL.serialize_results(@solutions, :format => :ntriples)}.to raise_error(RDF::WriterError)
         end
 
         it "raises error content type text/plain" do
-          lambda {SPARQL.serialize_results(@solutions, :content_type => "text/plain")}.should raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
+          expect {SPARQL.serialize_results(@solutions, :content_type => "text/plain")}.to raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
         end
       end
     end

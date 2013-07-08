@@ -52,7 +52,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'linkeddata'
   gem.add_development_dependency 'rdf-spec',        '>= 1.0.7'
   gem.add_development_dependency 'open-uri-cached', '>= 0.0.5'
-  gem.add_development_dependency 'rspec',           '>= 2.12.0'
+  gem.add_development_dependency 'rspec',           '>= 2.14.0'
   gem.add_development_dependency 'spira',           '= 0.0.12'
   gem.add_development_dependency 'yard' ,           '>= 0.8.3'
   gem.post_install_message       = nil

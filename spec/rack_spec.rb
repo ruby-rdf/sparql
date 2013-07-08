@@ -8,7 +8,7 @@ describe Rack::SPARQL do
 
   before(:each) { @options = {}; @headers = {} }
   def app
-    target_app = mock("Target Rack Application", :call => [200, @headers, @results || "A String"])
+    target_app = double("Target Rack Application", :call => [200, @headers, @results || "A String"])
 
     @app ||= Rack::SPARQL::ContentNegotiation.new(target_app, @options)
   end

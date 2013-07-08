@@ -16,13 +16,13 @@ describe SPARQL::Algebra do
   describe Evaluatable do
     describe "#evaluate" do
       it "raises a NotImplementedError" do
-        lambda { @op.new.evaluate(nil) }.should raise_error NotImplementedError
+        expect { @op.new.evaluate(nil) }.to raise_error NotImplementedError
       end
     end
 
     describe "#apply" do
       it "raises a NotImplementedError" do
-        lambda { @op.new.apply }.should raise_error NotImplementedError
+        expect { @op.new.apply }.to raise_error NotImplementedError
       end
     end
   end
