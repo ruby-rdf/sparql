@@ -41,9 +41,9 @@ module SPARQL; module Algebra
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if term is not found and any operand raises an error
       def evaluate(bindings, options = {})
-        lhs = operands.shift.evaluate(bindings, options)
+        lhs = operands.first.evaluate(bindings, options)
         error_found = false
-        found = operands.any? do |op|
+        found = operands[1..-1].any? do |op|
           begin
             lhs == op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
           rescue TypeError

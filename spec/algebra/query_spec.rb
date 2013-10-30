@@ -394,6 +394,61 @@ describe SPARQL::Algebra::Query do
     end
   end
 
+  context "in" do
+    it "Finds value in literals" do
+      sparql_query(
+        :graphs => {
+          :default => {
+            :data => %q{
+              @prefix rdf:        <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+              _:a rdf:value 1 .
+              _:a rdf:value 3 .
+            },
+            :format => :ttl,
+          }
+        },
+        :query => %q{
+          (prefix ((rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+            (project (?o)
+              (filter (in ?o 0 1 2)
+                (bgp (triple ?s ?p ?o)))))
+        },
+        :sse => true
+      ).map(&:to_hash).should == [
+        {:o => RDF::Literal(1)},
+      ]
+    end
+
+    it "Finds value in URIs" do
+      sparql_query(
+        :graphs => {
+          :default => {
+            :data => %q{
+              @prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+              @prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+              _:a a rdf:Property .
+              _:b a rdfs:Class .
+              _:c a rdf:Datatype .
+            },
+            :format => :ttl,
+          }
+        },
+        :query => %q{
+          (prefix (
+            (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+            (rdfs: <http://www.w3.org/2000/01/rdf-schema#>))
+            (project (?o)
+              (filter (in ?o rdf:Property rdfs:Class)
+                (bgp (triple ?s ?p ?o)))))
+        },
+        :sse => true
+      ).map(&:to_hash).should == [
+        {:o => RDF.Property},
+        {:o => RDF::RDFS.Class},
+      ]
+    end
+  end
+  
   context "join" do
     it "passes data/extracted-examples/query-4.1" do
       sparql_query(
