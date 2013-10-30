@@ -12,7 +12,7 @@ class SPTest < Sinatra::Base
 
   get '/graph' do
     settings.sparql_options.merge!(:format => (params["fmt"] ? params["fmt"].to_sym : nil))
-    body RDF::Graph.new << [RDF::Node('a'), RDF::URI('b'), "c"]
+    body RDF::Graph.new << [RDF::Node('a'), RDF.URI('http://example/b'), "c"]
   end
 
   get '/solutions' do
@@ -29,9 +29,9 @@ class SPTest < Sinatra::Base
       }
     )
     repo = RDF::Repository.new
-    repo << [RDF::URI('a'), RDF::URI('b'), "c"]
-    repo << [RDF::URI('a'), RDF::URI('b'), "d", RDF::URI('e')]
-    body service_description(:repository => repo, :endpoint => RDF::URI("/endpoint"))
+    repo << [RDF::URI('http://example/a'), RDF::URI('http://example/b'), "c"]
+    repo << [RDF::URI('http://example/a'), RDF::URI('http://example/b'), "d", RDF::URI('http://example/e')]
+    body service_description(:repository => repo, :endpoint => RDF::URI("http://example/endpoint"))
   end
 end
 
@@ -53,26 +53,26 @@ describe Sinatra::SPARQL do
   describe "service_description" do
     it "returns a serialized graph" do
       get '/ssd', {}, {'HTTP_ACCEPT' => 'text/turtle'}
-      last_response.status.should == 200
-      last_response.body.should match(/^@prefix ssd: <.*> \.$/)
-      last_response.body.should match(/\[ a ssd:Service;/)
-      last_response.body.should match(/ssd:name <e>/)
+      expect(last_response.status).to eq 200
+      expect(last_response.body).to match(/^@prefix ssd: <.*> \.$/)
+      expect(last_response.body).to match(/\[ a ssd:Service;/)
+      expect(last_response.body).to match(%r{ssd:name <http://example/e>})
     end
   end
   
   context "serializes graphs" do
     context "with format" do
       {
-        :ntriples => /_:a <b> "c" \./,
-        :ttl => /[ <b> "c"]/
+        :ntriples => %r{_:a <http://example/b> "c" \.},
+        :ttl => %r{\[ <http://example/b> "c"\]}
       }.each do |fmt, expected|
         context fmt do
           it "returns serialization" do
             get '/graph', :fmt => fmt
-            last_response.status.should == 200
-            last_response.body.should match(expected)
-            last_response.content_type.should == RDF::Format.for(fmt).content_type.first
-            last_response.content_length.should_not == 0
+            expect(last_response.status).to eq 200
+            expect(last_response.body).to match(expected)
+            expect(last_response.content_type).to eq RDF::Format.for(fmt).content_type.first
+            expect(last_response.content_length).not_to eq 0
           end
         end
       end
@@ -80,16 +80,16 @@ describe Sinatra::SPARQL do
     
     context "with Accept" do
       {
-        "text/plain" => /_:a <b> "c" \./,
-        "text/turtle" => /[ <b> "c"]/
+        "text/plain" => %r{_:a <http://example/b> "c" \.},
+        "text/turtle" => %r{\[ <http://example/b> "c"\]}
       }.each do |content_types, expected|
         context content_types do
           it "returns serialization" do
             get '/graph', {}, {"HTTP_ACCEPT" => content_types}
-            last_response.status.should == 200
-            last_response.body.should match(expected)
-            last_response.content_type.should == content_types
-            last_response.content_length.should_not == 0
+            expect(last_response.status).to eq 200
+            expect(last_response.body).to match(expected)
+            expect(last_response.content_type).to eq content_types
+            expect(last_response.content_length).not_to eq 0
           end
         end
       end
@@ -108,10 +108,10 @@ describe Sinatra::SPARQL do
         context fmt do
           it "returns serialization" do
             get '/solutions', :fmt => fmt
-            last_response.status.should == 200
-            last_response.body.should match(expected)
-            last_response.content_type.should == SPARQL::Results::MIME_TYPES[fmt]
-            last_response.content_length.should_not == 0
+            expect(last_response.status).to eq 200
+            expect(last_response.body).to match(expected)
+            expect(last_response.content_type).to eq SPARQL::Results::MIME_TYPES[fmt]
+            expect(last_response.content_length).not_to eq 0
           end
         end
       end
@@ -119,18 +119,18 @@ describe Sinatra::SPARQL do
     
     context "with Accept" do
       {
-        ::SPARQL::Results::MIME_TYPES[:json] => /\{\s*"head"/,
-        ::SPARQL::Results::MIME_TYPES[:html] => /<table class="sparql"/,
-        ::SPARQL::Results::MIME_TYPES[:xml] => /<\?xml version/,
-        ::SPARQL::Results::MIME_TYPES[:csv] => /a\r\nb\r\n/m,
-        ::SPARQL::Results::MIME_TYPES[:tsv] => /\?a\n"b"\n/,
-      }.each do |content_types, expected|
-        context content_types do
+        ::SPARQL::Results::MIME_TYPES[:json] => %r{\{\s*"head"},
+        ::SPARQL::Results::MIME_TYPES[:html] => %r{<table class="sparql"},
+        ::SPARQL::Results::MIME_TYPES[:xml] => %r{<\?xml version},
+        ::SPARQL::Results::MIME_TYPES[:csv] => %r{a\r\nb\r\n}m,
+        ::SPARQL::Results::MIME_TYPES[:tsv] => %r{\?a\n"b"\n},
+      }.each do |content_type, expected|
+        context content_type do
           it "returns serialization" do
-            get '/solutions', {}, {"HTTP_ACCEPT" => content_types}
-            last_response.body.should match(expected)
-            last_response.content_type.should == content_types
-            last_response.content_length.should_not == 0
+            get '/solutions', {}, {"HTTP_ACCEPT" => content_type}
+            expect(last_response.body).to match(expected)
+            expect(last_response.content_type).to eq content_type
+            expect(last_response.content_length).not_to eq 0
           end
         end
       end
