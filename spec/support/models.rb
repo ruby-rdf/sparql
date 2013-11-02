@@ -193,7 +193,17 @@ module SPARQL; module Spec
 
     # Turn results into solutions
     def solutions
-      return nil if !respond_to?(:result) || result.nil?
+      result = self.result if self.respond_to?(:result)
+      return nil unless result
+
+      # Use alternate results for RDF 1.1
+      if RDF::VERSION.to_s >= "1.1"
+        file_11 = result.to_s.
+          sub(BASE_URI_10, BASE_DIRECTORY).
+          sub(BASE_URI_11, BASE_DIRECTORY).
+          sub(/\.(\w+)$/, '_11.\1')
+        result = RDF::URI(file_11) if File.exist?(file_11)
+      end
 
       case form
       when :select, :ask
@@ -267,6 +277,12 @@ module SPARQL; module Spec
         sub(BASE_URI_10, BASE_DIRECTORY).
         sub(BASE_URI_11, BASE_DIRECTORY).
         sub(/\.rq$/, ".sse")
+
+      # Use alternate file for RDF 1.1
+      if RDF::VERSION.to_s >= "1.1"
+        file_11 = file.sub(".sse", "_11.sse")
+        file = file_11 if File.exist?(file_11)
+      end
       RDF::URI(file)
     end
   
