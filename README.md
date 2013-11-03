@@ -290,7 +290,9 @@ To get a local working copy of the development repository, do:
 This is free and unencumbered public domain software. For more information,
 see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 
-A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are included in the repository, which are not covered under the UNLICENSE; see the references for test copyright information.
+A copy of the [SPARQL EBNF][] and derived parser files are included in the repository, which are not covered under the UNLICENSE. These files are covered via the [W3C Document License](http://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231).
+
+A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in the repository, which are not covered under the UNLICENSE; see the references for test copyright information.
 
 [Ruby]:             http://ruby-lang.org/
 [RDF]:              http://www.w3.org/RDF/
@@ -314,6 +316,7 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are included in the 
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames
 [SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
+[SPARQL EBNF]:      http://www.w3.org/TR/sparql11-query/#sparqlGrammar
 [Property Paths]:   http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#propertypaths
 
 [SSD]:              http://www.w3.org/TR/sparql11-service-description/
