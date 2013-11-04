@@ -29,8 +29,8 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
-      # @return [RDF::Query::Solutions]
-      #   the resulting solution sequence
+      # @return [RDF::Graph]
+      #   the Graph with constructed triples
       # @see    http://www.w3.org/TR/rdf-sparql-query/#construct
       def execute(queryable, options = {})
         debug(options) {"Construct #{operands.first}, #{options.inspect}"}

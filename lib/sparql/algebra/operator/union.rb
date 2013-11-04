@@ -29,13 +29,13 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Union"}
-        @solutions = RDF::Query::Solutions.new(operands.inject([]) do |memo, op|
-          solns = op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-          debug(options) {"=> (op) #{solns.inspect}"}
-          memo + solns
-        end)
-        debug(options) {"=> #{@solutions.inspect}"}
-        @solutions
+        @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          operands.each do |op|
+            op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+              yielder << solution
+            end
+          end
+        end
       end
       
       ##

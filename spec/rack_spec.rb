@@ -80,7 +80,7 @@ describe Rack::SPARQL do
   end
 
   context "serializes solutions" do
-    before(:each) { @results = RDF::Query::Solutions.new << RDF::Query::Solution.new(:a => RDF::Literal("b"))}
+    before(:each) { @results = RDF::Query::Solutions::Enumerator.new([RDF::Query::Solution.new(:a => RDF::Literal("b"))])}
 
     context "with format" do
       %w(json html xml csv tsv).map(&:to_sym).each do |fmt|

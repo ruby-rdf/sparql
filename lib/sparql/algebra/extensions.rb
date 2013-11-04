@@ -285,8 +285,8 @@ class RDF::Query::Variable
 end # RDF::Query::Variable
 
 ##
-# Extensions for `RDF::Query::Solutions`.
-class RDF::Query::Solutions
+# Extensions for `RDF::Query::Solutions::Enumerator`.
+class RDF::Query::Solutions::Enumerator
   alias_method :filter_without_expression, :filter
 
   ##

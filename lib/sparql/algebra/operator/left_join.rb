@@ -33,7 +33,6 @@ module SPARQL; module Algebra
       def execute(queryable, options = {})
         filter = operand(2)
 
-        
         debug(options) {"LeftJoin"}
         left = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
         debug(options) {"=>(left) #{left.inspect}"}
@@ -62,8 +61,8 @@ module SPARQL; module Algebra
           end
         end
         
-        @solutions = RDF::Query::Solutions.new(solutions)
-        debug(options) {"=> #{@solutions.inspect}"}
+        @solutions = RDF::Query::Solutions::Enumerator.new(solutions)
+        debug(options) {"=>(joined) #{@solutions.map(&:to_hash).inspect}"}
         @solutions
       end
       

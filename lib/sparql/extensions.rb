@@ -99,16 +99,8 @@ module RDF::Queryable
   end
 end
 
-class RDF::Query
-  # Determine if this is an empty query, having no patterns
-  def empty?
-    self.patterns.empty?
-  end
-end
-
-
 ##
-# Extensions for `RDF::Query::Solutions`.
-class RDF::Query::Solutions
+# Extensions for `RDF::Query::Solutions::Enumerator`.
+class RDF::Query::Solutions::Enumerator
   include SPARQL::Results
 end

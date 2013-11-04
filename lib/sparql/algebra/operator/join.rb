@@ -40,11 +40,11 @@ module SPARQL; module Algebra
         debug(options) {"=>(left) #{solutions1.inspect}"}
         solutions2 = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
         debug(options) {"=>(right) #{solutions2.inspect}"}
-        @solutions = solutions1.map do |s1|
+        joined_solutions = solutions1.map do |s1|
           solutions2.map { |s2| s2.merge(s1) if s2.compatible?(s1) }
         end.flatten.compact
-        @solutions = RDF::Query::Solutions.new(@solutions)
-        debug(options) {"=> #{@solutions.inspect}"}
+        @solutions = RDF::Query::Solutions::Enumerator.new(joined_solutions)
+        debug(options) {"=>(joined) #{@solutions.map(&:to_hash).inspect}"}
         @solutions
       end
       

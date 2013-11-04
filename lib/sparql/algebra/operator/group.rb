@@ -69,22 +69,21 @@ module SPARQL; module Algebra
         debug(options) {"=>(groups) #{groups.inspect}"}
 
         # Aggregate solutions in each group using aggregates to get solutions
-        @solutions = groups.map do |group_soln, solns|
-          aggregates.each do |(var, aggregate)|
-            begin
-              group_soln[var] = aggregate.aggregate(solns, options)
-            rescue TypeError
-              # Ignored in output
+        @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          groups.each do |group_soln, solns|
+            aggregates.each do |(var, aggregate)|
+              begin
+                group_soln[var] = aggregate.aggregate(solns, options)
+              rescue TypeError
+                # Ignored in output
+              end
             end
+            yielder << group_soln
           end
-          group_soln
         end
 
-        # Make sure that's at least an empty solution
-        @solutions << RDF::Query::Solution.new if @solutions.empty?
-
-        debug(options) {"=>(solutions) #{@solutions.inspect}"}
-        @solutions = RDF::Query::Solutions.new(@solutions)
+        debug(options) {"=>(grouped) #{@solutions.map(&:to_hash).inspect}"}
+        @solutions
       end
       
       ##

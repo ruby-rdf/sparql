@@ -200,7 +200,7 @@ describe SPARQL::Results do
     describe "#to_json" do
       SOLUTIONS.each do |n, r|
         it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+          s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
           s.to_json.should == r[:json].to_json
         end
       end
@@ -209,7 +209,7 @@ describe SPARQL::Results do
     describe "#to_csv" do
       SOLUTIONS.each do |n, r|
         it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+          s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
           s.to_csv.should == r[:csv]
         end
       end
@@ -218,7 +218,7 @@ describe SPARQL::Results do
     describe "#to_tsv" do
       SOLUTIONS.each do |n, r|
         it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+          s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
           s.to_tsv.should == r[:tsv]
         end
       end
@@ -229,7 +229,7 @@ describe SPARQL::Results do
         describe "encoding #{n}" do
           r[:xml].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+              s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
               s.to_xml.should have_xpath(xp, value)
             end
           end
@@ -242,7 +242,7 @@ describe SPARQL::Results do
         describe "encoding #{n}" do
           r[:html].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+              s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
           
               s.to_html.should have_xpath(xp, value)
             end
@@ -448,7 +448,7 @@ describe SPARQL::Results do
     
     context "solutions" do
       before(:each) do
-        @solutions = RDF::Query::Solutions.new << RDF::Query::Solution.new(:a => RDF::Literal("b"))
+        @solutions = RDF::Query::Solutions::Enumerator.new([RDF::Query::Solution.new(:a => RDF::Literal("b"))])
       end
       
       SPARQL::Results::MIME_TYPES.each do |format, content_type|

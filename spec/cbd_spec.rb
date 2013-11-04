@@ -89,9 +89,7 @@ describe RDF::Queryable do
         graph_input = RDF::Graph.new << RDF::Turtle::Reader.new(input)
         graph_output = RDF::Graph.new << RDF::Turtle::Reader.new(output)
         graph_cdb = graph_input.concise_bounded_description(RDF::URI("http://example.com/aReallyGreatBook"))
-        begin
-          graph_cdb.should == graph_output
-        end
+        expect(graph_cdb).to eq graph_output
       end
     end
   end

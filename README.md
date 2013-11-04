@@ -94,8 +94,8 @@ See {SPARQL::Algebra::Expression.register_extension} for details.
 ### Middleware
 
 {Rack::SPARQL} is a superset of [Rack::LinkedData][] to allow content negotiated results
-to be returned any `RDF::Enumerable` or `RDF::Query::Solutions` compatible results.
-You would typically return an instance of `RDF::Graph`, `RDF::Repository` or `RDF::Query::Solutions`
+to be returned any `RDF::Enumerable` or an enumerator extended with `RDF::Query::Solutions` compatible results.
+You would typically return an instance of `RDF::Graph`, `RDF::Repository` or an enumerator extended with `RDF::Query::Solutions`
 from your Rack application, and let the `Rack::SPARQL::ContentNegotiation` middleware
 take care of serializing your response into whatever format the HTTP
 client requested and understands.
@@ -137,7 +137,15 @@ a full set of RDF formats.
 
     queryable = RDF::Repository.load("etc/doap.ttl")
     sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    sse.execute(queryable)
+    queryable.query(sse) do |result|
+      puts result.inspect
+    end
+
+Alternatively, execute the query to retrieve the same results; In general, querying the `queryable` object can allow for implementation-specific performance improvements.
+
+    sse.execute(queryable) do |result|
+      puts result.inspect
+    end
 
 ### Rendering solutions as JSON, XML, CSV, TSV or HTML
     queryable = RDF::Repository.load("etc/doap.ttl")

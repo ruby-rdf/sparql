@@ -40,9 +40,9 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
-        @solutions = operands.last. execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        @solutions.offset(operands[0]) unless operands[0] == :_
-        @solutions.limit(operands[1]) unless operands[1] == :_
+        @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        @solutions = @solutions.offset(operands[0]) unless operands[0] == :_
+        @solutions = @solutions.limit(operands[1]) unless operands[1] == :_
         @solutions
       end
       

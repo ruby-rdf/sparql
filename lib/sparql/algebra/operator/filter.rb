@@ -53,7 +53,6 @@ module SPARQL; module Algebra
             false
           end
         end
-        @solutions = RDF::Query::Solutions.new(@solutions)
         debug(options) {"=>(after) #{@solutions.map(&:to_hash).inspect}"}
         @solutions
       end
