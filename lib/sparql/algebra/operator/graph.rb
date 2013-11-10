@@ -25,15 +25,17 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
         debug(options) {"Graph #{operands.first}"}
         context, query = operands.first, operands.last
-        @solutions = query.execute(queryable, options.merge(:context => context))
-        debug(options) {"=>(after) #{@solutions.map(&:to_hash).inspect}"}
-        @solutions
+        @solutions = query.execute(queryable, options.merge(:context => context), &block)
       end
       
       ##

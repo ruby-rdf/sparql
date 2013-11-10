@@ -27,24 +27,30 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#defn_algMinus
       # @see    http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
+        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          self.execute(queryable, options) {|y| yielder << y}
+        end unless block_given?
+
         # Let Ω1 and Ω2 be multisets of solution mappings. We define:
         # 
         # Minus(Ω1, Ω2) = { μ | μ in Ω1 . ∀ μ' in Ω2, either μ and μ' are not compatible or dom(μ) and dom(μ') are disjoint }
         # 
         # card[Minus(Ω1, Ω2)](μ) = card[Ω1](μ)
         debug(options) {"Minus"}
-        solutions1 = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug(options) {"=>(left) #{solutions1.inspect}"}
-        solutions2 = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug(options) {"=>(right) #{solutions2.inspect}"}
-        @solutions = solutions1.minus(solutions2)
-        debug(options) {"=> #{@solutions.inspect}"}
-        @solutions
+        solutions1 = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        debug(options) {"(minus left) #{solutions1.inspect}"}
+        solutions2 = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        debug(options) {"(minus right) #{solutions2.inspect}"}
+        solutions1.minus(solutions2).each(&block)
       end
       
       ##

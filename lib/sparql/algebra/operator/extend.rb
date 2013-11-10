@@ -27,28 +27,40 @@ module SPARQL; module Algebra
       # Extend is undefined when var in dom(μ).
       # 
       # Extend(Ω, var, expr) = { Extend(μ, var, expr) | μ in Ω }
+      #
+      # @param  [RDF::Queryable] queryable
+      #   the graph or repository to query
+      # @param  [Hash{Symbol => Object}] options
+      #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
       def execute(queryable, options = {})
+        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          self.execute(queryable, options) {|y| yielder << y}
+        end unless block_given?
+
         debug(options) {"Extend"}
-        @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        @solutions.each do |solution|
-          debug(options) {"===> soln #{solution.to_hash.inspect}"}
+        operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+          debug(options) {"(extend) soln #{solution.to_hash.inspect}"}
           operands.first.each do |(var, expr)|
             begin
               val = expr.evaluate(solution, options.merge(
                                               :queryable => queryable,
                                               :depth => options[:depth].to_i + 1))
-              debug(options) {"===> + #{var} => #{val.inspect}"}
-              solution.bindings[var.to_sym] = val
+              debug(options) {"(extend) + #{var} => #{val.inspect}"}
+              solution.merge!(var.to_sym => val)
             rescue TypeError => e
               # Evaluates to error, ignore
-              debug(options) {"===> #{var} error: #{e.message}"}
+              debug(options) {"(extend) #{var} error: #{e.message}"}
             end
           end
+          yield solution
         end
-        @solutions
       end
       
       ##

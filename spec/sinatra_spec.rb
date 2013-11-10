@@ -17,7 +17,7 @@ class SPTest < Sinatra::Base
 
   get '/solutions' do
     settings.sparql_options.merge!(:format => (params["fmt"] ? params["fmt"].to_sym : nil))
-    body RDF::Query::Solutions::Enumerator.new([RDF::Query::Solution.new(:a => RDF::Literal("b"))])
+    body RDF::Query::Solutions::Enumerator.new {|y| y << RDF::Query::Solution.new(:a => RDF::Literal("b"))}
   end
 
   get '/ssd' do

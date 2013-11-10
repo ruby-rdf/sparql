@@ -130,10 +130,14 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &base)
         debug(options) {"Dataset"}
         default_datasets = []
         named_datasets = []
@@ -177,7 +181,7 @@ module SPARQL; module Algebra
         named_datasets.each {|name| aggregate.named(name) if queryable.has_context?(name)}
         aggregate.default(*default_datasets.select {|name| queryable.has_context?(name)})
         executable = operands.last
-        @solutions = executable.execute(aggregate, options.merge(:depth => options[:depth].to_i + 1))
+        executable.execute(aggregate, options.merge(:depth => options[:depth].to_i + 1), &base)
       end
       
       ##

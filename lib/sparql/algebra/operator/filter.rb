@@ -28,33 +28,30 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#ebv
       def execute(queryable, options = {})
+        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          self.execute(queryable, options) {|y| yielder << y}
+        end unless block_given?
+
         debug(options) {"Filter #{operands.first.to_sxp}"}
-        @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        debug(options) {"=>(before) #{@solutions.map(&:to_hash).inspect}"}
         opts = options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)
-        @solutions = @solutions.filter do |solution|
-          # Evaluate the solution, which will return true or false
-          #debug(options) {"===>(evaluate) #{operands.first.inspect} against #{solution.to_hash.inspect}"}
-          
-          # From http://www.w3.org/TR/rdf-sparql-query/#tests
-          # FILTERs eliminate any solutions that, when substituted into the expression, either
-          # result in an effective boolean value of false or produce an error.
+        operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
           begin
-            res = boolean(operands.first.evaluate(solution, opts)).true?
-            debug(options) {"===>#{res} #{solution.to_hash.inspect}"}
-            res
+            pass = boolean(operands.first.evaluate(solution, opts)).true?
+            debug(options) {"(filter) #{pass.inspect} #{solution.to_hash.inspect}"}
+            yield solution if pass
           rescue
-            debug(options) {"rescue(#{$!}): #{solution.to_hash.inspect}"}
-            false
+            debug(options) {"(filter) rescue(#{$!}): #{solution.to_hash.inspect}"}
           end
         end
-        debug(options) {"=>(after) #{@solutions.map(&:to_hash).inspect}"}
-        @solutions
       end
       
       ##

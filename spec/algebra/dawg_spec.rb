@@ -35,9 +35,9 @@ shared_examples "DAWG-SSE" do |man, tests|
           when :select
             result.should be_a(RDF::Query::Solutions)
             if man.to_s =~ /sort/
-              result.should describe_ordered_solutions(expected)
+              result.to_solutions_array.should describe_ordered_solutions(expected)
             else
-              result.should describe_solutions(expected)
+              result.to_solutions_array.should describe_solutions(expected)
             end
           when :create, :describe, :construct
             result.should be_a(RDF::Queryable)

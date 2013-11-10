@@ -24,14 +24,22 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
+        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          self.execute(queryable, options) {|y| yielder << y}
+        end unless block_given?
+
         debug(options) {"Order"}
-        @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).order do |a, b|
+        operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).order do |a, b|
           operand(0).inject(false) do |memo, op|
-            debug(options) {"=> #{op.inspect}"}
+            debug(options) {"(order) #{op.inspect}"}
             memo ||= begin
               a_eval = op.evaluate(a, options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)) rescue nil
               b_eval = op.evaluate(b, options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)) rescue nil
@@ -48,7 +56,7 @@ module SPARQL; module Algebra
               comp == 0 ? false : comp
             end
           end || 0  # They compare equivalently if there are no matches
-        end
+        end.each(&block)
       end
       
       ##

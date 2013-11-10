@@ -22,15 +22,17 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
-      # @return [RDF::Query::Solutions]
+      # @yield  [solution]
+      #   each matching solution, statement or boolean
+      # @yieldparam  [RDF::Statement, RDF::Query::Solution, Boolean] solution
+      # @yieldreturn [void] ignored
+      # @return [RDF::Queryable, RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
         debug(options) {"Base #{operands.first}"}
         Operator.base_uri = operands.first
-        @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-        debug(options) {"=> #{@solutions.inspect}"}
-        @solutions
+        @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1), &block)
       end
       
       ##
@@ -41,6 +43,18 @@ module SPARQL; module Algebra
       # @return [Union, RDF::Query] `self`
       def optimize
         operands.last.optimize
+      end
+
+      # Query results in a boolean result (e.g., ASK)
+      # @return [Boolean]
+      def query_yields_boolean?
+        operands.last.query_yields_boolean?
+      end
+
+      # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
+      # @return [Boolean]
+      def query_yields_statements?
+        operands.last.query_yields_statements?
       end
     end # Base
   end # Operator

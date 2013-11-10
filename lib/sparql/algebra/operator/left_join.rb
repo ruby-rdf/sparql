@@ -25,45 +25,46 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#merge-instance_method
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#compatible%3F-instance_method
       def execute(queryable, options = {})
+        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          self.execute(queryable, options) {|y| yielder << y}
+        end unless block_given?
+
         filter = operand(2)
 
         debug(options) {"LeftJoin"}
-        left = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug(options) {"=>(left) #{left.inspect}"}
-        right = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug(options) {"=>(right) #{right.inspect}"}
-        
-        # LeftJoin(Ω1, Ω2, expr) =
-        solutions = []
-        left.each do |s1|
-          load_left = true
-          right.each do |s2|
-            s = s2.merge(s1)
-            expr = filter ? boolean(filter.evaluate(s)).true? : true rescue false
-            debug(options) {"===>(evaluate) #{s.inspect}"} if filter
+        right = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        debug(options) {"=>(leftjoin right) #{right.inspect}"}
 
-            if expr && s1.compatible?(s2)
+        # LeftJoin(Ω1, Ω2, expr) =
+        operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).each do |sl|
+          load_left = true
+          right.each do |sr|
+            s = sr.merge(sl)
+            expr = filter ? boolean(filter.evaluate(s)).true? : true rescue false
+            debug(options) {"(leftjoin evaluate) #{s.inspect}"} if filter
+
+            if expr && sl.compatible?(sr)
               # { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible and expr(merge(μ1, μ2)) is true }
-              debug(options) {"=>(merge s1 s2) #{s.inspect}"}
-              solutions << s
+              debug(options) {"(leftjoin merge sl sr) #{s.inspect}"}
+              yield s
               load_left = false   # Left solution added one or more times due to merge
             end
           end
           if load_left
-            debug(options) {"=>(add) #{s1.inspect}"}
-            solutions << s1
+            debug(options) {"(leftjoin add) #{sl.inspect}"}
+            yield sl
           end
         end
-        
-        @solutions = RDF::Query::Solutions::Enumerator.new(solutions)
-        debug(options) {"=>(joined) #{@solutions.map(&:to_hash).inspect}"}
-        @solutions
       end
       
       ##

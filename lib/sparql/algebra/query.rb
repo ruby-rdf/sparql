@@ -92,6 +92,24 @@ module SPARQL; module Algebra
       self.operands.empty?
     end
 
+    # Query results in a boolean result (e.g., ASK)
+    # @return [Boolean]
+    def query_yields_boolean?
+      false
+    end
+
+    # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
+    # @return [Boolean]
+    def query_yields_statements?
+      false
+    end
+
+    # Query results solutions (e.g., SELECT)
+    # @return [Boolean]
+    def query_yields_solutions?
+      !(query_yields_boolean? || query_yields_statements?)
+    end
+
     ##
     # Enumerates over each matching query solution.
     #

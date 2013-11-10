@@ -67,10 +67,12 @@ describe SPARQL::Algebra::Query do
       it "describes #{example}" do
         graph_r = RDF::Graph.new << RDF::Turtle::Reader.new(result)
 
-        sparql_query(
-          :form => :describe, :sse => true,
-          :graphs => {:default => {:data => source, :format => :ttl}},
-          :query => query).should == graph_r
+        expect(
+          sparql_query(
+            :form => :describe, :sse => true,
+            :graphs => {:default => {:data => source, :format => :ttl}},
+            :query => query)
+        ).to be_isomorphic graph_r
       end
     end
   end

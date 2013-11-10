@@ -33,10 +33,14 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [statement]
+      #   each matching statement
+      # @yieldparam  [RDF::Statement] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Graph]
       #   containing the constructed triples
       # @see    http://www.w3.org/TR/rdf-sparql-query/#describe
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
         debug(options) {"Describe #{operands.first}, #{options.inspect}"}
 
         # Describe any constand URIs
@@ -47,14 +51,14 @@ module SPARQL; module Algebra
         operands.last.execute(queryable).each do |solution|
           solution.each_variable do |v|
             if operands.first.any? {|bound| v.eql?(bound)}
-              debug(options) {"=> describe #{v}"}
+              debug(options) {"(describe)=> #{v}"}
               to_describe << v.value
             end
           end
         end
 
         # Return Concise Bounded Description
-        queryable.concise_bounded_description(*to_describe)
+        queryable.concise_bounded_description(*to_describe, &block)
       end
       
       ##
@@ -65,6 +69,12 @@ module SPARQL; module Algebra
       # @return [Union, RDF::Query] `self`
       def optimize
         operands = operands.map(&:optimize)
+      end
+
+      # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
+      # @return [Boolean]
+      def query_yields_statements?
+        true
       end
     end # Construct
   end # Operator

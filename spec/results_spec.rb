@@ -6,7 +6,7 @@ require 'csv'
 describe SPARQL::Results do
   describe RDF::Query::Solutions do
     SOLUTIONS = {
-      :uri           => {:solution => {:a => RDF::URI("a")},
+      :uri           => {:solution => [{:a => RDF::URI("a")}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "uri", :value => "a" }}]}
@@ -22,7 +22,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", "&lt;a&gt;"],
                          ],
                         },
-      :node          => {:solution => {:a => RDF::Node.new("a")},
+      :node          => {:solution => [{:a => RDF::Node.new("a")}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "bnode", :value => "a" }}]}
@@ -38,7 +38,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", "_:a"],
                          ],
                         },
-      :literal_plain => {:solution => {:a => RDF::Literal("a")},
+      :literal_plain => {:solution => [{:a => RDF::Literal("a")}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "literal", :value => "a" }}]}
@@ -54,7 +54,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", '"a"'],
                          ],
                         },
-      :literal_lang  => {:solution => {:a => RDF::Literal("a", :language => :en)},
+      :literal_lang  => {:solution => [{:a => RDF::Literal("a", :language => :en)}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "literal", "xml:lang" => "en", :value => "a" }}]}
@@ -70,7 +70,7 @@ describe SPARQL::Results do
                             ["/table[@class='sparql']/tbody/tr/td/text()", '"a"@en'],
                           ],
                         },
-      :literal_dt    => {:solution => {:a => RDF::Literal(1)},
+      :literal_dt    => {:solution => [{:a => RDF::Literal(1)}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "typed-literal", "datatype" => RDF::XSD.integer.to_s, :value => "1" }}]}
@@ -86,7 +86,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", %("1"^^&lt;#{RDF::XSD.integer}&gt;)],
                          ],
                         },
-      :literals    => {:solution => {:integer => RDF::Literal(1), :decimal => RDF::Literal::Decimal.new(1.1), :double => RDF::Literal(1.1), :token => RDF::Literal(:tok)},
+      :literals    => {:solution => [{:integer => RDF::Literal(1), :decimal => RDF::Literal::Decimal.new(1.1), :double => RDF::Literal(1.1), :token => RDF::Literal(:tok)}],
                          :json     => {
                            :head => {:vars => %w(integer decimal double token)},
                            :results => {:bindings => [{
@@ -197,54 +197,29 @@ describe SPARQL::Results do
                         },
     }
 
-    describe "#to_json" do
-      SOLUTIONS.each do |n, r|
-        it "encodes a #{n}" do
-          s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          s.to_json.should == r[:json].to_json
-        end
-      end
-    end
-    
-    describe "#to_csv" do
-      SOLUTIONS.each do |n, r|
-        it "encodes a #{n}" do
-          s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          s.to_csv.should == r[:csv]
-        end
-      end
-    end
-    
-    describe "#to_tsv" do
-      SOLUTIONS.each do |n, r|
-        it "encodes a #{n}" do
-          s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          s.to_tsv.should == r[:tsv]
-        end
-      end
-    end
-    
-    describe "#to_xml" do
-      SOLUTIONS.each do |n, r|
-        describe "encoding #{n}" do
+    SOLUTIONS.each do |n, r|
+      describe "encodes a #{n}" do
+        subject {
+          RDF::Query::Solutions::Enumerator.new do |yielder|
+            r[:solution].each {|h| yielder << RDF::Query::Solution.new(h)}
+          end
+        }
+        its(:to_json) {should == r[:json].to_json}
+        its(:to_csv) {should == r[:csv]}
+        its(:to_tsv) {should == r[:tsv]}
+
+        describe "to_xml" do
           r[:xml].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-              s.to_xml.should have_xpath(xp, value)
+              subject.to_xml.should have_xpath(xp, value)
             end
           end
         end
-      end
-    end
-    
-    describe "#to_html" do
-      SOLUTIONS.each do |n, r|
-        describe "encoding #{n}" do
+
+        describe "to_html" do
           r[:html].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions::Enumerator.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          
-              s.to_html.should have_xpath(xp, value)
+              subject.to_html.should have_xpath(xp, value)
             end
           end
         end

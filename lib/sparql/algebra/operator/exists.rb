@@ -5,10 +5,8 @@ module SPARQL; module Algebra
     #
     # @example
     #    (prefix ((ex: <http://www.example.org/>))
-    #      (filter (exists
-    #                 (filter (notexists (bgp (triple ?s ?p ex:o2)))
-    #                   (bgp (triple ?s ?p ex:o1))))
-    #        (bgp (triple ?s ?p ex:o))))
+    #      (filter (exists (bgp (triple ?s ?p ex:o)))
+    #      (bgp (triple ?s ?p ?o))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#func-abs
     # @see http://www.w3.org/TR/xpath-functions/#func-abs
@@ -28,7 +26,7 @@ module SPARQL; module Algebra
       #   queryable to execute, using bindings as an initial solution.
       # @return [RDF::Literal::Boolean] `true` or `false`
       def evaluate(bindings, options = {})
-        solutions = RDF::Query::Solutions::Enumerator.new(bindings)
+        solutions = RDF::Query::Solutions::Enumerator.new {|yielder| yielder << bindings}
         queryable = options[:queryable]
         !operand(0).execute(queryable, options.merge(
                                         :solutions => solutions,

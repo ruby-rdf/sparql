@@ -31,15 +31,23 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlGroupAggregate
       def execute(queryable, options = {})
+        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+          self.execute(queryable, options) {|y| yielder << y}
+        end unless block_given?
+
         debug(options) {"Group"}
         exprlist = operands.first
         query = operands.last
         aggregates = operands.length == 3 ? operand(1) : []
-        solutions = query.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
+        solutions = query.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).to_a
 
         groups = solutions.group_by do |solution|
           # Evaluate each exprlist operand to get groups where each key is a new solution
@@ -68,22 +76,20 @@ module SPARQL; module Algebra
 
         debug(options) {"=>(groups) #{groups.inspect}"}
 
-        # Aggregate solutions in each group using aggregates to get solutions
-        @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          groups.each do |group_soln, solns|
-            aggregates.each do |(var, aggregate)|
-              begin
-                group_soln[var] = aggregate.aggregate(solns, options)
-              rescue TypeError
-                # Ignored in output
-              end
-            end
-            yielder << group_soln
-          end
-        end
+        # Make sure that's at least an empty solution
+        return yield RDF::Query::Solution.new if groups.empty?
 
-        debug(options) {"=>(grouped) #{@solutions.map(&:to_hash).inspect}"}
-        @solutions
+        # Aggregate solutions in each group using aggregates to get solutions
+        groups.each do |group_soln, solns|
+          aggregates.each do |(var, aggregate)|
+            begin
+              group_soln[var] = aggregate.aggregate(solns, options)
+            rescue TypeError
+              # Ignored in output
+            end
+          end
+          yield group_soln
+        end
       end
       
       ##
