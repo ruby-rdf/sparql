@@ -45,7 +45,7 @@ module SPARQL; module Algebra
         end unless block_given?
 
         debug(options) {"Extend"}
-        operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+        queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
           debug(options) {"(extend) soln #{solution.to_hash.inspect}"}
           operands.first.each do |(var, expr)|
             begin

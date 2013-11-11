@@ -47,7 +47,7 @@ module SPARQL; module Algebra
         exprlist = operands.first
         query = operands.last
         aggregates = operands.length == 3 ? operand(1) : []
-        solutions = query.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).to_a
+        solutions = queryable.query(query, options.merge(:depth => options[:depth].to_i + 1)).to_a
 
         groups = solutions.group_by do |solution|
           # Evaluate each exprlist operand to get groups where each key is a new solution

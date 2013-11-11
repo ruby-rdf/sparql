@@ -38,7 +38,7 @@ module SPARQL; module Algebra
 
         debug(options) {"Union"}
         operands.each do |op|
-          op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+          queryable.query(op, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
             debug(options) {"(union) #{solution.to_hash.inspect}"}
             yield solution
           end

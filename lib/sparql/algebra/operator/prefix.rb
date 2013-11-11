@@ -32,7 +32,7 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Prefix"}
-        operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1), &block)
+        queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1), &block)
       end
       
       ##

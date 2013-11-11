@@ -46,9 +46,9 @@ module SPARQL; module Algebra
         # 
         # card[Minus(Ω1, Ω2)](μ) = card[Ω1](μ)
         debug(options) {"Minus"}
-        solutions1 = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        solutions1 = queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"(minus left) #{solutions1.inspect}"}
-        solutions2 = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        solutions2 = queryable.query(operand(1), options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"(minus right) #{solutions2.inspect}"}
         solutions1.minus(solutions2).each(&block)
       end

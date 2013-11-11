@@ -35,7 +35,7 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Graph #{operands.first}"}
         context, query = operands.first, operands.last
-        @solutions = query.execute(queryable, options.merge(:context => context), &block)
+        @solutions = queryable.query(query, options.merge(:context => context), &block)
       end
       
       ##

@@ -43,7 +43,7 @@ module SPARQL; module Algebra
 
         debug(options) {"Filter #{operands.first.to_sxp}"}
         opts = options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)
-        operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+        queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
           begin
             pass = boolean(operands.first.evaluate(solution, opts)).true?
             debug(options) {"(filter) #{pass.inspect} #{solution.to_hash.inspect}"}

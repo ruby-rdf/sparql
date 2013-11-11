@@ -36,8 +36,7 @@ module SPARQL; module Algebra
           self.execute(queryable, options) {|y| yielder << y}
         end unless block_given?
 
-        operands.last.
-          execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).
+        queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)).
           to_a.
           uniq.
           each(&block)

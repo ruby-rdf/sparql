@@ -180,8 +180,7 @@ module SPARQL; module Algebra
         aggregate = RDF::AggregateRepo.new(queryable)
         named_datasets.each {|name| aggregate.named(name) if queryable.has_context?(name)}
         aggregate.default(*default_datasets.select {|name| queryable.has_context?(name)})
-        executable = operands.last
-        executable.execute(aggregate, options.merge(:depth => options[:depth].to_i + 1), &base)
+        aggregate.query(operands.last, options.merge(:depth => options[:depth].to_i + 1), &base)
       end
       
       ##

@@ -29,9 +29,7 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Ask #{operands.first}"}
-        res = boolean(!operands.last.
-          execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).
-          empty?)
+        res = boolean(!queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)).empty?)
         yield res if block_given?
         res
       end

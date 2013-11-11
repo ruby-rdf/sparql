@@ -44,10 +44,10 @@ module SPARQL; module Algebra
         #
         # Generate solutions independently, merge based on solution compatibility
         debug(options) {"Join"}
-        right = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        right = queryable.query(operand(1), options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"(join)=>(right) #{right.inspect}"}
 
-        operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |sl|
+        queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1)) do |sl|
           right.each do |sr|
             debug(options) {"(join)==>(merge) #{[sl,sr].inspect}"} if sr.compatible?(sl)
             yield sl.merge(sr) if sr.compatible?(sl)
