@@ -16,8 +16,6 @@ shared_examples "DAWG-SSE" do |man, tests|
             pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
           when /REDUCED/
             pending("REDUCED equivalent to DISTINCT")
-          when /tP-/
-            pending("Type promotion")
           when /sq03/
             pending("Graph variable binding differences")
           end

@@ -23,8 +23,6 @@ shared_examples "DAWG" do |man, tests|
             pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
           when /REDUCED/
             pending("REDUCED equivalent to DISTINCT")
-          when /tP-/
-            pending("Type promotion")
           when /sq03/
             pending("Graph variable binding differences")
           end
@@ -49,7 +47,7 @@ shared_examples "DAWG" do |man, tests|
             result.should be_a(RDF::Queryable)
             result.should describe_solutions(expected)
           when :ask
-            result.should == t.solutions ? RDF::Literal::TRUE : RDF::Literal::FALSE
+            result.should == expected ? RDF::Literal::TRUE : RDF::Literal::FALSE
           end
         end
       when MF.CSVResultFormatTest

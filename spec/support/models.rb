@@ -217,10 +217,14 @@ module SPARQL; module Spec
         when '.tsv'
           SPARQL::Client.parse_tsv_bindings(Kernel.open(result, &:read))
         else
-          expected_repository = RDF::Repository.new 
-          Spira.add_repository!(:results, expected_repository)
-          expected_repository.load(result)
-          SPARQL::Spec::ResultBindings.each.first.solutions
+          if form == :select
+            expected_repository = RDF::Repository.new 
+            Spira.add_repository!(:results, expected_repository)
+            expected_repository.load(result)
+            SPARQL::Spec::ResultBindings.each.first.solutions
+          else
+            RDF::Graph.load(result).objects.detect {|o| o.literal?}
+          end
         end
       when :describe, :create, :construct
         RDF::Repository.load(result, :base_uri => result, :format => :ttl)
@@ -373,11 +377,7 @@ class RDF::URI
   end
   
   def init_with(coder)
-    if RDF::VERSION.to_s >= "1.1"
-      self.instance_variable_set(:@value, coder["uri"])
-      self.instance_variable_set(:@object, nil)
-    else
-      @uri = Addressable::URI.parse(coder["uri"])
-    end
+    self.instance_variable_set(:@value, coder["uri"])
+    self.instance_variable_set(:@object, nil)
   end
 end

@@ -175,7 +175,7 @@ module RDF::Term
   def compatible?(other)
     return false unless literal?  && other.literal? && plain? && other.plain?
 
-    dtr = RDF::VERSION.to_s >= "1.1" ? other.datatype : (other.has_language? ? RDF.langString : RDF::XSD.string)
+    dtr = other.datatype
 
     # * The arguments are simple literals or literals typed as xsd:string
     # * The arguments are plain literals with identical language tags
