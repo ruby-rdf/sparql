@@ -13,13 +13,25 @@ describe Rack::SPARQL do
     @app ||= Rack::SPARQL::ContentNegotiation.new(target_app, @options)
   end
 
+  describe "#parse_accept_header" do
+    {
+      "application/n-triples" => %w(application/n-triples),
+      "application/n-triples,  application/turtle" => %w(application/n-triples application/turtle),
+      "application/turtle;q=0.5, application/n-triples" => %w(application/n-triples application/turtle),
+    }.each do |accept, content_types|
+      it "returns #{content_types.inspect} given #{accept.inspect}" do
+        expect(app.send(:parse_accept_header, accept)).to eq content_types
+      end
+    end
+  end
+
   context "plain test" do
     it "returns text unchanged" do
       get '/'
       last_response.body.should == 'A String'
     end
   end
-  
+
   context "serializes graphs" do
     before(:each) do
       @options.merge!(:standard_prefixes => true)
@@ -52,27 +64,21 @@ describe Rack::SPARQL do
     
     context "with Accept" do
       {
-        :ntriples => "text/plain",
-        :turtle   => "text/turtle"
-      }.each do |fmt, content_types|
-        context content_types do
+        "application/n-triples"                            => :ntriples,
+        "application/n-triples,  application/turtle"       => :ntriples,
+        "application/turtle;q= 0.5, application/n-triples" => :ntriples,
+      }.each do |accepts, fmt|
+        context accepts do
           before(:each) do
-            @results.should_receive(:dump).
-              with(fmt, @options.merge(:content_types => content_types.split(/,\s+/))).
-              and_return(content_types.split(/,\s+/).first)
-              get '/', {}, {"HTTP_ACCEPT" => content_types}
+            expect(@results).to receive(:dump).
+              with(fmt, anything).
+              and_return("foo")
+            get '/', {}, {"HTTP_ACCEPT" => accepts}
           end
+          let(:content_type) {app.send(:parse_accept_header, accepts).first}
 
-          it "returns serialization" do
-            last_response.body.should == content_types.split(/,\s+/).first
-          end
-
-          it "sets content type to #{content_types}" do
-            last_response.content_type.should == content_types
-          end
-          
-          it "sets content length" do
-            last_response.content_length.should_not == 0
+          it "sets content type" do
+            last_response.content_type.should == content_type
           end
         end
       end
@@ -98,10 +104,6 @@ describe Rack::SPARQL do
 
           it "sets content type to #{SPARQL::Results::MIME_TYPES[fmt]}" do
             last_response.content_type.should == SPARQL::Results::MIME_TYPES[fmt]
-          end
-          
-          it "sets content length" do
-            last_response.content_length.should_not == 0
           end
         end
       end

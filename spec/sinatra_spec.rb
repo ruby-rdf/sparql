@@ -80,8 +80,8 @@ describe Sinatra::SPARQL do
     
     context "with Accept" do
       {
-        "text/plain" => %r{_:a <http://example/b> "c" \.},
-        "text/turtle" => %r{\[ <http://example/b> "c"\]}
+        "application/n-triples" => %r{_:a <http://example/b> "c" \.},
+        "application/turtle" => %r{\[ <http://example/b> "c"\]}
       }.each do |content_types, expected|
         context content_types do
           it "returns serialization" do
