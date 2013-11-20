@@ -4,28 +4,23 @@ require 'rack/sparql'
 
 module Sinatra
   ##
-  # The Sinatra::SPARQL module adds Rack::SPARQL} middleware support for responding to
-  # SPARQL requests. It is the responsibility of the application to manage
-  # the SPARQL endpoint and perform the query. The query results are then sent
-  # as the response body. {Rack::SPARQL} middleware uses content negotiation
-  # to format the results appropriately.
+  # The Sinatra::SPARQL module adds {Rack::SPARQL} middleware support for responding to SPARQL requests. It is the responsibility of the application to manage the SPARQL endpoint and perform the query. The query results are then sent as the response body. {Rack::SPARQL} middleware uses content negotiation to format the results appropriately.
+  #
+  # To override negotiation on Content-Type, set :format in `sparql_options` to a RDF Format class, or symbol identifying a format.
+  #
   # @see http://www.sinatrarb.com/extensions.html
   module SPARQL
     ##
     # Helper methods.
     module Helpers
       ##
-      # This is useful when a GET request is performed against a SPARQL endpoint and
-      # no query is performed. Provide a set of datasets, including a default dataset
-      # along with optional triple count, dump location, and description of the dataset.
+      # This is useful when a GET request is performed against a SPARQL endpoint and no query is performed. Provide a set of datasets, including a default dataset along with optional triple count, dump location, and description of the dataset.
       #
-      # The results are serialized using content negotiation. For text/html, authors
-      # should generate RDFa for the serivce description directly.
+      # The results are serialized using content negotiation. For text/html, authors should generate RDFa for the serivce description directly.
       #
       # @param [Hash{Symbol => Object}] options
       # @option options [RDF::Enumerable] :repository
-      #   An enumerable, typically a type of `RDF::Repository` containing the dataset used for
-      #   queries against the service.
+      #   An enumerable, typically a type of `RDF::Repository` containing the dataset used for queries against the service.
       # @option options [RDF::URI, #to_s] :endpoint
       #   URI of the service endpoint, defaults to "/sparql" in the current realm.
       # @return [RDF::Graph]
@@ -94,12 +89,10 @@ module Sinatra
     end
 
     ##
-    # * Registers Rack::SPARQL::ContentNegotiation
+    # * Registers {Rack::SPARQL::ContentNegotiation}
     # * adds helpers
     # * includes SPARQL, RDF and LinkedData
-    # * defines `sparql_options`, which are passed to the Rack middleware
-    #   available as `settings.sparql_options` and as options within
-    #   the {Rack::SPARQL} middleware.
+    # * defines `sparql_options`, which are passed to the Rack middleware available as `settings.sparql_options` and as options within the {Rack::SPARQL} middleware.
     #
     # @param  [Sinatra::Base] app
     # @return [void]
