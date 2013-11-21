@@ -109,7 +109,8 @@ module SPARQL; module Algebra
       NAME = [:dataset]
       # Selected accept headers, from those available
       ACCEPTS = (%w(
-        text/turtle
+        application/turtle
+        text/turtle;q=0.9
         application/rdf+xml;q=0.8
         application/n-triples;q=0.4
         text/plain;q=0.1
