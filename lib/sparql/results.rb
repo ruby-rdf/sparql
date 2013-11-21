@@ -184,7 +184,7 @@ module SPARQL
   # @raise [RDF::WriterError] when inappropriate formatting options are used
   def serialize_results(solutions, options = {})
     format = options[:format].to_sym if options[:format]
-    content_types = options[:content_types] || ['*/*']
+    content_types = Array(options[:content_types] || '*/*')
 
     if !format
       case solutions
