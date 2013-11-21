@@ -71,7 +71,7 @@ describe Sinatra::SPARQL do
             get '/graph', :fmt => fmt
             expect(last_response.status).to eq 200
             expect(last_response.body).to match(expected)
-            expect(last_response.content_type).to eq RDF::Format.for(fmt).content_type.first
+            expect(RDF::Format.for(fmt).content_type).to include(last_response.content_type)
             expect(last_response.content_length).not_to eq 0
           end
         end
