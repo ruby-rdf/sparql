@@ -37,7 +37,7 @@ end
 
 require 'rack/test'
 
-describe Sinatra::SPARQL do
+describe Sinatra::SPARQL, :pending => ("problem with Rack::Protection::FrameOptions with RBX" if RUBY_ENGINE == "rbx") do
   include ::Rack::Test::Methods
 
   def app
