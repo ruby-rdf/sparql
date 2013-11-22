@@ -27,7 +27,7 @@ module SPARQL; module Algebra
       end
       require 'sparql/algebra/sxp_extensions'
       
-      sse = sse.dup.force_encoding(Encoding::UTF_8)
+      sse = sse.encode(Encoding::UTF_8)
       sxp = SXP::Reader::SPARQL.new(sse) do |reader|
         # Set base_uri if we have one
         reader.base_uri = options[:base_uri] if options[:base_uri]

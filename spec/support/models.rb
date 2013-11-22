@@ -115,7 +115,7 @@ module SPARQL; module Spec
     end
 
     def query
-      Kernel.open(query_file, &:read)
+      RDF::Util::File.open_file(query_file, &:read)
     end
   end
 
@@ -124,7 +124,7 @@ module SPARQL; module Spec
     property :data_file, :predicate => UT.data
 
     def data
-      Kernel.open(data_file, &:read)
+      RDF::Util::File.open_file(data_file, &:read)
     end
 
     def data_format
@@ -152,7 +152,7 @@ module SPARQL; module Spec
     end
 
     def data
-      Kernel.open(graph, &:read)
+      RDF::Util::File.open_file(graph, &:read)
     end
 
     def data_format
@@ -180,7 +180,7 @@ module SPARQL; module Spec
         graphs = {}
         graphs[:default] = {:data => action.test_data_string, :format => RDF::Format.for(action.test_data.to_s).to_sym} if action.test_data
         action.graphData.each do |g|
-          data = Kernel.open(g, &:read)
+          data = RDF::Util::File.open_file(g, &:read)
           graphs[g] = {
             :data => data,
             :format => RDF::Format.for(g.to_s).to_sym,
@@ -209,13 +209,13 @@ module SPARQL; module Spec
       when :select, :ask
         case File.extname(result.path)
         when '.srx'
-          SPARQL::Client.parse_xml_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_xml_bindings(RDF::Util::File.open_file(result, &:read))
         when '.srj'
-          SPARQL::Client.parse_json_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_json_bindings(RDF::Util::File.open_file(result, &:read))
         when '.csv'
-          SPARQL::Client.parse_csv_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_csv_bindings(RDF::Util::File.open_file(result, &:read))
         when '.tsv'
-          SPARQL::Client.parse_tsv_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_tsv_bindings(RDF::Util::File.open_file(result, &:read))
         else
           if form == :select
             expected_repository = RDF::Repository.new 
@@ -251,7 +251,7 @@ module SPARQL; module Spec
     end
 
     def query
-      Kernel.open(query_file, &:read)
+      RDF::Util::File.open_file(query_file, &:read)
     end
   end
 
@@ -273,7 +273,7 @@ module SPARQL; module Spec
     has_many :graphData,  :predicate => QT.graphData
 
     def query_string
-      Kernel.open(query_file, &:read)
+      RDF::Util::File.open_file(query_file, &:read)
     end
 
     def sse_file
@@ -295,7 +295,7 @@ module SPARQL; module Spec
     end
 
     def test_data_string
-      Kernel.open(test_data, &:read)
+      RDF::Util::File.open_file(test_data, &:read)
     end
   end
 

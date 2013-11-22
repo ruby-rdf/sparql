@@ -1063,7 +1063,7 @@ module SPARQL::Grammar
       when IO, StringIO then input.read
       else input.to_s.dup
       end
-      @input.force_encoding(Encoding::UTF_8)
+      @input.encode!(Encoding::UTF_8)
       @options = {:anon_base => "b0", :validate => false}.merge(options)
       @options[:debug] ||= case
       when options[:progress] then 2

@@ -72,7 +72,7 @@ describe EBNF::LL1::Lexer do
         %q(a\u003Ab)     => %Q(a\x3Ab),
       }
       inputs.each do |input, output|
-        output.force_encoding(Encoding::UTF_8)
+        output.encode!(Encoding::UTF_8)
         EBNF::LL1::Lexer.unescape_codepoints(input).should == output
       end
     end
@@ -84,7 +84,7 @@ describe EBNF::LL1::Lexer do
         %q(\U000EFFFF)   => %Q(\xF3\xAF\xBF\xBF),
       }
       inputs.each do |input, output|
-        output.force_encoding(Encoding::UTF_8)
+        output.encode!(Encoding::UTF_8)
         EBNF::LL1::Lexer.unescape_codepoints(input).should == output
       end
     end
@@ -118,7 +118,7 @@ describe EBNF::LL1::Lexer do
       ]
       strings.each do |range|
         range.each do |string|
-          string.force_encoding(Encoding::UTF_8)
+          string.encode!(Encoding::UTF_8)
           string.should match(SPARQL::Grammar::Terminals::PN_CHARS_BASE)
         end
       end
