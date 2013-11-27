@@ -176,17 +176,21 @@ module SPARQL
   # @option options [#to_sym] :format
   #   Format of results, one of :html, :json or :xml.
   #   May also be an RDF::Writer format to serialize DESCRIBE or CONSTRUCT results
+  # @option options [String] :content_type
+  #   Format of results, one of 'application/sparql-results+json' or 'application/sparql-results+xml'
+  #   May also be an RDF::Writer content_type to serialize DESCRIBE or CONSTRUCT results
   # @option options [Array<String>] :content_types
-  #   An ordered array of appropriate content types,
+  #   Similar to :content_type, but takes an ordered array of appropriate content types,
   #   and serializes using the first appropriate type, including wild-cards.
   # @return [String]
   #   String with serialized results and `#content_type`
   # @raise [RDF::WriterError] when inappropriate formatting options are used
   def serialize_results(solutions, options = {})
     format = options[:format].to_sym if options[:format]
+    content_type = options[:content_type].to_s.split(';').first
     content_types = Array(options[:content_types] || '*/*')
 
-    if !format
+    if !format && !content_type
       case solutions
       when RDF::Queryable
         content_type = first_content_type(content_types, RDF::Format.content_types.keys) || 'text/plain'
@@ -226,7 +230,10 @@ module SPARQL
         require 'rdf/ntriples'
       end
       fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
-      fmt ||= RDF::NTriples::Format
+      unless fmt
+        fmt = RDF::Format.for(:file_extension => format.to_sym) || RDF::NTriples::Format
+        format = fmt.to_sym
+      end
       format ||= fmt.to_sym
       content_type ||= fmt.content_type.first
       results = solutions.dump(format, options)

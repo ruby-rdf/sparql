@@ -7,6 +7,7 @@ gem "rdf-xsd",        :git => "git://github.com/ruby-rdf/rdf-xsd.git", :branch =
 gem 'ebnf',           :git => "git://github.com/gkellogg/ebnf.git"
 gem 'rdf-aggregate-repo', :git => "git://github.com/ruby-rdf/rdf-aggregate-repo.git", :branch => "develop"
 gem 'sparql-client',  :git => "git://github.com/ruby-rdf/sparql-client.git", :branch => "develop"
+gem 'sxp',            :git => "git://github.com/gkellogg/sxp-ruby.git"
 
 group :development do
   gem "linkeddata",     :git => "git://github.com/ruby-rdf/linkeddata.git", :branch => "develop"
@@ -30,6 +31,7 @@ group :debug do
   gem 'byebug', :platforms => :mri_20
   gem "wirble"
   gem 'redcarpet', :platforms => :ruby
+  gem 'ruby-prof', :platforms => :mri
 end
 
 group :test do
