@@ -1,6 +1,63 @@
 $:.unshift "."
+require 'rdf'
 require 'psych'
 require 'yaml'
+
+# For now, override RDF::Utils::File.open_file to look for the file locally before attempting to retrieve it
+module RDF::Util
+  module File
+    LOCAL_PATH = ::File.expand_path("../dawg", __FILE__) + '/'
+
+    ##
+    # Override to use Patron for http and https, Kernel.open otherwise.
+    #
+    # @param [String] filename_or_url to open
+    # @param  [Hash{Symbol => Object}] options
+    # @option options [Array, String] :headers
+    #   HTTP Request headers.
+    # @return [IO] File stream
+    # @yield [IO] File stream
+    def self.open_file(filename_or_url, options = {}, &block)
+      case filename_or_url.to_s
+      when /^file:/
+        path = filename_or_url[5..-1]
+        Kernel.open(path.to_s, &block)
+      when /^(#{SPARQL::Spec::BASE_URI_10}|#{SPARQL::Spec::BASE_URI_11})/
+        begin
+          #puts "attempt to open #{filename_or_url} locally"
+          local_filename = filename_or_url.to_s.sub($1, LOCAL_PATH)
+          if ::File.exist?(local_filename)
+            response = ::File.open(local_filename, options)
+            #puts "use #{filename_or_url} locally"
+            case filename_or_url.to_s
+            when /\.ttl$/
+              def response.content_type; 'application/turtle'; end
+            when /\.nt$/
+              def response.content_type; 'application/n-triples'; end
+            end
+
+            if block_given?
+              begin
+                yield response
+              ensure
+                response.close
+              end
+            else
+              response
+            end
+          else
+            Kernel.open(filename_or_url.to_s, options, &block)
+          end
+        rescue Errno::ENOENT #, OpenURI::HTTPError
+          # Not there, don't run tests
+          StringIO.new("")
+        end
+      else
+        Kernel.open(filename_or_url.to_s, options, &block)
+      end
+    end
+  end
+end
 
 module SPARQL
   require 'support/extensions/inspects'

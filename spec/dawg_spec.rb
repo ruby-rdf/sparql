@@ -1,8 +1,3 @@
-$:.unshift "."
-require 'spec_helper'
-require 'dawg_helper'
-require 'rdf/rdfxml'
-
 $:.unshift ".."
 require 'spec_helper'
 require 'dawg_helper'
