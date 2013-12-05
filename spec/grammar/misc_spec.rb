@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 
 # Misclaneous test cases, based on observed or reported problems
@@ -25,7 +25,7 @@ describe SPARQL::Grammar do
     }.each do |test, options|
       it "returns true for #{test}" do
         result = sparql_query(options.merge(:repository => "sparql-spec", :form => :ask, :to_hash => false))
-        result.should == RDF::Literal::TRUE
+        expect(result).to eq RDF::Literal::TRUE
       end
     end
   end

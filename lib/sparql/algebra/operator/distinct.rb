@@ -32,14 +32,9 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
-        queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)).
-          to_a.
-          uniq.
-          each(&block)
+        @solutions = queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)).distinct
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

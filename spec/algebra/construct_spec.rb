@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 require 'algebra/algebra_helper'
 require 'sparql/client'
@@ -7,7 +7,7 @@ include SPARQL::Algebra
 
 ::RSpec::Matchers.define :have_result_set do |expected|
   match do |result|
-    result.map(&:to_hash).to_set.should == expected.to_set
+    expect(result.map(&:to_hash).to_set).to eq expected.to_set
   end
 end
 

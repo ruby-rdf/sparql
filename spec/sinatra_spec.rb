@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 require 'sinatra/sparql'
 require 'sinatra'
@@ -17,7 +17,7 @@ class SPTest < Sinatra::Base
 
   get '/solutions' do
     settings.sparql_options.merge!(:format => (params["fmt"] ? params["fmt"].to_sym : nil))
-    body RDF::Query::Solutions::Enumerator.new {|y| y << RDF::Query::Solution.new(:a => RDF::Literal("b"))}
+    body RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))
   end
 
   get '/ssd' do
@@ -46,7 +46,7 @@ describe Sinatra::SPARQL, :pending => ("problem with Rack::Protection::FrameOpti
 
   describe "self.registered" do
     it "sets :sparql_options" do
-      Sinatra::Application.sparql_options.should be_a(Hash)
+      expect(Sinatra::Application.sparql_options).to be_a(Hash)
     end
   end
 

@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 require 'algebra/algebra_helper'
 
@@ -40,7 +40,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @not.new(true).to_sxp_bin.should == [:!, RDF::Literal::TRUE]
+        expect(@not.new(true).to_sxp_bin).to eq [:!, RDF::Literal::TRUE]
       end
     end
   end
@@ -55,7 +55,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @plus.new(42).to_sxp_bin.should == [:+, RDF::Literal(42)]
+        expect(@plus.new(42).to_sxp_bin).to eq [:+, RDF::Literal(42)]
       end
     end
   end
@@ -70,7 +70,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @minus.new(42).to_sxp_bin.should == [:-, RDF::Literal(42)]
+        expect(@minus.new(42).to_sxp_bin).to eq [:-, RDF::Literal(42)]
       end
     end
   end
@@ -85,7 +85,7 @@ describe SPARQL::Algebra do
 
     describe ".evaluate(RDF::Query::Variable)" do
       it "returns an RDF::Literal::Boolean" do
-        @bound.evaluate(RDF::Query::Variable.new(:foo)).should be_an(RDF::Literal::Boolean)
+        expect(@bound.evaluate(RDF::Query::Variable.new(:foo))).to be_an(RDF::Literal::Boolean)
       end
     end
 
@@ -93,7 +93,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @bound.new(RDF::Query::Variable.new(:foo)).to_sxp_bin.should == [:bound, RDF::Query::Variable.new(:foo)]
+        expect(@bound.new(RDF::Query::Variable.new(:foo)).to_sxp_bin).to eq [:bound, RDF::Query::Variable.new(:foo)]
       end
     end
   end
@@ -108,7 +108,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @is_iri.new(RDF::DC.title).to_sxp_bin.should == [:isIRI, RDF::DC.title]
+        expect(@is_iri.new(RDF::DC.title).to_sxp_bin).to eq [:isIRI, RDF::DC.title]
       end
     end
   end
@@ -123,7 +123,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @is_blank.new(RDF::Node.new(:foo)).to_sxp_bin.should == [:isBlank, RDF::Node.new(:foo)]
+        expect(@is_blank.new(RDF::Node.new(:foo)).to_sxp_bin).to eq [:isBlank, RDF::Node.new(:foo)]
       end
     end
   end
@@ -138,7 +138,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @is_literal.new("Hello").to_sxp_bin.should == [:isLiteral, RDF::Literal("Hello")]
+        expect(@is_literal.new("Hello").to_sxp_bin).to eq [:isLiteral, RDF::Literal("Hello")]
       end
     end
   end
@@ -153,7 +153,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @str.new(RDF::DC.title).to_sxp_bin.should == [:str, RDF::DC.title]
+        expect(@str.new(RDF::DC.title).to_sxp_bin).to eq [:str, RDF::DC.title]
       end
     end
   end
@@ -168,8 +168,8 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @lang.new('Hello').to_sxp_bin.should == [:lang, RDF::Literal('Hello')]
-        @lang.new(RDF::Literal('Hello', :language => :en)).to_sxp_bin.should == [:lang, RDF::Literal('Hello', :language => :en)]
+        expect(@lang.new('Hello').to_sxp_bin).to eq [:lang, RDF::Literal('Hello')]
+        expect(@lang.new(RDF::Literal('Hello', :language => :en)).to_sxp_bin).to eq [:lang, RDF::Literal('Hello', :language => :en)]
       end
     end
   end
@@ -184,8 +184,8 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @datatype.new('Hello').to_sxp_bin.should == [:datatype, RDF::Literal('Hello')]
-        @datatype.new(RDF::Literal('Hello', :datatype => RDF::XSD.string)).to_sxp_bin.should == [:datatype, RDF::Literal('Hello', :datatype => RDF::XSD.string)]
+        expect(@datatype.new('Hello').to_sxp_bin).to eq [:datatype, RDF::Literal('Hello')]
+        expect(@datatype.new(RDF::Literal('Hello', :datatype => RDF::XSD.string)).to_sxp_bin).to eq [:datatype, RDF::Literal('Hello', :datatype => RDF::XSD.string)]
       end
     end
   end
@@ -204,7 +204,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @or.new(true, false).to_sxp_bin.should == [:"||", RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@or.new(true, false).to_sxp_bin).to eq [:"||", RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -220,7 +220,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @and.new(true, false).to_sxp_bin.should == [:"&&", RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@and.new(true, false).to_sxp_bin).to eq [:"&&", RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -248,7 +248,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @eq.new(true, false).to_sxp_bin.should == [:'=', RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@eq.new(true, false).to_sxp_bin).to eq [:'=', RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -279,7 +279,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @ne.new(true, false).to_sxp_bin.should == [:'!=', RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@ne.new(true, false).to_sxp_bin).to eq [:'!=', RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -304,7 +304,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @lt.new(true, false).to_sxp_bin.should == [:<, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@lt.new(true, false).to_sxp_bin).to eq [:<, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -329,7 +329,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @gt.new(true, false).to_sxp_bin.should == [:>, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@gt.new(true, false).to_sxp_bin).to eq [:>, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -357,7 +357,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @le.new(true, false).to_sxp_bin.should == [:<=, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@le.new(true, false).to_sxp_bin).to eq [:<=, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -385,7 +385,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @ge.new(true, false).to_sxp_bin.should == [:>=, RDF::Literal::TRUE, RDF::Literal::FALSE]
+        expect(@ge.new(true, false).to_sxp_bin).to eq [:>=, RDF::Literal::TRUE, RDF::Literal::FALSE]
       end
     end
   end
@@ -400,7 +400,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @multiply.new(6, 7).to_sxp_bin.should == [:*, RDF::Literal(6), RDF::Literal(7)]
+        expect(@multiply.new(6, 7).to_sxp_bin).to eq [:*, RDF::Literal(6), RDF::Literal(7)]
       end
     end
   end
@@ -415,7 +415,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @divide.new(42, 7).to_sxp_bin.should == [:'/', RDF::Literal(42), RDF::Literal(7)]
+        expect(@divide.new(42, 7).to_sxp_bin).to eq [:'/', RDF::Literal(42), RDF::Literal(7)]
       end
     end
   end
@@ -430,7 +430,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @add.new(29, 13).to_sxp_bin.should == [:+, RDF::Literal(29), RDF::Literal(13)]
+        expect(@add.new(29, 13).to_sxp_bin).to eq [:+, RDF::Literal(29), RDF::Literal(13)]
       end
     end
   end
@@ -445,7 +445,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @subtract.new(42, 13).to_sxp_bin.should == [:-, RDF::Literal(42), RDF::Literal(13)]
+        expect(@subtract.new(42, 13).to_sxp_bin).to eq [:-, RDF::Literal(42), RDF::Literal(13)]
       end
     end
   end
@@ -460,7 +460,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @eq.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin.should == [:'=', RDF::Node(:foo), RDF::Node(:bar)]
+        expect(@eq.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin).to eq [:'=', RDF::Node(:foo), RDF::Node(:bar)]
       end
     end
   end
@@ -475,7 +475,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @ne.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin.should == [:'!=', RDF::Node(:foo), RDF::Node(:bar)]
+        expect(@ne.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin).to eq [:'!=', RDF::Node(:foo), RDF::Node(:bar)]
       end
     end
   end
@@ -490,13 +490,13 @@ describe SPARQL::Algebra do
 
     describe "#optimize" do
       it "returns RDF::Literal::TRUE if both operands are the same variable" do
-        @same_term.new(Variable(:var), Variable(:var)).optimize.should eql RDF::Literal::TRUE
+        expect(@same_term.new(Variable(:var), Variable(:var)).optimize).to eql RDF::Literal::TRUE
       end
     end
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @same_term.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin.should == [:sameTerm, RDF::Node(:foo), RDF::Node(:bar)]
+        expect(@same_term.new(RDF::Node(:foo), RDF::Node(:bar)).to_sxp_bin).to eq [:sameTerm, RDF::Node(:foo), RDF::Node(:bar)]
       end
     end
   end
@@ -511,7 +511,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @lang_matches.new('en-US', '*').to_sxp_bin.should == [:langMatches, RDF::Literal('en-US'), RDF::Literal('*')]
+        expect(@lang_matches.new('en-US', '*').to_sxp_bin).to eq [:langMatches, RDF::Literal('en-US'), RDF::Literal('*')]
       end
     end
   end
@@ -530,7 +530,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        @regex.new('Alice', '^ali', 'i').to_sxp_bin.should == [:regex, RDF::Literal('Alice'), RDF::Literal('^ali'), RDF::Literal('i')]
+        expect(@regex.new('Alice', '^ali', 'i').to_sxp_bin).to eq [:regex, RDF::Literal('Alice'), RDF::Literal('^ali'), RDF::Literal('i')]
       end
     end
   end
@@ -703,11 +703,11 @@ describe SPARQL::Algebra do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(456.0)]}),
     }.each_pair do |sse, operator|
       it "generates SSE for #{sse}" do
-        SXP::Reader::SPARQL.read(sse).should == operator.to_sxp_bin
+        expect(SXP::Reader::SPARQL.read(sse)).to eq operator.to_sxp_bin
       end
 
       it "parses SSE for #{sse}" do
-        SPARQL::Algebra::Expression.parse(sse).should == operator
+        expect(SPARQL::Algebra::Expression.parse(sse)).to eq operator
       end
     end
   end

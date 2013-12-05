@@ -31,18 +31,16 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      def execute(queryable, options = {})
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
+      def execute(queryable, options = {}, &block)
         debug(options) {"Union"}
-        operands.each do |op|
-          queryable.query(op, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
-            debug(options) {"(union) #{solution.to_hash.inspect}"}
-            yield solution
-          end
-        end
+        @solutions = RDF::Query::Solutions(operands.inject([]) do |memo, op|
+          solns = op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+          debug(options) {"=> (op) #{solns.inspect}"}
+          memo + solns
+        end)
+        debug(options) {"=> #{@solutions.inspect}"}
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

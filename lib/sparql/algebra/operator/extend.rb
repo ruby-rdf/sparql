@@ -39,28 +39,26 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
-      def execute(queryable, options = {})
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
+      def execute(queryable, options = {}, &block)
         debug(options) {"Extend"}
-        queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
-          debug(options) {"(extend) soln #{solution.to_hash.inspect}"}
+        @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        @solutions.each do |solution|
+          debug(options) {"===> soln #{solution.to_hash.inspect}"}
           operands.first.each do |(var, expr)|
             begin
               val = expr.evaluate(solution, options.merge(
                                               :queryable => queryable,
                                               :depth => options[:depth].to_i + 1))
-              debug(options) {"(extend) + #{var} => #{val.inspect}"}
-              solution.merge!(var.to_sym => val)
+              debug(options) {"===> + #{var} => #{val.inspect}"}
+              solution.bindings[var.to_sym] = val
             rescue TypeError => e
               # Evaluates to error, ignore
-              debug(options) {"(extend) #{var} error: #{e.message}"}
+              debug(options) {"===> #{var} error: #{e.message}"}
             end
           end
-          yield solution
         end
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

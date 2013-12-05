@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'rdf'
 require 'psych'
 require 'yaml'

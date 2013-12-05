@@ -48,7 +48,7 @@ module SPARQL; module Algebra
         
         to_describe.each {|t| debug(options) {"=> describe #{t}"}}
 
-        operands.last.execute(queryable).each do |solution|
+        queryable.query(operands.last) do |solution|
           solution.each_variable do |v|
             if operands.first.any? {|bound| v.eql?(bound)}
               debug(options) {"(describe)=> #{v}"}
@@ -58,7 +58,7 @@ module SPARQL; module Algebra
         end
 
         # Return Concise Bounded Description
-        queryable.concise_bounded_description(*to_describe, &block)
+        queryable.concise_bounded_description(*to_describe.uniq, &block)
       end
       
       ##

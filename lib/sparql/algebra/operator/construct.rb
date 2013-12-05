@@ -37,12 +37,8 @@ module SPARQL; module Algebra
       #   A Queryable with constructed triples
       # @see    http://www.w3.org/TR/rdf-sparql-query/#construct
       def execute(queryable, options = {}, &block)
-        return @solutions = RDF::Queryable::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
-        graph = RDF::Graph.new
         debug(options) {"Construct #{operands.first}, #{options.inspect}"}
+        graph = RDF::Graph.new
         patterns = operands.first
         query = operands.last
 
@@ -75,7 +71,9 @@ module SPARQL; module Algebra
           end
         end
 
-        graph.each(&block)
+        debug(options) {"=>\n#{graph.dump(:ttl, :standard_prefixes => true)}"}
+        graph.each(&block) if block_given?
+        graph
       end
       
       ##

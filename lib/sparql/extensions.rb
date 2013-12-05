@@ -100,7 +100,7 @@ module RDF::Queryable
 end
 
 ##
-# Extensions for `RDF::Query::Solutions::Enumerator`.
-class RDF::Query::Solutions::Enumerator
+# Extensions for `RDF::Query::Solutions`.
+class RDF::Query::Solutions
   include SPARQL::Results
 end

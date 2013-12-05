@@ -34,25 +34,25 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#merge-instance_method
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#compatible%3F-instance_method
-      def execute(queryable, options = {})
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
+      def execute(queryable, options = {}, &block)
         # Join(Ω1, Ω2) = { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible }
         # eval(D(G), Join(P1, P2)) = Join(eval(D(G), P1), eval(D(G), P2))
         #
         # Generate solutions independently, merge based on solution compatibility
         debug(options) {"Join"}
+ 
+        left = queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1))
+        debug(options) {"(join)=>(left) #{left.inspect}"}
+
         right = queryable.query(operand(1), options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"(join)=>(right) #{right.inspect}"}
 
-        queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1)) do |sl|
-          right.each do |sr|
-            debug(options) {"(join)==>(merge) #{[sl,sr].inspect}"} if sr.compatible?(sl)
-            yield sl.merge(sr) if sr.compatible?(sl)
-          end
-        end
+        @solutions = RDF::Query::Solutions(left.map do |s1|
+          right.map { |s2| s2.merge(s1) if s2.compatible?(s1) }
+        end.flatten.compact)
+        debug(options) {"=> #{@solutions.inspect}"}
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

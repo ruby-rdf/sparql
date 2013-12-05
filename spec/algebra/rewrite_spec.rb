@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 require 'algebra/algebra_helper'
 require 'sparql/client'
@@ -15,7 +15,7 @@ describe SPARQL::Algebra::Operator do
     end
 
     it "raises exception if there is one expressions" do
-      op.send(:to_binary, Operator::Union, Operator::BGP.new).should == Operator::BGP.new
+      expect(op.send(:to_binary, Operator::Union, Operator::BGP.new)).to eq Operator::BGP.new
     end
 
     context "with two expressions" do
@@ -65,7 +65,7 @@ describe SPARQL::Algebra::Operator do
             op
           end
         end
-        rewritten.to_sxp.should == result.to_sxp
+        expect(rewritten.to_sxp).to eq result.to_sxp
       end
     end
     

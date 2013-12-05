@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 require 'rack/sparql'
 require 'rack/test'
@@ -90,14 +90,14 @@ describe Rack::SPARQL do
   end
 
   context "serializes solutions" do
-    before(:each) { @results = RDF::Query::Solutions::Enumerator.new {|y| y << RDF::Query::Solution.new(:a => RDF::Literal("b"))}}
+    before(:each) { @results = RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))}
 
     context "with format" do
       %w(json html xml csv tsv).map(&:to_sym).each do |fmt|
         context fmt do
           before(:each) do
             @options[:format] = fmt
-            @results.should_receive("to_#{fmt}".to_sym).and_return(fmt.to_s)
+            expect(@results).to receive("to_#{fmt}".to_sym).and_return(fmt.to_s)
             get '/'
           end
 
@@ -123,7 +123,7 @@ describe Rack::SPARQL do
       }.each do |fmt, content_types|
         context content_types do
           before(:each) do
-            @results.should_receive("to_#{fmt}").
+            expect(@results).to receive("to_#{fmt}").
               and_return(content_types.split(/,\s+/).first)
               get '/', {}, {"HTTP_ACCEPT" => content_types}
           end

@@ -28,7 +28,7 @@ module SPARQL; module Algebra
     ##
     # The solution sequence for this query. This is only set
     #
-    # @return [RDF::Query::Solutions::Enumerator]
+    # @return [RDF::Query::Solutions]
     attr_reader :solutions
 
     ##

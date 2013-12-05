@@ -31,19 +31,18 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      def execute(queryable, options = {})
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
+      def execute(queryable, options = {}, &block)
+        @solutions = RDF::Query::Solutions()
         operands[1..-1].each do |row|
           next unless row.is_a?(Array)
           bindings = row[1..-1].inject({}) do |memo, (var, value)|
             memo[var.to_sym] = value
             memo
           end
-          yield RDF::Query::Solution.new(bindings)
+          @solutions << RDF::Query::Solution.new(bindings)
         end
+        @solutions.each(&block) if block_given?
+        @solutions
       end
     end # Table
   end # Operator

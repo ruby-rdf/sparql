@@ -1,7 +1,8 @@
-require File.join(File.dirname(__FILE__), 'spec_helper')
+$:.unshift File.expand_path("..", __FILE__)
+require 'spec_helper'
 
 describe 'SPARQL::VERSION' do
   it "matches the VERSION file" do
-    SPARQL::VERSION.to_s.should == File.read(File.join(File.dirname(__FILE__), '..', 'VERSION')).chomp
+    expect(SPARQL::VERSION.to_s).to eq File.read(File.join(File.dirname(__FILE__), '..', 'VERSION')).chomp
   end
 end

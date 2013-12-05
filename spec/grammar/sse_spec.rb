@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 require 'dawg_helper'
 
@@ -21,7 +21,7 @@ shared_examples "SSE" do |man, tests|
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
           sse = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
-          query.should == sse
+          expect(query).to eq sse
         end
 
         it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
@@ -49,7 +49,7 @@ shared_examples "SSE" do |man, tests|
             gsub(/\(\s+\(/, '((').
             gsub(/\)\s+\)/, '))').
             strip
-          normalized_query.should produce(normalized_result, ["original query:", t.action.query_string])
+          expect(normalized_query).to produce(normalized_result, ["original query:", t.action.query_string])
         end
       when MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
         it "detects syntax error for #{t.entry} - #{t.name}" do

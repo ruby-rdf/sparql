@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 require 'linkeddata'
 require 'csv'
@@ -200,9 +200,7 @@ describe SPARQL::Results do
     SOLUTIONS.each do |n, r|
       describe "encodes a #{n}" do
         subject {
-          RDF::Query::Solutions::Enumerator.new do |yielder|
-            r[:solution].each {|h| yielder << RDF::Query::Solution.new(h)}
-          end
+          RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
         }
         its(:to_json) {should == r[:json].to_json}
         its(:to_csv) {should == r[:csv]}
@@ -413,15 +411,13 @@ describe SPARQL::Results do
     
     context "solutions" do
       before(:each) do
-        @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          yielder << RDF::Query::Solution.new(:a => RDF::Literal("b"))
-        end
+        @solutions = RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))
       end
       
       SPARQL::Results::MIME_TYPES.each do |format, content_type|
         context "with format #{format}" do
           it "serializes results wihth format #{format.inspect}" do
-            @solutions.should_receive("to_#{format}").and_return("serialized results")
+            expect(@solutions).to receive("to_#{format}").and_return("serialized results")
             s = SPARQL.serialize_results(@solutions, :format => format)
             expect(s).to eq "serialized results"
             expect(s.content_type).to eq content_type

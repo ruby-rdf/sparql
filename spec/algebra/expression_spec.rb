@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 require 'algebra/algebra_helper'
 
@@ -132,7 +132,7 @@ describe SPARQL::Algebra do
           if spec =~ /raises/
             expect { op.evaluate(RDF::Query::Solution.new) }.to raise_error(TypeError)
           else
-            op.evaluate(RDF::Query::Solution.new).should == RDF::Literal::TRUE
+            expect(op.evaluate(RDF::Query::Solution.new)).to eq RDF::Literal::TRUE
           end
         end
       end
@@ -167,13 +167,13 @@ describe SPARQL::Algebra do
       end
 
       it "calls extension function" do
-        @did_yeild = false
+        did_yield = false
         SPARQL::Algebra::Expression.register_extension(RDF::URI("func")) do |literal|
-          @did_yield = true
-          literal.should == RDF::Literal("foo")
+          did_yield = true
+          expect(literal).to eq RDF::Literal("foo")
         end
         [RDF::URI("func"), RDF::Literal("foo")].evaluate(RDF::Query::Solution.new)
-        @did_yield.should be_true
+        expect(did_yield).to be_true
       end
     end
 
@@ -199,7 +199,7 @@ describe SPARQL::Algebra do
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.dateTime, given].evaluate(RDF::Query::Solution.new).should == expected
+            expect([RDF::XSD.dateTime, given].evaluate(RDF::Query::Solution.new)).to eq expected
           end
         end
       end
@@ -228,7 +228,7 @@ describe SPARQL::Algebra do
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.float, given].evaluate(RDF::Query::Solution.new).should == expected
+            expect([RDF::XSD.float, given].evaluate(RDF::Query::Solution.new)).to eq expected
           end
         end
       end
@@ -257,7 +257,7 @@ describe SPARQL::Algebra do
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.double, given].evaluate(RDF::Query::Solution.new).should == expected
+            expect([RDF::XSD.double, given].evaluate(RDF::Query::Solution.new)).to eq expected
           end
         end
       end
@@ -286,7 +286,7 @@ describe SPARQL::Algebra do
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.decimal, given].evaluate(RDF::Query::Solution.new).should == expected
+            expect([RDF::XSD.decimal, given].evaluate(RDF::Query::Solution.new)).to eq expected
           end
         end
       end
@@ -315,7 +315,7 @@ describe SPARQL::Algebra do
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.integer, given].evaluate(RDF::Query::Solution.new).should == expected
+            expect([RDF::XSD.integer, given].evaluate(RDF::Query::Solution.new)).to eq expected
           end
         end
       end
@@ -344,7 +344,7 @@ describe SPARQL::Algebra do
           end
         else
           it "generates #{expected.inspect} given #{given.inspect}" do
-            [RDF::XSD.boolean, given].evaluate(RDF::Query::Solution.new).should == expected
+            expect([RDF::XSD.boolean, given].evaluate(RDF::Query::Solution.new)).to eq expected
           end
         end
       end

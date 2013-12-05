@@ -36,22 +36,21 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#ebv
-      def execute(queryable, options = {})
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
+      def execute(queryable, options = {}, &block)
         debug(options) {"Filter #{operands.first.to_sxp}"}
         opts = options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)
+        @solutions = RDF::Query::Solutions()
         queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
           begin
             pass = boolean(operands.first.evaluate(solution, opts)).true?
             debug(options) {"(filter) #{pass.inspect} #{solution.to_hash.inspect}"}
-            yield solution if pass
+            @solutions << solution if pass
           rescue
             debug(options) {"(filter) rescue(#{$!}): #{solution.to_hash.inspect}"}
           end
         end
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

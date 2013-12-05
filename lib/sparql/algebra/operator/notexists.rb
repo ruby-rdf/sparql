@@ -28,7 +28,7 @@ module SPARQL; module Algebra
       #   queryable to execute, using bindings as an initial solution.
       # @return [RDF::Literal::Boolean] `true` or `false`
       def evaluate(bindings, options = {})
-        solutions = RDF::Query::Solutions::Enumerator.new {|yielder| yielder << bindings}
+        solutions = RDF::Query::Solutions(bindings)
         queryable = options[:queryable]
         operand(0).execute(queryable, options.merge(:solutions => solutions)).empty?
       end

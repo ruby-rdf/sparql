@@ -34,37 +34,41 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#merge-instance_method
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#compatible%3F-instance_method
-      def execute(queryable, options = {})
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
+      def execute(queryable, options = {}, &block)
         filter = operand(2)
 
         debug(options) {"LeftJoin"}
+        left = queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1))
+        debug(options) {"=>(leftjoin left) #{left.inspect}"}
+
         right = queryable.query(operand(1), options.merge(:depth => options[:depth].to_i + 1))
         debug(options) {"=>(leftjoin right) #{right.inspect}"}
 
         # LeftJoin(Ω1, Ω2, expr) =
-        queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1)).each do |sl|
+        @solutions = RDF::Query::Solutions()
+        left.each do |s1|
           load_left = true
-          right.each do |sr|
-            s = sr.merge(sl)
+          right.each do |s2|
+            s = s2.merge(s1)
             expr = filter ? boolean(filter.evaluate(s)).true? : true rescue false
-            debug(options) {"(leftjoin evaluate) #{s.inspect}"} if filter
+            debug(options) {"===>(evaluate) #{s.inspect}"} if filter
 
-            if expr && sl.compatible?(sr)
+            if expr && s1.compatible?(s2)
               # { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible and expr(merge(μ1, μ2)) is true }
-              debug(options) {"(leftjoin merge sl sr) #{s.inspect}"}
-              yield s
+              debug(options) {"=>(merge s1 s2) #{s.inspect}"}
+              @solutions << s
               load_left = false   # Left solution added one or more times due to merge
             end
           end
           if load_left
-            debug(options) {"(leftjoin add) #{sl.inspect}"}
-            yield sl
+            debug(options) {"=>(add) #{s1.inspect}"}
+            @solutions << s1
           end
         end
+        
+        debug(options) {"=> #{@solutions.inspect}"}
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

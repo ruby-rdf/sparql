@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 require 'dawg_helper'
 require 'rdf/rdfxml'
@@ -32,17 +32,17 @@ shared_examples "DAWG" do |man, tests|
 
           case t.form
           when :select
-            result.should be_a(RDF::Query::Solutions)
+            expect(result).to be_a(RDF::Query::Solutions)
             if man.to_s =~ /sort/
-              result.to_solutions_array.should describe_ordered_solutions(expected)
+              expect(result).to describe_ordered_solutions(expected)
             else
-              result.to_solutions_array.should describe_solutions(expected)
+              expect(result).to describe_solutions(expected)
             end
           when :create, :describe, :construct
-            result.should be_a(RDF::Queryable)
-            result.should describe_solutions(expected)
+            expect(result).to be_a(RDF::Queryable)
+            expect(result).to describe_solutions(expected)
           when :ask
-            result.should == expected ? RDF::Literal::TRUE : RDF::Literal::FALSE
+            expect(result).to eq t.solutions
           end
         end
       when MF.CSVResultFormatTest
@@ -56,7 +56,7 @@ shared_examples "DAWG" do |man, tests|
                                 :repository => "sparql-spec", :form => t.form,
                                 :to_hash => false, :sse => true)
 
-          result.should describe_csv_solutions(expected)
+          expect(result).to describe_csv_solutions(expected)
           expect {result.to_csv}.not_to raise_error
         end
       when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11,

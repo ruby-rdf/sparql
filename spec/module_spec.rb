@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 
 describe SPARQL do
@@ -7,10 +7,10 @@ describe SPARQL do
       query = "query"
       parser = double("Parser")
       operator = double("Operator")
-      SPARQL::Grammar::Parser.should_receive(:new).with(query, {}).and_return(parser)
-      parser.should_receive(:parse).with().and_return(operator)
+      expect(SPARQL::Grammar::Parser).to receive(:new).with(query, {}).and_return(parser)
+      expect(parser).to receive(:parse).with().and_return(operator)
 
-      SPARQL.parse(query).should == operator
+      expect(SPARQL.parse(query)).to eq operator
     end
   end
 

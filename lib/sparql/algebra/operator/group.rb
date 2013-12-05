@@ -38,16 +38,12 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlGroupAggregate
-      def execute(queryable, options = {})
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
+      def execute(queryable, options = {}, &block)
         debug(options) {"Group"}
         exprlist = operands.first
         query = operands.last
         aggregates = operands.length == 3 ? operand(1) : []
-        solutions = queryable.query(query, options.merge(:depth => options[:depth].to_i + 1)).to_a
+        solutions = queryable.query(query, options.merge(:depth => options[:depth].to_i + 1))
 
         groups = solutions.group_by do |solution|
           # Evaluate each exprlist operand to get groups where each key is a new solution
@@ -76,11 +72,8 @@ module SPARQL; module Algebra
 
         debug(options) {"=>(groups) #{groups.inspect}"}
 
-        # Make sure that's at least an empty solution
-        return yield RDF::Query::Solution.new if groups.empty?
-
         # Aggregate solutions in each group using aggregates to get solutions
-        groups.each do |group_soln, solns|
+        @solutions = RDF::Query::Solutions(groups.map do |group_soln, solns|
           aggregates.each do |(var, aggregate)|
             begin
               group_soln[var] = aggregate.aggregate(solns, options)
@@ -88,8 +81,15 @@ module SPARQL; module Algebra
               # Ignored in output
             end
           end
-          yield group_soln
-        end
+          group_soln
+        end)
+
+        # Make sure that's at least an empty solution
+        @solutions << RDF::Query::Solution.new if @solutions.empty?
+
+        debug(options) {"=>(solutions) #{@solutions.inspect}"}
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

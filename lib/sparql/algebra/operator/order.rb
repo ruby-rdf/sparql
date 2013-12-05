@@ -32,12 +32,8 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
-        return @solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
-          self.execute(queryable, options) {|y| yielder << y}
-        end unless block_given?
-
         debug(options) {"Order"}
-        operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).order do |a, b|
+        @solutions = queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)).order do |a, b|
           operand(0).inject(false) do |memo, op|
             debug(options) {"(order) #{op.inspect}"}
             memo ||= begin
@@ -56,7 +52,9 @@ module SPARQL; module Algebra
               comp == 0 ? false : comp
             end
           end || 0  # They compare equivalently if there are no matches
-        end.each(&block)
+        end
+        @solutions.each(&block) if block_given?
+        @solutions
       end
       
       ##

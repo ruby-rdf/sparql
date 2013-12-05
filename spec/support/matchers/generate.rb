@@ -28,25 +28,25 @@ RSpec::Matchers.define :generate do |expected, options|
       # Only look at end of production
       @actual = parser(example.metadata.merge(options)).call(input).last
       if expected.is_a?(String)
-        normalize(@actual.to_sxp).should == normalize(expected)
+        expect(normalize(@actual.to_sxp)).to eq normalize(expected)
       else
-        @actual.should == expected
+        expect(@actual).to eq expected
       end
     when options[:shift]
       @actual = parser(example.metadata.merge(options)).call(input)[1..-1]
-      @actual.should == expected
+      expect(@actual).to eq expected
     when expected.nil?
       @actual = parser(example.metadata.merge(options)).call(input)
-      @actual.should be_nil
+      expect(@actual).to be_nil
     when expected.is_a?(String)
       @actual = parser(example.metadata.merge(options)).call(input).to_sxp
-      normalize(@actual).should == normalize(expected)
+      expect(normalize(@actual)).to eq normalize(expected)
     when expected.is_a?(Symbol)
       @actual = parser(example.metadata.merge(options)).call(input)
-      @actual.to_sxp.should == expected.to_s
+      expect(@actual.to_sxp).to eq expected.to_s
     else
       @actual = parser(example.metadata.merge(options)).call(input)
-      @actual.should == expected
+      expect(@actual).to eq expected
     end
   end
   
