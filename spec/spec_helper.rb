@@ -104,9 +104,9 @@ def sparql_query(opts)
 
   case opts[:form]
   when :ask, :describe, :construct
-    query.execute(repo, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
+    repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
   else
-    results = query.execute(repo, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
+    results = repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
     opts[:to_hash] ? results.map(&:to_hash) : results
   end
 end

@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 require 'algebra/algebra_helper'
 require 'sparql/client'
@@ -7,14 +7,14 @@ include SPARQL::Algebra
 
 ::RSpec::Matchers.define :have_result_set do |expected|
   match do |result|
-    result.map(&:to_hash).to_set.should == expected.to_set
+    expect(result.map(&:to_hash).to_set).to eq expected.to_set
   end
 end
 
 describe SPARQL::Algebra::Query do
   EX = RDF::EX = RDF::Vocabulary.new('http://example.org/') unless const_defined?(:EX)
 
-  context "ask" do
+  context "construct" do
     {
       "query-construct-optional" => [
         %q{
@@ -90,10 +90,12 @@ describe SPARQL::Algebra::Query do
       it "constructs #{example}" do
         graph_r = RDF::Graph.new << RDF::Turtle::Reader.new(result)
 
-        sparql_query(
-          :form => :describe, :sse => true,
-          :graphs => {:default => {:data => source, :format => :ttl}},
-          :query => query).should == graph_r
+        expect(
+          sparql_query(
+            :form => :describe, :sse => true,
+            :graphs => {:default => {:data => source, :format => :ttl}},
+            :query => query)
+        ).to be_isomorphic(graph_r)
       end
     end
   end

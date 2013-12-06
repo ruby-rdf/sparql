@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 require 'linkeddata'
 require 'csv'
@@ -6,7 +6,7 @@ require 'csv'
 describe SPARQL::Results do
   describe RDF::Query::Solutions do
     SOLUTIONS = {
-      :uri           => {:solution => {:a => RDF::URI("a")},
+      :uri           => {:solution => [{:a => RDF::URI("a")}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "uri", :value => "a" }}]}
@@ -22,7 +22,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", "&lt;a&gt;"],
                          ],
                         },
-      :node          => {:solution => {:a => RDF::Node.new("a")},
+      :node          => {:solution => [{:a => RDF::Node.new("a")}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "bnode", :value => "a" }}]}
@@ -38,7 +38,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", "_:a"],
                          ],
                         },
-      :literal_plain => {:solution => {:a => RDF::Literal("a")},
+      :literal_plain => {:solution => [{:a => RDF::Literal("a")}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "literal", :value => "a" }}]}
@@ -54,7 +54,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", '"a"'],
                          ],
                         },
-      :literal_lang  => {:solution => {:a => RDF::Literal("a", :language => :en)},
+      :literal_lang  => {:solution => [{:a => RDF::Literal("a", :language => :en)}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "literal", "xml:lang" => "en", :value => "a" }}]}
@@ -70,7 +70,7 @@ describe SPARQL::Results do
                             ["/table[@class='sparql']/tbody/tr/td/text()", '"a"@en'],
                           ],
                         },
-      :literal_dt    => {:solution => {:a => RDF::Literal(1)},
+      :literal_dt    => {:solution => [{:a => RDF::Literal(1)}],
                          :json     => {
                            :head => {:vars => ["a"]},
                            :results => {:bindings => [{"a" => {:type => "typed-literal", "datatype" => RDF::XSD.integer.to_s, :value => "1" }}]}
@@ -86,7 +86,7 @@ describe SPARQL::Results do
                            ["/table[@class='sparql']/tbody/tr/td/text()", %("1"^^&lt;#{RDF::XSD.integer}&gt;)],
                          ],
                         },
-      :literals    => {:solution => {:integer => RDF::Literal(1), :decimal => RDF::Literal::Decimal.new(1.1), :double => RDF::Literal(1.1), :token => RDF::Literal(:tok)},
+      :literals    => {:solution => [{:integer => RDF::Literal(1), :decimal => RDF::Literal::Decimal.new(1.1), :double => RDF::Literal(1.1), :token => RDF::Literal(:tok)}],
                          :json     => {
                            :head => {:vars => %w(integer decimal double token)},
                            :results => {:bindings => [{
@@ -197,54 +197,27 @@ describe SPARQL::Results do
                         },
     }
 
-    describe "#to_json" do
-      SOLUTIONS.each do |n, r|
-        it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          s.to_json.should == r[:json].to_json
-        end
-      end
-    end
-    
-    describe "#to_csv" do
-      SOLUTIONS.each do |n, r|
-        it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          s.to_csv.should == r[:csv]
-        end
-      end
-    end
-    
-    describe "#to_tsv" do
-      SOLUTIONS.each do |n, r|
-        it "encodes a #{n}" do
-          s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          s.to_tsv.should == r[:tsv]
-        end
-      end
-    end
-    
-    describe "#to_xml" do
-      SOLUTIONS.each do |n, r|
-        describe "encoding #{n}" do
+    SOLUTIONS.each do |n, r|
+      describe "encodes a #{n}" do
+        subject {
+          RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
+        }
+        its(:to_json) {should == r[:json].to_json}
+        its(:to_csv) {should == r[:csv]}
+        its(:to_tsv) {should == r[:tsv]}
+
+        describe "to_xml" do
           r[:xml].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-              s.to_xml.should have_xpath(xp, value)
+              expect(subject.to_xml).to have_xpath(xp, value)
             end
           end
         end
-      end
-    end
-    
-    describe "#to_html" do
-      SOLUTIONS.each do |n, r|
-        describe "encoding #{n}" do
+
+        describe "to_html" do
           r[:html].each do |(xp, value)|
             it "has xpath #{xp} = #{value.inspect}" do
-              s = RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
-          
-              s.to_html.should have_xpath(xp, value)
+              expect(subject.to_html).to have_xpath(xp, value)
             end
           end
         end
@@ -298,16 +271,16 @@ describe SPARQL::Results do
           describe "encoding #{n}" do
             subject {SPARQL.serialize_results(r[:value], :format => :json)}
             it "uses :format => :json" do
-              subject.should == r[:json].to_json
+              expect(subject).to eq r[:json].to_json
             end
 
-            it "uses using :content_type => 'application/sparql-results+json'" do
-              s = SPARQL.serialize_results(r[:value], :content_type => 'application/sparql-results+json')
-              s.should == subject
+            it "uses using :content_types => 'application/sparql-results+json'" do
+              s = SPARQL.serialize_results(r[:value], :content_types => 'application/sparql-results+json')
+              expect(s).to eq subject
             end
 
             it "returns 'application/sparql-results+json' for #content_type" do
-              subject.content_type.should == 'application/sparql-results+json'
+              expect(subject.content_type).to eq 'application/sparql-results+json'
             end
 
             describe "content negotation" do
@@ -318,8 +291,8 @@ describe SPARQL::Results do
               }.each do |title, accepts|
                 it "with #{title}" do
                   s = SPARQL.serialize_results(r[:value], :content_types => accepts)
-                  s.should == subject
-                  s.content_type.should == 'application/sparql-results+json'
+                  expect(s).to eq subject
+                  expect(s.content_type).to eq 'application/sparql-results+json'
                 end
               end
             end
@@ -333,16 +306,16 @@ describe SPARQL::Results do
             r[:xml].each do |(xp, value)|
               subject {SPARQL.serialize_results(r[:value], :format => :xml)}
               it "has xpath #{xp} = #{value.inspect} using :format => :xml" do
-                subject.should have_xpath(xp, value)
+                expect(subject).to have_xpath(xp, value)
               end
 
-              it "has xpath #{xp} = #{value.inspect} using :content_type => 'application/sparql-results+xml'" do
-                s = SPARQL.serialize_results(r[:value], :content_type => 'application/sparql-results+xml')
-                s.should == subject
+              it "has xpath #{xp} = #{value.inspect} using :content_types => 'application/sparql-results+xml'" do
+                s = SPARQL.serialize_results(r[:value], :content_types => 'application/sparql-results+xml')
+                expect(s).to eq subject
               end
               
               it "returns 'application/sparql-results+xml' for #content_type" do
-                subject.content_type.should == 'application/sparql-results+xml'
+                expect(subject.content_type).to eq 'application/sparql-results+xml'
               end
             end
 
@@ -354,8 +327,8 @@ describe SPARQL::Results do
               }.each do |title, accepts|
                 it "with #{title}" do
                   s = SPARQL.serialize_results(r[:value], :content_types => accepts)
-                  s.should == subject
-                  s.content_type.should == 'application/sparql-results+xml'
+                  expect(s).to eq subject
+                  expect(s.content_type).to eq 'application/sparql-results+xml'
                 end
               end
             end
@@ -369,16 +342,16 @@ describe SPARQL::Results do
             r[:html].each do |(xp, value)|
               subject {SPARQL.serialize_results(r[:value], :format => :html)}
               it "has xpath #{xp} using :format => :html" do
-                subject.should have_xpath(xp, value)
+                expect(subject).to have_xpath(xp, value)
               end
 
-              it "has xpath #{xp} using :content_type => 'text/html'" do
-                s = SPARQL.serialize_results(r[:value], :content_type => 'text/html')
-                s.should == subject
+              it "has xpath #{xp} using :content_types => 'text/html'" do
+                s = SPARQL.serialize_results(r[:value], :content_types => 'text/html')
+                expect(s).to eq subject
               end
               
               it "returns 'text/html' for #content_type" do
-                subject.content_type.should == 'text/html'
+                expect(subject.content_type).to eq 'text/html'
               end
 
               describe "content negotation" do
@@ -389,8 +362,8 @@ describe SPARQL::Results do
                 }.each do |title, accepts|
                   it "with #{title}" do
                     s = SPARQL.serialize_results(r[:value], :content_types => accepts)
-                    s.should == subject
-                    s.content_type.should == 'text/html'
+                    expect(s).to eq subject
+                    expect(s.content_type).to eq 'text/html'
                   end
                 end
               end
@@ -403,44 +376,34 @@ describe SPARQL::Results do
         it "raises error with format :ntriples" do
           expect {SPARQL.serialize_results(true, :format => :ntriples)}.to raise_error(RDF::WriterError, /Unknown format :ntriples/)
         end
-
-        it "raises error content type text/plain" do
-          expect {SPARQL.serialize_results(true, :content_type => "text/plain")}.to raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
-        end
       end
     end
 
     context "graph" do
       {
-        :ntriples => 'text/plain',
-        :n3       => 'text/rdf+n3',
+        :ntriples => 'application/n-triples',
+        :turtle   => 'application/turtle',
       }.each do |format, content_type|
         context "with format #{format}" do
           before(:each) do
             @solutions = double("Solutions")
             @solutions.extend(RDF::Queryable)
-            fmt = double("Format")
-            writer = double("Writer")
-            buffer = double("Buffer")
-            RDF::Format.should_receive(:for).at_least(1).times.and_return(fmt)
-            fmt.should_receive(:content_type).and_return([content_type])
-            @solutions.should_receive(:dump).at_least(1).times.and_return("serialized graph")
-            fmt.stub(:to_sym).and_return(format)
+            expect(@solutions).to receive(:dump).with(format, anything).at_least(1).and_return("serialized graph")
           end
 
           subject {SPARQL.serialize_results(@solutions, :format => format)}
 
           it "serializes graph with format #{format.inspect}" do
-            subject.should == "serialized graph"
+            expect(subject).to eq "serialized graph"
           end
 
           it "serializes graph with content_type #{content_type}" do
-            s = SPARQL.serialize_results(@solutions, :content_type => content_type)
-            s.should == subject
+            s = SPARQL.serialize_results(@solutions, :content_types => content_type)
+            expect(s).to eq subject
           end
       
           it "returns #{content_type} for #content_type" do
-            subject.content_type.should == content_type
+            expect(subject.content_type).to eq content_type
           end
         end
       end
@@ -448,16 +411,16 @@ describe SPARQL::Results do
     
     context "solutions" do
       before(:each) do
-        @solutions = RDF::Query::Solutions.new << RDF::Query::Solution.new(:a => RDF::Literal("b"))
+        @solutions = RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))
       end
       
       SPARQL::Results::MIME_TYPES.each do |format, content_type|
         context "with format #{format}" do
           it "serializes results wihth format #{format.inspect}" do
-            @solutions.should_receive("to_#{format}").and_return("serialized results")
+            expect(@solutions).to receive("to_#{format}").and_return("serialized results")
             s = SPARQL.serialize_results(@solutions, :format => format)
-            s.should == "serialized results"
-            s.content_type.should == content_type
+            expect(s).to eq "serialized results"
+            expect(s.content_type).to eq content_type
           end
         end
       end
@@ -465,10 +428,6 @@ describe SPARQL::Results do
       context "rdf content-types" do
         it "raises error with format :ntriples" do
           expect {SPARQL.serialize_results(@solutions, :format => :ntriples)}.to raise_error(RDF::WriterError)
-        end
-
-        it "raises error content type text/plain" do
-          expect {SPARQL.serialize_results(@solutions, :content_type => "text/plain")}.to raise_error(RDF::WriterError, %r(Unknown format "text/plain"))
         end
       end
     end
@@ -490,11 +449,11 @@ describe SPARQL::Results do
               ['/html/body/p/text()', "#{title}: error string"],
             ].each do |(xp, value)|
               it "has xpath #{xp} = #{value.inspect}" do
-                subject.should have_xpath(xp, value)
+                expect(subject).to have_xpath(xp, value)
               end
             
               it "has content_type text/html" do
-                subject.content_type.should == 'text/html'
+                expect(subject.content_type).to eq 'text/html'
               end
             end
           end
@@ -502,7 +461,7 @@ describe SPARQL::Results do
       end
     end
 
-    [{:format => :xml}, {:content_type => "application/sparql-results+xml"}, {}].each do |options|
+    [{:format => :xml}, {:content_types => "application/sparql-results+xml"}, {}].each do |options|
       context "with options #{options.inspect}" do
         {
           SPARQL::MalformedQuery      => "Malformed Query",
@@ -513,11 +472,11 @@ describe SPARQL::Results do
             subject { SPARQL.serialize_exception(cls.new("error string"), options)}
 
             it "has simple error string" do
-              subject.should == "error string"
+              expect(subject).to eq "error string"
             end
 
             it "has content_type text/plain" do
-              subject.content_type.should == 'text/plain'
+              expect(subject.content_type).to eq 'text/plain'
             end
           end
         end

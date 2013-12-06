@@ -17,9 +17,13 @@ module SPARQL; module Algebra
       #
       # @overload self.new(*patterns)
       #   @param [Array<RDF::Query::Pattern>] patterns
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query]
-      def self.new(*patterns)
-        RDF::Query.new(*(patterns + [{:context => false}]))
+      def self.new(*patterns, &block)
+        RDF::Query.new(*(patterns + [{:context => false}]), &block)
       end
     end # BGP
   end # Operator

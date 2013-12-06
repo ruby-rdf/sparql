@@ -34,15 +34,18 @@ module Rack; module SPARQL
     end
 
     ##
-    # Handles a Rack protocol request.
+    # Handles a Rack protocol request. Parses Accept header to find appropriate mime-type and sets content_type accordingly.
     #
     # If result is `RDF::Literal::Boolean`, `RDF::Query::Results`, or `RDF::Enumerable`
     # The result is serialized using {SPARQL::Results}
+    #
+    # Inserts ordered content types into the environment as `ORDERED_CONTENT_TYPES` if an Accept header is present
     #
     # @param  [Hash{String => String}] env
     # @return [Array(Integer, Hash, #each)]
     # @see    http://rack.rubyforge.org/doc/SPEC.html
     def call(env)
+      env['ORDERED_CONTENT_TYPES'] = parse_accept_header(env['HTTP_ACCEPT']) if env.has_key?('HTTP_ACCEPT')
       response = app.call(env)
       body = response[2].respond_to?(:body) ? response[2].body : response[2]
       case body
@@ -66,7 +69,7 @@ module Rack; module SPARQL
     def serialize(env, status, headers, body)
       begin
         serialize_options = {}
-        serialize_options[:content_types] = parse_accept_header(env['HTTP_ACCEPT']) if env.has_key?('HTTP_ACCEPT')
+        serialize_options[:content_types] = env['ORDERED_CONTENT_TYPES'] if env['ORDERED_CONTENT_TYPES']
         serialize_options.merge!(@options)
         results = ::SPARQL.serialize_results(body, serialize_options)
         raise RDF::WriterError, "can't serialize results" unless results

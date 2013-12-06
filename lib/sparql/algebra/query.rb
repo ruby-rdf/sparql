@@ -26,7 +26,7 @@ module SPARQL; module Algebra
     end
 
     ##
-    # The solution sequence for this query.
+    # The solution sequence for this query. This is only set
     #
     # @return [RDF::Query::Solutions]
     attr_reader :solutions
@@ -40,14 +40,16 @@ module SPARQL; module Algebra
     #   any additional keyword options
     # @option options [Boolean] debug
     #   Query execution debugging
-    # @return [RDF::Query::Solutions]
-    #   the resulting solution sequence
-    # @raise [TypeError]
-    #   TypeError raised if any operands are invalid
+    # @yield  [solution]
+    #   each matching solution, statement or boolean
+    # @yieldparam  [RDF::Statement, RDF::Query::Solution, Boolean] solution
+    # @yieldreturn [void] ignored
+    # @return [RDF::Graph, Boolean, RDF::Query::Solutions::Enumerator]
+    #   Note, results may be used with {SPARQL.serialize_results} to obtain appropriate output encoding.
     # @raise [NotImplementedError]
     #   If an attempt is made to perform an unsupported operation
     # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-    def execute(queryable, options = {})
+    def execute(queryable, options = {}, &block)
       raise NotImplementedError, "#{self.class}#execute(#{queryable})"
     end
 
@@ -88,6 +90,24 @@ module SPARQL; module Algebra
     # Determine if this is an empty query, having no operands
     def empty?
       self.operands.empty?
+    end
+
+    # Query results in a boolean result (e.g., ASK)
+    # @return [Boolean]
+    def query_yields_boolean?
+      false
+    end
+
+    # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
+    # @return [Boolean]
+    def query_yields_statements?
+      false
+    end
+
+    # Query results solutions (e.g., SELECT)
+    # @return [Boolean]
+    def query_yields_solutions?
+      !(query_yields_boolean? || query_yields_statements?)
     end
 
     ##

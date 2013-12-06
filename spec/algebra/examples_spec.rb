@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 require 'strscan'
 
@@ -44,18 +44,18 @@ describe SPARQL::Algebra do
           subject { parse(example[:sparql])}
 
           it "parses to #{example[:sxp]}" do
-            subject.should == SPARQL::Algebra.parse(example[:sxp])
+            expect(subject).to eq SPARQL::Algebra.parse(example[:sxp])
           end
         end
       else
         describe "expression #{example[:expr]}" do
           if example[:expected]
             it "produces #{example[:expected]}" do
-              eval(example[:expr]).should == eval(example[:expected])
+              expect(eval(example[:expr])).to eq eval(example[:expected])
             end
           else
             it "evaluates to Expression" do
-              eval(example[:expr]).should be_a(SPARQL::Algebra::Expression)
+              expect(eval(example[:expr])).to be_a(SPARQL::Algebra::Expression)
             end
           end
         end

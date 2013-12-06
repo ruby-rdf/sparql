@@ -69,6 +69,11 @@ will be in later release along with:
 
 either in this, or related gems.
 
+### Updates for RDF 1.1
+Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb][], which adheres to [RDF 1.1 Concepts](http://www.w3.org/TR/rdf11-concepts/) rather than [RDF 1.0](http://www.w3.org/TR/rdf-concepts/). The main difference is that there is now no difference between a _Simple Literal_ (a literal with no datatype or language) and a Literal with datatype _xsd:string_; this causes some minor differences in the way in which queries are understood, and when expecting different results.
+
+Additionally, queries now take a block, or return an `Enumerator`; this is in keeping with much of the behavior of [RDF.rb][] methods, including `Queryable#query`, and with version 1.1 or [RDF.rb][], Query#execute. As a consequence, all queries which used to be of the form `query.execute(repository)` may equally be called as `repository.query(query)`. Previously, results were returned as a concrete class implementing `RDF::Queryable` or `RDF::Query::Solutions`, these are now `Enumerators`.
+
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:
 
@@ -94,8 +99,8 @@ See {SPARQL::Algebra::Expression.register_extension} for details.
 ### Middleware
 
 {Rack::SPARQL} is a superset of [Rack::LinkedData][] to allow content negotiated results
-to be returned any `RDF::Enumerable` or `RDF::Query::Solutions` compatible results.
-You would typically return an instance of `RDF::Graph`, `RDF::Repository` or `RDF::Query::Solutions`
+to be returned any `RDF::Enumerable` or an enumerator extended with `RDF::Query::Solutions` compatible results.
+You would typically return an instance of `RDF::Graph`, `RDF::Repository` or an enumerator extended with `RDF::Query::Solutions`
 from your Rack application, and let the `Rack::SPARQL::ContentNegotiation` middleware
 take care of serializing your response into whatever format the HTTP
 client requested and understands.
@@ -133,11 +138,21 @@ a full set of RDF formats.
     require 'rubygems'
     require 'sparql'
 
+### Querying a repository with a SPARQL query
+
+    queryable = RDF::Repository.load("etc/doap.ttl")
+    sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
+    queryable.query(sse) do |result|
+      result.inspect
+    end
+
 ### Executing a SPARQL query against a repository
 
     queryable = RDF::Repository.load("etc/doap.ttl")
     sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    sse.execute(queryable)
+    sse.execute(queryable) do |result|
+      result.inspect
+    end
 
 ### Rendering solutions as JSON, XML, CSV, TSV or HTML
     queryable = RDF::Repository.load("etc/doap.ttl")
@@ -272,6 +287,7 @@ To get a local working copy of the development repository, do:
 * [Pius Uzamere](http://github.com/pius) - <http://pius.me/>
 
 ## Contributing
+This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange development and release activity. All submissions _must_ be on a feature branch based on the _develop_ branch to ease staging and integration.
 
 * Do your best to adhere to the existing coding conventions and idioms.
 * Don't use hard tabs, and don't leave trailing whitespace on any line.

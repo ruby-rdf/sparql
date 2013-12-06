@@ -44,9 +44,9 @@ def verify(examples)
         it "returns #{repr(output)}" do
           result = @op.evaluate(*input[1..-1])
           if output.is_a?(RDF::Literal::Double) && output.nan?
-            result.should be_nan
+            expect(result).to be_nan
           else
-            result.should == output
+            expect(result).to eq output
           end
         end
       end

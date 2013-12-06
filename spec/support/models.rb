@@ -115,7 +115,7 @@ module SPARQL; module Spec
     end
 
     def query
-      Kernel.open(query_file, &:read)
+      RDF::Util::File.open_file(query_file, &:read)
     end
   end
 
@@ -124,7 +124,7 @@ module SPARQL; module Spec
     property :data_file, :predicate => UT.data
 
     def data
-      Kernel.open(data_file, &:read)
+      RDF::Util::File.open_file(data_file, &:read)
     end
 
     def data_format
@@ -152,7 +152,7 @@ module SPARQL; module Spec
     end
 
     def data
-      Kernel.open(graph, &:read)
+      RDF::Util::File.open_file(graph, &:read)
     end
 
     def data_format
@@ -180,7 +180,7 @@ module SPARQL; module Spec
         graphs = {}
         graphs[:default] = {:data => action.test_data_string, :format => RDF::Format.for(action.test_data.to_s).to_sym} if action.test_data
         action.graphData.each do |g|
-          data = Kernel.open(g, &:read)
+          data = RDF::Util::File.open_file(g, &:read)
           graphs[g] = {
             :data => data,
             :format => RDF::Format.for(g.to_s).to_sym,
@@ -193,24 +193,38 @@ module SPARQL; module Spec
 
     # Turn results into solutions
     def solutions
-      return nil if !respond_to?(:result) || result.nil?
+      result = self.result if self.respond_to?(:result)
+      return nil unless result
+
+      # Use alternate results for RDF 1.1
+      if RDF::VERSION.to_s >= "1.1"
+        file_11 = result.to_s.
+          sub(BASE_URI_10, BASE_DIRECTORY).
+          sub(BASE_URI_11, BASE_DIRECTORY).
+          sub(/\.(\w+)$/, '_11.\1')
+        result = RDF::URI(file_11) if File.exist?(file_11)
+      end
 
       case form
       when :select, :ask
         case File.extname(result.path)
         when '.srx'
-          SPARQL::Client.parse_xml_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_xml_bindings(RDF::Util::File.open_file(result, &:read))
         when '.srj'
-          SPARQL::Client.parse_json_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_json_bindings(RDF::Util::File.open_file(result, &:read))
         when '.csv'
-          SPARQL::Client.parse_csv_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_csv_bindings(RDF::Util::File.open_file(result, &:read))
         when '.tsv'
-          SPARQL::Client.parse_tsv_bindings(Kernel.open(result, &:read))
+          SPARQL::Client.parse_tsv_bindings(RDF::Util::File.open_file(result, &:read))
         else
-          expected_repository = RDF::Repository.new 
-          Spira.add_repository!(:results, expected_repository)
-          expected_repository.load(result)
-          SPARQL::Spec::ResultBindings.each.first.solutions
+          if form == :select
+            expected_repository = RDF::Repository.new 
+            Spira.add_repository!(:results, expected_repository)
+            expected_repository.load(result)
+            SPARQL::Spec::ResultBindings.each.first.solutions
+          else
+            RDF::Graph.load(result).objects.detect {|o| o.literal?}
+          end
         end
       when :describe, :create, :construct
         RDF::Repository.load(result, :base_uri => result, :format => :ttl)
@@ -237,7 +251,7 @@ module SPARQL; module Spec
     end
 
     def query
-      Kernel.open(query_file, &:read)
+      RDF::Util::File.open_file(query_file, &:read)
     end
   end
 
@@ -259,7 +273,7 @@ module SPARQL; module Spec
     has_many :graphData,  :predicate => QT.graphData
 
     def query_string
-      Kernel.open(query_file, &:read)
+      RDF::Util::File.open_file(query_file, &:read)
     end
 
     def sse_file
@@ -267,6 +281,12 @@ module SPARQL; module Spec
         sub(BASE_URI_10, BASE_DIRECTORY).
         sub(BASE_URI_11, BASE_DIRECTORY).
         sub(/\.rq$/, ".sse")
+
+      # Use alternate file for RDF 1.1
+      if RDF::VERSION.to_s >= "1.1"
+        file_11 = file.sub(".sse", "_11.sse")
+        file = file_11 if File.exist?(file_11)
+      end
       RDF::URI(file)
     end
   
@@ -275,7 +295,7 @@ module SPARQL; module Spec
     end
 
     def test_data_string
-      Kernel.open(test_data, &:read)
+      RDF::Util::File.open_file(test_data, &:read)
     end
   end
 
@@ -357,11 +377,7 @@ class RDF::URI
   end
   
   def init_with(coder)
-    if RDF::VERSION.to_s >= "1.1"
-      self.instance_variable_set(:@value, coder["uri"])
-      self.instance_variable_set(:@object, nil)
-    else
-      @uri = Addressable::URI.parse(coder["uri"])
-    end
+    self.instance_variable_set(:@value, coder["uri"])
+    self.instance_variable_set(:@object, nil)
   end
 end

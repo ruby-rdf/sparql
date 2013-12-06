@@ -1,4 +1,4 @@
-$:.unshift ".."
+$:.unshift File.expand_path("../..", __FILE__)
 require 'spec_helper'
 
 class SPARQL::Grammar::Parser
@@ -118,7 +118,7 @@ shared_examples "GroupGraphPattern" do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
   end
@@ -138,7 +138,7 @@ shared_examples "FunctionCall" do
       ]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
   end
@@ -148,10 +148,10 @@ end
 shared_examples "Var" do
   context "Var" do
     it "recognizes Var1" do
-      "?foo".should generate(RDF::Query::Variable.new(:foo), :last => true)
+      expect("?foo").to generate(RDF::Query::Variable.new(:foo), :last => true)
     end
     it "recognizes Var2" do
-      "$foo".should generate(RDF::Query::Variable.new(:foo), :last => true)
+      expect("$foo").to generate(RDF::Query::Variable.new(:foo), :last => true)
     end
   end
 end
@@ -185,7 +185,7 @@ shared_examples "ConditionalOrExpression" do
       %q(1 || 2 || 3) => SPARQL::Algebra::Expression[:"||", [:"||", RDF::Literal(1), RDF::Literal(2)], RDF::Literal(3)],
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
     include_examples "ConditionalAndExpression"
@@ -201,7 +201,7 @@ shared_examples "ConditionalAndExpression" do
       %q(1 && 2 && 3) => SPARQL::Algebra::Expression[:"&&", [:"&&", RDF::Literal(1), RDF::Literal(2)], RDF::Literal(3)],
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
     include_examples "ValueLogical"
@@ -239,7 +239,7 @@ shared_examples "RelationalExpression" do
       %q(2 NOT IN ())    => SPARQL::Algebra::Expression[:notin, RDF::Literal(2)],
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
 
@@ -265,7 +265,7 @@ shared_examples "AdditiveExpression" do
       %q("1" - "2" + "3") => SPARQL::Algebra::Expression[:"+", [:"-", RDF::Literal("1"), RDF::Literal("2")], RDF::Literal("3")],
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
 
@@ -284,7 +284,7 @@ shared_examples "MultiplicativeExpression" do
       %q("1" * "2" / "3") => SPARQL::Algebra::Expression[:"/", [:"*", RDF::Literal("1"), RDF::Literal("2")], RDF::Literal("3")],
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
 
@@ -303,7 +303,7 @@ shared_examples "UnaryExpression" do
       %q(- "foo") => SPARQL::Algebra::Expression[:"-", RDF::Literal("foo")],
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
 
@@ -331,7 +331,7 @@ shared_examples "BrackettedExpression" do
       %q(("foo")) => [RDF::Literal("foo")],
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :shift => true)
+        expect(input).to generate(output, :resolve_iris => false, :shift => true)
       end
     end
   end
@@ -414,7 +414,7 @@ shared_examples "BuiltInCall" do
       %q(NOT EXISTS {?s ?p ?o})      => %q((notexists (bgp (triple ?s ?p ?o)))),
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
 
@@ -431,7 +431,7 @@ shared_examples "RegexExpression" do |options = {}|
       %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar" "")),
     }.each do |input, output|
       it input do
-        input.should generate(output, {:resolve_iris => false, :last => true}.merge(options))
+        expect(input).to generate(output, {:resolve_iris => false, :last => true}.merge(options))
       end
     end
   end
@@ -460,7 +460,7 @@ shared_examples "RDFLiteral" do
       %q("foobar"^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("foobar", :datatype => RDF::XSD.string),
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
   end
@@ -498,7 +498,7 @@ shared_examples "Aggregate" do
       %q(GROUP_CONCAT(DISTINCT ?o;SEPARATOR=":")) => %q((group_concat (separator ":") distinct ?o)),
     }.each do |input, output|
       it input do
-        input.should generate(output, :last => true, :progress => true)
+        expect(input).to generate(output, :last => true, :progress => true)
       end
     end
   end
@@ -520,59 +520,59 @@ shared_examples "NumericLiteral" do
       %q(-1e6)    => RDF::Literal::Double.new(-1e6),
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
 
     it "recognizes the INTEGER terminal" do
       %w(1 2 3 42 123).each do |input|
-        input.should generate(RDF::Literal::Integer.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Integer.new(input), :last => true)
       end
     end
 
     it "recognizes the DECIMAL terminal" do
       %w(1.0 3.1415 .123).each do |input|
-        input.should generate(RDF::Literal::Decimal.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Decimal.new(input), :last => true)
       end
     end
 
     it "recognizes the DOUBLE terminal" do
       %w(1e2 3.1415e2 .123e2).each do |input|
-        input.should generate(RDF::Literal::Double.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Double.new(input), :last => true)
       end
     end
     it "recognizes the INTEGER_POSITIVE terminal" do
       %w(+1 +2 +3 +42 +123).each do |input|
-        input.should generate(RDF::Literal::Integer.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Integer.new(input), :last => true)
       end
     end
 
     it "recognizes the DECIMAL_POSITIVE terminal" do
       %w(+1.0 +3.1415 +.123).each do |input|
-        input.should generate(RDF::Literal::Decimal.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Decimal.new(input), :last => true)
       end
     end
 
     it "recognizes the DOUBLE_POSITIVE terminal" do
       %w(+1e2 +3.1415e2 +.123e2).each do |input|
-        input.should generate(RDF::Literal::Double.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Double.new(input), :last => true)
       end
     end
     it "recognizes the INTEGER_NEGATIVE terminal" do
       %w(-1 -2 -3 -42 -123).each do |input|
-        input.should generate(RDF::Literal::Integer.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Integer.new(input), :last => true)
       end
     end
 
     it "recognizes the DECIMAL_NEGATIVE terminal" do
       %w(-1.0 -3.1415 -.123).each do |input|
-        input.should generate(RDF::Literal::Decimal.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Decimal.new(input), :last => true)
       end
     end
 
     it "recognizes the DOUBLE_NEGATIVE terminal" do
       %w(-1e2 -3.1415e2 -.123e2).each do |input|
-        input.should generate(RDF::Literal::Double.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Double.new(input), :last => true)
       end
     end
   end
@@ -586,7 +586,7 @@ shared_examples "BooleanLiteral" do
       "false" => RDF::Literal(false),
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
   end
@@ -599,19 +599,19 @@ shared_examples "iri" do
       %q(<http://example.org/>) => RDF::URI('http://example.org/')
     }.each do |input, output|
       it input do
-        input.should generate(output, :resolve_iris => false, :last => true)
+        expect(input).to generate(output, :resolve_iris => false, :last => true)
       end
     end
 
     it "recognizes the IRIREF terminal" do
       %w(<> <foobar> <http://example.org/foobar>).each do |input|
-        input.should generate(RDF::URI(input[1..-2]), :last => true)
+        expect(input).to generate(RDF::URI(input[1..-2]), :last => true)
       end
     end
 
     it "recognizes the PrefixedName nonterminal" do
       %w(: foo: :bar foo:bar).each do |input|
-        parser(production).call(input).last.should_not == false # TODO
+        expect(parser(production).call(input).last).not_to be_false # TODO
       end
     end
   end
@@ -621,16 +621,16 @@ end
 shared_examples "BlankNode" do
   context "BlankNode" do
     it %q(_:foobar) do
-      %q(_:foobar).should generate(SPARQL::Grammar::Parser.variable("foobar", false), :last => true)
+      expect(%q(_:foobar)).to generate(SPARQL::Grammar::Parser.variable("foobar", false), :last => true)
     end
-    specify {parser(production).call(%q([])).last.should_not be_distinguished}
+    specify {expect(parser(production).call(%q([])).last).not_to be_distinguished}
   end
 end
 
 # [161] NIL
 shared_examples "NIL" do
   context "NIL" do
-    specify {parser(production).call(%q(())).last.should == RDF.nil}
+    specify {expect(parser(production).call(%q(())).last).to eq RDF.nil}
   end
 end
 
@@ -781,7 +781,7 @@ shared_examples "BGP Patterns" do |wrapper|
       end,
     }.each do |input, output|
       it input do
-        (wrapper % input).should generate(output,
+        expect(wrapper % input).to generate(output,
           :prefixes => {
             nil => "http://example.com/",
             :rdf => RDF.to_uri.to_s
@@ -829,7 +829,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -937,7 +937,7 @@ describe SPARQL::Grammar::Parser do
       ]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
 
@@ -948,22 +948,22 @@ describe SPARQL::Grammar::Parser do
     it "sets base_uri to <http://example.org> given 'BASE <http://example.org/>'" do
       p = parser(nil, :resolve_iris => true).call(%q(BASE <http://example.org/>))
       p.parse(production)
-      p.send(:base_uri).should == RDF::URI('http://example.org/')
+      expect(p.send(:base_uri)).to eq RDF::URI('http://example.org/')
     end
 
     it "sets prefix : to 'foobar' given 'PREFIX : <foobar>'" do
       p = parser(nil, :resolve_iris => true).call(%q(PREFIX : <foobar>))
       p.parse(production)
-      p.send(:prefix, nil).should == 'foobar'
-      p.send(:prefixes)[nil].should == 'foobar'
+      expect(p.send(:prefix, nil)).to eq 'foobar'
+      expect(p.send(:prefixes)[nil]).to eq 'foobar'
     end
 
     it "sets prefix foo: to 'bar' given 'PREFIX foo: <bar>'" do
       p = parser(nil, :resolve_iris => true).call(%q(PREFIX foo: <bar>))
       p.parse(production)
-      p.send(:prefix, :foo).should == 'bar'
-      p.send(:prefix, "foo").should == 'bar'
-      p.send(:prefixes)[:foo].should == 'bar'
+      expect(p.send(:prefix, :foo)).to eq 'bar'
+      expect(p.send(:prefix, "foo")).to eq 'bar'
+      expect(p.send(:prefixes)[:foo]).to eq 'bar'
     end
 
     {
@@ -987,7 +987,7 @@ describe SPARQL::Grammar::Parser do
       ]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1097,7 +1097,7 @@ describe SPARQL::Grammar::Parser do
       #]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
 
@@ -1121,7 +1121,7 @@ describe SPARQL::Grammar::Parser do
       ]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
   end
@@ -1152,7 +1152,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1203,7 +1203,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1236,7 +1236,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1253,7 +1253,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1284,7 +1284,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
 
@@ -1323,7 +1323,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1339,7 +1339,7 @@ describe SPARQL::Grammar::Parser do
       ]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1367,7 +1367,7 @@ describe SPARQL::Grammar::Parser do
       ]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1389,7 +1389,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1405,7 +1405,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
     include_examples "FunctionCall"
@@ -1431,7 +1431,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1443,7 +1443,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1455,7 +1455,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1513,7 +1513,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
   end
@@ -1535,7 +1535,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => false)
+        expect(input).to generate(output, :resolve_iris => false)
       end
     end
   end
@@ -1555,7 +1555,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
   end
@@ -1568,7 +1568,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
   end
@@ -1597,7 +1597,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
   end
@@ -1641,7 +1641,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output, :resolve_iris => true)
+        expect(input).to generate(output, :resolve_iris => true)
       end
     end
   end
@@ -1664,7 +1664,7 @@ describe SPARQL::Grammar::Parser do
       %q(("foo", "bar")) => [:ArgList, RDF::Literal("foo"), RDF::Literal("bar")]
     }.each do |input, output|
       it input do
-        input.should generate(output, {})
+        expect(input).to generate(output, {})
       end
     end
   end
@@ -1709,7 +1709,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do
-        "{#{input}}".should generate(([:ConstructTemplate] + output.patterns),
+        expect("{#{input}}").to generate(([:ConstructTemplate] + output.patterns),
           :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
           :base_uri => RDF::URI("http://example.org/"),
           :anon_base => "b0")
@@ -1738,7 +1738,7 @@ describe SPARQL::Grammar::Parser do
       ]
     }.each do |title, (input, output)|
       it title do
-        input.should generate(output,
+        expect(input).to generate(output,
           :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
           :base_uri => RDF::URI("http://example.org/"),
           :anon_base => "b0")
@@ -1851,7 +1851,7 @@ describe SPARQL::Grammar::Parser do
       }.each do |terminal, examples|
         it "recognizes the #{terminal} terminal" do
           examples.each do |input, result|
-            input.should generate(result,
+            expect(input).to generate(result,
                                   :last => true,
                                   :prefixes => {
                                     nil => "http://example.com/",
@@ -1867,14 +1867,14 @@ describe SPARQL::Grammar::Parser do
         if output = parser(production).call(%q(_:foobar))
           v = RDF::Query::Variable.new("foobar")
           v.distinguished = false
-          output.last.should == v
-          output.last.should_not be_distinguished
+          expect(output.last).to eq v
+          expect(output.last).not_to be_distinguished
         end
       end
 
       it "recognizes the ANON terminal" do
         if output = parser(production).call(%q([]))
-          output.last.should_not be_distinguished
+          expect(output.last).not_to be_distinguished
         end
       end
     end
@@ -1988,7 +1988,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, result)|
       it title do
-        input.should generate(result, :resolve_iris => false)
+        expect(input).to generate(result, :resolve_iris => false)
       end
     end
   end

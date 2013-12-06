@@ -175,7 +175,7 @@ module RDF::Term
   def compatible?(other)
     return false unless literal?  && other.literal? && plain? && other.plain?
 
-    dtr = RDF::VERSION.to_s >= "1.1" ? other.datatype : (other.has_language? ? RDF.langString : RDF::XSD.string)
+    dtr = other.datatype
 
     # * The arguments are simple literals or literals typed as xsd:string
     # * The arguments are plain literals with identical language tags
@@ -209,16 +209,27 @@ module RDF::Queryable
   # @yieldreturn [void] ignored
   # @return [Enumerator]
   # @see    RDF::Queryable#query_pattern
-  def query(pattern, &block)
-    raise TypeError, "#{self} is not readable" if respond_to?(:readable?) && !readable?
+  def query(pattern, options = {}, &block)
+    raise TypeError, "#{self} is not queryable" if respond_to?(:queryable?) && !queryable?
 
     if pattern.is_a?(SPARQL::Algebra::Operator) && pattern.respond_to?(:execute)
       before_query(pattern) if respond_to?(:before_query)
-      query_execute(pattern, &block)
+      solutions = if method(:query_execute).arity == 1
+        query_execute(pattern, &block)
+      else
+        query_execute(pattern, options, &block)
+      end
       after_query(pattern) if respond_to?(:after_query)
-      enum_for(:query_execute, pattern)
+
+      if !pattern.respond_to?(:query_yeilds_solutions?) || pattern.query_yields_solutions?
+        # Just return solutions
+        solutions
+      else
+        # Return an enumerator
+        enum_for(:query, pattern, options)
+      end
     else
-      query_without_sparql(pattern, &block)
+      query_without_sparql(pattern, options, &block)
     end
   end
   
@@ -248,6 +259,23 @@ class RDF::Query
   def to_sxp_bin
     res = [:bgp] + patterns.map(&:to_sxp_bin)
     (context ? [:graph, context, res] : res)
+  end
+  # Query results in a boolean result (e.g., ASK)
+  # @return [Boolean]
+  def query_yields_boolean?
+    false
+  end
+
+  # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
+  # @return [Boolean]
+  def query_yields_statements?
+    false
+  end
+
+  # Query results solutions (e.g., SELECT)
+  # @return [Boolean]
+  def query_yields_solutions?
+    true
   end
 end
 

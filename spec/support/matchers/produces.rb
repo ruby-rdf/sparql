@@ -2,7 +2,7 @@ require 'rspec/matchers'
 
 RSpec::Matchers.define :produce do |expected, info|
   match do |actual|
-    actual.should == expected
+    expect(actual).to eq expected
   end
   
   failure_message_for_should do |actual|

@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 require 'sinatra/sparql'
 require 'sinatra'
@@ -17,7 +17,7 @@ class SPTest < Sinatra::Base
 
   get '/solutions' do
     settings.sparql_options.merge!(:format => (params["fmt"] ? params["fmt"].to_sym : nil))
-    body RDF::Query::Solutions.new << RDF::Query::Solution.new(:a => RDF::Literal("b"))
+    body RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))
   end
 
   get '/ssd' do
@@ -37,7 +37,7 @@ end
 
 require 'rack/test'
 
-describe Sinatra::SPARQL do
+describe Sinatra::SPARQL, :pending => ("problem with Rack::Protection::FrameOptions with RBX" if RUBY_ENGINE == "rbx") do
   include ::Rack::Test::Methods
 
   def app
@@ -46,7 +46,7 @@ describe Sinatra::SPARQL do
 
   describe "self.registered" do
     it "sets :sparql_options" do
-      Sinatra::Application.sparql_options.should be_a(Hash)
+      expect(Sinatra::Application.sparql_options).to be_a(Hash)
     end
   end
 
@@ -71,7 +71,7 @@ describe Sinatra::SPARQL do
             get '/graph', :fmt => fmt
             expect(last_response.status).to eq 200
             expect(last_response.body).to match(expected)
-            expect(last_response.content_type).to eq RDF::Format.for(fmt).content_type.first
+            expect(RDF::Format.for(fmt).content_type).to include(last_response.content_type)
             expect(last_response.content_length).not_to eq 0
           end
         end
@@ -80,8 +80,8 @@ describe Sinatra::SPARQL do
     
     context "with Accept" do
       {
-        "text/plain" => %r{_:a <http://example/b> "c" \.},
-        "text/turtle" => %r{\[ <http://example/b> "c"\]}
+        "application/n-triples" => %r{_:a <http://example/b> "c" \.},
+        "application/turtle" => %r{\[ <http://example/b> "c"\]}
       }.each do |content_types, expected|
         context content_types do
           it "returns serialization" do

@@ -109,7 +109,8 @@ module SPARQL; module Algebra
       NAME = [:dataset]
       # Selected accept headers, from those available
       ACCEPTS = (%w(
-        text/turtle
+        application/turtle
+        text/turtle;q=0.9
         application/rdf+xml;q=0.8
         application/n-triples;q=0.4
         text/plain;q=0.1
@@ -130,10 +131,14 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &base)
         debug(options) {"Dataset"}
         default_datasets = []
         named_datasets = []
@@ -176,8 +181,7 @@ module SPARQL; module Algebra
         aggregate = RDF::AggregateRepo.new(queryable)
         named_datasets.each {|name| aggregate.named(name) if queryable.has_context?(name)}
         aggregate.default(*default_datasets.select {|name| queryable.has_context?(name)})
-        executable = operands.last
-        @solutions = executable.execute(aggregate, options.merge(:depth => options[:depth].to_i + 1))
+        aggregate.query(operands.last, options.merge(:depth => options[:depth].to_i + 1), &base)
       end
       
       ##

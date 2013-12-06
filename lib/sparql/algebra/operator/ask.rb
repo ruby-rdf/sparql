@@ -22,14 +22,16 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
-      # @return [RDF::Literal::Boolean]
-      #   the resulting solution sequence
+      # @yield  [RDF::Literal::Boolean]
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
+      # @return [RDF::Literal::Boolean]\
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Ask #{operands.first}"}
-        boolean(!operands.last.
-          execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).
-          empty?)
+        res = boolean(!queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)).empty?)
+        yield res if block_given?
+        res
       end
       
       ##
@@ -40,6 +42,12 @@ module SPARQL; module Algebra
       # @return [Union, RDF::Query] `self`
       def optimize
         operands = operands.map(&:optimize)
+      end
+
+      # Query results in a boolean result (e.g., ASK)
+      # @return [Boolean]
+      def query_yields_boolean?
+        true
       end
     end # Ask
   end # Operator

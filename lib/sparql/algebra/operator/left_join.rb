@@ -25,23 +25,27 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#merge-instance_method
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#compatible%3F-instance_method
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
         filter = operand(2)
 
-        
         debug(options) {"LeftJoin"}
-        left = operand(0).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug(options) {"=>(left) #{left.inspect}"}
-        right = operand(1).execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) || {}
-        debug(options) {"=>(right) #{right.inspect}"}
-        
+        left = queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1))
+        debug(options) {"=>(leftjoin left) #{left.inspect}"}
+
+        right = queryable.query(operand(1), options.merge(:depth => options[:depth].to_i + 1))
+        debug(options) {"=>(leftjoin right) #{right.inspect}"}
+
         # LeftJoin(Ω1, Ω2, expr) =
-        solutions = []
+        @solutions = RDF::Query::Solutions()
         left.each do |s1|
           load_left = true
           right.each do |s2|
@@ -52,18 +56,18 @@ module SPARQL; module Algebra
             if expr && s1.compatible?(s2)
               # { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible and expr(merge(μ1, μ2)) is true }
               debug(options) {"=>(merge s1 s2) #{s.inspect}"}
-              solutions << s
+              @solutions << s
               load_left = false   # Left solution added one or more times due to merge
             end
           end
           if load_left
             debug(options) {"=>(add) #{s1.inspect}"}
-            solutions << s1
+            @solutions << s1
           end
         end
         
-        @solutions = RDF::Query::Solutions.new(solutions)
         debug(options) {"=> #{@solutions.inspect}"}
+        @solutions.each(&block) if block_given?
         @solutions
       end
       

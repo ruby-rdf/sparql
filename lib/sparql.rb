@@ -58,11 +58,14 @@ module SPARQL
   #   One or more URIs used to initialize a new instance of `queryable` in the default context.
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :named_graph_uri
   #   One or more URIs used to initialize the `queryable` as a named context.
-  # @return [RDF::Graph, RDF::Query::Solutions, Boolean]
-  #   Note, results may be used with {SPARQL.serialize_results} to obtain appropriate
-  #   output encoding.
+  # @yield  [solution]
+  #   each matching solution, statement or boolean
+  # @yieldparam  [RDF::Statement, RDF::Query::Solution, Boolean] solution
+  # @yieldreturn [void] ignored
+  # @return [RDF::Graph, Boolean, RDF::Query::Solutions::Enumerator]
+  #   Note, results may be used with {SPARQL.serialize_results} to obtain appropriate output encoding.
   # @raise  [SPARQL::MalformedQuery] on invalid input
-  def self.execute(query, queryable, options = {})
+  def self.execute(query, queryable, options = {}, &block)
     query = self.parse(query, options)
     queryable = queryable || RDF::Repository.new
     
@@ -82,7 +85,7 @@ module SPARQL
         queryable.load(uri, :context => uri)
       end
     end
-    solutions = query.execute(queryable)
+    query.execute(queryable, &block)
   rescue SPARQL::Grammar::Parser::Error => e
     raise MalformedQuery, e.message
   rescue TypeError => e

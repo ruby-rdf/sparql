@@ -27,7 +27,7 @@
    doap:category <http://dbpedia.org/resource/Resource_Description_Framework>,
      <http://dbpedia.org/resource/Ruby_(programming_language)>;
    doap:created "2008-07-15"^^xsd:date;
-   doap:download-page <phttp://rubygems.org/gems/sparql>;
+   doap:download-page <http://rubygems.org/gems/sparql>;
    doap:homepage <http://github.com/ruby-rdf/sparql>;
    doap:license <http://creativecommons.org/licenses/publicdomain/>;
    doap:platform "Ruby";

@@ -1,4 +1,4 @@
-$:.unshift "."
+$:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
 require 'rack/sparql'
 require 'rack/test'
@@ -13,13 +13,25 @@ describe Rack::SPARQL do
     @app ||= Rack::SPARQL::ContentNegotiation.new(target_app, @options)
   end
 
+  describe "#parse_accept_header" do
+    {
+      "application/n-triples" => %w(application/n-triples),
+      "application/n-triples,  application/turtle" => %w(application/n-triples application/turtle),
+      "application/turtle;q=0.5, application/n-triples" => %w(application/n-triples application/turtle),
+    }.each do |accept, content_types|
+      it "returns #{content_types.inspect} given #{accept.inspect}" do
+        expect(app.send(:parse_accept_header, accept)).to eq content_types
+      end
+    end
+  end
+
   context "plain test" do
     it "returns text unchanged" do
       get '/'
-      last_response.body.should == 'A String'
+      expect(last_response.body).to eq 'A String'
     end
   end
-  
+
   context "serializes graphs" do
     before(:each) do
       @options.merge!(:standard_prefixes => true)
@@ -31,20 +43,20 @@ describe Rack::SPARQL do
         context fmt do
           before(:each) do
             @options[:format] = fmt
-            @results.should_receive(:dump).with(fmt, @options).and_return(fmt.to_s)
+            expect(@results).to receive(:dump).with(fmt, @options).and_return(fmt.to_s)
             get '/'
           end
 
           it "returns serialization" do
-            last_response.body.should == fmt.to_s
+            expect(last_response.body).to eq fmt.to_s
           end
 
           it "sets content type to #{RDF::Format.for(fmt).content_type.first}" do
-            last_response.content_type.should == RDF::Format.for(fmt).content_type.first
+            expect(last_response.content_type).to eq RDF::Format.for(fmt).content_type.first
           end
           
           it "sets content length" do
-            last_response.content_length.should_not == 0
+            expect(last_response.content_length).not_to eq 0
           end
         end
       end
@@ -52,27 +64,25 @@ describe Rack::SPARQL do
     
     context "with Accept" do
       {
-        :ntriples => "text/plain",
-        :turtle   => "text/turtle"
-      }.each do |fmt, content_types|
-        context content_types do
+        "application/n-triples"                            => :ntriples,
+        "application/n-triples,  application/turtle"       => :ntriples,
+        "application/turtle;q=0.5, application/n-triples" => :ntriples,
+      }.each do |accepts, fmt|
+        context accepts do
           before(:each) do
-            @results.should_receive(:dump).
-              with(fmt, @options.merge(:content_types => content_types.split(/,\s+/))).
-              and_return(content_types.split(/,\s+/).first)
-              get '/', {}, {"HTTP_ACCEPT" => content_types}
+            writer = RDF::Writer.for(fmt)
+            expect(writer).to receive(:dump).
+              and_return(accepts.split(/,\s+/).first)
+              get '/', {}, {"HTTP_ACCEPT" => accepts}
+          end
+          let(:content_type) {app.send(:parse_accept_header, accepts).first}
+
+          it "sets content type" do
+            expect(last_response.content_type).to eq content_type
           end
 
           it "returns serialization" do
-            last_response.body.should == content_types.split(/,\s+/).first
-          end
-
-          it "sets content type to #{content_types}" do
-            last_response.content_type.should == content_types
-          end
-          
-          it "sets content length" do
-            last_response.content_length.should_not == 0
+            expect(last_response.body).to eq accepts.split(/,\s+/).first
           end
         end
       end
@@ -80,28 +90,24 @@ describe Rack::SPARQL do
   end
 
   context "serializes solutions" do
-    before(:each) { @results = RDF::Query::Solutions.new << RDF::Query::Solution.new(:a => RDF::Literal("b"))}
+    before(:each) { @results = RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))}
 
     context "with format" do
       %w(json html xml csv tsv).map(&:to_sym).each do |fmt|
         context fmt do
           before(:each) do
             @options[:format] = fmt
-            @results.should_receive("to_#{fmt}".to_sym).and_return(fmt.to_s)
+            expect(@results).to receive("to_#{fmt}".to_sym).and_return(fmt.to_s)
             get '/'
           end
 
           it "returns serialization" do
-            last_response.status == 200
-            last_response.body.should == fmt.to_s
+            expect(last_response).to be_ok
+            expect(last_response.body).to eq fmt.to_s
           end
 
           it "sets content type to #{SPARQL::Results::MIME_TYPES[fmt]}" do
-            last_response.content_type.should == SPARQL::Results::MIME_TYPES[fmt]
-          end
-          
-          it "sets content length" do
-            last_response.content_length.should_not == 0
+            expect(last_response.content_type).to eq SPARQL::Results::MIME_TYPES[fmt]
           end
         end
       end
@@ -117,21 +123,17 @@ describe Rack::SPARQL do
       }.each do |fmt, content_types|
         context content_types do
           before(:each) do
-            @results.should_receive("to_#{fmt}").
+            expect(@results).to receive("to_#{fmt}").
               and_return(content_types.split(/,\s+/).first)
               get '/', {}, {"HTTP_ACCEPT" => content_types}
           end
 
           it "returns serialization" do
-            last_response.body.should == content_types.split(/,\s+/).first
+            expect(last_response.body).to eq content_types.split(/,\s+/).first
           end
 
           it "sets content type to #{content_types}" do
-            last_response.content_type.should == content_types
-          end
-          
-          it "sets content length" do
-            last_response.content_length.should_not == 0
+            expect(last_response.content_type).to eq content_types
           end
         end
       end

@@ -27,10 +27,19 @@ module SPARQL; module Algebra
       # Extend is undefined when var in dom(μ).
       # 
       # Extend(Ω, var, expr) = { Extend(μ, var, expr) | μ in Ω }
+      #
+      # @param  [RDF::Queryable] queryable
+      #   the graph or repository to query
+      # @param  [Hash{Symbol => Object}] options
+      #   any additional keyword options
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
         debug(options) {"Extend"}
         @solutions = operands.last.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
         @solutions.each do |solution|
@@ -48,6 +57,7 @@ module SPARQL; module Algebra
             end
           end
         end
+        @solutions.each(&block) if block_given?
         @solutions
       end
       

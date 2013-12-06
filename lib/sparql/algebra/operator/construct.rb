@@ -29,17 +29,21 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
-      # @return [RDF::Query::Solutions]
-      #   the resulting solution sequence
+      # @yield  [statement]
+      #   each matching statement
+      # @yieldparam  [RDF::Statement] solution
+      # @yieldreturn [void] ignored
+      # @return [RDF::Queryable]
+      #   A Queryable with constructed triples
       # @see    http://www.w3.org/TR/rdf-sparql-query/#construct
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
         debug(options) {"Construct #{operands.first}, #{options.inspect}"}
         graph = RDF::Graph.new
         patterns = operands.first
         query = operands.last
 
-        query.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)).each do |solution|
-          debug(options) {"=> Apply #{solution.inspect} to BGP"}
+        queryable.query(query, options.merge(:depth => options[:depth].to_i + 1)).each do |solution|
+          debug(options) {"(construct apply) #{solution.inspect} to BGP"}
           
           # Create a mapping from BNodes within the pattern list to newly constructed BNodes
           nodes = {}
@@ -58,16 +62,17 @@ module SPARQL; module Algebra
             # Sanity checking on statement
             if statement.subject.nil? || statement.predicate.nil? || statement.object.nil? ||
                statement.subject.literal? || statement.predicate.literal?
-              debug(options) {"==> skip #{statement.inspect}"}
+              debug(options) {"(construct skip) #{statement.inspect}"}
               next
             end
 
-            debug(options) {"==> add #{statement.inspect}"}
+            debug(options) {"(construct add) #{statement.inspect}"}
             graph << statement
           end
         end
-        
+
         debug(options) {"=>\n#{graph.dump(:ttl, :standard_prefixes => true)}"}
+        graph.each(&block) if block_given?
         graph
       end
       
@@ -79,6 +84,12 @@ module SPARQL; module Algebra
       # @return [Union, RDF::Query] `self`
       def optimize
         operands = operands.map(&:optimize)
+      end
+
+      # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
+      # @return [Boolean]
+      def query_yields_statements?
+        true
       end
     end # Construct
   end # Operator

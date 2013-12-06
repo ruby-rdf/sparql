@@ -1,4 +1,5 @@
-require File.join(File.dirname(__FILE__), 'spec_helper')
+$:.unshift File.expand_path("..", __FILE__)
+require 'spec_helper'
 require 'linkeddata'
 require 'strscan'
 
@@ -35,7 +36,7 @@ describe "README" do
         cmd = example[:sh].
           sub('sparql', File.join(File.dirname(__FILE__), '..', 'bin', 'sparql')).
           sub('etc', File.join(File.dirname(__FILE__), '..', 'etc'))
-        IO.popen(cmd) {|io| io.read}.should be_true
+        expect(IO.popen(cmd) {|io| io.read}).to be_true
       end
     end
   end
@@ -62,7 +63,7 @@ describe "README" do
       end
 
       results = SPARQL.execute(query, repo)
-      results.should describe_solutions([
+      expect(results).to describe_solutions([
         RDF::Query::Solution.new({:crypted => RDF::Literal("gregg@greggkellogg.net".crypt("salt"))})
       ])
     end
