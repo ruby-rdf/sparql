@@ -1122,8 +1122,9 @@ module SPARQL::Grammar
     # @see http://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
     def parse(prod = START)
       ll1_parse(@input, prod.to_sym, @options.merge(:branch => BRANCH,
-                                                     :first => FIRST,
-                                                     :follow => FOLLOW)
+                                                    :first => FIRST,
+                                                    :follow => FOLLOW,
+                                                    :whitespace => WS)
       ) do |context, *data|
         case context
         when :trace

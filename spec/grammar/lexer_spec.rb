@@ -470,7 +470,7 @@ describe EBNF::LL1::Lexer do
     }
     inputs.each do |input, lineno|
       it "gets line number #{lineno} for #{input.inspect}" do
-        lexer = EBNF::LL1::Lexer.tokenize(input, @terminals)
+        lexer = EBNF::LL1::Lexer.tokenize(input, @terminals, :whitespace => SPARQL::Grammar::Terminals::WS)
         lexer.to_a # consumes the input
         expect(lexer.lineno).to eq lineno
       end
@@ -559,7 +559,9 @@ describe EBNF::LL1::Lexer do
   def tokenize(*inputs, &block)
     options = inputs.last.is_a?(Hash) ? inputs.pop : {}
     inputs.each do |input|
-      tokens = EBNF::LL1::Lexer.tokenize(input, @terminals, :unescape_terms => @unescape_terms)
+      tokens = EBNF::LL1::Lexer.tokenize(input, @terminals,
+                                        :unescape_terms => @unescape_terms,
+                                        :whitespace => SPARQL::Grammar::Terminals::WS)
       expect(tokens).to be_a(EBNF::LL1::Lexer)
       block.call(tokens.to_a)
     end
