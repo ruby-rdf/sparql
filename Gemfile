@@ -4,7 +4,7 @@ gemspec :name => ""
 
 gem "rdf",            :git => "git://github.com/ruby-rdf/rdf.git", :branch => "develop"
 gem "rdf-xsd",        :git => "git://github.com/ruby-rdf/rdf-xsd.git", :branch => "develop"
-gem 'ebnf',           :git => "git://github.com/gkellogg/ebnf.git"
+gem 'ebnf',           :git => "git://github.com/gkellogg/ebnf.git", :branch => "develop"
 gem 'rdf-aggregate-repo', :git => "git://github.com/ruby-rdf/rdf-aggregate-repo.git", :branch => "develop"
 gem 'sparql-client',  :git => "git://github.com/ruby-rdf/sparql-client.git", :branch => "develop"
 gem 'sxp',            :git => "git://github.com/gkellogg/sxp-ruby.git"
