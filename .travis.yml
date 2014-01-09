@@ -9,3 +9,4 @@ rvm:
   - 1.9.3
   - jruby-19mode
   - rbx
+cache: bundler
