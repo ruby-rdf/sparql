@@ -55,7 +55,7 @@ describe Sinatra::SPARQL, :pending => ("problem with Rack::Protection::FrameOpti
       get '/ssd', {}, {'HTTP_ACCEPT' => 'text/turtle'}
       expect(last_response.status).to eq 200
       expect(last_response.body).to match(/^@prefix ssd: <.*> \.$/)
-      expect(last_response.body).to match(/\[ a ssd:Service;/)
+      expect(last_response.body).to match(/\[\s+a ssd:Service;/m)
       expect(last_response.body).to match(%r{ssd:name <http://example/e>})
     end
   end
