@@ -1842,7 +1842,7 @@ describe SPARQL::Grammar::Parser do
       {
         :PNAME_LN => {
           ":bar"    => RDF::URI("http://example.com/bar"),
-          "foo:bar" => RDF.bar
+          "foo:first" => RDF.first
         },
         :PNAME_NS => {
           ":"    => RDF::URI("http://example.com/"),
