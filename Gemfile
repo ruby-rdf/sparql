@@ -2,7 +2,8 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rdf",            :git => "git://github.com/ruby-rdf/rdf.git", :branch => "develop"
+#gem "rdf",            :git => "git://github.com/ruby-rdf/rdf.git", :branch => "develop"
+gem "rdf",            :path => "../rdf"
 gem "rdf-xsd",        :git => "git://github.com/ruby-rdf/rdf-xsd.git", :branch => "develop"
 gem 'ebnf',           :git => "git://github.com/gkellogg/ebnf.git", :branch => "develop"
 gem 'rdf-aggregate-repo', :git => "git://github.com/ruby-rdf/rdf-aggregate-repo.git", :branch => "develop"
@@ -28,7 +29,7 @@ end
 group :debug do
   gem 'shotgun'  unless ENV['CI']
   gem 'debugger', :platforms => :mri_19
-  gem 'byebug', :platforms => :mri_20
+  gem 'byebug', :platforms => [:mri_20, :mri_21]
   gem "wirble"
   gem 'redcarpet', :platforms => :ruby
   gem 'ruby-prof', :platforms => :mri

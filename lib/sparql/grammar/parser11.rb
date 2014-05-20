@@ -1263,7 +1263,7 @@ module SPARQL::Grammar
           id = @options[:anon_base]
           @options[:anon_base] = @options[:anon_base].succ
         end
-        RDF::Node.new(id)
+        (@bnode_cache ||= {})[id.to_s] ||= RDF::Node.new(id)
       end
     end
 
