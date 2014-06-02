@@ -611,7 +611,7 @@ shared_examples "iri" do
 
     it "recognizes the PrefixedName nonterminal" do
       %w(: foo: :bar foo:bar).each do |input|
-        expect(parser(production).call(input).last).not_to be_false # TODO
+        expect(parser(production).call(input).last).not_to be_falsey # TODO
       end
     end
   end
