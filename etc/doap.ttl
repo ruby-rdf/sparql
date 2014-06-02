@@ -30,7 +30,7 @@
    doap:download-page <http://rubygems.org/gems/sparql>;
    doap:homepage <http://github.com/ruby-rdf/sparql>;
    doap:license <http://creativecommons.org/licenses/publicdomain/>;
-   doap:platform "Ruby";
+   doap:platform "Ruby" .
 
 <http://greggkellogg.net/foaf#me> a foaf:Person;
    foaf:homepage <http://greggkellogg.net/>;
@@ -49,5 +49,5 @@
 
 _:pius a foaf:Person;
     foaf:mbox_sha1sum "bedbbf2451e5beb38d59687c0460032aff92cd3c";
-    foaf:name "Pius Uzamere"
-    doap:homepage <http://pius.me>;
+    foaf:name "Pius Uzamere";
+    doap:homepage <http://pius.me> .

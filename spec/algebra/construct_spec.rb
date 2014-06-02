@@ -86,13 +86,23 @@ describe SPARQL::Algebra::Query do
           )
         )
       ],
+      "reused bnode label" => [
+        %q(),
+        %q(
+          @prefix ex: <http://example.com/> .
+          ex:s ex:p1 [ex:p2 ex:o1] .
+        ),
+        %q((prefix
+           ((ex: <http://example.com/>))
+           (construct ((triple ex:s ex:p1 _:b1) (triple _:b1 ex:p2 ex:o1)) (bgp)))),
+      ]
     }.each do |example, (source, result, query)|
       it "constructs #{example}" do
         graph_r = RDF::Graph.new << RDF::Turtle::Reader.new(result)
 
         expect(
           sparql_query(
-            :form => :describe, :sse => true,
+            :form => :construct, :sse => true,
             :graphs => {:default => {:data => source, :format => :ttl}},
             :query => query)
         ).to be_isomorphic(graph_r)

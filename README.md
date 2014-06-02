@@ -111,7 +111,7 @@ client requested and understands.
  [SPARQL 1.1 Service Description][].
 
 The middleware queries [RDF.rb][] for the MIME content types of known RDF
-serialization formats, so it will work with whatever serialization plugins
+serialization formats, so it will work with whatever serialization extensions
 that are currently available for RDF.rb. (At present, this includes support
 for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.)
 
