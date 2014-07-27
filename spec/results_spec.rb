@@ -382,7 +382,7 @@ describe SPARQL::Results do
     context "graph" do
       {
         :ntriples => 'application/n-triples',
-        :turtle   => 'application/turtle',
+        :turtle   => 'text/turtle',
       }.each do |format, content_type|
         context "with format #{format}" do
           before(:each) do

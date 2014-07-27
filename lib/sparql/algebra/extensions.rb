@@ -1,6 +1,16 @@
 require 'json'
 
 ##
+# Extensions for Ruby's `NilClass` class.
+class NilClass
+
+  def evaluate(bindings, options = {})
+    self
+  end
+
+end
+
+##
 # Extensions for Ruby's `Object` class.
 class Object
   ##
