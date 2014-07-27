@@ -289,6 +289,8 @@ module SPARQL; module Algebra
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time
             RDF::Literal(operand)
+          when NilClass
+            nil
           else raise TypeError, "invalid SPARQL::Algebra::Operator operand: #{operand.inspect}"
         end
       end

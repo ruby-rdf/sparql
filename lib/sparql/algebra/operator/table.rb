@@ -36,7 +36,7 @@ module SPARQL; module Algebra
         operands[1..-1].each do |row|
           next unless row.is_a?(Array)
           bindings = row[1..-1].inject({}) do |memo, (var, value)|
-            memo[var.to_sym] = value
+            memo[var.to_sym] = value unless value == :undef
             memo
           end
           @solutions << RDF::Query::Solution.new(bindings)

@@ -16,7 +16,7 @@ module SPARQL; module Algebra
       NAME = :asc
 
       ##
-      # Returns the evaluation of it's operand. Default comparison is in
+      # Returns the evaluation of its operand. Default comparison is in
       # ascending order. Ordering is applied in {Order}.
       #
       # @param  [RDF::Query::Solution] bindings
