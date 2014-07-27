@@ -7,7 +7,7 @@ include SPARQL::Algebra
 
 ::RSpec::Matchers.define :have_result_set do |expected|
   match do |result|
-    expect(result.map(&:to_hash).to_set).to eq expected.to_set
+    expect(result.map(&:to_hash)).to eq expected
   end
 end
 
@@ -195,7 +195,80 @@ describe SPARQL::Algebra::Query do
                                                        { :s => EX.x2, :o => RDF::Literal.new(2) },
                                                        { :s => EX.x3, :o => RDF::Literal.new(3) }]
       end
-      
+
+      it "(order ((asc ?o)))" do
+        query = SPARQL::Algebra::Expression.parse(%q(
+          (prefix ((ex: <http://example.org/>))
+            (order ((asc ?o))
+              (bgp (triple ?s ex:p ?o))))))
+        expect(query.execute(@graph)).to have_result_set [ { :s => EX.x1, :o => RDF::Literal.new(1) },
+                                                       { :s => EX.x2, :o => RDF::Literal.new(2) },
+                                                       { :s => EX.x3, :o => RDF::Literal.new(3) }]
+      end
+
+      it "(order ((desc ?o)))" do
+        query = SPARQL::Algebra::Expression.parse(%q(
+          (prefix ((ex: <http://example.org/>))
+            (order ((desc ?o))
+              (bgp (triple ?s ex:p ?o))))))
+        expect(query.execute(@graph)).to have_result_set [ { :s => EX.x3, :o => RDF::Literal.new(3) },
+                                                       { :s => EX.x2, :o => RDF::Literal.new(2) },
+                                                       { :s => EX.x1, :o => RDF::Literal.new(1) }]
+      end
+
+      it "(order ?o)(table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o \"example.org\")) (row (?o <http://www.example.org/>)))" do
+        query = SPARQL::Algebra::Expression.parse(%q(
+          (prefix ((ex: <http://example.org/>))
+            (order (?o)
+              (table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o "example.org")) (row (?o <http://www.example.org/>)))))))
+        expect(query.execute(@graph)).to have_result_set [ { },
+                                                       { :o => RDF::Node.new(1) },
+                                                       { :o => RDF::URI.new('http://www.example.org/') },
+                                                       { :o => RDF::Literal.new('example.org') }]
+      end
+
+      it "(order ?o)(table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o \"example.org\")) (row (?o <http://www.example.org/>)))" do
+        query = SPARQL::Algebra::Expression.parse(%q(
+          (prefix ((ex: <http://example.org/>))
+            (order (?o ?o2)
+              (join
+                (table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o "example.org")) (row (?o <http://www.example.org/>)))
+                (table (vars ?o2) (row (?o2 _:2)) (row (?o2 undef)) (row (?o2 "example.org")) (row (?o2 <http://www.example.org/>))))))))
+        expect(query.execute(@graph)).to have_result_set [ { },
+                                                       { :o2 => RDF::Node.new(2) },
+                                                       { :o2 => RDF::URI.new('http://www.example.org/') },
+                                                       { :o2 => RDF::Literal.new('example.org') },
+                                                       { :o => RDF::Node.new(1) },
+                                                       { :o => RDF::Node.new(1), :o2 => RDF::Node.new(2) },
+                                                       { :o => RDF::Node.new(1), :o2 => RDF::URI.new('http://www.example.org/') },
+                                                       { :o => RDF::Node.new(1), :o2 => RDF::Literal.new('example.org') },
+                                                       { :o => RDF::URI.new('http://www.example.org/') },
+                                                       { :o => RDF::URI.new('http://www.example.org/'), :o2 => RDF::Node.new(2) },
+                                                       { :o => RDF::URI.new('http://www.example.org/'), :o2 => RDF::URI.new('http://www.example.org/') },
+                                                       { :o => RDF::URI.new('http://www.example.org/'), :o2 => RDF::Literal.new('example.org') },
+                                                       { :o => RDF::Literal.new('example.org') },
+                                                       { :o => RDF::Literal.new('example.org'), :o2 => RDF::Node.new(2) },
+                                                       { :o => RDF::Literal.new('example.org'), :o2 => RDF::URI.new('http://www.example.org/') },
+                                                       { :o => RDF::Literal.new('example.org'), :o2 => RDF::Literal.new('example.org') }]
+      end
+
+      it "(order ((asc ?o) (desc ?o2)))" do
+        query = SPARQL::Algebra::Expression.parse(%q(
+          (prefix ((ex: <http://example.org/>))
+            (order ((asc ?o) (desc ?o2))
+              (bgp (triple ?s ex:p ?o)
+                   (triple ?s2 ex:p ?o2))))))
+        expect(query.execute(@graph)).to have_result_set [ { :s => EX.x1, :o => RDF::Literal.new(1), :s2 => EX.x3, :o2 => RDF::Literal.new(3) },
+                                                       { :s => EX.x1, :o => RDF::Literal.new(1), :s2 => EX.x2, :o2 => RDF::Literal.new(2) },
+                                                       { :s => EX.x1, :o => RDF::Literal.new(1), :s2 => EX.x1, :o2 => RDF::Literal.new(1) },
+                                                       { :s => EX.x2, :o => RDF::Literal.new(2), :s2 => EX.x3, :o2 => RDF::Literal.new(3) },
+                                                       { :s => EX.x2, :o => RDF::Literal.new(2), :s2 => EX.x2, :o2 => RDF::Literal.new(2) },
+                                                       { :s => EX.x2, :o => RDF::Literal.new(2), :s2 => EX.x1, :o2 => RDF::Literal.new(1) },
+                                                       { :s => EX.x3, :o => RDF::Literal.new(3), :s2 => EX.x3, :o2 => RDF::Literal.new(3) },
+                                                       { :s => EX.x3, :o => RDF::Literal.new(3), :s2 => EX.x2, :o2 => RDF::Literal.new(2) },
+                                                       { :s => EX.x3, :o => RDF::Literal.new(3), :s2 => EX.x1, :o2 => RDF::Literal.new(1) }]
+      end
+
       it "(project (?o) ?p ?o)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))

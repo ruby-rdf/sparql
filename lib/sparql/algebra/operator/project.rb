@@ -1,7 +1,7 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # The SPARQL GraphPattern `order` operator.
+    # The SPARQL GraphPattern `project` operator.
     #
     # @example
     #   (select (?v)

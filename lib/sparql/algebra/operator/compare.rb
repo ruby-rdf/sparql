@@ -52,7 +52,8 @@ module SPARQL; module Algebra
           when right.simple? && left.datatype == RDF::XSD.string && right.value == left.value
             RDF::Literal(-1)
 
-          else raise TypeError, "unable to compare #{left.inspect} and #{right.inspect}"
+          else
+            left <=> right
           end
           
         when left.is_a?(RDF::URI) && right.is_a?(RDF::URI)
@@ -65,13 +66,22 @@ module SPARQL; module Algebra
           RDF::Literal(0)
         
         # SPARQL also fixes an order between some kinds of RDF terms that would not otherwise be ordered:
-        # 2. Blank nodes
+
+        when left.nil? && !right.nil?
+          RDF::Literal(-1)
+        when right.nil?
+          RDF::Literal(1)
+
         when left.is_a?(RDF::Node) && right.is_a?(RDF::Term)
           RDF::Literal(-1)
         when right.is_a?(RDF::Node) && left.is_a?(RDF::Term)
           RDF::Literal(1)
 
-        # 3. IRIs
+        when left.is_a?(RDF::Node) && right.is_a?(RDF::URI)
+          RDF::Literal(-1)
+        when right.is_a?(RDF::Node) && left.is_a?(RDF::URI)
+          RDF::Literal(1)
+
         when left.is_a?(RDF::URI) && right.is_a?(RDF::Term)
           RDF::Literal(-1)
         when right.is_a?(RDF::URI) && left.is_a?(RDF::Term)
