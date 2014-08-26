@@ -5,7 +5,7 @@ RSpec::Matchers.define :produce do |expected, info|
     expect(actual).to eq expected
   end
   
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     case expected
     when String
       "Expected     : #{expected.inspect}\n"

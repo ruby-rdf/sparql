@@ -9,7 +9,7 @@ shared_examples "SSE" do |man, tests|
       when MF.QueryEvaluationTest, MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11
         it "parses #{t.entry} - #{t.name} to correct SSE" do
           case t.name
-          when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
+          when 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
@@ -53,11 +53,19 @@ shared_examples "SSE" do |man, tests|
         end
       when MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
         it "detects syntax error for #{t.entry} - #{t.name}" do
-          begin
-            expect {SPARQL::Grammar.parse(t.action.query_string, :validate => true)}.to raise_error
-          rescue
-            pending "Detecting syntax errors better"
-          end
+          pending("Better Error Detection") if %w(
+            syn-blabel-cross-graph-bad.rq syn-blabel-cross-optional-bad.rq syn-blabel-cross-union-bad.rq
+            syn-bad-34.rq syn-bad-35.rq syn-bad-36.rq syn-bad-37.rq syn-bad-38.rq
+            syn-bad-OPT-breaks-BGP.rq syn-bad-UNION-breaks-BGP.rq syn-bad-GRAPH-breaks-BGP.rq
+            agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
+            syntax-BINDscope6.rq syntax-BINDscope7.rq syntax-BINDscope8.rq
+            syntax-SELECTscope2.rq
+            syn-bad-pname-06.rq
+          ).include?(t.entry)
+          pending("Better Error Detection") if %w(
+            syn-bad-01.rq syn-bad-02.rq
+          ).include?(t.entry) && man.to_s.split("/")[-2] == 'syntax-query'
+          expect {SPARQL::Grammar.parse(t.action.query_string, :validate => true)}.to raise_error
         end
       when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest,
            MF.PositiveUpdateSyntaxTest11, MF.NegativeUpdateSyntaxTest11,

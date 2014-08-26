@@ -23,7 +23,7 @@ RSpec::Matchers.define :have_xpath do |xpath, value|
     end
   end
   
-  failure_message_for_should do |actual|
+  failure_message do |actual|
     msg = "expected that #{xpath.inspect} would be #{value.inspect} in:\n" + actual.to_s
     msg += "was: #{@doc.root.at_xpath(xpath, @namespaces)}"
   end

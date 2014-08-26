@@ -173,7 +173,7 @@ describe SPARQL::Algebra do
           expect(literal).to eq RDF::Literal("foo")
         end
         [RDF::URI("func"), RDF::Literal("foo")].evaluate(RDF::Query::Solution.new)
-        expect(did_yield).to be_true
+        expect(did_yield).to be_truthy
       end
     end
 

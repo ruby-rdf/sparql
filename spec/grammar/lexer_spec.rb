@@ -126,11 +126,11 @@ describe EBNF::LL1::Lexer do
     
     it "matches kanji test input" do
       tokenize('"食"') do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :STRING_LITERAL2
       end
       tokenize('食:食べる') do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :PNAME_LN
       end
     end
@@ -139,7 +139,7 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing numeric literals" do
     it "tokenizes unsigned integer literals" do
       tokenize(%q(42)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :INTEGER
         expect(tokens.first.value).to eq "42"
       end
@@ -147,7 +147,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes positive integer literals" do
       tokenize(%q(+42)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :INTEGER_POSITIVE
         expect(tokens.first.value).to eq "+42"
       end
@@ -155,7 +155,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes negative integer literals" do
       tokenize(%q(-42)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :INTEGER_NEGATIVE
         expect(tokens.first.value).to eq "-42"
       end
@@ -163,7 +163,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes unsigned decimal literals" do
       tokenize(%q(3.1415)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :DECIMAL
         expect(tokens.first.value).to eq "3.1415"
       end
@@ -171,7 +171,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes positive decimal literals" do
       tokenize(%q(+3.1415)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.last.type).to eq :DECIMAL_POSITIVE
         expect(tokens.last.value).to eq "+3.1415"
       end
@@ -179,7 +179,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes negative decimal literals" do
       tokenize(%q(-3.1415)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.last.type).to eq :DECIMAL_NEGATIVE
         expect(tokens.last.value).to eq "-3.1415"
       end
@@ -187,7 +187,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes unsigned double literals" do
       tokenize(%q(1e6)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :DOUBLE
         expect(tokens.first.value).to eq "1e6"
       end
@@ -195,7 +195,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes positive double literals" do
       tokenize(%q(+1e6)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.last.type).to eq :DOUBLE_POSITIVE
         expect(tokens.last.value).to eq "+1e6"
       end
@@ -203,7 +203,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes negative double literals" do
       tokenize(%q(-1e6)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.last.type).to eq :DOUBLE_NEGATIVE
         expect(tokens.last.value).to eq "-1e6"
       end
@@ -213,7 +213,7 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing string literals" do
     it "tokenizes single-quoted string literals" do
       tokenize(%q('Hello, world!')) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :STRING_LITERAL1
         expect(tokens.first.value).to eq %q('Hello, world!')
       end
@@ -221,7 +221,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes double-quoted string literals" do
       tokenize(%q("Hello, world!")) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :STRING_LITERAL2
         expect(tokens.first.value).to eq %q("Hello, world!")
       end
@@ -229,7 +229,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes long single-quoted string literals" do
       tokenize(%q('''Hello, world!''')) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :STRING_LITERAL_LONG1
         expect(tokens.first.value).to eq %q('''Hello, world!''')
       end
@@ -237,7 +237,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes long double-quoted string literals" do
       tokenize(%q("""Hello, world!""")) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :STRING_LITERAL_LONG2
         expect(tokens.first.value).to eq %q("""Hello, world!""")
       end
@@ -247,7 +247,7 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing blank nodes" do
     it "tokenizes labelled blank nodes" do
       tokenize(%q(_:foobar)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :BLANK_NODE_LABEL
         expect(tokens.first.value).to eq "_:foobar"
       end
@@ -255,14 +255,14 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes NIL" do
       tokenize(%q(()), %q(( )), %q((  ))) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :NIL
       end
     end
 
     it "tokenizes anonymous blank nodes" do
       tokenize(%q([]), %q([ ])) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :ANON
       end
     end
@@ -271,7 +271,7 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing variables" do
     it "tokenizes variables prefixed with '?'" do
       tokenize(%q(?foo)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :VAR1
         expect(tokens.first.value).to eq "?foo"
       end
@@ -279,7 +279,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes variables prefixed with '$'" do
       tokenize(%q($foo)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :VAR2
         expect(tokens.first.value).to eq "$foo"
       end
@@ -289,7 +289,7 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing IRI references" do
     it "tokenizes absolute IRI references" do
       tokenize(%q(<http://example.org/foobar>)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :IRIREF
         expect(tokens.first.value).to eq '<http://example.org/foobar>'
       end
@@ -297,7 +297,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes relative IRI references" do
       tokenize(%q(<foobar>)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :IRIREF
         expect(tokens.first.value).to eq '<foobar>'
       end
@@ -307,7 +307,7 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing prefixes" do
     it "tokenizes the empty prefix" do
       tokenize(%q(:)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :PNAME_NS
         expect(tokens.first.value).to eq ":"
       end
@@ -315,7 +315,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes labelled prefixes" do
       tokenize(%q(dc:)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :PNAME_NS
         expect(tokens.first.value).to eq "dc:"
       end
@@ -325,7 +325,7 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing prefixed names" do
     it "tokenizes prefixed names" do
       tokenize(%q(dc:title)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :PNAME_LN
         expect(tokens.first.value).to eq "dc:title"
       end
@@ -333,7 +333,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes prefixed names having an empty prefix label" do
       tokenize(%q(:title)) do |tokens|
-        expect(tokens).to have(1).element
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :PNAME_LN
         expect(tokens.first.value).to eq ":title"
       end
@@ -343,14 +343,14 @@ describe EBNF::LL1::Lexer do
   describe "when tokenizing RDF literals" do
     it "tokenizes language-tagged literals" do
       tokenize(%q("Hello, world!"@en)) do |tokens|
-        expect(tokens).to have(2).elements
+        expect(tokens.length).to eq 2
         expect(tokens[0].type).to eq :STRING_LITERAL2
         expect(tokens[0].value).to eq %q("Hello, world!")
         expect(tokens[1].type).to eq :LANGTAG
         expect(tokens[1].value).to eq "@en"
       end
       tokenize(%q("Hello, world!"@en-US)) do |tokens|
-        expect(tokens).to have(2).elements
+        expect(tokens.length).to eq 2
         expect(tokens[0].type).to eq :STRING_LITERAL2
         expect(tokens[0].value).to eq %q("Hello, world!")
         expect(tokens[1].type).to eq :LANGTAG
@@ -360,7 +360,7 @@ describe EBNF::LL1::Lexer do
 
     it "tokenizes datatyped literals" do
       tokenize(%q('3.1415'^^<http://www.w3.org/2001/XMLSchema#double>)) do |tokens|
-        expect(tokens).to have(3).elements
+        expect(tokens.length).to eq 3
         expect(tokens[0].type).to eq :STRING_LITERAL1
         expect(tokens[0].value).to eq %q('3.1415')
         expect(tokens[1].type).to be_nil
@@ -370,7 +370,7 @@ describe EBNF::LL1::Lexer do
       end
 
       tokenize(%q("3.1415"^^<http://www.w3.org/2001/XMLSchema#double>)) do |tokens|
-      expect(tokens).to have(3).elements
+      expect(tokens.length).to eq 3
       expect(tokens[0].type).to eq :STRING_LITERAL2
       expect(tokens[0].value).to eq %q("3.1415")
       expect(tokens[1].type).to be_nil
@@ -385,7 +385,7 @@ describe EBNF::LL1::Lexer do
     %w|^^ { } ( ) [ ] , ; .|.each do |delimiter|
       it "tokenizes the #{delimiter.inspect} delimiter" do
         tokenize(delimiter) do |tokens|
-          expect(tokens).to have(1).element
+          expect(tokens.length).to eq 1
           expect(tokens.first.type).to eq nil
           expect(tokens.first.value).to eq delimiter
         end
@@ -397,7 +397,7 @@ describe EBNF::LL1::Lexer do
     %w(a || && != <= >= ! = < > + - * /).each do |operator|
       it "tokenizes the #{operator.inspect} operator" do
         tokenize(operator) do |tokens|
-          expect(tokens).to have(1).element
+          expect(tokens.length).to eq 1
           expect(tokens.first.type).to eq nil
           expect(tokens.first.value).to eq operator
         end
@@ -431,7 +431,7 @@ describe EBNF::LL1::Lexer do
     ]).sort.each do |keyword|
       it "tokenizes the #{keyword} keyword" do
         tokenize(keyword, keyword.upcase, keyword.downcase) do |tokens|
-          expect(tokens).to have(1).element
+          expect(tokens.length).to eq 1
           expect(tokens.first.type).to eq nil
           expect(tokens.first.value.downcase).to eq keyword.downcase
         end
@@ -442,19 +442,19 @@ describe EBNF::LL1::Lexer do
   describe "when handling comments" do
     it "ignores the remainder of the current line" do
       tokenize("# ?foo ?bar", "# ?foo ?bar\n", "# ?foo ?bar\r\n") do |tokens|
-        expect(tokens).to have(0).elements
+        expect(tokens).to be_empty
       end
     end
 
     it "ignores leading whitespace" do
       tokenize(" # ?foo ?bar", "\n# ?foo ?bar", "\r\n# ?foo ?bar") do |tokens|
-        expect(tokens).to have(0).elements
+        expect(tokens).to be_empty
       end
     end
 
     it "resumes tokenization from the following line" do
       tokenize("# ?foo\n?bar", "# ?foo\r\n?bar") do |tokens|
-        expect(tokens).to have(1).elements
+        expect(tokens.length).to eq 1
         expect(tokens.first.type).to eq :VAR1
         expect(tokens.first.value).to eq "?bar"
       end
@@ -480,7 +480,7 @@ describe EBNF::LL1::Lexer do
   describe "when yielding tokens" do
     it "annotates tokens with the current line number" do
       tokenize("1\n2\n3\n4") do |tokens|
-        expect(tokens).to have(4).elements
+        expect(tokens.length).to eq 4
         4.times { |line| expect(tokens[line].lineno).to eq line + 1 }
       end
     end
@@ -530,28 +530,28 @@ describe EBNF::LL1::Lexer do
     it "tokenizes ASK queries" do
       query = "ASK WHERE { ?s ?p ?o . }"
       tokenize(query) do |tokens|
-        expect(tokens).to have(8).elements
+        expect(tokens.length).to eq 8
       end
     end
 
     it "tokenizes SELECT queries" do
       query = "SELECT * WHERE { ?s ?p ?o . }"
       tokenize(query) do |tokens|
-        expect(tokens).to have(9).elements
+        expect(tokens.length).to eq 9
       end
     end
 
     it "tokenizes CONSTRUCT queries" do
       query = "CONSTRUCT { ?s ?p ?o . }"
       tokenize(query) do |tokens|
-        expect(tokens).to have(7).elements
+        expect(tokens.length).to eq 7
       end
     end
 
     it "tokenizes DESCRIBE queries" do
       query = "DESCRIBE ?s WHERE { ?s ?p ?o . }"
       tokenize(query) do |tokens|
-        expect(tokens).to have(9).elements
+        expect(tokens.length).to eq 9
       end
     end
   end
