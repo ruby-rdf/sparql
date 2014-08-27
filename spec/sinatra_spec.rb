@@ -22,10 +22,10 @@ class SPTest < Sinatra::Base
 
   get '/ssd' do
     settings.sparql_options.merge!(
-      :standard_prefixes => true,
-      :prefixes => {
-        :ssd => "http://www.w3.org/ns/sparql-service-description#",
-        :void => "http://rdfs.org/ns/void#"
+      standard_prefixes: true,
+      prefixes: {
+        ssd: "http://www.w3.org/ns/sparql-service-description#",
+        void: "http://rdfs.org/ns/void#"
       }
     )
     repo = RDF::Repository.new
@@ -37,7 +37,7 @@ end
 
 require 'rack/test'
 
-describe Sinatra::SPARQL, :pending => ("problem with Rack::Protection::FrameOptions with RBX" if RUBY_ENGINE == "rbx") do
+describe Sinatra::SPARQL do
   include ::Rack::Test::Methods
 
   def app
@@ -63,8 +63,8 @@ describe Sinatra::SPARQL, :pending => ("problem with Rack::Protection::FrameOpti
   context "serializes graphs" do
     context "with format" do
       {
-        :ntriples => %r{_:a <http://example/b> "c" \.},
-        :ttl => %r{\[ <http://example/b> "c"\]}
+        ntriples: %r{_:a <http://example/b> "c" \.},
+        ttl: %r{\[ <http://example/b> "c"\]}
       }.each do |fmt, expected|
         context fmt do
           it "returns serialization" do
@@ -99,11 +99,11 @@ describe Sinatra::SPARQL, :pending => ("problem with Rack::Protection::FrameOpti
   context "serializes solutions" do
     context "with format" do
       {
-        :json => /\{\s*"head"/,
-        :html => /<table class="sparql"/,
-        :xml => /<\?xml version/,
-        :csv => /a\r\nb\r\n/m,
-        :tsv => /\?a\n"b"\n/,
+        json: /\{\s*"head"/,
+        html: /<table class="sparql"/,
+        xml: /<\?xml version/,
+        csv: /a\r\nb\r\n/m,
+        tsv: /\?a\n"b"\n/,
       }.each do |fmt, expected|
         context fmt do
           it "returns serialization" do
