@@ -1090,6 +1090,7 @@ module SPARQL::Grammar
     # @return [Boolean]
     def valid?
       parse
+      true
     rescue Error
       false
     end
