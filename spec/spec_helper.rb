@@ -2,6 +2,7 @@ require "bundler/setup"
 require 'psych'
 require 'rubygems'
 require 'rspec'
+require 'rspec/its'
 require 'yaml'
 require 'open-uri/cached'
 require 'rdf'

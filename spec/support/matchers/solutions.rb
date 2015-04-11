@@ -5,7 +5,7 @@ require 'rdf/isomorphic'
 RSpec::Matchers.define :describe_solutions do |expected_solutions|
   match {|actual_solutions| actual_solutions.isomorphic_with?(expected_solutions)}
   
-  failure_message_for_should do |actual_solutions|
+  failure_message do |actual_solutions|
     msg = "expected solutions to be isomorphic\n" +
     "expected:\n#{expected_solutions.inspect}" +
     "\nactual:\n#{actual_solutions.inspect}"
@@ -32,7 +32,7 @@ RSpec::Matchers.define :describe_csv_solutions do |expected_solutions|
     @simplified_solutions.isomorphic_with?(expected_solutions)
   end
   
-  failure_message_for_should do |actual_solutions|
+  failure_message do |actual_solutions|
     msg = "expected solutions to be isomorphic\n" +
       "expected  :\n#{expected_solutions.inspect}" +
     "\nsimplified:\n#{@simplified_solutions.inspect}"
@@ -51,7 +51,7 @@ RSpec::Matchers.define :describe_ordered_solutions do |expected_solutions|
     actual_solutions.map_nodes(node_mapping) == expected_solutions
   end
   
-  failure_message_for_should do |actual_solutions|
+  failure_message do |actual_solutions|
     msg = "expected solutions to be ordered isomorphic\n" +
     "expected:\n#{expected_solutions.inspect}" +
     "\nactual:\n#{actual_solutions.inspect}"

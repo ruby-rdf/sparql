@@ -15,7 +15,7 @@ shared_examples "GroupGraphPattern" do
       # From data/Optional/q-opt-1.rq
       "q-opt-1.rq" => [
         "{<a><b><c> OPTIONAL {<d><e><f>}}",
-        %q((leftjoin
+        %q((leftjoin 
           (bgp (triple <a> <b> <c>))
           (bgp (triple <d> <e> <f>))))
       ],
@@ -117,8 +117,8 @@ shared_examples "GroupGraphPattern" do
           )))
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
   end
@@ -137,8 +137,8 @@ shared_examples "FunctionCall" do
         %q(<foo>()), [RDF::URI("foo"), RDF["nil"]]
       ]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -147,11 +147,11 @@ end
 # [98]    Var                       ::=       VAR1 | VAR2
 shared_examples "Var" do
   context "Var" do
-    it "recognizes Var1" do
-      expect("?foo").to generate(RDF::Query::Variable.new(:foo), :last => true)
+    it "recognizes Var1" do |example|
+      expect("?foo").to generate(RDF::Query::Variable.new(:foo), example.metadata.merge(last: true))
     end
-    it "recognizes Var2" do
-      expect("$foo").to generate(RDF::Query::Variable.new(:foo), :last => true)
+    it "recognizes Var2" do |example|
+      expect("$foo").to generate(RDF::Query::Variable.new(:foo), example.metadata.merge(last: true))
     end
   end
 end
@@ -184,8 +184,8 @@ shared_examples "ConditionalOrExpression" do
       %q(1 && 2 || 3) => SPARQL::Algebra::Expression[:"||", [:"&&", RDF::Literal(1), RDF::Literal(2)], RDF::Literal(3)],
       %q(1 || 2 || 3) => SPARQL::Algebra::Expression[:"||", [:"||", RDF::Literal(1), RDF::Literal(2)], RDF::Literal(3)],
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
     include_examples "ConditionalAndExpression"
@@ -200,8 +200,8 @@ shared_examples "ConditionalAndExpression" do
       %q(1 && 2 = 3)  => SPARQL::Algebra::Expression[:"&&", RDF::Literal(1), [:"=", RDF::Literal(2), RDF::Literal(3)]],
       %q(1 && 2 && 3) => SPARQL::Algebra::Expression[:"&&", [:"&&", RDF::Literal(1), RDF::Literal(2)], RDF::Literal(3)],
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
     include_examples "ValueLogical"
@@ -238,8 +238,8 @@ shared_examples "RelationalExpression" do
       %q(2 IN (1))       => SPARQL::Algebra::Expression[:in, RDF::Literal(2), RDF::Literal(1)],
       %q(2 NOT IN ())    => SPARQL::Algebra::Expression[:notin, RDF::Literal(2)],
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
 
@@ -264,8 +264,8 @@ shared_examples "AdditiveExpression" do
       %q("1" + "2" - "3") => SPARQL::Algebra::Expression[:"-", [:"+", RDF::Literal("1"), RDF::Literal("2")], RDF::Literal("3")],
       %q("1" - "2" + "3") => SPARQL::Algebra::Expression[:"+", [:"-", RDF::Literal("1"), RDF::Literal("2")], RDF::Literal("3")],
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
 
@@ -283,8 +283,8 @@ shared_examples "MultiplicativeExpression" do
       %q("1" * "2" * "3") => SPARQL::Algebra::Expression[:"*", [:"*", RDF::Literal("1"), RDF::Literal("2")], RDF::Literal("3")],
       %q("1" * "2" / "3") => SPARQL::Algebra::Expression[:"/", [:"*", RDF::Literal("1"), RDF::Literal("2")], RDF::Literal("3")],
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
 
@@ -302,8 +302,8 @@ shared_examples "UnaryExpression" do
       %q(+ "foo") => RDF::Literal("foo"),
       %q(- "foo") => SPARQL::Algebra::Expression[:"-", RDF::Literal("foo")],
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
 
@@ -330,8 +330,8 @@ shared_examples "BrackettedExpression" do
     {
       %q(("foo")) => [RDF::Literal("foo")],
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :shift => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, shift: true))
       end
     end
   end
@@ -413,8 +413,8 @@ shared_examples "BuiltInCall" do
       %q(EXISTS {?s ?p ?o})          => %q((exists (bgp (triple ?s ?p ?o)))),
       %q(NOT EXISTS {?s ?p ?o})      => %q((notexists (bgp (triple ?s ?p ?o)))),
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
 
@@ -430,8 +430,8 @@ shared_examples "RegexExpression" do |options = {}|
       %q(REGEX ("foo"))        => EBNF::LL1::Parser::Error,
       %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar" "")),
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, {:resolve_iris => false, :last => true}.merge(options))
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true).merge(options))
       end
     end
   end
@@ -459,8 +459,8 @@ shared_examples "RDFLiteral" do
       %q(""^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("", :datatype => RDF::XSD.string),
       %q("foobar"^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("foobar", :datatype => RDF::XSD.string),
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -497,8 +497,8 @@ shared_examples "Aggregate" do
       %q(GROUP_CONCAT(DISTINCT ?o)) => %q((group_concat distinct ?o)),
       %q(GROUP_CONCAT(DISTINCT ?o;SEPARATOR=":")) => %q((group_concat (separator ":") distinct ?o)),
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :last => true, :progress => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(last: true))
       end
     end
   end
@@ -519,60 +519,60 @@ shared_examples "NumericLiteral" do
       %q(+1e6)    => RDF::Literal::Double.new(1e6),
       %q(-1e6)    => RDF::Literal::Double.new(-1e6),
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
 
-    it "recognizes the INTEGER terminal" do
+    it "recognizes the INTEGER terminal" do |example|
       %w(1 2 3 42 123).each do |input|
-        expect(input).to generate(RDF::Literal::Integer.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Integer.new(input), example.metadata.merge(last: true))
       end
     end
 
-    it "recognizes the DECIMAL terminal" do
+    it "recognizes the DECIMAL terminal" do |example|
       %w(1.0 3.1415 .123).each do |input|
-        expect(input).to generate(RDF::Literal::Decimal.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Decimal.new(input), example.metadata.merge(last: true))
       end
     end
 
-    it "recognizes the DOUBLE terminal" do
+    it "recognizes the DOUBLE terminal" do |example|
       %w(1e2 3.1415e2 .123e2).each do |input|
-        expect(input).to generate(RDF::Literal::Double.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Double.new(input), example.metadata.merge(last: true))
       end
     end
-    it "recognizes the INTEGER_POSITIVE terminal" do
+    it "recognizes the INTEGER_POSITIVE terminal" do |example|
       %w(+1 +2 +3 +42 +123).each do |input|
-        expect(input).to generate(RDF::Literal::Integer.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Integer.new(input), example.metadata.merge(last: true))
       end
     end
 
-    it "recognizes the DECIMAL_POSITIVE terminal" do
+    it "recognizes the DECIMAL_POSITIVE terminal" do |example|
       %w(+1.0 +3.1415 +.123).each do |input|
-        expect(input).to generate(RDF::Literal::Decimal.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Decimal.new(input), example.metadata.merge(last: true))
       end
     end
 
-    it "recognizes the DOUBLE_POSITIVE terminal" do
+    it "recognizes the DOUBLE_POSITIVE terminal" do |example|
       %w(+1e2 +3.1415e2 +.123e2).each do |input|
-        expect(input).to generate(RDF::Literal::Double.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Double.new(input), example.metadata.merge(last: true))
       end
     end
-    it "recognizes the INTEGER_NEGATIVE terminal" do
+    it "recognizes the INTEGER_NEGATIVE terminal" do |example|
       %w(-1 -2 -3 -42 -123).each do |input|
-        expect(input).to generate(RDF::Literal::Integer.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Integer.new(input), example.metadata.merge(last: true))
       end
     end
 
-    it "recognizes the DECIMAL_NEGATIVE terminal" do
+    it "recognizes the DECIMAL_NEGATIVE terminal" do |example|
       %w(-1.0 -3.1415 -.123).each do |input|
-        expect(input).to generate(RDF::Literal::Decimal.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Decimal.new(input), example.metadata.merge(last: true))
       end
     end
 
-    it "recognizes the DOUBLE_NEGATIVE terminal" do
+    it "recognizes the DOUBLE_NEGATIVE terminal" do |example|
       %w(-1e2 -3.1415e2 -.123e2).each do |input|
-        expect(input).to generate(RDF::Literal::Double.new(input), :last => true)
+        expect(input).to generate(RDF::Literal::Double.new(input), example.metadata.merge(last: true))
       end
     end
   end
@@ -585,8 +585,8 @@ shared_examples "BooleanLiteral" do
       "true"  => RDF::Literal(true),
       "false" => RDF::Literal(false),
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -598,20 +598,20 @@ shared_examples "iri" do
     {
       %q(<http://example.org/>) => RDF::URI('http://example.org/')
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, :resolve_iris => false, :last => true)
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
 
-    it "recognizes the IRIREF terminal" do
+    it "recognizes the IRIREF terminal" do |example|
       %w(<> <foobar> <http://example.org/foobar>).each do |input|
-        expect(input).to generate(RDF::URI(input[1..-2]), :last => true)
+        expect(input).to generate(RDF::URI(input[1..-2]), example.metadata.merge(last: true))
       end
     end
 
-    it "recognizes the PrefixedName nonterminal" do
+    it "recognizes the PrefixedName nonterminal" do |example|
       %w(: foo: :bar foo:bar).each do |input|
-        expect(parser(production).call(input).last).not_to be_falsey # TODO
+        expect(parser(example.metadata[:production]).call(input).last).not_to be_falsey # TODO
       end
     end
   end
@@ -620,17 +620,17 @@ end
 # [138] BlankNode
 shared_examples "BlankNode" do
   context "BlankNode" do
-    it %q(_:foobar) do
-      expect(%q(_:foobar)).to generate(SPARQL::Grammar::Parser.variable("foobar", false), :last => true)
+    it %q(_:foobar) do |example|
+      expect(%q(_:foobar)).to generate(SPARQL::Grammar::Parser.variable("foobar", false), example.metadata.merge(last: true))
     end
-    specify {expect(parser(production).call(%q([])).last).not_to be_distinguished}
+    specify {|example| expect(parser(example.metadata[:production]).call(%q([])).last).not_to be_distinguished}
   end
 end
 
 # [161] NIL
 shared_examples "NIL" do
   context "NIL" do
-    specify {expect(parser(production).call(%q(())).last).to eq RDF.nil}
+    specify {|example| expect(parser(example.metadata[:production]).call(%q(())).last).to eq RDF.nil}
   end
 end
 
@@ -780,14 +780,14 @@ shared_examples "BGP Patterns" do |wrapper|
         pattern [SPARQL::Grammar::Parser.variable("0", false), RDF::URI("http://example.com/p"), RDF::Query::Variable.new("z")]
       end,
     }.each do |input, output|
-      it input do
-        expect(wrapper % input).to generate(output,
-          :prefixes => {
+      it input do |example|
+        expect(wrapper % input).to generate(output, example.metadata.merge(
+          prefixes: {
             nil => "http://example.com/",
             :rdf => RDF.to_uri.to_s
           },
-          :base_uri => RDF::URI("http://example.org/"),
-          :anon_base => "b0")
+          base_uri: RDF::URI("http://example.org/"),
+          anon_base: "b0"))
       end
     end
   end
@@ -796,45 +796,52 @@ end
 describe SPARQL::Grammar::Parser do
   before(:each) {$stderr = StringIO.new}
   after(:each) {$stderr = STDERR}
-  let(:production) {example.metadata[:production]}
 
   describe "#initialize" do
-    it "accepts a string query" do
-      SPARQL::Grammar::Parser.new("foo") {input.should == "foo"}
+    it "accepts a string query" do |example|
+      expect {
+        SPARQL::Grammar::Parser.new("foo") {
+          raise "huh" unless input == "foo"
+          }
+        }.not_to raise_error
     end
 
-    it "accepts a StringIO query" do
-      SPARQL::Grammar::Parser.new(StringIO.new("foo")) {input.should == "foo"}
+    it "accepts a StringIO query" do |example|
+      expect {
+        SPARQL::Grammar::Parser.new(StringIO.new("foo")) {
+          raise "huh" unless input == "foo"
+          }
+        }.not_to raise_error
     end
   end
 
-  describe "when matching the [1] QueryUnit production rule", :production => :QueryUnit do
+  describe "when matching the [1] QueryUnit production rule", production: :QueryUnit do
     {
-      :empty => ["", nil],
-      :select => [
+      empty: ["", nil],
+      select: [
         %q(SELECT * FROM <a> WHERE {?a ?b ?c}),
         %q((dataset (<a>) (bgp (triple ?a ?b ?c))))
       ],
-      :construct => [
+      construct: [
         %q(CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}),
         %q((construct ((triple ?a ?b ?c)) (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
-      :describe => [
+      describe: [
         %q(DESCRIBE * FROM <a> WHERE {?a ?b ?c}),
         %q((describe () (dataset (<a>) (bgp (triple ?a ?b ?c)))))
       ],
-      :ask => [
+      ask: [
         "ASK WHERE {GRAPH <a> {?a ?b ?c}}",
         %q((ask (graph <a> (bgp (triple ?a ?b ?c)))))
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
-  describe "when matching the [2] Query production rule", :production => :Query do
+  describe "when matching the [2] Query production rule", production: :Query do
     {
       "base" => [
         "BASE <foo/> SELECT * WHERE { <a> <b> <c> }",
@@ -936,31 +943,31 @@ describe SPARQL::Grammar::Parser do
         %q(SELECT (COUNT(?O) AS ?C) WHERE {?S ?P ?O}), %q((project (?C) (extend ((?C ?.0)) (group () ((?.0 (count ?O))) (bgp (triple ?S ?P ?O))))))
       ]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
 
     include_examples "BGP Patterns", "SELECT * WHERE {%s}"
   end
 
-  describe "when matching the [4] Prologue production rule", :production => :Prologue do
-    it "sets base_uri to <http://example.org> given 'BASE <http://example.org/>'" do
-      p = parser(nil, :resolve_iris => true).call(%q(BASE <http://example.org/>))
-      p.parse(production)
+  describe "when matching the [4] Prologue production rule", production: :Prologue do
+    it "sets base_uri to <http://example.org> given 'BASE <http://example.org/>'" do |example|
+      p = parser(nil, resolve_iris: true).call(%q(BASE <http://example.org/>))
+      p.parse(example.metadata[:production])
       expect(p.send(:base_uri)).to eq RDF::URI('http://example.org/')
     end
 
-    it "sets prefix : to 'foobar' given 'PREFIX : <foobar>'" do
-      p = parser(nil, :resolve_iris => true).call(%q(PREFIX : <foobar>))
-      p.parse(production)
+    it "sets prefix : to 'foobar' given 'PREFIX : <foobar>'" do |example|
+      p = parser(nil, resolve_iris: true).call(%q(PREFIX : <foobar>))
+      p.parse(example.metadata[:production])
       expect(p.send(:prefix, nil)).to eq 'foobar'
       expect(p.send(:prefixes)[nil]).to eq 'foobar'
     end
 
-    it "sets prefix foo: to 'bar' given 'PREFIX foo: <bar>'" do
-      p = parser(nil, :resolve_iris => true).call(%q(PREFIX foo: <bar>))
-      p.parse(production)
+    it "sets prefix foo: to 'bar' given 'PREFIX foo: <bar>'" do |example|
+      p = parser(nil, resolve_iris: true).call(%q(PREFIX foo: <bar>))
+      p.parse(example.metadata[:production])
       expect(p.send(:prefix, :foo)).to eq 'bar'
       expect(p.send(:prefix, "foo")).to eq 'bar'
       expect(p.send(:prefixes)[:foo]).to eq 'bar'
@@ -986,14 +993,14 @@ describe SPARQL::Grammar::Parser do
         ]
       ]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
   # [7]     SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
-  describe "when matching the [7] SelectQuery production rule", :production => :SelectQuery do
+  describe "when matching the [7] SelectQuery production rule", production: :SelectQuery do
     {
       "from" => [
         "SELECT * FROM <a> WHERE {?a ?b ?c}",
@@ -1096,8 +1103,8 @@ describe SPARQL::Grammar::Parser do
       #  )
       #]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
 
@@ -1105,7 +1112,7 @@ describe SPARQL::Grammar::Parser do
   end
 
   # [9]  	SelectClause	  ::=  	'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
-  describe "when matching the [9] SelectClause production rule", :production => :SelectClause do
+  describe "when matching the [9] SelectClause production rule", production: :SelectClause do
     {
       "var" => [
         "SELECT ?a", %q((Var ?a))
@@ -1120,14 +1127,14 @@ describe SPARQL::Grammar::Parser do
         "SELECT (?o+10 AS ?z)", %q((extend (?z (+ ?o 10))))
       ]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
   end
 
   # [10]     ConstructQuery	  ::=  	'CONSTRUCT' ( ConstructTemplate DatasetClause* WhereClause SolutionModifier | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
-  describe "when matching the [10] ConstructQuery production rule", :production => :ConstructQuery do
+  describe "when matching the [10] ConstructQuery production rule", production: :ConstructQuery do
     {
       "construct from" => [
         "CONSTRUCT {?a ?b ?c} FROM <a> WHERE {?a ?b ?c}", %q((construct ((triple ?a ?b ?c)) (dataset (<a>) (bgp (triple ?a ?b ?c)))))
@@ -1151,13 +1158,13 @@ describe SPARQL::Grammar::Parser do
         "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}", %q((construct ((triple ?a ?b ?c)) (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
-  describe "when matching the [11] DescribeQuery production rule", :production => :DescribeQuery do
+  describe "when matching the [11] DescribeQuery production rule", production: :DescribeQuery do
     {
       "describe" => [
         "DESCRIBE * WHERE {?a ?b ?c}", %q((describe () (bgp (triple ?a ?b ?c))))
@@ -1202,13 +1209,13 @@ describe SPARQL::Grammar::Parser do
         "DESCRIBE ?a ?b WHERE {?a ?b ?c}", %q((describe (?a ?b) (bgp (triple ?a ?b ?c))))
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
-  describe "when matching the [12] AskQuery production rule", :production => :AskQuery do
+  describe "when matching the [12] AskQuery production rule", production: :AskQuery do
     {
       "ask" => [
         "ASK WHERE {?a ?b ?c}", %q((ask (bgp (triple ?a ?b ?c))))
@@ -1235,13 +1242,13 @@ describe SPARQL::Grammar::Parser do
         "ASK WHERE {?a ?b ?c FILTER (?a)}", %q((ask (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
-  describe "when matching the [13] DatasetClause production rule", :production => :DatasetClause do
+  describe "when matching the [13] DatasetClause production rule", production: :DatasetClause do
     {
       "from" => [
         %q(FROM <http://example.org/foaf/aliceFoaf>),
@@ -1252,8 +1259,8 @@ describe SPARQL::Grammar::Parser do
         [:dataset, [:named, RDF::URI("http://example.org/foaf/aliceFoaf")]]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
@@ -1262,7 +1269,7 @@ describe SPARQL::Grammar::Parser do
   #   [14] DefaultGraphClause
   #   [15] NamedGraphClause
   #   [16] SourceSelector
-  describe "when matching the [17] WhereClause production rule", :production => :WhereClause do
+  describe "when matching the [17] WhereClause production rule", production: :WhereClause do
     {
       "where" => [
         "WHERE {?a ?b ?c}", %q((bgp (triple ?a ?b ?c)))
@@ -1283,8 +1290,8 @@ describe SPARQL::Grammar::Parser do
         "WHERE {?a ?b ?c FILTER (?a)}", %q((filter ?a (bgp (triple ?a ?b ?c))))
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
 
@@ -1292,7 +1299,7 @@ describe SPARQL::Grammar::Parser do
   end
 
   # [18]    SolutionModifier          ::=       GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
-  describe "when matching the [18] SolutionModifier production rule", :production => :SolutionModifier do
+  describe "when matching the [18] SolutionModifier production rule", production: :SolutionModifier do
     {
       "group" => [
         "GROUP BY ?s", %q((group (?s)))
@@ -1322,14 +1329,14 @@ describe SPARQL::Grammar::Parser do
         "ORDER BY ?a ASC (1) isURI(<b>)", [:order, [RDF::Query::Variable.new("a"), SPARQL::Algebra::Operator::Asc.new(RDF::Literal(1)), SPARQL::Algebra::Operator::IsURI.new(RDF::URI("b"))]]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
   # [19]  GroupClause             ::= 'GROUP' 'BY' GroupCondition+
-  describe "when matching the [19] GroupClause production rule", :production => :GroupClause do
+  describe "when matching the [19] GroupClause production rule", production: :GroupClause do
     {
       "Var" => [
         "GROUP BY ?s", %q((group (?s)))
@@ -1338,15 +1345,15 @@ describe SPARQL::Grammar::Parser do
         "GROUP BY ?s ?w", %q((group (?s ?w)))
       ]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
   # [20]  GroupCondition          ::= BuiltInCall | FunctionCall
   #                                 | '(' Expression ( 'AS' Var )? ')' | Var
-  describe "when matching the [20] GroupCondition production rule", :production => :GroupCondition do
+  describe "when matching the [20] GroupCondition production rule", production: :GroupCondition do
     {
       "BuiltInCall" => [
         %q(STR ("foo")), %q((GroupCondition (str "foo")))
@@ -1366,14 +1373,14 @@ describe SPARQL::Grammar::Parser do
         "?s", %q((GroupCondition ?s))
       ]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
   # [23]    OrderClause               ::=       'ORDER' 'BY' OrderCondition+
-  describe "when matching the [23] OrderClause production rule", :production => :OrderClause do
+  describe "when matching the [23] OrderClause production rule", production: :OrderClause do
     {
       "order asc" => [
         "ORDER BY ASC (1)", [:order, [SPARQL::Algebra::Operator::Asc.new(RDF::Literal(1))]]
@@ -1388,14 +1395,14 @@ describe SPARQL::Grammar::Parser do
         "ORDER BY ?a ASC (1) isURI(<b>)", [:order, [RDF::Query::Variable.new("a"), SPARQL::Algebra::Operator::Asc.new(RDF::Literal(1)), SPARQL::Algebra::Operator::IsURI.new(RDF::URI("b"))]]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
   # [24]    OrderCondition            ::=       ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )
-  describe "when matching the [24] OrderCondition production rule", :production => :OrderCondition do
+  describe "when matching the [24] OrderCondition production rule", production: :OrderCondition do
     {
       "asc" => [
         "ASC (1)", [:OrderCondition, SPARQL::Algebra::Expression[:asc, RDF::Literal(1)]]
@@ -1404,8 +1411,8 @@ describe SPARQL::Grammar::Parser do
         "DESC (?a)", [:OrderCondition, SPARQL::Algebra::Expression[:desc, RDF::Query::Variable.new("a")]]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
     include_examples "FunctionCall"
@@ -1415,7 +1422,7 @@ describe SPARQL::Grammar::Parser do
   end
 
   # [25]    LimitOffsetClauses        ::=       ( LimitClause OffsetClause? | OffsetClause LimitClause? )
-  describe "when matching the [25] LimitOffsetClauses production rule", :production => :LimitOffsetClauses do
+  describe "when matching the [25] LimitOffsetClauses production rule", production: :LimitOffsetClauses do
     {
       "limit" => [
         "LIMIT 1", [:slice, :_, RDF::Literal(1)]
@@ -1430,48 +1437,48 @@ describe SPARQL::Grammar::Parser do
         "OFFSET 2 LIMIT 1", [:slice, RDF::Literal(2), RDF::Literal(1)]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
-  describe "when matching the [26] LimitClause production rule", :production => :LimitClause do
+  describe "when matching the [26] LimitClause production rule", production: :LimitClause do
     {
       "limit" => [
         %q(LIMIT 10), [:limit, RDF::Literal.new(10)]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
-  describe "when matching the [27] OffsetClause production rule", :production => :OffsetClause do
+  describe "when matching the [27] OffsetClause production rule", production: :OffsetClause do
     {
       "offset" => [
         %q(OFFSET 10), [:offset, RDF::Literal.new(10)]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
   # [53]  	GroupGraphPattern	  ::=  	'{' ( SubSelect | GroupGraphPatternSub ) '}'
-  describe "when matching the [53] GroupGraphPattern production rule", :production => :GroupGraphPattern do
+  describe "when matching the [53] GroupGraphPattern production rule", production: :GroupGraphPattern do
     include_examples "GroupGraphPattern"
   end
 
   # [55]    TriplesBlock              ::=       TriplesSameSubject ( '.' TriplesBlock? )?
-  describe "when matching the [55] TriplesBlock production rule", :production => :TriplesBlock do
+  describe "when matching the [55] TriplesBlock production rule", production: :TriplesBlock do
     include_examples "BGP Patterns", "%s"
   end
 
   # [56] GraphPatternNotTriples ::= GroupOrUnionGraphPattern | OptionalGraphPattern | MinusGraphPattern | GraphGraphPattern | ServiceGraphPattern | Filter | Bind
-  describe "when matching the [56] GraphPatternNotTriples production rule", :production => :GraphPatternNotTriples do
+  describe "when matching the [56] GraphPatternNotTriples production rule", production: :GraphPatternNotTriples do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       "OptionalGraphPattern" => [
@@ -1512,14 +1519,14 @@ describe SPARQL::Grammar::Parser do
         "BIND(?o+10 AS ?z)", %q((extend ((?z (+ ?o 10))) (bgp))),
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
   end
 
   # [57]    OptionalGraphPattern      ::=       'OPTIONAL' GroupGraphPattern
-  describe "when matching the [57] OptionalGraphPattern production rule", :production => :OptionalGraphPattern do
+  describe "when matching the [57] OptionalGraphPattern production rule", production: :OptionalGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       "OptionalGraphPattern" => [
@@ -1534,14 +1541,14 @@ describe SPARQL::Grammar::Parser do
         %q((leftjoin (bgp (triple ?y :q ?w)) (exprlist (= ?v 2) (= ?w 3)))).to_sym,
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
       end
     end
   end
 
   # [58]    GraphGraphPattern         ::=       'GRAPH' VarOrIri GroupGraphPattern
-  describe "when matching the [58] GraphGraphPattern production rule", :production => :GraphGraphPattern do
+  describe "when matching the [58] GraphGraphPattern production rule", production: :GraphGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       "var" => [
@@ -1554,27 +1561,27 @@ describe SPARQL::Grammar::Parser do
         "GRAPH <a> {<d><e><f>}", %q((graph <a> (bgp (triple <d> <e> <f>)))),
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
   end
 
   # [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
-  describe "when matching the [60] Bind production rule", :production => :Bind do
+  describe "when matching the [60] Bind production rule", production: :Bind do
     {
       "Expression" => [
         "BIND(?o+10 AS ?z)", %q((extend (?z (+ ?o 10)))),
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
   end
 
   # [67]    GroupOrUnionGraphPattern  ::=       GroupGraphPattern ( 'UNION' GroupGraphPattern )*
-  describe "when matching the [67] GroupOrUnionGraphPattern production rule", :production => :GroupOrUnionGraphPattern do
+  describe "when matching the [67] GroupOrUnionGraphPattern production rule", production: :GroupOrUnionGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       # From data/Optional/q-opt-3.rq
@@ -1596,14 +1603,14 @@ describe SPARQL::Grammar::Parser do
             (bgp (triple ?a ?b ?c)))),
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
   end
 
   # [68]    Filter                    ::=       'FILTER' Constraint
-  describe "when matching the [68] Filter production rule", :production => :Filter do
+  describe "when matching the [68] Filter production rule", production: :Filter do
     # Can't test against SSE, as filter also requires a BGP or other query operator
     {
       "1" => [
@@ -1640,36 +1647,36 @@ describe SPARQL::Grammar::Parser do
         %(FILTER (! BOUND (?e))), [:filter, SPARQL::Algebra::Expression[:not, SPARQL::Algebra::Expression[:bound, RDF::Query::Variable.new("e")]]]
       ],
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output, :resolve_iris => true)
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
       end
     end
   end
 
   # [69] Constraint ::=  BrackettedExpression | BuiltInCall | FunctionCall
-  describe "when matching the [69] Constraint production rule", :production => :Constraint do
+  describe "when matching the [69] Constraint production rule", production: :Constraint do
     include_examples "FunctionCall"
     include_examples "BrackettedExpression"
     include_examples "BuiltInCall"
   end
 
-  describe "when matching the [70] FunctionCall production rule", :production => :FunctionCall do
+  describe "when matching the [70] FunctionCall production rule", production: :FunctionCall do
     include_examples "FunctionCall"
   end
 
-  describe "when matching the [71] ArgList production rule", :production => :ArgList do
+  describe "when matching the [71] ArgList production rule", production: :ArgList do
     {
       %q(())             => [:ArgList, RDF["nil"]],
       %q(("foo"))        => [:ArgList, RDF::Literal("foo")],
       %q(("foo", "bar")) => [:ArgList, RDF::Literal("foo"), RDF::Literal("bar")]
     }.each do |input, output|
-      it input do
-        expect(input).to generate(output, {})
+      it input do |example|
+        expect(input).to generate(output, example.metadata)
       end
     end
   end
 
-  describe "when matching the [73] ConstructTemplate production rule", :production => :ConstructTemplate do
+  describe "when matching the [73] ConstructTemplate production rule", production: :ConstructTemplate do
     {
       "syntax-basic-03.rq" => [
         %q(?x ?y ?z),
@@ -1708,11 +1715,12 @@ describe SPARQL::Grammar::Parser do
         end
       ],
     }.each do |title, (input, output)|
-      it title do
+      it title do |example|
         expect("{#{input}}").to generate(([:ConstructTemplate] + output.patterns),
-          :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
-          :base_uri => RDF::URI("http://example.org/"),
-          :anon_base => "b0")
+          example.metadata.merge(
+            prefixes: {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
+            base_uri: RDF::URI("http://example.org/"),
+            anon_base: "b0"))
       end
     end
   end
@@ -1720,7 +1728,7 @@ describe SPARQL::Grammar::Parser do
   # Not testing [70] ConstructTriples
 
   # [77]  	PropertyListNotEmpty	  ::=  	Verb ObjectList ( ';' ( Verb ObjectList )? )*
-  describe "when matching the [77] PropertyListNotEmpty production rule", :production => :PropertyListNotEmpty do
+  describe "when matching the [77] PropertyListNotEmpty production rule", production: :PropertyListNotEmpty do
     {
       %q(<p> <o>) => [
         %q(<p> <o>),
@@ -1737,108 +1745,108 @@ describe SPARQL::Grammar::Parser do
           RDF::Query::Pattern.new(:predicate => RDF::URI("http://example.com/b"), :object => RDF::URI("http://example.org/c"))]
       ]
     }.each do |title, (input, output)|
-      it title do
-        expect(input).to generate(output,
-          :prefixes => {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
-          :base_uri => RDF::URI("http://example.org/"),
-          :anon_base => "b0")
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(
+          prefixes: {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
+          base_uri: RDF::URI("http://example.org/"),
+          anon_base: "b0"))
       end
     end
   end
 
   # Productions that can be tested individually
   describe "individual nonterminal productions" do
-    describe "when matching the [104] GraphNode production rule", :production => :GraphNode do
+    describe "when matching the [104] GraphNode production rule", production: :GraphNode do
       include_examples "Var"
       include_examples "GraphTerm"
     end
 
-    describe "when matching the [106] VarOrTerm production rule", :production => :VarOrTerm do
+    describe "when matching the [106] VarOrTerm production rule", production: :VarOrTerm do
       include_examples "Var"
       include_examples "GraphTerm"
     end
 
-    describe "when matching the [107] VarOrIri production rule", :production => :VarOrIri do
+    describe "when matching the [107] VarOrIri production rule", production: :VarOrIri do
       include_examples "Var"
       include_examples "iri"
     end
 
-    describe "when matching the [108] Var production rule", :production => :Var do
+    describe "when matching the [108] Var production rule", production: :Var do
       include_examples "Var"
     end
 
-    describe "when matching the [109] GraphTerm production rule", :production => :GraphTerm do
+    describe "when matching the [109] GraphTerm production rule", production: :GraphTerm do
       include_examples "GraphTerm"
     end
 
-    describe "when matching the [110] Expression production rule", :production => :Expression do
+    describe "when matching the [110] Expression production rule", production: :Expression do
       include_examples "Expression"
     end
 
-    describe "when matching the [111] ConditionalOrExpression production rule", :production => :ConditionalOrExpression do
+    describe "when matching the [111] ConditionalOrExpression production rule", production: :ConditionalOrExpression do
       include_examples "ConditionalOrExpression"
     end
 
-    describe "when matching the [112] ConditionalAndExpression production rule", :production => :ConditionalAndExpression do
+    describe "when matching the [112] ConditionalAndExpression production rule", production: :ConditionalAndExpression do
       include_examples "ConditionalAndExpression"
     end
 
-    describe "when matching the [113] ValueLogical production rule", :production => :ValueLogical do
+    describe "when matching the [113] ValueLogical production rule", production: :ValueLogical do
       include_examples "ValueLogical"
     end
 
-    describe "when matching the [114] RelationalExpression production rule", :production => :RelationalExpression do
+    describe "when matching the [114] RelationalExpression production rule", production: :RelationalExpression do
       include_examples "RelationalExpression"
     end
 
-    describe "when matching the [115] NumericExpression production rule", :production => :NumericExpression do
+    describe "when matching the [115] NumericExpression production rule", production: :NumericExpression do
       include_examples "NumericExpression"
     end
 
-    describe "when matching the [116] AdditiveExpression production rule", :production => :AdditiveExpression do
+    describe "when matching the [116] AdditiveExpression production rule", production: :AdditiveExpression do
       include_examples "AdditiveExpression"
     end
 
-    describe "when matching the [117] MultiplicativeExpression production rule", :production => :MultiplicativeExpression do
+    describe "when matching the [117] MultiplicativeExpression production rule", production: :MultiplicativeExpression do
       include_examples "MultiplicativeExpression"
     end
 
-    describe "when matching the [118] UnaryExpression production rule", :production => :UnaryExpression do
+    describe "when matching the [118] UnaryExpression production rule", production: :UnaryExpression do
       include_examples "UnaryExpression"
     end
 
-    describe "when matching the [119] PrimaryExpression production rule", :production => :PrimaryExpression do
+    describe "when matching the [119] PrimaryExpression production rule", production: :PrimaryExpression do
       include_examples "PrimaryExpression"
     end
 
-    describe "when matching the [120] BrackettedExpression production rule", :production => :BrackettedExpression do
+    describe "when matching the [120] BrackettedExpression production rule", production: :BrackettedExpression do
       include_examples "BrackettedExpression"
     end
 
-    describe "when matching the [122] BuiltInCall production rule", :production => :BuiltInCall do
+    describe "when matching the [122] BuiltInCall production rule", production: :BuiltInCall do
       include_examples "BuiltInCall"
     end
 
-    describe "when matching the [128] iriOrFunction production rule", :production => :iriOrFunction do
+    describe "when matching the [128] iriOrFunction production rule", production: :iriOrFunction do
       include_examples "iriOrFunction"
     end
 
-    describe "when matching the [129] RDFLiteral production rule", :production => :RDFLiteral do
+    describe "when matching the [129] RDFLiteral production rule", production: :RDFLiteral do
       include_examples "RDFLiteral"
     end
 
-    describe "when matching the [130] NumericLiteral production rule", :production => :NumericLiteral do
+    describe "when matching the [130] NumericLiteral production rule", production: :NumericLiteral do
       include_examples "NumericLiteral"
     end
   end
 
   # Individual terminal productions
   describe "individual terminal productions" do
-    describe "when matching the [136] iri production rule", :production => :iri do
+    describe "when matching the [136] iri production rule", production: :iri do
       include_examples "iri"
     end
 
-    describe "when matching the [137] PrefixedName production rule", :production => :PrefixedName do
+    describe "when matching the [137] PrefixedName production rule", production: :PrefixedName do
       {
         :PNAME_LN => {
           ":bar"    => RDF::URI("http://example.com/bar"),
@@ -1849,22 +1857,22 @@ describe SPARQL::Grammar::Parser do
           "foo:" => RDF.to_uri
         }
       }.each do |terminal, examples|
-        it "recognizes the #{terminal} terminal" do
+        it "recognizes the #{terminal} terminal" do |example|
           examples.each do |input, result|
-            expect(input).to generate(result,
-                                  :last => true,
-                                  :prefixes => {
-                                    nil => "http://example.com/",
-                                    :foo => RDF.to_uri.to_s
-                                  })
+            expect(input).to generate(result, example.metadata.merge(
+              last: true,
+              prefixes: {
+                nil => "http://example.com/",
+                foo: RDF.to_uri.to_s
+              }))
           end
         end
       end
     end
 
-    describe "when matching the [138] BlankNode production rule", :production => :BlankNode do
-      it "recognizes the BlankNode terminal" do
-        if output = parser(production).call(%q(_:foobar))
+    describe "when matching the [138] BlankNode production rule", production: :BlankNode do
+      it "recognizes the BlankNode terminal" do |example|
+        if output = parser(example.metadata[:production]).call(%q(_:foobar))
           v = RDF::Query::Variable.new("foobar")
           v.distinguished = false
           expect(output.last).to eq v
@@ -1872,8 +1880,8 @@ describe SPARQL::Grammar::Parser do
         end
       end
 
-      it "recognizes the ANON terminal" do
-        if output = parser(production).call(%q([]))
+      it "recognizes the ANON terminal" do |example|
+        if output = parser(example.metadata[:production]).call(%q([]))
           expect(output.last).not_to be_distinguished
         end
       end
@@ -1882,7 +1890,7 @@ describe SPARQL::Grammar::Parser do
     # NOTE: production rules [70..110] are internal to the lexer
   end
 
-  context "issues", :production => :QueryUnit do
+  context "issues", production: :QueryUnit do
     {
       :issue3 => [
         %(
@@ -1987,8 +1995,8 @@ describe SPARQL::Grammar::Parser do
         }
       ],
     }.each do |title, (input, result)|
-      it title do
-        expect(input).to generate(result, :resolve_iris => false)
+      it title do |example|
+        expect(input).to generate(result, example.metadata.merge(resolve_iris: false))
       end
     end
   end
@@ -1996,7 +2004,7 @@ describe SPARQL::Grammar::Parser do
   def parser(production = nil, options = {})
     @debug = options[:debug] || []
     Proc.new do |query|
-      parser = SPARQL::Grammar::Parser.new(query, {:debug => @debug, :resolve_iris => true}.merge(options))
+      parser = SPARQL::Grammar::Parser.new(query, {:debug => @debug, resolve_iris: true}.merge(options))
       production ? parser.parse(production) : parser
     end
   end

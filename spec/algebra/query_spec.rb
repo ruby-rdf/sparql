@@ -363,7 +363,7 @@ describe SPARQL::Algebra::Query do
                  (triple ?doc3 ex:refs ?bag3)
                  (triple ?bag3 ?member3 ?doc)))))
 
-        query.execute(@graph).map(&:to_hash).should =~ [
+        expect(query.execute(@graph).map(&:to_hash)).to include(
           { :doc3 => EX.doc1, :class3 => EX.class1, :bag3 => EX.bag1, :member3 => RDF::Node.new('ref1'), :doc => EX.doc11 },
           { :doc3 => EX.doc1, :class3 => EX.class1, :bag3 => EX.bag1, :member3 => RDF::Node.new('ref2'), :doc => EX.doc12 },
           { :doc3 => EX.doc1, :class3 => EX.class1, :bag3 => EX.bag1, :member3 => RDF::Node.new('ref3'), :doc => EX.doc13 },
@@ -373,7 +373,7 @@ describe SPARQL::Algebra::Query do
           { :doc3 => EX.doc3, :class3 => EX.class2, :bag3 => EX.bag3, :member3 => RDF::Node.new('ref1'), :doc => EX.doc31 },
           { :doc3 => EX.doc3, :class3 => EX.class2, :bag3 => EX.bag3, :member3 => RDF::Node.new('ref2'), :doc => EX.doc32 },
           { :doc3 => EX.doc3, :class3 => EX.class2, :bag3 => EX.bag3, :member3 => RDF::Node.new('ref3'), :doc => EX.doc33 }
-        ]
+        )
       end
 
       # From sp2b benchmark, query 7 bgp 1
@@ -425,7 +425,7 @@ describe SPARQL::Algebra::Query do
                  (triple ?doc ex:refs ?bag)
                  (triple ?bag ?member ?doc2)))))
 
-        query.execute(@graph).map(&:to_hash).should =~ [
+        expect(query.execute(@graph).map(&:to_hash)).to include(
           { :doc => EX.doc1, :class => EX.class1, :bag => EX.bag1,
             :member => RDF::Node.new('ref1'), :doc2 => EX.doc11, :title => EX.title1 },
           { :doc => EX.doc1, :class => EX.class1, :bag => EX.bag1,
@@ -444,7 +444,7 @@ describe SPARQL::Algebra::Query do
             :member => RDF::Node.new('ref2'), :doc2 => EX.doc32, :title => EX.title3 },
           { :doc => EX.doc3, :class => EX.class2, :bag => EX.bag3,
             :member => RDF::Node.new('ref3'), :doc2 => EX.doc33, :title => EX.title3 },
-        ]
+        )
       end
 
       it "?s1 p ?o1 / ?s2 p ?o2" do
@@ -601,7 +601,7 @@ describe SPARQL::Algebra::Query do
     end
 
     it "passes data-r2/algebra/op-filter-1" do
-      sparql_query(
+      expect(sparql_query(
         :graphs => {
           :default => {
             :data => %q{
@@ -625,7 +625,7 @@ describe SPARQL::Algebra::Query do
               (= ?v 2)))
         },
         :sse => true
-      ).map(&:to_hash).should =~ [
+      ).map(&:to_hash)).to include(
         { 
             :v => RDF::Literal.new('2' , :datatype => RDF::URI('http://www.w3.org/2001/XMLSchema#integer')),
             :w => RDF::Literal.new('4' , :datatype => RDF::URI('http://www.w3.org/2001/XMLSchema#integer')),
@@ -642,13 +642,13 @@ describe SPARQL::Algebra::Query do
             :v => RDF::Literal.new('1' , :datatype => RDF::URI('http://www.w3.org/2001/XMLSchema#integer')),
             :x => RDF::URI('http://example/x1'),
         },
-      ]
+      )
     end
   end
   
   context "union" do
     it "passes data/extracted-examples/query-6.1" do
-      sparql_query(
+      expect(sparql_query(
         :graphs => {
           :default => {
             :data => %q{
@@ -674,12 +674,12 @@ describe SPARQL::Algebra::Query do
                 (bgp (triple ?book dc11:title ?title)))))
         },
         :sse => true
-      ).map(&:to_hash).should =~ [
+      ).map(&:to_hash)).to include(
         {:title => RDF::Literal.new("SPARQL Query Language Tutorial")},
         {:title => RDF::Literal.new("SPARQL Protocol Tutorial")},
         {:title => RDF::Literal.new("SPARQL")},
         {:title => RDF::Literal.new("SPARQL (updated)")},
-      ]
+      )
     end
   end
 
@@ -1131,7 +1131,7 @@ describe SPARQL::Algebra::Query do
       ],
       }.each do |test, (query_path, data, result)|
       it "describes #{test}" do
-        pending "Make this example work"
+        skip "Make this example work"
         #query = IO.read(File.expand_path(File.join(File.dirname(__FILE__), "..", "dawg", query_path)))
         #solutions = SPARQL::Client.parse_xml_bindings(result)
 

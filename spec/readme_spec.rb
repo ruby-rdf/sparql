@@ -36,7 +36,7 @@ describe "README" do
         cmd = example[:sh].
           sub('sparql', File.join(File.dirname(__FILE__), '..', 'bin', 'sparql')).
           sub('etc', File.join(File.dirname(__FILE__), '..', 'etc'))
-        expect(IO.popen(cmd) {|io| io.read}).to be_true
+        expect(IO.popen(cmd) {|io| io.read}).to be_truthy
       end
     end
   end
