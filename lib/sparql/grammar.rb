@@ -146,7 +146,7 @@ module SPARQL
     # @return [Parser]
     # @raise  [Parser::Error] on invalid input
     def self.parse(query, options = {}, &block)
-      Parser.new(query, options).parse
+      Parser.new(query, options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
     end
 
     ##

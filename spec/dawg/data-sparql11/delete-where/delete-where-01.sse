@@ -1,0 +1,3 @@
+(update
+ (deleteWhere
+  ((triple <http://example.org/a> <http://xmlns.com/foaf/0.1/knows> ?b))))

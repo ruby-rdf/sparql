@@ -1,0 +1,5 @@
+(update
+ (modify
+  (bgp
+    (triple ?::s ?::p ?::o))
+  :INSERT ((triple ?::s ?::p "q")) :GRAPHS (<http://example.org/g1>)))

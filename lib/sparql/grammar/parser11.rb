@@ -174,11 +174,11 @@ module SPARQL::Grammar
       when /ASC|DESC/      then add_prod_datum(:OrderDirection, token.value.downcase.to_sym)
       when /DISTINCT|REDUCED/  then add_prod_datum(:DISTINCT_REDUCED, token.value.downcase.to_sym)
       when %r{
-          ABS|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
-         |CONTAINS|COUNT|DATATYPE|DAY|ENCODE_FOR_URI|EXISTS
-         |FLOOR|HOURS|IF|GROUP_CONCAT|IRI|LANGMATCHES|LANG|LCASE
-         |MAX|MD5|MINUTES|MIN|MONTH|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
-         |SHA1|SHA224|SHA256|SHA384|SHA512
+          ABS|ALL|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
+         |CONTAINS|COUNT|DATATYPE|DAY|DEFAULT|ENCODE_FOR_URI|EXISTS
+         |FLOOR|HOURS|IF|GRAPH|GROUP_CONCAT|IRI|LANGMATCHES|LANG|LCASE
+         |MAX|MD5|MINUTES|MIN|MONTH|NAMED|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
+         |SHA1|SHA224|SHA256|SHA384|SHA512|SILENT
          |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR|SUM
          |TIMEZONE|TZ|UCASE|UNDEF|URI|UUID|YEAR
          |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
@@ -193,8 +193,6 @@ module SPARQL::Grammar
     # [2]  	Query	  ::=  	Prologue
     #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
     production(:Query) do |input, data, callback|
-      return unless data[:query]
-
       query = data[:query].first
 
       # Add prefix
@@ -377,8 +375,134 @@ module SPARQL::Grammar
       end
     end
 
-    # [54]  	GroupGraphPatternSub	  ::=  	TriplesBlock?
-    #                                             ( GraphPatternNotTriples '.'? TriplesBlock? )*
+    # [29]	Update	::=	Prologue (Update1 (";" Update)? )?
+    production(:Update) do |input, data, callback|
+
+      update = [:update, data[:update]]
+
+      # Add prefix
+      if data[:PrefixDecl]
+        pfx = data[:PrefixDecl].shift
+        data[:PrefixDecl].each {|p| pfx.merge!(p)}
+        pfx.operands[1] = update
+        update = pfx
+      end
+
+      # Add base
+      update = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, update] if data[:BaseDecl]
+
+      add_prod_datum(:update, update)
+    end
+
+    # [30]	Update1	::=	Load | Clear | Drop | Add | Move | Copy | Create | InsertData | DeleteData | DeleteWhere | Modify
+    production(:Update1) do |input, data, callback|
+      %w(load clear drop add move copy create insertData deleteData deleteWhere modify).map(&:to_sym).each do |op|
+        add_prod_datum(:update, data[op].dup.unshift(op)) if data.has_key?(op)
+      end
+    end
+
+    # [31]	Load	::=	"LOAD" "SILENT"? iri ("INTO" GraphRef)?
+    production(:Load) do |input, data, callback|
+      add_prod_datum(:load, :silent) if data[:silent]
+      add_prod_datum(:load, data[:iri].first)
+      add_prod_datum(:load, data[:into].first) if data[:into]
+    end
+    production(:_Load_3) do |input, data, callback|
+      add_prod_datum(:into, data[:iri])
+    end
+
+    # [32]	Clear	::=	"CLEAR" "SILENT"? GraphRefAll
+    production(:Clear) do |input, data, callback|
+      %w(silent default named all).map(&:to_sym).each do |s|
+        add_prod_datum(:clear, s) if data[s]
+      end
+      add_prod_datum(:clear, data[:iri]) if data[:iri]
+    end
+
+    # [33]	Drop	::=	"DROP" "SILENT"? GraphRefAll
+    production(:Drop) do |input, data, callback|
+      %w(silent default named all).map(&:to_sym).each do |s|
+        add_prod_datum(:drop, s) if data[s]
+      end
+      add_prod_datum(:drop, data[:iri]) if data[:iri]
+    end
+
+    # [34]	Create	::=	"CREATE" "SILENT"? GraphRef
+    production(:Create) do |input, data, callback|
+      add_prod_datum(:create, :silent) if data[:silent]
+      add_prod_datum(:create, data[:iri])
+    end
+
+    # [35]	Add	::=	"ADD" "SILENT"? GraphOrDefault "TO" GraphOrDefault
+    production(:Add) do |input, data, callback|
+      add_prod_datum(:add, :silent) if data[:silent]
+      add_prod_datum(:add, data[:GraphOrDefault])
+    end
+
+    # [36]	Move	::=	"MOVE" "SILENT"? GraphOrDefault "TO" GraphOrDefault
+    production(:Move) do |input, data, callback|
+      add_prod_datum(:move, :silent) if data[:silent]
+      add_prod_datum(:move, data[:GraphOrDefault])
+    end
+
+    # [37]	Copy	::=	"COPY" "SILENT"? GraphOrDefault "TO" GraphOrDefault
+    production(:Copy) do |input, data, callback|
+      add_prod_datum(:copy, :silent) if data[:silent]
+      add_prod_datum(:copy, data[:GraphOrDefault])
+    end
+
+    # [38]	InsertData	::=	"INSERT DATA" QuadData
+    production(:InsertData) do |input, data, callback|
+      add_prod_data(:insertData, data[:pattern])
+    end
+
+    # [39]	DeleteData	::=	"DELETE DATA" QuadData
+    production(:DeleteData) do |input, data, callback|
+      add_prod_data(:deleteData, data[:pattern])
+    end
+
+    # [40]	DeleteWhere	::=	"DELETE WHERE" QuadPattern
+    production(:DeleteWhere) do |input, data, callback|
+      add_prod_data(:deleteWhere, data[:pattern])
+    end
+
+    # [44]	UsingClause	::=	"USING" ( iri | "NAMED" iri)
+    production(:UsingClause) do |input, data, callback|
+      add_prod_data(:using, data[:iri])
+    end
+    production(:_UsingClause_2) do |input, data, callback|
+      add_prod_data(:iri, [:named, data[:iri].first])
+    end
+
+    # [45]	GraphOrDefault	::=	"DEFAULT" | "GRAPH"? iri
+    production(:GraphOrDefault) do |input, data, callback|
+      if data[:default]
+        add_prod_datum(:GraphOrDefault, :default)
+      else
+        add_prod_data(:GraphOrDefault, data[:iri].first)
+      end
+    end
+
+    # [46]	GraphRef	::=	"GRAPH" iri
+    production(:GraphRef) do |input, data, callback|
+      add_prod_data(:iri, data[:iri].first)
+    end
+    # [47]	GraphRefAll	::=	GraphRef | "DEFAULT" | "NAMED" | "ALL"
+    #production(:GraphRefAll) do |input, data, callback|
+    #  add_prod_datum(:GraphRefAll, data)
+    #end
+
+    # [51] QuadsNotTriples	::=	"GRAPH" VarOrIri "{" TriplesTemplate? "}"
+    production(:QuadsNotTriples) do |input, data, callback|
+      add_prod_datum(:pattern, [SPARQL::Algebra::Expression.for(:graph, data[:VarOrIri].last, data[:pattern])])
+    end
+
+    # [52]	TriplesTemplate	::=	TriplesSameSubject ("." TriplesTemplate? )?
+    production(:TriplesTemplate) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+    end
+
+    # [54]	GroupGraphPatternSub	::=	TriplesBlock? (GraphPatternNotTriples "."? TriplesBlock? )*
     production(:GroupGraphPatternSub) do |input, data, callback|
       debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
 
@@ -1152,6 +1276,8 @@ module SPARQL::Grammar
         nil
       when prod_data[:query]
         prod_data[:query].to_a.length == 1 ? prod_data[:query].first : prod_data[:query]
+      when prod_data[:update]
+        prod_data[:update].to_a.length == 1 ? prod_data[:update].first : prod_data[:update]
       else
         key = prod_data.keys.first
         [key] + prod_data[key]  # Creates [:key, [:triple], ...]

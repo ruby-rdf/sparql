@@ -1,0 +1,5 @@
+(update
+ (deleteData
+  ((graph <http://example.org/g2>
+          ((triple <http://example.org/c> <http://xmlns.com/foaf/0.1/name>
+                   "Chris"))))))

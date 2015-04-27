@@ -87,11 +87,11 @@ module SPARQL; module Spec
 
     def form
       query_data = begin action.query_string rescue nil end
-      if query_data =~ /(ASK|CONSTRUCT|DESCRIBE|SELECT|DELETE|LOAD|INSERT|CREATE|CLEAR|DROP)/i
+      if query_data =~ /(ASK|CONSTRUCT|DESCRIBE|SELECT|ADD|MOVE|CLEAR|COPY|CREATE|DELETE|DROP|INSERT|LOAD)/i
         case $1.upcase
           when 'ASK', 'SELECT', 'DESCRIBE', 'CONSTRUCT'
             $1.downcase.to_sym
-          when 'DELETE', 'LOAD', 'INSERT', 'CREATE', 'CLEAR', 'DROP'
+          when 'DELETE', 'LOAD', 'INSERT', 'CREATE', 'CLEAR', 'DROP', 'ADD', 'MOVE', 'COPY'
             :update
         end
       else
@@ -280,7 +280,7 @@ module SPARQL; module Spec
       file = query_file.to_s.
         sub(BASE_URI_10, BASE_DIRECTORY).
         sub(BASE_URI_11, BASE_DIRECTORY).
-        sub(/\.rq$/, ".sse")
+        sub(/\.r[qu]$/, ".sse")
 
       # Use alternate file for RDF 1.1
       if RDF::VERSION.to_s >= "1.1"

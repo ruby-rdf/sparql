@@ -1,0 +1,1 @@
+(update (clear <http://example.org/g1> :VERBOSE COMMON-LISP:T))

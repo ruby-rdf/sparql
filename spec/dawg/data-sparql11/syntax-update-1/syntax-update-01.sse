@@ -1,0 +1,3 @@
+(base <http://example/base#>
+  (prefix ((: <http://example/>))
+    (update (load <http://example.org/faraway>))))

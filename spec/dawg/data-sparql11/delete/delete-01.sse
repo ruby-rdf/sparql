@@ -1,0 +1,4 @@
+(update
+ (deleteData
+  ((triple <http://example.org/a> <http://xmlns.com/foaf/0.1/knows>
+           <http://example.org/b>))))

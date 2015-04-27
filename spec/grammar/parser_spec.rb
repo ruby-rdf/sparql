@@ -8,125 +8,7 @@ class SPARQL::Grammar::Parser
   end
 end
 
-# [55] GroupGraphPattern
-shared_examples "GroupGraphPattern" do
-  context "GroupGraphPattern" do
-    {
-      # From data/Optional/q-opt-1.rq
-      "q-opt-1.rq" => [
-        "{<a><b><c> OPTIONAL {<d><e><f>}}",
-        %q((leftjoin 
-          (bgp (triple <a> <b> <c>))
-          (bgp (triple <d> <e> <f>))))
-      ],
-      "q-opt-1.rq(2)" => [
-        "{OPTIONAL {<d><e><f>}}",
-        %q((leftjoin
-          (bgp)
-          (bgp (triple <d> <e> <f>))))
-      ],
-      # From data/Optional/q-opt-2.rq
-      "q-opt-2.rq(1)" => [
-        "{<a><b><c> OPTIONAL {<d><e><f>} OPTIONAL {<g><h><i>}}",
-        %q((leftjoin
-            (leftjoin
-              (bgp (triple <a> <b> <c>))
-              (bgp (triple <d> <e> <f>)))
-            (bgp (triple <g> <h> <i>))))
-      ],
-      "q-opt-2.rq(2)" => [
-        "{<a><b><c> {:x :y :z} {<d><e><f>}}",
-        %q((join
-            (join
-              (bgp (triple <a> <b> <c>))
-              (bgp (triple <x> <y> <z>)))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      "q-opt-2.rq(3)" => [
-        "{<a><b><c> {:x :y :z} <d><e><f>}",
-        %q((join
-            (join
-              (bgp (triple <a> <b> <c>))
-              (bgp (triple <x> <y> <z>)))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      # From data/extracted-examples/query-4.1-q1.rq
-      "query-4.1-q1.rq(1)" => [
-        "{{:x :y :z} {<d><e><f>}}",
-        %q((join
-            (bgp (triple <x> <y> <z>))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      "query-4.1-q1.rq(2)" => [
-        "{<a><b><c> {:x :y :z} UNION {<d><e><f>}}",
-        %q((join
-            (bgp (triple <a> <b> <c>))
-            (union
-              (bgp (triple <x> <y> <z>))
-              (bgp (triple <d> <e> <f>)))))
-      ],
-      # From data/Optional/q-opt-3.rq
-      "q-opt-3.rq(1)" => [
-        "{{:x :y :z} UNION {<d><e><f>}}",
-        %q((union
-            (bgp (triple <x> <y> <z>))
-            (bgp (triple <d> <e> <f>))))
-      ],
-      "q-opt-3.rq(2)" => [
-        "{GRAPH ?src { :x :y :z}}",
-        %q((graph ?src (bgp (triple <x> <y> <z>))))
-      ],
-      "q-opt-3.rq(3)" => [
-        "{<a><b><c> GRAPH <graph> {<d><e><f>}}",
-        %q((join
-            (bgp (triple <a> <b> <c>))
-            (graph <graph>
-              (bgp (triple <d> <e> <f>)))))
-      ],
-      "q-opt-3.rq(4)" => [
-        "{ ?a :b ?c .  OPTIONAL { ?c :d ?e } . FILTER (! bound(?e))}",
-        %q((filter (! (bound ?e))
-            (leftjoin
-              (bgp (triple ?a <b> ?c))
-              (bgp (triple ?c <d> ?e)))))
-      ],
-      # From data/Expr1/expr-2
-      "expr-2" => [
-        "{ ?book dc:title ?title .
-          OPTIONAL
-            { ?book x:price ?price .
-              FILTER (?price < 15) .
-            } .
-        }",
-        %q((leftjoin (bgp (triple ?book <title> ?title)) (bgp (triple ?book <price> ?price)) (< ?price 15)))
-      ],
-      # From data-r2/filter-nested-2
-      "filter-nested-2(1)" => [
-        "{ :x :p ?v . { FILTER(?v = 1) } }",
-        %q((join
-          (bgp (triple <x> <p> ?v))
-          (filter (= ?v 1)
-            (bgp))))
-      ],
-      "filter-nested-2(2)" => [
-        "{FILTER (?v = 2) FILTER (?w = 3) ?s :p ?v . ?s :q ?w . }",
-        %q((filter (exprlist (= ?v 2) (= ?w 3))
-          (bgp
-            (triple ?s <p> ?v)
-            (triple ?s <q> ?w)
-          )))
-      ],
-    }.each do |title, (input, output)|
-      it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
-      end
-    end
-  end
-
-  include_examples "BGP Patterns", "{%s}"
-end
-
-# [70] FunctionCall
+# [70]	FunctionCall
 shared_examples "FunctionCall" do
   context "FunctionCall nonterminal" do
     {
@@ -144,7 +26,7 @@ shared_examples "FunctionCall" do
   end
 end
 
-# [98]    Var                       ::=       VAR1 | VAR2
+# [108]	Var
 shared_examples "Var" do
   context "Var" do
     it "recognizes Var1" do |example|
@@ -156,7 +38,7 @@ shared_examples "Var" do
   end
 end
 
-# [109] GraphTerm ::=       iri | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL
+# [109] GraphTerm
 shared_examples "GraphTerm" do
   context "GraphTerm" do
     include_examples "iri"
@@ -168,14 +50,14 @@ shared_examples "GraphTerm" do
   end
 end
 
-# [110]    Expression ::=       ConditionalOrExpression
+# [110]    Expression
 shared_examples "Expression" do
   context "Expression" do
     include_examples "ConditionalOrExpression"
   end
 end
 
-# [111]    ConditionalOrExpression ::=       ConditionalAndExpression ( '||' ConditionalAndExpression )*
+# [111]    ConditionalOrExpression
 shared_examples "ConditionalOrExpression" do
   context "ConditionalOrExpression" do
     {
@@ -192,7 +74,7 @@ shared_examples "ConditionalOrExpression" do
   end
 end
 
-# [112]    ConditionalAndExpression ::=       ValueLogical ( '&&' ValueLogical )*
+# [112]    ConditionalAndExpression
 shared_examples "ConditionalAndExpression" do
   context "ConditionalAndExpression" do
     {
@@ -208,22 +90,14 @@ shared_examples "ConditionalAndExpression" do
   end
 end
 
-# [113]    ValueLogical ::=       RelationalExpression
+# [113]    ValueLogical
 shared_examples "ValueLogical" do
   context "ValueLogical" do
     include_examples "RelationalExpression"
   end
 end
 
-# [114] RelationalExpression    ::= NumericExpression
-#                                   ( '=' NumericExpression
-#                                   | '!=' NumericExpression
-#                                   | '<' NumericExpression
-#                                   | '>' NumericExpression
-#                                   | '<=' NumericExpression
-#                                   | '>=' NumericExpression
-#                                   | 'IN' ExpressionList
-#                                   | 'NOT' 'IN' ExpressionList )?
+# [114] RelationalExpression
 shared_examples "RelationalExpression" do
   context "RelationalExpression" do
     {
@@ -247,14 +121,14 @@ shared_examples "RelationalExpression" do
   end
 end
 
-# [115]    NumericExpression ::=       AdditiveExpression
+# [115]    NumericExpression
 shared_examples "NumericExpression" do
   context "NumericExpression" do
     include_examples "AdditiveExpression"
   end
 end
 
-# [116]    AdditiveExpression ::= MultiplicativeExpression ( '+' MultiplicativeExpression | '-' MultiplicativeExpression )*
+# [116]    AdditiveExpression
 shared_examples "AdditiveExpression" do
   context "AdditiveExpression" do
     {
@@ -273,7 +147,7 @@ shared_examples "AdditiveExpression" do
   end
 end
 
-# [117]    MultiplicativeExpression ::=       UnaryExpression ( '*' UnaryExpression | '/' UnaryExpression )*
+# [117]    MultiplicativeExpression
 shared_examples "MultiplicativeExpression" do
   context "MultiplicativeExpression" do
     {
@@ -292,7 +166,7 @@ shared_examples "MultiplicativeExpression" do
   end
 end
 
-# [118] UnaryExpression ::=  '!' PrimaryExpression | '+' PrimaryExpression | '-' PrimaryExpression | PrimaryExpression
+# [118] UnaryExpression
 shared_examples "UnaryExpression" do
   context "UnaryExpression" do
     {
@@ -311,7 +185,7 @@ shared_examples "UnaryExpression" do
   end
 end
 
-# [119]    PrimaryExpression ::=       BrackettedExpression | BuiltInCall | iriOrFunction | RDFLiteral | NumericLiteral | BooleanLiteral | Var
+# [119]    PrimaryExpression
 shared_examples "PrimaryExpression" do
   context "PrimaryExpression" do
     include_examples "BrackettedExpression"
@@ -324,7 +198,7 @@ shared_examples "PrimaryExpression" do
   end
 end
 
-# [120]    BrackettedExpression ::=       '(' Expression ')'
+# [120]    BrackettedExpression
 shared_examples "BrackettedExpression" do
   context "BrackettedExpression" do
     {
@@ -337,62 +211,7 @@ shared_examples "BrackettedExpression" do
   end
 end
 
-# [121] BuiltInCall             ::= Aggregate
-#                                 | 'STR' '(' Expression ')'
-#                                 | 'LANG' '(' Expression ')'
-#                                 | 'LANGMATCHES' '(' Expression ',' Expression ')'
-#                                 | 'DATATYPE' '(' Expression ')'
-#                                 | 'BOUND' '(' Var ')'
-#                                 | 'IRI' '(' Expression ')'
-#                                 | 'URI' '(' Expression ')'
-#                                 | 'BNODE' ( '(' Expression ')' | NIL )
-#                                 | 'RAND' NIL
-#                                 | 'ABS' '(' Expression ')'
-#                                 | 'CEIL' '(' Expression ')'
-#                                 | 'FLOOR' '(' Expression ')'
-#                                 | 'ROUND' '(' Expression ')'
-#                                 | 'CONCAT' ExpressionList
-#                                 | SubstringExpression
-#                                 | 'STRLEN' '(' Expression ')'
-#                                 | StrReplaceExpression
-#                                 | 'UCASE' '(' Expression ')'
-#                                 | 'LCASE' '(' Expression ')'
-#                                 | 'ENCODE_FOR_URI' '(' Expression ')'
-#                                 | 'CONTAINS' '(' Expression ',' Expression ')'
-#                                 | 'STRSTARTS' '(' Expression ',' Expression ')'
-#                                 | 'STRENDS' '(' Expression ',' Expression ')'
-#                                 | 'STRBEFORE' '(' Expression ',' Expression ')'
-#                                 | 'STRAFTER' '(' Expression ',' Expression ')'
-#                                 | 'YEAR' '(' Expression ')'
-#                                 | 'MONTH' '(' Expression ')'
-#                                 | 'DAY' '(' Expression ')'
-#                                 | 'HOURS' '(' Expression ')'
-#                                 | 'MINUTES' '(' Expression ')'
-#                                 | 'SECONDS' '(' Expression ')'
-#                                 | 'TIMEZONE' '(' Expression ')'
-#                                 | 'TZ' '(' Expression ')'
-#                                 | 'NOW' NIL
-#                                 | 'UUID' NIL
-#                                 | 'STRUUID' NIL
-#                                 | 'MD5' '(' Expression ')'
-#                                 | 'SHA1' '(' Expression ')'
-#                                 | 'SHA224' '(' Expression ')'
-#                                 | 'SHA256' '(' Expression ')'
-#                                 | 'SHA384' '(' Expression ')'
-#                                 | 'SHA512' '(' Expression ')'
-#                                 | 'COALESCE' ExpressionList
-#                                 | 'IF' '(' Expression ',' Expression ',' Expression ')'
-#                                 | 'STRLANG' '(' Expression ',' Expression ')'
-#                                 | 'STRDT' '(' Expression ',' Expression ')'
-#                                 | 'sameTerm' '(' Expression ',' Expression ')'
-#                                 | 'isIRI' '(' Expression ')'
-#                                 | 'isURI' '(' Expression ')'
-#                                 | 'isBLANK' '(' Expression ')'
-#                                 | 'isLITERAL' '(' Expression ')'
-#                                 | 'isNUMERIC' '(' Expression ')'
-#                                 | RegexExpression
-#                                 | ExistsFunc
-#                                 | NotExistsFunc
+# [121] BuiltInCall
 shared_examples "BuiltInCall" do
   context "BuiltInCall" do
     {
@@ -423,7 +242,7 @@ shared_examples "BuiltInCall" do
   end
 end
 
-# [122]    RegexExpression ::=       'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
+# [122]    RegexExpression
 shared_examples "RegexExpression" do |options = {}|
   context "RegexExpression" do
     {
@@ -451,14 +270,7 @@ shared_examples "BooleanLiteral" do
   end
 end
 
-# [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')'
-#                                 | 'SUM' '(' 'DISTINCT'? Expression ')'
-#                                 | 'MIN' '(' 'DISTINCT'? Expression ')'
-#                                 | 'MAX' '(' 'DISTINCT'? Expression ')'
-#                                 | 'AVG' '(' 'DISTINCT'? Expression ')'
-#                                 | 'SAMPLE' '(' 'DISTINCT'? Expression ')'
-#                                 | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression
-#                                   ( ';' 'SEPARATOR' '=' String )? ')'
+# [127] Aggregate
 shared_examples "Aggregate" do
   context "Aggregate" do
     {
@@ -489,7 +301,7 @@ shared_examples "Aggregate" do
   end
 end
 
-# [128]    iriOrFunction ::=       iri ArgList?
+# [128]    iriOrFunction
 shared_examples "iriOrFunction" do
   context "iriOrFunction" do
     include_examples "iri"
@@ -999,7 +811,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [7]     SelectQuery	  ::=  	SelectClause DatasetClause* WhereClause SolutionModifier
   describe "when matching the [7] SelectQuery production rule", production: :SelectQuery do
     {
       "from" => [
@@ -1111,7 +922,6 @@ describe SPARQL::Grammar::Parser do
     include_examples "BGP Patterns", "SELECT * WHERE {%s}"
   end
 
-  # [9]  	SelectClause	  ::=  	'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
   describe "when matching the [9] SelectClause production rule", production: :SelectClause do
     {
       "var" => [
@@ -1133,7 +943,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [10]     ConstructQuery	  ::=  	'CONSTRUCT' ( ConstructTemplate DatasetClause* WhereClause SolutionModifier | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier )
   describe "when matching the [10] ConstructQuery production rule", production: :ConstructQuery do
     {
       "construct from" => [
@@ -1298,7 +1107,6 @@ describe SPARQL::Grammar::Parser do
     include_examples "BGP Patterns", "WHERE {%s}"
   end
 
-  # [18]    SolutionModifier          ::=       GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
   describe "when matching the [18] SolutionModifier production rule", production: :SolutionModifier do
     {
       "group" => [
@@ -1335,7 +1143,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [19]  GroupClause             ::= 'GROUP' 'BY' GroupCondition+
   describe "when matching the [19] GroupClause production rule", production: :GroupClause do
     {
       "Var" => [
@@ -1351,8 +1158,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [20]  GroupCondition          ::= BuiltInCall | FunctionCall
-  #                                 | '(' Expression ( 'AS' Var )? ')' | Var
   describe "when matching the [20] GroupCondition production rule", production: :GroupCondition do
     {
       "BuiltInCall" => [
@@ -1379,7 +1184,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [23]    OrderClause               ::=       'ORDER' 'BY' OrderCondition+
   describe "when matching the [23] OrderClause production rule", production: :OrderClause do
     {
       "order asc" => [
@@ -1401,7 +1205,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [24]    OrderCondition            ::=       ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )
   describe "when matching the [24] OrderCondition production rule", production: :OrderCondition do
     {
       "asc" => [
@@ -1421,7 +1224,6 @@ describe SPARQL::Grammar::Parser do
     include_examples "Var"
   end
 
-  # [25]    LimitOffsetClauses        ::=       ( LimitClause OffsetClause? | OffsetClause LimitClause? )
   describe "when matching the [25] LimitOffsetClauses production rule", production: :LimitOffsetClauses do
     {
       "limit" => [
@@ -1467,17 +1269,273 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [53]  	GroupGraphPattern	  ::=  	'{' ( SubSelect | GroupGraphPatternSub ) '}'
-  describe "when matching the [53] GroupGraphPattern production rule", production: :GroupGraphPattern do
-    include_examples "GroupGraphPattern"
+  describe "when matching the [31] Load production rule", production: :Load do
+    {
+      "load iri" => [%q(LOAD <a>), [:load, RDF::URI("a")]],
+      "load iri silent" => [%q(LOAD SILENT <a>), [:load, :silent, RDF::URI("a")]],
+      "load into" => [%q(LOAD <a> INTO GRAPH <b>), [:load, RDF::URI("a"), RDF::URI("b")]],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
   end
 
-  # [55]    TriplesBlock              ::=       TriplesSameSubject ( '.' TriplesBlock? )?
+  describe "when matching the [32] Clear production rule", production: :Clear do
+    {
+      "clear all" => [%q(CLEAR ALL), [:clear, :all]],
+      "clear all silent" => [%q(CLEAR SILENT ALL), [:clear, :silent, :all]],
+      "clear default" => [%q(CLEAR DEFAULT), [:clear, :default]],
+      "clear graph" => [%q(CLEAR GRAPH <g1>), [:clear, RDF::URI("g1")]],
+      "clear named" => [%q(CLEAR NAMED), [:clear, :named]],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [33] Drop production rule", production: :Drop do
+    {
+      "drop all" => [%q(DROP ALL), [:drop, :all]],
+      "drop all silent" => [%q(DROP SILENT ALL), [:drop, :silent, :all]],
+      "drop default" => [%q(DROP DEFAULT), [:drop, :default]],
+      "drop graph" => [%q(DROP GRAPH <g1>), [:drop, RDF::URI("g1")]],
+      "drop named" => [%q(DROP NAMED), [:drop, :named]],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [34] Create production rule", production: :Create do
+    {
+      "create graph" => [%q(CREATE GRAPH <g1>), [:create, RDF::URI("g1")]],
+      "create graph silent" => [%q(CREATE SILENT GRAPH <g1>), [:create, :silent, RDF::URI("g1")]],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [35] Add production rule", production: :Add do
+    {
+      "add default default" => [%q(ADD DEFAULT TO DEFAULT), [:add, :default, :default]],
+      "add iri default" => [%q(ADD <a> TO DEFAULT), [:add, RDF::URI("a"), :default]],
+      "add default iri" => [%q(ADD DEFAULT TO <a>), [:add, :default, RDF::URI("a")]],
+      "add graph iri default" => [%q(ADD GRAPH <a> TO DEFAULT), [:add, RDF::URI("a"), :default]],
+      "add default graph iri" => [%q(ADD DEFAULT TO GRAPH <a>), [:add, :default, RDF::URI("a")]],
+      "add silent iri iri" => [%q(ADD SILENT <a> TO <b>), [:add, :silent, RDF::URI("a"), RDF::URI("b")]]
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [36] Move production rule", production: :Move do
+    {
+      "move default default" => [%q(MOVE DEFAULT TO DEFAULT), [:move, :default, :default]],
+      "move iri default" => [%q(MOVE <a> TO DEFAULT), [:move, RDF::URI("a"), :default]],
+      "move default iri" => [%q(MOVE DEFAULT TO <a>), [:move, :default, RDF::URI("a")]],
+      "move graph iri default" => [%q(MOVE GRAPH <a> TO DEFAULT), [:move, RDF::URI("a"), :default]],
+      "move default graph iri" => [%q(MOVE DEFAULT TO GRAPH <a>), [:move, :default, RDF::URI("a")]],
+      "move silent iri iri" => [%q(MOVE SILENT <a> TO <b>), [:move, :silent, RDF::URI("a"), RDF::URI("b")]]
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [37] Copy production rule", production: :Copy do
+    {
+      "copy default default" => [%q(COPY DEFAULT TO DEFAULT), [:copy, :default, :default]],
+      "copy iri default" => [%q(COPY <a> TO DEFAULT), [:copy, RDF::URI("a"), :default]],
+      "copy default iri" => [%q(COPY DEFAULT TO <a>), [:copy, :default, RDF::URI("a")]],
+      "copy graph iri default" => [%q(COPY GRAPH <a> TO DEFAULT), [:copy, RDF::URI("a"), :default]],
+      "copy default graph iri" => [%q(COPY DEFAULT TO GRAPH <a>), [:copy, :default, RDF::URI("a")]],
+      "copy silent iri iri" => [%q(COPY SILENT <a> TO <b>), [:copy, :silent, RDF::URI("a"), RDF::URI("b")]]
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [45] UsingClause production rule", production: :UsingClause do
+    {
+      "using iri" => [
+        %q(USING <a>), [:using, [RDF::URI("a")]]
+      ],
+      "using pname" => [
+        %q(USING :a), [:using, [RDF::URI("a")]]
+      ],
+      "using named" => [
+        %q(USING NAMED <a>), [:using, [[:named, RDF::URI("a")]]]
+      ],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [38] InsertData production rule", production: :InsertData do
+    {
+      "insert triple" => [
+        %q(INSERT DATA {:a foaf:knows :b .}),
+        %q((insertData ((triple :a foaf:knows :b))))
+      ],
+      "insert graph" => [
+        %q(INSERT DATA {GRAPH <http://example.org/g1> {:a foaf:knows :b .}}),
+        %q((insertData ((graph <http://example.org/g1> ((triple :a foaf:knows :b))))))
+      ],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [39] DeleteData production rule", production: :DeleteData do
+    {
+      "delete triple" => [
+        %q(DELETE DATA {:a foaf:knows :b .}),
+        %q((deleteData ((triple :a foaf:knows :b))))
+      ],
+      "delete graph" => [
+        %q(DELETE DATA {GRAPH <http://example.org/g1> {:a foaf:knows :b .}}),
+        %q((deleteData ((graph <http://example.org/g1> ((triple :a foaf:knows :b))))))
+      ],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+      end
+    end
+  end
+
+  describe "when matching the [53] GroupGraphPattern production rule", production: :GroupGraphPattern do
+    {
+      # From data/Optional/q-opt-1.rq
+      "q-opt-1.rq" => [
+        "{<a><b><c> OPTIONAL {<d><e><f>}}",
+        %q((leftjoin 
+          (bgp (triple <a> <b> <c>))
+          (bgp (triple <d> <e> <f>))))
+      ],
+      "q-opt-1.rq(2)" => [
+        "{OPTIONAL {<d><e><f>}}",
+        %q((leftjoin
+          (bgp)
+          (bgp (triple <d> <e> <f>))))
+      ],
+      # From data/Optional/q-opt-2.rq
+      "q-opt-2.rq(1)" => [
+        "{<a><b><c> OPTIONAL {<d><e><f>} OPTIONAL {<g><h><i>}}",
+        %q((leftjoin
+            (leftjoin
+              (bgp (triple <a> <b> <c>))
+              (bgp (triple <d> <e> <f>)))
+            (bgp (triple <g> <h> <i>))))
+      ],
+      "q-opt-2.rq(2)" => [
+        "{<a><b><c> {:x :y :z} {<d><e><f>}}",
+        %q((join
+            (join
+              (bgp (triple <a> <b> <c>))
+              (bgp (triple <x> <y> <z>)))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      "q-opt-2.rq(3)" => [
+        "{<a><b><c> {:x :y :z} <d><e><f>}",
+        %q((join
+            (join
+              (bgp (triple <a> <b> <c>))
+              (bgp (triple <x> <y> <z>)))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      # From data/extracted-examples/query-4.1-q1.rq
+      "query-4.1-q1.rq(1)" => [
+        "{{:x :y :z} {<d><e><f>}}",
+        %q((join
+            (bgp (triple <x> <y> <z>))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      "query-4.1-q1.rq(2)" => [
+        "{<a><b><c> {:x :y :z} UNION {<d><e><f>}}",
+        %q((join
+            (bgp (triple <a> <b> <c>))
+            (union
+              (bgp (triple <x> <y> <z>))
+              (bgp (triple <d> <e> <f>)))))
+      ],
+      # From data/Optional/q-opt-3.rq
+      "q-opt-3.rq(1)" => [
+        "{{:x :y :z} UNION {<d><e><f>}}",
+        %q((union
+            (bgp (triple <x> <y> <z>))
+            (bgp (triple <d> <e> <f>))))
+      ],
+      "q-opt-3.rq(2)" => [
+        "{GRAPH ?src { :x :y :z}}",
+        %q((graph ?src (bgp (triple <x> <y> <z>))))
+      ],
+      "q-opt-3.rq(3)" => [
+        "{<a><b><c> GRAPH <graph> {<d><e><f>}}",
+        %q((join
+            (bgp (triple <a> <b> <c>))
+            (graph <graph>
+              (bgp (triple <d> <e> <f>)))))
+      ],
+      "q-opt-3.rq(4)" => [
+        "{ ?a :b ?c .  OPTIONAL { ?c :d ?e } . FILTER (! bound(?e))}",
+        %q((filter (! (bound ?e))
+            (leftjoin
+              (bgp (triple ?a <b> ?c))
+              (bgp (triple ?c <d> ?e)))))
+      ],
+      # From data/Expr1/expr-2
+      "expr-2" => [
+        "{ ?book dc:title ?title .
+          OPTIONAL
+            { ?book x:price ?price .
+              FILTER (?price < 15) .
+            } .
+        }",
+        %q((leftjoin (bgp (triple ?book <title> ?title)) (bgp (triple ?book <price> ?price)) (< ?price 15)))
+      ],
+      # From data-r2/filter-nested-2
+      "filter-nested-2(1)" => [
+        "{ :x :p ?v . { FILTER(?v = 1) } }",
+        %q((join
+          (bgp (triple <x> <p> ?v))
+          (filter (= ?v 1)
+            (bgp))))
+      ],
+      "filter-nested-2(2)" => [
+        "{FILTER (?v = 2) FILTER (?w = 3) ?s :p ?v . ?s :q ?w . }",
+        %q((filter (exprlist (= ?v 2) (= ?w 3))
+          (bgp
+            (triple ?s <p> ?v)
+            (triple ?s <q> ?w)
+          )))
+      ],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
+      end
+    end
+
+    include_examples "BGP Patterns", "{%s}"
+  end
+
   describe "when matching the [55] TriplesBlock production rule", production: :TriplesBlock do
     include_examples "BGP Patterns", "%s"
   end
 
-  # [56] GraphPatternNotTriples ::= GroupOrUnionGraphPattern | OptionalGraphPattern | MinusGraphPattern | GraphGraphPattern | ServiceGraphPattern | Filter | Bind
   describe "when matching the [56] GraphPatternNotTriples production rule", production: :GraphPatternNotTriples do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
@@ -1525,7 +1583,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [57]    OptionalGraphPattern      ::=       'OPTIONAL' GroupGraphPattern
   describe "when matching the [57] OptionalGraphPattern production rule", production: :OptionalGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
@@ -1547,7 +1604,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [58]    GraphGraphPattern         ::=       'GRAPH' VarOrIri GroupGraphPattern
   describe "when matching the [58] GraphGraphPattern production rule", production: :GraphGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
@@ -1567,7 +1623,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
   describe "when matching the [60] Bind production rule", production: :Bind do
     {
       "Expression" => [
@@ -1580,7 +1635,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [67]    GroupOrUnionGraphPattern  ::=       GroupGraphPattern ( 'UNION' GroupGraphPattern )*
   describe "when matching the [67] GroupOrUnionGraphPattern production rule", production: :GroupOrUnionGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
@@ -1609,7 +1663,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [68]    Filter                    ::=       'FILTER' Constraint
   describe "when matching the [68] Filter production rule", production: :Filter do
     # Can't test against SSE, as filter also requires a BGP or other query operator
     {
@@ -1653,7 +1706,6 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # [69] Constraint ::=  BrackettedExpression | BuiltInCall | FunctionCall
   describe "when matching the [69] Constraint production rule", production: :Constraint do
     include_examples "FunctionCall"
     include_examples "BrackettedExpression"
@@ -1725,9 +1777,8 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  # Not testing [70] ConstructTriples
+  # Not testing [74] ConstructTriples
 
-  # [77]  	PropertyListNotEmpty	  ::=  	Verb ObjectList ( ';' ( Verb ObjectList )? )*
   describe "when matching the [77] PropertyListNotEmpty production rule", production: :PropertyListNotEmpty do
     {
       %q(<p> <o>) => [
@@ -1886,8 +1937,6 @@ describe SPARQL::Grammar::Parser do
         end
       end
     end
-
-    # NOTE: production rules [70..110] are internal to the lexer
   end
 
   context "issues", production: :QueryUnit do

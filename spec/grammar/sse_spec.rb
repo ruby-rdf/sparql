@@ -17,7 +17,7 @@ shared_examples "SSE" do |man, tests|
             pending "Property Paths"
           end
           pending "Property Paths" if man.to_s.split("/")[-2] == 'property-path'
-          parser_opts = {:base_uri => t.action.query_file}
+          parser_opts = {base_uri: t.action.query_file}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
           sse = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
@@ -35,7 +35,7 @@ shared_examples "SSE" do |man, tests|
           end
           pending "Property Paths" if man.to_s.split("/")[-2] == 'property-path'
           query = begin
-            SPARQL::Grammar.parse(t.action.query_string, :debug => ENV['PARSER_DEBUG'])
+            SPARQL::Grammar.parse(t.action.query_string, debug: ENV['PARSER_DEBUG'])
           rescue Exception => e
             "Error: #{e.message}"
           end
@@ -65,10 +65,37 @@ shared_examples "SSE" do |man, tests|
           pending("Better Error Detection") if %w(
             syn-bad-01.rq syn-bad-02.rq
           ).include?(t.entry) && man.to_s.split("/")[-2] == 'syntax-query'
-          expect {SPARQL::Grammar.parse(t.action.query_string, :validate => true)}.to raise_error
+          expect {SPARQL::Grammar.parse(t.action.query_string, validate: true)}.to raise_error
+        end
+      when MF.PositiveUpdateSyntaxTest11
+        it "parses #{t.entry} - #{t.name} to correct SSE" do
+          parser_opts = {update: true, base_uri: t.action.query_file}
+          parser_opts[:debug] = true if ENV['PARSER_DEBUG']
+          query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
+          sse = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
+          expect(query).to eq sse
+        end
+
+        it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
+          query = begin
+            SPARQL::Grammar.parse(t.action.query_string, update: true, debug: ENV['PARSER_DEBUG'])
+          rescue Exception => e
+            "Error: #{e.message}"
+          end
+          normalized_query = query.to_sxp.
+            gsub(/\s+/m, " ").
+            gsub(/\(\s+\(/, '((').
+            gsub(/\)\s+\)/, '))').
+            strip
+          normalized_result = t.action.sse_string.
+            gsub(/\s+/m, " ").
+            gsub(/\(\s+\(/, '((').
+            gsub(/\)\s+\)/, '))').
+            strip
+          expect(normalized_query).to produce(normalized_result, ["original query:", t.action.query_string])
         end
       when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest,
-           MF.PositiveUpdateSyntaxTest11, MF.NegativeUpdateSyntaxTest11,
+           MF.NegativeUpdateSyntaxTest11,
            MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
            MF.GraphStoreProtocolTest
         it "parses #{t.entry} - #{t.name} to correct SSE"
@@ -108,7 +135,6 @@ describe SPARQL::Grammar::Parser do
           delete
           drop
           move
-          syntax-update-1
           syntax-update-2
           update-silent
 

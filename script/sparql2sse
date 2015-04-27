@@ -44,7 +44,7 @@ input = nil
 
 parser_options = {
   :progress   => false,
-  :production => :Query,
+  :production => :QueryUnit,
   :prefixes   => {},
 }
 

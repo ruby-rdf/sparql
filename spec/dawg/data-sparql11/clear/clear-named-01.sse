@@ -1,0 +1,1 @@
+(update (clear :NAMED :VERBOSE COMMON-LISP:T))
