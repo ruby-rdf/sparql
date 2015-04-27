@@ -130,13 +130,6 @@ module SPARQL
     autoload :Parser,     'sparql/grammar/parser11'
     autoload :Terminals,  'sparql/grammar/terminals11'
 
-    METHODS   = %w(SELECT CONSTRUCT DESCRIBE ASK).map(&:to_sym)
-    KEYWORDS  = %w(BASE PREFIX LIMIT OFFSET DISTINCT REDUCED
-                   ORDER BY ASC DESC FROM NAMED WHERE GRAPH
-                   OPTIONAL UNION FILTER).map(&:to_sym).unshift(*METHODS)
-    FUNCTIONS = %w(STR LANGMATCHES LANG DATATYPE BOUND sameTerm
-                   isIRI isURI isBLANK isLITERAL REGEX).map(&:to_sym)
-
     # Make all defined non-autoloaded constants immutable:
     constants.each { |name| const_get(name).freeze unless autoload?(name) }
 

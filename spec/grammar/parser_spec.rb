@@ -437,27 +437,12 @@ shared_examples "RegexExpression" do |options = {}|
   end
 end
 
-# [128]    iriOrFunction ::=       iri ArgList?
-shared_examples "iriOrFunction" do
-  context "iriOrFunction" do
-    include_examples "iri"
-    include_examples "FunctionCall"
-  end
-end
-
-# [129] RDFLiteral
-shared_examples "RDFLiteral" do
-  context "RDFLiteral" do
+# [123] BooleanLiteral
+shared_examples "BooleanLiteral" do
+  context "BooleanLiteral" do
     {
-      %q("")            => RDF::Literal.new(""),
-      %q('foobar')      => RDF::Literal('foobar'),
-      %q("foobar")      => RDF::Literal('foobar'),
-      %q('''foobar''')  => RDF::Literal('foobar'),
-      %q("""foobar""")  => RDF::Literal('foobar'),
-      %q(""@en)         => RDF::Literal.new("", :language => :en),
-      %q("foobar"@en-US)=> RDF::Literal.new("foobar", :language => :'en-us'),
-      %q(""^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("", :datatype => RDF::XSD.string),
-      %q("foobar"^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("foobar", :datatype => RDF::XSD.string),
+      "true"  => RDF::Literal(true),
+      "false" => RDF::Literal(false),
     }.each do |input, output|
       it input do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
@@ -499,6 +484,35 @@ shared_examples "Aggregate" do
     }.each do |input, output|
       it input do |example|
         expect(input).to generate(output, example.metadata.merge(last: true))
+      end
+    end
+  end
+end
+
+# [128]    iriOrFunction ::=       iri ArgList?
+shared_examples "iriOrFunction" do
+  context "iriOrFunction" do
+    include_examples "iri"
+    include_examples "FunctionCall"
+  end
+end
+
+# [129] RDFLiteral
+shared_examples "RDFLiteral" do
+  context "RDFLiteral" do
+    {
+      %q("")            => RDF::Literal.new(""),
+      %q('foobar')      => RDF::Literal('foobar'),
+      %q("foobar")      => RDF::Literal('foobar'),
+      %q('''foobar''')  => RDF::Literal('foobar'),
+      %q("""foobar""")  => RDF::Literal('foobar'),
+      %q(""@en)         => RDF::Literal.new("", :language => :en),
+      %q("foobar"@en-US)=> RDF::Literal.new("foobar", :language => :'en-us'),
+      %q(""^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("", :datatype => RDF::XSD.string),
+      %q("foobar"^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("foobar", :datatype => RDF::XSD.string),
+    }.each do |input, output|
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -573,20 +587,6 @@ shared_examples "NumericLiteral" do
     it "recognizes the DOUBLE_NEGATIVE terminal" do |example|
       %w(-1e2 -3.1415e2 -.123e2).each do |input|
         expect(input).to generate(RDF::Literal::Double.new(input), example.metadata.merge(last: true))
-      end
-    end
-  end
-end
-
-# [123] BooleanLiteral
-shared_examples "BooleanLiteral" do
-  context "BooleanLiteral" do
-    {
-      "true"  => RDF::Literal(true),
-      "false" => RDF::Literal(false),
-    }.each do |input, output|
-      it input do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -800,7 +800,7 @@ describe SPARQL::Grammar::Parser do
   describe "#initialize" do
     it "accepts a string query" do |example|
       expect {
-        SPARQL::Grammar::Parser.new("foo") {
+        described_class.new("foo") {
           raise "huh" unless input == "foo"
           }
         }.not_to raise_error
@@ -808,7 +808,7 @@ describe SPARQL::Grammar::Parser do
 
     it "accepts a StringIO query" do |example|
       expect {
-        SPARQL::Grammar::Parser.new(StringIO.new("foo")) {
+        described_class.new(StringIO.new("foo")) {
           raise "huh" unless input == "foo"
           }
         }.not_to raise_error
@@ -2004,7 +2004,7 @@ describe SPARQL::Grammar::Parser do
   def parser(production = nil, options = {})
     @debug = options[:debug] || []
     Proc.new do |query|
-      parser = SPARQL::Grammar::Parser.new(query, {:debug => @debug, resolve_iris: true}.merge(options))
+      parser = described_class.new(query, {:debug => @debug, resolve_iris: true}.merge(options))
       production ? parser.parse(production) : parser
     end
   end

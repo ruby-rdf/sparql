@@ -38,7 +38,7 @@ middleware to provide results using [HTTP Content Negotiation][conneg].
   using an appropriate format based on [HTTP content negotiation][conneg].
 
 ### [SPARQL 1.1 Query][] Extensions and Limitations
-The {SPARQL} gem uses the [SPARQL 1.1 Query][] {file:etc/sparql11.bnf EBNF grammar}, which provides
+The {SPARQL} gem uses the [SPARQL 1.1 Query][] {file:etc/sparql11.html EBNF grammar}, which provides
 much more capability than [SPARQL 1.0][], but has a few limitations:
 
 * The format for decimal datatypes has changed in [RDF 1.1][]; they may no
