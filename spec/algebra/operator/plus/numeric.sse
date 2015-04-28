@@ -19,3 +19,25 @@
 (equal (+ -INF) -INF)
 
 (error (+ "") TypeError)
+
+##
+# Now implemented as part of plus
+# op:numeric-add(A, B)
+#
+# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/xpath-functions/#func-numeric-add
+
+(equal (+ 0.0 +INF)  +INF)
+(equal (+ 0.0 -INF)  -INF)
+(equal (+ +INF 0.0)  +INF)
+(equal (+ -INF 0.0)  -INF)
+(equal (+ +INF +INF) +INF)
+(equal (+ -INF -INF) -INF)
+(equal (+ +INF -INF) NaN)
+(equal (+ -INF +INF) NaN)
+
+(equal (+ 29 13) 42)
+(equal (+ 29.0 13.0) 42.0)
+(equal (+ "29"^^xsd:decimal "13"^^xsd:decimal) "42.0"^^xsd:decimal)
+
+(error (+ true false) TypeError)

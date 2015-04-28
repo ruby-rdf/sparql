@@ -33,16 +33,16 @@ def sse_examples(filename)
   end
 end
 
-def verify(examples)
+def verify(examples, op)
   examples.each do |input, output|
     describe ".evaluate(#{input.to_sse})" do
       if output.is_a?(Class)
         it "raises #{output.inspect}" do
-          expect { @op.evaluate(*input[1..-1]) }.to raise_error(output)
+          expect { op.evaluate(*input[1..-1]) }.to raise_error(output)
         end
       else
         it "returns #{repr(output)}" do
-          result = @op.evaluate(*input[1..-1])
+          result = op.evaluate(*input[1..-1])
           if output.is_a?(RDF::Literal::Double) && output.nan?
             expect(result).to be_nan
           else
