@@ -1,6 +1,6 @@
-(update
- (modify
-  (bgp
-    (triple ?s ?p ?o))
-  (with <http://example.org/g1>
-    (insert ((triple ?s ?p "z"))))))
+(prefix ((: <http://example.org/>))
+  (update
+    (modify
+      (with :g1
+        (bgp (triple ?s ?p ?o))
+        (insert ((triple ?s ?p "z")))))))

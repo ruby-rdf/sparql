@@ -7,7 +7,7 @@ shared_examples "SSE" do |man, tests|
     tests.each do |t|
       case t.type
       when MF.QueryEvaluationTest, MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11
-        it "parses #{t.entry} - #{t.name} to correct SXP" do
+        it "parses #{t.entry} - #{t.name} - #{t.comment} to correct SXP" do
           case t.name
           when 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
@@ -24,7 +24,7 @@ shared_examples "SSE" do |man, tests|
           expect(query).to eq sxp
         end
 
-        it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
+        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE" do
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
@@ -52,7 +52,7 @@ shared_examples "SSE" do |man, tests|
           expect(normalized_query).to produce(normalized_result, ["original query:", t.action.query_string])
         end
       when MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11
-        it "detects syntax error for #{t.entry} - #{t.name}" do
+        it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
           pending("Better Error Detection") if %w(
             syn-blabel-cross-graph-bad.rq syn-blabel-cross-optional-bad.rq syn-blabel-cross-union-bad.rq
             syn-bad-34.rq syn-bad-35.rq syn-bad-36.rq syn-bad-37.rq syn-bad-38.rq
@@ -68,7 +68,7 @@ shared_examples "SSE" do |man, tests|
           expect {SPARQL::Grammar.parse(t.action.query_string, validate: true)}.to raise_error
         end
       when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest, MF.PositiveUpdateSyntaxTest11
-        it "parses #{t.entry} - #{t.name} to correct SXP" do
+        it "parses #{t.entry} - #{t.name} - #{t.comment} to correct SXP" do
           pending("Whitespace in string tokens") if %w(
             syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
             syntax-update-36.ru
@@ -83,7 +83,7 @@ shared_examples "SSE" do |man, tests|
           expect(query).to eq sxp
         end
 
-        it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
+        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE", focus:true do
           pending("Whitespace in string tokens") if %w(
             syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
             syntax-update-36.ru
@@ -109,7 +109,7 @@ shared_examples "SSE" do |man, tests|
           expect(normalized_query).to produce(normalized_result, ["original query:", t.action.query_string])
         end
       when MF.NegativeUpdateSyntaxTest11
-        it "detects syntax error for #{t.entry} - #{t.name}" do
+        it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
           pending("Better Error Detection") if %w(
             syntax-update-bad-03.ru syntax-update-bad-04.ru syntax-update-bad-10.ru
             syntax-update-bad-11.ru syntax-update-bad-12.ru syntax-update-54.ru
@@ -118,10 +118,10 @@ shared_examples "SSE" do |man, tests|
         end
       when MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
            MF.GraphStoreProtocolTest
-        it "parses #{t.entry} - #{t.name} to correct SSE"
-        it "parses #{t.entry} - #{t.name} to lexically equivalent SSE"
+        it "parses #{t.entry} - #{t.name} to correct SSE - #{t.comment}"
+        it "parses #{t.entry} - #{t.name} to lexically equivalent SSE - #{t.comment}"
       else
-        it "??? #{t.entry} - #{t.name}" do
+        it "??? #{t.entry} - #{t.name} - #{t.comment}" do
           puts t.inspect
           fail "Unknown test type #{t.type}"
         end
@@ -149,15 +149,6 @@ describe SPARQL::Grammar::Parser do
     SPARQL::Spec.sparql1_1_tests(true).
       reject do |tc|
         %w{
-          basic-update
-          clear
-          copy
-          delete
-          drop
-          move
-          syntax-update-2
-          update-silent
-
           entailment
 
           http-rdf-dupdate
