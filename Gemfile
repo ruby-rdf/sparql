@@ -23,7 +23,7 @@ group :development do
   gem 'rdf-turtle',     :git => "git://github.com/ruby-rdf/rdf-turtle.git", :branch => "develop"
   gem 'json-ld',        :git => "git://github.com/ruby-rdf/json-ld.git", :branch => "develop"
   gem "equivalent-xml", '>= 0.2.8'
-  gem 'psych'
+  gem 'psych', :platforms => [:mri, :rbx]
 end
 
 group :debug do
