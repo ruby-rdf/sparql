@@ -398,6 +398,9 @@ module SPARQL::Grammar
         add_prod_datum(:update, update)
       end
     end
+    production(:_Update_3) do |input, data, callback|
+      add_prod_datum(:update, data[:update][1..-1]) if data[:update]
+    end
 
     # [30]	Update1	::=	Load | Clear | Drop | Add | Move | Copy | Create | InsertData | DeleteData | DeleteWhere | Modify
     production(:Update1) do |input, data, callback|

@@ -83,7 +83,7 @@ shared_examples "SSE" do |man, tests|
           expect(query).to eq sxp
         end
 
-        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE", focus:true do
+        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE" do
           pending("Whitespace in string tokens") if %w(
             syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
             syntax-update-36.ru
