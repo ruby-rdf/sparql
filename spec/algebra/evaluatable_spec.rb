@@ -32,7 +32,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/xpath-functions/#func-not
   describe Operator::Not do
-    verify sse_examples('operator/not/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/not/boolean.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -44,7 +44,7 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-plus
   # @see http://www.w3.org/TR/xpath-functions/#func-numeric-add
   describe Operator::Plus do
-    verify sse_examples('operator/plus/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/plus/numeric.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -56,7 +56,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
   describe Operator::Negate do
-    verify sse_examples('operator/negate/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/negate/numeric.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -67,7 +67,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-bound
   describe Operator::Bound do
-    verify sse_examples('operator/bound/variable.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/bound/variable.sse')
 
     describe ".evaluate(RDF::Query::Variable)" do
       it "returns an RDF::Literal::Boolean" do
@@ -86,7 +86,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-isIRI
   describe Operator::IsIRI do
-    verify sse_examples('operator/is_iri/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/is_iri/term.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -97,7 +97,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-isBlank
   describe Operator::IsBlank do
-    verify sse_examples('operator/is_blank/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/is_blank/term.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -108,7 +108,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-isLiteral
   describe Operator::IsLiteral do
-    verify sse_examples('operator/is_literal/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/is_literal/term.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -119,7 +119,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-str
   describe Operator::Str do
-    verify sse_examples('operator/str/literal.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/str/literal.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -130,7 +130,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-lang
   describe Operator::Lang do
-    verify sse_examples('operator/lang/literal.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/lang/literal.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -142,7 +142,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-datatype
   describe Operator::Datatype do
-    verify sse_examples('operator/datatype/literal.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/datatype/literal.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -158,7 +158,7 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-or
   # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
   describe Operator::Or do
-    verify sse_examples('operator/or/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/or/boolean.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -170,7 +170,7 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-and
   # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
   describe Operator::And do
-    verify sse_examples('operator/and/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/and/boolean.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -182,19 +182,19 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
   describe Operator::Equal do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
-    verify sse_examples('operator/equal/string.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/equal/string.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
-    verify sse_examples('operator/equal/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/equal/numeric.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-equal
-    verify sse_examples('operator/equal/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/equal/boolean.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
-    #verify sse_examples('operator/equal/datetime.sse') # FIXME in RDF.rb 0.3.0
+    it_behaves_like "Evaluate", sse_examples('operator/equal/datetime.sse')
 
     # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
-    verify sse_examples('operator/equal/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/equal/term.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -206,22 +206,22 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
   describe Operator::NotEqual do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
-    verify sse_examples('operator/not_equal/string.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/not_equal/string.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-not
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
-    verify sse_examples('operator/not_equal/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/not_equal/numeric.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-not
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-equal
-    verify sse_examples('operator/not_equal/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/not_equal/boolean.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-not
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
-    #verify sse_examples('operator/not_equal/datetime.sse') # FIXME in RDF.rb 0.3.0
+    it_behaves_like "Evaluate", sse_examples('operator/not_equal/datetime.sse')
 
     # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
-    verify sse_examples('operator/not_equal/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/not_equal/term.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -233,16 +233,16 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
   describe Operator::LessThan do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
-    verify sse_examples('operator/less_than/string.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than/string.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-less-than
-    verify sse_examples('operator/less_than/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than/numeric.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-less-than
-    verify sse_examples('operator/less_than/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than/boolean.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-less-than
-    verify sse_examples('operator/less_than/datetime.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than/datetime.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -254,16 +254,16 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
   describe Operator::GreaterThan do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
-    verify sse_examples('operator/greater_than/string.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than/string.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-greater-than
-    verify sse_examples('operator/greater_than/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than/numeric.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-greater-than
-    verify sse_examples('operator/greater_than/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than/boolean.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-greater-than
-    verify sse_examples('operator/greater_than/datetime.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than/datetime.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -275,19 +275,19 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
   describe Operator::LessThanOrEqual do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
-    verify sse_examples('operator/less_than_or_equal/string.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than_or_equal/string.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-less-than
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
-    verify sse_examples('operator/less_than_or_equal/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than_or_equal/numeric.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-less-than
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-equal
-    verify sse_examples('operator/less_than_or_equal/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than_or_equal/boolean.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-less-than
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
-    verify sse_examples('operator/less_than_or_equal/datetime.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/less_than_or_equal/datetime.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -299,19 +299,19 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
   describe Operator::GreaterThanOrEqual do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
-    verify sse_examples('operator/greater_than_or_equal/string.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than_or_equal/string.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-greater-than
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
-    verify sse_examples('operator/greater_than_or_equal/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than_or_equal/numeric.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-greater-than
     # @see http://www.w3.org/TR/xpath-functions/#func-boolean-equal
-    verify sse_examples('operator/greater_than_or_equal/boolean.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than_or_equal/boolean.sse')
 
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-greater-than
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
-    verify sse_examples('operator/greater_than_or_equal/datetime.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/greater_than_or_equal/datetime.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -322,7 +322,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/xpath-functions/#func-numeric-multiply
   describe Operator::Multiply do
-    verify sse_examples('operator/multiply/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/multiply/numeric.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -333,7 +333,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/xpath-functions/#func-numeric-divide
   describe Operator::Divide do
-    verify sse_examples('operator/divide/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/divide/numeric.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -344,7 +344,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/xpath-functions/#func-numeric-subtract
   describe Operator::Subtract do
-    verify sse_examples('operator/subtract/numeric.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/subtract/numeric.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -355,7 +355,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
   describe Operator::Equal do
-    verify sse_examples('operator/equal/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/equal/term.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -366,7 +366,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
   describe Operator::NotEqual do
-    verify sse_examples('operator/not_equal/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/not_equal/term.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -377,7 +377,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-sameTerm
   describe Operator::SameTerm do
-    verify sse_examples('operator/same_term/term.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/same_term/term.sse')
 
     describe "#optimize" do
       it "returns RDF::Literal::TRUE if both operands are the same variable" do
@@ -394,7 +394,7 @@ describe SPARQL::Algebra do
 
   # @see http://www.w3.org/TR/rdf-sparql-query/#func-langMatches
   describe Operator::LangMatches do
-    verify sse_examples('operator/lang_matches/literal.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/lang_matches/literal.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
@@ -409,7 +409,7 @@ describe SPARQL::Algebra do
   # @see http://www.w3.org/TR/rdf-sparql-query/#funcex-regex
   # @see http://www.w3.org/TR/xpath-functions/#func-matches
   describe Operator::Regex do
-    verify sse_examples('operator/regex/literal.sse'), described_class
+    it_behaves_like "Evaluate", sse_examples('operator/regex/literal.sse')
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
