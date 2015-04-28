@@ -131,7 +131,7 @@ module SPARQL; module Algebra
         when :'/'             then Divide
         when :'='             then Equal
         when :*               then Multiply
-        when :+               then arity.eql?(1) ? Plus  : Add
+        when :+               then Plus
         when :-               then arity.eql?(1) ? Negate : Subtract
         when :<               then LessThan
         when :<=              then LessThanOrEqual

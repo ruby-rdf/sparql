@@ -1322,12 +1322,12 @@ describe SPARQL::Grammar::Parser do
 
   describe "when matching the [35] Add production rule", production: :Add do
     {
-      "add default default" => [%q(ADD DEFAULT TO DEFAULT), [:add, :default, :default]],
-      "add iri default" => [%q(ADD <a> TO DEFAULT), [:add, RDF::URI("a"), :default]],
-      "add default iri" => [%q(ADD DEFAULT TO <a>), [:add, :default, RDF::URI("a")]],
-      "add graph iri default" => [%q(ADD GRAPH <a> TO DEFAULT), [:add, RDF::URI("a"), :default]],
-      "add default graph iri" => [%q(ADD DEFAULT TO GRAPH <a>), [:add, :default, RDF::URI("a")]],
-      "add silent iri iri" => [%q(ADD SILENT <a> TO <b>), [:add, :silent, RDF::URI("a"), RDF::URI("b")]]
+      "add default default" => [%q(ADD DEFAULT TO DEFAULT), %q((add default default))],
+      "add iri default" => [%q(ADD <a> TO DEFAULT), %q((add <a> default))],
+      "add default iri" => [%q(ADD DEFAULT TO <a>), %q((add default <a>))],
+      "add graph iri default" => [%q(ADD GRAPH <a> TO DEFAULT), %q((add <a> default))],
+      "add default graph iri" => [%q(ADD DEFAULT TO GRAPH <a>), %q((add default <a>))],
+      "add silent iri iri" => [%q(ADD SILENT <a> TO <b>), %q((add silent <a> <b>))]
     }.each do |title, (input, output)|
       it title do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
@@ -1368,13 +1368,13 @@ describe SPARQL::Grammar::Parser do
   describe "when matching the [45] UsingClause production rule", production: :UsingClause do
     {
       "using iri" => [
-        %q(USING <a>), [:using, [RDF::URI("a")]]
+        %q(USING <a>), [:using, RDF::URI("a")]
       ],
       "using pname" => [
-        %q(USING :a), [:using, [RDF::URI("a")]]
+        %q(USING :a), [:using, RDF::URI("a")]
       ],
       "using named" => [
-        %q(USING NAMED <a>), [:using, [[:named, RDF::URI("a")]]]
+        %q(USING NAMED <a>), [:using, [:named, RDF::URI("a")]]
       ],
     }.each do |title, (input, output)|
       it title do |example|

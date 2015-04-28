@@ -100,7 +100,7 @@ module SPARQL; module Algebra
           debug(options) {"No operator found for #{sse.first}"}
           sse.map do |s|
             s.is_a?(Array) ?
-              self.new(s, options.merge(:depth => options[:depth].to_i + 1)) :
+              self.new(s, depth: options[:depth].to_i + 1) :
               s
           end
         end

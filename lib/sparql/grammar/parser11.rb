@@ -401,8 +401,12 @@ module SPARQL::Grammar
 
     # [30]	Update1	::=	Load | Clear | Drop | Add | Move | Copy | Create | InsertData | DeleteData | DeleteWhere | Modify
     production(:Update1) do |input, data, callback|
-      %w(load clear drop add move copy create insertData deleteData deleteWhere modify).map(&:to_sym).each do |op|
-        add_prod_data(:update, data[op].dup.unshift(op)) if data.has_key?(op)
+      if data[:update]
+        add_prod_datum(:update, data[:update])
+      else
+        %w(load clear drop move copy create insertData deleteData deleteWhere modify).map(&:to_sym).each do |op|
+          add_prod_data(:update, data[op].dup.unshift(op)) if data.has_key?(op)
+        end
       end
     end
 
@@ -440,8 +444,11 @@ module SPARQL::Grammar
 
     # [35]	Add	::=	"ADD" "SILENT"? GraphOrDefault "TO" GraphOrDefault
     production(:Add) do |input, data, callback|
-      add_prod_datum(:add, :silent) if data[:silent]
-      add_prod_datum(:add, data[:GraphOrDefault])
+      args = []
+      args << :silent if data[:silent]
+      args += data[:GraphOrDefault]
+      op = SPARQL::Algebra::Expression(:add, *args)
+      add_prod_datum(:update, op)
     end
 
     # [36]	Move	::=	"MOVE" "SILENT"? GraphOrDefault "TO" GraphOrDefault

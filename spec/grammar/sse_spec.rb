@@ -7,7 +7,7 @@ shared_examples "SSE" do |man, tests|
     tests.each do |t|
       case t.type
       when MF.QueryEvaluationTest, MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11
-        it "parses #{t.entry} - #{t.name} to correct SSE" do
+        it "parses #{t.entry} - #{t.name} to correct SXP" do
           case t.name
           when 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
@@ -20,8 +20,8 @@ shared_examples "SSE" do |man, tests|
           parser_opts = {base_uri: t.action.query_file}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
-          sse = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
-          expect(query).to eq sse
+          sxp = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
+          expect(query).to eq sxp
         end
 
         it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
@@ -68,7 +68,7 @@ shared_examples "SSE" do |man, tests|
           expect {SPARQL::Grammar.parse(t.action.query_string, validate: true)}.to raise_error
         end
       when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest, MF.PositiveUpdateSyntaxTest11
-        it "parses #{t.entry} - #{t.name} to correct SSE", focus:true do
+        it "parses #{t.entry} - #{t.name} to correct SXP" do
           pending("Whitespace in string tokens") if %w(
             syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
             syntax-update-36.ru
@@ -79,8 +79,8 @@ shared_examples "SSE" do |man, tests|
           parser_opts = {update: true, base_uri: t.action.query_file}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
-          sse = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
-          expect(query).to eq sse
+          sxp = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
+          expect(query).to eq sxp
         end
 
         it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
