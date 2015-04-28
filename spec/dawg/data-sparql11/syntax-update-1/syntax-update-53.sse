@@ -1,0 +1,5 @@
+(prefix ((: <http://www.example.org/>))
+  (update
+    (insertData (
+      (graph <g1> ((triple ??b1 :p :o)))
+      (graph <g2> ((triple ??b1 :p :o)))))))

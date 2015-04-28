@@ -94,10 +94,10 @@ module SPARQL::Grammar
     STR_EXPR = %r(ABS|ADD|ALL|ASC|ASK|AS|AVG|BASE|BINDINGS|BIND
                  |BNODE|BOUND|BY|CEIL|CLEAR|COALESCE|CONCAT
                  |CONSTRUCT|CONTAINS|COPY|COUNT|CREATE|DATATYPE|DAY
-                 |DEFAULT|DELETE\sDATA|DELETE\sWHERE|DELETE
+                 |DEFAULT|DELETE#{WS}DATA|DELETE#{WS}WHERE|DELETE
                  |DESCRIBE|DESC|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
                  |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
-                 |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
+                 |HOURS|IF|INSERT#{WS}DATA|INSERT|INTO|IN|IRI
                  |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
                  |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
                  |NAMED|NOT|NOW|OFFSET|OPTIONAL
@@ -111,7 +111,7 @@ module SPARQL::Grammar
                  |true
                  |false
                  |&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a]
-              )xi.freeze
+              )xim.freeze
 
     # Map terminals to canonical form
     STR_MAP = (%w{ABS ADD ALL ASC ASK AS AVG BASE BINDINGS BIND

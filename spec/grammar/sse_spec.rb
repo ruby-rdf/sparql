@@ -67,8 +67,15 @@ shared_examples "SSE" do |man, tests|
           ).include?(t.entry) && man.to_s.split("/")[-2] == 'syntax-query'
           expect {SPARQL::Grammar.parse(t.action.query_string, validate: true)}.to raise_error
         end
-      when MF.PositiveUpdateSyntaxTest11
-        it "parses #{t.entry} - #{t.name} to correct SSE" do
+      when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest, MF.PositiveUpdateSyntaxTest11
+        it "parses #{t.entry} - #{t.name} to correct SSE", focus:true do
+          pending("Whitespace in string tokens") if %w(
+            syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
+            syntax-update-36.ru
+          ).include?(t.entry)
+          pending("Null update corner case") if %w(
+            syntax-update-38.ru
+          ).include?(t.entry)
           parser_opts = {update: true, base_uri: t.action.query_file}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
@@ -77,6 +84,13 @@ shared_examples "SSE" do |man, tests|
         end
 
         it "parses #{t.entry} - #{t.name} to lexically equivalent SSE" do
+          pending("Whitespace in string tokens") if %w(
+            syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
+            syntax-update-36.ru
+          ).include?(t.entry)
+          pending("Null update corner case") if %w(
+            syntax-update-38.ru
+          ).include?(t.entry)
           query = begin
             SPARQL::Grammar.parse(t.action.query_string, update: true, debug: ENV['PARSER_DEBUG'])
           rescue Exception => e
@@ -94,9 +108,15 @@ shared_examples "SSE" do |man, tests|
             strip
           expect(normalized_query).to produce(normalized_result, ["original query:", t.action.query_string])
         end
-      when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest,
-           MF.NegativeUpdateSyntaxTest11,
-           MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
+      when MF.NegativeUpdateSyntaxTest11
+        it "detects syntax error for #{t.entry} - #{t.name}" do
+          pending("Better Error Detection") if %w(
+            syntax-update-bad-03.ru syntax-update-bad-04.ru syntax-update-bad-10.ru
+            syntax-update-bad-11.ru syntax-update-bad-12.ru syntax-update-54.ru
+          ).include?(t.entry)
+          expect {SPARQL::Grammar.parse(t.action.query_string, update: true, validate: true)}.to raise_error
+        end
+      when MF.CSVResultFormatTest, MF.ServiceDescriptionTest, MF.ProtocolTest,
            MF.GraphStoreProtocolTest
         it "parses #{t.entry} - #{t.name} to correct SSE"
         it "parses #{t.entry} - #{t.name} to lexically equivalent SSE"

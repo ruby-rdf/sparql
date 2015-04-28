@@ -1393,6 +1393,10 @@ describe SPARQL::Grammar::Parser do
         %q(INSERT DATA {GRAPH <http://example.org/g1> {:a foaf:knows :b .}}),
         %q((insertData ((graph <http://example.org/g1> ((triple :a foaf:knows :b))))))
       ],
+      #"insert triple newline" => [
+      #  %(INSERT\nDATA {:a foaf:knows :b .}),
+      #  %q((insertData ((triple :a foaf:knows :b))))
+      #],
     }.each do |title, (input, output)|
       it title do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false))

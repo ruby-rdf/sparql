@@ -1,29 +1,18 @@
-(update
- (modify
-  (join
-   (distinct
-    (select
-     (union
-      (bgp
-        (triple ?Var_B ?Var_B1 ?Var_B2))
-      (union
-       (bgp
-         (triple ?Var_B1 ?Var_B ?Var_B2))
-       (union
-        (bgp
-          (triple ?Var_B1 ?Var_B2 ?Var_B))
-        (union
-         (graph ?Var_Bg
-                (bgp
-                  (triple ?Var_B ?Var_B1 ?Var_B2)))
-         (union
-          (graph ?Var_Bg
-                 (bgp
-                   (triple ?Var_B1 ?Var_B ?Var_B2)))
-          (graph ?Var_Bg
-                 (bgp
-                   (triple ?Var_B1 ?Var_B2 ?Var_B))))))))
-     (?Var_B)))
-   (bgp
-     (triple ?a <http://xmlns.com/foaf/0.1/name> "Alan")))
-  (delete ((triple ?a <http://xmlns.com/foaf/0.1/knows> ?Var_B)))))
+(prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
+  (update
+    (modify
+      (join
+        (bgp (triple ?a foaf:name "Alan"))
+        (distinct (project (?Var_B)
+          (union
+            (union
+              (union
+                (union
+                  (union
+                    (bgp (triple ?Var_B ?Var_B1 ?Var_B2))
+                    (bgp (triple ?Var_B1 ?Var_B ?Var_B2)))
+                  (bgp (triple ?Var_B1 ?Var_B2 ?Var_B)))
+                (graph ?Var_Bg (bgp (triple ?Var_B ?Var_B1 ?Var_B2))))
+              (graph ?Var_Bg (bgp (triple ?Var_B1 ?Var_B ?Var_B2))))
+            (graph ?Var_Bg (bgp (triple ?Var_B1 ?Var_B2 ?Var_B)))))))
+      (delete ((triple ?a foaf:knows ?Var_B))))))

@@ -138,6 +138,28 @@ module SPARQL; module Spec
     def query_file
       request
     end
+
+    def query_string
+      RDF::Util::File.open_file(query_file, &:read)
+    end
+
+    def sse_file
+      file = query_file.to_s.
+        sub(BASE_URI_10, BASE_DIRECTORY).
+        sub(BASE_URI_11, BASE_DIRECTORY).
+        sub(/\.r[qu]$/, ".sse")
+
+      # Use alternate file for RDF 1.1
+      if RDF::VERSION.to_s >= "1.1"
+        file_11 = file.sub(".sse", "_11.sse")
+        file = file_11 if File.exist?(file_11)
+      end
+      RDF::URI(file)
+    end
+  
+    def sse_string
+      IO.read(sse_file.path)
+    end
   end
 
   class UpdateResult < UpdateDataSet

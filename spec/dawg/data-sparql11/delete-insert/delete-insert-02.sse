@@ -1,6 +1,5 @@
-(update
- (modify
-  (bgp
-    (triple ?a <http://xmlns.com/foaf/0.1/name> "Alan")
-    (triple ?a <http://xmlns.com/foaf/0.1/knows> ?b))
-  (delete ((triple ?a <http://xmlns.com/foaf/0.1/knows> ?b)))))
+(prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
+  (update
+    (modify
+      (bgp (triple ?a foaf:name "Alan") (triple ?a foaf:knows ?b))
+      (delete ((triple ?a foaf:knows ?b))))))

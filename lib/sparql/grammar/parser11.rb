@@ -378,7 +378,7 @@ module SPARQL::Grammar
     # [29]	Update	::=	Prologue (Update1 (";" Update)? )?
     production(:Update) do |input, data, callback|
 
-      update = [:update, data[:update]]
+      update = [:update] + (data[:update] || [])
 
       # Add prefix
       if data[:PrefixDecl]
@@ -391,13 +391,18 @@ module SPARQL::Grammar
       # Add base
       update = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, update] if data[:BaseDecl]
 
-      add_prod_datum(:update, update)
+      # Don't use update operator twice, if we can help it
+      if input[:update] && update.first == :update
+        add_prod_data(:update, update.last)
+      else
+        add_prod_datum(:update, update)
+      end
     end
 
     # [30]	Update1	::=	Load | Clear | Drop | Add | Move | Copy | Create | InsertData | DeleteData | DeleteWhere | Modify
     production(:Update1) do |input, data, callback|
       %w(load clear drop add move copy create insertData deleteData deleteWhere modify).map(&:to_sym).each do |op|
-        add_prod_datum(:update, data[op].dup.unshift(op)) if data.has_key?(op)
+        add_prod_data(:update, data[op].dup.unshift(op)) if data.has_key?(op)
       end
     end
 
@@ -466,9 +471,30 @@ module SPARQL::Grammar
       add_prod_data(:deleteWhere, data[:pattern])
     end
 
+    # [41]	Modify	::=	("WITH" iri)? ( DeleteClause InsertClause? | InsertClause) UsingClause* "WHERE" GroupGraphPattern
+    production(:Modify) do |input, data, callback|
+      result = []
+      result << data[:query].first if data[:query]
+      result = [[:using, data[:using]] + result] if data[:using]
+      result << [:delete, data[:delete].first] if data[:delete]
+      result << [:insert, data[:insert].first] if data[:insert]
+      result = [[:with, data[:iri].first] + result] if data[:iri]
+      add_prod_datum(:modify, result)
+    end
+
+    # [42]	DeleteClause	::=	"DELETE" QuadPattern
+    production(:DeleteClause) do |input, data, callback|
+      add_prod_data(:delete, data[:pattern])
+    end
+
+    # [43]	InsertClause	::=	"INSERT" QuadPattern
+    production(:InsertClause) do |input, data, callback|
+      add_prod_data(:insert, data[:pattern])
+    end
+
     # [44]	UsingClause	::=	"USING" ( iri | "NAMED" iri)
     production(:UsingClause) do |input, data, callback|
-      add_prod_data(:using, data[:iri])
+      add_prod_data(:using, data[:iri].first)
     end
     production(:_UsingClause_2) do |input, data, callback|
       add_prod_data(:iri, [:named, data[:iri].first])
