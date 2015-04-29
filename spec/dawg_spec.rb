@@ -22,46 +22,62 @@ shared_examples "DAWG" do |man, tests|
             pending("Graph variable binding differences")
           end
           pending "Property Paths" if man.to_s.split("/")[-2] == 'property-path'
-          
-          graphs = t.graphs
-          query = t.action.query_string
-          expected = t.solutions
 
-          result = sparql_query(:graphs => graphs, :query => query, :base_uri => t.action.query_file,
-                                :repository => "sparql-spec", :form => t.form, :to_hash => false)
+          result = sparql_query(graphs: t.graphs,
+                                query: t.action.query_string,
+                                base_uri: t.action.query_file,
+                                form: t.form)
 
           case t.form
           when :select
             expect(result).to be_a(RDF::Query::Solutions)
             if man.to_s =~ /sort/
-              expect(result).to describe_ordered_solutions(expected)
+              expect(result).to describe_ordered_solutions(t.solutions)
             else
-              expect(result).to describe_solutions(expected)
+              expect(result).to describe_solutions(t.solutions)
             end
           when :create, :describe, :construct
             expect(result).to be_a(RDF::Queryable)
-            expect(result).to describe_solutions(expected)
+            expect(result).to describe_solutions(t.solutions)
           when :ask
             expect(result).to eq t.solutions
           end
         end
       when MF.CSVResultFormatTest
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
-          graphs = t.graphs
-          query = t.action.sse_string
-          expected = t.solutions
+          result = sparql_query(graphs: t.graphs,
+                                query: t.action.query_string,
+                                base_uri: t.action.query_file,
+                                form: t.form)
 
-          result = sparql_query(:graphs => graphs, :query => query,
-                                :base_uri => t.action.query_file,
-                                :repository => "sparql-spec", :form => t.form,
-                                :to_hash => false, :sse => true)
-
-          expect(result).to describe_csv_solutions(expected)
+          expect(result).to describe_csv_solutions(t.solutions)
           expect {result.to_csv}.not_to raise_error
+        end
+      when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest
+        it "evaluates #{t.entry} - #{t.name}: #{t.comment}", pending: "Update Operators" do
+
+          # Load default and named graphs for result dataset
+          expected = RDF::Repository.new do |r|
+            t.result.graphs.each do |key, info|
+              data, format, default = info[:data], info[:format], info[:default]
+              if data
+                RDF::Reader.for(format).new(data, info).each_statement do |st|
+                  st.context = key unless key == :default || default
+                  r << st
+                end
+              end
+            end
+          end
+
+          result = sparql_query(graphs: t.action.graphs,
+                                query: t.action.query_string,
+                                base_uri: t.action.query_file,
+                                form: t.form)
+
+          expect(result).to describe_solutions(expected)
         end
       when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11,
            MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11,
-           UT.UpdateEvaluationTest, MF.UpdateEvaluationTest,
            MF.PositiveUpdateSyntaxTest11, MF.NegativeUpdateSyntaxTest11,
            MF.ServiceDescriptionTest, MF.ProtocolTest,
            MF.GraphStoreProtocolTest

@@ -75,7 +75,6 @@ def repr(term)
 end
 
 def sparql_query(opts)
-  opts[:to_hash] = true unless opts.has_key?(:to_hash)
   raise "A query is required to be run" if opts[:query].nil?
 
   # Load default and named graphs into repository
@@ -94,6 +93,7 @@ def sparql_query(opts)
 
   query_str = opts[:query]
   query_opts = {:debug => opts[:debug] || !!ENV['PARSER_DEBUG']}
+  query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
   
   query = if opts[:sse]
@@ -103,11 +103,5 @@ def sparql_query(opts)
     SPARQL.parse(query_str, query_opts)
   end
 
-  case opts[:form]
-  when :ask, :describe, :construct
-    repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
-  else
-    results = repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
-    opts[:to_hash] ? results.map(&:to_hash) : results
-  end
+  repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
 end

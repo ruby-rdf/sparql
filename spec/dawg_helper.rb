@@ -53,6 +53,7 @@ module RDF::Util
           StringIO.new("")
         end
       else
+        require 'byebug'; byebug
         Kernel.open(filename_or_url.to_s, options, &block)
       end
     end

@@ -130,6 +130,23 @@ module SPARQL; module Spec
     def data_format
       File.extname(data_file).sub(/\./,'').to_sym
     end
+
+    # Load and return default and named graphs in a hash
+    def graphs
+      @graphs ||= begin
+        graphs = {}
+        graphs[:default] = {:data => data, :format => RDF::Format.for(data_file.to_s).to_sym} if data_file
+        graphData.each do |g|
+          d = RDF::Util::File.open_file(g.graph.to_s, &:read)
+          graphs[g.graph.to_s] = {
+            :data => d,
+            :format => RDF::Format.for(g.graph.to_s).to_sym,
+            :base_uri => g.basename
+          }
+        end
+        graphs
+      end
+    end
   end
 
   class UpdateAction < UpdateDataSet
@@ -145,9 +162,8 @@ module SPARQL; module Spec
 
     def sse_file
       file = query_file.to_s.
-        sub(BASE_URI_10, BASE_DIRECTORY).
         sub(BASE_URI_11, BASE_DIRECTORY).
-        sub(/\.r[qu]$/, ".sse")
+        sub(/\.ru$/, ".sse")
 
       # Use alternate file for RDF 1.1
       if RDF::VERSION.to_s >= "1.1"
@@ -256,25 +272,6 @@ module SPARQL; module Spec
   end
 
   class CSVTest < QueryTest
-  end
-
-  class UpdateTest < SPARQLTest
-    property :result, :predicate => MF.result, :type => 'UpdateResult'
-    property :action, :predicate => MF.action, :type => 'UpdateAction'
-
-    def query_file
-      action.request
-    end
-
-    def entry; query_file.to_s.split('/').last; end
-
-    def template_file
-      'update-test.rb.erb'
-    end
-
-    def query
-      RDF::Util::File.open_file(query_file, &:read)
-    end
   end
 
   class SyntaxTest < SPARQLTest
