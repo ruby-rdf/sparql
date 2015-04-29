@@ -56,7 +56,6 @@ module SPARQL; module Algebra
     autoload :Year,               'sparql/algebra/operator/year'
 
     # Binary operators
-    autoload :Add,                'sparql/algebra/operator/add'
     autoload :And,                'sparql/algebra/operator/and'
     autoload :Compare,            'sparql/algebra/operator/compare'
     autoload :Concat,             'sparql/algebra/operator/concat'
@@ -117,6 +116,24 @@ module SPARQL; module Algebra
     autoload :Slice,              'sparql/algebra/operator/slice'
     autoload :Table,              'sparql/algebra/operator/table'
     autoload :Union,              'sparql/algebra/operator/union'
+
+    # Update operators
+    autoload :Add,                'sparql/algebra/operator/add'
+    autoload :Clear,              'sparql/algebra/operator/clear'
+    autoload :Copy,               'sparql/algebra/operator/copy'
+    autoload :Create,             'sparql/algebra/operator/create'
+    autoload :DeleteData,         'sparql/algebra/operator/delete_data'
+    autoload :DeleteWhere,        'sparql/algebra/operator/delete_where'
+    autoload :Drop,               'sparql/algebra/operator/drop'
+    autoload :InsertData,         'sparql/algebra/operator/insert_data'
+    autoload :Load,               'sparql/algebra/operator/load'
+    autoload :Modify,             'sparql/algebra/operator/modify'
+    autoload :Move,               'sparql/algebra/operator/move'
+    autoload :Update,             'sparql/algebra/operator/update'
+    autoload :Using,              'sparql/algebra/operator/using'
+    autoload :With,               'sparql/algebra/operator/with'
+
+
 
     ##
     # Returns an operator class for the given operator `name`.
@@ -216,7 +233,7 @@ module SPARQL; module Algebra
 
         # Datasets
         when :dataset         then Dataset
-        
+
         # Query forms
         when :ask             then Ask
         when :base            then Base
@@ -239,6 +256,22 @@ module SPARQL; module Algebra
         when :table           then Table
         when :triple          then RDF::Query::Pattern
         when :union           then Union
+
+        # Update forms
+        when :add             then Add
+        when :clear           then Clear
+        when :copy            then Copy
+        when :create          then Create
+        when :deleteData      then DeleteData
+        when :deleteWhere     then DeleteWhere
+        when :drop            then Drop
+        when :insertData      then InsertData
+        when :load            then Load
+        when :modify          then Modify
+        when :move            then Move
+        when :update          then Update
+        when :using           then Using
+        when :with            then With
         else                       nil # not found
       end
     end
@@ -303,7 +336,7 @@ module SPARQL; module Algebra
     def base_uri
       Operator.base_uri
     end
-    
+
     ##
     # Base URI used for reading data sources with relative URIs
     #
@@ -311,7 +344,7 @@ module SPARQL; module Algebra
     def self.base_uri
       @base_uri
     end
-    
+
     ##
     # Set Base URI associated with SPARQL document, typically done
     # when reading SPARQL from a URI
@@ -321,7 +354,7 @@ module SPARQL; module Algebra
     def self.base_uri=(uri)
       @base_uri = RDF::URI(uri)
     end
-    
+
     ##
     # Prefixes useful for future serialization
     #
@@ -330,7 +363,7 @@ module SPARQL; module Algebra
     def prefixes
       Operator.prefixes
     end
-    
+
     ##
     # Prefixes useful for future serialization
     #
@@ -339,7 +372,7 @@ module SPARQL; module Algebra
     def self.prefixes
       @prefixes
     end
-    
+
     ##
     # Prefixes useful for future serialization
     #
@@ -349,7 +382,7 @@ module SPARQL; module Algebra
     def self.prefixes=(hash)
       @prefixes = hash
     end
-    
+
     ##
     # Any additional options for this operator.
     #
@@ -486,7 +519,7 @@ module SPARQL; module Algebra
         abort "SPARQL::Algebra::Operator#to_sxp requires the SXP gem (hint: `gem install sxp')."
       end
       require 'sparql/algebra/sxp_extensions'
-      
+
       to_sxp_bin.to_sxp
     end
 

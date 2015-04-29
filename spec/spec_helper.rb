@@ -78,17 +78,36 @@ def sparql_query(opts)
   raise "A query is required to be run" if opts[:query].nil?
 
   # Load default and named graphs into repository
-  repo = RDF::Repository.new do |r|
-    opts[:graphs].each do |key, info|
-      next if key == :result
-      data, format, default = info[:data], info[:format], info[:default]
-      if data
-        RDF::Reader.for(format).new(data, info).each_statement do |st|
-          st.context = key unless key == :default || default
-          r << st
+  repo = case opts[:graphs]
+  when RDF::Queryable
+    opts[:graphs]
+  when Array
+    RDF::Repository.new do |r|
+      opts[:graphs].each do |info|
+        data, format, default = info[:data], info[:format]
+        if data
+          RDF::Reader.for(format).new(data, info).each_statement do |st|
+            st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
+            r << st
+          end
         end
       end
     end
+  when Hash
+    RDF::Repository.new do |r|
+      opts[:graphs].each do |key, info|
+        next if key == :result
+        data, format, default = info[:data], info[:format], info[:default]
+        if data
+          RDF::Reader.for(format).new(data, info).each_statement do |st|
+            st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
+            r << st
+          end
+        end
+      end
+    end
+  else
+    RDF::Repository.new
   end
 
   query_str = opts[:query]

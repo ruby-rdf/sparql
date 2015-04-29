@@ -34,11 +34,11 @@ shared_examples "DAWG" do |man, tests|
             if man.to_s =~ /sort/
               expect(result).to describe_ordered_solutions(t.solutions)
             else
-              expect(result).to describe_solutions(t.solutions)
+              expect(result).to describe_solutions(t.solutions, t)
             end
           when :create, :describe, :construct
             expect(result).to be_a(RDF::Queryable)
-            expect(result).to describe_solutions(t.solutions)
+            expect(result).to describe_solutions(t.solutions, t)
           when :ask
             expect(result).to eq t.solutions
           end
@@ -58,11 +58,11 @@ shared_examples "DAWG" do |man, tests|
 
           # Load default and named graphs for result dataset
           expected = RDF::Repository.new do |r|
-            t.result.graphs.each do |key, info|
-              data, format, default = info[:data], info[:format], info[:default]
+            t.result.graphs.each do |info|
+              data, format, default = info[:data], info[:format]
               if data
                 RDF::Reader.for(format).new(data, info).each_statement do |st|
-                  st.context = key unless key == :default || default
+                  st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
                   r << st
                 end
               end
@@ -74,7 +74,7 @@ shared_examples "DAWG" do |man, tests|
                                 base_uri: t.action.query_file,
                                 form: t.form)
 
-          expect(result).to describe_solutions(expected)
+          expect(result).to describe_solutions(expected, t)
         end
       when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11,
            MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11,

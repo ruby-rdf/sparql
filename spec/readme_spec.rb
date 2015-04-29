@@ -65,7 +65,7 @@ describe "README" do
       results = SPARQL.execute(query, repo)
       expect(results).to describe_solutions([
         RDF::Query::Solution.new({:crypted => RDF::Literal("gregg@greggkellogg.net".crypt("salt"))})
-      ])
+      ], nil)
     end
   end
 end

@@ -225,8 +225,11 @@ module SPARQL
   # ## Documentation
   # 
   # * {SPARQL::Algebra}
+  #   * {SPARQL::Algebra::Aggregate}
+  #   * {SPARQL::Algebra::Evaluatable}
   #   * {SPARQL::Algebra::Expression}
   #   * {SPARQL::Algebra::Query}
+  #   * {SPARQL::Algebra::Update}
   #   * {SPARQL::Algebra::Operator}
   #     * {SPARQL::Algebra::Operator::Add}
   #     * {SPARQL::Algebra::Operator::And}
@@ -288,6 +291,7 @@ module SPARQL
     autoload :Expression,  'sparql/algebra/expression'
     autoload :Operator,    'sparql/algebra/operator'
     autoload :Query,       'sparql/algebra/query'
+    autoload :Update,      'sparql/algebra/update'
 
     ##
     # @example

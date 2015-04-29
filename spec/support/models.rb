@@ -2,6 +2,7 @@ require 'rdf'
 require 'spira'
 require 'rdf/turtle'
 require 'sparql/client'
+require 'json/ld'
 
 module SPARQL; module Spec
   DAWGT = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#')
@@ -63,10 +64,14 @@ module SPARQL; module Spec
     end
 
     def inspect
-      "<#{self.class}:#{self.object_id} @subject: #{@subject}>[" + attributes.keys.map do |a|
-        v = attributes[a]; "#{a}=#{v.inspect}" if v
-      end.compact.join("\n  ") +
-      "]"
+      if self.respond_to?(:to_hash)
+        "<#{self.class}:#{self.object_id} @subject: #{@subject}>#{to_hash.to_json(::JSON::LD::JSON_STATE)}]"
+      else
+        "<#{self.class}:#{self.object_id} @subject: #{@subject}>[" + attributes.keys.map do |a|
+          v = attributes[a]; "#{a}=#{v.inspect}" if v
+        end.compact.join("\n  ") +
+        "]"
+      end
     end
   end
   
@@ -117,6 +122,10 @@ module SPARQL; module Spec
     def query
       RDF::Util::File.open_file(query_file, &:read)
     end
+
+    def to_hash
+      {action: action.to_hash, result: result.to_hash}
+    end
   end
 
   class UpdateDataSet < Spira::Base
@@ -134,18 +143,20 @@ module SPARQL; module Spec
     # Load and return default and named graphs in a hash
     def graphs
       @graphs ||= begin
-        graphs = {}
-        graphs[:default] = {:data => data, :format => RDF::Format.for(data_file.to_s).to_sym} if data_file
-        graphData.each do |g|
-          d = RDF::Util::File.open_file(g.graph.to_s, &:read)
-          graphs[g.graph.to_s] = {
-            :data => d,
+        graphs = []
+        graphs << {data: data, format: RDF::Format.for(data_file.to_s).to_sym} if data_file
+        graphs + graphData.map do |g|
+          {
+            :data => RDF::Util::File.open_file(g.graph.to_s, &:read),
             :format => RDF::Format.for(g.graph.to_s).to_sym,
             :base_uri => g.basename
           }
         end
-        graphs
       end
+    end
+
+    def to_hash
+      {graphData: graphs, data_file: data_file}
     end
   end
 
@@ -175,6 +186,10 @@ module SPARQL; module Spec
   
     def sse_string
       IO.read(sse_file.path)
+    end
+
+    def to_hash
+      super.merge(request: request, sse: sse_string, query: query_string)
     end
   end
 
@@ -215,17 +230,15 @@ module SPARQL; module Spec
     # Load and return default and named graphs in a hash
     def graphs
       @graphs ||= begin
-        graphs = {}
-        graphs[:default] = {:data => action.test_data_string, :format => RDF::Format.for(action.test_data.to_s).to_sym} if action.test_data
-        action.graphData.each do |g|
-          data = RDF::Util::File.open_file(g, &:read)
-          graphs[g] = {
-            :data => data,
+        graphs = []
+        graphs << {data: action.test_data_string, format: RDF::Format.for(action.test_data.to_s.to_s).to_sym} if action.test_data
+        graphs + action.graphData.map do |g|
+          {
+            :data => RDF::Util::File.open_file(g, &:read),
             :format => RDF::Format.for(g.to_s).to_sym,
             :base_uri => g
           }
         end
-        graphs
       end
     end
 

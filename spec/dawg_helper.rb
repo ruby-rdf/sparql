@@ -22,7 +22,7 @@ module RDF::Util
       when /^file:/
         path = filename_or_url[5..-1]
         Kernel.open(path.to_s, &block)
-      when /^(#{SPARQL::Spec::BASE_URI_10}|#{SPARQL::Spec::BASE_URI_11})/
+      when %r{^(#{SPARQL::Spec::BASE_URI_10}|#{SPARQL::Spec::BASE_URI_11})}
         begin
           #puts "attempt to open #{filename_or_url} locally"
           local_filename = filename_or_url.to_s.sub($1, LOCAL_PATH)
@@ -53,7 +53,6 @@ module RDF::Util
           StringIO.new("")
         end
       else
-        require 'byebug'; byebug
         Kernel.open(filename_or_url.to_s, options, &block)
       end
     end

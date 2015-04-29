@@ -4,7 +4,8 @@ require 'dawg_helper'
 require 'rdf/rdfxml'
 
 shared_examples "DAWG-SSE" do |man, tests|
-  describe man.to_s.split("/")[-2] do
+  man_name = man.to_s.split("/")[-2]
+  describe man_name do
     tests.each do |t|
       case t.type
       when MF.QueryEvaluationTest
@@ -34,11 +35,11 @@ shared_examples "DAWG-SSE" do |man, tests|
             if man.to_s =~ /sort/
               expect(result).to describe_ordered_solutions(t.solutions)
             else
-              expect(result).to describe_solutions(t.solutions)
+              expect(result).to describe_solutions(t.solutions, t)
             end
           when :create, :describe, :construct
             expect(result).to be_a(RDF::Queryable)
-            expect(result).to describe_solutions(t.solutions)
+            expect(result).to describe_solutions(t.solutions, t)
           when :ask
             expect(result).to eq t.solutions
           end
@@ -56,15 +57,16 @@ shared_examples "DAWG-SSE" do |man, tests|
           expect {result.to_csv}.not_to raise_error
         end
       when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest
-        it "evaluates #{t.entry} - #{t.name}: #{t.comment}", pending: "Update Operators" do
+        it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
+          pending man_name if %w(delete-data delete-insert delete-where).include?(man_name)
 
           # Load default and named graphs for result dataset
           expected = RDF::Repository.new do |r|
-            t.result.graphs.each do |key, info|
-              data, format, default = info[:data], info[:format], info[:default]
+            t.result.graphs.each do |info|
+              data, format, default = info[:data], info[:format]
               if data
                 RDF::Reader.for(format).new(data, info).each_statement do |st|
-                  st.context = key unless key == :default || default
+                  st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
                   r << st
                 end
               end
@@ -78,7 +80,8 @@ shared_examples "DAWG-SSE" do |man, tests|
                                 form: t.form,
                                 sse: true)
 
-          expect(result).to describe_solutions(expected)
+          #require 'byebug'; byebug
+          expect(result).to describe_solutions(expected, t)
         end
       when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11,
            MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11,
