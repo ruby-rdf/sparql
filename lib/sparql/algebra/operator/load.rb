@@ -31,6 +31,11 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
         debug(options) {"Load"}
+        silent = operands.first == :silent
+        operands.shift if silent
+
+        raise ArgumentError, "load expected one or two operands, got #{operands.length}" unless [1,2].include?(operands.length)
+
         location, name = operands
         queryable.load(location, context: name)
         queryable

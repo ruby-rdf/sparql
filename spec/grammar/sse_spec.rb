@@ -134,19 +134,19 @@ describe SPARQL::Grammar::Parser do
   before(:each) {$stderr = StringIO.new}
   after(:each) {$stderr = STDERR}
   describe "w3c dawg SPARQL 1.0 syntax tests" do
-    SPARQL::Spec.sparql1_0_syntax_tests(true).group_by(&:manifest).each do |man, tests|
+    SPARQL::Spec.sparql1_0_syntax_tests.group_by(&:manifest).each do |man, tests|
       it_behaves_like "SSE", man, tests
     end
   end
 
   describe "w3c dawg SPARQL 1.0 tests" do
-    SPARQL::Spec.sparql1_0_tests(true).group_by(&:manifest).each do |man, tests|
+    SPARQL::Spec.sparql1_0_tests.group_by(&:manifest).each do |man, tests|
       it_behaves_like "SSE", man, tests
     end
   end
 
   describe "w3c dawg SPARQL 1.1 tests" do
-    SPARQL::Spec.sparql1_1_tests(true).
+    SPARQL::Spec.sparql1_1_tests.
       reject do |tc|
         %w{
           entailment

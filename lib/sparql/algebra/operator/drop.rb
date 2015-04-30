@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     #   (drop default)
     #
     # @see http://www.w3.org/TR/sparql11-update/#drop
-    class Drop < Operator::Unary
+    class Drop < Operator
       include SPARQL::Algebra::Update
 
       NAME = [:drop]
@@ -34,6 +34,10 @@ module SPARQL; module Algebra
       def execute(queryable, options = {})
         debug(options) {"Drop"}
         silent = operands.first == :silent
+        silent = operands.first == :silent
+        operands.shift if silent
+
+        raise ArgumentError, "drop expected operand to be 'default', 'named', 'all', or an IRI" unless operands.length == 1
         case operands.last
         when :default
           queryable.each_graph do |g|

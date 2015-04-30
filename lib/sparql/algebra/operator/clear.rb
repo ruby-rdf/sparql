@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #   (clear silent default)
     #
     # @see http://www.w3.org/TR/sparql11-update/#clear
-    class Clear < Operator::Unary
+    class Clear < Operator
       include SPARQL::Algebra::Update
 
       NAME = [:clear]
@@ -32,6 +32,9 @@ module SPARQL; module Algebra
       def execute(queryable, options = {})
         debug(options) {"Clear"}
         silent = operands.first == :silent
+        operands.shift if silent
+
+        raise ArgumentError, "clear expected operand to be 'default', 'named', 'all', or an IRI" unless operands.length == 1
         case operands.last
         when :default
           queryable.each_graph do |g|

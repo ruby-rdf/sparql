@@ -32,7 +32,10 @@ module SPARQL; module Algebra
       def execute(queryable, options = {})
         debug(options) {"Move"}
         silent = operands.first == :silent
+        operands.shift if silent
+
         src_name, dest_name = operands[-2..-1]
+        raise ArgumentError, "move expected two operands, got #{operands.length}" unless operands.length == 2
         raise ArgumentError, "move from must be IRI or :default" unless src_name == :default || src_name.is_a?(RDF::URI)
         raise ArgumentError, "move to must be IRI or :default" unless dest_name == :default || dest_name.is_a?(RDF::URI)
         src = queryable.enum_graph.detect {|g| g.to_s == src_name.to_s}

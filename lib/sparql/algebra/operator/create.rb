@@ -34,8 +34,13 @@ module SPARQL; module Algebra
       def execute(queryable, options = {})
         debug(options) {"Create"}
         silent = operands.first == :silent
-        if queryable.has_context?(operands.last)
-          raise IOError, "create operation graph exists" unless silent
+        operands.shift if silent
+
+        iri = operands.first
+        #require 'byebug'; byebug
+        raise ArgumentError, "clear expected a single IRI" if operands.length != 1 || !iri.is_a?(RDF::URI)
+        if queryable.has_context?(iri)
+          raise IOError, "create operation graph #{iri.to_ntriples} exists" unless silent
         end
         queryable
       end
