@@ -122,9 +122,11 @@ module SPARQL; module Algebra
     autoload :Clear,              'sparql/algebra/operator/clear'
     autoload :Copy,               'sparql/algebra/operator/copy'
     autoload :Create,             'sparql/algebra/operator/create'
+    autoload :Delete,             'sparql/algebra/operator/delete'
     autoload :DeleteData,         'sparql/algebra/operator/delete_data'
     autoload :DeleteWhere,        'sparql/algebra/operator/delete_where'
     autoload :Drop,               'sparql/algebra/operator/drop'
+    autoload :Insert,             'sparql/algebra/operator/insert'
     autoload :InsertData,         'sparql/algebra/operator/insert_data'
     autoload :Load,               'sparql/algebra/operator/load'
     autoload :Modify,             'sparql/algebra/operator/modify'
@@ -262,10 +264,12 @@ module SPARQL; module Algebra
         when :clear           then Clear
         when :copy            then Copy
         when :create          then Create
-        when :deleteData      then DeleteData
-        when :deleteWhere     then DeleteWhere
+        when :delete          then Delete
+        when :deletedata      then DeleteData
+        when :deletewhere     then DeleteWhere
         when :drop            then Drop
-        when :insertData      then InsertData
+        when :insert          then Insert
+        when :insertdata      then InsertData
         when :load            then Load
         when :modify          then Modify
         when :move            then Move

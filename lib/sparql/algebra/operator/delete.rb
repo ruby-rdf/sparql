@@ -2,18 +2,18 @@ module SPARQL; module Algebra
   class Operator
 
     ##
-    # The SPARQL UPDATE `with` operator.
+    # The SPARQL UPDATE `delete` operator.
     #
-    # XXX
+    # The DELETE operation is a form of the DELETE/INSERT operation having no INSERT section
     #
     # @example
-    #   (add default <a>)
+    #   (delete ((triple ?s ?p ?o))))
     #
-    # @see http://www.w3.org/TR/sparql11-update/#add
-    class With < Operator
+    # @see http://www.w3.org/TR/sparql11-update/#delete
+    class Delete < Operator::Unary
       include SPARQL::Algebra::Update
 
-      NAME = [:with]
+      NAME = [:delete]
 
       ##
       # Executes this upate on the given `writable` graph or repository.
@@ -30,9 +30,9 @@ module SPARQL; module Algebra
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
-        debug(options) {"With"}
+        debug(options) {"DeleteData"}
         queryable
       end
-    end # With
+    end # Delete
   end # Operator
 end; end # SPARQL::Algebra

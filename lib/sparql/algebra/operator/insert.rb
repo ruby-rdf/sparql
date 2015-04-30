@@ -2,18 +2,18 @@ module SPARQL; module Algebra
   class Operator
 
     ##
-    # The SPARQL UPDATE `with` operator.
+    # The SPARQL UPDATE `insertData` operator.
     #
-    # XXX
+    # The INSERT operation is a form of the DELETE/INSERT operation having no DELETE section
     #
     # @example
-    #   (add default <a>)
+    #   (insert ((triple ?s ?p "q")))
     #
-    # @see http://www.w3.org/TR/sparql11-update/#add
-    class With < Operator
+    # @see http://www.w3.org/TR/sparql11-update/#insert
+    class Insert < Operator::Unary
       include SPARQL::Algebra::Update
 
-      NAME = [:with]
+      NAME = [:insert]
 
       ##
       # Executes this upate on the given `writable` graph or repository.
@@ -30,9 +30,9 @@ module SPARQL; module Algebra
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
-        debug(options) {"With"}
+        debug(options) {"Insert"}
         queryable
       end
-    end # With
+    end # Insert
   end # Operator
 end; end # SPARQL::Algebra

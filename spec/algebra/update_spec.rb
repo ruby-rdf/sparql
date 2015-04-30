@@ -28,10 +28,10 @@ describe SPARQL::Algebra::Update do
     ))
   }
   describe "update" do
-    it "raises IOError if queryable is not writable" do
+    it "raises IOError if queryable is not mutable" do
       expect(repo).to receive(:writable?).and_return(false)
       query = SPARQL::Algebra::Expression.parse(%q((update)))
-      expect {query.execute(repo)}.to raise_error(IOError, "queryable is not writable")
+      expect {query.execute(repo)}.to raise_error(IOError, "queryable is not mutable")
     end
   end
 

@@ -377,8 +377,7 @@ module SPARQL::Grammar
 
     # [29]	Update	::=	Prologue (Update1 (";" Update)? )?
     production(:Update) do |input, data, callback|
-
-      update = [:update] + (data[:update] || [])
+      update = data[:update] || SPARQL::Algebra::Expression(:update)
 
       # Add prefix
       if data[:PrefixDecl]
@@ -392,57 +391,65 @@ module SPARQL::Grammar
       update = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, update] if data[:BaseDecl]
 
       # Don't use update operator twice, if we can help it
-      if input[:update] && update.first == :update
-        add_prod_data(:update, update.last)
-      else
-        add_prod_datum(:update, update)
-      end
+      input[:update] = update
     end
     production(:_Update_3) do |input, data, callback|
-      add_prod_datum(:update, data[:update][1..-1]) if data[:update]
+      if data[:update]
+        if input[:update].is_a?(SPARQL::Algebra::Operator::Update)
+          # Append operands
+          input[:update] = SPARQL::Algebra::Expression(:update, *(input[:update].operands + data[:update].operands))
+        else
+          add_prod_datum(:update, data[:update])
+        end
+      end
     end
 
     # [30]	Update1	::=	Load | Clear | Drop | Add | Move | Copy | Create | InsertData | DeleteData | DeleteWhere | Modify
     production(:Update1) do |input, data, callback|
-      if data[:update]
-        add_prod_datum(:update, data[:update])
+      if data[:update_op]
+        input[:update] = SPARQL::Algebra::Expression.for(:update, data[:update_op])
       else
-        %w(load clear drop move copy create insertData deleteData deleteWhere modify).map(&:to_sym).each do |op|
-          add_prod_data(:update, data[op].dup.unshift(op)) if data.has_key?(op)
-        end
+        op = %w(
+          modify
+        ).map(&:to_sym).detect {|sym| data.has_key?(sym)}
+        input[:update] = data[op].dup.unshift(op)
       end
     end
 
     # [31]	Load	::=	"LOAD" "SILENT"? iri ("INTO" GraphRef)?
     production(:Load) do |input, data, callback|
-      add_prod_datum(:load, :silent) if data[:silent]
-      add_prod_datum(:load, data[:iri].first)
-      add_prod_datum(:load, data[:into].first) if data[:into]
-    end
-    production(:_Load_3) do |input, data, callback|
-      add_prod_datum(:into, data[:iri])
+      args = []
+      args << :silent if data[:silent]
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:load, *args)
     end
 
     # [32]	Clear	::=	"CLEAR" "SILENT"? GraphRefAll
     production(:Clear) do |input, data, callback|
+      args = []
       %w(silent default named all).map(&:to_sym).each do |s|
-        add_prod_datum(:clear, s) if data[s]
+        args << s if data[s]
       end
-      add_prod_datum(:clear, data[:iri]) if data[:iri]
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:clear, *args)
     end
 
     # [33]	Drop	::=	"DROP" "SILENT"? GraphRefAll
     production(:Drop) do |input, data, callback|
+      args = []
       %w(silent default named all).map(&:to_sym).each do |s|
-        add_prod_datum(:drop, s) if data[s]
+        args << s if data[s]
       end
-      add_prod_datum(:drop, data[:iri]) if data[:iri]
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:drop, *args)
     end
 
     # [34]	Create	::=	"CREATE" "SILENT"? GraphRef
     production(:Create) do |input, data, callback|
-      add_prod_datum(:create, :silent) if data[:silent]
-      add_prod_datum(:create, data[:iri])
+      args = []
+      args << :silent if data[:silent]
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:create, *args)
     end
 
     # [35]	Add	::=	"ADD" "SILENT"? GraphOrDefault "TO" GraphOrDefault
@@ -450,56 +457,57 @@ module SPARQL::Grammar
       args = []
       args << :silent if data[:silent]
       args += data[:GraphOrDefault]
-      op = SPARQL::Algebra::Expression(:add, *args)
-      add_prod_datum(:update, op)
+      input[:update_op] = SPARQL::Algebra::Expression(:add, *args)
     end
 
     # [36]	Move	::=	"MOVE" "SILENT"? GraphOrDefault "TO" GraphOrDefault
     production(:Move) do |input, data, callback|
-      add_prod_datum(:move, :silent) if data[:silent]
-      add_prod_datum(:move, data[:GraphOrDefault])
+      args = []
+      args << :silent if data[:silent]
+      args += data[:GraphOrDefault]
+      input[:update_op] = SPARQL::Algebra::Expression(:move, *args)
     end
 
     # [37]	Copy	::=	"COPY" "SILENT"? GraphOrDefault "TO" GraphOrDefault
     production(:Copy) do |input, data, callback|
-      add_prod_datum(:copy, :silent) if data[:silent]
-      add_prod_datum(:copy, data[:GraphOrDefault])
+      args = []
+      args << :silent if data[:silent]
+      args += data[:GraphOrDefault]
+      input[:update_op] = SPARQL::Algebra::Expression(:copy, *args)
     end
 
     # [38]	InsertData	::=	"INSERT DATA" QuadData
     production(:InsertData) do |input, data, callback|
-      add_prod_data(:insertData, data[:pattern])
+      input[:update_op] = SPARQL::Algebra::Expression(:insertData, data[:pattern])
     end
 
     # [39]	DeleteData	::=	"DELETE DATA" QuadData
     production(:DeleteData) do |input, data, callback|
-      add_prod_data(:deleteData, data[:pattern])
+      input[:update_op] = SPARQL::Algebra::Expression(:deleteData, data[:pattern])
     end
 
     # [40]	DeleteWhere	::=	"DELETE WHERE" QuadPattern
     production(:DeleteWhere) do |input, data, callback|
-      add_prod_data(:deleteWhere, data[:pattern])
+      input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, data[:pattern])
     end
 
     # [41]	Modify	::=	("WITH" iri)? ( DeleteClause InsertClause? | InsertClause) UsingClause* "WHERE" GroupGraphPattern
     production(:Modify) do |input, data, callback|
-      result = []
-      result << data[:query].first if data[:query]
-      result = [[:using, data[:using]] + result] if data[:using]
-      result << [:delete, data[:delete].first] if data[:delete]
-      result << [:insert, data[:insert].first] if data[:insert]
-      result = [[:with, data[:iri].first] + result] if data[:iri]
-      add_prod_datum(:modify, result)
+      query = data[:query].first if data[:query]
+      query = SPARQL::Algebra::Expression.for(:using, data[:using], query) if data[:using]
+      operands = [query, data[:delete], data[:insert]].compact
+      operands = [SPARQL::Algebra::Expression.for(:with, data[:iri].first, *operands)] if data[:iri]
+      input[:update_op] = SPARQL::Algebra::Expression(:modify, *operands)
     end
 
     # [42]	DeleteClause	::=	"DELETE" QuadPattern
     production(:DeleteClause) do |input, data, callback|
-      add_prod_data(:delete, data[:pattern])
+      input[:delete] = SPARQL::Algebra::Expression(:delete, data[:pattern])
     end
 
     # [43]	InsertClause	::=	"INSERT" QuadPattern
     production(:InsertClause) do |input, data, callback|
-      add_prod_data(:insert, data[:pattern])
+      input[:insert] = SPARQL::Algebra::Expression(:insert, data[:pattern])
     end
 
     # [44]	UsingClause	::=	"USING" ( iri | "NAMED" iri)
@@ -682,7 +690,6 @@ module SPARQL::Grammar
 
     # [66]  MinusGraphPattern       ::= 'MINUS' GroupGraphPattern
     production(:MinusGraphPattern) do |input, data, callback|
-      expr = nil
       query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
       add_prod_data(:minus, query)
     end
@@ -1313,10 +1320,10 @@ module SPARQL::Grammar
       when prod_data[:query]
         prod_data[:query].to_a.length == 1 ? prod_data[:query].first : prod_data[:query]
       when prod_data[:update]
-        prod_data[:update].to_a.length == 1 ? prod_data[:update].first : prod_data[:update]
+        prod_data[:update]
       else
         key = prod_data.keys.first
-        [key] + prod_data[key]  # Creates [:key, [:triple], ...]
+        [key] + Array(prod_data[key])  # Creates [:key, [:triple], ...]
       end
     end
 

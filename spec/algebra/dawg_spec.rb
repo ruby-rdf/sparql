@@ -58,7 +58,7 @@ shared_examples "DAWG-SSE" do |man, tests|
         end
       when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
-          pending man_name if %w(delete-data delete-insert delete-where).include?(man_name)
+          skip man_name if %w(delete-data delete-insert delete-where).include?(man_name)
 
           # Load default and named graphs for result dataset
           expected = RDF::Repository.new do |r|

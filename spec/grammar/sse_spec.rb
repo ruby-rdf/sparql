@@ -76,9 +76,9 @@ shared_examples "SSE" do |man, tests|
           pending("Null update corner case") if %w(
             syntax-update-38.ru
           ).include?(t.entry)
-          parser_opts = {update: true, base_uri: t.action.query_file}
+          parser_opts = {base_uri: t.action.query_file}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
-          query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
+          query = SPARQL::Grammar.parse(t.action.query_string, parser_opts.merge(update: true))
           sxp = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
           expect(query).to eq sxp
         end

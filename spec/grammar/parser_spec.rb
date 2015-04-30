@@ -1271,51 +1271,51 @@ describe SPARQL::Grammar::Parser do
 
   describe "when matching the [31] Load production rule", production: :Load do
     {
-      "load iri" => [%q(LOAD <a>), [:load, RDF::URI("a")]],
-      "load iri silent" => [%q(LOAD SILENT <a>), [:load, :silent, RDF::URI("a")]],
-      "load into" => [%q(LOAD <a> INTO GRAPH <b>), [:load, RDF::URI("a"), RDF::URI("b")]],
+      "load iri" => [%q(LOAD <a>), %((load <a>))],
+      "load iri silent" => [%q(LOAD SILENT <a>), %((load silent <a>))],
+      "load into" => [%q(LOAD <a> INTO GRAPH <b>), %((load <a> <b>))],
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
 
   describe "when matching the [32] Clear production rule", production: :Clear do
     {
-      "clear all" => [%q(CLEAR ALL), [:clear, :all]],
-      "clear all silent" => [%q(CLEAR SILENT ALL), [:clear, :silent, :all]],
-      "clear default" => [%q(CLEAR DEFAULT), [:clear, :default]],
-      "clear graph" => [%q(CLEAR GRAPH <g1>), [:clear, RDF::URI("g1")]],
-      "clear named" => [%q(CLEAR NAMED), [:clear, :named]],
+      "clear all" => [%q(CLEAR ALL), %((clear all))],
+      "clear all silent" => [%q(CLEAR SILENT ALL), %((clear silent all))],
+      "clear default" => [%q(CLEAR DEFAULT), %((clear default))],
+      "clear graph" => [%q(CLEAR GRAPH <g1>), %((clear <g1>))],
+      "clear named" => [%q(CLEAR NAMED), %((clear named))],
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
 
   describe "when matching the [33] Drop production rule", production: :Drop do
     {
-      "drop all" => [%q(DROP ALL), [:drop, :all]],
-      "drop all silent" => [%q(DROP SILENT ALL), [:drop, :silent, :all]],
-      "drop default" => [%q(DROP DEFAULT), [:drop, :default]],
-      "drop graph" => [%q(DROP GRAPH <g1>), [:drop, RDF::URI("g1")]],
-      "drop named" => [%q(DROP NAMED), [:drop, :named]],
+      "drop all" => [%q(DROP ALL), %((drop all))],
+      "drop all silent" => [%q(DROP SILENT ALL), %((drop silent all))],
+      "drop default" => [%q(DROP DEFAULT), %((drop default))],
+      "drop graph" => [%q(DROP GRAPH <g1>), %((drop <g1>))],
+      "drop named" => [%q(DROP NAMED), %((drop named))],
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
 
   describe "when matching the [34] Create production rule", production: :Create do
     {
-      "create graph" => [%q(CREATE GRAPH <g1>), [:create, RDF::URI("g1")]],
-      "create graph silent" => [%q(CREATE SILENT GRAPH <g1>), [:create, :silent, RDF::URI("g1")]],
+      "create graph" => [%q(CREATE GRAPH <g1>), %((create <g1>))],
+      "create graph silent" => [%q(CREATE SILENT GRAPH <g1>), %((create silent <g1>))],
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -1330,37 +1330,37 @@ describe SPARQL::Grammar::Parser do
       "add silent iri iri" => [%q(ADD SILENT <a> TO <b>), %q((add silent <a> <b>))]
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
 
   describe "when matching the [36] Move production rule", production: :Move do
     {
-      "move default default" => [%q(MOVE DEFAULT TO DEFAULT), [:move, :default, :default]],
-      "move iri default" => [%q(MOVE <a> TO DEFAULT), [:move, RDF::URI("a"), :default]],
-      "move default iri" => [%q(MOVE DEFAULT TO <a>), [:move, :default, RDF::URI("a")]],
-      "move graph iri default" => [%q(MOVE GRAPH <a> TO DEFAULT), [:move, RDF::URI("a"), :default]],
-      "move default graph iri" => [%q(MOVE DEFAULT TO GRAPH <a>), [:move, :default, RDF::URI("a")]],
-      "move silent iri iri" => [%q(MOVE SILENT <a> TO <b>), [:move, :silent, RDF::URI("a"), RDF::URI("b")]]
+      "move default default" => [%q(MOVE DEFAULT TO DEFAULT), %q((move default default))],
+      "move iri default" => [%q(MOVE <a> TO DEFAULT), %q((move <a> default))],
+      "move default iri" => [%q(MOVE DEFAULT TO <a>), %q((move default <a>))],
+      "move graph iri default" => [%q(MOVE GRAPH <a> TO DEFAULT), %q((move <a> default))],
+      "move default graph iri" => [%q(MOVE DEFAULT TO GRAPH <a>), %q((move default <a>))],
+      "move silent iri iri" => [%q(MOVE SILENT <a> TO <b>), %q((move silent <a> <b>))]
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
 
   describe "when matching the [37] Copy production rule", production: :Copy do
     {
-      "copy default default" => [%q(COPY DEFAULT TO DEFAULT), [:copy, :default, :default]],
-      "copy iri default" => [%q(COPY <a> TO DEFAULT), [:copy, RDF::URI("a"), :default]],
-      "copy default iri" => [%q(COPY DEFAULT TO <a>), [:copy, :default, RDF::URI("a")]],
-      "copy graph iri default" => [%q(COPY GRAPH <a> TO DEFAULT), [:copy, RDF::URI("a"), :default]],
-      "copy default graph iri" => [%q(COPY DEFAULT TO GRAPH <a>), [:copy, :default, RDF::URI("a")]],
-      "copy silent iri iri" => [%q(COPY SILENT <a> TO <b>), [:copy, :silent, RDF::URI("a"), RDF::URI("b")]]
+      "copy default default" => [%q(COPY DEFAULT TO DEFAULT), %q((copy default default))],
+      "copy iri default" => [%q(COPY <a> TO DEFAULT), %q((copy <a> default))],
+      "copy default iri" => [%q(COPY DEFAULT TO <a>), %q((copy default <a>))],
+      "copy graph iri default" => [%q(COPY GRAPH <a> TO DEFAULT), %q((copy <a> default))],
+      "copy default graph iri" => [%q(COPY DEFAULT TO GRAPH <a>), %q((copy default <a>))],
+      "copy silent iri iri" => [%q(COPY SILENT <a> TO <b>), %q((copy silent <a> <b>))]
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -1399,7 +1399,7 @@ describe SPARQL::Grammar::Parser do
       #],
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end
@@ -1416,7 +1416,7 @@ describe SPARQL::Grammar::Parser do
       ],
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
       end
     end
   end

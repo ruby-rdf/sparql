@@ -29,11 +29,11 @@ module SPARQL; module Algebra
       # @raise [NotImplementedError]
       #   If an attempt is made to perform an unsupported operation
       # @raise [IOError]
-      #   If `queryable` is unwritable
+      #   If `queryable` is immutable
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
         debug(options) {"Update"}
-        raise IOError, "queryable is not writable" unless queryable.writable?
+        raise IOError, "queryable is not mutable" unless queryable.mutable?
         operands.each do |op|
           op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
         end

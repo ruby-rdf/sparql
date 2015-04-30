@@ -4,7 +4,8 @@ require 'dawg_helper'
 require 'rdf/rdfxml'
 
 shared_examples "DAWG" do |man, tests|
-  describe man.to_s.split("/")[-2] do
+  man_name = man.to_s.split("/")[-2]
+  describe man_name do
     tests.each do |t|
       case t.type
       when MF.QueryEvaluationTest
@@ -54,7 +55,8 @@ shared_examples "DAWG" do |man, tests|
           expect {result.to_csv}.not_to raise_error
         end
       when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest
-        it "evaluates #{t.entry} - #{t.name}: #{t.comment}", pending: "Update Operators" do
+        it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
+          skip man_name if %w(delete-data delete-insert delete-where).include?(man_name)
 
           # Load default and named graphs for result dataset
           expected = RDF::Repository.new do |r|
