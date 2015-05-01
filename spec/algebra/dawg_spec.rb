@@ -61,8 +61,6 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
         end
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
-          skip man_name if %w(delete-data delete-insert delete-where).include?(man_name)
-
           # Load default and named graphs for result dataset
           expected = RDF::Repository.new do |r|
             t.result.graphs.each do |info|
@@ -110,29 +108,24 @@ describe SPARQL::Algebra do
     end
   end
 
-  #describe "w3c dawg SPARQL 1.1 tests" do
-  #  main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
-  #  main_man.include.reject do |m|
-  #    %w{
-  #      basic-update
-  #      clear
-  #      copy
-  #      delete
-  #      drop
-  #      move
-  #      syntax-update-1
-  #      syntax-update-2
-  #      update-silent
-  #
-  #      entailment
-  #
-  #      http-rdf-dupdate
-  #      protocol
-  #      service
-  #      syntax-fed
-  #    }.include? m.attributes['id'].to_s.split('/')[-2]
-  #  end.each do |man|
-  #    it_behaves_like "DAWG-SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
-  #  end
-  #end
+  describe "w3c dawg SPARQL 1.1 tests" do
+    main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
+    main_man.include.reject do |m|
+      %w{
+        basic-update
+        delete delete-data delete-insert delete-where
+        syntax-update-1
+        syntax-update-2
+  
+        entailment
+  
+        http-rdf-dupdate
+        protocol
+        service
+        syntax-fed
+      }.include? m.attributes['id'].to_s.split('/')[-2]
+    end.each do |man|
+      it_behaves_like "DAWG-SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+    end
+  end
 end unless ENV['CI']

@@ -59,8 +59,6 @@ shared_examples "DAWG" do |id, label, comment, tests|
         end
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
-          skip man_name if %w(delete-data delete-insert delete-where).include?(man_name)
-
           # Load default and named graphs for result dataset
           expected = RDF::Repository.new do |r|
             t.result.graphs.each do |info|
@@ -112,11 +110,7 @@ describe SPARQL do
     main_man.include.reject do |m|
       %w{
         basic-update
-        clear
-        copy
-        delete
-        drop
-        move
+        delete delete-data delete-insert delete-where
         syntax-update-1
         syntax-update-2
         update-silent

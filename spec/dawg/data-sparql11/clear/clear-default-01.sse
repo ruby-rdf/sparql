@@ -1,1 +1,1 @@
-(update (clear :DEFAULT :VERBOSE COMMON-LISP:T))
+(prefix ((: <http://example.org/>)) (update (clear default)))

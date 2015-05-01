@@ -9,6 +9,10 @@ module RDF::Util
   module File
     LOCAL_PATH = ::File.expand_path("../dawg", __FILE__) + '/'
 
+    class << self
+      alias_method :original_open_file, :open_file
+    end
+
     ##
     # Override to use Patron for http and https, Kernel.open otherwise.
     #
@@ -28,33 +32,42 @@ module RDF::Util
           #puts "attempt to open #{filename_or_url} locally"
           local_filename = filename_or_url.to_s.sub($1, LOCAL_PATH)
           if ::File.exist?(local_filename)
-            response = ::File.open(local_filename, options)
-            #puts "use #{filename_or_url} locally"
-            case filename_or_url.to_s
-            when /\.ttl$/
-              def response.content_type; 'application/turtle'; end
-            when /\.nt$/
-              def response.content_type; 'application/n-triples'; end
+            response = begin
+              ::File.open(local_filename)
+            rescue Errno::ENOENT
+              Kernel.open(filename_or_url.to_s, "r:utf-8", 'Accept' => "application/ld+json, application/json, text/csv")
             end
+            #puts "use #{filename_or_url} locally"
+            document_options = {
+              base_uri:     RDF::URI(filename_or_url),
+              charset:      Encoding::UTF_8,
+              code:         200,
+              headers:      {}
+            }
+            document_options[:headers][:content_type] = case filename_or_url.to_s
+            when /\.ttl$/    then 'text/turtle'
+            when /\.nt$/     then 'application/n-triples'
+            else                  'unknown'
+            end
+            document_options[:headers][:content_type] = response.content_type if response.respond_to?(:content_type)
+            # For overriding content type from test data
+            document_options[:headers][:content_type] = options[:contentType] if options[:contentType]
 
+            # For overriding Link header from test data
+            document_options[:headers][:link] = options[:httpLink] if options[:httpLink]
+
+            remote_document = RDF::Util::File::RemoteDocument.new(response.read, document_options)
             if block_given?
-              begin
-                yield response
-              ensure
-                response.close
-              end
+              yield remote_document
             else
-              response
+              remote_document
             end
           else
             Kernel.open(filename_or_url.to_s, options, &block)
           end
-        rescue Errno::ENOENT #, OpenURI::HTTPError
-          # Not there, don't run tests
-          StringIO.new("")
         end
       else
-        Kernel.open(filename_or_url.to_s, options, &block)
+        original_open_file(filename_or_url, options, &block)
       end
     end
   end

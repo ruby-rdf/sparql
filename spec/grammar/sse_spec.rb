@@ -161,8 +161,6 @@ describe SPARQL::Grammar::Parser do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
     main_man.include.reject do |m|
       %w{
-        clear drop update-silent
-
         entailment
         
         csv-tsv-res
