@@ -38,6 +38,9 @@ module SPARQL; module Algebra
 
         location, name = operands
         queryable.load(location, context: name)
+      rescue IOError, Errno::ENOENT
+        raise unless silent
+      ensure
         queryable
       end
     end # Load

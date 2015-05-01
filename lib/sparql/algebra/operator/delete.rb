@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
-        debug(options) {"DeleteData"}
+        debug(options) {"Delete"}
         queryable
       end
     end # Delete
