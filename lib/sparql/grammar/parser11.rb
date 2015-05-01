@@ -536,6 +536,19 @@ module SPARQL::Grammar
     #  add_prod_datum(:GraphRefAll, data)
     #end
 
+    # [49]	QuadData	::=	"{" Quads "}"
+    # QuadData is like QuadPattern, except without BNodes
+    start_production(:QuadData) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables
+      self.clear_bnode_cache
+    end
+    production(:QuadData) do |input, data, callback|
+      # Transform using statements instead of patterns, and verify there are no variables
+      raise Error, "QuadData contains variable operands: #{data[:pattern].to_sse}" if data[:pattern].first.variable?
+      self.nd_var_gen = "0"
+      input[:pattern] = data[:pattern]
+    end
+
     # [51] QuadsNotTriples	::=	"GRAPH" VarOrIri "{" TriplesTemplate? "}"
     production(:QuadsNotTriples) do |input, data, callback|
       add_prod_datum(:pattern, [SPARQL::Algebra::Expression.for(:graph, data[:VarOrIri].last, data[:pattern])])
@@ -753,7 +766,7 @@ module SPARQL::Grammar
     # [73]  	ConstructTemplate	  ::=  	'{' ConstructTriples? '}'
     start_production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
-      self.nd_var_gen = false
+      self.clear_bnode_cache
     end
     production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
@@ -1422,6 +1435,12 @@ module SPARQL::Grammar
 
     # Used for generating BNode labels
     attr_accessor :nd_var_gen
+
+    # Reset the bnode cache, always generating new nodes, and start generating BNodes instead of non-distinguished variables
+    def clear_bnode_cache
+      @nd_var_gen = false
+      @bnode_cache = {}
+    end
 
     # Generate a BNode identifier
     def bnode(id = nil)

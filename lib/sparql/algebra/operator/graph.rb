@@ -4,12 +4,17 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `graph` operator.
     #
-    # This is a wrapper to add a `context` to the query.
+    # This is a wrapper to add a `context` to the query, or an array of statements.
     #
-    # @example
+    # @example of a query
     #   (prefix ((: <http://example/>))
     #     (graph ?g
     #       (bgp (triple ?s ?p ?o))))
+    #
+    # @example named set of statements
+    #   (prefix ((: <http://example/>))
+    #     (graph :g
+    #       ((triple :s :p :o))))
     #
     # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
     class Graph < Operator::Binary
@@ -18,8 +23,12 @@ module SPARQL; module Algebra
       NAME = [:graph]
 
       ##
-      # Executes this query on the given `queryable` graph or repository.
-      # Applies the given `context` to the query, limiting the scope of the query to the specified `context`, which may be an `RDF::URI` or `RDF::Query::Variable`.
+      # If the second operand is a BTP:
+      #   Executes this query on the given `queryable` graph or repository.
+      #   Applies the given `context` to the query, limiting the scope of the query to the specified `context`, which may be an `RDF::URI` or `RDF::Query::Variable`.
+      #
+      # If the second operand is an array of triples:
+      #   Acts as a container for the triples applying the graph name as the context for statements created from those triples
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -35,7 +44,12 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Graph #{operands.first}"}
         context, query = operands.first, operands.last
-        @solutions = queryable.query(query, options.merge(:context => context), &block)
+        @solutions = case query
+        when RDF::Query, Operator
+          queryable.query(query, options.merge(context: context), &block)
+        when Array
+          operands.map {|s| RDF::Statement.from(s.to_hash.merge(context: context))}
+        end
       end
       
       ##

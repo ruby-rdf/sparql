@@ -1,6 +1,6 @@
 (prefix ((: <http://example.org/>))
   (update
-    (insertData ((graph :g1 ((triple ??b :p :o))) (graph :g2 ((triple ??b :p :o)))))
+    (insertData ((graph :g1 ((triple _:b :p :o))) (graph :g2 ((triple _:b :p :o)))))
     (modify
       (graph :g1 (bgp (triple ?S ?P ?O)))
       (insert ((graph :g2 ((triple ?S ?P ?O))))))

@@ -79,11 +79,22 @@ class Array
   # @see    #constant?
   def variable?
     any? do |operand|
-      operand.is_a?(Variable) ||
+      operand.is_a?(RDF::Query::Variable) ||
         (operand.respond_to?(:variable?) && operand.variable?)
     end
   end
   def constant?; !(variable?); end
+
+  ##
+  # Does this contain any nodes?
+  #
+  # @return [Boolean]
+  def node?
+    any? do |operand|
+      operand.is_a?(RDF::Node) ||
+        (operand.respond_to?(node?) && operand.node?)
+    end
+  end
   def evaluatable?; true; end
   def executable?; false; end
   def aggregate?; false; end
@@ -245,6 +256,18 @@ module RDF::Queryable
   
 end
 
+class RDF::Statement
+  # Transform Statement Pattern into an SXP
+  # @return [Array]
+  def to_sxp_bin
+    if has_context?
+      [:quad, subject, predicate, object, context]
+    else
+      [:triple, subject, predicate, object]
+    end
+  end
+end
+
 class RDF::Query
   # Equivalence for Queries:
   #   Same Patterns
@@ -293,7 +316,11 @@ class RDF::Query::Pattern
   # Transform Query Pattern into an SXP
   # @return [Array]
   def to_sxp_bin
-    [:triple, subject, predicate, object]
+    if has_context?
+      [:quad, subject, predicate, object, context]
+    else
+      [:triple, subject, predicate, object]
+    end
   end
 end
 

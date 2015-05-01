@@ -121,7 +121,7 @@ shared_examples "SSE" do |id, label, comment, tests|
       when 'mf:NegativeUpdateSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
           pending("Better Error Detection") if %w(
-            syntax-update-bad-03.ru syntax-update-bad-04.ru syntax-update-bad-10.ru
+            syntax-update-bad-10.ru
             syntax-update-bad-11.ru syntax-update-bad-12.ru syntax-update-54.ru
           ).include?(t.entry)
           expect {SPARQL::Grammar.parse(t.action.query_string, update: true, validate: true)}.to raise_error
