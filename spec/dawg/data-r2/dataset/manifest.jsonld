@@ -1,0 +1,283 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+    "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+    "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+    "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+    "id": "@id",
+    "type": "@type",
+    "comment": "rdfs:comment",
+    "entries": {
+      "@id": "mf:entries",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "mf:include",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "name": "mf:name",
+    "action": {
+      "@id": "mf:action",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "mf:result",
+      "@type": "@id"
+    },
+    "approval": {
+      "@id": "dawgt:approval",
+      "@type": "@id"
+    },
+    "mq:data": {
+      "@type": "@id"
+    },
+    "mq:graphData": {
+      "@type": "@id"
+    },
+    "mq:query": {
+      "@type": "@id"
+    },
+    "ut:data": {
+      "@type": "@id"
+    },
+    "ut:graph": {
+      "@type": "@id"
+    },
+    "ut:graphData": {
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "ut:request": {
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "comment": "Tests for GRAPH",
+      "entries": [
+        {
+          "action": {
+            "id": "_:b4",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-01.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default dataset / Query: default dataset",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-01",
+          "name": "dataset-01",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-01.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b2",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-02.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: named dataset / Query: default dataset",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-02",
+          "name": "dataset-02",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-02.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b8",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-03.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: named dataset / Query: named dataset dataset",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-03",
+          "name": "dataset-03",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-03.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b14",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-04.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: named dataset / Query: default dataset",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-04",
+          "name": "dataset-04",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-04.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b12",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-05.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default and named / Query: default dataset",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-05",
+          "name": "dataset-05",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-05.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b9",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-06.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default and named / Query: named dataset",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-06",
+          "name": "dataset-06",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-06.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b10",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-07.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default and named / Query: all data by UNION",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-07",
+          "name": "dataset-07",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-07.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b7",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-08.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default and named / Query: common subjects",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-08",
+          "name": "dataset-08",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-08.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b6",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-09.rq"
+          },
+          "approval": "dawgt:Withdrawn",
+          "comment": "Data: default and named (bnodes) / Query: common subjects",
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-09",
+          "name": "dataset-09",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-09.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b3",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-10.rq"
+          },
+          "approval": "dawgt:Withdrawn",
+          "comment": "Data: default and named (same data, with bnodes) / Query: common subjects",
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-10",
+          "name": "dataset-10",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-10.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b0",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-11.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default and named (several) / Query: get everything",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0118/04-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-11",
+          "name": "dataset-11",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-11.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b13",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-12.rq"
+          },
+          "approval": "dawgt:Withdrawn",
+          "comment": "Data: default (several) and named (several) / Query: get everything",
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-12",
+          "name": "dataset-12",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-12.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b5",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-09b.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default and named (bnodes) / Query: common subjects",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2007/10/09-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-09b",
+          "name": "dataset-09b",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-09.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b1",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-10b.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default and named (same data, with bnodes) / Query: common subjects",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2007/10/09-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-10b",
+          "name": "dataset-10b",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-10.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b11",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-12b.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Data: default (several) and named (several) / Query: get everything",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2007/10/09-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest#dawg-dataset-12b",
+          "name": "dataset-12b",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-12.ttl",
+          "type": "mf:QueryEvaluationTest"
+        }
+      ],
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest.ttl",
+      "type": "mf:Manifest"
+    }
+  ]
+}

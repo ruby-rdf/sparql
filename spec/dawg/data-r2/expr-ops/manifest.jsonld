@@ -1,0 +1,179 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+    "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+    "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+    "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+    "id": "@id",
+    "type": "@type",
+    "comment": "rdfs:comment",
+    "entries": {
+      "@id": "mf:entries",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "mf:include",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "name": "mf:name",
+    "action": {
+      "@id": "mf:action",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "mf:result",
+      "@type": "@id"
+    },
+    "approval": {
+      "@id": "dawgt:approval",
+      "@type": "@id"
+    },
+    "mq:data": {
+      "@type": "@id"
+    },
+    "mq:graphData": {
+      "@type": "@id"
+    },
+    "mq:query": {
+      "@type": "@id"
+    },
+    "ut:data": {
+      "@type": "@id"
+    },
+    "ut:graph": {
+      "@type": "@id"
+    },
+    "ut:graphData": {
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "ut:request": {
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "comment": "SPARQL tests - XPath operators in FILTERs",
+      "entries": [
+        {
+          "action": {
+            "id": "_:b5",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/data.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-ge-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": ">= in FILTER expressions",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest#ge-1",
+          "name": "Greater-than or equals",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/result-ge-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b4",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/data.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-le-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "<= in FILTER expressions",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest#le-1",
+          "name": "Less-than or equals",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/result-le-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b6",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/data.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-mul-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "A * B in FILTER expressions",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest#mul-1",
+          "name": "Multiplication",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/result-mul-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b1",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/data.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-plus-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "A + B in FILTER expressions",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest#plus-1",
+          "name": "Addition",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/result-plus-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b0",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/data.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-minus-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "A - B in FILTER expressions",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest#minus-1",
+          "name": "Subtraction",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/result-minus-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b3",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/data.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-unplus-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "+A in FILTER expressions",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest#unplus-1",
+          "name": "Unary Plusn",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/result-unplus-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b2",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/data.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/query-unminus-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "-A in FILTER expressions",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest#unminus-1",
+          "name": "Unary Minus",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/result-unminus-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        }
+      ],
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest.ttl",
+      "type": "mf:Manifest"
+    }
+  ]
+}

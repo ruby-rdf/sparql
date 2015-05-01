@@ -1,0 +1,226 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+    "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+    "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+    "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+    "id": "@id",
+    "type": "@type",
+    "comment": "rdfs:comment",
+    "entries": {
+      "@id": "mf:entries",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "mf:include",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "name": "mf:name",
+    "action": {
+      "@id": "mf:action",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "mf:result",
+      "@type": "@id"
+    },
+    "approval": {
+      "@id": "dawgt:approval",
+      "@type": "@id"
+    },
+    "mq:data": {
+      "@type": "@id"
+    },
+    "mq:graphData": {
+      "@type": "@id"
+    },
+    "mq:query": {
+      "@type": "@id"
+    },
+    "ut:data": {
+      "@type": "@id"
+    },
+    "ut:graph": {
+      "@type": "@id"
+    },
+    "ut:graphData": {
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "ut:request": {
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "entries": [
+        {
+          "action": {
+            "id": "_:b8",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl01.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#subset-by-exclusion-nex-1",
+          "name": "Subsets by exclusion (NOT EXISTS)",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl01.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b5",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl02.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#subset-by-exclusion-minus-1",
+          "name": "Subsets by exclusion (MINUS)",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl02.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b3",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/temporalProximity01.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/temporalProximity01.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#temporal-proximity-by-exclusion-nex-1",
+          "name": "Medical, temporal proximity by exclusion (NOT EXISTS)",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/temporalProximity01.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b1",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-01.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#subset-01",
+          "name": "Calculate which sets are subsets of others (include A subsetOf A)",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-01.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b0",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-02.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#subset-02",
+          "name": "Calculate which sets are subsets of others (exclude A subsetOf A)",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-02.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b11",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-equals-1.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#set-equals-1",
+          "name": "Calculate which sets have the same elements",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-equals-1.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b10",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-03.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#subset-03",
+          "name": "Calculate proper subset",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-03.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b7",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/exists-01.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#exists-01",
+          "name": "Positive EXISTS 1",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/exists-01.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b9",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/exists-02.rq"
+          },
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#exists-02",
+          "name": "Positive EXISTS 2",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/exists-02.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b6",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/full-minuend.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/full-minuend.rq"
+          },
+          "approval": "dawgt:Approved",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#full-minuend",
+          "name": "Subtraction with MINUS from a fully bound minuend",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/full-minuend.srx",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b4",
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/part-minuend.ttl",
+            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/part-minuend.rq"
+          },
+          "approval": "dawgt:Approved",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest#partial-minuend",
+          "name": "Subtraction with MINUS from a partially bound minuend",
+          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/part-minuend.srx",
+          "type": "mf:QueryEvaluationTest"
+        }
+      ],
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest.ttl",
+      "rdfs:label": "Negation",
+      "type": "mf:Manifest"
+    }
+  ]
+}

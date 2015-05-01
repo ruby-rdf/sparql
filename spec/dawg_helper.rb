@@ -2,6 +2,7 @@ $:.unshift File.expand_path("..", __FILE__)
 require 'rdf'
 require 'psych'
 require 'yaml'
+require 'support/models'
 
 # For now, override RDF::Utils::File.open_file to look for the file locally before attempting to retrieve it
 module RDF::Util
@@ -76,76 +77,83 @@ module SPARQL
     BASE_URI_10 = RDF::URI("http://www.w3.org/2001/sw/DataAccess/tests/")
     BASE_URI_11 = RDF::URI("http://www.w3.org/2009/sparql/docs/tests/")
 
-    # Module functions
+    FRAME = JSON.parse(%q({
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+        "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+        "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+        "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+        "id": "@id",
+        "type": "@type",
     
+        "comment": "rdfs:comment",
+        "entries": {"@id": "mf:entries", "@type": "@id", "@container": "@list"},
+        "include": {"@id": "mf:include", "@type": "@id", "@container": "@list"},
+        "name": "mf:name",
+        "action": {"@id": "mf:action", "@type": "@id"},
+        "result": {"@id": "mf:result", "@type": "@id"},
+        "approval": {"@id": "dawgt:approval", "@type": "@id"},
+        "mq:data": {"@type": "@id"},
+        "mq:graphData": {"@type": "@id"},
+        "mq:query": {"@type": "@id"},
+        "ut:data": {"@type": "@id"},
+        "ut:graph": {"@type": "@id"},
+        "ut:graphData": {"@type": "@id", "@container": "@set"},
+        "ut:request": {"@type": "@id"}
+      },
+      "@type": "mf:Manifest",
+      "entries": {
+        "mf:action": {"ut:graphData": {}},
+        "mf:result": {"ut:graphData": {}}
+      }
+    }))
+    # Module functions
+
     ##
-    # Load tests from the specified file/uri.
-    # @param [String] manifest_uri
-    # @param [Hash<Symbol => Object>] options
-    # @option options [String] :cache_file (nil)
-    #   Attempt to load parsed tests from YAML file
-    # @option options [String] :save_cache (false)
-    #   Save parsed tests in cache_file
-    # @return [Array<SPARQL::Spec::SPARQLTest>]
-    def self.load_tests(manifest_uri, options = {})
-      require 'spira'
-      options[:base_uri] ||= manifest_uri
+    # Convert test manifests from Turtle to JSON-LD. Saves as JSON-LD parallel to original manifest
+    def self.convert_manifest(manifest_uri, save=false)
+      puts "Convert #{manifest_uri}"
+      g = RDF::Repository.load(manifest_uri)
+      JSON::LD::API.fromRDF(g) do |expanded|
+        JSON::LD::API.frame(expanded, FRAME) do |framed|
+          man = framed['@graph'].detect {|e| e['type'] == "mf:Manifest"}
+          includes = Array(man["include"]).dup if man.has_key?("include")
 
-      test_repo = RDF::Repository.new
-      Spira.add_repository(:default, test_repo)
+          if save
+            local_man = manifest_uri.
+              sub(%r{^(#{SPARQL::Spec::BASE_URI_10}|#{SPARQL::Spec::BASE_URI_11})}, BASE_DIRECTORY).
+              sub(".ttl", ".jsonld")
+            File.open(local_man, "w") do |f|
+              f.puts framed.to_json(::JSON::LD::JSON_STATE)
+            end
+          else
+            puts framed.to_json(::JSON::LD::JSON_STATE)
+          end
 
-      if options[:cache_file] && File.exists?(options[:cache_file])
-        File.open(options[:cache_file]) do |f|
-          YAML.load(f)
-        end
-      else
-
-        puts "Loading tests from #{manifest_uri}"
-        test_repo.load(manifest_uri, options)
-        #puts test_repo.dump(:ttl,
-        #  :base_uri => BASE_URI,
-        #  :prefixes => {
-        #    :dawg => DAWGT.to_uri,
-        #    :mf => MF.to_uri,
-        #    :qt => QT.to_uri,
-        #    :rs => RS.to_uri,
-        #  }
-        #)
-        Manifest.each { |manifest| manifest.include_files! }
-        tests = Manifest.each.map { |m| m.entries }.flatten.find_all { |t| t.approved? }
-        tests.each { |test|
-          test.tags << 'status:unverified'
-          test.tags << 'w3c_status:unapproved' unless test.approved?
-          test.update!(:manifest => test.data.each_context.first)
-        }
-          
-        if options[:save_cache]
-          puts "write test cases to #{options[:cache_file]}"
-          File.open(options[:cache_file], 'w') do |f|
-            YAML.dump(tests, f)
+          # Recurse into sub-manifests
+          Array(includes).each do |sub_uri|
+            self.convert_manifest(sub_uri, save)
           end
         end
-        
-        tests
       end
+      manifest_uri.sub(".ttl", ".jsonld")
     end
 
     def self.sparql1_0_tests(save_cache = false)
-      self.load_tests(File.join(BASE_URI_10, "data-r2/manifest-evaluation.ttl"),
-        :cache_file => File.join(BASE_DIRECTORY, "sparql-specs-1_0-cache.yml"),
-        :save_cache => save_cache)
+      self.convert_manifest(File.join(BASE_URI_10, "data-r2/manifest-evaluation.ttl"), true) if save_cache
+      File.join(BASE_URI_10, "data-r2/manifest-evaluation.jsonld")
     end
 
     def self.sparql1_0_syntax_tests(save_cache = false)
-      self.load_tests(File.join(BASE_URI_10, "data-r2/manifest-syntax.ttl"),
-        :cache_file => File.join(BASE_DIRECTORY, "sparql-specs-1_0_syntax-cache.yml"),
-        :save_cache => save_cache)
+      self.convert_manifest(File.join(BASE_URI_10, "data-r2/manifest-syntax.ttl"), true) if save_cache
+      File.join(BASE_URI_10, "data-r2/manifest-syntax.jsonld")
     end
 
     def self.sparql1_1_tests(save_cache = false)
-      self.load_tests(File.join(BASE_URI_11, "data-sparql11/manifest-all.ttl"),
-        :cache_file => File.join(BASE_DIRECTORY, "sparql-specs-1_1_cache.yml"),
-        :save_cache => save_cache)
+      self.convert_manifest(File.join(BASE_URI_11, "data-sparql11/manifest-all.ttl"), true) if save_cache
+      File.join(BASE_URI_10, "data-sparql11/manifest-all.jsonld")
     end
   end # Spec
 end # RDF

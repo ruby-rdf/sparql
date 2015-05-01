@@ -1,91 +1,46 @@
 require 'rdf'
-require 'spira'
-require 'rdf/turtle'
-require 'sparql/client'
 require 'json/ld'
+require 'sparql/client'
 
 module SPARQL; module Spec
-  DAWGT = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#')
-  ENT   = RDF::Vocabulary.new('http://www.w3.org/ns/entailment/RDF')
-  MF    = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#')
-  QT    = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-query#')
-  RS    = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/result-set#')
-  UT    = RDF::Vocabulary.new('http://www.w3.org/2009/sparql/tests/test-update#')
+  class Manifest < JSON::LD::Resource
+    def self.open(file)
+      #puts "open: #{file}"
+      RDF::Util::File.open_file(file) do |f|
+        hash = ::JSON.load(f.read)
+        Manifest.new(hash['@graph'].first, context: hash['@context'])
+      end
+    end
 
-  class Manifest < Spira::Base
-    type MF.Manifest
-    has_many :manifests,  :predicate => MF.include
-    property :entry_list, :predicate => MF.entries
-    property :comment,    :predicate => RDFS.comment
+    def include
+      # Map entries to resources
+      Array(attributes['include']).map {|e| Manifest.open(e.sub(".ttl", ".jsonld"))}
+    end
 
     def entries
-      RDF::List.new(entry_list, self.class.repository).map do |entry|
-        type = self.class.repository.first_object(:subject => entry, :predicate => RDF.type)
-        case type
-          when UT.UpdateEvaluationTest, MF.UpdateEvaluationTest
-            entry.as(UpdateTest)
-          when MF.QueryEvaluationTest
-            entry.as(QueryTest)
-          when MF.CSVResultFormatTest
-            entry.as(CSVTest)
-          # known types to ignore
-          when MF.PositiveSyntaxTest, MF.PositiveSyntaxTest11, MF.PositiveUpdateSyntaxTest11,
-               MF.NegativeSyntaxTest, MF.NegativeSyntaxTest11, MF.NegativeUpdateSyntaxTest11
-            entry.as(SyntaxTest)
-          when MF.ServiceDescriptionTest, MF.ProtocolTest,
-               MF.GraphStoreProtocolTest
-            # Ignore
-          else
-            warn "Unknown test type for #{entry}: #{type}"
-        end
-      end.compact
-    end
-
-    def include_files!
-      manifests.each do |manifest|
-        RDF::List.new(manifest, self.class.repository).each do |file|
-          puts "Loading #{file}"
-          self.class.repository.load(file, :context => file, :base_uri => file)
+      # Map entries to resources
+      Array(attributes['entries']).map do |e|
+        case e['type']
+        when "mf:QueryEvaluationTest", "mf:CSVResultFormatTest"
+          QueryTest.new(e)
+        when "mf:UpdateEvaluationTest", "ut:UpdateEvaluationTest"
+          UpdateTest.new(e)
+        when "mf:PositiveSyntaxTest", "mf:NegativeSyntaxTest",
+             "mf:PositiveSyntaxTest11", "mf:NegativeSyntaxTest11",
+             "mf:PositiveUpdateSyntaxTest11", "mf:NegativeUpdateSyntaxTest11"
+          SyntaxTest.new(e)
+        else
+          SPARQLTest.new(e)
         end
       end
     end
   end
 
-  class Spira::Base
-    def encode_with(coder)
-      coder["subject"] = subject
-      attributes.each {|p,v| coder[p.to_s] = v if v}
-    end
-
-    def init_with(coder)
-      self.instance_variable_set(:"@subject", coder["subject"])
-      self.reload
-      attributes.each {|p,v| self.attribute_set(p, coder.map[p.to_s])}
-    end
-
-    def inspect
-      if self.respond_to?(:to_hash)
-        "<#{self.class}:#{self.object_id} @subject: #{@subject}>#{to_hash.to_json(::JSON::LD::JSON_STATE)}]"
-      else
-        "<#{self.class}:#{self.object_id} @subject: #{@subject}>[" + attributes.keys.map do |a|
-          v = attributes[a]; "#{a}=#{v.inspect}" if v
-        end.compact.join("\n  ") +
-        "]"
-      end
-    end
-  end
-  
-  class SPARQLTest < Spira::Base
-    property :name, :predicate => MF.name
-    property :type, :predicate => RDF.type
-    property :comment, :predicate => RDFS.comment
-    property :approval, :predicate => DAWGT.approval
-    property :approved_by, :predicate => DAWGT.approvedBy
-    property :manifest, :predicate => MF.manifest_file
-    has_many :tags, :predicate => MF.tag
+  class SPARQLTest < JSON::LD::Resource
+    attr_accessor :debug
 
     def approved?
-      approval == DAWGT.Approved
+      approval.to_s.include "Approved"
     end
 
     def entry; "??"; end
@@ -106,8 +61,12 @@ module SPARQL; module Spec
   end
 
   class UpdateTest < SPARQLTest
-    property :result, :predicate => MF.result, :type => 'UpdateResult'
-    property :action, :predicate => MF.action, :type => 'UpdateAction'
+    attr_accessor :action, :result
+    def initialize(hash)
+      @action = UpdateAction.new(hash["action"])
+      @result = UpdateResult.new(hash["result"])
+      super
+    end
 
     def query_file
       action.request
@@ -115,22 +74,23 @@ module SPARQL; module Spec
 
     def entry; query_file.to_s.split('/').last; end
 
-    def template_file
-      'update-test.rb.erb'
-    end
-
     def query
       RDF::Util::File.open_file(query_file, &:read)
     end
 
-    def to_hash
-      {action: action.to_hash, result: result.to_hash}
-    end
+    #def to_hash
+    #  {action: action.to_hash, result: result.to_hash}
+    #end
   end
 
-  class UpdateDataSet < Spira::Base
-    has_many :graphData, :predicate => UT.graphData, :type => 'UpdateGraphData'
-    property :data_file, :predicate => UT.data
+  class UpdateDataSet < JSON::LD::Resource
+    attr_accessor :graphData
+    def initialize(hash)
+      @graphData = (hash["ut:graphData"] || []).map {|e| UpdateGraphData.new(e)}
+      super
+    end
+
+    def data_file; attributes["ut:data"]; end
 
     def data
       RDF::Util::File.open_file(data_file, &:read)
@@ -155,17 +115,15 @@ module SPARQL; module Spec
       end
     end
 
-    def to_hash
-      {graphData: graphs, data_file: data_file}
-    end
+    #def to_hash
+    #  {graphData: graphs, data_file: data_file}
+    #end
   end
 
   class UpdateAction < UpdateDataSet
-    property :request, :predicate => UT.request
+    def request; attributes["ut:request"]; end
 
-    def query_file
-      request
-    end
+    def query_file; request; end
 
     def query_string
       RDF::Util::File.open_file(query_file, &:read)
@@ -188,17 +146,17 @@ module SPARQL; module Spec
       IO.read(sse_file.path)
     end
 
-    def to_hash
-      super.merge(request: request, sse: sse_string, query: query_string)
-    end
+    #def to_hash
+    #  super.merge(request: request, sse: sse_string, query: query_string)
+    #end
   end
 
   class UpdateResult < UpdateDataSet
   end
 
-  class UpdateGraphData < Spira::Base
-    property :graph, :predicate => UT.graph
-    property :basename, :predicate => RDFS.label, :type => Spira::Types::URI
+  class UpdateGraphData < JSON::LD::Resource
+    def graph; attributes["ut:graph"]; end
+    def basename; attributes["rdfs:label"]; end
 
     def data_file
       graph
@@ -214,18 +172,17 @@ module SPARQL; module Spec
   end
 
   class QueryTest < SPARQLTest
-    property :action, :predicate => MF.action, :type => 'QueryAction'
-    property :result, :predicate => MF.result
+    attr_accessor :action
+    def initialize(hash)
+      @action = QueryAction.new(hash["action"]) if hash["action"]
+      super
+    end
 
     def query_file
       action.query_file
     end
 
     def entry; query_file.to_s.split('/').last; end
-
-    def template_file
-      'query-test.rb.erb'
-    end
 
     # Load and return default and named graphs in a hash
     def graphs
@@ -244,17 +201,15 @@ module SPARQL; module Spec
 
     # Turn results into solutions
     def solutions
-      result = self.result if self.respond_to?(:result)
-      return nil unless result
+      return nil unless self.result
+      result = RDF::URI(self.result)
 
       # Use alternate results for RDF 1.1
-      if RDF::VERSION.to_s >= "1.1"
-        file_11 = result.to_s.
-          sub(BASE_URI_10, BASE_DIRECTORY).
-          sub(BASE_URI_11, BASE_DIRECTORY).
-          sub(/\.(\w+)$/, '_11.\1')
-        result = RDF::URI(file_11) if File.exist?(file_11)
-      end
+      file_11 = result.to_s.
+        sub(BASE_URI_10, BASE_DIRECTORY).
+        sub(BASE_URI_11, BASE_DIRECTORY).
+        sub(/\.(\w+)$/, '_11.\1')
+      result = RDF::URI(file_11) if File.exist?(file_11)
 
       case form
       when :select, :ask
@@ -269,10 +224,7 @@ module SPARQL; module Spec
           SPARQL::Client.parse_tsv_bindings(RDF::Util::File.open_file(result, &:read))
         else
           if form == :select
-            expected_repository = RDF::Repository.new 
-            Spira.add_repository!(:results, expected_repository)
-            expected_repository.load(result)
-            SPARQL::Spec::ResultBindings.each.first.solutions
+            parse_rdf_bindings(RDF::Graph.load(result))
           else
             RDF::Graph.load(result).objects.detect {|o| o.literal?}
           end
@@ -282,27 +234,130 @@ module SPARQL; module Spec
       end
     end
 
-  end
+    RESULT_FRAME = JSON.parse(%q({
+      "@context": {
+        "rs": "http://www.w3.org/2001/sw/DataAccess/tests/result-set#",
 
-  class CSVTest < QueryTest
+        "resultVariable": {"@id": "rs:resultVariable", "@container": "@set"},
+        "solution": {"@id": "rs:solution", "@container": "@set"},
+        "binding": {"@id": "rs:binding", "@container": "@set"},
+        "variable": "rs:variable",
+        "index": {"@id": "rs:index", "@type": "http://www.w3.org/2001/XMLSchema#integer"}
+      },
+      "@type": "rs:ResultSet"
+    }))
+
+    def parse_rdf_bindings(graph)
+      JSON::LD::API.fromRDF(graph) do |expanded|
+        JSON::LD::API.frame(expanded, RESULT_FRAME) do |framed|
+          nodes = {}
+          solution = framed['@graph'].first['solution'] if framed['@graph'].first.has_key?('solution')
+          solutions = Array(solution).
+          sort_by {|s| s['index'].to_i}.
+          map do |soln|
+            row = soln['binding'].inject({}) do |cols, hash|
+              value = case (v = hash['rs:value'])
+              when Hash
+                case
+                when v.has_key?('@value')
+                  lang = v['@language'] if v.has_key?('@language')
+                  datatype = v['@type'] if v.has_key?('@type')
+                  RDF::Literal(v['@value'], language: lang, datatype: datatype)
+                when v.has_key?('@id') && v['@id'].to_s.start_with?("_:")
+                  nodes[v['@id'][2..-1]] ||= RDF::Node(v['@id'][2..-1])
+                when v.has_key?('@id')
+                  RDF::URI(v['@id'])
+                else v
+                end
+              else
+                RDF::Literal(v)
+              end
+              cols.merge(hash['variable'].to_sym => value)
+            end
+            RDF::Query::Solution.new(row)
+          end
+          @solutions = RDF::Query::Solutions.new(solutions)
+        end
+      end
+      @solutions
+      #type RS.ResultSet
+      #has_many :variables, :predicate => RS.ResultSet
+      #has_many :solution_lists, :predicate => RS.solution, :type => 'BindingSet'
+      #property :boolean, :predicate => RS.boolean, :type => Boolean # for ask queries
+      #default_source :results
+      #
+      ## Return bindings as an list of Solutions
+      ## @return [Enumerable<RDF::Query::Solution>]
+      #def solutions
+      #  @solutions ||= begin
+      #    solution_lists.
+      #      sort_by {|solution_list| solution_list.index.to_i}.
+      #      map do |solution_list|
+      #      bindings = solution_list.bindings.inject({}) { |hash, binding|
+      #        hash[binding.variable.to_sym] = binding.value
+      #        hash
+      #      }
+      #      RDF::Query::Solution.new(bindings)
+      #    end
+      #  end
+      #end
+      #
+      #def self.for_solutions(solutions, opts = {})
+      #  opts[:uri] ||= RDF::Node.new
+      #  index = 1 if opts[:index]
+      #  result_bindings = self.for(opts[:uri]) do | binding_graph |
+      #    solutions.each do | result_hash | 
+      #      binding_graph.solution_lists << BindingSet.new do | binding_set |
+      #        result_hash.to_hash.each_pair do |hash_variable, hash_value|
+      #          binding_set.bindings << SPARQLBinding.new do | sparql_binding |
+      #            sparql_binding.variable = hash_variable.to_s
+      #            sparql_binding.value = hash_value.respond_to?(:canonicalize) ? hash_value.dup.canonicalize : hash_value
+      #          end
+      #        end
+      #        if opts[:index]
+      #          binding_set.index = index
+      #          index += 1
+      #        end
+      #      end
+      #    end
+      #  end
+      #end
+      #
+      #def self.pretty_print
+      #  self.each do |result_binding|
+      #  log "Result Bindings #{result_binding.subject}"
+      #    result_binding.solution_lists.each.sort { |bs, other| bs.index.respond_to?(:'<=>') ? bs.index <=>  other.index : 0 }.each do |binding_set|
+      #       log "  Solution #{binding_set.subject} (# #{binding_set.index})"
+      #       binding_set.bindings.sort { |b, other| b.variable.to_s <=> other.variable.to_s }.each do |binding|
+      #         log "    #{binding.variable}: #{binding.value.inspect}"
+      #       end
+      #    end
+      #  end
+    end
   end
 
   class SyntaxTest < SPARQLTest
-    property :_action, :predicate => MF.action
-
-    # Construct an action instance, as this form only uses a simple URI
-    def action
-      @action ||= QueryAction.new {|a| a.query_file = _action; a.graphData = []; }
+    attr_accessor :action
+    def initialize(hash)
+      @action = case hash["action"]
+      when String then QueryAction.new({"mq:query" => hash["action"]})
+      when Hash   then QueryAction.new(hash["action"])
+      end
+      super
     end
 
-    def entry; _action.to_s.to_s.split('/').last; end
+    def query_file
+      action.query_file
+    end
+
+    def entry; query_file.to_s.split('/').last; end
 
   end
 
-  class QueryAction < Spira::Base
-    property :query_file, :predicate => QT.query
-    property :test_data,  :predicate => QT.data
-    has_many :graphData,  :predicate => QT.graphData
+  class QueryAction < ::JSON::LD::Resource
+    def query_file; attributes["mq:query"]; end
+    def test_data; attributes["mq:data"]; end
+    def graphData; Array(attributes["mq:graphData"]); end
 
     def query_string
       RDF::Util::File.open_file(query_file, &:read)
@@ -331,85 +386,20 @@ module SPARQL; module Spec
     end
   end
 
-  class SPARQLBinding < Spira::Base
-    property :value,    :predicate => RS.value, :type => Native
-    property :variable, :predicate => RS.variable
-    default_source :results
+  class SPARQLBinding #< Spira::Base
+    #property :value,    :predicate => RS.value, :type => Native
+    #property :variable, :predicate => RS.variable
+    #default_source :results
   end
 
-  class BindingSet < Spira::Base
-    default_source :results
-    has_many :bindings, :predicate => RS.binding, :type => 'SPARQLBinding'
-    property :index,    :predicate => RS.index, :type => Integer
+  class BindingSet #< Spira::Base
+    #default_source :results
+    #has_many :bindings, :predicate => RS.binding, :type => 'SPARQLBinding'
+    #property :index,    :predicate => RS.index, :type => Integer
   end
 
-  class ResultBindings < Spira::Base
-    type RS.ResultSet
-    has_many :variables, :predicate => RS.ResultSet
-    has_many :solution_lists, :predicate => RS.solution, :type => 'BindingSet'
-    property :boolean, :predicate => RS.boolean, :type => Boolean # for ask queries
-    default_source :results
-
-    # Return bindings as an list of Solutions
-    # @return [Enumerable<RDF::Query::Solution>]
-    def solutions
-      @solutions ||= begin
-        solution_lists.
-          sort_by {|solution_list| solution_list.index.to_i}.
-          map do |solution_list|
-          bindings = solution_list.bindings.inject({}) { |hash, binding|
-            hash[binding.variable.to_sym] = binding.value
-            hash
-          }
-          RDF::Query::Solution.new(bindings)
-        end
-      end
-    end
-
-    def self.for_solutions(solutions, opts = {})
-      opts[:uri] ||= RDF::Node.new
-      index = 1 if opts[:index]
-      result_bindings = self.for(opts[:uri]) do | binding_graph |
-        solutions.each do | result_hash | 
-          binding_graph.solution_lists << BindingSet.new do | binding_set |
-            result_hash.to_hash.each_pair do |hash_variable, hash_value|
-              binding_set.bindings << SPARQLBinding.new do | sparql_binding |
-                sparql_binding.variable = hash_variable.to_s
-                sparql_binding.value = hash_value.respond_to?(:canonicalize) ? hash_value.dup.canonicalize : hash_value
-              end
-            end
-            if opts[:index]
-              binding_set.index = index
-              index += 1
-            end
-          end
-        end
-      end
-    end
-
-    def self.pretty_print
-      self.each do |result_binding|
-      log "Result Bindings #{result_binding.subject}"
-        result_binding.solution_lists.each.sort { |bs, other| bs.index.respond_to?(:'<=>') ? bs.index <=>  other.index : 0 }.each do |binding_set|
-           log "  Solution #{binding_set.subject} (# #{binding_set.index})"
-           binding_set.bindings.sort { |b, other| b.variable.to_s <=> other.variable.to_s }.each do |binding|
-             log "    #{binding.variable}: #{binding.value.inspect}"
-           end
-        end
-      end
-    end
+  class ResultBindings #< Spira::Base
+  #end
 
   end
 end; end
-
-# Save short version of URI, without all the other stuff.
-class RDF::URI
-  def encode_with(coder)
-    coder["uri"] = self.to_s
-  end
-  
-  def init_with(coder)
-    self.instance_variable_set(:@value, coder["uri"])
-    self.instance_variable_set(:@object, nil)
-  end
-end

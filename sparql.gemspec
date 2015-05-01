@@ -51,7 +51,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'open-uri-cached',    '~> 0.0', '>= 0.0.5'
   gem.add_development_dependency 'rspec',              '~> 3.0'
   gem.add_development_dependency 'rspec-its',          '~> 1.0'
-  gem.add_development_dependency 'spira',              '= 0.0.12'
   gem.add_development_dependency 'yard' ,              '~> 0.8'
 
   gem.post_install_message       = nil

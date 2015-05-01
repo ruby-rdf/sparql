@@ -1,0 +1,767 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+    "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+    "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+    "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+    "id": "@id",
+    "type": "@type",
+    "comment": "rdfs:comment",
+    "entries": {
+      "@id": "mf:entries",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "mf:include",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "name": "mf:name",
+    "action": {
+      "@id": "mf:action",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "mf:result",
+      "@type": "@id"
+    },
+    "approval": {
+      "@id": "dawgt:approval",
+      "@type": "@id"
+    },
+    "mq:data": {
+      "@type": "@id"
+    },
+    "mq:graphData": {
+      "@type": "@id"
+    },
+    "mq:query": {
+      "@type": "@id"
+    },
+    "ut:data": {
+      "@type": "@id"
+    },
+    "ut:graph": {
+      "@type": "@id"
+    },
+    "ut:graphData": {
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "ut:request": {
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "comment": "Tests for SPARQL UPDATE",
+      "entries": [
+        {
+          "action": {
+            "id": "_:b5",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-01.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of an existing triple from the default graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-01",
+          "name": "Simple DELETE 1",
+          "result": {
+            "id": "_:b53",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl"
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b91",
+            "ut:graphData": [
+              {
+                "id": "_:b92",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-02.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of an existing triple from a named graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-02",
+          "name": "Simple DELETE 2",
+          "result": {
+            "id": "_:b90",
+            "ut:graphData": [
+              {
+                "id": "_:b89",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b81",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-03.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of a non-existing triple from the default graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-03",
+          "name": "Simple DELETE 3",
+          "result": {
+            "id": "_:b76",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b71",
+            "ut:graphData": [
+              {
+                "id": "_:b67",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-04.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of a non-existing triple from a named graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-04",
+          "name": "Simple DELETE 4",
+          "result": {
+            "id": "_:b61",
+            "ut:graphData": [
+              {
+                "id": "_:b60",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b54",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b49",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b46",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-05.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Test 1 for DELETE only modifying the desired graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-05",
+          "name": "Graph-specific DELETE 1",
+          "result": {
+            "id": "_:b44",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b43",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              },
+              {
+                "id": "_:b39",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b34",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b32",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b28",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-06.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Test 2 for DELETE only modifying the desired graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-06",
+          "name": "Graph-specific DELETE 2",
+          "result": {
+            "id": "_:b25",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b24",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02s.ttl"
+              },
+              {
+                "id": "_:b20",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b14",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-07.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete to test that unbound variables in the DELETE clause do not act as wildcards",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-07",
+          "name": "Simple DELETE 7",
+          "result": {
+            "id": "_:b13",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b1",
+            "ut:graphData": [
+              {
+                "id": "_:b2",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-with-01.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete using a WITH clause to identify the active graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-01",
+          "name": "Simple DELETE 1 (WITH)",
+          "result": {
+            "id": "_:b4",
+            "ut:graphData": [
+              {
+                "id": "_:b3",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b87",
+            "ut:graphData": [
+              {
+                "id": "_:b86",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              },
+              {
+                "id": "_:b84",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-with-02.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple test to make sure the GRAPH clause overrides the WITH clause",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-02",
+          "name": "Simple DELETE 2 (WITH)",
+          "result": {
+            "id": "_:b82",
+            "ut:graphData": [
+              {
+                "id": "_:b80",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl"
+              },
+              {
+                "id": "_:b74",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b65",
+            "ut:graphData": [
+              {
+                "id": "_:b66",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-with-03.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of a non-existing triple using a WITH clause to identify the active graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-03",
+          "name": "Simple DELETE 3 (WITH)",
+          "result": {
+            "id": "_:b58",
+            "ut:graphData": [
+              {
+                "id": "_:b59",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
+              }
+            ],
+            "ut:result": {
+              "id": "ut:Success"
+            }
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b48",
+            "ut:graphData": [
+              {
+                "id": "_:b47",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              },
+              {
+                "id": "_:b45",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-with-04.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of a non-existing triple making sure that the GRAPH clause overrides the WITH clause",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-04",
+          "name": "Simple DELETE 4 (WITH)",
+          "result": {
+            "id": "_:b41",
+            "ut:graphData": [
+              {
+                "id": "_:b40",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
+              },
+              {
+                "id": "_:b37",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b33",
+            "ut:graphData": [
+              {
+                "id": "_:b31",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              },
+              {
+                "id": "_:b30",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b26",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-with-05.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Test 1 for DELETE only modifying the desired graph using a WITH clause to specify the active graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-05",
+          "name": "Graph-specific DELETE 1 (WITH)",
+          "result": {
+            "id": "_:b22",
+            "ut:graphData": [
+              {
+                "id": "_:b21",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s2.ttl"
+              },
+              {
+                "id": "_:b18",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              },
+              {
+                "id": "_:b16",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b11",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b7",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b12",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-with-06.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Test 2 for DELETE only modifying the desired graph making sure the GRAPH clause overrides the WITH clause",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-06",
+          "name": "Graph-specific DELETE 2 (WITH)",
+          "result": {
+            "id": "_:b51",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b0",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02s.ttl"
+              },
+              {
+                "id": "_:b52",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b85",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b83",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-01.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete using a USING clause to identify the active graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-01",
+          "name": "Simple DELETE 1 (USING)",
+          "result": {
+            "id": "_:b78",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b75",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b62",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b63",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b64",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-02.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple test to make sure the GRAPH clause does not override the USING clause",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-09-25#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-02a",
+          "name": "Simple DELETE 2 (USING)",
+          "result": {
+            "id": "_:b55",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b56",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              },
+              {
+                "id": "_:b50",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b42",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b38",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-03.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of a non-existing triple using a USING clause to identify the active graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-03",
+          "name": "Simple DELETE 3 (USING)",
+          "result": {
+            "id": "_:b36",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b35",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b29",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b27",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b23",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-04.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "This is a simple delete of a non-existing triple making sure that the GRAPH clause overrides the USING clause",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-04",
+          "name": "Simple DELETE 4 (USING)",
+          "result": {
+            "id": "_:b19",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b17",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              },
+              {
+                "id": "_:b15",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b8",
+            "ut:graphData": [
+              {
+                "id": "_:b6",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              },
+              {
+                "id": "_:b9",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b10",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-05.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Test 1 for DELETE only modifying the desired graph using a USING clause to specify the active graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-05",
+          "name": "Graph-specific DELETE 1 (USING)",
+          "result": {
+            "id": "_:b95",
+            "ut:graphData": [
+              {
+                "id": "_:b93",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s2.ttl"
+              },
+              {
+                "id": "_:b94",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              },
+              {
+                "id": "_:b88",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b79",
+            "ut:graphData": [
+              {
+                "id": "_:b77",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+              },
+              {
+                "id": "_:b73",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
+              },
+              {
+                "id": "_:b72",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-06.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Test 2 for DELETE only modifying the desired graph making sure the GRAPH clause does not override the USING clause",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-09-25#resolution_3"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-06a",
+          "name": "Graph-specific DELETE 2 (USING)",
+          "result": {
+            "id": "_:b70",
+            "ut:graphData": [
+              {
+                "id": "_:b69",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
+              },
+              {
+                "id": "_:b68",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
+              },
+              {
+                "id": "_:b57",
+                "rdfs:label": "http://example.org/g3",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        }
+      ],
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest.ttl",
+      "type": "mf:Manifest"
+    }
+  ]
+}
