@@ -7,6 +7,7 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
+      next unless t.approved?
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
@@ -19,9 +20,6 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
             pending("REDUCED equivalent to DISTINCT")
           when /sq03/
             pending("Graph variable binding differences")
-          when 'date-1', 'dawg-optional-filter-005-simplified',
-               'dataset-09', 'dataset-10', 'dataset-12'
-            pending("New problem with different manifest processing?")
           end
           pending "Property Paths" if id.to_s.split("/")[-2] == 'property-path'
 

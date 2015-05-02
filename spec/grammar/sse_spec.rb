@@ -6,6 +6,7 @@ shared_examples "SSE" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
+      next unless t.approved?
       case t.type
       when "mf:QueryEvaluationTest", 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
         it "parses #{t.entry} - #{t.name} - #{t.comment} to correct SXP" do
@@ -36,11 +37,7 @@ shared_examples "SSE" do |id, label, comment, tests|
             pending "Fixing PNAME_LN not matching :\\u0070"
           when /propertyPaths|syn-pp/
             pending "Property Paths"
-          when 'dawg-optional-filter-005-simplified', 'dawg-optional-filter-005-not-simplified',
-               'dataset-10'
-            pending 'New problem with different manifest processing?'
           end
-          pending "Property Paths" if man_name == 'property-path'
           query = begin
             SPARQL::Grammar.parse(t.action.query_string, debug: ENV['PARSER_DEBUG'])
           rescue Exception => e
@@ -120,10 +117,6 @@ shared_examples "SSE" do |id, label, comment, tests|
         end
       when 'mf:NegativeUpdateSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
-          pending("Better Error Detection") if %w(
-            syntax-update-bad-10.ru
-            syntax-update-bad-11.ru syntax-update-bad-12.ru syntax-update-54.ru
-          ).include?(t.entry)
           expect {SPARQL::Grammar.parse(t.action.query_string, update: true, validate: true)}.to raise_error
         end
       when 'mf:CSVResultFormatTest', 'mf:ServiceDescriptionTest', 'mf:ProtocolTest',
@@ -161,6 +154,7 @@ describe SPARQL::Grammar::Parser do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
     main_man.include.reject do |m|
       %w{
+        property-path
         entailment
         
         csv-tsv-res

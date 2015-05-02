@@ -483,11 +483,18 @@ module SPARQL::Grammar
 
     # [39]	DeleteData	::=	"DELETE DATA" QuadData
     production(:DeleteData) do |input, data, callback|
+      raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
       input[:update_op] = SPARQL::Algebra::Expression(:deleteData, data[:pattern])
     end
 
     # [40]	DeleteWhere	::=	"DELETE WHERE" QuadPattern
+    start_production(:DeleteWhere) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
+      self.clear_bnode_cache
+    end
     production(:DeleteWhere) do |input, data, callback|
+      raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      self.nd_var_gen = "0"
       input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, data[:pattern])
     end
 
@@ -501,7 +508,13 @@ module SPARQL::Grammar
     end
 
     # [42]	DeleteClause	::=	"DELETE" QuadPattern
+    start_production(:DeleteClause) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
+      self.clear_bnode_cache
+    end
     production(:DeleteClause) do |input, data, callback|
+      raise Error, "DeleteClause contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      self.nd_var_gen = "0"
       input[:delete] = SPARQL::Algebra::Expression(:delete, data[:pattern])
     end
 

@@ -40,7 +40,7 @@ module SPARQL; module Spec
     attr_accessor :debug
 
     def approved?
-      approval.to_s.include "Approved"
+      approval.to_s.include? "Approved"
     end
 
     def entry; "??"; end

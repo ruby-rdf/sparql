@@ -416,9 +416,17 @@ module SPARQL; module Algebra
     # @return [Boolean] `true` or `false`
     # @see    #constant?
     def variable?
+      operands.any?(&:variable?)
+    end
+
+    ##
+    # Returns `true` if any of the operands are nodes, `false`
+    # otherwise.
+    #
+    # @return [Boolean]
+    def has_blank_nodes?
       operands.any? do |operand|
-        operand.is_a?(Variable) ||
-          (operand.respond_to?(:variable?) && operand.variable?)
+        operand.respond_to?(:has_blank_nodes?) ? operand.has_blank_nodes? : operand.node?
       end
     end
 

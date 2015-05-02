@@ -78,10 +78,7 @@ class Array
   # @return [Boolean] `true` or `false`
   # @see    #constant?
   def variable?
-    any? do |operand|
-      operand.is_a?(RDF::Query::Variable) ||
-        (operand.respond_to?(:variable?) && operand.variable?)
-    end
+    any?(&:variable?)
   end
   def constant?; !(variable?); end
 
@@ -89,11 +86,8 @@ class Array
   # Does this contain any nodes?
   #
   # @return [Boolean]
-  def node?
-    any? do |operand|
-      operand.is_a?(RDF::Node) ||
-        (operand.respond_to?(node?) && operand.node?)
-    end
+  def has_blank_nodes?
+    any?(&:has_blank_nodes?)
   end
   def evaluatable?; true; end
   def executable?; false; end
