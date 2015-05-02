@@ -7,7 +7,10 @@ module SPARQL; module Algebra
     # Wraps delete/insert
     #
     # @example
-    #   (create silent <graph>)
+    #   (modify
+    #     (bgp (triple ?a foaf:knows ?b))
+    #     (delete ((triple ?a foaf:knows ?b)))
+    #     (insert ((triple ?b foaf:knows ?a)))
     #
     # @see XXX
     class Modify < Operator
@@ -17,6 +20,8 @@ module SPARQL; module Algebra
 
       ##
       # Executes this upate on the given `writable` graph or repository.
+      #
+      # Execute the first operand to get solutions, and apply those solutions to the subsequent operators.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
@@ -31,6 +36,16 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
         debug(options) {"Modify"}
+        query = operands.shift
+
+        queryable.query(query, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+          debug(options) {"(solution)=>#{solution.to_sse}"}
+
+          # Execute each operand with queryable and solution
+          operands.each do |op|
+            op.execute(queryable, solution, options.merge(:depth => options[:depth].to_i + 1))
+          end
+        end
         queryable
       end
     end # Modify

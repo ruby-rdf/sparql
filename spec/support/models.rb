@@ -78,9 +78,13 @@ module SPARQL; module Spec
       RDF::Util::File.open_file(query_file, &:read)
     end
 
-    #def to_hash
-    #  {action: action.to_hash, result: result.to_hash}
-    #end
+    def inspect
+      "<UpdateTest" +
+      attributes.merge(query: query).map do |k, v|
+        "\n  #{k}: #{v.inspect}"
+      end.join(" ") +
+      ">"
+    end
   end
 
   class UpdateDataSet < JSON::LD::Resource
@@ -280,59 +284,14 @@ module SPARQL; module Spec
         end
       end
       @solutions
-      #type RS.ResultSet
-      #has_many :variables, :predicate => RS.ResultSet
-      #has_many :solution_lists, :predicate => RS.solution, :type => 'BindingSet'
-      #property :boolean, :predicate => RS.boolean, :type => Boolean # for ask queries
-      #default_source :results
-      #
-      ## Return bindings as an list of Solutions
-      ## @return [Enumerable<RDF::Query::Solution>]
-      #def solutions
-      #  @solutions ||= begin
-      #    solution_lists.
-      #      sort_by {|solution_list| solution_list.index.to_i}.
-      #      map do |solution_list|
-      #      bindings = solution_list.bindings.inject({}) { |hash, binding|
-      #        hash[binding.variable.to_sym] = binding.value
-      #        hash
-      #      }
-      #      RDF::Query::Solution.new(bindings)
-      #    end
-      #  end
-      #end
-      #
-      #def self.for_solutions(solutions, opts = {})
-      #  opts[:uri] ||= RDF::Node.new
-      #  index = 1 if opts[:index]
-      #  result_bindings = self.for(opts[:uri]) do | binding_graph |
-      #    solutions.each do | result_hash | 
-      #      binding_graph.solution_lists << BindingSet.new do | binding_set |
-      #        result_hash.to_hash.each_pair do |hash_variable, hash_value|
-      #          binding_set.bindings << SPARQLBinding.new do | sparql_binding |
-      #            sparql_binding.variable = hash_variable.to_s
-      #            sparql_binding.value = hash_value.respond_to?(:canonicalize) ? hash_value.dup.canonicalize : hash_value
-      #          end
-      #        end
-      #        if opts[:index]
-      #          binding_set.index = index
-      #          index += 1
-      #        end
-      #      end
-      #    end
-      #  end
-      #end
-      #
-      #def self.pretty_print
-      #  self.each do |result_binding|
-      #  log "Result Bindings #{result_binding.subject}"
-      #    result_binding.solution_lists.each.sort { |bs, other| bs.index.respond_to?(:'<=>') ? bs.index <=>  other.index : 0 }.each do |binding_set|
-      #       log "  Solution #{binding_set.subject} (# #{binding_set.index})"
-      #       binding_set.bindings.sort { |b, other| b.variable.to_s <=> other.variable.to_s }.each do |binding|
-      #         log "    #{binding.variable}: #{binding.value.inspect}"
-      #       end
-      #    end
-      #  end
+    end
+
+    def inspect
+      "<QueryTest" +
+      attributes.merge(query: query).map do |k, v|
+        "\n  #{k}: #{v.inspect}"
+      end.join(" ") +
+      ">"
     end
   end
 
