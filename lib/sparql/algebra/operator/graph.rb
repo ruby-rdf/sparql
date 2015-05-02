@@ -48,7 +48,7 @@ module SPARQL; module Algebra
         when RDF::Query, Operator
           queryable.query(query, options.merge(context: context), &block)
         when Array
-          operands.map {|s| RDF::Statement.from(s.to_hash.merge(context: context))}
+          query.map {|s| RDF::Statement.from(s.to_hash.merge(context: context))}
         end
       end
       

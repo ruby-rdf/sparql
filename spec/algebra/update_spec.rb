@@ -587,7 +587,98 @@ describe SPARQL::Algebra::Update do
         },
       },
       insertData: {
-        
+        "insert triple to default" => {
+          query: %q{
+            (update
+              (insertData ((triple <http://example.org/john>
+                                   <http://xmlns.com/foaf/0.1/knows>
+                                   <http://example.org/jane>))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+            :john foaf:mbox  <mailto:johnny@example.org> .
+            :john foaf:knows :jane .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+              :jane foaf:mbox  <mailto:jane@example.org> .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
+        "insert triple to :g1" => {
+          query: %q{
+            (update
+              (insertData
+                ((graph <http://example.org/g1>
+                  ((triple <http://example.org/jane>
+                           <http://xmlns.com/foaf/0.1/knows>
+                           <http://example.org/john>))))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+            :john foaf:mbox  <mailto:johnny@example.org> .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+              :jane foaf:mbox  <mailto:jane@example.org> .
+              :jane foaf:knows :john .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
+        "insert triples to default and :g1" => {
+          query: %q{
+            (update
+              (insertData
+                ((triple <http://example.org/john>
+                         <http://xmlns.com/foaf/0.1/knows>
+                         <http://example.org/jane>)
+                 (graph <http://example.org/g1>
+                  ((triple <http://example.org/jane>
+                           <http://xmlns.com/foaf/0.1/knows>
+                           <http://example.org/john>))))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+            :john foaf:mbox  <mailto:johnny@example.org> .
+            :john foaf:knows :jane .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+              :jane foaf:mbox  <mailto:jane@example.org> .
+              :jane foaf:knows :john .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
       },
       load: {
         # FIXME
