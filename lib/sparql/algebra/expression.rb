@@ -120,7 +120,7 @@ module SPARQL; module Algebra
       end
 
       debug(options) {"#{operator.inspect}(#{operands.map(&:inspect).join(',')})"}
-      options.delete_if {|k, v| [:debug, :depth, :prefixes, :base_uri].include?(k) }
+      options.delete_if {|k, v| [:debug, :depth, :prefixes, :base_uri, :update].include?(k) }
       operands << options unless options.empty?
       operator.new(*operands)
     end

@@ -280,13 +280,20 @@ class RDF::Query
 
   # Transform Query into an Array form of an SSE
   #
-  # If Query is named, it's treated as a GroupGraphPattern, otherwise, a BGP
+  # If Query has the `as_container` option set, serialize as Quads
+  # Otherwise, If Query is named, serialize as a GroupGraphPattern.
+  # Otherise, serialize as a BGP
   #
   # @return [Array]
   def to_sxp_bin
-    res = [:bgp] + patterns.map(&:to_sxp_bin)
-    (context ? [:graph, context, res] : res)
+    if options[:as_container]
+      [:graph, context] + [patterns.map(&:to_sxp_bin)]
+    else
+      res = [:bgp] + patterns.map(&:to_sxp_bin)
+      (context ? [:graph, context, res] : res)
+    end
   end
+
   # Query results in a boolean result (e.g., ASK)
   # @return [Boolean]
   def query_yields_boolean?

@@ -21,14 +21,38 @@ module SPARQL; module Algebra
       include Query
       
       NAME = [:graph]
+      ##
+      # A `graph` is an RDF::Query with a context. It can also be used as a container of statements or patterns, or other queryable operators (see GraphGraphPattern)
+      #
+      # @overload self.new(name, bgp)
+      #   @param [RDF::Resource] name
+      #   @param [RDF::Query] patterns
+      #     A sub-query (bgp)
+      # @overload self.new(name, bgp)
+      #   @param [RDF::Resource] name
+      #   @param [Operator] patterns
+      #     A sub-query (GraphGraphPattern)
+      # @overload self.new(name, patterns)
+      #   @param [RDF::Resource] name
+      #   @param [Array<RDF::Query::Pattern>] patterns
+      #     Quads
+      # @return [RDF::Query]
+      def self.new(name, patterns, &block)
+        case patterns
+        when RDF::Query
+          # Record that the argument as a (bgp) for re-serialization back to SSE
+          RDF::Query.new(*(patterns.patterns + [{context: name,}]), &block)
+        when Operator
+          super
+        else
+          RDF::Query.new(*(patterns + [{context: name, as_container: true}]), &block)
+        end
+      end
 
       ##
-      # If the second operand is a BTP:
+      # If the second operand is a Query operator:
       #   Executes this query on the given `queryable` graph or repository.
       #   Applies the given `context` to the query, limiting the scope of the query to the specified `context`, which may be an `RDF::URI` or `RDF::Query::Variable`.
-      #
-      # If the second operand is an array of triples:
-      #   Acts as a container for the triples applying the graph name as the context for statements created from those triples
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -44,12 +68,7 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Graph #{operands.first}"}
         context, query = operands.first, operands.last
-        @solutions = case query
-        when RDF::Query, Operator
-          queryable.query(query, options.merge(context: context), &block)
-        when Array
-          query.map {|s| RDF::Statement.from(s.to_hash.merge(context: context))}
-        end
+        @solutions = queryable.query(query, options.merge(context: context), &block)
       end
       
       ##
@@ -64,6 +83,7 @@ module SPARQL; module Algebra
       
       ##
       # Don't do any more rewriting
+      # FIXME: if ooperator is JOIN, and rewritten sub-operators are queries, can do simple merge of sub-graphs
       # @return [SPARQL::Algebra::Expression] `self`
       def rewrite(&block)
         self
