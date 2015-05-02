@@ -13,11 +13,11 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           case t.name
           when 'datatype-2 : Literals with a datatype'
-            pending("datatype now returns rdf:langString for language-tagged literals")
+            skip("datatype now returns rdf:langString for language-tagged literals")
           when /Cast to xsd:boolean/
             pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
           when /REDUCED/
-            pending("REDUCED equivalent to DISTINCT")
+            skip("REDUCED equivalent to DISTINCT")
           when /sq03/
             pending("Graph variable binding differences")
           end
@@ -111,7 +111,7 @@ describe SPARQL::Algebra do
     main_man.include.reject do |m|
       %w{
         basic-update
-        delete delete-insert delete-where
+        delete delete-insert
         syntax-update-1
         syntax-update-2
   

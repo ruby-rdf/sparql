@@ -108,7 +108,7 @@ describe SPARQL do
     main_man.include.reject do |m|
       %w{
         basic-update
-        delete delete-insert delete-where
+        delete delete-insert
         syntax-update-1
         syntax-update-2
         update-silent

@@ -1414,6 +1414,16 @@ describe SPARQL::Grammar::Parser do
         %q(DELETE DATA {GRAPH <http://example.org/g1> {:a foaf:knows :b .}}),
         %q((deleteData ((graph <http://example.org/g1> ((triple :a foaf:knows :b))))))
       ],
+      "delete triple and graph" => [
+        %q(DELETE DATA {
+          :A foaf:knows :B .
+          GRAPH <http://example.org/g1> {:a foaf:knows :b .}
+          :c foaf:knows :d .
+        }),
+        %q((deleteData ((triple :A foaf:knows :B)
+                        (graph <http://example.org/g1> ((triple :a foaf:knows :b)))
+                        (triple :c foaf:knows :d))))
+      ],
     }.each do |title, (input, output)|
       it title do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))

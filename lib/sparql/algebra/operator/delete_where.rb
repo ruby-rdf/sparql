@@ -16,7 +16,7 @@ module SPARQL; module Algebra
       NAME = [:deleteWhere]
 
       ##
-      # Executes this upate on the given `writable` graph or repository.
+      # Query the operand, and delete all statements created by binding each solution to the patterns
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
@@ -30,7 +30,32 @@ module SPARQL; module Algebra
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
-        debug(options) {"DeleteWhere"}
+        # Operands are an array of patterns and Queries (when named).
+        # Create a new query made up all patterns
+        patterns = operand.inject([]) do |memo, op|
+          if op.respond_to?(:statements)
+            memo += op.statements.to_a
+          else
+            memo << op
+          end
+          memo
+        end
+        query = RDF::Query.new(*patterns)
+        debug(options) {"DeleteWhere query #{query.to_sse}"}
+        query.execute(queryable, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+          debug(options) {"DeleteWhere solution #{solution.to_sse}"}
+          query.each_statement do |pattern|
+            terms = {}
+            [:subject, :predicate, :object, :context].each do |r|
+              v = pattern.send(r)
+              terms[r] = v.variable? ? solution[v] : v if v
+            end
+          
+            statement = RDF::Statement.from(terms)
+            debug(options) {"DeleteWhere statement #{statement.to_sse}"}
+            queryable.delete(statement)
+          end
+        end
         queryable
       end
     end # DeleteWhere

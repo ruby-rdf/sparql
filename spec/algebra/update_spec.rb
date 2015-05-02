@@ -581,6 +581,92 @@ describe SPARQL::Algebra::Update do
           }
         },
       },
+      deleteWhere: {
+        "delete pattern from default" => {
+          query: %q{
+            (update
+              (deleteWhere ((triple <http://example.org/john>
+                                   <http://xmlns.com/foaf/0.1/mbox>
+                                   ?v))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+              :jane foaf:mbox  <mailto:jane@example.org> .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
+        "delete pattern from :g1" => {
+          query: %q{
+            (update
+              (deleteWhere
+                ((graph <http://example.org/g1>
+                  ((triple <http://example.org/jane>
+                           <http://xmlns.com/foaf/0.1/mbox>
+                           ?v))))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+            :john foaf:mbox  <mailto:johnny@example.org> .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
+        "delete patterns from default and :g1" => {
+          query: %q{
+            (update
+              (deleteWhere
+                ((triple <http://example.org/john>
+                         <http://xmlns.com/foaf/0.1/mbox>
+                         ?a)
+                 (graph <http://example.org/g1>
+                  ((triple <http://example.org/jane>
+                           <http://xmlns.com/foaf/0.1/mbox>
+                           ?b))))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
+      },
       drop: {
         "drop default" => {
           query: %q{(update (drop default))},
