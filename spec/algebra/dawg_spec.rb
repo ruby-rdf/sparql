@@ -111,7 +111,7 @@ describe SPARQL::Algebra do
     main_man.include.reject do |m|
       %w{
         basic-update
-        delete delete-data delete-insert delete-where
+        delete delete-insert delete-where
         syntax-update-1
         syntax-update-2
   

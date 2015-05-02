@@ -38,7 +38,7 @@ module SPARQL; module Algebra
             queryable << op
           when Operator
             statements = op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
-            queryable.insert *statements
+            queryable.insert(*statements)
           end
         end
         queryable

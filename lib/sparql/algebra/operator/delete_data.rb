@@ -31,6 +31,16 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
         debug(options) {"DeleteData"}
+
+        operand.each do |op|
+          case op
+          when RDF::Enumerable, RDF::Statement
+            queryable.delete(op)
+          when Operator
+            statements = op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+            queryable.delete(*statements)
+          end
+        end
         queryable
       end
     end # DeleteData

@@ -496,7 +496,90 @@ describe SPARQL::Algebra::Update do
         },
       },
       deleteData: {
-        
+        "delete triple from default" => {
+          query: %q{
+            (update
+              (deleteData ((triple <http://example.org/john>
+                                   <http://xmlns.com/foaf/0.1/mbox>
+                                   <mailto:johnny@example.org>))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+              :jane foaf:mbox  <mailto:jane@example.org> .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
+        "delete triple from :g1" => {
+          query: %q{
+            (update
+              (deleteData
+                ((graph <http://example.org/g1>
+                  ((triple <http://example.org/jane>
+                           <http://xmlns.com/foaf/0.1/mbox>
+                           <mailto:jane@example.org>))))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+            :john foaf:mbox  <mailto:johnny@example.org> .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
+        "delete triples from default and :g1" => {
+          query: %q{
+            (update
+              (deleteData
+                ((triple <http://example.org/john>
+                         <http://xmlns.com/foaf/0.1/mbox>
+                         <mailto:johnny@example.org>)
+                 (graph <http://example.org/g1>
+                  ((triple <http://example.org/jane>
+                           <http://xmlns.com/foaf/0.1/mbox>
+                           <mailto:jane@example.org>))))))
+          },
+          expected: %{
+            @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+            @prefix :      <http://example.org/> .
+
+            :john a foaf:Person .
+            :john foaf:givenName "John" .
+
+            :g1 {
+              :jane a foaf:Person .
+              :jane foaf:givenName "Jane" .
+            }
+            :g2 {
+              :jill a foaf:Person .
+              :jill foaf:givenName "Jill" .
+              :jill foaf:mbox  <mailto:jill@example.org> .
+            }
+          }
+        },
       },
       drop: {
         "drop default" => {
