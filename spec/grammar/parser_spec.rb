@@ -318,10 +318,10 @@ shared_examples "RDFLiteral" do
       %q("foobar")      => RDF::Literal('foobar'),
       %q('''foobar''')  => RDF::Literal('foobar'),
       %q("""foobar""")  => RDF::Literal('foobar'),
-      %q(""@en)         => RDF::Literal.new("", :language => :en),
-      %q("foobar"@en-US)=> RDF::Literal.new("foobar", :language => :'en-us'),
-      %q(""^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("", :datatype => RDF::XSD.string),
-      %q("foobar"^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("foobar", :datatype => RDF::XSD.string),
+      %q(""@en)         => RDF::Literal.new("", language: :en),
+      %q("foobar"@en-US)=> RDF::Literal.new("foobar", language: :'en-us'),
+      %q(""^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("", datatype: RDF::XSD.string),
+      %q("foobar"^^<http://www.w3.org/2001/XMLSchema#string>) => RDF::Literal.new("foobar", datatype: RDF::XSD.string),
     }.each do |input, output|
       it input do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
@@ -552,10 +552,10 @@ shared_examples "BGP Patterns" do |wrapper|
         pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar")]
       end,
       %q(<a><b>"foobar"@en) => RDF::Query.new do
-        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", :language => :en)]
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", language: :en)]
       end,
       %q(<a><b>"foobar"^^<c>) => RDF::Query.new do
-        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", :datatype => RDF::URI("http://example.org/c"))]
+        pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal("foobar", datatype: RDF::URI("http://example.org/c"))]
       end,
       %q(<a><b>()) => RDF::Query.new do
         pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF["nil"]]
@@ -596,7 +596,7 @@ shared_examples "BGP Patterns" do |wrapper|
         expect(wrapper % input).to generate(output, example.metadata.merge(
           prefixes: {
             nil => "http://example.com/",
-            :rdf => RDF.to_uri.to_s
+            rdf: RDF.to_uri.to_s
           },
           base_uri: RDF::URI("http://example.org/"),
           anon_base: "b0"))
@@ -1784,7 +1784,7 @@ describe SPARQL::Grammar::Parser do
       it title do |example|
         expect("{#{input}}").to generate(([:ConstructTemplate] + output.patterns),
           example.metadata.merge(
-            prefixes: {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
+            prefixes: {nil => "http://example.com/", rdf: RDF.to_uri.to_s},
             base_uri: RDF::URI("http://example.org/"),
             anon_base: "b0"))
       end
@@ -1797,22 +1797,22 @@ describe SPARQL::Grammar::Parser do
     {
       %q(<p> <o>) => [
         %q(<p> <o>),
-        [:pattern, RDF::Query::Pattern.new(:predicate => RDF::URI("http://example.org/p"), :object => RDF::URI("http://example.org/o"))]
+        [:pattern, RDF::Query::Pattern.new(predicate: RDF::URI("http://example.org/p"), object: RDF::URI("http://example.org/o"))]
       ],
       %q(?y ?z) => [
         %q(?y ?z),
-        [:pattern, RDF::Query::Pattern.new(:predicate => RDF::Query::Variable.new("y"), :object => RDF::Query::Variable.new("z"))]
+        [:pattern, RDF::Query::Pattern.new(predicate: RDF::Query::Variable.new("y"), object: RDF::Query::Variable.new("z"))]
       ],
       %q(?y ?z; :b <c>) => [
         %q(?y ?z; :b <c>),
         [:pattern,
-          RDF::Query::Pattern.new(:predicate => RDF::Query::Variable.new("y"), :object => RDF::Query::Variable.new("z")),
-          RDF::Query::Pattern.new(:predicate => RDF::URI("http://example.com/b"), :object => RDF::URI("http://example.org/c"))]
+          RDF::Query::Pattern.new(predicate: RDF::Query::Variable.new("y"), object: RDF::Query::Variable.new("z")),
+          RDF::Query::Pattern.new(predicate: RDF::URI("http://example.com/b"), object: RDF::URI("http://example.org/c"))]
       ]
     }.each do |title, (input, output)|
       it title do |example|
         expect(input).to generate(output, example.metadata.merge(
-          prefixes: {nil => "http://example.com/", :rdf => RDF.to_uri.to_s},
+          prefixes: {nil => "http://example.com/", rdf: RDF.to_uri.to_s},
           base_uri: RDF::URI("http://example.org/"),
           anon_base: "b0"))
       end
@@ -1913,11 +1913,11 @@ describe SPARQL::Grammar::Parser do
 
     describe "when matching the [137] PrefixedName production rule", production: :PrefixedName do
       {
-        :PNAME_LN => {
+        PNAME_LN: {
           ":bar"    => RDF::URI("http://example.com/bar"),
           "foo:first" => RDF.first
         },
-        :PNAME_NS => {
+        PNAME_NS: {
           ":"    => RDF::URI("http://example.com/"),
           "foo:" => RDF.to_uri
         }
@@ -1955,7 +1955,7 @@ describe SPARQL::Grammar::Parser do
 
   context "issues", production: :QueryUnit do
     {
-      :issue3 => [
+      issue3: [
         %(
           PREFIX a: <http://localhost/attribute_types/>
           SELECT ?entity
@@ -1977,7 +1977,7 @@ describe SPARQL::Grammar::Parser do
              (bgp (triple ?entity a:middle_name "blah"))) ))
         }
       ],
-      :issue7 => [
+      issue7: [
         %(
           PREFIX ex: <urn:example#>
 
@@ -2014,7 +2014,7 @@ describe SPARQL::Grammar::Parser do
                   (bgp (triple ?subj ex:pred7 ?obj))))))
         }
       ],
-      :issue9_short => [
+      issue9_short: [
         %q{
           SELECT * WHERE {
             ?subj ?p ?o .
@@ -2031,7 +2031,7 @@ describe SPARQL::Grammar::Parser do
               (bgp (triple ?o ?p1 "foo"))))
         }
       ],
-      :issue9_short2 => [
+      issue9_short2: [
         %q{
           SELECT * WHERE {
             ?subj ?p ?o .
@@ -2067,7 +2067,7 @@ describe SPARQL::Grammar::Parser do
   def parser(production = nil, options = {})
     @debug = options[:debug] || []
     Proc.new do |query|
-      parser = described_class.new(query, {:debug => @debug, resolve_iris: true}.merge(options))
+      parser = described_class.new(query, {debug: @debug, resolve_iris: true}.merge(options))
       production ? parser.parse(production) : parser
     end
   end

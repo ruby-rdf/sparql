@@ -176,7 +176,7 @@ module SPARQL
   #     solutions = RDF::Query.execute(RDF::Graph.load('etc/doap.ttl')) do |query|
   #       query.pattern [:person, RDF.type,  RDF::FOAF.Person]
   #       query.pattern [:person, RDF::FOAF.name, :name]
-  #       query.pattern [:person, RDF::FOAF.mbox, :email], :optional => true
+  #       query.pattern [:person, RDF::FOAF.mbox, :email], optional: true
   #     end
   # 
   #     # Find people who have a name but don't have a known e-mail address:
@@ -209,8 +209,8 @@ module SPARQL
   # Expressions can optionally be [memoized][memoization], which can speed up
   # repeatedly executing the expression on a solution sequence:
   # 
-  #     SPARQL::Algebra::Expression.parse(sse, :memoize => true)
-  #     Operator.new(*operands, :memoize => true)
+  #     SPARQL::Algebra::Expression.parse(sse, memoize: true)
+  #     Operator.new(*operands, memoize: true)
   # 
   # Memoization is implemented using RDF.rb's [RDF::Util::Cache][] utility
   # library, a weak-reference cache that allows values contained in the cache to

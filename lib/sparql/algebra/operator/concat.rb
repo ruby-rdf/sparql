@@ -31,16 +31,16 @@ module SPARQL; module Algebra
       # @return [RDF::Term]
       # @raise  [TypeError] if any operand is not a literal
       def evaluate(bindings, options = {})
-        ops = operands.map {|op| op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))}
+        ops = operands.map {|op| op.evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))}
 
         raise TypeError, "expected all plain literal operands" unless ops.all? {|op| op.literal? && op.plain?}
 
         ops.inject do |memo, op|
           case
           when memo.datatype == RDF::XSD.string && op.datatype == RDF::XSD.string
-            RDF::Literal.new("#{memo}#{op}", :datatype => RDF::XSD.string)
+            RDF::Literal.new("#{memo}#{op}", datatype: RDF::XSD.string)
           when memo.has_language? && memo.language == op.language
-            RDF::Literal.new("#{memo}#{op}", :language => memo.language)
+            RDF::Literal.new("#{memo}#{op}", language: memo.language)
           else
             RDF::Literal.new("#{memo}#{op}")
           end

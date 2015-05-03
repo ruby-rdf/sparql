@@ -212,7 +212,7 @@ module RDF::Queryable
   #
   # @example
   #     queryable.query([nil, RDF::DOAP.developer, nil])
-  #     queryable.query(:predicate => RDF::DOAP.developer)
+  #     queryable.query(predicate: RDF::DOAP.developer)
   #
   #     op = SPARQL::Algebra::Expression.parse(%q((bgp (triple ?a doap:developer ?b))))
   #     queryable.query(op)

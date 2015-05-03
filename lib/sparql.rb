@@ -82,7 +82,7 @@ module SPARQL
         queryable.load(uri)
       end
       [options[:named_graph_uri]].flatten.each do |uri|
-        queryable.load(uri, :context => uri)
+        queryable.load(uri, context: uri)
       end
     end
     query.execute(queryable, &block)

@@ -47,7 +47,7 @@ module SPARQL; module Algebra
       def evaluate(bindings, options = {})
         operands.each do |op|
           begin
-            return op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
+            return op.evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))
           rescue
           end
         end

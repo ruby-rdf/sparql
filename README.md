@@ -212,7 +212,7 @@ a full set of RDF formats.
     require 'uri'
 
     get '/' do
-      settings.sparql_options.replace(:standard_prefixes => true)
+      settings.sparql_options.replace(standard_prefixes: true)
       repository = RDF::Repository.new do |graph|
         graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
       end
@@ -220,11 +220,11 @@ a full set of RDF formats.
         query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)
         SPARQL.execute(query, repository)
       else
-        settings.sparql_options.merge!(:prefixes => {
-          :ssd => "http://www.w3.org/ns/sparql-service-description#",
-          :void => "http://rdfs.org/ns/void#"
+        settings.sparql_options.merge!(prefixes: {
+          ssd: "http://www.w3.org/ns/sparql-service-description#",
+          void: "http://rdfs.org/ns/void#"
         })
-        service_description(:repo => repository)
+        service_description(repo: repository)
       end
     end
 

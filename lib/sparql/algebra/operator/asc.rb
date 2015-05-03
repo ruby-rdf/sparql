@@ -25,7 +25,7 @@ module SPARQL; module Algebra
       #   options passed from query
       # @return [RDF::Term]
       def evaluate(bindings, options = {})
-        operand(0).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
+        operand(0).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))
       end
     end # Asc
   end # Operator

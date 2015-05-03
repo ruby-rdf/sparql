@@ -144,7 +144,7 @@ module SPARQL; module Algebra
         named_datasets = []
         operand(0).each do |ds|
           load_opts = {
-            :headers => {"Accept" => ACCEPTS}
+            headers: {"Accept" => ACCEPTS}
           }
           load_opts[:debug] = options.fetch(:debug, nil)
           case ds
@@ -181,7 +181,7 @@ module SPARQL; module Algebra
         aggregate = RDF::AggregateRepo.new(queryable)
         named_datasets.each {|name| aggregate.named(name) if queryable.has_context?(name)}
         aggregate.default(*default_datasets.select {|name| queryable.has_context?(name)})
-        aggregate.query(operands.last, options.merge(:depth => options[:depth].to_i + 1), &base)
+        aggregate.query(operands.last, options.merge(depth: options[:depth].to_i + 1), &base)
       end
       
       ##

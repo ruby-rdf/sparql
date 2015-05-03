@@ -118,9 +118,9 @@ module SPARQL; module Spec
         graphs << {data: data, format: RDF::Format.for(data_file.to_s).to_sym} if data_file
         graphs + graphData.map do |g|
           {
-            :data => RDF::Util::File.open_file(g.graph.to_s, &:read),
-            :format => RDF::Format.for(g.graph.to_s).to_sym,
-            :base_uri => g.basename
+            data: RDF::Util::File.open_file(g.graph.to_s, &:read),
+            format: RDF::Format.for(g.graph.to_s).to_sym,
+            base_uri: g.basename
           }
         end
       end
@@ -202,9 +202,9 @@ module SPARQL; module Spec
         graphs << {data: action.test_data_string, format: RDF::Format.for(action.test_data.to_s.to_s).to_sym} if action.test_data
         graphs + action.graphData.map do |g|
           {
-            :data => RDF::Util::File.open_file(g, &:read),
-            :format => RDF::Format.for(g.to_s).to_sym,
-            :base_uri => g
+            data: RDF::Util::File.open_file(g, &:read),
+            format: RDF::Format.for(g.to_s).to_sym,
+            base_uri: g
           }
         end
       end
@@ -241,7 +241,7 @@ module SPARQL; module Spec
           end
         end
       when :describe, :create, :construct
-        RDF::Repository.load(result, :base_uri => result, :format => :ttl)
+        RDF::Repository.load(result, base_uri: result, format: :ttl)
       end
     end
 
@@ -345,15 +345,15 @@ module SPARQL; module Spec
   end
 
   class SPARQLBinding #< Spira::Base
-    #property :value,    :predicate => RS.value, :type => Native
-    #property :variable, :predicate => RS.variable
+    #property :value,    predicate: RS.value, type: Native
+    #property :variable, predicate: RS.variable
     #default_source :results
   end
 
   class BindingSet #< Spira::Base
     #default_source :results
-    #has_many :bindings, :predicate => RS.binding, :type => 'SPARQLBinding'
-    #property :index,    :predicate => RS.index, :type => Integer
+    #has_many :bindings, predicate: RS.binding, type: 'SPARQLBinding'
+    #property :index,    predicate: RS.index, type: Integer
   end
 
   class ResultBindings #< Spira::Base

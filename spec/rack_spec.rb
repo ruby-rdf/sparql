@@ -8,7 +8,7 @@ describe Rack::SPARQL do
 
   before(:each) { @options = {}; @headers = {} }
   def app
-    target_app = double("Target Rack Application", :call => [200, @headers, @results || "A String"])
+    target_app = double("Target Rack Application", call: [200, @headers, @results || "A String"])
 
     @app ||= Rack::SPARQL::ContentNegotiation.new(target_app, @options)
   end
@@ -34,7 +34,7 @@ describe Rack::SPARQL do
 
   context "serializes graphs" do
     before(:each) do
-      @options.merge!(:standard_prefixes => true)
+      @options.merge!(standard_prefixes: true)
       @results = RDF::Graph.new
     end
 
@@ -90,7 +90,7 @@ describe Rack::SPARQL do
   end
 
   context "serializes solutions" do
-    before(:each) { @results = RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))}
+    before(:each) { @results = RDF::Query::Solutions(RDF::Query::Solution.new(a: RDF::Literal("b")))}
 
     context "with format" do
       %w(json html xml csv tsv).map(&:to_sym).each do |fmt|
@@ -115,11 +115,11 @@ describe Rack::SPARQL do
     
     context "with Accept" do
       {
-        :json => ::SPARQL::Results::MIME_TYPES[:json],
-        :html => ::SPARQL::Results::MIME_TYPES[:html],
-        :xml => ::SPARQL::Results::MIME_TYPES[:xml],
-        :csv => ::SPARQL::Results::MIME_TYPES[:csv],
-        :tsv => ::SPARQL::Results::MIME_TYPES[:tsv],
+        json: ::SPARQL::Results::MIME_TYPES[:json],
+        html: ::SPARQL::Results::MIME_TYPES[:html],
+        xml: ::SPARQL::Results::MIME_TYPES[:xml],
+        csv: ::SPARQL::Results::MIME_TYPES[:csv],
+        tsv: ::SPARQL::Results::MIME_TYPES[:tsv],
       }.each do |fmt, content_types|
         context content_types do
           before(:each) do

@@ -45,7 +45,7 @@ module SPARQL; module Algebra
         error_found = false
         found = operands[1..-1].any? do |op|
           begin
-            lhs == op.evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))
+            lhs == op.evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))
           rescue TypeError
             error_found = true
           end

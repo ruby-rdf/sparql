@@ -57,11 +57,11 @@ module SPARQL; module Algebra
         startingLoc = startingLoc.to_i
 
         if length == RDF::Literal("")
-          RDF::Literal(source.to_s[(startingLoc-1)..-1], :datatype => source.datatype, :language => source.language)
+          RDF::Literal(source.to_s[(startingLoc-1)..-1], datatype: source.datatype, language: source.language)
         else
           raise TypeError, "expected an integer, but got #{length.inspect}" unless length.is_a?(RDF::Literal::Integer)
           length = length.to_i
-          RDF::Literal(source.to_s[(startingLoc-1), length], :datatype => source.datatype, :language => source.language)
+          RDF::Literal(source.to_s[(startingLoc-1), length], datatype: source.datatype, language: source.language)
         end
       end
 

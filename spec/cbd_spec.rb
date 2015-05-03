@@ -4,7 +4,7 @@ require 'spec_helper'
 describe RDF::Queryable do
   context "#concise_bounded_description" do
     {
-      :canonical => [
+      canonical: [
         %q(
         @prefix dc: <http://purl.org/dc/terms/> .
         @prefix dc11: <http://purl.org/dc/elements/1.1/> .

@@ -135,7 +135,7 @@ describe SPARQL::Algebra do
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
         expect(described_class.new('Hello').to_sxp_bin).to eq [:lang, RDF::Literal('Hello')]
-        expect(described_class.new(RDF::Literal('Hello', :language => :en)).to_sxp_bin).to eq [:lang, RDF::Literal('Hello', :language => :en)]
+        expect(described_class.new(RDF::Literal('Hello', language: :en)).to_sxp_bin).to eq [:lang, RDF::Literal('Hello', language: :en)]
       end
     end
   end
@@ -147,7 +147,7 @@ describe SPARQL::Algebra do
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
         expect(described_class.new('Hello').to_sxp_bin).to eq [:datatype, RDF::Literal('Hello')]
-        expect(described_class.new(RDF::Literal('Hello', :datatype => RDF::XSD.string)).to_sxp_bin).to eq [:datatype, RDF::Literal('Hello', :datatype => RDF::XSD.string)]
+        expect(described_class.new(RDF::Literal('Hello', datatype: RDF::XSD.string)).to_sxp_bin).to eq [:datatype, RDF::Literal('Hello', datatype: RDF::XSD.string)]
       end
     end
   end

@@ -28,8 +28,8 @@ module SPARQL; module Algebra
       def evaluate(bindings, options = {})
         queryable = options[:queryable]
         !operand(0).execute(queryable, options.merge(
-                                        :solutions => RDF::Query::Solutions(bindings),
-                                        :depth => options[:depth].to_i + 1)).empty?
+                                        solutions: RDF::Query::Solutions(bindings),
+                                        depth: options[:depth].to_i + 1)).empty?
       end
     end # Exists
   end # Operator

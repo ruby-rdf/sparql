@@ -102,9 +102,9 @@ describe SPARQL::Algebra::Query do
 
         expect(
           sparql_query(
-            :form => :construct, :sse => true,
-            :graphs => {:default => {:data => source, :format => :ttl}},
-            :query => query)
+            form: :construct, sse: true,
+            graphs: {default: {data: source, format: :ttl}},
+            query: query)
         ).to be_isomorphic(graph_r)
       end
     end

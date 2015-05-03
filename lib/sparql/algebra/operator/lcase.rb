@@ -22,7 +22,7 @@ module SPARQL; module Algebra
       # @raise  [TypeError] if the operand is not a literal value
       def apply(operand)
         case operand
-          when RDF::Literal then RDF::Literal(operand.to_s.downcase, :datatype => operand.datatype, :language => operand.language)
+          when RDF::Literal then RDF::Literal(operand.to_s.downcase, datatype: operand.datatype, language: operand.language)
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{operand.inspect}"
         end
       end

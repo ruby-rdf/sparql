@@ -15,13 +15,13 @@ Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   #config.include(RDF::Spec::Matchers)
-  config.filter_run :focus => true
+  config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.exclusion_filter = {
     :ruby           => lambda { |version| RUBY_VERSION.to_s !~ /^#{version}/},
     :blank_nodes    => 'unique',
     :arithmetic     => 'native',
-    :sparql_algebra => false,
+    sparql_algebra: false,
     #:status         => 'bug',
     :reduced        => 'all',
   }
@@ -111,7 +111,7 @@ def sparql_query(opts)
   end
 
   query_str = opts[:query]
-  query_opts = {:debug => opts[:debug] || !!ENV['PARSER_DEBUG']}
+  query_opts = {debug: opts[:debug] || !!ENV['PARSER_DEBUG']}
   query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
   
@@ -122,5 +122,5 @@ def sparql_query(opts)
     SPARQL.parse(query_str, query_opts)
   end
 
-  repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
+  repo.query(query, debug: opts[:debug] || !!ENV['EXEC_DEBUG'])
 end

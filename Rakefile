@@ -4,8 +4,8 @@ require 'rubygems'
 require 'yard'
 require 'rspec/core/rake_task'
 
-task :default => :spec
-task :specs => :spec
+task default: :spec
+task specs: :spec
 
 namespace :gem do
   desc "Build the sparql-#{File.read('VERSION').chomp}.gem file"
@@ -55,10 +55,10 @@ namespace :doc do
 end
 
 desc 'Create versions of ebnf files in etc'
-task :etc => %w{etc/sparql11.sxp etc/sparql11.ll1.sxp}
+task etc: %w{etc/sparql11.sxp etc/sparql11.ll1.sxp}
 
 desc 'Build first, follow and branch tables'
-task :meta => "lib/sparql/grammar/meta.rb"
+task meta: "lib/sparql/grammar/meta.rb"
 
 file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
   sh %{
@@ -102,7 +102,7 @@ ssu_files = Dir.glob("./spec/dawg/**/*.ru").map do |f|
 end
 
 desc "Build SSE versions of test '.rq' and '.ru' files using Jena ARQ"
-task :sse => sse_files + ssu_files
+task sse: sse_files + ssu_files
 
 # Rule to create SSE files from .rq
 rule ".sse" => %w{.rq} do |t|

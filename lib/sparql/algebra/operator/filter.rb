@@ -38,9 +38,9 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#ebv
       def execute(queryable, options = {}, &block)
         debug(options) {"Filter #{operands.first.to_sxp}"}
-        opts = options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)
+        opts = options.merge(queryable: queryable, depth: options[:depth].to_i + 1)
         @solutions = RDF::Query::Solutions()
-        queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
+        queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1)) do |solution|
           begin
             pass = boolean(operands.first.evaluate(solution, opts)).true?
             debug(options) {"(filter) #{pass.inspect} #{solution.to_hash.inspect}"}

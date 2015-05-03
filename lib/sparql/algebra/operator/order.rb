@@ -34,12 +34,12 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
 
         debug(options) {"Order"}
-        @solutions = queryable.query(operands.last, options.merge(:depth => options[:depth].to_i + 1)).order do |a, b|
+        @solutions = queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1)).order do |a, b|
           operand(0).inject(0) do |memo, op|
             debug(options) {"(order) #{op.inspect}"}
             memo = begin
-              a_eval = op.evaluate(a, options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)) rescue nil
-              b_eval = op.evaluate(b, options.merge(:queryable => queryable, :depth => options[:depth].to_i + 1)) rescue nil
+              a_eval = op.evaluate(a, options.merge(queryable: queryable, depth: options[:depth].to_i + 1)) rescue nil
+              b_eval = op.evaluate(b, options.merge(queryable: queryable, depth: options[:depth].to_i + 1)) rescue nil
               comp = Operator::Compare.evaluate(a_eval, b_eval).to_i
               comp = -comp if op.is_a?(Operator::Desc)
               comp

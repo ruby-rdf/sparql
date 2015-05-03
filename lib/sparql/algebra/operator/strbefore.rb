@@ -45,13 +45,13 @@ module SPARQL; module Algebra
           raise TypeError, "expected two RDF::Literal operands, but got #{left.inspect} and #{right.inspect}"
         when right.to_s.empty?
           # If the lexical form of arg2 is the empty string, this is considered to be a match and the lexical form of the result is is the empty string. 
-          RDF::Literal("", :language => left.language, :datatype => left.datatype)
+          RDF::Literal("", language: left.language, datatype: left.datatype)
         when !left.to_s.include?(right.to_s)
           # If the lexical form of arg2 is the empty string, this is considered to be a match and the lexical form of the result is is the empty string. 
           RDF::Literal("")
         else
           parts = left.to_s.split(right.to_s)
-          RDF::Literal(parts.first, :language => left.language, :datatype => left.datatype)
+          RDF::Literal(parts.first, language: left.language, datatype: left.datatype)
         end
       end
     end # StrBefore

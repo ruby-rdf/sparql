@@ -30,7 +30,7 @@ module SPARQL; module Algebra
         sep = operands.length == 2 ? operand(0).last : RDF::Literal(' ')
         args_enum = solutions.map do |solution|
           begin
-            operands.last.evaluate(solution, options.merge(:depth => options[:depth].to_i + 1))
+            operands.last.evaluate(solution, options.merge(depth: options[:depth].to_i + 1))
           rescue TypeError
             # Ignore errors
             nil

@@ -43,7 +43,7 @@ module SPARQL; module Algebra
         exprlist = operands.first
         query = operands.last
         aggregates = operands.length == 3 ? operand(1) : []
-        solutions = queryable.query(query, options.merge(:depth => options[:depth].to_i + 1))
+        solutions = queryable.query(query, options.merge(depth: options[:depth].to_i + 1))
 
         groups = solutions.group_by do |solution|
           # Evaluate each exprlist operand to get groups where each key is a new solution
@@ -55,13 +55,13 @@ module SPARQL; module Algebra
                 # Form is [variable, expression]
                 soln[operand.first] = operand.last.evaluate(solution,
                                                             options.merge(
-                                                             :queryable => queryable,
-                                                             :depth => options[:depth].to_i + 1))
+                                                             queryable: queryable,
+                                                             depth: options[:depth].to_i + 1))
               else
                 # Form is variable
                 soln[operand] = operand.evaluate(solution, options.merge(
-                                                            :queryable => queryable,
-                                                            :depth => options[:depth].to_i + 1))
+                                                            queryable: queryable,
+                                                            depth: options[:depth].to_i + 1))
               end
             rescue TypeError
               # Ignore expression

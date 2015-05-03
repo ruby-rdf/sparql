@@ -11,7 +11,7 @@ require 'getoptlong'
 
 def run(input, options = {})
   if options[:debug]
-    puts "input graph:\n#{options[:graph].dump(:ttl, :standard_prefixes => true)}\n" if options[:graph]
+    puts "input graph:\n#{options[:graph].dump(:ttl, standard_prefixes: true)}\n" if options[:graph]
     puts "query:\n#{input}\n"
   end
   options[:graph] ||= RDF::Repository.new
@@ -21,7 +21,7 @@ def run(input, options = {})
   end
 
   query = if options[:sse]
-    SPARQL::Algebra.parse(input, {:debug => options[:debug]})
+    SPARQL::Algebra.parse(input, {debug: options[:debug], update: options[:update]})
   else
     # Only do grammar debugging if we're generating SSE
     SPARQL::Grammar.parse(input, options)
@@ -30,10 +30,10 @@ def run(input, options = {})
   puts ("\nSSE:\n" + query.to_sse) if options[:debug] || options[:to_sse]
 
   unless options[:to_sse]
-    res = query.execute(options[:graph], :debug => options[:debug])
+    res = query.execute(options[:graph], debug: options[:debug])
     puts res.inspect if options[:verbose]
     puts case res
-    when RDF::Graph   then res.dump(:ttl, :base_uri => query.base_uri, :prefixes => query.prefixes, :standard_prefixes => true)
+    when RDF::Graph   then res.dump(:ttl, base_uri: query.base_uri, prefixes: query.prefixes, standard_prefixes: true)
     when RDF::Literal then res.inspect
     else                   res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
     end
@@ -52,7 +52,7 @@ opts = GetoptLong.new(
 )
 
 options = {
-  :graph => RDF::Repository.new,
+  graph: RDF::Repository.new,
 }
 
 input = nil
@@ -65,6 +65,7 @@ opts.each do |opt, arg|
   when '--sse'           then options[:sse] = true
   when '--to-sse'        then options[:to_sse] = true
   when '--debug'         then options[:debug] = true
+  when '--update'        then options[:update] = true
   when '--verbose'       then options[:verbose] = true
   when "--help"
     puts "Usage: #{$0} [options] file-or-uri ..."
@@ -76,6 +77,7 @@ opts.each do |opt, arg|
     puts "      --sse:                Input is in SSE format"
     puts "      --to-sse:             Generate SSE instead of running query"
     puts "      --debug:              Display detailed debug output"
+    puts "      --update:             Process query as a SPARQL Update"
     puts "      --verbose:            Display details of processing"
     puts "      --help,-?:            This message"
     exit(0)
@@ -88,7 +90,7 @@ if ARGV.empty?
 else
   ARGV.each do |test_file|
     puts "parse #{test_file}"
-    run(RDF::Util::File.open_file(test_file).read, options.merge(:base_uri => RDF::URI(test_file)))
+    run(RDF::Util::File.open_file(test_file).read, options.merge(base_uri: RDF::URI(test_file)))
   end
 end
 puts

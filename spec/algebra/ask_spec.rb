@@ -17,10 +17,10 @@ describe SPARQL::Algebra::Query do
   context "ask" do
     it "passes data-r2/as/ask-1" do
       expect(sparql_query(
-        :form => :ask,
-        :graphs => {
-          :default => {
-            :data => %q{
+        form: :ask,
+        graphs: {
+          default: {
+            data: %q{
               @prefix :   <http://example/> .
               @prefix xsd:        <http://www.w3.org/2001/XMLSchema#> .
 
@@ -31,15 +31,15 @@ describe SPARQL::Algebra::Query do
               :y :p :a .
               :a :q :r .
             },
-            :format => :ttl
+            format: :ttl
           }
         },
-        :query => %q{
+        query: %q{
           (prefix ((: <http://example/>))
           (ask
             (bgp (triple :x :p 1))))
         },
-        :sse => true
+        sse: true
       )).to eq RDF::Literal::TRUE
     end
   end

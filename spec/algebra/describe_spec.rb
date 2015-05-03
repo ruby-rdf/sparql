@@ -16,7 +16,7 @@ describe SPARQL::Algebra::Query do
 
   context "describe" do
     {
-      :uri => [
+      uri: [
         %q{
           <http://example/subject> a <http://example/type> .
           <http://example/subject2> a <http://example/anothertype> .
@@ -28,7 +28,7 @@ describe SPARQL::Algebra::Query do
           (describe (<http://example/subject>) (bgp))
         },
       ],
-      :foaf => [
+      foaf: [
         %q{
           @prefix foaf:   <http://xmlns.com/foaf/0.1/> .
           @prefix vcard:  <http://www.w3.org/2001/vcard-rdf/3.0> .
@@ -69,9 +69,9 @@ describe SPARQL::Algebra::Query do
 
         expect(
           sparql_query(
-            :form => :describe, :sse => true,
-            :graphs => {:default => {:data => source, :format => :ttl}},
-            :query => query)
+            form: :describe, sse: true,
+            graphs: {default: {data: source, format: :ttl}},
+            query: query)
         ).to be_isomorphic graph_r
       end
     end

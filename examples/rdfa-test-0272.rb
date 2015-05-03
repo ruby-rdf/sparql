@@ -19,7 +19,7 @@ repo = RDF::Graph.new << RDF::Turtle::Reader.new(%{
 })
 
 begin
-  results = query.execute(repo, :debug => true)
+  results = query.execute(repo, debug: true)
   puts "Returned #{results.inspect}"
 rescue Exception => e
   puts "Raised error: #{e.inspect}"
