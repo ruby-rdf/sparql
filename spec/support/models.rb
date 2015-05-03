@@ -78,12 +78,19 @@ module SPARQL; module Spec
       RDF::Util::File.open_file(query_file, &:read)
     end
 
-    def inspect
-      "<UpdateTest" +
-      attributes.merge(query: query).map do |k, v|
-        "\n  #{k}: #{v.inspect}"
-      end.join(" ") +
-      ">"
+    # For debug output
+    def initial
+      RDF::Repository.new do |r|
+        action.graphs.each do |info|
+          data, format, default = info[:data], info[:format], info[:default]
+          if data
+            RDF::Reader.for(format).new(data, info).each_statement do |st|
+              st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
+              r << st
+            end
+          end
+        end
+      end
     end
   end
 
@@ -284,14 +291,6 @@ module SPARQL; module Spec
         end
       end
       @solutions
-    end
-
-    def inspect
-      "<QueryTest" +
-      attributes.merge(query: query).map do |k, v|
-        "\n  #{k}: #{v.inspect}"
-      end.join(" ") +
-      ">"
     end
   end
 
