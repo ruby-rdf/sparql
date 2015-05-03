@@ -551,6 +551,24 @@ module SPARQL; module Algebra
     end
     alias_method :==, :eql?
 
+    ##
+    # Iterate via deapth-first recursive descent over operands, yielding each operator
+    # @yield operator
+    # @yieldparam [Object] operator
+    def descendants(&block)
+      operands.each do |operand|
+        case operand
+        when Operator
+          operand.descendants(&block)
+        when Array
+          operand.each do |op|
+            op.descendants(&block) if op.is_a?(Operator)
+            block.call(op)
+          end
+        end
+        block.call(operand)
+      end
+    end
   protected
 
     ##
