@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     #     (insert ((triple ?s ?p "z"))))
     #
     # @see http://www.w3.org/TR/sparql11-update/#deleteInsert
-    class With < Operator::Binary
+    class With < Operator
       include SPARQL::Algebra::Update
 
       NAME = :with
