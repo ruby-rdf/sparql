@@ -110,12 +110,7 @@ describe SPARQL::Algebra do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
     main_man.include.reject do |m|
       %w{
-
-        syntax-update-1
-        syntax-update-2
-  
-        entailment
-  
+        entailment  
         http-rdf-dupdate
         protocol
         service

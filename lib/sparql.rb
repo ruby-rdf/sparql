@@ -21,6 +21,8 @@ module SPARQL
   #
   # @param  [IO, StringIO, String, #to_s]  query
   # @param  [Hash{Symbol => Object}] options
+  # @option options [Boolean] :update (false)
+  #   Parse starting with UpdateUnit production, QueryUnit otherwise.
   # @return [SPARQL::Query]
   #   The resulting query may be executed against
   #   a `queryable` object such as an RDF::Graph

@@ -26,7 +26,9 @@ describe SPARQL::Grammar do
 
     read_examples.each do |example|
       describe "query #{example[:sparql]}" do
-        subject { parse(example[:sparql])}
+        let(:update) {example[:sxp].include?('(update')}
+        subject {
+          parse(example[:sparql], update: update)}
 
         it "parses to #{example[:sxp]}" do
           should == SPARQL::Algebra.parse(example[:sxp])
@@ -36,7 +38,7 @@ describe SPARQL::Grammar do
 
     def parse(query, options = {})
       parser = SPARQL::Grammar::Parser.new(query)
-      parser.parse
+      parser.parse(options[:update] ? :UpdateUnit: :QueryUnit)
     end
   end
 end

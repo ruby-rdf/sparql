@@ -114,6 +114,36 @@ module SPARQL
   #         (graph ?g
   #           (bgp (triple ?s ?p ?o)))))
   # 
+  # SPARQL:
+  #
+  #     LOAD <etc/doap.ttl>
+  # 
+  # SXP:
+  #
+  #     (update (load <etc/doap.ttl>))
+  # 
+  # SPARQL:
+  #
+  #     PREFIX     : <http://example.org/> 
+  #     
+  #     INSERT {
+  #             ?s ?p "q"
+  #     }
+  #     USING :g1
+  #     USING :g2
+  #     WHERE {
+  #             ?s ?p ?o
+  #     }
+  # 
+  # SXP:
+  #
+  #     (prefix ((: <http://example.org/>))
+  #       (update
+  #         (modify
+  #           (using (:g1 :g2)
+  #             (bgp (triple ?s ?p ?o)))
+  #           (insert ((triple ?s ?p "q"))))))
+  # 
   # ## Implementation Notes
   # The parser is driven through a rules table contained in lib/sparql/grammar/meta.rb. This includes branch rules to indicate productions to be taken based on a current production.
   # 

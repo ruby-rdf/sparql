@@ -45,15 +45,9 @@ module SPARQL; module Algebra
         query.execute(queryable, options.merge(depth: options[:depth].to_i + 1)) do |solution|
           debug(options) {"DeleteWhere solution #{solution.to_sse}"}
           query.each_statement do |pattern|
-            terms = {}
-            [:subject, :predicate, :object, :context].each do |r|
-              v = pattern.send(r)
-              terms[r] = v.variable? ? solution[v] : v if v
-            end
-          
-            statement = RDF::Statement.from(terms)
+            pattern = pattern.dup.bind(solution)
             debug(options) {"DeleteWhere statement #{statement.to_sse}"}
-            queryable.delete(statement)
+            queryable.delete(RDF::Statement.from(pattern)) if pattern.bound? || pattern.constant?
           end
         end
         queryable
