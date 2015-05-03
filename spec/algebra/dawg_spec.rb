@@ -110,8 +110,7 @@ describe SPARQL::Algebra do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
     main_man.include.reject do |m|
       %w{
-        basic-update
-        delete delete-insert
+
         syntax-update-1
         syntax-update-2
   

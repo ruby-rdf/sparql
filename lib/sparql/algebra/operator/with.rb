@@ -4,7 +4,7 @@ module SPARQL; module Algebra
     ##
     # The SPARQL UPDATE `with` operator.
     #
-    # The WITH clause provides a convenience for when an operation primarily refers to a single graph. This restricts queryable to the named graph and sets that name as the default for patterns and triples.
+    # The WITH clause provides a convenience for when an operation primarily refers to a single graph.
     #
     # @example
     #   (with :g1
@@ -20,7 +20,7 @@ module SPARQL; module Algebra
       ##
       # Executes this upate on the given `writable` graph or repository.
       #
-      # Effectively filters results by setting a default `$__context__` variable so that it is used when binding to perform update operations on the appropriate triples.
+      # Effectively filters results by setting a default `__context__` variable so that it is used when binding to perform update operations on the appropriate triples.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write

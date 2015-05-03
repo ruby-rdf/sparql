@@ -4,19 +4,21 @@ module SPARQL; module Algebra
     ##
     # The SPARQL UPDATE `using` operator.
     #
-    # XXX
+    # The USING and USING NAMED clauses affect the RDF Dataset used while evaluating the WHERE clause. This describes a dataset in the same way as FROM and FROM NAMED clauses describe RDF Datasets in the SPARQL 1.1 Query Language
     #
     # @example
-    #   (add default <a>)
+    #   (using (:g1) (bgp (triple ?s ?p ?o)))
     #
     # @see http://www.w3.org/TR/sparql11-update/#add
     class Using < Operator
-      include SPARQL::Algebra::Update
+      include SPARQL::Algebra::Query
 
-      NAME = [:using]
+      NAME = :using
 
       ##
       # Executes this upate on the given `writable` graph or repository.
+      #
+      # Delegates to Dataset
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
@@ -29,9 +31,9 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, options = {})
+      def execute(queryable, options = {}, &block)
         debug(options) {"Using"}
-        queryable
+        Dataset.new(*operands).execute(queryable, options.merge(depth: options[:depth] + 1), &block)
       end
     end # Using
   end # Operator
