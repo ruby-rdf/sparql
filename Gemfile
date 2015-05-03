@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rdf",            git: "git://github.com/ruby-rdf/rdf.git", branch: "feature/sparql-update"
+gem "rdf",            git: "git://github.com/ruby-rdf/rdf.git", branch: "feature/develop"
 gem "rdf-xsd",        git: "git://github.com/ruby-rdf/rdf-xsd.git", branch: "develop"
 gem 'ebnf',           git: "git://github.com/gkellogg/ebnf.git", branch: "develop"
 gem 'rdf-aggregate-repo', git: "git://github.com/ruby-rdf/rdf-aggregate-repo.git", branch: "develop"
