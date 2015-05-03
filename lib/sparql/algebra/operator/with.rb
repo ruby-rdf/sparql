@@ -4,19 +4,23 @@ module SPARQL; module Algebra
     ##
     # The SPARQL UPDATE `with` operator.
     #
-    # XXX
+    # The WITH clause provides a convenience for when an operation primarily refers to a single graph. This restricts queryable to the named graph and sets that name as the default for patterns and triples.
     #
     # @example
-    #   (add default <a>)
+    #   (with :g1
+    #     (bgp (triple ?s ?p ?o))
+    #     (insert ((triple ?s ?p "z"))))
     #
-    # @see http://www.w3.org/TR/sparql11-update/#add
-    class With < Operator
+    # @see http://www.w3.org/TR/sparql11-update/#deleteInsert
+    class With < Operator::Binary
       include SPARQL::Algebra::Update
 
-      NAME = [:with]
+      NAME = :with
 
       ##
       # Executes this upate on the given `writable` graph or repository.
+      #
+      # Effectively filters results by setting a default `$__context__` variable so that it is used when binding to perform update operations on the appropriate triples.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
@@ -30,8 +34,31 @@ module SPARQL; module Algebra
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
-        debug(options) {"With"}
-        queryable
+        debug(options) {"With: #{operand.to_sse}"}
+        # Bound variable
+        name = RDF::Query::Variable.new(:__context__, operands.shift)
+
+        # Set name for RDF::Graph descendants having no context to the name variable
+        descendants do |op|
+          case op
+          when RDF::Query, RDF::Query::Pattern
+            unless op.context
+              debug(options) {"set context on #{op.to_sse}"}
+              op.context = name
+            end
+          end
+        end
+        query = operands.shift
+
+        # Restrict query portion to this graph
+        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+          debug(options) {"(solution)=>#{solution.inspect}"}
+
+          # Execute each operand with queryable and solution
+          operands.each do |op|
+            op.execute(queryable, solution, options.merge(depth: options[:depth].to_i + 1))
+          end
+        end
       end
     end # With
   end # Operator

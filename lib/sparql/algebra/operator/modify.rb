@@ -38,12 +38,12 @@ module SPARQL; module Algebra
         debug(options) {"Modify"}
         query = operands.shift
 
-        queryable.query(query, options.merge(:depth => options[:depth].to_i + 1)) do |solution|
-          debug(options) {"(solution)=>#{solution.to_sse}"}
+        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+          debug(options) {"(solution)=>#{solution.inspect}"}
 
           # Execute each operand with queryable and solution
           operands.each do |op|
-            op.execute(queryable, solution, options.merge(:depth => options[:depth].to_i + 1))
+            op.execute(queryable, solution, options.merge(depth: options[:depth].to_i + 1))
           end
         end
         queryable
