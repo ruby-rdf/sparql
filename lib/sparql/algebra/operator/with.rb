@@ -36,7 +36,14 @@ module SPARQL; module Algebra
       def execute(queryable, options = {})
         debug(options) {"With: #{operand.to_sse}"}
         # Bound variable
-        name = RDF::Query::Variable.new(:__context__, operands.shift)
+        name = operands.shift
+
+        unless queryable.has_context?(name)
+          debug(options) {"=> default data source #{name}"}
+          load_opts = {debug: options.fetch(:debug, nil), base_uri: name}
+          debug(options) {"=> load #{name}"}
+          queryable.load(name.to_s, load_opts)
+        end
 
         # Set name for RDF::Graph descendants having no context to the name variable
         descendants do |op|
@@ -44,7 +51,7 @@ module SPARQL; module Algebra
           when RDF::Query, RDF::Query::Pattern
             unless op.context
               debug(options) {"set context on #{op.to_sse}"}
-              op.context = name
+              op.context = RDF::Query::Variable.new(:__context__, name)
             end
           end
         end

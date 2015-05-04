@@ -106,19 +106,7 @@ module SPARQL; module Algebra
     class Dataset < Binary
       include Query
 
-      NAME = [:dataset]
-      # Selected accept headers, from those available
-      ACCEPTS = (%w(
-        application/turtle
-        text/turtle;q=0.9
-        application/rdf+xml;q=0.8
-        application/n-triples;q=0.4
-        text/plain;q=0.1
-      ).
-        select do |content_type|
-          # Add other content types
-          RDF::Format.content_types.include?(content_type.split(';').first)
-        end << ' */*;q=0.2').join(', ').freeze
+      NAME = :dataset
 
       ##
       # Executes this query on the given `queryable` graph or repository.
@@ -142,31 +130,18 @@ module SPARQL; module Algebra
         debug(options) {"Dataset"}
         default_datasets = []
         named_datasets = []
-        operand(0).each do |ds|
-          load_opts = {
-            headers: {"Accept" => ACCEPTS}
-          }
-          load_opts[:debug] = options.fetch(:debug, nil)
-          case ds
+        operand(0).each do |uri|
+          case uri
           when Array
             # Format is (named <uri>), only need the URI part
-            uri = if self.base_uri
-              u = self.base_uri.join(ds.last)
-              u.lexical = "<#{ds.last}>" unless u.to_s == ds.last.to_s
-              u
-            else
-              ds.last
-            end
-            uri = self.base_uri ? self.base_uri.join(ds.last) : ds.last
-            uri.lexical = ds.last
+            uri = uri.last
             debug(options) {"=> named data source #{uri}"}
             named_datasets << uri
           else
-            uri = self.base_uri ? self.base_uri.join(ds) : ds
             debug(options) {"=> default data source #{uri}"}
             default_datasets << uri
           end
-          load_opts[:context] = load_opts[:base_uri] = uri
+          load_opts = {debug: options.fetch(:debug, nil), context: uri, base_uri: uri}
           unless queryable.has_context?(uri)
             debug(options) {"=> load #{uri}"}
             queryable.load(uri.to_s, load_opts)

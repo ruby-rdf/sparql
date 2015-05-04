@@ -35,6 +35,58 @@ describe SPARQL::Algebra::Update do
     end
   end
 
+  context "using" do
+    it "loads USING graph as default context" do
+      queryable = RDF::Repository.new
+      expect(queryable).to receive(:load).with("data-g1.ttl",
+        {
+          base_uri: RDF::URI.new("data-g1.ttl"),
+          context: RDF::URI.new("data-g1.ttl"),
+          debug: kind_of(Object)
+        })
+      query = SPARQL::Algebra::Expression.parse(%q((using (<data-g1.ttl>) (bgp))))
+      query.execute(queryable)
+    end
+
+    it "loads USING NAMED graph as named context" do
+      queryable = RDF::Repository.new
+      expect(queryable).to receive(:load).with("data-g1.ttl", {
+        context: RDF::URI("data-g1.ttl"),
+        base_uri: RDF::URI("data-g1.ttl"),
+        debug: kind_of(Object)
+      })
+      query = SPARQL::Algebra::Expression.parse(%q((using ((named <data-g1.ttl>)) (bgp))))
+      query.execute(queryable)
+    end
+    
+    it "raises error when loading into an immutable queryable" do
+      queryable = RDF::Graph.new
+      expect(queryable).to receive(:immutable?).and_return(true)
+      query = SPARQL::Algebra::Expression.parse(%q((using (<data-g1.ttl>) (bgp))))
+      expect {query.execute(queryable)}.to raise_error(TypeError)
+    end
+  end
+
+  context "with" do
+    it "loads WITH graph as default context" do
+      queryable = RDF::Repository.new
+      expect(queryable).to receive(:load).with("data-g1.ttl",
+        {
+          base_uri: RDF::URI.new("data-g1.ttl"),
+          debug: kind_of(Object)
+        })
+      query = SPARQL::Algebra::Expression.parse(%q((with <data-g1.ttl> (bgp))))
+      query.execute(queryable)
+    end
+    
+    it "raises error when loading into an immutable queryable" do
+      queryable = RDF::Graph.new
+      expect(queryable).to receive(:immutable?).and_return(true)
+      query = SPARQL::Algebra::Expression.parse(%q((with <data-g1.ttl> (bgp))))
+      expect {query.execute(queryable)}.to raise_error(TypeError)
+    end
+  end
+
   context "sse" do
     {
       add: {

@@ -33,7 +33,7 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {}, &block)
         debug(options) {"Using"}
-        Dataset.new(*operands).execute(queryable, options.merge(depth: options[:depth] + 1), &block)
+        Dataset.new(*operands).execute(queryable, options.merge(depth: options[:depth].to_i + 1), &block)
       end
     end # Using
   end # Operator
