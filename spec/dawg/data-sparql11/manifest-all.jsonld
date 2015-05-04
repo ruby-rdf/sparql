@@ -1,0 +1,100 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+    "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+    "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+    "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+    "id": "@id",
+    "type": "@type",
+    "comment": "rdfs:comment",
+    "entries": {
+      "@id": "mf:entries",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "mf:include",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "name": "mf:name",
+    "action": {
+      "@id": "mf:action",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "mf:result",
+      "@type": "@id"
+    },
+    "approval": {
+      "@id": "dawgt:approval",
+      "@type": "@id"
+    },
+    "mq:data": {
+      "@type": "@id"
+    },
+    "mq:graphData": {
+      "@type": "@id"
+    },
+    "mq:query": {
+      "@type": "@id"
+    },
+    "ut:data": {
+      "@type": "@id"
+    },
+    "ut:graph": {
+      "@type": "@id"
+    },
+    "ut:graphData": {
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "ut:request": {
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/manifest-all.ttl",
+      "include": [
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bindings/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/construct/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-data/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/grouping/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-query/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-update-1/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-update-2/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest.ttl",
+        "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest.ttl"
+      ],
+      "mf:entries": null,
+      "rdfs:label": "SPARQL 1.1 tests",
+      "type": "mf:Manifest"
+    }
+  ]
+}

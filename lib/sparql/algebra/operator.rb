@@ -56,7 +56,6 @@ module SPARQL; module Algebra
     autoload :Year,               'sparql/algebra/operator/year'
 
     # Binary operators
-    autoload :Add,                'sparql/algebra/operator/add'
     autoload :And,                'sparql/algebra/operator/and'
     autoload :Compare,            'sparql/algebra/operator/compare'
     autoload :Concat,             'sparql/algebra/operator/concat'
@@ -118,6 +117,26 @@ module SPARQL; module Algebra
     autoload :Table,              'sparql/algebra/operator/table'
     autoload :Union,              'sparql/algebra/operator/union'
 
+    # Update operators
+    autoload :Add,                'sparql/algebra/operator/add'
+    autoload :Clear,              'sparql/algebra/operator/clear'
+    autoload :Copy,               'sparql/algebra/operator/copy'
+    autoload :Create,             'sparql/algebra/operator/create'
+    autoload :Delete,             'sparql/algebra/operator/delete'
+    autoload :DeleteData,         'sparql/algebra/operator/delete_data'
+    autoload :DeleteWhere,        'sparql/algebra/operator/delete_where'
+    autoload :Drop,               'sparql/algebra/operator/drop'
+    autoload :Insert,             'sparql/algebra/operator/insert'
+    autoload :InsertData,         'sparql/algebra/operator/insert_data'
+    autoload :Load,               'sparql/algebra/operator/load'
+    autoload :Modify,             'sparql/algebra/operator/modify'
+    autoload :Move,               'sparql/algebra/operator/move'
+    autoload :Update,             'sparql/algebra/operator/update'
+    autoload :Using,              'sparql/algebra/operator/using'
+    autoload :With,               'sparql/algebra/operator/with'
+
+
+
     ##
     # Returns an operator class for the given operator `name`.
     #
@@ -131,7 +150,7 @@ module SPARQL; module Algebra
         when :'/'             then Divide
         when :'='             then Equal
         when :*               then Multiply
-        when :+               then arity.eql?(1) ? Plus  : Add
+        when :+               then Plus
         when :-               then arity.eql?(1) ? Negate : Subtract
         when :<               then LessThan
         when :<=              then LessThanOrEqual
@@ -216,7 +235,7 @@ module SPARQL; module Algebra
 
         # Datasets
         when :dataset         then Dataset
-        
+
         # Query forms
         when :ask             then Ask
         when :base            then Base
@@ -239,6 +258,24 @@ module SPARQL; module Algebra
         when :table           then Table
         when :triple          then RDF::Query::Pattern
         when :union           then Union
+
+        # Update forms
+        when :add             then Add
+        when :clear           then Clear
+        when :copy            then Copy
+        when :create          then Create
+        when :delete          then Delete
+        when :deletedata      then DeleteData
+        when :deletewhere     then DeleteWhere
+        when :drop            then Drop
+        when :insert          then Insert
+        when :insertdata      then InsertData
+        when :load            then Load
+        when :modify          then Modify
+        when :move            then Move
+        when :update          then Update
+        when :using           then Using
+        when :with            then With
         else                       nil # not found
       end
     end
@@ -303,7 +340,7 @@ module SPARQL; module Algebra
     def base_uri
       Operator.base_uri
     end
-    
+
     ##
     # Base URI used for reading data sources with relative URIs
     #
@@ -311,7 +348,7 @@ module SPARQL; module Algebra
     def self.base_uri
       @base_uri
     end
-    
+
     ##
     # Set Base URI associated with SPARQL document, typically done
     # when reading SPARQL from a URI
@@ -321,7 +358,7 @@ module SPARQL; module Algebra
     def self.base_uri=(uri)
       @base_uri = RDF::URI(uri)
     end
-    
+
     ##
     # Prefixes useful for future serialization
     #
@@ -330,7 +367,7 @@ module SPARQL; module Algebra
     def prefixes
       Operator.prefixes
     end
-    
+
     ##
     # Prefixes useful for future serialization
     #
@@ -339,7 +376,7 @@ module SPARQL; module Algebra
     def self.prefixes
       @prefixes
     end
-    
+
     ##
     # Prefixes useful for future serialization
     #
@@ -349,7 +386,7 @@ module SPARQL; module Algebra
     def self.prefixes=(hash)
       @prefixes = hash
     end
-    
+
     ##
     # Any additional options for this operator.
     #
@@ -379,9 +416,17 @@ module SPARQL; module Algebra
     # @return [Boolean] `true` or `false`
     # @see    #constant?
     def variable?
+      operands.any?(&:variable?)
+    end
+
+    ##
+    # Returns `true` if any of the operands are nodes, `false`
+    # otherwise.
+    #
+    # @return [Boolean]
+    def has_blank_nodes?
       operands.any? do |operand|
-        operand.is_a?(Variable) ||
-          (operand.respond_to?(:variable?) && operand.variable?)
+        operand.respond_to?(:has_blank_nodes?) ? operand.has_blank_nodes? : operand.node?
       end
     end
 
@@ -486,7 +531,7 @@ module SPARQL; module Algebra
         abort "SPARQL::Algebra::Operator#to_sxp requires the SXP gem (hint: `gem install sxp')."
       end
       require 'sparql/algebra/sxp_extensions'
-      
+
       to_sxp_bin.to_sxp
     end
 
@@ -506,6 +551,24 @@ module SPARQL; module Algebra
     end
     alias_method :==, :eql?
 
+    ##
+    # Iterate via deapth-first recursive descent over operands, yielding each operator
+    # @yield operator
+    # @yieldparam [Object] operator
+    def descendants(&block)
+      operands.each do |operand|
+        case operand
+        when Operator
+          operand.descendants(&block)
+        when Array
+          operand.each do |op|
+            op.descendants(&block) if op.is_a?(Operator)
+            block.call(op)
+          end
+        end
+        block.call(operand)
+      end
+    end
   protected
 
     ##

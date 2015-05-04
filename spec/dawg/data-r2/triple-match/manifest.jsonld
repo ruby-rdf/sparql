@@ -1,0 +1,131 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+    "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+    "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+    "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+    "id": "@id",
+    "type": "@type",
+    "comment": "rdfs:comment",
+    "entries": {
+      "@id": "mf:entries",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "mf:include",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "name": "mf:name",
+    "action": {
+      "@id": "mf:action",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "mf:result",
+      "@type": "@id"
+    },
+    "approval": {
+      "@id": "dawgt:approval",
+      "@type": "@id"
+    },
+    "mq:data": {
+      "@type": "@id"
+    },
+    "mq:graphData": {
+      "@type": "@id"
+    },
+    "mq:query": {
+      "@type": "@id"
+    },
+    "ut:data": {
+      "@type": "@id"
+    },
+    "ut:graph": {
+      "@type": "@id"
+    },
+    "ut:graphData": {
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "ut:request": {
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "comment": "Some simple DAWG query evaluation test cases",
+      "entries": [
+        {
+          "action": {
+            "id": "_:b3",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/data-01.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-01.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Simple triple match",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2005JanMar/0358"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest#dawg-triple-pattern-001",
+          "name": "dawg-triple-pattern-001",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/result-tp-01.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b2",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/data-01.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-02.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Simple triple match",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2005JanMar/0358"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest#dawg-triple-pattern-002",
+          "name": "dawg-triple-pattern-002",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/result-tp-02.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b1",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/data-02.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-03.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Simple triple match - repeated variable",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2005JanMar/0358"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest#dawg-triple-pattern-003",
+          "name": "dawg-triple-pattern-003",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/result-tp-03.ttl",
+          "type": "mf:QueryEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b0",
+            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-data-01.ttl",
+            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-04.rq"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Simple triple match - two triples, common variable",
+          "dawgt:approvedBy": {
+            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2005JanMar/0358"
+          },
+          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest#dawg-triple-pattern-004",
+          "name": "dawg-triple-pattern-004",
+          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/result-tp-04.ttl",
+          "type": "mf:QueryEvaluationTest"
+        }
+      ],
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest.ttl",
+      "type": "mf:Manifest"
+    }
+  ]
+}

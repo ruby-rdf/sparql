@@ -4,8 +4,8 @@ require 'rubygems'
 require 'yard'
 require 'rspec/core/rake_task'
 
-task :default => :spec
-task :specs => :spec
+task default: :spec
+task specs: :spec
 
 namespace :gem do
   desc "Build the sparql-#{File.read('VERSION').chomp}.gem file"
@@ -55,14 +55,14 @@ namespace :doc do
 end
 
 desc 'Create versions of ebnf files in etc'
-task :etc => %w{etc/sparql11.sxp etc/sparql11.ll1.sxp}
+task etc: %w{etc/sparql11.sxp etc/sparql11.ll1.sxp}
 
 desc 'Build first, follow and branch tables'
-task :meta => "lib/sparql/grammar/meta.rb"
+task meta: "lib/sparql/grammar/meta.rb"
 
 file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
   sh %{
-    ebnf --ll1 QueryUnit --format rb \
+    ebnf --ll1 QueryUnit --ll1 UpdateUnit --format rb \
       --mod-name SPARQL::Grammar::Meta \
       --output lib/sparql/grammar/meta.rb \
       etc/sparql11.bnf
@@ -71,7 +71,7 @@ end
 
 file "etc/sparql11.ll1.sxp" => "etc/sparql11.bnf" do |t|
   sh %{
-    ebnf --ll1 QueryUnit --format sxp \
+    ebnf --ll1 QueryUnit --ll1 UpdateUnit --format sxp \
       --output etc/sparql11.ll1.sxp \
       etc/sparql11.bnf
   }
@@ -85,16 +85,40 @@ file "etc/sparql11.sxp" => "etc/sparql11.bnf" do |t|
   }
 end
 
+file "etc/sparql11.html" => "etc/sparql11.bnf" do |t|
+  sh %{
+    ebnf --format html \
+      --output etc/sparql11.html \
+      etc/sparql11.bnf
+  }
+end
+
 sse_files = Dir.glob("./spec/dawg/**/*.rq").map do |f|
   f.sub(".rq", ".sse")
 end
-desc "Build SSE versions of test '.rq' files using Jena ARQ"
-task :sse => sse_files
 
-# Rule to create SSE files
+ssu_files = Dir.glob("./spec/dawg/**/*.ru").map do |f|
+  f.sub(".ru", ".sse")
+end
+
+desc "Build SSE versions of test '.rq' and '.ru' files using Jena ARQ"
+task sse: sse_files + ssu_files
+
+# Rule to create SSE files from .rq
 rule ".sse" => %w{.rq} do |t|
   puts "build #{t.name}"
   sse = `qparse --print op --file #{t.source} 2> /dev/null` rescue nil
+  if $? == 0
+    File.open(t.name, "w") {|f| f.write(sse)}
+  else
+    puts "skipped #{t.source}"
+  end
+end
+
+# Rule to create SSE files from .ru
+rule ".sse" => %w{.ru} do |t|
+  puts "build #{t.name}"
+  sse = `uparse --print op --file #{t.source} 2> /dev/null` rescue nil
   if $? == 0
     File.open(t.name, "w") {|f| f.write(sse)}
   else

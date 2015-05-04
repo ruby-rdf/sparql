@@ -18,7 +18,7 @@ class RDF::Query
 
     # Returns `true` if this RDF::Solutions is isomorphic with another.
     #
-    # Takes a :canonicalize => true argument.  If true, RDF::Literals will be
+    # Takes a canonicalize: true argument.  If true, RDF::Literals will be
     # canonicalized while producing a bijection.  This results in broader
     # matches for isomorphism in the case of equivalent literals with different
     # representations.
@@ -34,11 +34,11 @@ class RDF::Query
 
     alias_method :isomorphic?, :isomorphic_with?
 
-    # Returns a hash of RDF::Nodes => RDF::Nodes representing an isomorphic
+    # Returns a hash of RDF:Nodes: RDF::Nodes representing an isomorphic
     # bijection of this RDF::Query::Solutions to another RDF::Query::Solutions blank
     # nodes, or nil if a bijection cannot be found.
     #
-    # Takes a :canonicalize => true argument.  If true, RDF::Literals will be
+    # Takes a canonicalize: true argument.  If true, RDF::Literals will be
     # canonicalized while producing a bijection.  This results in broader
     # matches for isomorphism in the case of equivalent literals with different
     # representations.

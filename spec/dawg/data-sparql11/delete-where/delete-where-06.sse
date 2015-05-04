@@ -1,0 +1,2 @@
+(prefix ((: <http://example.org/>) (foaf: <http://xmlns.com/foaf/0.1/>))
+  (update (deleteWhere ((graph <http://example.org/g2> ((triple ?c foaf:name "Chris")))))))

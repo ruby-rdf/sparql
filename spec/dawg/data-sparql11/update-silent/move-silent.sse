@@ -1,0 +1,1 @@
+(update (move silent <http://www.example.com/g1> <http://www.example.com/g2>))

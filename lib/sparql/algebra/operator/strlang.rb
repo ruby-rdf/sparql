@@ -27,7 +27,7 @@ module SPARQL; module Algebra
       # @see http://www.w3.org/TR/sparql11-query/#func-strlang
       def apply(value, langTag)
         raise TypeError, "Literal #{value.inspect} is not simple" unless value.simple?
-        RDF::Literal.new(value.to_s, :language => langTag.to_s)
+        RDF::Literal.new(value.to_s, language: langTag.to_s)
       end
     end # StrLang
   end # Operator

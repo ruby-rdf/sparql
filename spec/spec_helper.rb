@@ -15,13 +15,13 @@ Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
 
 RSpec.configure do |config|
   #config.include(RDF::Spec::Matchers)
-  config.filter_run :focus => true
+  config.filter_run focus: true
   config.run_all_when_everything_filtered = true
   config.exclusion_filter = {
     :ruby           => lambda { |version| RUBY_VERSION.to_s !~ /^#{version}/},
     :blank_nodes    => 'unique',
     :arithmetic     => 'native',
-    :sparql_algebra => false,
+    sparql_algebra: false,
     #:status         => 'bug',
     :reduced        => 'all',
   }
@@ -75,25 +75,44 @@ def repr(term)
 end
 
 def sparql_query(opts)
-  opts[:to_hash] = true unless opts.has_key?(:to_hash)
   raise "A query is required to be run" if opts[:query].nil?
 
   # Load default and named graphs into repository
-  repo = RDF::Repository.new do |r|
-    opts[:graphs].each do |key, info|
-      next if key == :result
-      data, format, default = info[:data], info[:format], info[:default]
-      if data
-        RDF::Reader.for(format).new(data, info).each_statement do |st|
-          st.context = key unless key == :default || default
-          r << st
+  repo = case opts[:graphs]
+  when RDF::Queryable
+    opts[:graphs]
+  when Array
+    RDF::Repository.new do |r|
+      opts[:graphs].each do |info|
+        data, format, default = info[:data], info[:format]
+        if data
+          RDF::Reader.for(format).new(data, info).each_statement do |st|
+            st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
+            r << st
+          end
         end
       end
     end
+  when Hash
+    RDF::Repository.new do |r|
+      opts[:graphs].each do |key, info|
+        next if key == :result
+        data, format, default = info[:data], info[:format], info[:default]
+        if data
+          RDF::Reader.for(format).new(data, info).each_statement do |st|
+            st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
+            r << st
+          end
+        end
+      end
+    end
+  else
+    RDF::Repository.new
   end
 
   query_str = opts[:query]
-  query_opts = {:debug => opts[:debug] || !!ENV['PARSER_DEBUG']}
+  query_opts = {debug: opts[:debug] || !!ENV['PARSER_DEBUG']}
+  query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
   
   query = if opts[:sse]
@@ -103,11 +122,5 @@ def sparql_query(opts)
     SPARQL.parse(query_str, query_opts)
   end
 
-  case opts[:form]
-  when :ask, :describe, :construct
-    repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
-  else
-    results = repo.query(query, :debug => opts[:debug] || !!ENV['EXEC_DEBUG'])
-    opts[:to_hash] ? results.map(&:to_hash) : results
-  end
+  repo.query(query, debug: opts[:debug] || !!ENV['EXEC_DEBUG'])
 end

@@ -78,12 +78,17 @@ class Array
   # @return [Boolean] `true` or `false`
   # @see    #constant?
   def variable?
-    any? do |operand|
-      operand.is_a?(Variable) ||
-        (operand.respond_to?(:variable?) && operand.variable?)
-    end
+    any?(&:variable?)
   end
   def constant?; !(variable?); end
+
+  ##
+  # Does this contain any nodes?
+  #
+  # @return [Boolean]
+  def has_blank_nodes?
+    any?(&:has_blank_nodes?)
+  end
   def evaluatable?; true; end
   def executable?; false; end
   def aggregate?; false; end
@@ -207,7 +212,7 @@ module RDF::Queryable
   #
   # @example
   #     queryable.query([nil, RDF::DOAP.developer, nil])
-  #     queryable.query(:predicate => RDF::DOAP.developer)
+  #     queryable.query(predicate: RDF::DOAP.developer)
   #
   #     op = SPARQL::Algebra::Expression.parse(%q((bgp (triple ?a doap:developer ?b))))
   #     queryable.query(op)
@@ -245,6 +250,18 @@ module RDF::Queryable
   
 end
 
+class RDF::Statement
+  # Transform Statement Pattern into an SXP
+  # @return [Array]
+  def to_sxp_bin
+    if has_context?
+      [:quad, subject, predicate, object, context]
+    else
+      [:triple, subject, predicate, object]
+    end
+  end
+end
+
 class RDF::Query
   # Equivalence for Queries:
   #   Same Patterns
@@ -263,13 +280,20 @@ class RDF::Query
 
   # Transform Query into an Array form of an SSE
   #
-  # If Query is named, it's treated as a GroupGraphPattern, otherwise, a BGP
+  # If Query has the `as_container` option set, serialize as Quads
+  # Otherwise, If Query is named, serialize as a GroupGraphPattern.
+  # Otherise, serialize as a BGP
   #
   # @return [Array]
   def to_sxp_bin
-    res = [:bgp] + patterns.map(&:to_sxp_bin)
-    (context ? [:graph, context, res] : res)
+    if options[:as_container]
+      [:graph, context] + [patterns.map(&:to_sxp_bin)]
+    else
+      res = [:bgp] + patterns.map(&:to_sxp_bin)
+      (context ? [:graph, context, res] : res)
+    end
   end
+
   # Query results in a boolean result (e.g., ASK)
   # @return [Boolean]
   def query_yields_boolean?
@@ -293,7 +317,11 @@ class RDF::Query::Pattern
   # Transform Query Pattern into an SXP
   # @return [Array]
   def to_sxp_bin
-    [:triple, subject, predicate, object]
+    if has_context?
+      [:quad, subject, predicate, object, context]
+    else
+      [:triple, subject, predicate, object]
+    end
   end
 end
 

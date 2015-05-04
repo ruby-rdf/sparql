@@ -114,6 +114,36 @@ module SPARQL
   #         (graph ?g
   #           (bgp (triple ?s ?p ?o)))))
   # 
+  # SPARQL:
+  #
+  #     LOAD <etc/doap.ttl>
+  # 
+  # SXP:
+  #
+  #     (update (load <etc/doap.ttl>))
+  # 
+  # SPARQL:
+  #
+  #     PREFIX     : <http://example.org/> 
+  #     
+  #     INSERT {
+  #             ?s ?p "q"
+  #     }
+  #     USING :g1
+  #     USING :g2
+  #     WHERE {
+  #             ?s ?p ?o
+  #     }
+  # 
+  # SXP:
+  #
+  #     (prefix ((: <http://example.org/>))
+  #       (update
+  #         (modify
+  #           (using (:g1 :g2)
+  #             (bgp (triple ?s ?p ?o)))
+  #           (insert ((triple ?s ?p "q"))))))
+  # 
   # ## Implementation Notes
   # The parser is driven through a rules table contained in lib/sparql/grammar/meta.rb. This includes branch rules to indicate productions to be taken based on a current production.
   # 
@@ -129,13 +159,6 @@ module SPARQL
   module Grammar
     autoload :Parser,     'sparql/grammar/parser11'
     autoload :Terminals,  'sparql/grammar/terminals11'
-
-    METHODS   = %w(SELECT CONSTRUCT DESCRIBE ASK).map(&:to_sym)
-    KEYWORDS  = %w(BASE PREFIX LIMIT OFFSET DISTINCT REDUCED
-                   ORDER BY ASC DESC FROM NAMED WHERE GRAPH
-                   OPTIONAL UNION FILTER).map(&:to_sym).unshift(*METHODS)
-    FUNCTIONS = %w(STR LANGMATCHES LANG DATATYPE BOUND sameTerm
-                   isIRI isURI isBLANK isLITERAL REGEX).map(&:to_sym)
 
     # Make all defined non-autoloaded constants immutable:
     constants.each { |name| const_get(name).freeze unless autoload?(name) }
@@ -153,7 +176,7 @@ module SPARQL
     # @return [Parser]
     # @raise  [Parser::Error] on invalid input
     def self.parse(query, options = {}, &block)
-      Parser.new(query, options).parse
+      Parser.new(query, options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
     end
 
     ##

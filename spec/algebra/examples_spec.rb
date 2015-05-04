@@ -15,7 +15,7 @@ describe SPARQL::Algebra do
       scanner = StringScanner.new(doc)
       scanner.skip_until(/^## Basic Query$/)
       until scanner.eos?
-        current = {:type => :query}
+        current = {type: :query}
         current[:sparql] = scanner.scan_until(/^is equivalent to$/)[0..-17].strip
         current[:sxp]    = scanner.scan_until(/^#.*$/).sub(/^#.*$/, '').strip
         examples << current
@@ -28,7 +28,7 @@ describe SPARQL::Algebra do
         line = scanner.scan_until(/ .*/).strip
         break if line =~ /Evaluating expressions on a solution sequence/
         next if line =~ /^\s*(#.*)?$/
-        current = {:type => :expression}
+        current = {type: :expression}
         expr, result = line.to_s.split('#=>').map(&:strip)
         current[:expr] = expr
         current[:expected] = result

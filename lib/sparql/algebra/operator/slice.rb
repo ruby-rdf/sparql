@@ -46,7 +46,7 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         offset = operands[0] == :_ ? 0 : operands[0].to_i
         limit = operands[1] == :_ ? -1 : operands[1].to_i
-        @solutions = operands.last. execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+        @solutions = operands.last. execute(queryable, options.merge(depth: options[:depth].to_i + 1))
         @solutions.offset(operands[0]) unless operands[0] == :_
         @solutions.limit(operands[1]) unless operands[1] == :_
         @solutions.each(&block) if block_given?

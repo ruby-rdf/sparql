@@ -1,0 +1,2 @@
+(prefix ((: <http://example.org/>) (foaf: <http://xmlns.com/foaf/0.1/>))
+  (update (deleteData ((graph <http://example.org/g1> ((triple :a foaf:knows :c)))))))

@@ -49,7 +49,7 @@ module SPARQL; module Algebra
           RDF::Literal("")
         else
           parts = left.to_s.split(right.to_s)
-          RDF::Literal(parts.last, :datatype => left.datatype, :language => left.language)
+          RDF::Literal(parts.last, datatype: left.datatype, language: left.language)
         end
       end
     end # StrAfter

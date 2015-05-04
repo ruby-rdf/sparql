@@ -113,17 +113,17 @@ describe SPARQL::Algebra do
 
     describe "#boolean(RDF::Literal::String)" do
       it "returns RDF::Literal::FALSE if the operand has zero length" do
-        expect(@op.new.send(:boolean, RDF::Literal("", :datatype => RDF::XSD.string))).to eql RDF::Literal::FALSE
+        expect(@op.new.send(:boolean, RDF::Literal("", datatype: RDF::XSD.string))).to eql RDF::Literal::FALSE
       end
 
       it "returns RDF::Literal::TRUE otherwise" do
-        expect(@op.new.send(:boolean, RDF::Literal("Hello", :datatype => RDF::XSD.string))).to eql RDF::Literal::TRUE
+        expect(@op.new.send(:boolean, RDF::Literal("Hello", datatype: RDF::XSD.string))).to eql RDF::Literal::TRUE
       end
     end
 
     describe "#boolean(RDF::Literal) with a language-tagged literal" do
       it "returns RDF::Literal::TRUE" do
-        expect(@op.new.send(:boolean, RDF::Literal("Hello", :language => :en))).to eql RDF::Literal::TRUE
+        expect(@op.new.send(:boolean, RDF::Literal("Hello", language: :en))).to eql RDF::Literal::TRUE
       end
     end
 

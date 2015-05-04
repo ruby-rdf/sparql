@@ -79,7 +79,7 @@ module SPARQL; module Algebra
 
     ##
     # @example
-    #   Expression.new([:isLiteral, RDF::Literal(3.1415)], :version => 1.0)
+    #   Expression.new([:isLiteral, RDF::Literal(3.1415)], version: 1.0)
     #
     # @param  [Array] sse
     #   a SPARQL S-Expression (SSE) form
@@ -95,12 +95,12 @@ module SPARQL; module Algebra
         return case sse.first
         when Array
           debug(options) {"Map array elements #{sse}"}
-          sse.map {|s| self.new(s, options.merge(:depth => options[:depth].to_i + 1))}
+          sse.map {|s| self.new(s, options.merge(depth: options[:depth].to_i + 1))}
         else
           debug(options) {"No operator found for #{sse.first}"}
           sse.map do |s|
             s.is_a?(Array) ?
-              self.new(s, options.merge(:depth => options[:depth].to_i + 1)) :
+              self.new(s, depth: options[:depth].to_i + 1) :
               s
           end
         end
@@ -110,7 +110,7 @@ module SPARQL; module Algebra
         debug(options) {"Operator=#{operator.inspect}, Operand=#{operand.inspect}"}
         case operand
           when Array
-            self.new(operand, options.merge(:depth => options[:depth].to_i + 1))
+            self.new(operand, options.merge(depth: options[:depth].to_i + 1))
           when Operator, Variable, RDF::Term, RDF::Query, Symbol
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time
@@ -120,7 +120,7 @@ module SPARQL; module Algebra
       end
 
       debug(options) {"#{operator.inspect}(#{operands.map(&:inspect).join(',')})"}
-      options.delete_if {|k, v| [:debug, :depth, :prefixes, :base_uri].include?(k) }
+      options.delete_if {|k, v| [:debug, :depth, :prefixes, :base_uri, :update].include?(k) }
       operands << options unless options.empty?
       operator.new(*operands)
     end
@@ -160,7 +160,7 @@ module SPARQL; module Algebra
     ##
     # Registered extensions
     #
-    # @return [Hash{RDF::URI => Proc}]
+    # @return [Hash{RDF:URI: Proc}]
     def self.extensions
       @extensions ||= {}
     end
@@ -203,22 +203,22 @@ module SPARQL; module Algebra
       when RDF::XSD.dateTime
         case value
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time
-          RDF::Literal.new(value, :datatype => datatype)
+          RDF::Literal.new(value, datatype: datatype)
         when RDF::Literal::Numeric, RDF::Literal::Boolean, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
-          RDF::Literal.new(value.value, :datatype => datatype, :validate => true)
+          RDF::Literal.new(value.value, datatype: datatype, validate: true)
         end
       when RDF::XSD.float, RDF::XSD.double
         case value
         when RDF::Literal::Boolean
-          RDF::Literal.new(value.object ? 1 : 0, :datatype => datatype)
+          RDF::Literal.new(value.object ? 1 : 0, datatype: datatype)
         when RDF::Literal::Numeric
-          RDF::Literal.new(value.to_f, :datatype => datatype)
+          RDF::Literal.new(value.to_f, datatype: datatype)
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
-          RDF::Literal.new(value.value, :datatype => datatype, :validate => true)
+          RDF::Literal.new(value.value, datatype: datatype, validate: true)
         end
       when RDF::XSD.boolean
         case value
@@ -229,21 +229,21 @@ module SPARQL; module Algebra
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
-          RDF::Literal.new(!value.to_s.empty?, :datatype => datatype, :validate => true)
+          RDF::Literal.new(!value.to_s.empty?, datatype: datatype, validate: true)
         end
       when RDF::XSD.decimal, RDF::XSD.integer
         case value
         when RDF::Literal::Boolean
-          RDF::Literal.new(value.object ? 1 : 0, :datatype => datatype)
+          RDF::Literal.new(value.object ? 1 : 0, datatype: datatype)
         when RDF::Literal::Integer, RDF::Literal::Decimal
-          RDF::Literal.new(value, :datatype => datatype)
+          RDF::Literal.new(value, datatype: datatype)
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
-          RDF::Literal.new(value.value, :datatype => datatype, :validate => true)
+          RDF::Literal.new(value.value, datatype: datatype, validate: true)
         end
       when RDF::XSD.string
-         RDF::Literal.new(value, :datatype => datatype)
+         RDF::Literal.new(value, datatype: datatype)
       else
         raise TypeError, "Expected datatype (#{datatype}) to be a recognized XPath function"
       end
@@ -257,6 +257,14 @@ module SPARQL; module Algebra
     # @return [Boolean] `true` or `false`
     # @see    #variable?
     def variable?
+      false
+    end
+
+    ##
+    # Returns `false`.
+    #
+    # @return [Boolean]
+    def has_blank_nodes?
       false
     end
 

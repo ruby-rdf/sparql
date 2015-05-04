@@ -4,11 +4,11 @@ module SPARQL
   # This module is a mixin for RDF::Query::Solutions
   module Results
     MIME_TYPES = {
-      :json => 'application/sparql-results+json',
-      :html => 'text/html',
+      json: 'application/sparql-results+json',
+      html: 'text/html',
       :xml  => 'application/sparql-results+xml',
-      :csv => 'text/csv',
-      :tsv => 'text/tab-separated-values'
+      csv: 'text/csv',
+      tsv: 'text/tab-separated-values'
     }
     
     ##
@@ -22,16 +22,16 @@ module SPARQL
         variable_names.inject({}) do |memo, n|
           memo.merge case s = solution[n]
           when RDF::URI
-            {n => {:type => "uri", :value => s.to_s }}
+            {n => {type: "uri", value: s.to_s }}
           when RDF::Node
-            {n => {:type => "bnode", :value => s.id }}
+            {n => {type: "bnode", value: s.id }}
           when RDF::Literal
             if s.datatype?
-              {n => {:type => "typed-literal", :datatype => s.datatype.to_s, :value => s.to_s }}
+              {n => {type: "typed-literal", datatype: s.datatype.to_s, value: s.to_s }}
             elsif s.language
-              {n => {:type => "literal", "xml:lang" => s.language.to_s, :value => s.to_s }}
+              {n => {type: "literal", "xml:lang" => s.language.to_s, value: s.to_s }}
             else
-              {n => {:type => "literal", :value => s.to_s }}
+              {n => {type: "literal", value: s.to_s }}
             end
           else
             {}
@@ -40,8 +40,8 @@ module SPARQL
       end
 
       {
-        :head     => { :vars => variable_names },
-        :results  => { :bindings => bindings}
+        :head     => { vars: variable_names },
+        :results  => { bindings: bindings}
       }.to_json
     end
     
@@ -52,12 +52,12 @@ module SPARQL
     def to_xml
       require 'builder' unless defined?(::Builder)
       
-      xml = ::Builder::XmlMarkup.new(:indent => 2)
+      xml = ::Builder::XmlMarkup.new(indent: 2)
       xml.instruct!
-      xml.sparql(:xmlns => "http://www.w3.org/2005/sparql-results#") do
+      xml.sparql(xmlns: "http://www.w3.org/2005/sparql-results#") do
         xml.head do
           variable_names.each do |n|
-            xml.variable(:name => n)
+            xml.variable(name: n)
           end
         end
         xml.results do
@@ -66,7 +66,7 @@ module SPARQL
               variable_names.each do |n|
                 s = solution[n]
                 next unless s
-                xml.binding(:name => n) do
+                xml.binding(name: n) do
                   case s
                   when RDF::URI
                     xml.uri(s.to_s)
@@ -96,8 +96,8 @@ module SPARQL
     def to_html
       require 'builder' unless defined?(::Builder)
       
-      xml = ::Builder::XmlMarkup.new(:indent => 2)
-      xml.table(:class => "sparql") do
+      xml = ::Builder::XmlMarkup.new(indent: 2)
+      xml.table(class: "sparql") do
         xml.tbody do
           xml.tr do
             variable_names.each do |n|
@@ -123,7 +123,7 @@ module SPARQL
       require 'csv' unless defined?(::CSV)
       bnode_map = {}
       bnode_gen = "_:a"
-      CSV.generate(:row_sep => "\r\n") do |csv|
+      CSV.generate(row_sep: "\r\n") do |csv|
         csv << variable_names.to_a
         self.each do |solution|
           csv << variable_names.map do |n|
@@ -194,7 +194,7 @@ module SPARQL
       case solutions
       when RDF::Queryable
         content_type = first_content_type(content_types, RDF::Format.content_types.keys) || 'text/plain'
-        format = RDF::Writer.for(:content_type => content_type).to_sym
+        format = RDF::Writer.for(content_type: content_type).to_sym
       else
         content_type = first_content_type(content_types, SPARQL::Results::MIME_TYPES.values) || 'application/sparql-results+xml'
         format = SPARQL::Results::MIME_TYPES.invert[content_type]
@@ -207,19 +207,19 @@ module SPARQL
       case format
       when :json
         require 'json' unless defined?(::JSON)
-        {:boolean => solutions}.to_json
+        {boolean: solutions}.to_json
       when :xml
         require 'builder' unless defined?(::Builder)
-        xml = ::Builder::XmlMarkup.new(:indent => 2)
+        xml = ::Builder::XmlMarkup.new(indent: 2)
         xml.instruct!
-        xml.sparql(:xmlns => "http://www.w3.org/2005/sparql-results#") do
+        xml.sparql(xmlns: "http://www.w3.org/2005/sparql-results#") do
           xml.boolean(solutions.to_s)
         end
       when :html
         require 'builder' unless defined?(::Builder)
         content_type = "text/html"
-        xml = ::Builder::XmlMarkup.new(:indent => 2)
-        xml.div(solutions.to_s, :class => "sparql")
+        xml = ::Builder::XmlMarkup.new(indent: 2)
+        xml.div(solutions.to_s, class: "sparql")
       else
         raise RDF::WriterError, "Unknown format #{(format || content_type).inspect} for #{solutions.class}"
       end
@@ -229,9 +229,9 @@ module SPARQL
       rescue LoadError => e
         require 'rdf/ntriples'
       end
-      fmt = RDF::Format.for(format ? format.to_sym : {:content_type => content_type})
+      fmt = RDF::Format.for(format ? format.to_sym : {content_type: content_type})
       unless fmt
-        fmt = RDF::Format.for(:file_extension => format.to_sym) || RDF::NTriples::Format
+        fmt = RDF::Format.for(file_extension: format.to_sym) || RDF::NTriples::Format
         format = fmt.to_sym
       end
       format ||= fmt.to_sym

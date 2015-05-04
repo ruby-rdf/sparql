@@ -42,7 +42,7 @@ module SPARQL; module Algebra
         patterns = operands.first
         query = operands.last
 
-        queryable.query(query, options.merge(:depth => options[:depth].to_i + 1)).each do |solution|
+        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)).each do |solution|
           debug(options) {"(construct apply) #{solution.inspect} to BGP"}
           
           # Create a mapping from BNodes within the pattern list to newly constructed BNodes
@@ -71,7 +71,7 @@ module SPARQL; module Algebra
           end
         end
 
-        debug(options) {"=>\n#{graph.dump(:ttl, :standard_prefixes => true)}"}
+        debug(options) {"=>\n#{graph.dump(:ttl, standard_prefixes: true)}"}
         graph.each(&block) if block_given?
         graph
       end

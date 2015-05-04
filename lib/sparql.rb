@@ -21,13 +21,15 @@ module SPARQL
   #
   # @param  [IO, StringIO, String, #to_s]  query
   # @param  [Hash{Symbol => Object}] options
+  # @option options [Boolean] :update (false)
+  #   Parse starting with UpdateUnit production, QueryUnit otherwise.
   # @return [SPARQL::Query]
   #   The resulting query may be executed against
   #   a `queryable` object such as an RDF::Graph
   #   or RDF::Repository. 
   # @raise  [Parser::Error] on invalid input
   def self.parse(query, options = {})
-    query = Grammar::Parser.new(query, options).parse
+    query = Grammar::Parser.new(query, options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
   end
 
   ##
@@ -82,7 +84,7 @@ module SPARQL
         queryable.load(uri)
       end
       [options[:named_graph_uri]].flatten.each do |uri|
-        queryable.load(uri, :context => uri)
+        queryable.load(uri, context: uri)
       end
     end
     query.execute(queryable, &block)

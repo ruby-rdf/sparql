@@ -63,7 +63,7 @@ module SPARQL; module Algebra
         options |= Regexp::MULTILINE  if flags.include?(?m)
         options |= Regexp::IGNORECASE if flags.include?(?i)
         options |= Regexp::EXTENDED   if flags.include?(?x)
-        RDF::Literal(text.to_s.gsub(Regexp.new(pattern, options), replacement), :datatype => text.datatype, :language => text.language)
+        RDF::Literal(text.to_s.gsub(Regexp.new(pattern, options), replacement), datatype: text.datatype, language: text.language)
       end
 
       ##

@@ -176,7 +176,7 @@ module SPARQL
   #     solutions = RDF::Query.execute(RDF::Graph.load('etc/doap.ttl')) do |query|
   #       query.pattern [:person, RDF.type,  RDF::FOAF.Person]
   #       query.pattern [:person, RDF::FOAF.name, :name]
-  #       query.pattern [:person, RDF::FOAF.mbox, :email], :optional => true
+  #       query.pattern [:person, RDF::FOAF.mbox, :email], optional: true
   #     end
   # 
   #     # Find people who have a name but don't have a known e-mail address:
@@ -209,8 +209,8 @@ module SPARQL
   # Expressions can optionally be [memoized][memoization], which can speed up
   # repeatedly executing the expression on a solution sequence:
   # 
-  #     SPARQL::Algebra::Expression.parse(sse, :memoize => true)
-  #     Operator.new(*operands, :memoize => true)
+  #     SPARQL::Algebra::Expression.parse(sse, memoize: true)
+  #     Operator.new(*operands, memoize: true)
   # 
   # Memoization is implemented using RDF.rb's [RDF::Util::Cache][] utility
   # library, a weak-reference cache that allows values contained in the cache to
@@ -225,58 +225,127 @@ module SPARQL
   # ## Documentation
   # 
   # * {SPARQL::Algebra}
+  #   * {SPARQL::Algebra::Aggregate}
+  #   * {SPARQL::Algebra::Evaluatable}
   #   * {SPARQL::Algebra::Expression}
   #   * {SPARQL::Algebra::Query}
+  #   * {SPARQL::Algebra::Update}
   #   * {SPARQL::Algebra::Operator}
+  #     * {SPARQL::Algebra::Operator::Abs}
   #     * {SPARQL::Algebra::Operator::Add}
   #     * {SPARQL::Algebra::Operator::And}
   #     * {SPARQL::Algebra::Operator::Asc}
   #     * {SPARQL::Algebra::Operator::Ask}
+  #     * {SPARQL::Algebra::Operator::Avg}
   #     * {SPARQL::Algebra::Operator::Base}
+  #     * {SPARQL::Algebra::Operator::BGP}
   #     * {SPARQL::Algebra::Operator::Bound}
+  #     * {SPARQL::Algebra::Operator::Ceil}
+  #     * {SPARQL::Algebra::Operator::Clear}
+  #     * {SPARQL::Algebra::Operator::Coalesce}
   #     * {SPARQL::Algebra::Operator::Compare}
+  #     * {SPARQL::Algebra::Operator::Concat}
   #     * {SPARQL::Algebra::Operator::Construct}
+  #     * {SPARQL::Algebra::Operator::Contains}
+  #     * {SPARQL::Algebra::Operator::Copy}
+  #     * {SPARQL::Algebra::Operator::Count}
+  #     * {SPARQL::Algebra::Operator::Create}
   #     * {SPARQL::Algebra::Operator::Dataset}
   #     * {SPARQL::Algebra::Operator::Datatype}
+  #     * {SPARQL::Algebra::Operator::Day}
+  #     * {SPARQL::Algebra::Operator::Delete}
+  #     * {SPARQL::Algebra::Operator::DeleteData}
+  #     * {SPARQL::Algebra::Operator::DeleteWhere}
   #     * {SPARQL::Algebra::Operator::Desc}
   #     * {SPARQL::Algebra::Operator::Describe}
   #     * {SPARQL::Algebra::Operator::Distinct}
   #     * {SPARQL::Algebra::Operator::Divide}
+  #     * {SPARQL::Algebra::Operator::Drop}
+  #     * {SPARQL::Algebra::Operator::EncodeForURI}
   #     * {SPARQL::Algebra::Operator::Equal}
   #     * {SPARQL::Algebra::Operator::Exprlist}
+  #     * {SPARQL::Algebra::Operator::Extend}
   #     * {SPARQL::Algebra::Operator::Filter}
+  #     * {SPARQL::Algebra::Operator::Floor}
   #     * {SPARQL::Algebra::Operator::Graph}
   #     * {SPARQL::Algebra::Operator::GreaterThan}
   #     * {SPARQL::Algebra::Operator::GreaterThanOrEqual}
+  #     * {SPARQL::Algebra::Operator::Group}
+  #     * {SPARQL::Algebra::Operator::GroupConcat}
+  #     * {SPARQL::Algebra::Operator::Hours}
+  #     * {SPARQL::Algebra::Operator::If}
+  #     * {SPARQL::Algebra::Operator::In}
+  #     * {SPARQL::Algebra::Operator::Insert}
+  #     * {SPARQL::Algebra::Operator::InsertData}
+  #     * {SPARQL::Algebra::Operator::IRI}
   #     * {SPARQL::Algebra::Operator::IsBlank}
   #     * {SPARQL::Algebra::Operator::IsIRI}
   #     * {SPARQL::Algebra::Operator::IsLiteral}
+  #     * {SPARQL::Algebra::Operator::IsNumeric}
   #     * {SPARQL::Algebra::Operator::Join}
   #     * {SPARQL::Algebra::Operator::Lang}
   #     * {SPARQL::Algebra::Operator::LangMatches}
   #     * {SPARQL::Algebra::Operator::LeftJoin}
   #     * {SPARQL::Algebra::Operator::LessThan}
   #     * {SPARQL::Algebra::Operator::LessThanOrEqual}
+  #     * {SPARQL::Algebra::Operator::Max}
+  #     * {SPARQL::Algebra::Operator::MD5}
+  #     * {SPARQL::Algebra::Operator::Min}
   #     * {SPARQL::Algebra::Operator::Minus}
+  #     * {SPARQL::Algebra::Operator::Minutes}
+  #     * {SPARQL::Algebra::Operator::Modify}
+  #     * {SPARQL::Algebra::Operator::Month}
+  #     * {SPARQL::Algebra::Operator::Move}
   #     * {SPARQL::Algebra::Operator::Multiply}
+  #     * {SPARQL::Algebra::Operator::Negate}
   #     * {SPARQL::Algebra::Operator::Not}
   #     * {SPARQL::Algebra::Operator::NotEqual}
+  #     * {SPARQL::Algebra::Operator::NotExists}
+  #     * {SPARQL::Algebra::Operator::NotIn}
+  #     * {SPARQL::Algebra::Operator::Now}
   #     * {SPARQL::Algebra::Operator::Or}
   #     * {SPARQL::Algebra::Operator::Order}
   #     * {SPARQL::Algebra::Operator::Plus}
   #     * {SPARQL::Algebra::Operator::Prefix}
   #     * {SPARQL::Algebra::Operator::Project}
+  #     * {SPARQL::Algebra::Operator::Rand}
   #     * {SPARQL::Algebra::Operator::Reduced}
   #     * {SPARQL::Algebra::Operator::Regex}
+  #     * {SPARQL::Algebra::Operator::Replace}
+  #     * {SPARQL::Algebra::Operator::Round}
   #     * {SPARQL::Algebra::Operator::SameTerm}
+  #     * {SPARQL::Algebra::Operator::Sample}
+  #     * {SPARQL::Algebra::Operator::Seconds}
+  #     * {SPARQL::Algebra::Operator::SHA1}
+  #     * {SPARQL::Algebra::Operator::SHA256}
+  #     * {SPARQL::Algebra::Operator::SHA384}
+  #     * {SPARQL::Algebra::Operator::SHA512}
   #     * {SPARQL::Algebra::Operator::Slice}
   #     * {SPARQL::Algebra::Operator::Str}
+  #     * {SPARQL::Algebra::Operator::StrAfter}
+  #     * {SPARQL::Algebra::Operator::StrBefore}
+  #     * {SPARQL::Algebra::Operator::StrDT}
+  #     * {SPARQL::Algebra::Operator::StrEnds}
+  #     * {SPARQL::Algebra::Operator::StrLang}
+  #     * {SPARQL::Algebra::Operator::StrLen}
+  #     * {SPARQL::Algebra::Operator::StrStarts}
+  #     * {SPARQL::Algebra::Operator::StrUUID}
+  #     * {SPARQL::Algebra::Operator::SubStr}
   #     * {SPARQL::Algebra::Operator::Subtract}
+  #     * {SPARQL::Algebra::Operator::Sum}
+  #     * {SPARQL::Algebra::Operator::Table}
+  #     * {SPARQL::Algebra::Operator::Timezone}
+  #     * {SPARQL::Algebra::Operator::TZ}
+  #     * {SPARQL::Algebra::Operator::Ucase}
   #     * {SPARQL::Algebra::Operator::Union}
+  #     * {SPARQL::Algebra::Operator::Update}
+  #     * {SPARQL::Algebra::Operator::Using}
+  #     * {SPARQL::Algebra::Operator::UUID}
+  #     * {SPARQL::Algebra::Operator::With}
+  #     * {SPARQL::Algebra::Operator::Year}
   # 
   # TODO
   # ====
-  # * Need to come up with appropriate SXP for SPARQL 1.1
   # * Operator#optimize needs to be completed and tested.
   # 
   # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
@@ -288,6 +357,7 @@ module SPARQL
     autoload :Expression,  'sparql/algebra/expression'
     autoload :Operator,    'sparql/algebra/operator'
     autoload :Query,       'sparql/algebra/query'
+    autoload :Update,      'sparql/algebra/update'
 
     ##
     # @example

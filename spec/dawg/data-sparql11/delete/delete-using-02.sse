@@ -1,0 +1,10 @@
+(prefix ((: <http://example.org/>) (foaf: <http://xmlns.com/foaf/0.1/>))
+  (update
+    (modify
+      (using (<http://example.org/g3>)
+        (graph <http://example.org/g2>
+          (bgp
+            (triple :a foaf:knows ?s)
+            (triple ?s ?p ?o))))
+      (delete
+        ((triple ?s ?p ?o))))))

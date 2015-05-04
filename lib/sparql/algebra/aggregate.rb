@@ -26,7 +26,7 @@ module SPARQL; module Algebra
       args_enum = solutions.map do |solution|
         operands.map do |operand|
           begin
-            operand.evaluate(solution, options.merge(:depth => options[:depth].to_i + 1))
+            operand.evaluate(solution, options.merge(depth: options[:depth].to_i + 1))
           rescue TypeError
             # Ignore errors
             nil

@@ -11,22 +11,22 @@ class TestRepo < RDF::Repository
     if pattern[:predicate].path == '/attribute_types/first_name'
       statements << RDF::Statement.new(
         :subject   => RDF::URI.new('http://localhost/people/1'),
-        :predicate => RDF::URI.new('http://localhost/attribute_types/first_name'),
+        predicate: RDF::URI.new('http://localhost/attribute_types/first_name'),
         :object    => RDF::Literal.new('joe'))
     elsif pattern[:predicate].path == '/attribute_types/last_name'
       statements << RDF::Statement.new(
         :subject   => RDF::URI.new('http://localhost/people/1'),
-        :predicate => RDF::URI.new('http://localhost/attribute_types/last_name'),
+        predicate: RDF::URI.new('http://localhost/attribute_types/last_name'),
         :object    => RDF::Literal.new('smith'))
     elsif pattern[:predicate].path == '/attribute_types/middle_name'
       statements << RDF::Statement.new(
         :subject   => RDF::URI.new('http://localhost/people/2'),
-        :predicate => RDF::URI.new('http://localhost/attribute_types/middle_name'),
+        predicate: RDF::URI.new('http://localhost/attribute_types/middle_name'),
         :object    => RDF::Literal.new('blah'))
 
       statements << RDF::Statement.new(
         :subject   => RDF::URI.new('http://localhost/people/1'),
-        :predicate => RDF::URI.new('http://localhost/attribute_types/middle_name'),
+        predicate: RDF::URI.new('http://localhost/attribute_types/middle_name'),
         :object    => RDF::Literal.new('blah'))
 
     end
@@ -48,11 +48,11 @@ PREFIX a: <http://localhost/attribute_types/>
   }
 )
 
-rep = TestRepo.new(:base_url => 'http://localhost')
+rep = TestRepo.new(base_url: 'http://localhost')
 sse = SPARQL.parse(query)
 puts sse.to_sse
 
-solutions = sse.execute(rep, :debug => true)
+solutions = sse.execute(rep, debug: true)
 
 solutions.each_solution do |s|
   puts s.to_hash

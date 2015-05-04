@@ -63,7 +63,7 @@ module SPARQL::Grammar
     terminal(:BLANK_NODE_LABEL,     BLANK_NODE_LABEL) do |prod, token, input|
       add_prod_datum(:BlankNode, bnode(token.value[2..-1]))
     end
-    terminal(:IRIREF,               IRIREF, :unescape => true) do |prod, token, input|
+    terminal(:IRIREF,               IRIREF, unescape: true) do |prod, token, input|
       begin
         add_prod_datum(:iri, iri(token.value[1..-2]))
       rescue ArgumentError => e
@@ -74,54 +74,54 @@ module SPARQL::Grammar
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
       value = token.value.sub(/\.([eE])/, '.0\1')
-      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.double))
+      add_prod_datum(:literal, literal(value, datatype: RDF::XSD.double))
     end
     terminal(:DECIMAL_POSITIVE,     DECIMAL_POSITIVE) do |prod, token, input|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
       value = token.value
       value = "0#{token.value}" if token.value[0,1] == "."
-      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.decimal))
+      add_prod_datum(:literal, literal(value, datatype: RDF::XSD.decimal))
     end
     terminal(:INTEGER_POSITIVE,     INTEGER_POSITIVE) do |prod, token, input|
-      add_prod_datum(:literal, literal(token.value, :datatype => RDF::XSD.integer))
+      add_prod_datum(:literal, literal(token.value, datatype: RDF::XSD.integer))
     end
     terminal(:DOUBLE_NEGATIVE,      DOUBLE_NEGATIVE) do |prod, token, input|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
       value = token.value.sub(/\.([eE])/, '.0\1')
-      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.double))
+      add_prod_datum(:literal, literal(value, datatype: RDF::XSD.double))
     end
     terminal(:DECIMAL_NEGATIVE,     DECIMAL_NEGATIVE) do |prod, token, input|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
       value = token.value
       value = "0#{token.value}" if token.value[0,1] == "."
-      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.decimal))
+      add_prod_datum(:literal, literal(value, datatype: RDF::XSD.decimal))
     end
     terminal(:INTEGER_NEGATIVE,     INTEGER_NEGATIVE) do |prod, token, input|
-      add_prod_datum(:resource, literal(token.value, :datatype => RDF::XSD.integer))
+      add_prod_datum(:resource, literal(token.value, datatype: RDF::XSD.integer))
     end
     terminal(:DOUBLE,               DOUBLE) do |prod, token, input|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
       value = token.value.sub(/\.([eE])/, '.0\1')
-      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.double))
+      add_prod_datum(:literal, literal(value, datatype: RDF::XSD.double))
     end
     terminal(:DECIMAL,              DECIMAL) do |prod, token, input|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
       value = token.value
       #value = "0#{token.value}" if token.value[0,1] == "."
-      add_prod_datum(:literal, literal(value, :datatype => RDF::XSD.decimal))
+      add_prod_datum(:literal, literal(value, datatype: RDF::XSD.decimal))
     end
     terminal(:INTEGER,              INTEGER) do |prod, token, input|
-      add_prod_datum(:literal, literal(token.value, :datatype => RDF::XSD.integer))
+      add_prod_datum(:literal, literal(token.value, datatype: RDF::XSD.integer))
     end
     terminal(:LANGTAG,              LANGTAG) do |prod, token, input|
       add_prod_datum(:language, token.value[1..-1])
     end
-    terminal(:PNAME_LN,             PNAME_LN, :unescape => true) do |prod, token, input|
+    terminal(:PNAME_LN,             PNAME_LN, unescape: true) do |prod, token, input|
       prefix, suffix = token.value.split(":", 2)
       add_prod_datum(:PrefixedName, ns(prefix, suffix))
     end
@@ -132,16 +132,16 @@ module SPARQL::Grammar
       # [4]  PrefixDecl := 'PREFIX' PNAME_NS IRI_REF";
       add_prod_datum(:prefix, prefix && prefix.to_sym)
     end
-    terminal(:STRING_LITERAL_LONG1, STRING_LITERAL_LONG1, :unescape => true) do |prod, token, input|
+    terminal(:STRING_LITERAL_LONG1, STRING_LITERAL_LONG1, unescape: true) do |prod, token, input|
       add_prod_datum(:string, token.value[3..-4])
     end
-    terminal(:STRING_LITERAL_LONG2, STRING_LITERAL_LONG2, :unescape => true) do |prod, token, input|
+    terminal(:STRING_LITERAL_LONG2, STRING_LITERAL_LONG2, unescape: true) do |prod, token, input|
       add_prod_datum(:string, token.value[3..-4])
     end
-    terminal(:STRING_LITERAL1,      STRING_LITERAL1, :unescape => true) do |prod, token, input|
+    terminal(:STRING_LITERAL1,      STRING_LITERAL1, unescape: true) do |prod, token, input|
       add_prod_datum(:string, token.value[1..-2])
     end
-    terminal(:STRING_LITERAL2,      STRING_LITERAL2, :unescape => true) do |prod, token, input|
+    terminal(:STRING_LITERAL2,      STRING_LITERAL2, unescape: true) do |prod, token, input|
       add_prod_datum(:string, token.value[1..-2])
     end
     terminal(:VAR1,                 VAR1) do |prod, token, input|
@@ -152,7 +152,7 @@ module SPARQL::Grammar
     end
 
     # Keyword terminals
-    terminal(nil, STR_EXPR, :map => STR_MAP) do |prod, token, input|
+    terminal(nil, STR_EXPR, map: STR_MAP) do |prod, token, input|
       case token.value
       when '+', '-'
         case prod
@@ -174,11 +174,11 @@ module SPARQL::Grammar
       when /ASC|DESC/      then add_prod_datum(:OrderDirection, token.value.downcase.to_sym)
       when /DISTINCT|REDUCED/  then add_prod_datum(:DISTINCT_REDUCED, token.value.downcase.to_sym)
       when %r{
-          ABS|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
-         |CONTAINS|COUNT|DATATYPE|DAY|ENCODE_FOR_URI|EXISTS
-         |FLOOR|HOURS|IF|GROUP_CONCAT|IRI|LANGMATCHES|LANG|LCASE
-         |MAX|MD5|MINUTES|MIN|MONTH|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
-         |SHA1|SHA224|SHA256|SHA384|SHA512
+          ABS|ALL|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
+         |CONTAINS|COUNT|DATATYPE|DAY|DEFAULT|ENCODE_FOR_URI|EXISTS
+         |FLOOR|HOURS|IF|GRAPH|GROUP_CONCAT|IRI|LANGMATCHES|LANG|LCASE
+         |MAX|MD5|MINUTES|MIN|MONTH|NAMED|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
+         |SHA1|SHA224|SHA256|SHA384|SHA512|SILENT
          |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR|SUM
          |TIMEZONE|TZ|UCASE|UNDEF|URI|UUID|YEAR
          |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
@@ -193,8 +193,6 @@ module SPARQL::Grammar
     # [2]  	Query	  ::=  	Prologue
     #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
     production(:Query) do |input, data, callback|
-      return unless data[:query]
-
       query = data[:query].first
 
       # Add prefix
@@ -377,8 +375,197 @@ module SPARQL::Grammar
       end
     end
 
-    # [54]  	GroupGraphPatternSub	  ::=  	TriplesBlock?
-    #                                             ( GraphPatternNotTriples '.'? TriplesBlock? )*
+    # [29]	Update	::=	Prologue (Update1 (";" Update)? )?
+    production(:Update) do |input, data, callback|
+      update = data[:update] || SPARQL::Algebra::Expression(:update)
+
+      # Add prefix
+      if data[:PrefixDecl]
+        pfx = data[:PrefixDecl].shift
+        data[:PrefixDecl].each {|p| pfx.merge!(p)}
+        pfx.operands[1] = update
+        update = pfx
+      end
+
+      # Add base
+      update = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, update] if data[:BaseDecl]
+
+      # Don't use update operator twice, if we can help it
+      input[:update] = update
+    end
+    production(:_Update_3) do |input, data, callback|
+      if data[:update]
+        if input[:update].is_a?(SPARQL::Algebra::Operator::Update)
+          # Append operands
+          input[:update] = SPARQL::Algebra::Expression(:update, *(input[:update].operands + data[:update].operands))
+        else
+          add_prod_datum(:update, data[:update])
+        end
+      end
+    end
+
+    # [30]	Update1	::=	Load | Clear | Drop | Add | Move | Copy | Create | InsertData | DeleteData | DeleteWhere | Modify
+    production(:Update1) do |input, data, callback|
+      input[:update] = SPARQL::Algebra::Expression.for(:update, data[:update_op])
+    end
+
+    # [31]	Load	::=	"LOAD" "SILENT"? iri ("INTO" GraphRef)?
+    production(:Load) do |input, data, callback|
+      args = []
+      args << :silent if data[:silent]
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:load, *args)
+    end
+
+    # [32]	Clear	::=	"CLEAR" "SILENT"? GraphRefAll
+    production(:Clear) do |input, data, callback|
+      args = []
+      %w(silent default named all).map(&:to_sym).each do |s|
+        args << s if data[s]
+      end
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:clear, *args)
+    end
+
+    # [33]	Drop	::=	"DROP" "SILENT"? GraphRefAll
+    production(:Drop) do |input, data, callback|
+      args = []
+      %w(silent default named all).map(&:to_sym).each do |s|
+        args << s if data[s]
+      end
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:drop, *args)
+    end
+
+    # [34]	Create	::=	"CREATE" "SILENT"? GraphRef
+    production(:Create) do |input, data, callback|
+      args = []
+      args << :silent if data[:silent]
+      args += Array(data[:iri])
+      input[:update_op] = SPARQL::Algebra::Expression(:create, *args)
+    end
+
+    # [35]	Add	::=	"ADD" "SILENT"? GraphOrDefault "TO" GraphOrDefault
+    production(:Add) do |input, data, callback|
+      args = []
+      args << :silent if data[:silent]
+      args += data[:GraphOrDefault]
+      input[:update_op] = SPARQL::Algebra::Expression(:add, *args)
+    end
+
+    # [36]	Move	::=	"MOVE" "SILENT"? GraphOrDefault "TO" GraphOrDefault
+    production(:Move) do |input, data, callback|
+      args = []
+      args << :silent if data[:silent]
+      args += data[:GraphOrDefault]
+      input[:update_op] = SPARQL::Algebra::Expression(:move, *args)
+    end
+
+    # [37]	Copy	::=	"COPY" "SILENT"? GraphOrDefault "TO" GraphOrDefault
+    production(:Copy) do |input, data, callback|
+      args = []
+      args << :silent if data[:silent]
+      args += data[:GraphOrDefault]
+      input[:update_op] = SPARQL::Algebra::Expression(:copy, *args)
+    end
+
+    # [38]	InsertData	::=	"INSERT DATA" QuadData
+    production(:InsertData) do |input, data, callback|
+      input[:update_op] = SPARQL::Algebra::Expression(:insertData, data[:pattern])
+    end
+
+    # [39]	DeleteData	::=	"DELETE DATA" QuadData
+    production(:DeleteData) do |input, data, callback|
+      raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      input[:update_op] = SPARQL::Algebra::Expression(:deleteData, data[:pattern])
+    end
+
+    # [40]	DeleteWhere	::=	"DELETE WHERE" QuadPattern
+    start_production(:DeleteWhere) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
+      self.clear_bnode_cache
+    end
+    production(:DeleteWhere) do |input, data, callback|
+      raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      self.nd_var_gen = "0"
+      input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, data[:pattern])
+    end
+
+    # [41]	Modify	::=	("WITH" iri)? ( DeleteClause InsertClause? | InsertClause) UsingClause* "WHERE" GroupGraphPattern
+    production(:Modify) do |input, data, callback|
+      query = data[:query].first if data[:query]
+      query = SPARQL::Algebra::Expression.for(:using, data[:using], query) if data[:using]
+      operands = [query, data[:delete], data[:insert]].compact
+      operands = [SPARQL::Algebra::Expression.for(:with, data[:iri].first, *operands)] if data[:iri]
+      input[:update_op] = SPARQL::Algebra::Expression(:modify, *operands)
+    end
+
+    # [42]	DeleteClause	::=	"DELETE" QuadPattern
+    start_production(:DeleteClause) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
+      self.clear_bnode_cache
+    end
+    production(:DeleteClause) do |input, data, callback|
+      raise Error, "DeleteClause contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      self.nd_var_gen = "0"
+      input[:delete] = SPARQL::Algebra::Expression(:delete, data[:pattern])
+    end
+
+    # [43]	InsertClause	::=	"INSERT" QuadPattern
+    production(:InsertClause) do |input, data, callback|
+      input[:insert] = SPARQL::Algebra::Expression(:insert, data[:pattern])
+    end
+
+    # [44]	UsingClause	::=	"USING" ( iri | "NAMED" iri)
+    production(:UsingClause) do |input, data, callback|
+      add_prod_data(:using, data[:iri].first)
+    end
+    production(:_UsingClause_2) do |input, data, callback|
+      add_prod_data(:iri, [:named, data[:iri].first])
+    end
+
+    # [45]	GraphOrDefault	::=	"DEFAULT" | "GRAPH"? iri
+    production(:GraphOrDefault) do |input, data, callback|
+      if data[:default]
+        add_prod_datum(:GraphOrDefault, :default)
+      else
+        add_prod_data(:GraphOrDefault, data[:iri].first)
+      end
+    end
+
+    # [46]	GraphRef	::=	"GRAPH" iri
+    production(:GraphRef) do |input, data, callback|
+      add_prod_data(:iri, data[:iri].first)
+    end
+    # [47]	GraphRefAll	::=	GraphRef | "DEFAULT" | "NAMED" | "ALL"
+    #production(:GraphRefAll) do |input, data, callback|
+    #  add_prod_datum(:GraphRefAll, data)
+    #end
+
+    # [49]	QuadData	::=	"{" Quads "}"
+    # QuadData is like QuadPattern, except without BNodes
+    start_production(:QuadData) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables
+      self.clear_bnode_cache
+    end
+    production(:QuadData) do |input, data, callback|
+      # Transform using statements instead of patterns, and verify there are no variables
+      raise Error, "QuadData contains variable operands: #{data[:pattern].to_sse}" if data[:pattern].first.variable?
+      self.nd_var_gen = "0"
+      input[:pattern] = data[:pattern]
+    end
+
+    # [51] QuadsNotTriples	::=	"GRAPH" VarOrIri "{" TriplesTemplate? "}"
+    production(:QuadsNotTriples) do |input, data, callback|
+      add_prod_datum(:pattern, [SPARQL::Algebra::Expression.for(:graph, data[:VarOrIri].last, data[:pattern])])
+    end
+
+    # [52]	TriplesTemplate	::=	TriplesSameSubject ("." TriplesTemplate? )?
+    production(:TriplesTemplate) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+    end
+
+    # [54]	GroupGraphPatternSub	::=	TriplesBlock? (GraphPatternNotTriples "."? TriplesBlock? )*
     production(:GroupGraphPatternSub) do |input, data, callback|
       debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
 
@@ -522,7 +709,6 @@ module SPARQL::Grammar
 
     # [66]  MinusGraphPattern       ::= 'MINUS' GroupGraphPattern
     production(:MinusGraphPattern) do |input, data, callback|
-      expr = nil
       query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
       add_prod_data(:minus, query)
     end
@@ -586,7 +772,7 @@ module SPARQL::Grammar
     # [73]  	ConstructTemplate	  ::=  	'{' ConstructTriples? '}'
     start_production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
-      self.nd_var_gen = false
+      self.clear_bnode_cache
     end
     production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
@@ -605,7 +791,7 @@ module SPARQL::Grammar
     #                                       ( ';' ( Verb ObjectList )? )*
     start_production(:PropertyListNotEmpty) do |input, data, callback|
       subject = input[:VarOrTerm] || input[:TriplesNode] || input[:GraphNode]
-      error(nil, "Expected VarOrTerm or TriplesNode or GraphNode", :production => :PropertyListNotEmpty) if validate? && !subject
+      error(nil, "Expected VarOrTerm or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
     production(:PropertyListNotEmpty) do |input, data, callback|
@@ -616,8 +802,8 @@ module SPARQL::Grammar
     start_production(:ObjectList) do |input, data, callback|
       # Called after Verb. The prod_data stack should have Subject and Verb elements
       data[:Subject] = prod_data[:Subject]
-      error(nil, "Expected Subject", :production => :ObjectList) if !prod_data[:Subject] && validate?
-      error(nil, "Expected Verb", :production => :ObjectList) if !prod_data[:Verb] && validate?
+      error(nil, "Expected Subject", production: :ObjectList) if !prod_data[:Subject] && validate?
+      error(nil, "Expected Verb", production: :ObjectList) if !prod_data[:Verb] && validate?
       data[:Subject] = prod_data[:Subject]
       data[:Verb] = prod_data[:Verb].to_a.last
     end
@@ -629,7 +815,7 @@ module SPARQL::Grammar
     production(:Object) do |input, data, callback|
       object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode]
       if object
-        add_pattern(:Object, :subject => prod_data[:Subject], :predicate => prod_data[:Verb], :object => object)
+        add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
         add_prod_datum(:pattern, data[:pattern])
       end
     end
@@ -642,7 +828,7 @@ module SPARQL::Grammar
     # [83]  	PropertyListNotEmptyPath	  ::=  	( VerbPath | VerbSimple ) ObjectList ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
     start_production(:PropertyListNotEmptyPath) do |input, data, callback|
       subject = input[:VarOrTerm]
-      error(nil, "Expected VarOrTerm", :production => ::PropertyListNotEmptyPath) if validate? && !subject
+      error(nil, "Expected VarOrTerm", production: ::PropertyListNotEmptyPath) if validate? && !subject
       data[:Subject] = subject
     end
     production(:PropertyListNotEmptyPath) do |input, data, callback|
@@ -1064,7 +1250,7 @@ module SPARQL::Grammar
       else input.to_s.dup
       end
       @input.encode!(Encoding::UTF_8) if @input.respond_to?(:encode!)
-      @options = {:anon_base => "b0", :validate => false}.merge(options)
+      @options = {anon_base: "b0", validate: false}.merge(options)
       @options[:debug] ||= case
       when options[:progress] then 2
       when options[:validate] then 1
@@ -1122,10 +1308,10 @@ module SPARQL::Grammar
     # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     # @see http://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
     def parse(prod = START)
-      ll1_parse(@input, prod.to_sym, @options.merge(:branch => BRANCH,
-                                                    :first => FIRST,
-                                                    :follow => FOLLOW,
-                                                    :whitespace => WS)
+      ll1_parse(@input, prod.to_sym, @options.merge(branch: BRANCH,
+                                                    first: FIRST,
+                                                    follow: FOLLOW,
+                                                    whitespace: WS)
       ) do |context, *data|
         case context
         when :trace
@@ -1152,9 +1338,11 @@ module SPARQL::Grammar
         nil
       when prod_data[:query]
         prod_data[:query].to_a.length == 1 ? prod_data[:query].first : prod_data[:query]
+      when prod_data[:update]
+        prod_data[:update]
       else
         key = prod_data.keys.first
-        [key] + prod_data[key]  # Creates [:key, [:triple], ...]
+        [key] + Array(prod_data[key])  # Creates [:key, [:triple], ...]
       end
     end
 
@@ -1176,7 +1364,7 @@ module SPARQL::Grammar
     #
     # @example
     #   prefixes = {
-    #     :dc => RDF::URI('http://purl.org/dc/terms/'),
+    #     dc: RDF::URI('http://purl.org/dc/terms/'),
     #   }
     #
     # @param  [Hash{Symbol => RDF::URI}] prefixes
@@ -1253,6 +1441,12 @@ module SPARQL::Grammar
 
     # Used for generating BNode labels
     attr_accessor :nd_var_gen
+
+    # Reset the bnode cache, always generating new nodes, and start generating BNodes instead of non-distinguished variables
+    def clear_bnode_cache
+      @nd_var_gen = false
+      @bnode_cache = {}
+    end
 
     # Generate a BNode identifier
     def bnode(id = nil)
@@ -1334,7 +1528,7 @@ module SPARQL::Grammar
         "options: #{options.inspect}, " +
         "validate: #{validate?.inspect}, "
       end
-      RDF::Literal.new(value, options.merge(:validate => validate?))
+      RDF::Literal.new(value, options.merge(validate: validate?))
     end
 
     # Take collection of objects and create RDF Collection using rdf:first, rdf:rest and rdf:nil
@@ -1349,16 +1543,16 @@ module SPARQL::Grammar
       last = list.pop
 
       list.each do |r|
-        add_pattern(:Collection, :subject => first, :predicate => RDF["first"], :object => r)
+        add_pattern(:Collection, subject: first, predicate: RDF["first"], object: r)
         rest = bnode()
-        add_pattern(:Collection, :subject => first, :predicate => RDF["rest"], :object => rest)
+        add_pattern(:Collection, subject: first, predicate: RDF["rest"], object: rest)
         first = rest
       end
 
       if last
-        add_pattern(:Collection, :subject => first, :predicate => RDF["first"], :object => last)
+        add_pattern(:Collection, subject: first, predicate: RDF["first"], object: last)
       end
-      add_pattern(:Collection, :subject => first, :predicate => RDF["rest"], :object => RDF["nil"])
+      add_pattern(:Collection, subject: first, predicate: RDF["rest"], object: RDF["nil"])
     end
 
     # add a pattern
@@ -1375,14 +1569,14 @@ module SPARQL::Grammar
         end
         if validate? && !v.is_a?(RDF::Term)
           error("add_pattern", "Expected #{r} to be a resource, but it was #{v.inspect}",
-            :production => production)
+            production: production)
         end
         triple[r] = v
       end
       add_prod_datum(:pattern, RDF::Query::Pattern.new(triple))
     end
 
-    # Flatten a Data in form of :filter => [op+ bgp?], without a query into filter and query creating exprlist, if necessary
+    # Flatten a Data in form of filter: [op+ bgp?], without a query into filter and query creating exprlist, if necessary
     # @return [Array[:expr, query]]
     def flatten_filter(data)
       query = data.pop if data.last.is_a?(SPARQL::Algebra::Query)

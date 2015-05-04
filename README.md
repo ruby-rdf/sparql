@@ -17,29 +17,26 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data][])
 * SPARQL Client for accessing remote SPARQL endpoints.
+* SPARQL Update
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
-* Compatible with Ruby >= 1.9.2.
+* Compatible with Ruby >= 1.9.3.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on all versions of Ruby.
 
 ## Description
 
-The {SPARQL} gem implements [SPARQL 1.1 Query][], and provides [Rack][] and [Sinatra][]
-middleware to provide results using [HTTP Content Negotiation][conneg].
+The {SPARQL} gem implements [SPARQL 1.1 Query][], and [SPARQL 1.1 Update][], and provides [Rack][] and [Sinatra][] middleware to provide results using [HTTP Content Negotiation][conneg].
 
-* {SPARQL::Grammar} implements a [SPARQL 1.1 Query][] parser generating [SPARQL S-Expressions (SSE)][SSE].
+* {SPARQL::Grammar} implements a [SPARQL 1.1 Query][] and [SPARQL 1.1 Update][] parser generating [SPARQL S-Expressions (SSE)][SSE].
   * Support for [Property Paths][] is excluded.
     See the section on [SPARQL 1.1 Query][] extensions and limitations for further detail.
-* {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including
-  compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
-* {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results
-  using an appropriate format based on [HTTP content negotiation][conneg].
+* {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
+* {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results using an appropriate format based on [HTTP content negotiation][conneg].
 
 ### [SPARQL 1.1 Query][] Extensions and Limitations
-The {SPARQL} gem uses the [SPARQL 1.1 Query][] {file:etc/sparql11.bnf EBNF grammar}, which provides
-much more capability than [SPARQL 1.0][], but has a few limitations:
+The {SPARQL} gem uses the [SPARQL 1.1 Query][] {file:etc/sparql11.html EBNF grammar}, which provides much more capability than [SPARQL 1.0][], but has a few limitations:
 
 * The format for decimal datatypes has changed in [RDF 1.1][]; they may no
   longer have a trailing ".", although they do not need a leading digit.
@@ -57,11 +54,13 @@ The SPARQL gem now implements the following [SPARQL 1.1 Query][] operations:
 * [Exists](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#func-filter-exists)
 * [Negation](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation)
 
-The only major area of [SPARQL 1.1 Query][] missing is
-[Property Paths][], which
-will be in later release along with:
+The gem also includes the following [SPARQL 1.1 Update][] operations:
+* [Graph Update](http://www.w3.org/TR/sparql11-update/#graphUpdate)
+* [Graph Management](http://www.w3.org/TR/sparql11-update/#graphManagement)
 
-* [Update][SPARQL 1.1 Update],
+The only major area of [SPARQL 1.1 Query][] missing is
+[Property Paths][], which will be in later release along with:
+
 * [Federated Query][SPARQL 1.1 Federated Query],
 * [Entailment Regimes][SPARQL 1.1 Entailment Regimes],
 * [Protocol][SPARQL 1.1 Protocol], and
@@ -117,11 +116,7 @@ for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.
 
 ### Remote datasets
 
-A SPARQL query containing `FROM` or `FROM NAMED` will load the referenced IRI unless the repository
-already contains a context with that same IRI. This is performed using [RDF.rb][] `RDF::Util::File.open_file`
-passing HTTP Accept headers for various available RDF formats. For best results, require [Linked Data][] to enable
-a full set of RDF formats in the `GET` request. Also, consider overriding `RDF::Util::File.open_file` with
-an implementation with support for HTTP Get headers (such as `Net::HTTP`).
+A SPARQL query containing `FROM` or `FROM NAMED` (also `UPDATE` or `UPDATE NAMED`) will load the referenced IRI unless the repository already contains a context with that same IRI. This is performed using [RDF.rb][] `RDF::Util::File.open_file` passing HTTP Accept headers for various available RDF formats. For best results, require [Linked Data][] to enable a full set of RDF formats in the `GET` request. Also, consider overriding `RDF::Util::File.open_file` with an implementation with support for HTTP Get headers (such as `Net::HTTP`).
 
 Queries using datasets are re-written to use the identified graphs for `FROM` and `FROM NAMED` by filtering the results, allowing the use of a repository that contains many graphs without confusing information.
 
@@ -153,6 +148,15 @@ a full set of RDF formats.
     sse.execute(queryable) do |result|
       result.inspect
     end
+
+### Updating a respository
+
+    queryable = RDF::Repository.load("etc/doap.ttl")
+    sse = SPARQL.parse(%(
+      PREFIX doap: <http://usefulinc.com/ns/doap#>
+      INSERT DATA { <http://rubygems.org/gems/sparql> doap:implements <http://www.w3.org/TR/sparql11-update/>}
+    ), update: true)
+    sse.execute(queryable)
 
 ### Rendering solutions as JSON, XML, CSV, TSV or HTML
     queryable = RDF::Repository.load("etc/doap.ttl")
@@ -212,7 +216,7 @@ a full set of RDF formats.
     require 'uri'
 
     get '/' do
-      settings.sparql_options.replace(:standard_prefixes => true)
+      settings.sparql_options.replace(standard_prefixes: true)
       repository = RDF::Repository.new do |graph|
         graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
       end
@@ -220,11 +224,11 @@ a full set of RDF formats.
         query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)
         SPARQL.execute(query, repository)
       else
-        settings.sparql_options.merge!(:prefixes => {
-          :ssd => "http://www.w3.org/ns/sparql-service-description#",
-          :void => "http://rdfs.org/ns/void#"
+        settings.sparql_options.merge!(prefixes: {
+          ssd: "http://www.w3.org/ns/sparql-service-description#",
+          void: "http://rdfs.org/ns/void#"
         })
-        service_description(:repo => repository)
+        service_description(repo: repository)
       end
     end
 
@@ -249,19 +253,19 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Dependencies
 
-* [Ruby](http://ruby-lang.org/) (>= 1.9.2)
-* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.0.7)
-* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.0.3)
-* [SXP](https://rubygems.org/gems/sxp) (>= 0.1.0)
+* [Ruby](http://ruby-lang.org/) (>= 1.9.3)
+* [RDF.rb](http://rubygems.org/gems/rdf) (>= 1.1.12)
+* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (>= 1.1.3)
+* [SXP](https://rubygems.org/gems/sxp) (>= 0.1.3)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
-* [JSON](https://rubygems.org/gems/json) (>= 1.5.1)
-* Soft dependency on [Linked Data][] (>= 1.0)
-* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.5.0)
+* [JSON](https://rubygems.org/gems/json) (>= 1.8.2)
+* Soft dependency on [Linked Data][] (>= 1.1)
+* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.6.6)
   Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient
 * Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.3.0)
   Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included
-* Soft dependency on [Rack][] (>= 1.4.4)
-* Soft dependency on [Sinatra][] (>= 1.3.3)
+* Soft dependency on [Rack][] (>= 1.6.0)
+* Soft dependency on [Sinatra][] (>= 1.4.6)
 
 ## Installation
 

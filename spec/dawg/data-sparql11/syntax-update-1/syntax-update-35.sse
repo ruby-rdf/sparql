@@ -1,0 +1,1 @@
+(update (deleteWhere ((triple ?s ?p ?o))))

@@ -34,7 +34,7 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Union"}
         @solutions = RDF::Query::Solutions(operands.inject([]) do |memo, op|
-          solns = op.execute(queryable, options.merge(:depth => options[:depth].to_i + 1))
+          solns = op.execute(queryable, options.merge(depth: options[:depth].to_i + 1))
           debug(options) {"=> (op) #{solns.inspect}"}
           memo + solns
         end)

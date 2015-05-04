@@ -10,7 +10,7 @@ describe SPARQL::Algebra do
       {
         # String
         "(equal (xsd:string 'foo'^^xsd:string) xsd:string)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.string, RDF::Literal.new("foo", :datatype => RDF::XSD.string)]), RDF::XSD.string),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.string, RDF::Literal.new("foo", datatype: RDF::XSD.string)]), RDF::XSD.string),
         "(equal (xsd:string '1.0e10'^^xsd:double) xsd:string)" =>
           Operator::Equal.new(Operator::Datatype.new([RDF::XSD.string, RDF::Literal.new(1.0e10)]), RDF::XSD.string),
         "(equal (xsd:string 'foo'^^xsd:integer) xsd:string)" =>
@@ -26,9 +26,9 @@ describe SPARQL::Algebra do
 
         # Double
         "(equal (xsd:double '1.0e10'^^xsd:string) xsd:double)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.double, RDF::Literal.new("1.0e10", :datatype => RDF::XSD.string)]), RDF::XSD.double),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.double, RDF::Literal.new("1.0e10", datatype: RDF::XSD.string)]), RDF::XSD.double),
         "(equal (xsd:double 'foo'^^xsd:string) xsd:double) raises TypeError" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.double, RDF::Literal.new("foo", :datatype => RDF::XSD.string)]), RDF::XSD.double),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.double, RDF::Literal.new("foo", datatype: RDF::XSD.string)]), RDF::XSD.double),
         "(equal (xsd:double '1.0e10'^^xsd:double) xsd:double)" =>
           Operator::Equal.new(Operator::Datatype.new([RDF::XSD.double, RDF::Literal.new(1.0e10)]), RDF::XSD.double),
         "(equal (xsd:double '1'^^xsd:integer) xsd:double)" =>
@@ -46,9 +46,9 @@ describe SPARQL::Algebra do
 
         # Decimal
         "(equal (xsd:decimal '1.0'^^xsd:string) xsd:decimal)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.decimal, RDF::Literal.new("1.0", :datatype => RDF::XSD.string)]), RDF::XSD.decimal),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.decimal, RDF::Literal.new("1.0", datatype: RDF::XSD.string)]), RDF::XSD.decimal),
         "(equal (xsd:decimal 'foo'^^xsd:string) xsd:decimal) raises TypeError" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.decimal, RDF::Literal.new("foo", :datatype => RDF::XSD.string)]), RDF::XSD.decimal),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.decimal, RDF::Literal.new("foo", datatype: RDF::XSD.string)]), RDF::XSD.decimal),
         "(equal (xsd:decimal '1.0e10'^^xsd:double) xsd:decimal) raises TypeError" =>
           Operator::Equal.new(Operator::Datatype.new([RDF::XSD.decimal, RDF::Literal::Double.new("1.0e10")]), RDF::XSD.decimal),
         "(equal (xsd:decimal '1'^^xsd:integer) xsd:decimal)" =>
@@ -66,9 +66,9 @@ describe SPARQL::Algebra do
 
         # Integer
         "(equal (xsd:integer '1'^^xsd:string) xsd:integer)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.integer, RDF::Literal.new("1", :datatype => RDF::XSD.string)]), RDF::XSD.integer),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.integer, RDF::Literal.new("1", datatype: RDF::XSD.string)]), RDF::XSD.integer),
         "(equal (xsd:integer 'foo'^^xsd:string) xsd:integer) raises TypeError" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.integer, RDF::Literal.new("foo", :datatype => RDF::XSD.string)]), RDF::XSD.integer),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.integer, RDF::Literal.new("foo", datatype: RDF::XSD.string)]), RDF::XSD.integer),
         "(equal (xsd:integer '1.0e10'^^xsd:double) xsd:integer) raises TypeError" =>
           Operator::Equal.new(Operator::Datatype.new([RDF::XSD.integer, RDF::Literal::Double.new("1.0e10")]), RDF::XSD.integer),
         "(equal (xsd:integer '1'^^xsd:integer) xsd:integer)" =>
@@ -86,11 +86,11 @@ describe SPARQL::Algebra do
 
         # DateTime
         "(equal (xsd:dateTime '2011-02-20T00:00:00'^^xsd:string) xsd:dateTime)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("1", :datatype => RDF::XSD.string)]), RDF::XSD.dateTime),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("1", datatype: RDF::XSD.string)]), RDF::XSD.dateTime),
         "(equal (xsd:dateTime '1'^^xsd:string) xsd:dateTime) raises TypeError" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("1", :datatype => RDF::XSD.string)]), RDF::XSD.dateTime),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("1", datatype: RDF::XSD.string)]), RDF::XSD.dateTime),
         "(equal (xsd:dateTime 'foo'^^xsd:string) xsd:dateTime) raises TypeError" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("foo", :datatype => RDF::XSD.string)]), RDF::XSD.dateTime),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("foo", datatype: RDF::XSD.string)]), RDF::XSD.dateTime),
         "(equal (xsd:dateTime '1.0e10'^^xsd:double) xsd:dateTime) raises TypeError" =>
           Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal::Double.new("1.0e10")]), RDF::XSD.dateTime),
         "(equal (xsd:dateTime '2011-02-20T00:00:00'^^xsd:dateTime) xsd:dateTime)" =>
@@ -104,15 +104,15 @@ describe SPARQL::Algebra do
         "(equal (xsd:dateTime 'foo') xsd:dateTime) raises TypeError" =>
           Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("foo")]), RDF::XSD.dateTime),
         "(equal (xsd:dateTime '2011-02-20T00:00:00'^^xsd:string) xsd:dateTime)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("2011-02-20T00:00:00", :datatype => RDF::XSD.string)]), RDF::XSD.dateTime),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.dateTime, RDF::Literal.new("2011-02-20T00:00:00", datatype: RDF::XSD.string)]), RDF::XSD.dateTime),
 
         # Boolean
         "(equal (xsd:boolean '1'^^xsd:string) xsd:boolean)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.boolean, RDF::Literal.new("1", :datatype => RDF::XSD.string)]), RDF::XSD.boolean),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.boolean, RDF::Literal.new("1", datatype: RDF::XSD.string)]), RDF::XSD.boolean),
         "(equal (xsd:boolean 'foo'^^xsd:string) xsd:boolean)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.boolean, RDF::Literal.new("foo", :datatype => RDF::XSD.string)]), RDF::XSD.boolean),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.boolean, RDF::Literal.new("foo", datatype: RDF::XSD.string)]), RDF::XSD.boolean),
         "(equal (xsd:boolean 'foo'^^xsd:string) xsd:boolean)" =>
-          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.boolean, RDF::Literal.new("foo", :datatype => RDF::XSD.string)]), RDF::XSD.boolean),
+          Operator::Equal.new(Operator::Datatype.new([RDF::XSD.boolean, RDF::Literal.new("foo", datatype: RDF::XSD.string)]), RDF::XSD.boolean),
         "(equal (xsd:boolean '1.0e10'^^xsd:double) xsd:boolean)" =>
           Operator::Equal.new(Operator::Datatype.new([RDF::XSD.boolean, RDF::Literal::Double.new("1.0e10")]), RDF::XSD.boolean),
         "(equal (xsd:boolean '1'^^xsd:boolean) xsd:boolean)" =>

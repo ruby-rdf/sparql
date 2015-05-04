@@ -1,0 +1,271 @@
+{
+  "@context": {
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+    "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+    "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+    "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+    "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+    "id": "@id",
+    "type": "@type",
+    "comment": "rdfs:comment",
+    "entries": {
+      "@id": "mf:entries",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "include": {
+      "@id": "mf:include",
+      "@type": "@id",
+      "@container": "@list"
+    },
+    "name": "mf:name",
+    "action": {
+      "@id": "mf:action",
+      "@type": "@id"
+    },
+    "result": {
+      "@id": "mf:result",
+      "@type": "@id"
+    },
+    "approval": {
+      "@id": "dawgt:approval",
+      "@type": "@id"
+    },
+    "mq:data": {
+      "@type": "@id"
+    },
+    "mq:graphData": {
+      "@type": "@id"
+    },
+    "mq:query": {
+      "@type": "@id"
+    },
+    "ut:data": {
+      "@type": "@id"
+    },
+    "ut:graph": {
+      "@type": "@id"
+    },
+    "ut:graphData": {
+      "@type": "@id",
+      "@container": "@set"
+    },
+    "ut:request": {
+      "@type": "@id"
+    }
+  },
+  "@graph": [
+    {
+      "comment": "SPARQL Protocol",
+      "entries": [
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_form",
+          "name": "query via URL-encoded POST",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_get",
+          "name": "GET query with protocol-specified default graph",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_post",
+          "name": "POST query with protocol-specified default graphs",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_post",
+          "name": "POST query with protocol-specified named graphs",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_get",
+          "name": "GET query with protocol-specified named graphs",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_full",
+          "name": "query with protocol-specified dataset (both named and default graphs)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_multiple_dataset",
+          "name": "query specifying dataset in both query string and protocol; test for use of protocol-specified dataset",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_get",
+          "name": "query via GET",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_select",
+          "name": "query appropriate content type (expect one of: XML, JSON, CSV, TSV)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_ask",
+          "name": "query appropriate content type (expect one of: XML, JSON)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_describe",
+          "name": "query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_construct",
+          "name": "query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graph",
+          "name": "update with protocol-specified default graph",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graphs",
+          "name": "update with protocol-specified default graphs",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_named_graphs",
+          "name": "update with protocol-specified named graphs",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_full",
+          "name": "update with protocol-specified dataset (both named and default graphs)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_form",
+          "name": "update via URL-encoded POST",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_direct",
+          "name": "update via POST directly",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_base_uri",
+          "name": "test for service-defined BASE URI (\"which MAY be the service endpoint\")",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_direct",
+          "name": "query via POST directly",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_method",
+          "name": "invoke query operation with a method other than GET or POST",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_queries",
+          "name": "invoke query operation with more than one query string",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_wrong_media_type",
+          "name": "invoke query operation with a POST with media type that's not url-encoded or application/sparql-query",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_form_type",
+          "name": "invoke query operation with url-encoded body, but without application/x-www-url-form-urlencoded media type",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_direct_type",
+          "name": "invoke query operation with SPARQL body, but without application/sparql-query media type",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_non_utf8",
+          "name": "invoke query operation with direct POST, but with a non-UTF8 encoding (UTF-16)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_syntax",
+          "name": "invoke query operation with invalid query syntax (4XX result)",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_get",
+          "name": "invoke update operation with GET",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_updates",
+          "name": "invoke update operation with more than one update string",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_wrong_media_type",
+          "name": "invoke update operation with a POST with media type that's not url-encoded or application/sparql-update",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_missing_form_type",
+          "name": "invoke update operation with url-encoded body, but without application/x-www-url-form-urlencoded media type",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_non_utf8",
+          "name": "invoke update operation with direct POST, but with a non-UTF8 encoding",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_syntax",
+          "name": "invoke update operation with invalid update syntax",
+          "type": "mf:ProtocolTest"
+        },
+        {
+          "approval": "dawgt:NotClassified",
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_dataset_conflict",
+          "name": "invoke update with both using-graph-uri/using-named-graph-uri parameter and USING/WITH clause",
+          "type": "mf:ProtocolTest"
+        }
+      ],
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest.ttl",
+      "type": "mf:Manifest"
+    }
+  ]
+}

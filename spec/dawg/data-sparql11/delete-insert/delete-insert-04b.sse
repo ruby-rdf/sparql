@@ -1,0 +1,7 @@
+(prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
+  (update
+    (modify
+      (join
+        (bgp (triple ?a foaf:name "Alan"))
+        (bgp (triple ?a foaf:knows ?Var_B)))
+      (delete ((triple ?a foaf:knows ?Var_B))))))

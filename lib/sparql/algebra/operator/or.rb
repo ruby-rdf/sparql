@@ -42,13 +42,13 @@ module SPARQL; module Algebra
       # @raise  [TypeError] if the operands could not be coerced to a boolean literal
       def evaluate(bindings, options = {})
         begin
-          left = boolean(operand(0).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))).true?
+          left = boolean(operand(0).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))).true?
         rescue TypeError
           left = nil
         end
         
         begin
-          right = boolean(operand(1).evaluate(bindings, options.merge(:depth => options[:depth].to_i + 1))).true?
+          right = boolean(operand(1).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))).true?
         rescue TypeError
           right = nil
         end

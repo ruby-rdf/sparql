@@ -27,9 +27,9 @@ def run_tc(t, options = {})
 
   graphs.each {|k, s| puts "#{k}:\n#{s[:data]}\n"} if options[:verbose]
 
-  result = sparql_query(:graphs => graphs, :query => query, :sse => !!options[:sse],
-                        :base_uri => t.action.query_file,
-                        :repository => "sparql-spec", :form => t.form, :to_hash => false)
+  result = sparql_query(graphs: graphs, query: query, sse: !!options[:sse],
+                        base_uri: t.action.query_file,
+                        repository: "sparql-spec", form: t.form, to_hash: false)
 
   puts "expected: #{expected.inspect}" if options[:verbose]
   puts "result: #{result.inspect}" if options[:verbose]
@@ -76,7 +76,7 @@ end
 options = {
   :verbose  => false,
   :quite    => false,
-  :validate => false,
+  validate: false,
 }
 suite = "rdfxml"
 opts = GetoptLong.new(

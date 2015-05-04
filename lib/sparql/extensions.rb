@@ -53,12 +53,12 @@ module RDF::Queryable
       query_terms = terms.dup
 
       # Find terms not in self as a subject and recurse with their subjects
-      terms.reject {|term| self.first(:subject => term)}.each do |term|
-        self.query(:predicate => term) do |statement|
+      terms.reject {|term| self.first(subject: term)}.each do |term|
+        self.query(predicate: term) do |statement|
           query_terms << statement.subject
         end
 
-        self.query(:object => term) do |statement|
+        self.query(object: term) do |statement|
           query_terms << statement.subject
         end
       end
@@ -67,15 +67,15 @@ module RDF::Queryable
     end
 
     # Don't consider term if already in graph
-    terms.reject {|term| graph.first(:subject => term)}.each do |term|
+    terms.reject {|term| graph.first(subject: term)}.each do |term|
       # Find statements from queryiable with term as a subject
-      self.query(:subject => term) do |statement|
+      self.query(subject: term) do |statement|
         yield(statement) if block_given?
         graph << statement
         
         # Include reifications of this statement
         RDF::Query.new({
-          :s => {
+          s: {
             RDF.type => RDF["Statement"],
             RDF.subject => statement.subject,
             RDF.predicate => statement.predicate,
@@ -83,13 +83,13 @@ module RDF::Queryable
           }
         }).execute(self).each do |solution|
           # Recurse to include this subject
-          recurse_opts = options.merge(:non_subjects => false, :graph => graph)
+          recurse_opts = options.merge(non_subjects: false, graph: graph)
           self.concise_bounded_description(solution[:s], recurse_opts, &block)
         end
 
         # Recurse if object is a BNode and it is not already in subjects
         if statement.object.node?
-          recurse_opts = options.merge(:non_subjects => false, :graph => graph)
+          recurse_opts = options.merge(non_subjects: false, graph: graph)
           self.concise_bounded_description(statement.object, recurse_opts, &block)
         end
       end

@@ -17,10 +17,10 @@ describe "README" do
       case title
       when "Command line processing"
         code.split("\n").reject {|c| c =~ /^\s*(?:#.*)?$/}.each do |command|
-          examples << {:title => command, :sh => command}
+          examples << {title: command, sh: command}
         end
       else
-        examples << {:title => title, :eval_true => code}
+        examples << {title: title, eval_true: code}
       end
     end
     examples
@@ -64,8 +64,8 @@ describe "README" do
 
       results = SPARQL.execute(query, repo)
       expect(results).to describe_solutions([
-        RDF::Query::Solution.new({:crypted => RDF::Literal("gregg@greggkellogg.net".crypt("salt"))})
-      ])
+        RDF::Query::Solution.new({crypted: RDF::Literal("gregg@greggkellogg.net".crypt("salt"))})
+      ], nil)
     end
   end
 end

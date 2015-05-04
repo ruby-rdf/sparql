@@ -38,10 +38,10 @@ module SPARQL; module Algebra
         filter = operand(2)
 
         debug(options) {"LeftJoin"}
-        left = queryable.query(operand(0), options.merge(:depth => options[:depth].to_i + 1))
+        left = queryable.query(operand(0), options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"=>(leftjoin left) #{left.inspect}"}
 
-        right = queryable.query(operand(1), options.merge(:depth => options[:depth].to_i + 1))
+        right = queryable.query(operand(1), options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"=>(leftjoin right) #{right.inspect}"}
 
         # LeftJoin(Ω1, Ω2, expr) =

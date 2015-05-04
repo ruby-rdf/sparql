@@ -1,18 +1,26 @@
 require 'rspec/matchers'
 require 'rdf/isomorphic'
+require 'rdf/trig'
 
 # For examining unordered solution sets
-RSpec::Matchers.define :describe_solutions do |expected_solutions|
+RSpec::Matchers.define :describe_solutions do |expected_solutions, info|
   match {|actual_solutions| actual_solutions.isomorphic_with?(expected_solutions)}
   
   failure_message do |actual_solutions|
+    initial = info.initial.dump(:trig, standard_prefixes: true) if info.respond_to?(:initial)
+    exp = expected_solutions.is_a?(RDF::Enumerable) ? expected_solutions.dump(:trig, standard_prefixes: true) : expected_solutions.inspect
+    res = actual_solutions.is_a?(RDF::Enumerable) ? actual_solutions.dump(:trig, standard_prefixes: true) : actual_solutions.inspect
     msg = "expected solutions to be isomorphic\n" +
-    "expected:\n#{expected_solutions.inspect}" +
-    "\nactual:\n#{actual_solutions.inspect}"
+    (initial ? "initial:\n#{initial}" : "\n") +
+    "expected:\n#{exp}" +
+    "\nactual:\n#{res}"
     missing = (expected_solutions - actual_solutions) rescue []
     extra = (actual_solutions - expected_solutions) rescue []
+    msg += "\nquery:\n#{info.query}"
+    msg += "\nsse:\n#{info.action.sse_string}"
     msg += "\nmissing:\n#{missing.inspect}" unless missing.empty?
     msg += "\nextra:\n#{extra.inspect}" unless extra.empty?
+    msg += "\ninfo:\n#{info.inspect}" if info
     msg
   end
 end

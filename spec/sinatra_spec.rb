@@ -11,13 +11,13 @@ class SPTest < Sinatra::Base
   end
 
   get '/graph' do
-    settings.sparql_options.merge!(:format => (params["fmt"] ? params["fmt"].to_sym : nil))
+    settings.sparql_options.merge!(format: (params["fmt"] ? params["fmt"].to_sym : nil))
     body RDF::Graph.new << [RDF::Node('a'), RDF.URI('http://example/b'), "c"]
   end
 
   get '/solutions' do
-    settings.sparql_options.merge!(:format => (params["fmt"] ? params["fmt"].to_sym : nil))
-    body RDF::Query::Solutions(RDF::Query::Solution.new(:a => RDF::Literal("b")))
+    settings.sparql_options.merge!(format: (params["fmt"] ? params["fmt"].to_sym : nil))
+    body RDF::Query::Solutions(RDF::Query::Solution.new(a: RDF::Literal("b")))
   end
 
   get '/ssd' do
@@ -31,7 +31,7 @@ class SPTest < Sinatra::Base
     repo = RDF::Repository.new
     repo << [RDF::URI('http://example/a'), RDF::URI('http://example/b'), "c"]
     repo << [RDF::URI('http://example/a'), RDF::URI('http://example/b'), "d", RDF::URI('http://example/e')]
-    body service_description(:repository => repo, :endpoint => RDF::URI("http://example/endpoint"))
+    body service_description(repository: repo, endpoint: RDF::URI("http://example/endpoint"))
   end
 end
 
@@ -68,7 +68,7 @@ describe Sinatra::SPARQL do
       }.each do |fmt, expected|
         context fmt do
           it "returns serialization" do
-            get '/graph', :fmt => fmt
+            get '/graph', fmt: fmt
             expect(last_response.status).to eq 200
             expect(last_response.body).to match(expected)
             expect(RDF::Format.for(fmt).content_type).to include(last_response.content_type)
@@ -107,7 +107,7 @@ describe Sinatra::SPARQL do
       }.each do |fmt, expected|
         context fmt do
           it "returns serialization" do
-            get '/solutions', :fmt => fmt
+            get '/solutions', fmt: fmt
             expect(last_response.status).to eq 200
             expect(last_response.body).to match(expected)
             expect(last_response.content_type).to eq SPARQL::Results::MIME_TYPES[fmt]
