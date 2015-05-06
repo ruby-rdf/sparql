@@ -15,13 +15,10 @@ shared_examples "SSE" do |id, label, comment, tests|
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
-          when /propertyPaths|syn-pp/
-            pending "Property Paths"
           when 'dawg-optional-filter-005-simplified', 'dawg-optional-filter-005-not-simplified',
                'dataset-10'
             pending 'New problem with different manifest processing?'
           end
-          pending "Property Paths" if man_name == 'property-path'
           parser_opts = {base_uri: RDF::URI(t.action.query_file)}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
@@ -29,14 +26,12 @@ shared_examples "SSE" do |id, label, comment, tests|
           expect(query).to eq sxp
         end
 
-        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE" do
+        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE", focus: true do
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
-          when /propertyPaths|syn-pp/
-            pending "Property Paths"
           end
           query = begin
             SPARQL::Grammar.parse(t.action.query_string, debug: ENV['PARSER_DEBUG'])
@@ -154,7 +149,6 @@ describe SPARQL::Grammar::Parser do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
     main_man.include.reject do |m|
       %w{
-        property-path
         entailment
         
         csv-tsv-res

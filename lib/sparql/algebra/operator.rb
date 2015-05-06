@@ -85,6 +85,15 @@ module SPARQL; module Algebra
     autoload :Subtract,           'sparql/algebra/operator/subtract'
     autoload :UCase,              'sparql/algebra/operator/ucase'
 
+    # Property Paths
+    autoload :NotOneOf,           'sparql/algebra/operator/notoneof'
+    autoload :PathOpt,            'sparql/algebra/operator/path_opt'
+    autoload :PathPlus,           'sparql/algebra/operator/path_plus'
+    autoload :PathStar,           'sparql/algebra/operator/path_star'
+    autoload :Path,               'sparql/algebra/operator/path'
+    autoload :Reverse,            'sparql/algebra/operator/reverse'
+    autoload :Seq,                'sparql/algebra/operator/seq'
+
     # Miscellaneous
     autoload :Asc,                'sparql/algebra/operator/asc'
     autoload :Coalesce,           'sparql/algebra/operator/coalesce'
@@ -195,18 +204,25 @@ module SPARQL; module Algebra
         when :month           then Month
         when :multiply        then Multiply
         when :not, :'!'       then Not
-        when :notexists      then NotExists
+        when :notexists       then NotExists
         when :notin           then NotIn
+        when :notoneof        then NotOneOf
         when :now             then Now
         when :or, :'||'       then Or
+        when :path            then Path
+        when :path?           then PathOpt
+        when :"path*"         then PathStar
+        when :"path+"         then PathPlus
         when :plus            then Plus
         when :rand            then Rand
         when :regex           then Regex
         when :replace         then Replace
+        when :reverse         then Reverse
         when :round           then Round
         when :sameterm        then SameTerm
         when :sample          then Sample
         when :seconds         then Seconds
+        when :seq             then Seq
         when :sha1            then SHA1
         when :sha256          then SHA256
         when :sha512          then SHA512
