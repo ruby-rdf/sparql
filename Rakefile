@@ -55,7 +55,7 @@ namespace :doc do
 end
 
 desc 'Create versions of ebnf files in etc'
-task etc: %w{etc/sparql11.sxp etc/sparql11.ll1.sxp}
+task etc: %w{etc/sparql11.sxp etc/sparql11.html etc/sparql11.ll1.sxp}
 
 desc 'Build first, follow and branch tables'
 task meta: "lib/sparql/grammar/meta.rb"

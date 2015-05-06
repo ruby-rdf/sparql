@@ -19,14 +19,14 @@ shared_examples "SSE" do |id, label, comment, tests|
                'dataset-10'
             pending 'New problem with different manifest processing?'
           end
-          parser_opts = {base_uri: RDF::URI(t.action.query_file)}
+          parser_opts = {base_uri: RDF::URI(t.action.query_file), validate: true}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
           sxp = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
           expect(query).to eq sxp
         end
 
-        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE", focus: true do
+        it "parses #{t.entry} - #{t.name} - #{t.comment} to lexically equivalent SSE" do
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
             pending "Decimal format changed in SPARQL 1.1"
@@ -34,7 +34,7 @@ shared_examples "SSE" do |id, label, comment, tests|
             pending "Fixing PNAME_LN not matching :\\u0070"
           end
           query = begin
-            SPARQL::Grammar.parse(t.action.query_string, debug: ENV['PARSER_DEBUG'])
+            SPARQL::Grammar.parse(t.action.query_string, validate: true, debug: ENV['PARSER_DEBUG'])
           rescue Exception => e
             "Error: #{e.message}"
           end
@@ -78,7 +78,7 @@ shared_examples "SSE" do |id, label, comment, tests|
           pending("Null update corner case") if %w(
             syntax-update-38.ru
           ).include?(t.entry)
-          parser_opts = {base_uri: RDF::URI(t.action.query_file)}
+          parser_opts = {base_uri: RDF::URI(t.action.query_file), validate: true}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts.merge(update: true))
           sxp = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
@@ -94,7 +94,7 @@ shared_examples "SSE" do |id, label, comment, tests|
             syntax-update-38.ru
           ).include?(t.entry)
           query = begin
-            SPARQL::Grammar.parse(t.action.query_string, update: true, debug: ENV['PARSER_DEBUG'])
+            SPARQL::Grammar.parse(t.action.query_string, validate: true, update: true, debug: ENV['PARSER_DEBUG'])
           rescue Exception => e
             "Error: #{e.message}"
           end
