@@ -887,7 +887,7 @@ module SPARQL::Grammar
       # Called after Verb. The prod_data stack should have Subject and Verb elements
       data[:Subject] = prod_data[:Subject]
       error(nil, "Expected Subject", production: :ObjectListPath) if !prod_data[:Subject] && validate?
-      error(nil, "Expected Verb", production: :ObjectListPath) if !prod_data[:Verb] && validate?
+      error(nil, "Expected Verb", production: :ObjectListPath) if !(prod_data[:Verb] || prod_data[:VerbPath]) && validate?
       data[:Subject] = prod_data[:Subject]
       if prod_data[:Verb]
         data[:Verb] = prod_data[:Verb].to_a.last
@@ -902,15 +902,22 @@ module SPARQL::Grammar
 
     # [87]  	ObjectPath	  ::=  	GraphNodePath
     production(:ObjectPath) do |input, data, callback|
-      object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode] || data[:Path]
+      object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode]
       if object
         if prod_data[:Verb]
-          add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
-          add_prod_datum(:pattern, data[:pattern])
+          if data[:pattern] && data[:path]
+            # Generate a sequence (for collection of paths)
+            data[:pattern].unshift(RDF::Query::Pattern.new(prod_data[:Subject].first, prod_data[:Verb], object.first))
+            bgp = SPARQL::Algebra::Expression[:bgp, data[:pattern]]
+            add_prod_datum(:path, SPARQL::Algebra::Expression[:sequence, bgp, data[:path]])
+          else
+            add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
+            add_prod_datum(:pattern, data[:pattern])
+          end
         else
           add_prod_datum(:path,
             SPARQL::Algebra::Expression(:path,
-                                        prod_data[:Subject].first,
+                                        Array(prod_data[:Subject]).first,
                                         prod_data[:VerbPath],
                                         object.first))
         end
@@ -983,9 +990,26 @@ module SPARQL::Grammar
       input[:PathPrimary] = case
       when data[:Verb]                   then data[:Verb].first
       when data[:iri]                    then data[:iri].first
-      when data[:PathNegatedPropertySet] then data[:PathNegatedPropertySet].first
+      when data[:PathNegatedPropertySet] then data[:PathNegatedPropertySet]
       when data[:Path]                   then data[:Path]
       end
+    end
+
+    # [95]  	PathNegatedPropertySet	  ::=  	PathOneInPropertySet | '(' ( PathOneInPropertySet ( '|' PathOneInPropertySet )* )? ')'
+    production(:PathNegatedPropertySet) do |input, data, callback|
+      input[:Path] = SPARQL::Algebra::Expression(:notoneof, *Array(data[:Path]))
+    end
+
+    # ( '|' PathOneInPropertySet )* )?
+    production(:_PathNegatedPropertySet_4) do |input, data, callback|
+      add_prod_datum(:Path, data[:Path])
+    end
+
+    # [96]  	PathOneInPropertySet	  ::=  	iri | 'a' | '^' ( iri | 'a' )
+    production(:PathOneInPropertySet) do |input, data, callback|
+      term = (data[:iri] || data[:Verb]).first
+      term = SPARQL::Algebra::Expression(:reverse, term) if data[:reverse]
+      input[:Path] = [term]
     end
 
     # [98]  	TriplesNode	  ::=  	Collection |	BlankNodePropertyList
@@ -1005,7 +1029,7 @@ module SPARQL::Grammar
     end
     production(:TriplesNodePath) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:Path, data[:Path])
+      add_prod_datum(:path, data[:path])
       add_prod_datum(:TriplesNode, data[:TriplesNode])
     end
 
@@ -1025,6 +1049,7 @@ module SPARQL::Grammar
     end
     production(:CollectionPath) do |input, data, callback|
       expand_collection(data)
+      add_prod_datum(:path, data[:path])
     end
 
     # [104]  	GraphNode	  ::=  	VarOrTerm |	TriplesNode
@@ -1038,7 +1063,7 @@ module SPARQL::Grammar
     production(:GraphNodePath) do |input, data, callback|
       term = data[:VarOrTerm] || data[:TriplesNode]
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:Path, data[:Path])
+      add_prod_datum(:path, data[:path])
       add_prod_datum(:GraphNode, term)
     end
 
@@ -1707,7 +1732,6 @@ module SPARQL::Grammar
     def expand_collection(data)
       # Add any triples generated from deeper productions
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:Path, data[:Path])
 
       # Create list items for each element in data[:GraphNode]
       first = data[:Collection]

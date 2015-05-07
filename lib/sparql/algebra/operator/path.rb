@@ -33,7 +33,7 @@ module SPARQL; module Algebra
         @solutions = path_op.execute(queryable, options.merge(
           subject: subject,
           object: object,
-          depth: options[:depth.to_i + 1])
+          depth: options[:depth].to_i + 1)
         )
         debug(options) {"=> #{@solutions.inspect}"}
         @solutions.each(&block) if block_given?

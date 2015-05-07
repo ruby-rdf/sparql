@@ -1825,16 +1825,16 @@ describe SPARQL::Grammar::Parser do
       %(:p?) => %((path? :p)),
       %(:p*) => %((path* :p)),
       %(:p+) => %((path+ :p)),
-      %((:p+)) => %((path+: :p)),
+      %((:p+)) => %((path+ :p)),
       %(^:p) => %((reverse :p)),
       %(!^:p) => %((notoneof (reverse :p))),
       %(:p1/:p2) => %((seq :p1 :p2)),
-      %(:p1|:p2) => %((alt :p1 :2)),
-      %(:p1/:p2/:p3) => %((seq :p1 (seq :p2 :p3))),
-      %(:p1|:p2|:p3) => %((alt :p1 (alt :p2 :p3))),
-      %((!:p)+/foaf:name) => %(),
-      %(:p1|(:p2+/:p3+)) => %(),
-      %((((p)*)*)*) => %()
+      %(:p1|:p2) => %((alt :p1 :p2)),
+      %(:p1/:p2/:p3) => %((seq (seq :p1 :p2) :p3)),
+      %(:p1|:p2|:p3) => %((alt (alt :p1 :p2) :p3)),
+      %((!:p)+/foaf:name) => %((seq (path+ (notoneof :p)) foaf:name)),
+      %(:p1|(:p2+/:p3+)) => %((alt :p1 (seq (path+ :p2) (path+ :p3)))),
+      %((((:p)*)*)*) => %((path* (path* (path* :p))))
     }.each do |input, output|
       it input do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))

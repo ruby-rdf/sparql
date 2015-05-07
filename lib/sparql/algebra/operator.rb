@@ -86,6 +86,7 @@ module SPARQL; module Algebra
     autoload :UCase,              'sparql/algebra/operator/ucase'
 
     # Property Paths
+    autoload :Alt,                'sparql/algebra/operator/alt'
     autoload :NotOneOf,           'sparql/algebra/operator/notoneof'
     autoload :PathOpt,            'sparql/algebra/operator/path_opt'
     autoload :PathPlus,           'sparql/algebra/operator/path_plus'
@@ -93,6 +94,7 @@ module SPARQL; module Algebra
     autoload :Path,               'sparql/algebra/operator/path'
     autoload :Reverse,            'sparql/algebra/operator/reverse'
     autoload :Seq,                'sparql/algebra/operator/seq'
+    autoload :Sequence,           'sparql/algebra/operator/sequence'
 
     # Miscellaneous
     autoload :Asc,                'sparql/algebra/operator/asc'
@@ -168,6 +170,7 @@ module SPARQL; module Algebra
         when :>=              then GreaterThanOrEqual
         when :abs             then Abs
         when :add             then Add
+        when :alt             then Alt
         when :and, :'&&'      then And
         when :avg             then Avg
         when :bnode           then BNode
@@ -223,6 +226,7 @@ module SPARQL; module Algebra
         when :sample          then Sample
         when :seconds         then Seconds
         when :seq             then Seq
+        when :sequence        then Sequence
         when :sha1            then SHA1
         when :sha256          then SHA256
         when :sha512          then SHA512

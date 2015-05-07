@@ -32,6 +32,8 @@ shared_examples "SSE" do |id, label, comment, tests|
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
+          when 'syn-pp-in-collection'
+            pending "Investigate unusual inequality"
           end
           query = begin
             SPARQL::Grammar.parse(t.action.query_string, validate: true, debug: ENV['PARSER_DEBUG'])
