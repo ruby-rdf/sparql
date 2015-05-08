@@ -23,7 +23,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
           when /sq03/
             pending("Graph variable binding differences")
           end
-          pending "Property Paths" if id.to_s.split("/")[-2] == 'property-path'
+          skip "Property Paths" if id.to_s.split("/")[-2] == 'property-path'
 
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
