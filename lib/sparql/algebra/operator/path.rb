@@ -30,12 +30,17 @@ module SPARQL; module Algebra
         debug(options) {"Path #{operands.to_sse}"}
         subject, path_op, object = operands
 
-        @solutions = path_op.execute(queryable, options.merge(
+        @solutions = RDF::Query::Solutions.new
+        path_op.execute(queryable, options.merge(
           subject: subject,
           object: object,
+          context: options.fetch(:context, false),
           depth: options[:depth].to_i + 1)
-        )
+        ) do |solution|
+          @solutions << solution
+        end
         debug(options) {"=> #{@solutions.inspect}"}
+        @solutions.uniq!
         @solutions.each(&block) if block_given?
         @solutions
       end

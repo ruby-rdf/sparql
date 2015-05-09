@@ -31,45 +31,78 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
-        debug(options) {"Path? #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
+        debug(options) {"Path? #{[subject, operands, object].to_sse}"}
+        #require 'pry'; binding.pry
 
-        # Solutions where predicate exists
-        pattern = RDF::Query::Pattern.new(subject: subject, predicate: operand, object: object, context: options.fetch(:context, false))
-        queryable.execute(pattern, &block)
-
-        # Solutions where subject == object
-        nodes = []
+        # Solutions where subject == object with no predicate
         case
         when subject.variable? && object.variable?
           # Nodes is the set of all subjects and objects in queryable
           # FIXME: should this be Queryable#enum_nodes?
-          queryable.query(subject: subject, context: options.fetch(:context, false)).each do |solution|
-            nodes << solution.merge!(object => solution[subject])
+          # All subjects which are `object`
+          query = RDF::Query.new {|q| q.pattern(subject: subject)}
+          queryable.query(query, options) do |solution|
+            solution.merge!(object.to_sym => solution[subject])
+            debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
+            yield solution
           end
-          queryable.query(object: subject, context: options.fetch(:context, false)).each do |solution|
-            nodes << solution.merge!(object => solution[subject])
+
+          # All objects which are `object`
+          query = RDF::Query.new {|q| q.pattern(object: object)}
+          queryable.query(query, options) do |solution|
+            solution.merge!(subject.to_sym => solution[object])
+            debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
+            yield solution
           end
         when subject.variable?
-          queryable.query(subject: object, context: options.fetch(:context, false)).each do |solution|
-            nodes << solution.merge!(subject => object)
+          # All subjects which are `object`
+          query = RDF::Query.new {|q| q.pattern(subject: object)}
+          queryable.query(query, options) do |solution|
+            solution.merge!(subject.to_sym => object)
+            debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
+            yield solution
           end
-          queryable.query(object: object, context: options.fetch(:context, false)).each do |solution|
-            nodes << solution.merge!(subject => object)
+
+          # All objects which are `object`
+          query = RDF::Query.new {|q| q.pattern(object: object)}
+          queryable.query(query, options) do |solution|
+            solution.merge!(subject.to_sym => object)
+            debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
+            yield solution
           end
         when object.variable?
-          queryable.query(subject: subject, context: options.fetch(:context, false)).each do |solution|
-            nodes << solution.merge!(object => subject)
+          # All subjects which are `subject`
+          query = RDF::Query.new {|q| q.pattern(subject: subject)}
+          queryable.query(query, options) do |solution|
+            solution.merge!(object.to_sym => subject)
+            debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
+            yield solution
           end
-          queryable.query(object: subject, context: options.fetch(:context, false)).each do |solution|
-            nodes << solution.merge!(object => subject)
+
+          # All objects which are `subject
+          query = RDF::Query.new {|q| q.pattern(object: subject)}
+          queryable.query(query, options) do |solution|
+            solution.merge!(object.to_sym => subject)
+            debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
+            yield solution
           end
         else
           # Otherwise, if subject == object, an empty solution
-          nodes << RDF::Query::Solution.new if subject == object
+          yield RDF::Query::Solution.new if subject == object
         end
-        # Yield each solution only once
-        nodes.uniq.each(&block)
+
+        # Solutions where predicate exists
+        query = if operand.is_a?(RDF::URI)
+          RDF::Query.new do |q|
+            q.pattern [subject, operand, object]
+          end
+        else
+          operand
+        end
+
+        # Recurse into query
+        queryable.query(query, options.merge(depth: options[:depth].to_i + 1), &block)
       end
     end # PathOpt
   end # Operator
