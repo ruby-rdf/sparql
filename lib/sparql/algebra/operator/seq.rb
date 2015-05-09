@@ -50,11 +50,23 @@ module SPARQL; module Algebra
           operand(1)
         end
 
-        queryable.query(Join.new(q1, q2), options.merge(depth: options[:depth].to_i + 1)) do |solution|
+        left = queryable.query(q1, options.merge(object: v, depth: options[:depth].to_i + 1))
+        debug(options) {"(seq)=>(left) #{left.map(&:to_hash).to_sse}"}
+
+        right = queryable.query(q2, options.merge(subject: v, depth: options[:depth].to_i + 1))
+        debug(options) {"(seq)=>(right) #{right.map(&:to_hash).to_sse}"}
+
+        @solutions = RDF::Query::Solutions(left.map do |s1|
+          right.map do |s2|
+            s2.merge(s1) if s2.compatible?(s1)
+          end
+        end.flatten.compact).map do |solution|
           solution.bindings.delete(v.to_sym)
-          debug(options) {"(solution)-> #{solution.to_hash.to_sse}"}
-          block.call(solution)
+          solution
         end
+        debug(options) {"(seq)=> #{@solutions.map(&:to_hash).to_sse}"}
+        @solutions.each(&block) if block_given?
+        @solutions
       end
     end # Seq
   end # Operator

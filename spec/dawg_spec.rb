@@ -22,8 +22,9 @@ shared_examples "DAWG" do |id, label, comment, tests|
             pending("REDUCED equivalent to DISTINCT")
           when /sq03/
             pending("Graph variable binding differences")
+          when /pp11|pp31/
+            pending("Expects multiple equivalent property path solutions")
           end
-          skip "Property Paths" if id.to_s.split("/")[-2] == 'property-path'
 
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,

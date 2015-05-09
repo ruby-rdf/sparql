@@ -34,6 +34,7 @@ module SPARQL; module Algebra
         subject, object = options[:subject], options[:object]
         debug(options) {"Path? #{[subject, operands, object].to_sse}"}
 
+        solutions = RDF::Query::Solutions.new
         # Solutions where subject == object with no predicate
         case
         when subject.variable? && object.variable?
@@ -44,7 +45,7 @@ module SPARQL; module Algebra
           queryable.query(query, options) do |solution|
             solution.merge!(object.to_sym => solution[subject])
             debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
-            yield solution
+            solutions << solution
           end
 
           # All objects which are `object`
@@ -52,7 +53,7 @@ module SPARQL; module Algebra
           queryable.query(query, options) do |solution|
             solution.merge!(subject.to_sym => solution[object])
             debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
-            yield solution
+            solutions << solution
           end
         when subject.variable?
           # All subjects which are `object`
@@ -60,7 +61,7 @@ module SPARQL; module Algebra
           queryable.query(query, options) do |solution|
             solution.merge!(subject.to_sym => object)
             debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
-            yield solution
+            solutions << solution
           end
 
           # All objects which are `object`
@@ -68,7 +69,7 @@ module SPARQL; module Algebra
           queryable.query(query, options) do |solution|
             solution.merge!(subject.to_sym => object)
             debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
-            yield solution
+            solutions << solution
           end
         when object.variable?
           # All subjects which are `subject`
@@ -76,7 +77,7 @@ module SPARQL; module Algebra
           queryable.query(query, options) do |solution|
             solution.merge!(object.to_sym => subject)
             debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
-            yield solution
+            solutions << solution
           end
 
           # All objects which are `subject
@@ -84,11 +85,11 @@ module SPARQL; module Algebra
           queryable.query(query, options) do |solution|
             solution.merge!(object.to_sym => subject)
             debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
-            yield solution
+            solutions << solution
           end
         else
           # Otherwise, if subject == object, an empty solution
-          yield RDF::Query::Solution.new if subject == object
+          solutions << RDF::Query::Solution.new if subject == object
         end
 
         # Solutions where predicate exists
@@ -101,7 +102,10 @@ module SPARQL; module Algebra
         end
 
         # Recurse into query
-        queryable.query(query, options.merge(depth: options[:depth].to_i + 1), &block)
+        solutions += 
+        queryable.query(query, options.merge(depth: options[:depth].to_i + 1))
+        solutions.each(&block) if block_given?
+        solutions
       end
     end # PathOpt
   end # Operator

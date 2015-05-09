@@ -891,7 +891,7 @@ describe SPARQL::Algebra::Query do
         },
       }
     }.each do |name, tests|
-      describe name, focus:true do
+      describe name do
         tests.each do |tname, opts|
           it tname do
             if opts[:error]
