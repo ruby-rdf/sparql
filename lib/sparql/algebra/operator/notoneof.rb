@@ -13,8 +13,12 @@ module SPARQL; module Algebra
       NAME = :notoneof
 
       ##
-      # XXX
-      #        
+      # Equivalant to:
+      #
+      #   (path (:x (noteoneof :p :q) :y))
+      #   => (filter (notin ??p :p :q) (bgp (:x ??p :y)))
+      #
+      # @note all operands are terms, and not operators, so this can be done by filtering results usin
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -30,6 +34,18 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         debug(options) {"NotOneOf #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
+
+        v = RDF::Query::Variable.new
+        v.distinguished = false
+        bgp = RDF::Query.new do |q|
+          q.pattern [subject, v, object]
+        end
+        query = Filter.new(NotIn.new(v, *operands), bgp)
+        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+          solution.bindings.delete(v.to_sym)
+          debug(options) {"(solution)-> #{solution.to_hash.to_sse}"}
+          block.call(solution)
+        end
       end
     end # NotOneOf
   end # Operator

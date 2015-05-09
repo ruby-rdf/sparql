@@ -13,7 +13,10 @@ module SPARQL; module Algebra
       NAME = :reverse
 
       ##
-      # XXX
+      # Equivliant to:
+      #
+      #   (path (:a (reverse :p) :b))
+      #   => (bgp (:b :p :a))
       #        
       #
       # @param  [RDF::Queryable] queryable
@@ -30,6 +33,21 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Reverse #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
+
+        # Solutions where predicate exists
+        query = if operand.is_a?(RDF::Term)
+          RDF::Query.new do |q|
+            q.pattern [object, operand, subject]
+          end
+        else
+          operand(0)
+        end
+        queryable.query(query, options.merge(
+          subject: object,
+          object: subject,
+          depth: options[:depth].to_i + 1
+        ), &block)
+
       end
     end # Reverse
   end # Operator

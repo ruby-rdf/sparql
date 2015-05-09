@@ -25,24 +25,18 @@ describe SPARQL::Algebra::Query do
   
   context "BGPs" do
     context "querying for a specific statement" do
+      let(:graph) {RDF::Graph.new.insert([EX.x1, EX.p1, EX.x2])}
       it "returns an empty solution sequence if the statement does not exist" do
-        @graph = RDF::Graph.new do |graph|
-          graph << [EX.x1, EX.p1, EX.x2]
-        end
-
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x1 ex:p2 ex:x2)))))
-        expect(query.execute(@graph)).to be_empty
+        expect(query.execute(graph)).to be_empty
       end
     end
 
     context "querying for a literal" do
+      let(:graph) {RDF::Graph.new.insert([EX.x1, EX.p1, RDF::Literal::Decimal.new(123.0)])}
       it "should return a sequence with an existing literal" do
-        graph = RDF::Graph.new do |graph|
-          graph << [EX.x1, EX.p1, RDF::Literal::Decimal.new(123.0)]
-        end
-
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p1 123.0)))))
@@ -51,56 +45,56 @@ describe SPARQL::Algebra::Query do
     end
 
     context "triple pattern combinations" do
-      before :each do
+      let(:graph) {
         # Normally we would not want all of this crap in the graph for each
         # test, but this gives us the nice benefit that each test implicitly
         # tests returning only the correct results and not random other ones.
-        @graph = RDF::Graph.new do |graph|
+        RDF::Graph.new do |g|
           # simple patterns
-          graph << [EX.x1, EX.p, 1]
-          graph << [EX.x2, EX.p, 2]
-          graph << [EX.x3, EX.p, 3]
+          g << [EX.x1, EX.p, 1]
+          g << [EX.x2, EX.p, 2]
+          g << [EX.x3, EX.p, 3]
 
           # pattern with same variable twice
-          graph << [EX.x4, EX.psame, EX.x4]
+          g << [EX.x4, EX.psame, EX.x4]
 
           # pattern with variable across 2 patterns
-          graph << [EX.x5, EX.p3, EX.x3]
-          graph << [EX.x5, EX.p2, EX.x3]
+          g << [EX.x5, EX.p3, EX.x3]
+          g << [EX.x5, EX.p2, EX.x3]
 
           # pattern following a chain
-          graph << [EX.x6, EX.pchain, EX.target]
-          graph << [EX.target, EX.pchain2, EX.target2]
-          graph << [EX.target2, EX.pchain3, EX.target3]
+          g << [EX.x6, EX.pchain, EX.target]
+          g << [EX.target, EX.pchain2, EX.target2]
+          g << [EX.target2, EX.pchain3, EX.target3]
         end
-      end
+      }
 
       it "?s p o" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p 1)))))
-        expect(query.execute(@graph)).to have_result_set([{ s: EX.x1 }])
+        expect(query.execute(graph)).to have_result_set([{ s: EX.x1 }])
       end
 
       it "s ?p o" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x2 ?p 2)))))
-        expect(query.execute(@graph)).to have_result_set [ { p: EX.p } ]
+        expect(query.execute(graph)).to have_result_set [ { p: EX.p } ]
       end
 
       it "s p ?o" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x3 ex:p ?o)))))
-        expect(query.execute(@graph)).to have_result_set [ { o: RDF::Literal.new(3) } ]
+        expect(query.execute(graph)).to have_result_set [ { o: RDF::Literal.new(3) } ]
       end
 
       it "?s p ?o" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p ?o)))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
                                                        { s: EX.x2, o: RDF::Literal.new(2) },
                                                        { s: EX.x3, o: RDF::Literal.new(3) }]
       end
@@ -109,14 +103,14 @@ describe SPARQL::Algebra::Query do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ?p 3)))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x3, p: EX.p } ]
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x3, p: EX.p } ]
       end
 
       it "s ?p ?o" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x1 ?p ?o)))))
-        expect(query.execute(@graph)).to have_result_set [ { p: EX.p, o: RDF::Literal(1) } ]
+        expect(query.execute(graph)).to have_result_set [ { p: EX.p, o: RDF::Literal(1) } ]
       end
 
       it "?s p o / ?s p1 o1" do
@@ -124,7 +118,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p3 ex:x3)
                  (triple ?s ex:p2 ex:x3)))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x5 } ]
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x5 } ]
       end
 
       it "?s1 p ?o1 / ?o1 p2 ?o2 / ?o2 p3 ?o3" do
@@ -133,14 +127,14 @@ describe SPARQL::Algebra::Query do
             (bgp (triple ?s ex:pchain ?o)
                  (triple ?o ex:pchain2 ?o2)
                  (triple ?o2 ex:pchain3 ?o3)))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x6, o: EX.target, o2: EX.target2, o3: EX.target3 } ]
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x6, o: EX.target, o2: EX.target2, o3: EX.target3 } ]
       end
 
       it "?same p ?same" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?same ex:psame ?same)))))
-        expect(query.execute(@graph)).to have_result_set [ { same: EX.x4 } ]
+        expect(query.execute(graph)).to have_result_set [ { same: EX.x4 } ]
       end
 
       it "(distinct ?s)" do
@@ -149,7 +143,7 @@ describe SPARQL::Algebra::Query do
             (distinct
               (project (?s)
                 (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1 },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1 },
                                                        { s: EX.x2 },
                                                        { s: EX.x3 },
                                                        { s: EX.x4 },
@@ -164,7 +158,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (filter (isLiteral ?o)
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
                                                        { s: EX.x2, o: RDF::Literal.new(2) },
                                                        { s: EX.x3, o: RDF::Literal.new(3) }]
       end
@@ -174,7 +168,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (filter (< ?o 3)
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
                                                        { s: EX.x2, o: RDF::Literal.new(2) }]
       end
       
@@ -183,7 +177,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (filter (exprlist (> ?o 1) (< ?o 3))
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x2, o: RDF::Literal.new(2) }]
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x2, o: RDF::Literal.new(2) }]
       end
       
       it "(order ?o)" do
@@ -191,7 +185,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (order (?o)
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
                                                        { s: EX.x2, o: RDF::Literal.new(2) },
                                                        { s: EX.x3, o: RDF::Literal.new(3) }]
       end
@@ -201,7 +195,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (order ((asc ?o))
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
                                                        { s: EX.x2, o: RDF::Literal.new(2) },
                                                        { s: EX.x3, o: RDF::Literal.new(3) }]
       end
@@ -211,7 +205,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (order ((desc ?o))
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x3, o: RDF::Literal.new(3) },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x3, o: RDF::Literal.new(3) },
                                                        { s: EX.x2, o: RDF::Literal.new(2) },
                                                        { s: EX.x1, o: RDF::Literal.new(1) }]
       end
@@ -221,7 +215,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (order (?o)
               (table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o "example.org")) (row (?o <http://www.example.org/>)))))))
-        expect(query.execute(@graph)).to have_result_set [ { },
+        expect(query.execute(graph)).to have_result_set [ { },
                                                        { o: RDF::Node.new(1) },
                                                        { o: RDF::URI.new('http://www.example.org/') },
                                                        { o: RDF::Literal.new('example.org') }]
@@ -234,7 +228,7 @@ describe SPARQL::Algebra::Query do
               (join
                 (table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o "example.org")) (row (?o <http://www.example.org/>)))
                 (table (vars ?o2) (row (?o2 _:2)) (row (?o2 undef)) (row (?o2 "example.org")) (row (?o2 <http://www.example.org/>))))))))
-        expect(query.execute(@graph)).to have_result_set [ { },
+        expect(query.execute(graph)).to have_result_set [ { },
                                                        { o2: RDF::Node.new(2) },
                                                        { o2: RDF::URI.new('http://www.example.org/') },
                                                        { o2: RDF::Literal.new('example.org') },
@@ -258,7 +252,7 @@ describe SPARQL::Algebra::Query do
             (order ((asc ?o) (desc ?o2))
               (bgp (triple ?s ex:p ?o)
                    (triple ?s2 ex:p ?o2))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1), s2: EX.x3, o2: RDF::Literal.new(3) },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1), s2: EX.x3, o2: RDF::Literal.new(3) },
                                                        { s: EX.x1, o: RDF::Literal.new(1), s2: EX.x2, o2: RDF::Literal.new(2) },
                                                        { s: EX.x1, o: RDF::Literal.new(1), s2: EX.x1, o2: RDF::Literal.new(1) },
                                                        { s: EX.x2, o: RDF::Literal.new(2), s2: EX.x3, o2: RDF::Literal.new(3) },
@@ -274,7 +268,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (project (?o)
               (bgp (triple ex:x1 ?p ?o))))))
-        expect(query.execute(@graph)).to have_result_set [ { o: RDF::Literal(1) } ]
+        expect(query.execute(graph)).to have_result_set [ { o: RDF::Literal(1) } ]
       end
       
       it "(reduced ?s)" do
@@ -283,7 +277,7 @@ describe SPARQL::Algebra::Query do
             (reduced
               (project (?s)
                 (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1 },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1 },
                                                        { s: EX.x2 },
                                                        { s: EX.x3 },
                                                        { s: EX.x4 },
@@ -299,7 +293,7 @@ describe SPARQL::Algebra::Query do
             (slice _ 1
               (project (?s)
                 (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x1 }]
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x1 }]
       end
       
       it "(slice 1 2)" do
@@ -308,7 +302,7 @@ describe SPARQL::Algebra::Query do
             (slice 1 2
               (project (?s)
                 (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x2 }, { s: EX.x3 }]
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x2 }, { s: EX.x3 }]
       end
       
       it "(slice 5 _)" do
@@ -317,7 +311,7 @@ describe SPARQL::Algebra::Query do
             (slice 5 _
               (project (?s)
                 (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(@graph)).to have_result_set [ { s: EX.x5 },
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x5 },
                                                        { s: EX.x6 },
                                                        { s: EX.target },
                                                        { s: EX.target2 } ]
@@ -325,36 +319,36 @@ describe SPARQL::Algebra::Query do
       
       # From sp2b benchmark, query 7 bgp 2
       it "?class3 p o / ?doc3 p2 ?class3 / ?doc3 p3 ?bag3 / ?bag3 ?member3 ?doc" do
-        @graph << [EX.class1, EX.subclass, EX.document]
-        @graph << [EX.class2, EX.subclass, EX.document]
-        @graph << [EX.class3, EX.subclass, EX.other]
+        graph << [EX.class1, EX.subclass, EX.document]
+        graph << [EX.class2, EX.subclass, EX.document]
+        graph << [EX.class3, EX.subclass, EX.other]
 
-        @graph << [EX.doc1, EX.type, EX.class1]
-        @graph << [EX.doc2, EX.type, EX.class1]
-        @graph << [EX.doc3, EX.type, EX.class2]
-        @graph << [EX.doc4, EX.type, EX.class2]
-        @graph << [EX.doc5, EX.type, EX.class3]
+        graph << [EX.doc1, EX.type, EX.class1]
+        graph << [EX.doc2, EX.type, EX.class1]
+        graph << [EX.doc3, EX.type, EX.class2]
+        graph << [EX.doc4, EX.type, EX.class2]
+        graph << [EX.doc5, EX.type, EX.class3]
 
-        @graph << [EX.doc1, EX.refs, EX.bag1]
-        @graph << [EX.doc2, EX.refs, EX.bag2]
-        @graph << [EX.doc3, EX.refs, EX.bag3]
-        @graph << [EX.doc5, EX.refs, EX.bag5]
+        graph << [EX.doc1, EX.refs, EX.bag1]
+        graph << [EX.doc2, EX.refs, EX.bag2]
+        graph << [EX.doc3, EX.refs, EX.bag3]
+        graph << [EX.doc5, EX.refs, EX.bag5]
 
-        @graph << [EX.bag1, RDF::Node.new('ref1'), EX.doc11]
-        @graph << [EX.bag1, RDF::Node.new('ref2'), EX.doc12]
-        @graph << [EX.bag1, RDF::Node.new('ref3'), EX.doc13]
+        graph << [EX.bag1, RDF::Node.new('ref1'), EX.doc11]
+        graph << [EX.bag1, RDF::Node.new('ref2'), EX.doc12]
+        graph << [EX.bag1, RDF::Node.new('ref3'), EX.doc13]
 
-        @graph << [EX.bag2, RDF::Node.new('ref1'), EX.doc21]
-        @graph << [EX.bag2, RDF::Node.new('ref2'), EX.doc22]
-        @graph << [EX.bag2, RDF::Node.new('ref3'), EX.doc23]
+        graph << [EX.bag2, RDF::Node.new('ref1'), EX.doc21]
+        graph << [EX.bag2, RDF::Node.new('ref2'), EX.doc22]
+        graph << [EX.bag2, RDF::Node.new('ref3'), EX.doc23]
 
-        @graph << [EX.bag3, RDF::Node.new('ref1'), EX.doc31]
-        @graph << [EX.bag3, RDF::Node.new('ref2'), EX.doc32]
-        @graph << [EX.bag3, RDF::Node.new('ref3'), EX.doc33]
+        graph << [EX.bag3, RDF::Node.new('ref1'), EX.doc31]
+        graph << [EX.bag3, RDF::Node.new('ref2'), EX.doc32]
+        graph << [EX.bag3, RDF::Node.new('ref3'), EX.doc33]
 
-        @graph << [EX.bag5, RDF::Node.new('ref1'), EX.doc51]
-        @graph << [EX.bag5, RDF::Node.new('ref2'), EX.doc52]
-        @graph << [EX.bag5, RDF::Node.new('ref3'), EX.doc53]
+        graph << [EX.bag5, RDF::Node.new('ref1'), EX.doc51]
+        graph << [EX.bag5, RDF::Node.new('ref2'), EX.doc52]
+        graph << [EX.bag5, RDF::Node.new('ref3'), EX.doc53]
 
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -363,7 +357,7 @@ describe SPARQL::Algebra::Query do
                  (triple ?doc3 ex:refs ?bag3)
                  (triple ?bag3 ?member3 ?doc)))))
 
-        expect(query.execute(@graph).map(&:to_hash)).to include(
+        expect(query.execute(graph).map(&:to_hash)).to include(
           { doc3: EX.doc1, class3: EX.class1, bag3: EX.bag1, member3: RDF::Node.new('ref1'), doc: EX.doc11 },
           { doc3: EX.doc1, class3: EX.class1, bag3: EX.bag1, member3: RDF::Node.new('ref2'), doc: EX.doc12 },
           { doc3: EX.doc1, class3: EX.class1, bag3: EX.bag1, member3: RDF::Node.new('ref3'), doc: EX.doc13 },
@@ -378,44 +372,44 @@ describe SPARQL::Algebra::Query do
 
       # From sp2b benchmark, query 7 bgp 1
       it "?class subclass document / ?doc type ?class / ?doc title ?title / ?bag2 ?member2 ?doc / ?doc2 refs ?bag2" do
-        @graph << [EX.class1, EX.subclass, EX.document]
-        @graph << [EX.class2, EX.subclass, EX.document]
-        @graph << [EX.class3, EX.subclass, EX.other]
+        graph << [EX.class1, EX.subclass, EX.document]
+        graph << [EX.class2, EX.subclass, EX.document]
+        graph << [EX.class3, EX.subclass, EX.other]
 
-        @graph << [EX.doc1, EX.type, EX.class1]
-        @graph << [EX.doc2, EX.type, EX.class1]
-        @graph << [EX.doc3, EX.type, EX.class2]
-        @graph << [EX.doc4, EX.type, EX.class2]
-        @graph << [EX.doc5, EX.type, EX.class3]
+        graph << [EX.doc1, EX.type, EX.class1]
+        graph << [EX.doc2, EX.type, EX.class1]
+        graph << [EX.doc3, EX.type, EX.class2]
+        graph << [EX.doc4, EX.type, EX.class2]
+        graph << [EX.doc5, EX.type, EX.class3]
         # no doc6 type
 
-        @graph << [EX.doc1, EX.title, EX.title1]
-        @graph << [EX.doc2, EX.title, EX.title2]
-        @graph << [EX.doc3, EX.title, EX.title3]
-        @graph << [EX.doc4, EX.title, EX.title4]
-        @graph << [EX.doc5, EX.title, EX.title5]
-        @graph << [EX.doc6, EX.title, EX.title6]
+        graph << [EX.doc1, EX.title, EX.title1]
+        graph << [EX.doc2, EX.title, EX.title2]
+        graph << [EX.doc3, EX.title, EX.title3]
+        graph << [EX.doc4, EX.title, EX.title4]
+        graph << [EX.doc5, EX.title, EX.title5]
+        graph << [EX.doc6, EX.title, EX.title6]
 
-        @graph << [EX.doc1, EX.refs, EX.bag1]
-        @graph << [EX.doc2, EX.refs, EX.bag2]
-        @graph << [EX.doc3, EX.refs, EX.bag3]
-        @graph << [EX.doc5, EX.refs, EX.bag5]
+        graph << [EX.doc1, EX.refs, EX.bag1]
+        graph << [EX.doc2, EX.refs, EX.bag2]
+        graph << [EX.doc3, EX.refs, EX.bag3]
+        graph << [EX.doc5, EX.refs, EX.bag5]
 
-        @graph << [EX.bag1, RDF::Node.new('ref1'), EX.doc11]
-        @graph << [EX.bag1, RDF::Node.new('ref2'), EX.doc12]
-        @graph << [EX.bag1, RDF::Node.new('ref3'), EX.doc13]
+        graph << [EX.bag1, RDF::Node.new('ref1'), EX.doc11]
+        graph << [EX.bag1, RDF::Node.new('ref2'), EX.doc12]
+        graph << [EX.bag1, RDF::Node.new('ref3'), EX.doc13]
 
-        @graph << [EX.bag2, RDF::Node.new('ref1'), EX.doc21]
-        @graph << [EX.bag2, RDF::Node.new('ref2'), EX.doc22]
-        @graph << [EX.bag2, RDF::Node.new('ref3'), EX.doc23]
+        graph << [EX.bag2, RDF::Node.new('ref1'), EX.doc21]
+        graph << [EX.bag2, RDF::Node.new('ref2'), EX.doc22]
+        graph << [EX.bag2, RDF::Node.new('ref3'), EX.doc23]
 
-        @graph << [EX.bag3, RDF::Node.new('ref1'), EX.doc31]
-        @graph << [EX.bag3, RDF::Node.new('ref2'), EX.doc32]
-        @graph << [EX.bag3, RDF::Node.new('ref3'), EX.doc33]
+        graph << [EX.bag3, RDF::Node.new('ref1'), EX.doc31]
+        graph << [EX.bag3, RDF::Node.new('ref2'), EX.doc32]
+        graph << [EX.bag3, RDF::Node.new('ref3'), EX.doc33]
 
-        @graph << [EX.bag5, RDF::Node.new('ref1'), EX.doc51]
-        @graph << [EX.bag5, RDF::Node.new('ref2'), EX.doc52]
-        @graph << [EX.bag5, RDF::Node.new('ref3'), EX.doc53]
+        graph << [EX.bag5, RDF::Node.new('ref1'), EX.doc51]
+        graph << [EX.bag5, RDF::Node.new('ref2'), EX.doc52]
+        graph << [EX.bag5, RDF::Node.new('ref3'), EX.doc53]
 
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -425,7 +419,7 @@ describe SPARQL::Algebra::Query do
                  (triple ?doc ex:refs ?bag)
                  (triple ?bag ?member ?doc2)))))
 
-        expect(query.execute(@graph).map(&:to_hash)).to include(
+        expect(query.execute(graph).map(&:to_hash)).to include(
           { doc: EX.doc1, class: EX.class1, bag: EX.bag1,
             member: RDF::Node.new('ref1'), doc2: EX.doc11, title: EX.title1 },
           { doc: EX.doc1, class: EX.class1, bag: EX.bag1,
@@ -680,6 +674,237 @@ describe SPARQL::Algebra::Query do
         {title: RDF::Literal.new("SPARQL")},
         {title: RDF::Literal.new("SPARQL (updated)")},
       )
+    end
+  end
+
+  context "property paths" do
+    let(:repo) {
+      RDF::Repository.new << RDF::TriG::Reader.new(%(
+        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
+        @prefix :      <http://example.org/> .
+        @prefix ex:	<http://www.example.org/schema#>.
+        @prefix in:	<http://www.example.org/instance#>.
+
+        # data-diamond.ttl
+        :a :p :b .
+        :b :p :z .
+        :a :p :c .
+        :c :p :z .
+        :b :q :B .
+        :B :r :Z .
+
+        <ng-01.ttl> {:a :p1 :b .}
+        <ng-02.ttl> {:a :p1 :c .}
+        <ng-03.ttl> {:a :p1 :d .}
+      ))
+    }
+
+    {
+      "path?" => {
+        ":a (path? :p) ?v" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path :a (path? :p) ?v))},
+          expected: [
+            {v: RDF::URI("http://example.org/a")},
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+          ]
+        },
+        "?v (path? :p) :z" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?v (path? :p) :z))},
+          expected: [
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+            {v: RDF::URI("http://example.org/z")},
+          ]
+        },
+        "?x (path? :p) ?y" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?x (path? :p) ?y))},
+          expected: [
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/a")},
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/b")},
+            {x: RDF::URI("http://example.org/B"), y: RDF::URI("http://example.org/B")},
+            {x: RDF::URI("http://example.org/c"), y: RDF::URI("http://example.org/c")},
+            {x: RDF::URI("http://example.org/z"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/Z"), y: RDF::URI("http://example.org/Z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/b")},
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/c")},
+            {x: RDF::URI("http://example.org/c"), y: RDF::URI("http://example.org/z")},
+          ]
+        },
+      },
+      "path+" => {
+        ":a (path+ :p) ?v" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path :a (path+ :p) ?v))},
+          expected: [
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+            {v: RDF::URI("http://example.org/z")},
+          ]
+        },
+        "?v (path+ :p) :z" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?v (path+ :p) :z))},
+          expected: [
+            {v: RDF::URI("http://example.org/a")},
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+          ]
+        },
+        "?x (path+ :p) ?y" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?x (path+ :p) ?y))},
+          expected: [
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/b")},
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/c")},
+            {x: RDF::URI("http://example.org/c"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/z")},
+          ]
+        },
+      },
+      "path*" => {
+        ":a (path* :p) ?v" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path :a (path* :p) ?v))},
+          expected: [
+            {v: RDF::URI("http://example.org/a")},
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+            {v: RDF::URI("http://example.org/z")},
+          ]
+        },
+        "?v (path* :p) :z" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?v (path* :p) :z))},
+          expected: [
+            {v: RDF::URI("http://example.org/a")},
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+            {v: RDF::URI("http://example.org/z")},
+          ]
+        },
+        "?x (path* :p) ?y" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?x (path* :p) ?y))},
+          expected: [
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/a")},
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/b")},
+            {x: RDF::URI("http://example.org/B"), y: RDF::URI("http://example.org/B")},
+            {x: RDF::URI("http://example.org/c"), y: RDF::URI("http://example.org/c")},
+            {x: RDF::URI("http://example.org/z"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/Z"), y: RDF::URI("http://example.org/Z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/b")},
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/c")},
+            {x: RDF::URI("http://example.org/c"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/z")},
+          ]
+        },
+      },
+      "alt" => {
+        ":b (alt :p :q) ?v" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path :b (alt :p :q) ?v))},
+          expected: [
+            {v: RDF::URI("http://example.org/z")},
+            {v: RDF::URI("http://example.org/B")},
+          ]
+        },
+        "?v (alt :p :q) :z" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?v (alt :p :q) :z))},
+          expected: [
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+          ]
+        },
+        "?x (alt :p :q) ?y" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?x (alt :p :q) ?y))},
+          expected: [
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/b")},
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/c")},
+            {x: RDF::URI("http://example.org/c"), y: RDF::URI("http://example.org/z")},
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/B")},
+          ]
+        },
+      },
+      "seq" => {
+        ":b (seq :p :q) ?v" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path :a (seq :p :q) ?v))},
+          expected: [
+            {v: RDF::URI("http://example.org/B")},
+          ]
+        },
+        "?v (seq :p :q) :z" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?v (seq :p :q) :B))},
+          expected: [
+            {v: RDF::URI("http://example.org/a")},
+          ]
+        },
+        "?x (seq :p :q) ?y" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?x (seq :p :q) ?y))},
+          expected: [
+            {x: RDF::URI("http://example.org/a"), y: RDF::URI("http://example.org/B")},
+          ]
+        },
+      },
+      "reverse" => {
+        ":z (reverse :p) ?v" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path :z (reverse :p) ?v))},
+          expected: [
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+          ]
+        },
+        "?v (reverse :p) :z" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?v (reverse :p) :a))},
+          expected: [
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+          ]
+        },
+        "?x (reverse :p) ?y" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?x (reverse :p) ?y))},
+          expected: [
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/a")},
+            {x: RDF::URI("http://example.org/c"), y: RDF::URI("http://example.org/a")},
+            {x: RDF::URI("http://example.org/z"), y: RDF::URI("http://example.org/b")},
+            {x: RDF::URI("http://example.org/z"), y: RDF::URI("http://example.org/c")},
+          ]
+        },
+      },
+      "notoneof" => {
+        ":b (notoneof :p) ?v" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path :b (notoneof :p) ?v))},
+          expected: [
+            {v: RDF::URI("http://example.org/B")},
+          ]
+        },
+        "?v (notoneof :q) :z" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?v (notoneof :q) :z))},
+          expected: [
+            {v: RDF::URI("http://example.org/b")},
+            {v: RDF::URI("http://example.org/c")},
+          ]
+        },
+        "?x (notoneof :p) ?y" => {
+          query: %q{(prefix ((: <http://example.org/>)) (path ?x (notoneof :p) ?y))},
+          expected: [
+            {x: RDF::URI("http://example.org/b"), y: RDF::URI("http://example.org/B")},
+            {x: RDF::URI("http://example.org/B"), y: RDF::URI("http://example.org/Z")},
+          ]
+        },
+      }
+    }.each do |name, tests|
+      describe name, focus:true do
+        tests.each do |tname, opts|
+          it tname do
+            if opts[:error]
+              expect {sparql_query({sse: true, graphs: repo}.merge(opts))}.to raise_error(opts[:error])
+            else
+              expected = opts[:expected]
+              actual = sparql_query({sse: true, graphs: repo}.merge(opts))
+              expect(actual.map(&:to_hash)).to include(*expected)
+              expect(actual.length).to produce(expected.length, [{actual: actual.map(&:to_hash), expected: expected.map(&:to_hash)}.to_sse])
+            end
+          end
+        end
+      end
     end
   end
 
