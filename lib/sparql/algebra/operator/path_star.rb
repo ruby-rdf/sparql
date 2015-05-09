@@ -13,7 +13,10 @@ module SPARQL; module Algebra
       NAME = :"path*"
 
       ##
-      # Solutions are the unique subjects and objects in `queryable` as with `path?` plus the results of `path+`
+      # Path including zero length:
+      #
+      #    (path :a (path* :p) :b)
+      #    => (path :a (path? (path+ :p)) :b)
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query

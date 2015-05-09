@@ -14,7 +14,6 @@ module SPARQL; module Algebra
 
       ##
       # Match on simple relation of subject to object, and then recurse on solutions
-      #        
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -40,7 +39,7 @@ module SPARQL; module Algebra
         # end
 
         # Solutions where predicate exists
-        query = if operand.is_a?(RDF::URI)
+        query = if operand.is_a?(RDF::Term)
           RDF::Query.new do |q|
             q.pattern [subject, operand, object]
           end

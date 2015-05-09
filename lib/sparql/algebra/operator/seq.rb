@@ -13,8 +13,10 @@ module SPARQL; module Algebra
       NAME = :seq
 
       ##
-      # XXX
-      #        
+      # Join solution sets
+      #
+      #   (path :x (seq :p :q) :y)
+      #   => (join (bgp (:x :p ??1)) (bgp (??1 :q :y)))
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -28,8 +30,31 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
-        debug(options) {"Seq #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
+        debug(options) {"Seq #{[subject, operands, object].to_sse}"}
+
+        v = RDF::Query::Variable.new
+        v.distinguished = false
+        q1 = if operand(0).is_a?(RDF::Term)
+          RDF::Query.new do |q|
+            q.pattern [subject, operand(0), v]
+          end
+        else
+          operand(0)
+        end
+        q2 = if operand(1).is_a?(RDF::Term)
+          RDF::Query.new do |q|
+            q.pattern [v, operand(1), object]
+          end
+        else
+          operand(1)
+        end
+
+        queryable.query(Join.new(q1, q2), options.merge(depth: options[:depth].to_i + 1)) do |solution|
+          solution.bindings.delete(v.to_sym)
+          debug(options) {"(solution)-> #{solution.to_hash.to_sse}"}
+          block.call(solution)
+        end
       end
     end # Seq
   end # Operator

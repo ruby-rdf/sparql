@@ -15,8 +15,8 @@ module SPARQL; module Algebra
       ##
       # Equivalent to:
       #
-      #    `(path x (path? :p) y)`
-      #     => `(union (bgp ((x :p y))) (filter (x = x) (solution x y)))`
+      #    (path x (path? :p) y)
+      #     => (union (bgp ((x :p y))) (filter (x = x) (solution x y)))
       #        
       #
       # @param  [RDF::Queryable] queryable
@@ -33,7 +33,6 @@ module SPARQL; module Algebra
       def execute(queryable, options = {}, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Path? #{[subject, operands, object].to_sse}"}
-        #require 'pry'; binding.pry
 
         # Solutions where subject == object with no predicate
         case
@@ -93,7 +92,7 @@ module SPARQL; module Algebra
         end
 
         # Solutions where predicate exists
-        query = if operand.is_a?(RDF::URI)
+        query = if operand.is_a?(RDF::Term)
           RDF::Query.new do |q|
             q.pattern [subject, operand, object]
           end

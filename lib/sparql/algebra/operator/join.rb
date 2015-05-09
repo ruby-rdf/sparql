@@ -39,7 +39,7 @@ module SPARQL; module Algebra
         # eval(D(G), Join(P1, P2)) = Join(eval(D(G), P1), eval(D(G), P2))
         #
         # Generate solutions independently, merge based on solution compatibility
-        debug(options) {"Join"}
+        debug(options) {"Join #{operands.to_sse}"}
  
         left = queryable.query(operand(0), options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"(join)=>(left) #{left.inspect}"}
@@ -50,7 +50,7 @@ module SPARQL; module Algebra
         @solutions = RDF::Query::Solutions(left.map do |s1|
           right.map { |s2| s2.merge(s1) if s2.compatible?(s1) }
         end.flatten.compact)
-        debug(options) {"=> #{@solutions.inspect}"}
+        debug(options) {"(join)=> #{@solutions.inspect}"}
         @solutions.each(&block) if block_given?
         @solutions
       end

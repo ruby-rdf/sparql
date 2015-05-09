@@ -13,8 +13,10 @@ module SPARQL; module Algebra
       NAME = :alt
 
       ##
-      # XXX
-      #        
+      # Equivalent to:
+      #
+      #    (path x (alt :p :q) y)
+      #     => (union (bgp (x :p y)) (bgp (x :q y)))
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -28,8 +30,28 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
-        debug(options) {"Alt #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
+        debug(options) {"Alt #{[subject, operands, object].to_sse}"}
+
+        # Solutions where predicate exists
+        qa = if operand(0).is_a?(RDF::Term)
+          RDF::Query.new do |q|
+            q.pattern [subject, operand(0), object]
+          end
+        else
+          operand(0)
+        end
+
+        qb = if operand(1).is_a?(RDF::Term)
+          RDF::Query.new do |q|
+            q.pattern [subject, operand(1), object]
+          end
+        else
+          operand(1)
+        end
+
+        query = Union.new(qa, qb)
+        queryable.query(query, options.merge(depth: options[:depth].to_i + 1), &block)
       end
     end # Alt
   end # Operator
