@@ -46,7 +46,7 @@ module SPARQL; module Algebra
             solution.merge!(object.to_sym => solution[subject])
             debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
             solutions << solution
-          end
+          end if query.valid?
 
           # All objects which are `object`
           query = RDF::Query.new {|q| q.pattern(object: object)}
@@ -54,7 +54,7 @@ module SPARQL; module Algebra
             solution.merge!(subject.to_sym => solution[object])
             debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
             solutions << solution
-          end
+          end if query.valid?
         when subject.variable?
           # All subjects which are `object`
           query = RDF::Query.new {|q| q.pattern(subject: object)}
@@ -62,7 +62,7 @@ module SPARQL; module Algebra
             solution.merge!(subject.to_sym => object)
             debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
             solutions << solution
-          end
+          end if query.valid?
 
           # All objects which are `object`
           query = RDF::Query.new {|q| q.pattern(object: object)}
@@ -70,7 +70,7 @@ module SPARQL; module Algebra
             solution.merge!(subject.to_sym => object)
             debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
             solutions << solution
-          end
+          end if query.valid?
         when object.variable?
           # All subjects which are `subject`
           query = RDF::Query.new {|q| q.pattern(subject: subject)}
@@ -78,7 +78,7 @@ module SPARQL; module Algebra
             solution.merge!(object.to_sym => subject)
             debug(options) {"(solution-s0)-> #{solution.to_hash.to_sse}"}
             solutions << solution
-          end
+          end if query.valid?
 
           # All objects which are `subject
           query = RDF::Query.new {|q| q.pattern(object: subject)}
@@ -86,7 +86,7 @@ module SPARQL; module Algebra
             solution.merge!(object.to_sym => subject)
             debug(options) {"(solution-o0)-> #{solution.to_hash.to_sse}"}
             solutions << solution
-          end
+          end if query.valid?
         else
           # Otherwise, if subject == object, an empty solution
           solutions << RDF::Query::Solution.new if subject == object

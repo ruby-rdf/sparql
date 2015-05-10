@@ -317,7 +317,33 @@ module SPARQL; module Algebra
     def to_sxp_bin
       self
     end
-    
+
+    ##
+    # Is this value valid, and composed only of valid components?
+    #
+    # @return [Boolean] `true` or `false`
+    def valid?
+      true
+    end
+
+    ##
+    # Is this value invalid, or is it composed of any invalid components?
+    #
+    # @return [Boolean] `true` or `false`
+    def invalid?
+      !valid?
+    end
+
+    ##
+    # Default validate! implementation, overridden in concrete classes
+    # @return [SPARQL::Algebra::Expression] `self`
+    # @raise  [ArgumentError] if the value is invalid
+    def validate!
+      raise ArgumentError if invalid?
+      self
+    end
+    alias_method :validate, :validate!
+
     private
     # @overload: May be called with node, message and an option hash
     #   @param [String] node processing node

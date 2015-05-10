@@ -572,7 +572,14 @@ module SPARQL; module Algebra
     alias_method :==, :eql?
 
     ##
-    # Iterate via deapth-first recursive descent over operands, yielding each operator
+    # Return the non-destinguished variables contained within this operator
+    # @return [Array<RDF::Query::Variable>]
+    def ndvars
+      operands.select {|o| o.respond_to?(:ndvars)}.map(&:ndvars).flatten
+    end
+
+    ##
+    # Iterate via depth-first recursive descent over operands, yielding each operator
     # @yield operator
     # @yieldparam [Object] operator
     def descendants(&block)
@@ -588,6 +595,23 @@ module SPARQL; module Algebra
         end
         block.call(operand)
       end
+    end
+
+    ##
+    # Is this value valid, and composed only of valid components?
+    #
+    # @return [Boolean] `true` or `false`
+    def valid?
+      operands.all? {|op| op.respond_to?(valid?) ? op.valid? : true}
+    end
+
+    ##
+    # Validate all operands, operator specific classes should override for operator-specific validation
+    # @return [SPARQL::Algebra::Expression] `self`
+    # @raise  [ArgumentError] if the value is invalid
+    def validate!
+      operands.each {|op| op.validate! if op.respond_to?(:validate!)}
+      self
     end
   protected
 

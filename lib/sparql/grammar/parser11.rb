@@ -1535,6 +1535,10 @@ module SPARQL::Grammar
         key = prod_data.keys.first
         [key] + Array(prod_data[key])  # Creates [:key, [:triple], ...]
       end
+
+      # Validate resulting expression
+      @result.validate! if @result && validate?
+      @result
     end
 
     private

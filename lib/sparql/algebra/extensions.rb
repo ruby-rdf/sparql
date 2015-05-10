@@ -135,6 +135,30 @@ class Array
     end
     self
   end
+
+  ##
+  # Return the non-destinguished variables contained within this operator
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    select {|o| o.respond_to?(:ndvars)}.map(&:ndvars).flatten.compact
+  end
+
+  ##
+  # Is this value composed only of valid components?
+  #
+  # @return [Boolean] `true` or `false`
+  def valid?
+    all? {|e| e.respond_to?(:valid?) ? e.valid? : true}
+  end
+
+  ##
+  # Validate all components.
+  # @return [Array] `self`
+  # @raise  [ArgumentError] if the value is invalid
+  def validate!
+    each {|e| e.validate! if e.respond_to?(:validate!)}
+    self
+  end
 end
 
 ##
@@ -198,6 +222,13 @@ module RDF::Term
     has_language? ?
       (language == other.language || dtr == RDF::XSD.string) :
       dtr == RDF::XSD.string
+  end
+
+  ##
+  # Return self if this is a non-destingished variable
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    variable? && !distinguished? ? [self] : []
   end
 end # RDF::Term
 
@@ -311,6 +342,37 @@ class RDF::Query
   def query_yields_solutions?
     true
   end
+
+  ##
+  # Return the non-destinguished variables contained within patterns
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    patterns.map(&:ndvars).flatten
+  end
+
+  ##
+  # Validate this query, making sure it can be executed by our query engine.
+  # This method is public so that it may be called by implementations of
+  # RDF::Queryable#query_execute that bypass our built-in query engine.
+  #
+  # @return [void]
+  # @raise [ArgumentError] This query cannot be executed.
+  # FIXME: should go to RDF.rb
+  def validate!
+    # All patterns must be valid
+    @patterns.each(&:validate!)
+
+    # All optional patterns must appear after the regular patterns.  We
+    # could test this more cleanly using Ruby 1.9-specific features, but
+    # we want to run under Ruby 1.8, too.
+    if i = @patterns.find_index(&:optional?)
+      unless @patterns[i..-1].all?(&:optional?)
+        raise ArgumentError.new("Optional patterns must appear at end of query")
+      end
+    end
+
+    self
+  end
 end
 
 class RDF::Query::Pattern
@@ -322,6 +384,25 @@ class RDF::Query::Pattern
     else
       [:triple, subject, predicate, object]
     end
+  end
+
+  ##
+  # Return the non-destinguished variables contained within this pattern
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    variables.values.reject(&:distinguished?)
+  end
+
+  ##
+  # Is this pattern composed only of valid components?
+  #
+  # @return [Boolean] `true` or `false`
+  # FIXME: should go in RDF.rb
+  def valid?
+    (has_subject?   ? (subject.resource? || subject.variable?) && subject.valid? : true) && 
+    (has_predicate? ? (predicate.uri? || predicate.variable?) && predicate.valid? : true) &&
+    (has_object?    ? (object.term? || object.variable?) && object.valid? : true) &&
+    (has_context?   ? (context.resource? || context.variable?) && context.valid? : true )
   end
 end
 

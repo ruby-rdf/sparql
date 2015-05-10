@@ -13,22 +13,22 @@ shared_examples "DAWG" do |id, label, comment, tests|
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           case t.name
           when 'Basic - Term 6', 'Basic - Term 7'
-            pending "Decimal format changed in SPARQL 1.1"
+            skip "Decimal format changed in SPARQL 1.1"
           when 'datatype-2 : Literals with a datatype'
-            pending("datatype now returns rdf:langString for language-tagged literals")
+            skip "datatype now returns rdf:langString for language-tagged literals"
           when /Cast to xsd:boolean/
-            pending("figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping")
+            pending "figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping"
           when /REDUCED/
-            pending("REDUCED equivalent to DISTINCT")
+            skip "REDUCED equivalent to DISTINCT"
           when /sq03/
-            pending("Graph variable binding differences")
+            pending "Graph variable binding differences"
           when /pp11|pp31/
-            pending("Expects multiple equivalent property path solutions")
+            pending "Expects multiple equivalent property path solutions"
           end
 
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
-                                base_uri: RDF::URI(t.action.query_file),
+                                base_uri: t.base_uri,
                                 form: t.form)
 
           case t.form
@@ -50,7 +50,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
-                                base_uri: RDF::URI(t.action.query_file),
+                                base_uri: t.base_uri,
                                 form: t.form)
 
           expect(result).to describe_csv_solutions(t.solutions)
@@ -60,21 +60,18 @@ shared_examples "DAWG" do |id, label, comment, tests|
         it "positive syntax for #{t.entry} - #{t.name} - #{t.comment}" do
           case t.name
           when 'Basic - Term 7', 'syntax-lit-08.rq'
-            pending "Decimal format changed in SPARQL 1.1"
+            skip "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
-            pending "Fixing PNAME_LN not matching :\\u0070"
+            skip "PNAME_LN changed in SPARQL 1.1"
           when 'dawg-optional-filter-005-simplified', 'dawg-optional-filter-005-not-simplified',
                'dataset-10'
             pending 'New problem with different manifest processing?'
           end
-          expect {SPARQL.parse(t.action.query_string, validate: true)}.not_to raise_error
+          expect {SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)}.not_to raise_error
         end
       when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
           pending("Better Error Detection") if %w(
-            syn-blabel-cross-graph-bad.rq syn-blabel-cross-optional-bad.rq syn-blabel-cross-union-bad.rq
-            syn-bad-34.rq syn-bad-35.rq syn-bad-36.rq syn-bad-37.rq syn-bad-38.rq
-            syn-bad-OPT-breaks-BGP.rq syn-bad-UNION-breaks-BGP.rq syn-bad-GRAPH-breaks-BGP.rq
             agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
             syntax-BINDscope6.rq syntax-BINDscope7.rq syntax-BINDscope8.rq
             syntax-SELECTscope2.rq
@@ -86,7 +83,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
           pending("New problem with different manifest processing?") if %w(
             group06.rq group07.rq
           ).include?(t.entry)
-          expect {SPARQL.parse(t.action.query_string, validate: true)}.to raise_error
+          expect {SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)}.to raise_error
         end
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
@@ -105,7 +102,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
 
           result = sparql_query(graphs: t.action.graphs,
                                 query: t.action.query_string,
-                                base_uri: RDF::URI(t.action.query_file),
+                                base_uri: t.base_uri,
                                 form: t.form)
 
           expect(result).to describe_solutions(expected, t)
@@ -116,11 +113,11 @@ shared_examples "DAWG" do |id, label, comment, tests|
             syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
             syntax-update-36.ru
           ).include?(t.entry)
-          expect {SPARQL.parse(t.action.query_string, update: true, validate: true)}.not_to raise_error
+          expect {SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true)}.not_to raise_error
         end
       when 'mf:NegativeUpdateSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
-          expect {SPARQL.parse(t.action.query_string, update: true, validate: true)}.to raise_error
+          expect {SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true)}.to raise_error
         end
       when 'mf:ServiceDescriptionTest', 'mf:ProtocolTest',
            'mf:GraphStoreProtocolTest'

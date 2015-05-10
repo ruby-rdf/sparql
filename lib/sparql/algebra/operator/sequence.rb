@@ -16,17 +16,13 @@ module SPARQL; module Algebra
     #       (triple ??2 rdf:rest rdf:nil))
     #     (path ??1 (seq (path* :p) :q) 123)
     #     (path ??3 (reverse :r) "hello"))
-    #
-    # @see XXX
     class Sequence < Operator
       include SPARQL::Algebra::Update
 
       NAME = :sequence
 
       ##
-      # Executes this upate on the given `writable` graph or repository.
-      #
-      # XXX
+      # Basically a JOIN across multiple operands
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
@@ -34,11 +30,11 @@ module SPARQL; module Algebra
       #   any additional keyword options
       # @option options [Boolean] debug
       #   Query execution debugging
-      # @return [RDF::Queryable]
-      #   Returns queryable.
-      # @raise [IOError]
-      #   If `from` does not exist, unless the `silent` operator is present
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @yield  [solution]
+      #   each matching solution
+      # @yieldparam  [RDF::Query::Solution] solution
+      # @yieldreturn [void] ignored
+      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Sequence #{operands.to_sse}"}
 

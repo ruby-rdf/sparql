@@ -38,12 +38,24 @@ module SPARQL; module Spec
 
   class SPARQLTest < JSON::LD::Resource
     attr_accessor :debug
+    attr_accessor :action
+
+    def query_file
+      action.query_file
+    end
+
+    def base_uri
+      RDF::URI(query_file)
+    end
+
+    def entry
+      action ? query_file.to_s.split('/').last : '??'
+    end
+
 
     def approved?
       approval.to_s.include? "Approved"
     end
-
-    def entry; "??"; end
 
     def form
       query_data = begin action.query_string rescue nil end
@@ -61,18 +73,12 @@ module SPARQL; module Spec
   end
 
   class UpdateTest < SPARQLTest
-    attr_accessor :action, :result
+    attr_accessor :result
     def initialize(hash)
       @action = UpdateAction.new(hash["action"])
       @result = UpdateResult.new(hash["result"])
       super
     end
-
-    def query_file
-      action.request
-    end
-
-    def entry; query_file.to_s.split('/').last; end
 
     def query
       RDF::Util::File.open_file(query_file, &:read)
@@ -183,17 +189,10 @@ module SPARQL; module Spec
   end
 
   class QueryTest < SPARQLTest
-    attr_accessor :action
     def initialize(hash)
       @action = QueryAction.new(hash["action"]) if hash["action"]
       super
     end
-
-    def query_file
-      action.query_file
-    end
-
-    def entry; query_file.to_s.split('/').last; end
 
     # Load and return default and named graphs in a hash
     def graphs
@@ -295,7 +294,6 @@ module SPARQL; module Spec
   end
 
   class SyntaxTest < SPARQLTest
-    attr_accessor :action
     def initialize(hash)
       @action = case hash["action"]
       when String then QueryAction.new({"mq:query" => hash["action"]})
@@ -303,13 +301,6 @@ module SPARQL; module Spec
       end
       super
     end
-
-    def query_file
-      action.query_file
-    end
-
-    def entry; query_file.to_s.split('/').last; end
-
   end
 
   class QueryAction < ::JSON::LD::Resource

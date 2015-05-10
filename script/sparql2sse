@@ -34,6 +34,7 @@ rescue Exception => e
     raise e
   else
     puts "Parse Error: #{e.message}"
+    $stderr.puts(e.backtrace.join("\n"))
     exit(1)
   end
 end
