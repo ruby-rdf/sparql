@@ -4,7 +4,7 @@ module SPARQL; module Algebra
     # The SPARQL Property Path `reverse` (NegatedPropertySet) operator.
     #
     # @example
-    #   (Seq :a :b)
+    #   (seq :a :b)
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_evalPP_inverse
     class Seq < Operator::Binary

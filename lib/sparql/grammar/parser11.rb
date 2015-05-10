@@ -911,7 +911,7 @@ module SPARQL::Grammar
             # Generate a sequence (for collection of paths)
             data[:pattern].unshift(RDF::Query::Pattern.new(prod_data[:Subject].first, prod_data[:Verb], object.first))
             bgp = SPARQL::Algebra::Expression[:bgp, data[:pattern]]
-            add_prod_datum(:path, SPARQL::Algebra::Expression[:sequence, bgp, data[:path]])
+            add_prod_datum(:path, SPARQL::Algebra::Expression[:sequence, bgp, *data[:path]])
           else
             add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
             add_prod_datum(:pattern, data[:pattern])
