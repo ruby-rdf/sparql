@@ -136,14 +136,14 @@ describe SPARQL::Grammar::Parser do
   describe "w3c dawg SPARQL 1.0 tests" do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_0_syntax_tests)
     main_man.include.each do |man|
-      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 
   describe "w3c dawg SPARQL 1.0 tests" do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_0_tests)
     main_man.include.each do |man|
-      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 
@@ -160,7 +160,7 @@ describe SPARQL::Grammar::Parser do
         syntax-fed
       }.include?(m.attributes['id'].to_s.split('/')[-2])
     end.each do |man|
-      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 end unless ENV['CI']
