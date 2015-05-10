@@ -67,7 +67,7 @@ def run_tc(t, options = {})
 
     case t.type
     when 'mf:QueryEvaluationTest'
-      t.graphs.each {|k, s| puts "#{k}:\n#{s[:data]}\n"} if options[:verbose]
+      t.graphs.each {|k, s| puts "#{k}:\n#{s.inspect}\n"} if options[:verbose]
 
       actual = sparql_query(graphs: t.graphs, query: query, sse: !!options[:sse],
                             base_uri: RDF::URI(t.action.query_file),
@@ -171,13 +171,13 @@ actual:\n#{actual.dump(:trig)}
         result = "failed"
       end
     when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
-      SPARQL.parse(t.action.query_string, validate: true)
+      SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)
       # No exception means it passes
       STDERR.write(options[:quiet] ? "." : " ok\n")
       result = "passed"
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
       begin
-        SPARQL.parse(t.action.query_string, validate: true)
+        SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)
       rescue Exception
         STDERR.write(options[:quiet] ? "." : " ok\n")
         result = "passed"
@@ -189,13 +189,13 @@ actual:\n#{actual.dump(:trig)}
         result = "inapplicable"
       end
     when 'mf:PositiveUpdateSyntaxTest11'
-      SPARQL.parse(t.action.query_string, update: true, validate: true)
+      SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true)
       # No exception means it passes
       STDERR.write(options[:quiet] ? "." : " ok\n")
       result = "passed"
     when 'mf:NegativeUpdateSyntaxTest11'
       begin
-        SPARQL.parse(t.action.query_string, update: true, validate: true)
+        SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true)
       rescue Exception
         STDERR.write(options[:quiet] ? "." : " ok\n")
         result = "passed"
@@ -297,7 +297,8 @@ earl_preamble(options) if options[:earl]
     puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
     man.entries.each do |tc|
       next unless tc.approved?
-      next unless ARGV.empty? || ARGV.any? {|n| Array(tc.name).join("").match(/#{n}/)}
+      name = Array(tc.name).join("") + Array(tc.entry).join("")
+      next unless ARGV.empty? || ARGV.any? {|n| name.match(/#{n}/)}
       run_tc(tc, options)
     end
   end
