@@ -15,14 +15,11 @@ shared_examples "SSE" do |id, label, comment, tests|
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
-          when /propertyPaths|syn-pp/
-            pending "Property Paths"
           when 'dawg-optional-filter-005-simplified', 'dawg-optional-filter-005-not-simplified',
                'dataset-10'
             pending 'New problem with different manifest processing?'
           end
-          pending "Property Paths" if man_name == 'property-path'
-          parser_opts = {base_uri: RDF::URI(t.action.query_file)}
+          parser_opts = {base_uri: RDF::URI(t.action.query_file), validate: true}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts)
           sxp = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
@@ -35,11 +32,11 @@ shared_examples "SSE" do |id, label, comment, tests|
             pending "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             pending "Fixing PNAME_LN not matching :\\u0070"
-          when /propertyPaths|syn-pp/
-            pending "Property Paths"
+          when 'syn-pp-in-collection'
+            pending "Investigate unusual inequality"
           end
           query = begin
-            SPARQL::Grammar.parse(t.action.query_string, debug: ENV['PARSER_DEBUG'])
+            SPARQL::Grammar.parse(t.action.query_string, validate: true, debug: ENV['PARSER_DEBUG'])
           rescue Exception => e
             "Error: #{e.message}"
           end
@@ -83,7 +80,7 @@ shared_examples "SSE" do |id, label, comment, tests|
           pending("Null update corner case") if %w(
             syntax-update-38.ru
           ).include?(t.entry)
-          parser_opts = {base_uri: RDF::URI(t.action.query_file)}
+          parser_opts = {base_uri: RDF::URI(t.action.query_file), validate: true}
           parser_opts[:debug] = true if ENV['PARSER_DEBUG']
           query = SPARQL::Grammar.parse(t.action.query_string, parser_opts.merge(update: true))
           sxp = SPARQL::Algebra.parse(t.action.sse_string, parser_opts)
@@ -99,7 +96,7 @@ shared_examples "SSE" do |id, label, comment, tests|
             syntax-update-38.ru
           ).include?(t.entry)
           query = begin
-            SPARQL::Grammar.parse(t.action.query_string, update: true, debug: ENV['PARSER_DEBUG'])
+            SPARQL::Grammar.parse(t.action.query_string, validate: true, update: true, debug: ENV['PARSER_DEBUG'])
           rescue Exception => e
             "Error: #{e.message}"
           end
@@ -139,14 +136,14 @@ describe SPARQL::Grammar::Parser do
   describe "w3c dawg SPARQL 1.0 tests" do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_0_syntax_tests)
     main_man.include.each do |man|
-      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 
   describe "w3c dawg SPARQL 1.0 tests" do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_0_tests)
     main_man.include.each do |man|
-      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 
@@ -154,7 +151,6 @@ describe SPARQL::Grammar::Parser do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_1_tests)
     main_man.include.reject do |m|
       %w{
-        property-path
         entailment
         
         csv-tsv-res
@@ -164,7 +160,7 @@ describe SPARQL::Grammar::Parser do
         syntax-fed
       }.include?(m.attributes['id'].to_s.split('/')[-2])
     end.each do |man|
-      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "SSE", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 end unless ENV['CI']

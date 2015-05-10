@@ -40,6 +40,7 @@ module SPARQL; module Algebra
     #   any additional keyword options
     # @option options [Boolean] debug
     #   Query execution debugging
+    # @option options [RDF::Term, RDF::Query::Variable] :context
     # @yield  [solution]
     #   each matching solution, statement or boolean
     # @yieldparam  [RDF::Statement, RDF::Query::Solution, Boolean] solution

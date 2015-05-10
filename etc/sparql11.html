@@ -793,8 +793,8 @@
       <td><code>TriplesSameSubjectPath</code></td>
       <td>::=</td>
       <td>
-        <a href="#grammar-production-VarOrTerm">VarOrTerm</a> <a href="#grammar-production-PropertyListNotEmptyPath">PropertyListNotEmptyPath</a>
-        <code>|</code> <a href="#grammar-production-TriplesNode">TriplesNode</a> <a href="#grammar-production-PropertyListPath">PropertyListPath</a>
+        <a href="#grammar-production-VarOrTerm">VarOrTerm</a> <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a>
+        <code>|</code> <a href="#grammar-production-TriplesNodePath">TriplesNodePath</a> <a href="#grammar-production-PropertyListPath">PropertyListPath</a>
       </td>
     </tr>
     <tr id='grammar-production-PropertyListPath'>
@@ -802,16 +802,16 @@
       <td><code>PropertyListPath</code></td>
       <td>::=</td>
       <td>
-        <a href="#grammar-production-PropertyListNotEmpty">PropertyListNotEmpty</a><code>?</code>
+        <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a><code>?</code>
       </td>
     </tr>
-    <tr id='grammar-production-PropertyListNotEmptyPath'>
+    <tr id='grammar-production-PropertyListPathNotEmpty'>
       <td>[83]</td>
-      <td><code>PropertyListNotEmptyPath</code></td>
+      <td><code>PropertyListPathNotEmpty</code></td>
       <td>::=</td>
       <td>
         <code>(</code> <a href="#grammar-production-VerbPath">VerbPath</a> <code>|</code> <a href="#grammar-production-VerbSimple">VerbSimple</a><code>)</code> 
-        <a href="#grammar-production-ObjectList">ObjectList</a>
+        <a href="#grammar-production-ObjectListPath">ObjectListPath</a>
         ("<code class="grammar-literal">;</code>" (<code>(</code> <a href="#grammar-production-VerbPath">VerbPath</a> <code>|</code> <a href="#grammar-production-VerbSimple">VerbSimple</a><code>)</code>  <a href="#grammar-production-ObjectList">ObjectList</a>)<code>?</code> )<code>*</code>
       </td>
     </tr>
@@ -900,7 +900,6 @@
         "<code class="grammar-literal">*</code>"
         <code>|</code> "<code class="grammar-literal">?</code>"
         <code>|</code> "<code class="grammar-literal">+</code>"
-        <code>|</code> "<code class="grammar-literal">{</code>" <code>(</code> <a href="#grammar-production-Integer">Integer</a> <code>(</code> "<code class="grammar-literal">,</code>" <code>(</code> "<code class="grammar-literal">}</code>" <code>|</code> <a href="#grammar-production-Integer">Integer</a> "<code class="grammar-literal">}</code>"<code>)</code>  <code>|</code> "<code class="grammar-literal">}</code>"<code>)</code>  <code>|</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-Integer">Integer</a> "<code class="grammar-literal">}</code>"<code>)</code>
       </td>
     </tr>
     <tr id='grammar-production-PathPrimary'>

@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # Used for filters with more than one expression.
     #
     # @example
-    #   (ask (filter (notin 2) (bgp)))
+    #   (ask (filter (notin ?o 1 2) (bgp)))
     #
     # @see http://www.w3.org/TR/sparql11-query/#func-notin
     class NotIn < Operator

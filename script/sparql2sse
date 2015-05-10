@@ -59,7 +59,8 @@ opts = GetoptLong.new(
   ["--quiet", GetoptLong::NO_ARGUMENT],
   ["--resolve-uris", GetoptLong::NO_ARGUMENT],
   ["--standard-prefixes", GetoptLong::NO_ARGUMENT],
-  ["--uri", GetoptLong::REQUIRED_ARGUMENT]
+  ["--uri", GetoptLong::REQUIRED_ARGUMENT],
+  ["--validate", GetoptLong::NO_ARGUMENT]
 )
 
 opts.each do |opt, arg|
@@ -78,6 +79,7 @@ opts.each do |opt, arg|
       parser_options[:prefixes][prefix] = v.to_uri
     end
   when '--uri' then parser_options[:base_uri] = arg
+  when '--validate' then parser_options[:validate] = true
   when "--help"
     puts "Usage: #{$0} [options] file-or-uri ..."
     puts "Options:"
@@ -89,6 +91,7 @@ opts.each do |opt, arg|
     puts "      --standard-prefixes:  Apply standard prefixes to parser (for non-standard productions)"
     puts "      --dump:               Dump raw output, otherwise serialize to SSE"
     puts "      --progress:           Display parser progress when running productions"
+    puts "      --validate:           Run in validation mode"
     puts "      --debug:              Display detailed debug output"
     puts "      --help,-?:            This message"
     exit(0)

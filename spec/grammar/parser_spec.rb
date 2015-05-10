@@ -1819,6 +1819,29 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
+  # Property paths
+  describe "Property Paths [88] Path production rule", production: :Path do
+    {
+      %(:p?) => %((path? :p)),
+      %(:p*) => %((path* :p)),
+      %(:p+) => %((path+ :p)),
+      %((:p+)) => %((path+ :p)),
+      %(^:p) => %((reverse :p)),
+      %(!^:p) => %((notoneof (reverse :p))),
+      %(:p1/:p2) => %((seq :p1 :p2)),
+      %(:p1|:p2) => %((alt :p1 :p2)),
+      %(:p1/:p2/:p3) => %((seq (seq :p1 :p2) :p3)),
+      %(:p1|:p2|:p3) => %((alt (alt :p1 :p2) :p3)),
+      %((!:p)+/foaf:name) => %((seq (path+ (notoneof :p)) foaf:name)),
+      %(:p1|(:p2+/:p3+)) => %((alt :p1 (seq (path+ :p2) (path+ :p3)))),
+      %((((:p)*)*)*) => %((path* (path* (path* :p))))
+    }.each do |input, output|
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))
+      end
+    end
+  end
+
   # Productions that can be tested individually
   describe "individual nonterminal productions" do
     describe "when matching the [104] GraphNode production rule", production: :GraphNode do

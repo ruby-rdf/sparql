@@ -22,8 +22,9 @@ shared_examples "DAWG" do |id, label, comment, tests|
             pending("REDUCED equivalent to DISTINCT")
           when /sq03/
             pending("Graph variable binding differences")
+          when /pp11|pp31/
+            pending("Expects multiple equivalent property path solutions")
           end
-          pending "Property Paths" if id.to_s.split("/")[-2] == 'property-path'
 
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
@@ -55,6 +56,38 @@ shared_examples "DAWG" do |id, label, comment, tests|
           expect(result).to describe_csv_solutions(t.solutions)
           expect {result.to_csv}.not_to raise_error
         end
+      when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
+        it "positive syntax for #{t.entry} - #{t.name} - #{t.comment}" do
+          case t.name
+          when 'Basic - Term 7', 'syntax-lit-08.rq'
+            pending "Decimal format changed in SPARQL 1.1"
+          when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
+            pending "Fixing PNAME_LN not matching :\\u0070"
+          when 'dawg-optional-filter-005-simplified', 'dawg-optional-filter-005-not-simplified',
+               'dataset-10'
+            pending 'New problem with different manifest processing?'
+          end
+          expect {SPARQL.parse(t.action.query_string, validate: true)}.not_to raise_error
+        end
+      when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
+        it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
+          pending("Better Error Detection") if %w(
+            syn-blabel-cross-graph-bad.rq syn-blabel-cross-optional-bad.rq syn-blabel-cross-union-bad.rq
+            syn-bad-34.rq syn-bad-35.rq syn-bad-36.rq syn-bad-37.rq syn-bad-38.rq
+            syn-bad-OPT-breaks-BGP.rq syn-bad-UNION-breaks-BGP.rq syn-bad-GRAPH-breaks-BGP.rq
+            agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
+            syntax-BINDscope6.rq syntax-BINDscope7.rq syntax-BINDscope8.rq
+            syntax-SELECTscope2.rq
+            syn-bad-pname-06.rq
+          ).include?(t.entry)
+          pending("Better Error Detection") if %w(
+            syn-bad-01.rq syn-bad-02.rq
+          ).include?(t.entry) && man_name == 'syntax-query'
+          pending("New problem with different manifest processing?") if %w(
+            group06.rq group07.rq
+          ).include?(t.entry)
+          expect {SPARQL.parse(t.action.query_string, validate: true)}.to raise_error
+        end
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           # Load default and named graphs for result dataset
@@ -77,10 +110,19 @@ shared_examples "DAWG" do |id, label, comment, tests|
 
           expect(result).to describe_solutions(expected, t)
         end
-      when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11',
-           'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11',
-           'mf:PositiveUpdateSyntaxTest11', 'mf:NegativeUpdateSyntaxTest11',
-           'mf:ServiceDescriptionTest', 'mf:ProtocolTest',
+      when 'mf:PositiveUpdateSyntaxTest11'
+        it "positive syntax test for #{t.entry} - #{t.name} - #{t.comment}" do
+          pending("Whitespace in string tokens") if %w(
+            syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
+            syntax-update-36.ru
+          ).include?(t.entry)
+          expect {SPARQL.parse(t.action.query_string, update: true, validate: true)}.not_to raise_error
+        end
+      when 'mf:NegativeUpdateSyntaxTest11'
+        it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
+          expect {SPARQL.parse(t.action.query_string, update: true, validate: true)}.to raise_error
+        end
+      when 'mf:ServiceDescriptionTest', 'mf:ProtocolTest',
            'mf:GraphStoreProtocolTest'
         # Skip Other
       else
@@ -96,10 +138,18 @@ end
 describe SPARQL do
   before(:each) {$stderr = StringIO.new}
   after(:each) {$stderr = STDERR}
+
+  describe "w3c dawg SPARQL 1.0 tests" do
+    main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_0_syntax_tests)
+    main_man.include.each do |man|
+      it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
+    end
+  end
+
   describe "w3c dawg SPARQL 1.0 tests" do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_0_tests)
     main_man.include.each do |man|
-      it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 
@@ -116,7 +166,7 @@ describe SPARQL do
         syntax-fed
       }.include?(m.attributes['id'].to_s.split('/')[-2])
     end.each do |man|
-      it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.entries
+      it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
 end unless ENV['CI']
