@@ -40,8 +40,27 @@ module SPARQL; module Algebra
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
       def execute(queryable, options = {})
-        debug(options) {"Sequence"}
-        queryable
+        debug(options) {"Sequence #{operands.to_sse}"}
+
+        last = queryable.query(operands.shift, options.merge(depth: options[:depth].to_i + 1))
+        debug(options) {"(sequence)=>(last) #{last.map(&:to_hash).to_sse}"}
+
+        operands.each do |op|
+          this = queryable.query(op, options.merge(depth: options[:depth].to_i + 1))
+          debug(options) {"(sequence)=>(this) #{this.map(&:to_hash).to_sse}"}
+
+          last = last.map do |s1|
+            this.map do |s2|
+              s2.merge(s1) if s2.compatible?(s1)
+            end
+          end.flatten.compact
+          debug(options) {"(sequence)=>(next) #{last.map(&:to_hash).to_sse}"}
+        end
+
+        @solutions = RDF::Query::Solutions.new(last)
+        debug(options) {"(sequence)=> #{@solutions.map(&:to_hash).to_sse}"}
+        @solutions.each(&block) if block_given?
+        @solutions
       end
     end # Sequence
   end # Operator

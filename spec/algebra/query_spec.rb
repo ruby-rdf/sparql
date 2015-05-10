@@ -680,7 +680,6 @@ describe SPARQL::Algebra::Query do
   context "property paths" do
     let(:repo) {
       RDF::Repository.new << RDF::TriG::Reader.new(%(
-        @prefix foaf:  <http://xmlns.com/foaf/0.1/> .
         @prefix :      <http://example.org/> .
         @prefix ex:	<http://www.example.org/schema#>.
         @prefix in:	<http://www.example.org/instance#>.
@@ -904,6 +903,50 @@ describe SPARQL::Algebra::Query do
             end
           end
         end
+      end
+    end
+
+    describe "sequence" do
+      let(:repo) {
+        RDF::Repository.new << RDF::TriG::Reader.new(%(
+          @prefix :      <http://example.org/> .
+
+          :a :b (
+            [:p [:p [:q 123]]]
+            [:r "hello"]
+          ) .
+
+          :a1 :b1 (
+            [:p [:p [:q 1234]]]
+            [:r "hello"]
+          ) .
+
+          :a2 :b2 (
+            [:p [:p [:q 123]]]
+            [:r "goodby"]
+          ) .
+        ))
+      }
+
+      it "finds collection sequence" do
+        query = %((prefix
+                   ((: <http://example.org/>) (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+                   (sequence
+                    (bgp
+                     (triple ?s ?p ??0)
+                     (triple ??0 rdf:first ??1)
+                     (triple ??0 rdf:rest ??3)
+                     (triple ??3 rdf:first ??2)
+                     (triple ??3 rdf:rest rdf:nil))
+                    (path ??1 (seq (path* :p) :q) 123)
+                    (path ??2 (path? :r) "hello")) ))
+
+        #require 'pry'; binding.pry
+        actual = sparql_query({query: query, sse: true, graphs: repo})
+        expect(actual.length).to eql 1
+        solution = actual.first
+        expect(solution[:s]).to eql RDF::URI("http://example.org/a")
+        expect(solution[:p]).to eql RDF::URI("http://example.org/b")
       end
     end
   end
