@@ -150,11 +150,9 @@
                   %th
                     %a{:href => '#' + subject_refs[subject['@id']]}<=subject['name']
             - test_cases.each do |test|
-              - tid = "test_#{Digest::MD5.hexdigest(test['@id'])}"
               %tr{:rel => "mf:entries", typeof: test['@type'].join(" "), resource: test['@id'], :inlist => true}
                 %td
-                  %a{:href => "##{tid}"}<
-                    = "Test #{test['@id'].split("#").last}: #{CGI.escapeHTML test['title']}"
+                  = "Test #{test['@id'].split("#").last}: #{CGI.escapeHTML test['title']}"
                 - test['assertions'].each_with_index do |assertion, ndx|
                   - next if skip_subject[assertion['subject']]
                   - pass_fail = assertion['result']['outcome'].split(':').last.upcase.sub(/(PASS|FAIL)ED$/, '\1')
