@@ -137,10 +137,17 @@ class Array
   end
 
   ##
-  # Return the non-destinguished variables contained within this operator
+  # Return the non-destinguished variables contained within this Array
   # @return [Array<RDF::Query::Variable>]
   def ndvars
-    select {|o| o.respond_to?(:ndvars)}.map(&:ndvars).flatten.compact
+    vars.reject(&:distinguished?)
+  end
+
+  ##
+  # Return the variables contained within this Array
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    select {|o| o.respond_to?(:vars)}.map(&:vars).flatten.compact
   end
 
   ##
@@ -225,10 +232,17 @@ module RDF::Term
   end
 
   ##
-  # Return self if this is a non-destingished variable
+  # Return the non-destinguished variables contained within this operator
   # @return [Array<RDF::Query::Variable>]
   def ndvars
-    variable? && !distinguished? ? [self] : []
+    vars.reject(&:distinguished?)
+  end
+
+  ##
+  # Return the variables contained within this operator
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    variable? ? [self] : []
   end
 end # RDF::Term
 
@@ -351,27 +365,10 @@ class RDF::Query
   end
 
   ##
-  # Validate this query, making sure it can be executed by our query engine.
-  # This method is public so that it may be called by implementations of
-  # RDF::Queryable#query_execute that bypass our built-in query engine.
-  #
-  # @return [void]
-  # @raise [ArgumentError] This query cannot be executed.
-  # FIXME: should go to RDF.rb
-  def validate!
-    # All patterns must be valid
-    @patterns.each(&:validate!)
-
-    # All optional patterns must appear after the regular patterns.  We
-    # could test this more cleanly using Ruby 1.9-specific features, but
-    # we want to run under Ruby 1.8, too.
-    if i = @patterns.find_index(&:optional?)
-      unless @patterns[i..-1].all?(&:optional?)
-        raise ArgumentError.new("Optional patterns must appear at end of query")
-      end
-    end
-
-    self
+  # Return the variables contained within patterns
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    patterns.map(&:vars).flatten
   end
 end
 
@@ -390,19 +387,14 @@ class RDF::Query::Pattern
   # Return the non-destinguished variables contained within this pattern
   # @return [Array<RDF::Query::Variable>]
   def ndvars
-    variables.values.reject(&:distinguished?)
+    vars.reject(&:distinguished?)
   end
 
   ##
-  # Is this pattern composed only of valid components?
-  #
-  # @return [Boolean] `true` or `false`
-  # FIXME: should go in RDF.rb
-  def valid?
-    (has_subject?   ? (subject.resource? || subject.variable?) && subject.valid? : true) && 
-    (has_predicate? ? (predicate.uri? || predicate.variable?) && predicate.valid? : true) &&
-    (has_object?    ? (object.term? || object.variable?) && object.valid? : true) &&
-    (has_context?   ? (context.resource? || context.variable?) && context.valid? : true )
+  # Return the variables contained within this pattern
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    variables.values
   end
 end
 

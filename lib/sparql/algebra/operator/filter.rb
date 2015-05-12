@@ -53,11 +53,6 @@ module SPARQL; module Algebra
         @solutions
       end
 
-      def valid?
-        !!validate!
-      rescue false
-      end
-
       # If filtering a join of two BGPs (having the same graph name), don't worry about validating, for shared ndvars, anyway,
       #
       #       (filter (regex ?homepage "^http://example.org/" "")

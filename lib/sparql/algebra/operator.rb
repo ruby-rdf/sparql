@@ -575,7 +575,14 @@ module SPARQL; module Algebra
     # Return the non-destinguished variables contained within this operator
     # @return [Array<RDF::Query::Variable>]
     def ndvars
-      operands.select {|o| o.respond_to?(:ndvars)}.map(&:ndvars).flatten
+      vars.reject(&:distinguished?)
+    end
+
+    ##
+    # Return the variables contained within this operator
+    # @return [Array<RDF::Query::Variable>]
+    def vars
+      operands.select {|o| o.respond_to?(:vars)}.map(&:vars).flatten
     end
 
     ##
@@ -595,14 +602,6 @@ module SPARQL; module Algebra
         end
         block.call(operand)
       end
-    end
-
-    ##
-    # Is this value valid, and composed only of valid components?
-    #
-    # @return [Boolean] `true` or `false`
-    def valid?
-      operands.all? {|op| op.respond_to?(valid?) ? op.valid? : true}
     end
 
     ##

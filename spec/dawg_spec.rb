@@ -73,8 +73,6 @@ shared_examples "DAWG" do |id, label, comment, tests|
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
           pending("Better Error Detection") if %w(
             agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
-            syntax-BINDscope6.rq syntax-BINDscope7.rq syntax-BINDscope8.rq
-            syntax-SELECTscope2.rq
             syn-bad-pname-06.rq
           ).include?(t.entry)
           pending("Better Error Detection") if %w(

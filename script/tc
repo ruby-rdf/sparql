@@ -42,6 +42,8 @@ def run_tc(t, options = {})
 
   puts t.inspect if options[:verbose]
 
+  puts t.sse_query_string if options[:verbose]
+
   case t.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
      # Decimal format changed in SPARQL 1.1
@@ -178,7 +180,8 @@ actual:\n#{actual.dump(:trig)}
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
       begin
         SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)
-      rescue Exception
+      rescue Exception => e
+        STDERR.puts e.message if options[:verbose]
         STDERR.write(options[:quiet] ? "." : " ok\n")
         result = "passed"
       end
@@ -196,7 +199,8 @@ actual:\n#{actual.dump(:trig)}
     when 'mf:NegativeUpdateSyntaxTest11'
       begin
         SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true)
-      rescue Exception
+      rescue Exception => e
+        STDERR.puts e.message if options[:verbose]
         STDERR.write(options[:quiet] ? "." : " ok\n")
         result = "passed"
       end

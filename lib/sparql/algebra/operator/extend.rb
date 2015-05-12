@@ -41,10 +41,10 @@ module SPARQL; module Algebra
       # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
       def execute(queryable, options = {}, &block)
         debug(options) {"Extend"}
-        @solutions = operands.last.execute(queryable, options.merge(depth: options[:depth].to_i + 1))
+        @solutions = operand(1).execute(queryable, options.merge(depth: options[:depth].to_i + 1))
         @solutions.each do |solution|
           debug(options) {"===> soln #{solution.to_hash.inspect}"}
-          operands.first.each do |(var, expr)|
+          operand(0).each do |(var, expr)|
             begin
               val = expr.evaluate(solution, options.merge(
                                               queryable: queryable,
@@ -60,7 +60,19 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
-      
+
+      # The variable introduced by the BIND clause must not have been used in the group graph pattern up to the point of use in BIND
+      def validate!
+        bind_vars = operand(0).map(&:first)
+        query_vars = operand(1).vars
+        
+        unless (bind_vars.compact & query_vars.compact).empty?
+          raise ArgumentError,
+               "bound variable used in query: #{(bind_vars.compact & query_vars.compact).to_sse}"
+        end
+        super
+      end
+
       ##
       # Returns an optimized version of this query.
       #
