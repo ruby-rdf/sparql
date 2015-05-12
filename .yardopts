@@ -11,3 +11,5 @@ CREDITS
 UNLICENSE
 VERSION
 etc/sparql11.bnf
+etc/sparql11.html
+etc/earl.html

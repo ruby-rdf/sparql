@@ -241,7 +241,7 @@ ensure
   earl:result [
     a earl:TestResult;
     earl:outcome earl:#{result};
-    dc:name "#{t.name}";
+    dc:name """#{t.name}""";
 } +
 if msg = options.fetch(:failures, {})[t] || options.fetch(:exceptions, {})[t]
 %{    dc:description """#{msg}""";

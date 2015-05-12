@@ -19,8 +19,8 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
-      # @param [RDF::Term, RDF::Variable] :subject
-      # @param [RDF::Term, RDF::Variable] :object
+      # @option options [RDF::Term, RDF::Variable] :subject
+      # @option options [RDF::Term, RDF::Variable] :object
       # @yield  [solution]
       #   each matching solution
       # @yieldparam  [RDF::Query::Solution] solution
