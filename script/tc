@@ -42,7 +42,7 @@ def run_tc(t, options = {})
 
   puts t.inspect if options[:verbose]
 
-  puts t.sse_query_string if options[:verbose]
+  puts t.action.sse_query_string if options[:verbose]
 
   case t.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
@@ -95,11 +95,13 @@ actual:\n#{actual.inspect}
           result = "failed"
         end
       when :ask
-        if actual == RDF::Literal::TRUE
+        if actual == t.solutions
           STDERR.write(options[:quiet] ? "." : " ok\n")
           result = "passed"
         else
           STDERR.write(options[:quiet] ? "F" : " failed\n")
+          options[:failures] ||= {}
+          options[:failures][t] = %{ expected: #{t.solutions.inspect}}
           result = "failed"
         end
       else

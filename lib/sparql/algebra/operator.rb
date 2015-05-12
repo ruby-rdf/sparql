@@ -342,7 +342,11 @@ module SPARQL; module Algebra
       @options  = operands.last.is_a?(Hash) ? operands.pop.dup : {}
       @operands = operands.map! do |operand|
         case operand
+          when Array
+            operand.each {|op| op.parent = self if operand.respond_to?(:parent=)}
+            operand
           when Operator, Variable, RDF::Term, RDF::Query, RDF::Query::Pattern, Array, Symbol
+            operand.parent = self if operand.respond_to?(:parent=)
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time
             RDF::Literal(operand)
@@ -406,12 +410,6 @@ module SPARQL; module Algebra
     def self.prefixes=(hash)
       @prefixes = hash
     end
-
-    ##
-    # Any additional options for this operator.
-    #
-    # @return [Hash]
-    attr_reader :options
 
     ##
     # The operands to this operator.
@@ -560,7 +558,7 @@ module SPARQL; module Algebra
     #
     # @return [String]
     def inspect
-      sprintf("#<%s:%#0x(%s)>", self.class.name, __id__, operands.map(&:inspect).join(', '))
+      sprintf("#<%s:%#0x(%s)>", self.class.name, __id__, operands.to_sse.gsub(/\s+/m, ' '))
     end
 
     ##
@@ -602,6 +600,29 @@ module SPARQL; module Algebra
         end
         block.call(operand)
       end
+    end
+
+    ##
+    # Parent expression, if any
+    #
+    # @return [Operator]
+    def parent; @options[:parent]; end
+
+    ##
+    # Parent operator, if any
+    #
+    # @return [Operator]
+    def parent=(operator)
+      @options[:parent]= operator
+    end
+
+    ##
+    # First ancestor operator of type `klass`
+    #
+    # @param [Class] klass
+    # @return [Operator]
+    def first_ancestor(klass)
+      parent.is_a?(klass) ? parent : parent.first_ancestor(klass) if parent
     end
 
     ##

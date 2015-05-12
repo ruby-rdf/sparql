@@ -91,7 +91,28 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
-      
+
+      # It is an error for aggregates to project variables with a name already used in other aggregate projections, or in the WHERE clause.
+      #
+      # It is also an error to project ungrouped variables
+      def validate!
+        group_vars = operand(0).map {|v| Array(v).first}
+        ext = first_ancestor(Extend)
+        extend_vars = ext ? ext.operand(0).map(&:first).select {|v| v.is_a?(RDF::Query::Variable)} : []
+        project = first_ancestor(Project)
+        # If not projecting, were are effectively projecting all variables in the query
+        project_vars = project ? project.operand(0) : operands.last.vars
+
+        available_vars = (extend_vars + group_vars).compact
+
+        # All variables must either be grouped or extended
+        unless (project_vars - available_vars).empty?
+          raise ArgumentError,
+               "projecting ungrouped/extended variables: #{(project_vars.compact - available_vars.compact).to_sse}"
+        end
+        super
+      end
+
       ##
       # Returns an optimized version of this query.
       #
