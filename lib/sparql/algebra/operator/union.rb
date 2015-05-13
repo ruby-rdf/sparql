@@ -42,7 +42,18 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
-      
+
+      # The same blank node label cannot be used in two different basic graph patterns in the same query
+      def validate!
+        left_nodes, right_nodes = operand(0).ndvars, operand(1).ndvars
+
+        unless (left_nodes.compact & right_nodes.compact).empty?
+          raise ArgumentError,
+               "sub-operands share non-distinguished variables: #{(left_nodes.compact & right_nodes.compact).to_sse}"
+        end
+        super
+      end
+
       ##
       # Returns an optimized version of this query.
       #

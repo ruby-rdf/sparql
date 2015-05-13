@@ -96,10 +96,10 @@
     [78]  Verb                    ::= VarOrIri | 'a'
     [79]  ObjectList              ::= Object ( ',' Object )*
     [80]  Object                  ::= GraphNode
-    [81]  TriplesSameSubjectPath  ::= VarOrTerm PropertyListNotEmptyPath
-                                    | TriplesNode PropertyListPath
-    [82]  PropertyListPath        ::= PropertyListNotEmpty?
-    [83]  PropertyListNotEmptyPath::= ( VerbPath | VerbSimple ) ObjectList
+    [81]  TriplesSameSubjectPath  ::= VarOrTerm PropertyListPathNotEmpty
+                                    | TriplesNodePath PropertyListPath
+    [82]  PropertyListPath        ::= PropertyListPathNotEmpty?
+    [83]  PropertyListPathNotEmpty::= ( VerbPath | VerbSimple ) ObjectListPath
                                       ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
     [84]  VerbPath                ::= Path
     [85]  VerbSimple              ::= Var
@@ -111,7 +111,6 @@
     [91]  PathElt                 ::= PathPrimary PathMod?
     [92]  PathEltOrInverse        ::= PathElt | '^' PathElt
     [93]  PathMod                 ::= '*' | '?' | '+'
-                                    | '{' ( Integer ( ',' ( '}' | Integer '}' ) | '}' ) | ',' Integer '}' )
     [94]  PathPrimary             ::= iri | 'a' | '!' PathNegatedPropertySet | '(' Path ')'
     [95]  PathNegatedPropertySet  ::= PathOneInPropertySet
                                     | '(' ( PathOneInPropertySet ( '|' PathOneInPropertySet )* )? ')'

@@ -135,6 +135,37 @@ class Array
     end
     self
   end
+
+  ##
+  # Return the non-destinguished variables contained within this Array
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    vars.reject(&:distinguished?)
+  end
+
+  ##
+  # Return the variables contained within this Array
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    select {|o| o.respond_to?(:vars)}.map(&:vars).flatten.compact
+  end
+
+  ##
+  # Is this value composed only of valid components?
+  #
+  # @return [Boolean] `true` or `false`
+  def valid?
+    all? {|e| e.respond_to?(:valid?) ? e.valid? : true}
+  end
+
+  ##
+  # Validate all components.
+  # @return [Array] `self`
+  # @raise  [ArgumentError] if the value is invalid
+  def validate!
+    each {|e| e.validate! if e.respond_to?(:validate!)}
+    self
+  end
 end
 
 ##
@@ -198,6 +229,20 @@ module RDF::Term
     has_language? ?
       (language == other.language || dtr == RDF::XSD.string) :
       dtr == RDF::XSD.string
+  end
+
+  ##
+  # Return the non-destinguished variables contained within this operator
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    vars.reject(&:distinguished?)
+  end
+
+  ##
+  # Return the variables contained within this operator
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    variable? ? [self] : []
   end
 end # RDF::Term
 
@@ -311,6 +356,20 @@ class RDF::Query
   def query_yields_solutions?
     true
   end
+
+  ##
+  # Return the non-destinguished variables contained within patterns
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    patterns.map(&:ndvars).flatten
+  end
+
+  ##
+  # Return the variables contained within patterns
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    patterns.map(&:vars).flatten
+  end
 end
 
 class RDF::Query::Pattern
@@ -322,6 +381,20 @@ class RDF::Query::Pattern
     else
       [:triple, subject, predicate, object]
     end
+  end
+
+  ##
+  # Return the non-destinguished variables contained within this pattern
+  # @return [Array<RDF::Query::Variable>]
+  def ndvars
+    vars.reject(&:distinguished?)
+  end
+
+  ##
+  # Return the variables contained within this pattern
+  # @return [Array<RDF::Query::Variable>]
+  def vars
+    variables.values
   end
 end
 

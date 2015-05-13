@@ -20,12 +20,13 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
             skip("REDUCED equivalent to DISTINCT")
           when /sq03/
             pending("Graph variable binding differences")
+          when /pp11|pp31/
+            pending("Expects multiple equivalent property path solutions")
           end
-          pending "Property Paths" if id.to_s.split("/")[-2] == 'property-path'
 
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.sse_string,
-                                base_uri: RDF::URI(t.action.query_file),
+                                base_uri: t.base_uri,
                                 repository: "sparql-spec",
                                 form: t.form,
                                 sse: true)
@@ -49,7 +50,7 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.sse_string,
-                                base_uri: RDF::URI(t.action.query_file),
+                                base_uri: t.base_uri,
                                 repository: "sparql-spec",
                                 form: t.form,
                                 sse: true)
@@ -74,7 +75,7 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
 
           result = sparql_query(graphs: t.action.graphs,
                                 query: t.action.sse_string,
-                                base_uri: RDF::URI(t.action.query_file),
+                                base_uri: t.base_uri,
                                 repository: "sparql-spec",
                                 form: t.form,
                                 sse: true)

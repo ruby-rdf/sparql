@@ -1,5 +1,5 @@
 (prefix ((: <http://www.example.org/>))
   (project (?t)
-    (filter (= ?g </ng-01.ttl>)
+    (filter (= ?g <ng-01.ttl>)
       (graph ?g
         (path ?s (path* :p1) ?t)))))

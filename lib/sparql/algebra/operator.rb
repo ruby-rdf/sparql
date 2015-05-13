@@ -85,6 +85,17 @@ module SPARQL; module Algebra
     autoload :Subtract,           'sparql/algebra/operator/subtract'
     autoload :UCase,              'sparql/algebra/operator/ucase'
 
+    # Property Paths
+    autoload :Alt,                'sparql/algebra/operator/alt'
+    autoload :NotOneOf,           'sparql/algebra/operator/notoneof'
+    autoload :PathOpt,            'sparql/algebra/operator/path_opt'
+    autoload :PathPlus,           'sparql/algebra/operator/path_plus'
+    autoload :PathStar,           'sparql/algebra/operator/path_star'
+    autoload :Path,               'sparql/algebra/operator/path'
+    autoload :Reverse,            'sparql/algebra/operator/reverse'
+    autoload :Seq,                'sparql/algebra/operator/seq'
+    autoload :Sequence,           'sparql/algebra/operator/sequence'
+
     # Miscellaneous
     autoload :Asc,                'sparql/algebra/operator/asc'
     autoload :Coalesce,           'sparql/algebra/operator/coalesce'
@@ -159,6 +170,7 @@ module SPARQL; module Algebra
         when :>=              then GreaterThanOrEqual
         when :abs             then Abs
         when :add             then Add
+        when :alt             then Alt
         when :and, :'&&'      then And
         when :avg             then Avg
         when :bnode           then BNode
@@ -195,18 +207,26 @@ module SPARQL; module Algebra
         when :month           then Month
         when :multiply        then Multiply
         when :not, :'!'       then Not
-        when :notexists      then NotExists
+        when :notexists       then NotExists
         when :notin           then NotIn
+        when :notoneof        then NotOneOf
         when :now             then Now
         when :or, :'||'       then Or
+        when :path            then Path
+        when :path?           then PathOpt
+        when :"path*"         then PathStar
+        when :"path+"         then PathPlus
         when :plus            then Plus
         when :rand            then Rand
         when :regex           then Regex
         when :replace         then Replace
+        when :reverse         then Reverse
         when :round           then Round
         when :sameterm        then SameTerm
         when :sample          then Sample
         when :seconds         then Seconds
+        when :seq             then Seq
+        when :sequence        then Sequence
         when :sha1            then SHA1
         when :sha256          then SHA256
         when :sha512          then SHA512
@@ -322,7 +342,11 @@ module SPARQL; module Algebra
       @options  = operands.last.is_a?(Hash) ? operands.pop.dup : {}
       @operands = operands.map! do |operand|
         case operand
+          when Array
+            operand.each {|op| op.parent = self if operand.respond_to?(:parent=)}
+            operand
           when Operator, Variable, RDF::Term, RDF::Query, RDF::Query::Pattern, Array, Symbol
+            operand.parent = self if operand.respond_to?(:parent=)
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time
             RDF::Literal(operand)
@@ -386,12 +410,6 @@ module SPARQL; module Algebra
     def self.prefixes=(hash)
       @prefixes = hash
     end
-
-    ##
-    # Any additional options for this operator.
-    #
-    # @return [Hash]
-    attr_reader :options
 
     ##
     # The operands to this operator.
@@ -540,7 +558,7 @@ module SPARQL; module Algebra
     #
     # @return [String]
     def inspect
-      sprintf("#<%s:%#0x(%s)>", self.class.name, __id__, operands.map(&:inspect).join(', '))
+      sprintf("#<%s:%#0x(%s)>", self.class.name, __id__, operands.to_sse.gsub(/\s+/m, ' '))
     end
 
     ##
@@ -552,7 +570,21 @@ module SPARQL; module Algebra
     alias_method :==, :eql?
 
     ##
-    # Iterate via deapth-first recursive descent over operands, yielding each operator
+    # Return the non-destinguished variables contained within this operator
+    # @return [Array<RDF::Query::Variable>]
+    def ndvars
+      vars.reject(&:distinguished?)
+    end
+
+    ##
+    # Return the variables contained within this operator
+    # @return [Array<RDF::Query::Variable>]
+    def vars
+      operands.select {|o| o.respond_to?(:vars)}.map(&:vars).flatten
+    end
+
+    ##
+    # Iterate via depth-first recursive descent over operands, yielding each operator
     # @yield operator
     # @yieldparam [Object] operator
     def descendants(&block)
@@ -568,6 +600,38 @@ module SPARQL; module Algebra
         end
         block.call(operand)
       end
+    end
+
+    ##
+    # Parent expression, if any
+    #
+    # @return [Operator]
+    def parent; @options[:parent]; end
+
+    ##
+    # Parent operator, if any
+    #
+    # @return [Operator]
+    def parent=(operator)
+      @options[:parent]= operator
+    end
+
+    ##
+    # First ancestor operator of type `klass`
+    #
+    # @param [Class] klass
+    # @return [Operator]
+    def first_ancestor(klass)
+      parent.is_a?(klass) ? parent : parent.first_ancestor(klass) if parent
+    end
+
+    ##
+    # Validate all operands, operator specific classes should override for operator-specific validation
+    # @return [SPARQL::Algebra::Expression] `self`
+    # @raise  [ArgumentError] if the value is invalid
+    def validate!
+      operands.each {|op| op.validate! if op.respond_to?(:validate!)}
+      self
     end
   protected
 

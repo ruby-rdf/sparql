@@ -39,22 +39,33 @@ module SPARQL; module Algebra
         # eval(D(G), Join(P1, P2)) = Join(eval(D(G), P1), eval(D(G), P2))
         #
         # Generate solutions independently, merge based on solution compatibility
-        debug(options) {"Join"}
+        debug(options) {"Join #{operands.to_sse}"}
  
         left = queryable.query(operand(0), options.merge(depth: options[:depth].to_i + 1))
-        debug(options) {"(join)=>(left) #{left.inspect}"}
+        debug(options) {"(join)=>(left) #{left.map(&:to_hash).to_sse}"}
 
         right = queryable.query(operand(1), options.merge(depth: options[:depth].to_i + 1))
-        debug(options) {"(join)=>(right) #{right.inspect}"}
+        debug(options) {"(join)=>(right) #{right.map(&:to_hash).to_sse}"}
 
         @solutions = RDF::Query::Solutions(left.map do |s1|
           right.map { |s2| s2.merge(s1) if s2.compatible?(s1) }
         end.flatten.compact)
-        debug(options) {"=> #{@solutions.inspect}"}
+        debug(options) {"(join)=> #{@solutions.map(&:to_hash).to_sse}"}
         @solutions.each(&block) if block_given?
         @solutions
       end
-      
+
+      # The same blank node label cannot be used in two different basic graph patterns in the same query
+      def validate!
+        left_nodes, right_nodes = operand(0).ndvars, operand(1).ndvars
+
+        unless (left_nodes.compact & right_nodes.compact).empty?
+          raise ArgumentError,
+               "sub-operands share non-distinguished variables: #{(left_nodes.compact & right_nodes.compact).to_sse}"
+        end
+        super
+      end
+
       ##
       # Returns an optimized version of this query.
       #

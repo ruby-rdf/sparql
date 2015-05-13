@@ -9,7 +9,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 ## Features
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.
-* [SPARQL 1.1 Query][] parsing and execution (excluding [Property Paths][])
+* Complete [SPARQL 1.1 Query][] parsing and execution
 * SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON],
   [CSV][SPARQL 1.1 Query Results CSV and TSV Formats],
   [TSV][SPARQL 1.1 Query Results CSV and TSV Formats]
@@ -21,6 +21,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
+* Implementation Report: {file:etc/earl.html EARL}
 * Compatible with Ruby >= 1.9.3.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on all versions of Ruby.
@@ -30,8 +31,6 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 The {SPARQL} gem implements [SPARQL 1.1 Query][], and [SPARQL 1.1 Update][], and provides [Rack][] and [Sinatra][] middleware to provide results using [HTTP Content Negotiation][conneg].
 
 * {SPARQL::Grammar} implements a [SPARQL 1.1 Query][] and [SPARQL 1.1 Update][] parser generating [SPARQL S-Expressions (SSE)][SSE].
-  * Support for [Property Paths][] is excluded.
-    See the section on [SPARQL 1.1 Query][] extensions and limitations for further detail.
 * {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results using an appropriate format based on [HTTP content negotiation][conneg].
 
@@ -53,13 +52,13 @@ The SPARQL gem now implements the following [SPARQL 1.1 Query][] operations:
 * [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
 * [Exists](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#func-filter-exists)
 * [Negation](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation)
+* [Property Paths](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#propertypaths)
 
 The gem also includes the following [SPARQL 1.1 Update][] operations:
 * [Graph Update](http://www.w3.org/TR/sparql11-update/#graphUpdate)
 * [Graph Management](http://www.w3.org/TR/sparql11-update/#graphManagement)
 
-The only major area of [SPARQL 1.1 Query][] missing is
-[Property Paths][], which will be in later release along with:
+Not supported:
 
 * [Federated Query][SPARQL 1.1 Federated Query],
 * [Entailment Regimes][SPARQL 1.1 Entailment Regimes],
@@ -337,7 +336,6 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
 [SPARQL EBNF]:      http://www.w3.org/TR/sparql11-query/#sparqlGrammar
-[Property Paths]:   http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#propertypaths
 
 [SSD]:              http://www.w3.org/TR/sparql11-service-description/
 [Rack]:             http://rack.rubyforge.org/

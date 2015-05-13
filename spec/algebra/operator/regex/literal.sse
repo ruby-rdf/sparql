@@ -27,7 +27,7 @@
 # @see http://www.w3.org/TR/xpath-functions/#flags
 (equal (regex "helloworld" "hello world" "x")                   true)
 (equal (regex "helloworld" "hello[ ]world" "x")                 false)
-#(equal (regex "hello world" "hello\ sworld" "x")                true) # FIXME
+(equal (regex "hello world" "hello\\sworld" "x")                true)
 (equal (regex "hello world" "hello world" "x")                  false)
 
 (error (regex _:a _:b _:c) TypeError)

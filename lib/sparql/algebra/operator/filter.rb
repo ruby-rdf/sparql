@@ -52,7 +52,24 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
-      
+
+      # If filtering a join of two BGPs (having the same graph name), don't worry about validating, for shared ndvars, anyway,
+      #
+      #       (filter (regex ?homepage "^http://example.org/" "")
+      #         (join
+      #           (bgp (triple ??who :homepage ?homepage))
+      #           (bgp (triple ??who :schoolHomepage ?schoolPage))))))
+      #
+      # is legitimate
+      def validate!
+        unless (join = operands.last).is_a?(Join) &&
+                join.operands.all? {|op| op.is_a?(RDF::Query)} &&
+                join.operands.map(&:context).uniq.length == 1
+          operands.last.validate!
+        end
+        self
+      end
+
       ##
       # Returns an optimized version of this query.
       #
