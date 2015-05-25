@@ -115,7 +115,7 @@
               %dd
                 %table.report
                   %tbody
-                    - tests['entries'].sort_by {|m| m['title'].downcase}.each do |manifest|
+                    - tests['entries'].sort_by {|m| m['title'].to_s.downcase}.each do |manifest|
                       - passed = manifest['entries'].select {|t| t['assertions'][index]['result']['outcome'] == 'earl:passed' }.length
                       - total = manifest['entries'].length
                       - pct = (passed * 100.0) / total
@@ -129,7 +129,7 @@
     %section
       %h2
         Individual Test Results
-      - tests['entries'].sort_by {|m| m['title'].downcase}.each do |manifest|
+      - tests['entries'].sort_by {|m| m['title'].to_s.downcase}.each do |manifest|
         - test_cases = manifest['entries']
         %section{id: manifest['title'], typeof: manifest['@type'].join(" "), resource: manifest['@id']}
           %h2{property: "dc:title mf:name"}<=manifest['title']
