@@ -882,7 +882,9 @@ module SPARQL::Grammar
 
     # [85]  	VerbSimple	  ::=  	Var
     production(:VerbSimple) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:Verb, v)}
+      #require 'byebug'; byebug
+      #data.values.each {|v| add_prod_datum(:Verb, v)}
+      input[:Verb] = data.values.flatten.first
     end
 
     # [86]	ObjectListPath	::=	ObjectPath ("," ObjectPath)*

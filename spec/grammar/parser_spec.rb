@@ -2080,6 +2080,20 @@ describe SPARQL::Grammar::Parser do
               (bgp (triple ?manif_cellar_id ?p ?manif))))
         }
       ],
+      issue21: [
+        %q{
+          PREFIX ext:<http://ext.com/1.0#>
+          PREFIX rdf:<http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+          SELECT *
+          WHERE {?x a ext:Subject; ?prop ?obj}
+        },
+        %q{
+          (prefix
+           ((ext: <http://ext.com/1.0#>) (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+           (bgp (triple ?x a ext:Subject) (triple ?x ?prop ?obj)))
+        }
+      ],
     }.each do |title, (input, result)|
       it title do |example|
         expect(input).to generate(result, example.metadata.merge(resolve_iris: false))
