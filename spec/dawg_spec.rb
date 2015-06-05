@@ -158,4 +158,4 @@ describe SPARQL do
       it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
-end unless ENV['CI']
+end
