@@ -6,6 +6,8 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 [![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](http://travis-ci.org/ruby-rdf/sparql)
 
+[![Coverage Status](https://coveralls.io/repos/ruby-rdf/sparql/badge.svg)](https://coveralls.io/r/ruby-rdf/sparql)
+
 ## Features
 
 * 100% free and unencumbered [public domain](http://unlicense.org/) software.

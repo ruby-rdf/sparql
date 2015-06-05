@@ -1,10 +1,11 @@
 require "bundler/setup"
 require 'psych'
-require 'rubygems'
-require 'rspec'
+require 'coveralls'
 require 'rspec/its'
 require 'yaml'
 require 'open-uri/cached'
+Coveralls.wear!
+require 'rspec'
 require 'rdf'
 require 'rdf/isomorphic'
 require 'sparql'

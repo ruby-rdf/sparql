@@ -24,6 +24,7 @@ group :development do
   gem 'json-ld',        git: "git://github.com/ruby-rdf/json-ld.git", branch: "develop"
   gem "equivalent-xml", '>= 0.2.8'
   gem 'psych', platforms: [:mri, :rbx]
+  gem 'coveralls',      require: false
 end
 
 group :debug do
