@@ -328,10 +328,10 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [SPARQL 1.0 tests]:http://www.w3.org/2001/sw/DataAccess/tests/
 [SPARQL 1.1 tests]: http://www.w3.org/2009/sparql/docs/tests/
 [SSE]:              http://openjena.org/wiki/SSE
-[SXP]:              http://sxp.rubyforge.org/
+[SXP]:              http://www.rubydoc.info/github/bendiken/sxp-ruby
 [grammar]:          http://www.w3.org/TR/rdf-sparql-query/#grammar
 [RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
-[RDF.rb]:           http://rdf.rubyforge.org/
+[RDF.rb]:           http://rubydoc.info/github/ruby-rdf/rdf
 [Backports]:        http://rubygems.org/gems/backports
 [Linked Data]:      http://rubygems.org/gems/linkeddata
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames
@@ -340,7 +340,7 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [SPARQL EBNF]:      http://www.w3.org/TR/sparql11-query/#sparqlGrammar
 
 [SSD]:              http://www.w3.org/TR/sparql11-service-description/
-[Rack]:             http://rack.rubyforge.org/
+[Rack]:             http://rack.github.io
 [Sinatra]:          http://www.sinatrarb.com/
 [conneg]:           http://en.wikipedia.org/wiki/Content_negotiation
 
