@@ -35,6 +35,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
           when :select
             expect(result).to be_a(RDF::Query::Solutions)
             if id.to_s =~ /sort/
+              skip "JRuby sorting issue" if RUBY_ENGINE == 'jruby'
               expect(result).to describe_ordered_solutions(t.solutions)
             else
               expect(result).to describe_solutions(t.solutions, t)
@@ -58,6 +59,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
         end
       when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
         it "positive syntax for #{t.entry} - #{t.name} - #{t.comment}" do
+          skip "Spurrious error on Ruby < 2.0" if t.name == 'syntax-bind-02.rq' && RUBY_VERSION < "2.0"
           case t.name
           when 'Basic - Term 7', 'syntax-lit-08.rq'
             skip "Decimal format changed in SPARQL 1.1"
@@ -158,4 +160,4 @@ describe SPARQL do
       it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
-end unless ENV['CI']
+end unless ENV['CI'] && (RUBY_VERSION < "2.0" || RUBY_ENGINE == 'rbx')

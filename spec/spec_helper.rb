@@ -1,15 +1,25 @@
 require "bundler/setup"
 require 'psych'
-require 'rubygems'
-require 'rspec'
 require 'rspec/its'
 require 'yaml'
 require 'open-uri/cached'
+require 'rspec'
 require 'rdf'
 require 'rdf/isomorphic'
-require 'sparql'
 require 'rdf/turtle'
 require 'rdf/n3'
+
+require 'simplecov'
+require 'coveralls'
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+  SimpleCov::Formatter::HTMLFormatter,
+  Coveralls::SimpleCov::Formatter
+]
+SimpleCov.start do
+  add_filter "/spec/"
+end
+
+require 'sparql'
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
 

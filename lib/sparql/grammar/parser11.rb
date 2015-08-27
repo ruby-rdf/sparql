@@ -47,7 +47,7 @@ module SPARQL::Grammar
     attr_reader   :tokens
 
     ##
-    # The internal representation of the result using hierarch of RDF objects and SPARQL::Algebra::Operator
+    # The internal representation of the result using hierarchy of RDF objects and SPARQL::Algebra::Operator
     # objects.
     # @return [Array]
     # @see http://sparql.rubyforge.org/algebra
@@ -819,7 +819,6 @@ module SPARQL::Grammar
       data[:Subject] = prod_data[:Subject]
       error(nil, "Expected Subject", production: :ObjectList) if !prod_data[:Subject] && validate?
       error(nil, "Expected Verb", production: :ObjectList) if !(prod_data[:Verb] || prod_data[:VerbPath]) && validate?
-      data[:Subject] = prod_data[:Subject]
       if prod_data[:Verb]
         data[:Verb] = prod_data[:Verb]
       else
@@ -882,7 +881,9 @@ module SPARQL::Grammar
 
     # [85]  	VerbSimple	  ::=  	Var
     production(:VerbSimple) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:Verb, v)}
+      #require 'byebug'; byebug
+      #data.values.each {|v| add_prod_datum(:Verb, v)}
+      input[:Verb] = data.values.flatten.first
     end
 
     # [86]	ObjectListPath	::=	ObjectPath ("," ObjectPath)*
