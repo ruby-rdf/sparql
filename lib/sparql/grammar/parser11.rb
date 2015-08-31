@@ -552,6 +552,7 @@ module SPARQL::Grammar
     end
     production(:QuadData) do |input, data, callback|
       # Transform using statements instead of patterns, and verify there are no variables
+      raise Error, "QuadData empty" unless data[:pattern]
       raise Error, "QuadData contains variable operands: #{data[:pattern].to_sse}" if data[:pattern].first.variable?
       self.nd_var_gen = "0"
       input[:pattern] = data[:pattern]
