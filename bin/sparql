@@ -46,6 +46,7 @@ opts = GetoptLong.new(
   ["--verbose", GetoptLong::NO_ARGUMENT],
   ["--sse", GetoptLong::NO_ARGUMENT],
   ["--to-sse", GetoptLong::NO_ARGUMENT],
+  ["--update", GetoptLong::NO_ARGUMENT],
   ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
   ["--default-graph", "-g", GetoptLong::REQUIRED_ARGUMENT],
   ["--help", "-?", GetoptLong::NO_ARGUMENT]
