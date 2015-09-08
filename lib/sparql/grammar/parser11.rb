@@ -1692,17 +1692,14 @@ module SPARQL::Grammar
     # Create URIs
     def iri(value)
       # If we have a base URI, use that when constructing a new URI
-      iri = if base_uri
-        u = base_uri.join(value.to_s)
-        u.lexical = "<#{value}>" unless u.to_s == value.to_s || resolve_iris?
+      value = RDF::URI(value)
+      if base_uri && value.relative?
+        u = base_uri.join(value)
+        u.lexical = "<#{value}>" unless resolve_iris?
         u
       else
-        RDF::URI(value)
+        value
       end
-
-      #iri.validate! if validate? && iri.respond_to?(:validate)
-      #iri = RDF::URI.intern(iri) if intern?
-      iri
     end
 
     def ns(prefix, suffix)
