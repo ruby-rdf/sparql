@@ -44,40 +44,42 @@ def run(input, options = {})
   end
 end
 
-def server
-  #require 'sinatra/sparql'
-  #require 'rackup'
-  #class MicroSparql < Sinatra::Base
-  #  register Sinatra::SPARQL
-  #
-  #  get '/' do
-  #    settings.sparql_options.replace(standard_prefixes: true)
-  #    repository = RDF::Repository.new
-  #    if params["query"]
-  #      query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)
-  #      puts "query: #{query}"
-  #      SPARQL.execute(query, repository)
-  #    else
-  #      settings.sparql_options.merge!(:prefixes => {
-  #        ssd: "http://www.w3.org/ns/sparql-service-description#",
-  #        void: "http://rdfs.org/ns/void#"
-  #      })
-  #      service_description(repo: repository, endpoint: url)
-  #    end
-  #  end
-  #end
-  #
-  #Rack::Utils.
-  #app = Rack::Builder.app do
-  #  run MicroSparql
-  #end
+def server(options)
+  require 'sinatra/sparql'
+  repository = options.fetch(:dataset, RDF::Repository.new)
+
+  app = Sinatra.new do
+    register Sinatra::SPARQL
+    set :repository, repository
+
+    get '/' do
+      if params["query"]
+        query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)
+        SPARQL.execute(query, settings.repository)
+      else
+        settings.sparql_options.replace(standard_prefixes: true)
+        settings.sparql_options.merge!(:prefixes => {
+          ssd: "http://www.w3.org/ns/sparql-service-description#",
+          void: "http://rdfs.org/ns/void#"
+        })
+        service_description(repo: settings.repository, endpoint: url)
+      end
+    end
+
+    post '/' do
+      SPARQL.execute(params['query'], settings.repository)
+    end
+  end
+  Rack::Server.start(app: app)
+rescue LoadError
+  $stderr.puts "Running SPARQL server requires Rack to be in environment: #{$!.message}"
 end
 
 def usage
   puts "Usage: #{$0} execute [options] query-file         Execute a query against the specified dataset"
   puts "       #{$0} parse [options] query-file           Parse a query into SPARQL S-Expressions (SSE)"
-  puts "       #{$0} server [options] dataset-file        Start a server initialized from the specified dataset"
   puts "       #{$0} query [options] end-point query-file Run the query against a remote end-point"
+  puts "       #{$0} server [options] dataset-file        Start a server initialized from the specified dataset"
   puts "Options:"
   puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
   puts "      --dataset:            File containing RDF graph or dataset"
