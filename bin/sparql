@@ -91,6 +91,8 @@ def usage
   exit(0)
 end
 
+cmd, input = ARGV.shift, nil
+
 opts = GetoptLong.new(
   ["--dataset", GetoptLong::REQUIRED_ARGUMENT],
   ["--debug", GetoptLong::NO_ARGUMENT],
@@ -99,15 +101,12 @@ opts = GetoptLong.new(
   ["--sse", GetoptLong::NO_ARGUMENT],
   ["--update", GetoptLong::NO_ARGUMENT],
   ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
-  ["--default-graph", "-g", GetoptLong::REQUIRED_ARGUMENT],
   ["--help", "-?", GetoptLong::NO_ARGUMENT]
 )
 
 options = {
-  graph: RDF::Repository.new,
+  dataset: RDF::Repository.new,
 }
-
-cmd = input = nil
 
 opts.each do |opt, arg|
   case opt
@@ -122,8 +121,6 @@ opts.each do |opt, arg|
   end
 end
 
-cmd = ARGV.shift
-
 unless %w(execute query parse server help).include?(cmd)
   $stderr.puts "Unrecognized command #{cmd}"
   usage
@@ -132,7 +129,7 @@ end
 case cmd
 when 'execute', 'parse'
   options[:to_sse] = true if cmd == 'parse'
-  input = ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
+  input ||= ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
   run(input, options)
 when 'query'
   endpoint = ARGV.shift
@@ -140,8 +137,8 @@ when 'query'
     $stderr.puts "Expected SPARQL endpoint URL"
     usage
   end
-  input = ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
-  SPARQL::Client.new do |client|
+  input ||= ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
+  SPARQL::Client.new(endpoint) do |client|
     res = client.query(input)
     display_results(res, options)
   end
