@@ -32,6 +32,8 @@ describe "README" do
         cmd = example[:eval_true].
           gsub('etc', File.join(File.dirname(__FILE__), '..', 'etc'))
         eval(cmd)
+      elsif example[:sh] =~ /sparql server/m
+        skip "running server"
       else
         cmd = example[:sh].
           sub('sparql', File.join(File.dirname(__FILE__), '..', 'bin', 'sparql')).
