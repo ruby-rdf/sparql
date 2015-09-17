@@ -61,7 +61,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b83",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-01.ru"
           },
@@ -73,17 +73,17 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-01",
           "name": "Simple DELETE 1",
           "result": {
-            "id": "_:b53",
+            "id": "_:b81",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl"
           },
           "type": "mf:UpdateEvaluationTest"
         },
         {
           "action": {
-            "id": "_:b91",
+            "id": "_:b44",
             "ut:graphData": [
               {
-                "id": "_:b92",
+                "id": "_:b43",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               }
@@ -98,10 +98,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-02",
           "name": "Simple DELETE 2",
           "result": {
-            "id": "_:b90",
+            "id": "_:b42",
             "ut:graphData": [
               {
-                "id": "_:b89",
+                "id": "_:b41",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl"
               }
@@ -111,7 +111,7 @@
         },
         {
           "action": {
-            "id": "_:b81",
+            "id": "_:b37",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-03.ru"
           },
@@ -123,17 +123,17 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-03",
           "name": "Simple DELETE 3",
           "result": {
-            "id": "_:b76",
+            "id": "_:b78",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
           },
           "type": "mf:UpdateEvaluationTest"
         },
         {
           "action": {
-            "id": "_:b71",
+            "id": "_:b74",
             "ut:graphData": [
               {
-                "id": "_:b67",
+                "id": "_:b73",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               }
@@ -148,10 +148,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-04",
           "name": "Simple DELETE 4",
           "result": {
-            "id": "_:b61",
+            "id": "_:b71",
             "ut:graphData": [
               {
-                "id": "_:b60",
+                "id": "_:b70",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
               }
@@ -161,16 +161,16 @@
         },
         {
           "action": {
-            "id": "_:b54",
+            "id": "_:b67",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:graphData": [
               {
-                "id": "_:b49",
+                "id": "_:b65",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b46",
+                "id": "_:b63",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -185,16 +185,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-05",
           "name": "Graph-specific DELETE 1",
           "result": {
-            "id": "_:b44",
+            "id": "_:b60",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl",
             "ut:graphData": [
               {
-                "id": "_:b43",
+                "id": "_:b59",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               },
               {
-                "id": "_:b39",
+                "id": "_:b57",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }
@@ -204,16 +204,16 @@
         },
         {
           "action": {
-            "id": "_:b34",
+            "id": "_:b15",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:graphData": [
               {
-                "id": "_:b32",
+                "id": "_:b14",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b28",
+                "id": "_:b13",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -228,16 +228,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-06",
           "name": "Graph-specific DELETE 2",
           "result": {
-            "id": "_:b25",
+            "id": "_:b8",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
             "ut:graphData": [
               {
-                "id": "_:b24",
+                "id": "_:b7",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02s.ttl"
               },
               {
-                "id": "_:b20",
+                "id": "_:b6",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }
@@ -247,7 +247,7 @@
         },
         {
           "action": {
-            "id": "_:b14",
+            "id": "_:b12",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-07.ru"
           },
@@ -259,17 +259,17 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-07",
           "name": "Simple DELETE 7",
           "result": {
-            "id": "_:b13",
+            "id": "_:b11",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
           },
           "type": "mf:UpdateEvaluationTest"
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b10",
             "ut:graphData": [
               {
-                "id": "_:b2",
+                "id": "_:b9",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               }
@@ -297,15 +297,15 @@
         },
         {
           "action": {
-            "id": "_:b87",
+            "id": "_:b55",
             "ut:graphData": [
               {
-                "id": "_:b86",
+                "id": "_:b54",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               },
               {
-                "id": "_:b84",
+                "id": "_:b53",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               }
@@ -320,15 +320,15 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-02",
           "name": "Simple DELETE 2 (WITH)",
           "result": {
-            "id": "_:b82",
+            "id": "_:b52",
             "ut:graphData": [
               {
-                "id": "_:b80",
+                "id": "_:b51",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl"
               },
               {
-                "id": "_:b74",
+                "id": "_:b27",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               }
@@ -338,10 +338,10 @@
         },
         {
           "action": {
-            "id": "_:b65",
+            "id": "_:b26",
             "ut:graphData": [
               {
-                "id": "_:b66",
+                "id": "_:b25",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               }
@@ -356,10 +356,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-03",
           "name": "Simple DELETE 3 (WITH)",
           "result": {
-            "id": "_:b58",
+            "id": "_:b24",
             "ut:graphData": [
               {
-                "id": "_:b59",
+                "id": "_:b5",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
               }
@@ -372,15 +372,15 @@
         },
         {
           "action": {
-            "id": "_:b48",
+            "id": "_:b1",
             "ut:graphData": [
               {
-                "id": "_:b47",
+                "id": "_:b0",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               },
               {
-                "id": "_:b45",
+                "id": "_:b2",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               }
@@ -395,15 +395,15 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-04",
           "name": "Simple DELETE 4 (WITH)",
           "result": {
-            "id": "_:b41",
+            "id": "_:b50",
             "ut:graphData": [
               {
-                "id": "_:b40",
+                "id": "_:b49",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
               },
               {
-                "id": "_:b37",
+                "id": "_:b48",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               }
@@ -413,20 +413,20 @@
         },
         {
           "action": {
-            "id": "_:b33",
+            "id": "_:b46",
             "ut:graphData": [
               {
-                "id": "_:b31",
+                "id": "_:b35",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               },
               {
-                "id": "_:b30",
+                "id": "_:b34",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b26",
+                "id": "_:b47",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -441,20 +441,20 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-05",
           "name": "Graph-specific DELETE 1 (WITH)",
           "result": {
-            "id": "_:b22",
+            "id": "_:b33",
             "ut:graphData": [
               {
-                "id": "_:b21",
+                "id": "_:b32",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s2.ttl"
               },
               {
-                "id": "_:b18",
+                "id": "_:b20",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               },
               {
-                "id": "_:b16",
+                "id": "_:b19",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }
@@ -464,16 +464,16 @@
         },
         {
           "action": {
-            "id": "_:b11",
+            "id": "_:b16",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:graphData": [
               {
-                "id": "_:b7",
+                "id": "_:b17",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b12",
+                "id": "_:b18",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -488,16 +488,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-with-06",
           "name": "Graph-specific DELETE 2 (WITH)",
           "result": {
-            "id": "_:b51",
+            "id": "_:b31",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
             "ut:graphData": [
               {
-                "id": "_:b0",
+                "id": "_:b30",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02s.ttl"
               },
               {
-                "id": "_:b52",
+                "id": "_:b29",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }
@@ -507,11 +507,11 @@
         },
         {
           "action": {
-            "id": "_:b85",
+            "id": "_:b28",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:graphData": [
               {
-                "id": "_:b83",
+                "id": "_:b23",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               }
@@ -526,11 +526,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-01",
           "name": "Simple DELETE 1 (USING)",
           "result": {
-            "id": "_:b78",
+            "id": "_:b22",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s.ttl",
             "ut:graphData": [
               {
-                "id": "_:b75",
+                "id": "_:b21",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               }
@@ -540,16 +540,16 @@
         },
         {
           "action": {
-            "id": "_:b62",
+            "id": "_:b95",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:graphData": [
               {
-                "id": "_:b63",
+                "id": "_:b94",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b64",
+                "id": "_:b93",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -564,16 +564,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-02a",
           "name": "Simple DELETE 2 (USING)",
           "result": {
-            "id": "_:b55",
+            "id": "_:b92",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
             "ut:graphData": [
               {
-                "id": "_:b56",
+                "id": "_:b91",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               },
               {
-                "id": "_:b50",
+                "id": "_:b90",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }
@@ -583,11 +583,11 @@
         },
         {
           "action": {
-            "id": "_:b42",
+            "id": "_:b89",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
             "ut:graphData": [
               {
-                "id": "_:b38",
+                "id": "_:b88",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               }
@@ -602,11 +602,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-03",
           "name": "Simple DELETE 3 (USING)",
           "result": {
-            "id": "_:b36",
+            "id": "_:b87",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
             "ut:graphData": [
               {
-                "id": "_:b35",
+                "id": "_:b86",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               }
@@ -616,16 +616,16 @@
         },
         {
           "action": {
-            "id": "_:b29",
+            "id": "_:b85",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl",
             "ut:graphData": [
               {
-                "id": "_:b27",
+                "id": "_:b84",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b23",
+                "id": "_:b82",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -640,16 +640,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-04",
           "name": "Simple DELETE 4 (USING)",
           "result": {
-            "id": "_:b19",
+            "id": "_:b80",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl",
             "ut:graphData": [
               {
-                "id": "_:b17",
+                "id": "_:b79",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               },
               {
-                "id": "_:b15",
+                "id": "_:b45",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }
@@ -659,20 +659,20 @@
         },
         {
           "action": {
-            "id": "_:b8",
+            "id": "_:b40",
             "ut:graphData": [
               {
-                "id": "_:b6",
+                "id": "_:b39",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               },
               {
-                "id": "_:b9",
+                "id": "_:b38",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b10",
+                "id": "_:b36",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -687,20 +687,20 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-05",
           "name": "Graph-specific DELETE 1 (USING)",
           "result": {
-            "id": "_:b95",
+            "id": "_:b77",
             "ut:graphData": [
               {
-                "id": "_:b93",
+                "id": "_:b76",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s2.ttl"
               },
               {
-                "id": "_:b94",
+                "id": "_:b75",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               },
               {
-                "id": "_:b88",
+                "id": "_:b72",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }
@@ -710,20 +710,20 @@
         },
         {
           "action": {
-            "id": "_:b79",
+            "id": "_:b69",
             "ut:graphData": [
               {
-                "id": "_:b77",
+                "id": "_:b68",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
               },
               {
-                "id": "_:b73",
+                "id": "_:b66",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
               },
               {
-                "id": "_:b72",
+                "id": "_:b64",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
               }
@@ -738,20 +738,20 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/manifest#dawg-delete-using-06a",
           "name": "Graph-specific DELETE 2 (USING)",
           "result": {
-            "id": "_:b70",
+            "id": "_:b62",
             "ut:graphData": [
               {
-                "id": "_:b69",
+                "id": "_:b61",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
               },
               {
-                "id": "_:b68",
+                "id": "_:b58",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
               },
               {
-                "id": "_:b57",
+                "id": "_:b56",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
               }

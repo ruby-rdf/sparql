@@ -386,7 +386,8 @@
    mf:action  <syntax-update-53.ru> ;.
 
 :test_54 rdf:type   mf:NegativeUpdateSyntaxTest11 ;
-    dawgt:approval  dawgt:NotClassified ;
+    dawgt:approval dawgt:Approved ;
+    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-12-11#resolution_5> ;
     # Reuse of bNode label across operations.  
     mf:name    "syntax-update-54.ru" ;
     mf:action  <syntax-update-54.ru> ;.

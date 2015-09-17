@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b22",
+            "id": "_:b28",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strdt01.rq"
           },
@@ -78,7 +78,7 @@
         },
         {
           "action": {
-            "id": "_:b13",
+            "id": "_:b45",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strdt02.rq"
           },
@@ -96,7 +96,7 @@
         },
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b41",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strdt03.rq"
           },
@@ -114,7 +114,7 @@
         },
         {
           "action": {
-            "id": "_:b51",
+            "id": "_:b37",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strlang01.rq"
           },
@@ -132,7 +132,7 @@
         },
         {
           "action": {
-            "id": "_:b54",
+            "id": "_:b4",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strlang02.rq"
           },
@@ -150,7 +150,7 @@
         },
         {
           "action": {
-            "id": "_:b40",
+            "id": "_:b8",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strlang03.rq"
           },
@@ -168,7 +168,7 @@
         },
         {
           "action": {
-            "id": "_:b31",
+            "id": "_:b2",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/isnumeric01.rq"
           },
@@ -186,7 +186,7 @@
         },
         {
           "action": {
-            "id": "_:b23",
+            "id": "_:b35",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/abs01.rq"
           },
@@ -204,7 +204,7 @@
         },
         {
           "action": {
-            "id": "_:b17",
+            "id": "_:b18",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/ceil01.rq"
           },
@@ -222,7 +222,7 @@
         },
         {
           "action": {
-            "id": "_:b7",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/floor01.rq"
           },
@@ -240,7 +240,7 @@
         },
         {
           "action": {
-            "id": "_:b35",
+            "id": "_:b32",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/round01.rq"
           },
@@ -258,7 +258,7 @@
         },
         {
           "action": {
-            "id": "_:b56",
+            "id": "_:b14",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/concat01.rq"
           },
@@ -276,7 +276,7 @@
         },
         {
           "action": {
-            "id": "_:b47",
+            "id": "_:b24",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data2.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/concat02.rq"
           },
@@ -294,7 +294,7 @@
         },
         {
           "action": {
-            "id": "_:b37",
+            "id": "_:b21",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/substring01.rq"
           },
@@ -312,7 +312,7 @@
         },
         {
           "action": {
-            "id": "_:b25",
+            "id": "_:b61",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/substring02.rq"
           },
@@ -330,7 +330,7 @@
         },
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b58",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/length01.rq"
           },
@@ -348,7 +348,7 @@
         },
         {
           "action": {
-            "id": "_:b8",
+            "id": "_:b55",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/ucase01.rq"
           },
@@ -366,7 +366,7 @@
         },
         {
           "action": {
-            "id": "_:b36",
+            "id": "_:b52",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/lcase01.rq"
           },
@@ -384,7 +384,7 @@
         },
         {
           "action": {
-            "id": "_:b60",
+            "id": "_:b49",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/encode01.rq"
           },
@@ -402,7 +402,7 @@
         },
         {
           "action": {
-            "id": "_:b53",
+            "id": "_:b29",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/contains01.rq"
           },
@@ -420,7 +420,7 @@
         },
         {
           "action": {
-            "id": "_:b46",
+            "id": "_:b47",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/starts01.rq"
           },
@@ -456,7 +456,7 @@
         },
         {
           "action": {
-            "id": "_:b30",
+            "id": "_:b40",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data-builtin-3.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/plus-1.rq"
           },
@@ -472,7 +472,7 @@
         },
         {
           "action": {
-            "id": "_:b27",
+            "id": "_:b13",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data-builtin-3.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/plus-2.rq"
           },
@@ -488,7 +488,7 @@
         },
         {
           "action": {
-            "id": "_:b19",
+            "id": "_:b3",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/md5-01.rq"
           },
@@ -506,7 +506,7 @@
         },
         {
           "action": {
-            "id": "_:b15",
+            "id": "_:b7",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/md5-02.rq"
           },
@@ -524,7 +524,7 @@
         },
         {
           "action": {
-            "id": "_:b10",
+            "id": "_:b36",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/sha1-01.rq"
           },
@@ -542,7 +542,7 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b20",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/hash-unicode.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/sha1-02.rq"
           },
@@ -560,7 +560,7 @@
         },
         {
           "action": {
-            "id": "_:b34",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/sha256-01.rq"
           },
@@ -578,7 +578,7 @@
         },
         {
           "action": {
-            "id": "_:b59",
+            "id": "_:b33",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/hash-unicode.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/sha256-02.rq"
           },
@@ -596,7 +596,7 @@
         },
         {
           "action": {
-            "id": "_:b52",
+            "id": "_:b26",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/sha512-01.rq"
           },
@@ -614,7 +614,7 @@
         },
         {
           "action": {
-            "id": "_:b41",
+            "id": "_:b25",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/hash-unicode.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/sha512-02.rq"
           },
@@ -632,7 +632,7 @@
         },
         {
           "action": {
-            "id": "_:b29",
+            "id": "_:b15",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/minutes-01.rq"
           },
@@ -650,7 +650,7 @@
         },
         {
           "action": {
-            "id": "_:b24",
+            "id": "_:b59",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/seconds-01.rq"
           },
@@ -668,7 +668,7 @@
         },
         {
           "action": {
-            "id": "_:b38",
+            "id": "_:b22",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/hours-01.rq"
           },
@@ -686,7 +686,7 @@
         },
         {
           "action": {
-            "id": "_:b12",
+            "id": "_:b53",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/month-01.rq"
           },
@@ -704,7 +704,7 @@
         },
         {
           "action": {
-            "id": "_:b18",
+            "id": "_:b56",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/year-01.rq"
           },
@@ -722,7 +722,7 @@
         },
         {
           "action": {
-            "id": "_:b6",
+            "id": "_:b50",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/day-01.rq"
           },
@@ -740,7 +740,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b30",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/timezone-01.rq"
           },
@@ -758,7 +758,7 @@
         },
         {
           "action": {
-            "id": "_:b61",
+            "id": "_:b46",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/tz-01.rq"
           },
@@ -776,7 +776,7 @@
         },
         {
           "action": {
-            "id": "_:b55",
+            "id": "_:b42",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/bnode01.rq"
           },
@@ -794,7 +794,7 @@
         },
         {
           "action": {
-            "id": "_:b9",
+            "id": "_:b5",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/bnode02.rq"
           },
@@ -812,7 +812,7 @@
         },
         {
           "action": {
-            "id": "_:b48",
+            "id": "_:b39",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/in01.rq"
           },
@@ -830,7 +830,7 @@
         },
         {
           "action": {
-            "id": "_:b44",
+            "id": "_:b11",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/in02.rq"
           },
@@ -848,7 +848,7 @@
         },
         {
           "action": {
-            "id": "_:b32",
+            "id": "_:b9",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/notin01.rq"
           },
@@ -871,7 +871,7 @@
         },
         {
           "action": {
-            "id": "_:b26",
+            "id": "_:b19",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/notin02.rq"
           },
@@ -894,7 +894,7 @@
         },
         {
           "action": {
-            "id": "_:b20",
+            "id": "_:b34",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/now01.rq"
           },
@@ -912,7 +912,7 @@
         },
         {
           "action": {
-            "id": "_:b14",
+            "id": "_:b17",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/rand01.rq"
           },
@@ -930,7 +930,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b27",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/iri01.rq"
           },
@@ -971,7 +971,7 @@
         },
         {
           "action": {
-            "id": "_:b57",
+            "id": "_:b23",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data2.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/if02.rq"
           },
@@ -989,7 +989,7 @@
         },
         {
           "action": {
-            "id": "_:b49",
+            "id": "_:b16",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data-coalesce.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/coalesce01.rq"
           },
@@ -1007,7 +1007,7 @@
         },
         {
           "action": {
-            "id": "_:b42",
+            "id": "_:b57",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data2.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strbefore01.rq"
           },
@@ -1025,7 +1025,7 @@
         },
         {
           "action": {
-            "id": "_:b28",
+            "id": "_:b54",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data4.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strbefore02.rq"
           },
@@ -1043,7 +1043,7 @@
         },
         {
           "action": {
-            "id": "_:b16",
+            "id": "_:b31",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data2.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strafter01.rq"
           },
@@ -1061,7 +1061,7 @@
         },
         {
           "action": {
-            "id": "_:b11",
+            "id": "_:b48",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data4.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/strafter02.rq"
           },
@@ -1079,7 +1079,7 @@
         },
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b44",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data3.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/replace01.rq"
           },
@@ -1097,7 +1097,7 @@
         },
         {
           "action": {
-            "id": "_:b33",
+            "id": "_:b38",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data3.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/replace02.rq"
           },
@@ -1115,7 +1115,7 @@
         },
         {
           "action": {
-            "id": "_:b58",
+            "id": "_:b12",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data3.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/replace03.rq"
           },
@@ -1133,7 +1133,7 @@
         },
         {
           "action": {
-            "id": "_:b50",
+            "id": "_:b10",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data-empty.nt",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/uuid01.rq"
           },
@@ -1151,7 +1151,7 @@
         },
         {
           "action": {
-            "id": "_:b45",
+            "id": "_:b6",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/data-empty.nt",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/struuid01.rq"
           },

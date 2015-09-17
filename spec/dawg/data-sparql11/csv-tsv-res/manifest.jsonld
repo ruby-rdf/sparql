@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b4",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/csvtsv01.rq"
           },
@@ -92,7 +92,7 @@
         },
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b3",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/csvtsv02.rq"
           },
@@ -108,7 +108,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/csvtsv02.rq"
           },
@@ -124,7 +124,7 @@
         },
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b5",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/data2.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/csvtsv01.rq"
           },
@@ -140,7 +140,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/data2.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/csv-tsv-res/csvtsv01.rq"
           },

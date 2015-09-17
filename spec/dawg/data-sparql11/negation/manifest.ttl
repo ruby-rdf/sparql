@@ -53,8 +53,7 @@
 
 :temporal-proximity-by-exclusion-minus-1 rdf:type mf:QueryEvaluationTest ;
     mf:name    "Medical, temporal proximity by exclusion (MINUS)" ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
+    dawgt:approval dawgt:NotClassified ;
     mf:action
          [ qt:query  <temporalProximity02.rq> ;
            qt:data   <temporalProximity02.ttl> ] ;

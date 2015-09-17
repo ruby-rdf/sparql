@@ -60,11 +60,11 @@
       "entries": [
         {
           "action": {
-            "id": "_:b11",
+            "id": "_:b6",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b10",
+                "id": "_:b5",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
               }
@@ -79,10 +79,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest#move01",
           "name": "MOVE 1",
           "result": {
-            "id": "_:b9",
+            "id": "_:b4",
             "ut:graphData": [
               {
-                "id": "_:b8",
+                "id": "_:b3",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl"
               }
@@ -92,7 +92,7 @@
         },
         {
           "action": {
-            "id": "_:b7",
+            "id": "_:b2",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ru"
           },
@@ -104,10 +104,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest#move02",
           "name": "MOVE 2",
           "result": {
-            "id": "_:b6",
+            "id": "_:b1",
             "ut:graphData": [
               {
-                "id": "_:b5",
+                "id": "_:b0",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl"
               }
@@ -117,16 +117,16 @@
         },
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b8",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b3",
+                "id": "_:b9",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
               },
               {
-                "id": "_:b2",
+                "id": "_:b10",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-02.ttl"
               }
@@ -141,11 +141,44 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest#move03",
           "name": "MOVE 3",
           "result": {
-            "id": "_:b1",
+            "id": "_:b20",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b0",
+                "id": "_:b19",
+                "rdfs:label": "http://example.org/g2",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
+              }
+            ]
+          },
+          "type": "mf:UpdateEvaluationTest"
+        },
+        {
+          "action": {
+            "id": "_:b18",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b17",
+                "rdfs:label": "http://example.org/g1",
+                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
+              }
+            ],
+            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-03.ru"
+          },
+          "approval": "dawgt:Approved",
+          "comment": "Move a named graph to a non-existing graph",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
+          },
+          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest#move04",
+          "name": "MOVE 4",
+          "result": {
+            "id": "_:b15",
+            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
+            "ut:graphData": [
+              {
+                "id": "_:b14",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
               }
@@ -164,39 +197,6 @@
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
               }
             ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-03.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Move a named graph to a non-existing graph",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest#move04",
-          "name": "MOVE 4",
-          "result": {
-            "id": "_:b22",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b21",
-                "rdfs:label": "http://example.org/g2",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b20",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b19",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
-              }
-            ],
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-06.ru"
           },
           "approval": "dawgt:Approved",
@@ -207,18 +207,18 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest#move06",
           "name": "MOVE 6",
           "result": {
-            "id": "_:b18",
+            "id": "_:b7",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
           },
           "type": "mf:UpdateEvaluationTest"
         },
         {
           "action": {
-            "id": "_:b17",
+            "id": "_:b22",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b16",
+                "id": "_:b21",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
               }
@@ -233,11 +233,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/manifest#move07",
           "name": "MOVE 7",
           "result": {
-            "id": "_:b14",
+            "id": "_:b16",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b15",
+                "id": "_:b11",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
               }

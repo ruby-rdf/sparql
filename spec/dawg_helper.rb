@@ -116,10 +116,7 @@ module SPARQL
         "ut:request": {"@type": "@id"}
       },
       "@type": "mf:Manifest",
-      "entries": {
-        "mf:action": {"ut:graphData": {}},
-        "mf:result": {"ut:graphData": {}}
-      }
+      "entries": {}
     }))
     # Module functions
 

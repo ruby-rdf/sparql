@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b4",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/grouping/group-data-1.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/grouping/group01.rq"
           },

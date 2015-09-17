@@ -61,7 +61,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b13",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-01.rq"
           },
           "approval": "dawgt:Approved",
@@ -76,7 +76,7 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b8",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-02.rq"
           },
           "approval": "dawgt:Approved",
@@ -91,7 +91,7 @@
         },
         {
           "action": {
-            "id": "_:b8",
+            "id": "_:b7",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-03.rq"
           },
           "approval": "dawgt:Approved",
@@ -106,7 +106,7 @@
         },
         {
           "action": {
-            "id": "_:b14",
+            "id": "_:b6",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-04.rq"
           },
           "approval": "dawgt:Approved",
@@ -121,7 +121,7 @@
         },
         {
           "action": {
-            "id": "_:b12",
+            "id": "_:b4",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-05.rq"
           },
           "approval": "dawgt:Approved",
@@ -136,7 +136,7 @@
         },
         {
           "action": {
-            "id": "_:b9",
+            "id": "_:b2",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-06.rq"
           },
           "approval": "dawgt:Approved",
@@ -151,7 +151,7 @@
         },
         {
           "action": {
-            "id": "_:b10",
+            "id": "_:b1",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-07.rq"
           },
           "approval": "dawgt:Approved",
@@ -166,7 +166,7 @@
         },
         {
           "action": {
-            "id": "_:b7",
+            "id": "_:b5",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-08.rq"
           },
           "approval": "dawgt:Approved",
@@ -181,7 +181,7 @@
         },
         {
           "action": {
-            "id": "_:b6",
+            "id": "_:b12",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-09.rq"
           },
           "approval": "dawgt:Withdrawn",
@@ -193,7 +193,7 @@
         },
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b10",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-10.rq"
           },
           "approval": "dawgt:Withdrawn",
@@ -220,7 +220,7 @@
         },
         {
           "action": {
-            "id": "_:b13",
+            "id": "_:b14",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-12.rq"
           },
           "approval": "dawgt:Withdrawn",
@@ -232,7 +232,7 @@
         },
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b11",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-09b.rq"
           },
           "approval": "dawgt:Approved",
@@ -247,7 +247,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b3",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-10b.rq"
           },
           "approval": "dawgt:Approved",
@@ -262,7 +262,7 @@
         },
         {
           "action": {
-            "id": "_:b11",
+            "id": "_:b9",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/dataset-12b.rq"
           },
           "approval": "dawgt:Approved",

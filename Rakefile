@@ -32,10 +32,7 @@ namespace :spec do
   task :prepare do
     $:.unshift(File.join(File.dirname(__FILE__), 'spec'))
     require 'dawg_helper'
-    require 'fileutils'
     
-    Dir.glob("spec/dawg/*.yml") { |yml| FileUtils.rm_rf(yml)}
-
     puts "load 1.0 tests"
     SPARQL::Spec.sparql1_0_tests(true)
     puts "load 1.0 syntax tests"

@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-01.rq"
           },
@@ -75,7 +75,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b10",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-02.rq"
           },
@@ -90,7 +90,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b9",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-03.rq"
           },
@@ -105,7 +105,7 @@
         },
         {
           "action": {
-            "id": "_:b7",
+            "id": "_:b8",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-04.rq"
           },
@@ -120,7 +120,7 @@
         },
         {
           "action": {
-            "id": "_:b12",
+            "id": "_:b3",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-10.rq"
           },
@@ -135,7 +135,7 @@
         },
         {
           "action": {
-            "id": "_:b11",
+            "id": "_:b12",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-11.rq"
           },
@@ -150,7 +150,7 @@
         },
         {
           "action": {
-            "id": "_:b10",
+            "id": "_:b11",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-12.rq"
           },
@@ -165,7 +165,7 @@
         },
         {
           "action": {
-            "id": "_:b9",
+            "id": "_:b7",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-13.rq"
           },
@@ -180,7 +180,7 @@
         },
         {
           "action": {
-            "id": "_:b8",
+            "id": "_:b6",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-20.rq"
           },
@@ -195,7 +195,7 @@
         },
         {
           "action": {
-            "id": "_:b6",
+            "id": "_:b5",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-21.rq"
           },
@@ -210,7 +210,7 @@
         },
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b2",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-22.rq"
           },
@@ -225,7 +225,7 @@
         },
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-23.rq"
           },
@@ -240,7 +240,7 @@
         },
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b4",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/slice-24.rq"
           },

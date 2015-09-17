@@ -61,7 +61,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b2",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/data-01.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-01.rq"
           },
@@ -77,7 +77,7 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/data-01.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-02.rq"
           },
@@ -93,7 +93,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/data-02.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-03.rq"
           },
@@ -109,7 +109,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b3",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-data-01.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/dawg-tp-04.rq"
           },
