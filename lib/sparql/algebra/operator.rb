@@ -584,23 +584,29 @@ module SPARQL; module Algebra
     end
 
     ##
-    # Iterate via depth-first recursive descent over operands, yielding each operator
+    # Enumerate via depth-first recursive descent over operands, yielding each operator
     # @yield operator
     # @yieldparam [Object] operator
-    def descendants(&block)
-      operands.each do |operand|
-        case operand
-        when Operator
-          operand.descendants(&block)
-        when Array
-          operand.each do |op|
-            op.descendants(&block) if op.is_a?(Operator)
-            block.call(op)
+    # @return [Enumerator]
+    def each_descendant(&block)
+      if block_given?
+        operands.each do |operand|
+          case operand
+          when Array
+            operand.each do |op|
+              op.each_descendant(&block) if op.respond_to?(:each_descendant)
+              block.call(op)
+            end
+          else
+            operand.each_descendant(&block) if operand.respond_to?(:each_descendant)
           end
+          block.call(operand)
         end
-        block.call(operand)
       end
+      enum_for(:each_descendant)
     end
+    alias_method :descendants, :each_descendant
+    alias_method :each, :each_descendant
 
     ##
     # Parent expression, if any

@@ -80,7 +80,6 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
                                 form: t.form,
                                 sse: true)
 
-          #require 'byebug'; byebug
           expect(result).to describe_solutions(expected, t)
         end
       when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11',

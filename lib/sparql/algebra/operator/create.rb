@@ -37,7 +37,6 @@ module SPARQL; module Algebra
         operands.shift if silent
 
         iri = operands.first
-        #require 'byebug'; byebug
         raise ArgumentError, "clear expected a single IRI" if operands.length != 1 || !iri.is_a?(RDF::URI)
         if queryable.has_context?(iri)
           raise IOError, "create operation graph #{iri.to_ntriples} exists" unless silent
