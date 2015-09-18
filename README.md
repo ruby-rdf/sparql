@@ -171,16 +171,19 @@ a full set of RDF formats.
 
 ### Command line processing
 
-    sparql --default-graph etc/doap.ttl etc/from_default.rq
-    sparql -e "SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }"
+    sparql execute --dataset etc/doap.ttl etc/from_default.rq
+    sparql execute -e "SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }"
 
     # Generate SPARQL Algebra Expression (SSE) format
-    sparql --to-sse etc/input.rq
-    sparql --to-sse -e "SELECT * WHERE { ?s ?p ?o }"
+    sparql parse etc/input.rq
+    sparql parse -e "SELECT * WHERE { ?s ?p ?o }"
 
     # Run query using SSE input
-    sparql --default-graph etc/doap.ttl --sse etc/input.sse
-    sparql --sse -e "(dataset (<etc/doap.ttl>) (bgp (triple ?s ?p ?o))))"
+    sparql execute --dataset etc/doap.ttl --sse etc/input.sse
+    sparql execute --sse -e "(dataset (<etc/doap.ttl>) (bgp (triple ?s ?p ?o))))"
+
+    # Run a local SPARQL server using a dataset
+    sparql server etc/doap.ttl
 
 ### Adding SPARQL content negotiation to a Rails 3.x application
 

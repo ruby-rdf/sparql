@@ -46,7 +46,7 @@ module SPARQL; module Algebra
         end
 
         # Set name for RDF::Graph descendants having no context to the name variable
-        descendants do |op|
+        each_descendant do |op|
           case op
           when RDF::Query, RDF::Query::Pattern
             unless op.context

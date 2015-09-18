@@ -552,6 +552,7 @@ module SPARQL::Grammar
     end
     production(:QuadData) do |input, data, callback|
       # Transform using statements instead of patterns, and verify there are no variables
+      raise Error, "QuadData empty" unless data[:pattern]
       raise Error, "QuadData contains variable operands: #{data[:pattern].to_sse}" if data[:pattern].first.variable?
       self.nd_var_gen = "0"
       input[:pattern] = data[:pattern]
@@ -881,8 +882,6 @@ module SPARQL::Grammar
 
     # [85]  	VerbSimple	  ::=  	Var
     production(:VerbSimple) do |input, data, callback|
-      #require 'byebug'; byebug
-      #data.values.each {|v| add_prod_datum(:Verb, v)}
       input[:Verb] = data.values.flatten.first
     end
 
@@ -1691,17 +1690,14 @@ module SPARQL::Grammar
     # Create URIs
     def iri(value)
       # If we have a base URI, use that when constructing a new URI
-      iri = if base_uri
-        u = base_uri.join(value.to_s)
-        u.lexical = "<#{value}>" unless u.to_s == value.to_s || resolve_iris?
+      value = RDF::URI(value)
+      if base_uri && value.relative?
+        u = base_uri.join(value)
+        u.lexical = "<#{value}>" unless resolve_iris?
         u
       else
-        RDF::URI(value)
+        value
       end
-
-      #iri.validate! if validate? && iri.respond_to?(:validate)
-      #iri = RDF::URI.intern(iri) if intern?
-      iri
     end
 
     def ns(prefix, suffix)

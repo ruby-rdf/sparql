@@ -120,6 +120,5 @@ module SPARQL; module Algebra
     def each_solution(&block)
       solutions.each(&block)
     end
-    alias_method :each, :each_solution
   end # Query
 end; end # SPARQL::Algebra

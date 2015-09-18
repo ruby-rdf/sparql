@@ -4,17 +4,26 @@ $:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
 require 'sparql'
 begin
   require 'linkeddata'
-rescue LoadError => e
+rescue LoadError
   require 'rdf/ntriples'
 end
 require 'getoptlong'
 
+def display_results(res, options)
+  puts res.inspect if options[:verbose]
+  puts case res
+  when RDF::Graph   then res.dump(:ttl, base_uri: query.base_uri, prefixes: query.prefixes, standard_prefixes: true)
+  when RDF::Literal then res.inspect
+  else                   res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
+  end
+end
+
 def run(input, options = {})
   if options[:debug]
-    puts "input graph:\n#{options[:graph].dump(:ttl, standard_prefixes: true)}\n" if options[:graph]
+    puts "input graph:\n#{options[:dataset].dump(:trig, standard_prefixes: true)}\n" if options[:dataset]
     puts "query:\n#{input}\n"
   end
-  options[:graph] ||= RDF::Repository.new
+  options[:dataset] ||= RDF::Repository.new
 
   if options[:verbose]
     puts ("\nSPARQL:\n" + input) 
@@ -30,67 +39,115 @@ def run(input, options = {})
   puts ("\nSSE:\n" + query.to_sse) if options[:debug] || options[:to_sse]
 
   unless options[:to_sse]
-    res = query.execute(options[:graph], debug: options[:debug])
-    puts res.inspect if options[:verbose]
-    puts case res
-    when RDF::Graph   then res.dump(:ttl, base_uri: query.base_uri, prefixes: query.prefixes, standard_prefixes: true)
-    when RDF::Literal then res.inspect
-    else                   res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
-    end
+    res = query.execute(options[:dataset], debug: options[:debug])
+    display_results(res, options)
   end
 end
 
+def server(options)
+  require 'sinatra/sparql'
+  repository = options.fetch(:dataset, RDF::Repository.new)
+
+  app = Sinatra.new do
+    register Sinatra::SPARQL
+    set :repository, repository
+
+    get '/' do
+      if params["query"]
+        query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)
+        SPARQL.execute(query, settings.repository)
+      else
+        settings.sparql_options.replace(standard_prefixes: true)
+        settings.sparql_options.merge!(:prefixes => {
+          ssd: "http://www.w3.org/ns/sparql-service-description#",
+          void: "http://rdfs.org/ns/void#"
+        })
+        service_description(repo: settings.repository, endpoint: url)
+      end
+    end
+
+    post '/' do
+      SPARQL.execute(params['query'], settings.repository)
+    end
+  end
+  Rack::Server.start(app: app)
+rescue LoadError
+  $stderr.puts "Running SPARQL server requires Rack to be in environment: #{$!.message}"
+end
+
+def usage
+  puts "Usage: #{$0} execute [options] query-file         Execute a query against the specified dataset"
+  puts "       #{$0} parse [options] query-file           Parse a query into SPARQL S-Expressions (SSE)"
+  puts "       #{$0} query [options] end-point query-file Run the query against a remote end-point"
+  puts "       #{$0} server [options] dataset-file        Start a server initialized from the specified dataset"
+  puts "Options:"
+  puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
+  puts "      --dataset:            File containing RDF graph or dataset"
+  puts "      --debug:              Display detailed debug output"
+  puts "      --port,-p             Port on which to run server; defaults to 9292"
+  puts "      --sse:                Query input is in SSE format"
+  puts "      --debug:              Display detailed debug output"
+  puts "      --update:             Process query as a SPARQL Update"
+  puts "      --verbose:            Display details of processing"
+  puts "      --help,-?:            This message"
+  exit(0)
+end
+
+cmd, input = ARGV.shift, nil
+
 opts = GetoptLong.new(
+  ["--dataset", GetoptLong::REQUIRED_ARGUMENT],
   ["--debug", GetoptLong::NO_ARGUMENT],
-  ["--dump", GetoptLong::NO_ARGUMENT],
+  ["--port", "-p", GetoptLong::REQUIRED_ARGUMENT],
   ["--verbose", GetoptLong::NO_ARGUMENT],
   ["--sse", GetoptLong::NO_ARGUMENT],
-  ["--to-sse", GetoptLong::NO_ARGUMENT],
+  ["--update", GetoptLong::NO_ARGUMENT],
   ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
-  ["--default-graph", "-g", GetoptLong::REQUIRED_ARGUMENT],
   ["--help", "-?", GetoptLong::NO_ARGUMENT]
 )
 
 options = {
-  graph: RDF::Repository.new,
+  dataset: RDF::Repository.new,
 }
-
-input = nil
 
 opts.each do |opt, arg|
   case opt
+  when '--dataset'       then options[:dataset].load(arg)
   when '--execute'       then input = arg
-  when "--default-graph" then options[:graph] = RDF::Graph.load(arg)
-  when '--dump'          then $dump = true
+  when '--port'          then options[:port] = arg.to_i
   when '--sse'           then options[:sse] = true
-  when '--to-sse'        then options[:to_sse] = true
   when '--debug'         then options[:debug] = true
   when '--update'        then options[:update] = true
   when '--verbose'       then options[:verbose] = true
-  when "--help"
-    puts "Usage: #{$0} [options] file-or-uri ..."
-    puts "Options:"
-    puts "      --execute,-e:         Use option argument as the SPARQL input if no files are given"
-    puts "      --default-graph:      Load default graph"
-    puts "      --dump:               Dump raw output, otherwise serialize to SSE"
-    puts "      --debug:              Display detailed debug output"
-    puts "      --sse:                Input is in SSE format"
-    puts "      --to-sse:             Generate SSE instead of running query"
-    puts "      --debug:              Display detailed debug output"
-    puts "      --update:             Process query as a SPARQL Update"
-    puts "      --verbose:            Display details of processing"
-    puts "      --help,-?:            This message"
-    exit(0)
+  when "--help"          then usage
   end
 end
 
-if ARGV.empty?
-  s = input ? input : $stdin.read
-  run(s, options)
-else
-  ARGV.each do |test_file|
-    puts "parse #{test_file}"
-    run(RDF::Util::File.open_file(test_file).read, options.merge(base_uri: RDF::URI(test_file)))
-  end
+unless %w(execute query parse server help).include?(cmd)
+  $stderr.puts "Unrecognized command #{cmd}"
+  usage
 end
-puts
+
+case cmd
+when 'execute', 'parse'
+  options[:to_sse] = true if cmd == 'parse'
+  input ||= ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
+  run(input, options)
+when 'query'
+  endpoint = ARGV.shift
+  unless endpoint
+    $stderr.puts "Expected SPARQL endpoint URL"
+    usage
+  end
+  input ||= ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
+  SPARQL::Client.new(endpoint) do |client|
+    res = client.query(input)
+    display_results(res, options)
+  end
+when 'server'
+  if data_file = ARGV.shift
+    options[:dataset] = RDF::Repository.load(data_file)
+  end
+  server(options)
+else usage
+end
