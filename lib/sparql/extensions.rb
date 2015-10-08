@@ -101,6 +101,6 @@ end
 
 ##
 # Extensions for `RDF::Query::Solutions`.
-class RDF::Query::Solutions
+module RDF::Query::Solutions
   include SPARQL::Results
 end

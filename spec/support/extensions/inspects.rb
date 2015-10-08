@@ -64,7 +64,7 @@ class Array
   alias_method :inspect, :inspect_with_formatting
 end
 
-class RDF::Query::Solutions
+module RDF::Query::Solutions
   def inspect
     string = "vars: #{variable_names.join(",")}\n#{to_a.inspect}"
   end

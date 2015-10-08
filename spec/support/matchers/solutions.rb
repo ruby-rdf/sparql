@@ -28,14 +28,15 @@ end
 # For examining unordered CSV solution sets (simple literals)
 RSpec::Matchers.define :describe_csv_solutions do |expected_solutions|
   match do |actual_solutions|
-    @simplified_solutions = RDF::Query::Solutions.new
-    actual_solutions.each do |solution|
-      solution = solution.dup
-      actual_solutions.variable_names.each do |name|
-        value = solution[name] ||= RDF::Literal("")
-        solution[name] = RDF::Literal(value.to_s) if value.literal? && !value.simple?
+    @simplified_solutions = RDF::Query::Solutions::Enumerator.new do |yielder|
+      actual_solutions.each do |solution|
+        solution = solution.dup
+        actual_solutions.variable_names.each do |name|
+          value = solution[name] ||= RDF::Literal("")
+          solution[name] = RDF::Literal(value.to_s) if value.literal? && !value.simple?
+        end
+        yielder << solution
       end
-      @simplified_solutions << solution
     end
     @simplified_solutions.isomorphic_with?(expected_solutions)
   end

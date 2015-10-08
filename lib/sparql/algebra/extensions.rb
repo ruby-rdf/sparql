@@ -273,20 +273,19 @@ module RDF::Queryable
     raise TypeError, "#{self} is not queryable" if respond_to?(:queryable?) && !queryable?
 
     if pattern.is_a?(SPARQL::Algebra::Operator) && pattern.respond_to?(:execute)
-      before_query(pattern) if respond_to?(:before_query)
-      solutions = if method(:query_execute).arity == 1
-        query_execute(pattern, &block)
-      else
-        query_execute(pattern, options, &block)
+      if block_given?
+        before_query(pattern) if respond_to?(:before_query)
+        if method(:query_execute).arity == 1
+          query_execute(pattern, &block)
+        else
+          query_execute(pattern, options, &block)
+        end
+        after_query(pattern) if respond_to?(:after_query)
       end
-      after_query(pattern) if respond_to?(:after_query)
 
-      if !pattern.respond_to?(:query_yeilds_solutions?) || pattern.query_yields_solutions?
-        # Just return solutions
-        solutions
-      else
-        # Return an enumerator
-        enum_for(:query, pattern, options)
+      # Return a Solutions enumerator for this query
+      RDF::Query::Solutions::Enumerator.new do |yielder|
+        self.query(pattern, options) {|solution| yielder << solution}
       end
     else
       query_without_sparql(pattern, options, &block)
@@ -425,7 +424,7 @@ end # RDF::Query::Variable
 
 ##
 # Extensions for `RDF::Query::Solutions`.
-class RDF::Query::Solutions
+module RDF::Query::Solutions
   alias_method :filter_without_expression, :filter
 
   ##

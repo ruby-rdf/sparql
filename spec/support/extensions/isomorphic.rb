@@ -14,7 +14,7 @@ class RDF::Query
   #
   # @see http://rdf.rubyforge.org
   # @see http://rdf.rubyforge.org/isomorphic
-  class Solutions
+  module Solutions
 
     # Returns `true` if this RDF::Solutions is isomorphic with another.
     #
