@@ -1,10 +1,10 @@
-# FIXME: This depends on an update to RDF::Query#execute to be able to pass the context as an option.
+# FIXME: This depends on an update to RDF::Query#execute to be able to pass the graph_name as an option.
 module SPARQL; module Algebra
   class Operator
     ##
     # The SPARQL GraphPattern `graph` operator.
     #
-    # This is a wrapper to add a `context` to the query, or an array of statements.
+    # This is a wrapper to add a `graph_name` to the query, or an array of statements.
     #
     # @example of a query
     #   (prefix ((: <http://example/>))
@@ -22,7 +22,7 @@ module SPARQL; module Algebra
       
       NAME = [:graph]
       ##
-      # A `graph` is an RDF::Query with a context. It can also be used as a container of statements or patterns, or other queryable operators (see GraphGraphPattern)
+      # A `graph` is an RDF::Query with a graph_name. It can also be used as a container of statements or patterns, or other queryable operators (see GraphGraphPattern)
       #
       # @overload self.new(name, bgp)
       #   @param [RDF::Resource] name
@@ -41,18 +41,18 @@ module SPARQL; module Algebra
         case patterns
         when RDF::Query
           # Record that the argument as a (bgp) for re-serialization back to SSE
-          RDF::Query.new(*(patterns.patterns + [{context: name,}]), &block)
+          RDF::Query.new(*(patterns.patterns + [{graph_name: name,}]), &block)
         when Operator
           super
         else
-          RDF::Query.new(*(patterns + [{context: name, as_container: true}]), &block)
+          RDF::Query.new(*(patterns + [{graph_name: name, as_container: true}]), &block)
         end
       end
 
       ##
       # If the second operand is a Query operator:
       #   Executes this query on the given `queryable` graph or repository.
-      #   Applies the given `context` to the query, limiting the scope of the query to the specified `context`, which may be an `RDF::URI` or `RDF::Query::Variable`.
+      #   Applies the given `graph_name` to the query, limiting the scope of the query to the specified `graph`, which may be an `RDF::URI` or `RDF::Query::Variable`.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -67,8 +67,8 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Graph #{operands.first}"}
-        context, query = operands.first, operands.last
-        @solutions = queryable.query(query, options.merge(context: context), &block)
+        graph_name, query = operands.first, operands.last
+        @solutions = queryable.query(query, options.merge(graph_name: graph_name), &block)
       end
       
       ##

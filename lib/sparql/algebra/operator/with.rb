@@ -20,7 +20,7 @@ module SPARQL; module Algebra
       ##
       # Executes this upate on the given `writable` graph or repository.
       #
-      # Effectively filters results by setting a default `__context__` variable so that it is used when binding to perform update operations on the appropriate triples.
+      # Effectively filters results by setting a default `__graph_name__` variable so that it is used when binding to perform update operations on the appropriate triples.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
@@ -38,20 +38,20 @@ module SPARQL; module Algebra
         # Bound variable
         name = operands.shift
 
-        unless queryable.has_context?(name)
+        unless queryable.has_graph?(name)
           debug(options) {"=> default data source #{name}"}
           load_opts = {debug: options.fetch(:debug, nil), base_uri: name}
           debug(options) {"=> load #{name}"}
           queryable.load(name.to_s, load_opts)
         end
 
-        # Set name for RDF::Graph descendants having no context to the name variable
+        # Set name for RDF::Graph descendants having no graph_name to the name variable
         each_descendant do |op|
           case op
           when RDF::Query, RDF::Query::Pattern
-            unless op.context
-              debug(options) {"set context on #{op.to_sse}"}
-              op.context = RDF::Query::Variable.new(:__context__, name)
+            unless op.graph_name
+              debug(options) {"set graph_name on #{op.to_sse}"}
+              op.graph_name = RDF::Query::Variable.new(:__graph_name__, name)
             end
           end
         end

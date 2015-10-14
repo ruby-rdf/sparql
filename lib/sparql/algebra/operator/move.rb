@@ -50,7 +50,7 @@ module SPARQL; module Algebra
           # Clear destination first
           dest.clear! if dest
 
-          # Copy statements using destination context
+          # Copy statements using destination graph
           src.each do |statement|
             statement = statement.dup
             statement.graph_name = (dest_name unless dest_name == :default)

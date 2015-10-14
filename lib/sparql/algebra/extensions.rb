@@ -299,8 +299,8 @@ class RDF::Statement
   # Transform Statement Pattern into an SXP
   # @return [Array]
   def to_sxp_bin
-    if has_context?
-      [:quad, subject, predicate, object, context]
+    if has_graph?
+      [:quad, subject, predicate, object, graph_name]
     else
       [:triple, subject, predicate, object]
     end
@@ -313,7 +313,8 @@ class RDF::Query
   #   Same Context
   # @return [Boolean]
   def ==(other)
-    other.is_a?(RDF::Query) && patterns == other.patterns && context == context
+    # FIXME: this should be graph_name == other.graph_name
+    other.is_a?(RDF::Query) && patterns == other.patterns && graph_name == graph_name
   end
       
   ##
@@ -332,10 +333,10 @@ class RDF::Query
   # @return [Array]
   def to_sxp_bin
     if options[:as_container]
-      [:graph, context] + [patterns.map(&:to_sxp_bin)]
+      [:graph, graph_name] + [patterns.map(&:to_sxp_bin)]
     else
       res = [:bgp] + patterns.map(&:to_sxp_bin)
-      (context ? [:graph, context, res] : res)
+      (graph_name ? [:graph, graph_name, res] : res)
     end
   end
 
@@ -376,8 +377,8 @@ class RDF::Query::Pattern
   # Transform Query Pattern into an SXP
   # @return [Array]
   def to_sxp_bin
-    if has_context?
-      [:quad, subject, predicate, object, context]
+    if has_graph?
+      [:quad, subject, predicate, object, graph_name]
     else
       [:triple, subject, predicate, object]
     end

@@ -55,11 +55,11 @@ module SPARQL
   # @param  [Hash{Symbol => Object}] options
   # @option options  [RDF::Queryable]  :queryable
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :load_datasets
-  #   One or more URIs used to initialize a new instance of `queryable` in the default context.
+  #   One or more URIs used to initialize a new instance of `queryable` in the default graph.
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :default_graph_uri
-  #   One or more URIs used to initialize a new instance of `queryable` in the default context.
+  #   One or more URIs used to initialize a new instance of `queryable` in the default graph.
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :named_graph_uri
-  #   One or more URIs used to initialize the `queryable` as a named context.
+  #   One or more URIs used to initialize the `queryable` as a named graph.
   # @yield  [solution]
   #   each matching solution, statement or boolean
   # @yieldparam  [RDF::Statement, RDF::Query::Solution, Boolean] solution
@@ -84,7 +84,7 @@ module SPARQL
         queryable.load(uri)
       end
       [options[:named_graph_uri]].flatten.each do |uri|
-        queryable.load(uri, context: uri)
+        queryable.load(uri, graph_name: uri)
       end
     end
     query.execute(queryable, &block)

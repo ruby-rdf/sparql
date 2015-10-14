@@ -28,7 +28,7 @@ end
 
 class RDF::Query
   def inspect
-    "RDF::Query(#{context ? context.to_sxp : 'nil'})#{patterns.inspect}"
+    "RDF::Query(#{graph_name ? graph_name.to_sxp : 'nil'})#{patterns.inspect}"
   end
 end
 

@@ -60,16 +60,16 @@ module Sinatra
 
         # Contexts
         if repository.is_a?(RDF::Enumerable)
-          contexts = {}
+          graph_names = {}
           repository.each do |statement|
-            contexts[statement.context] ||= 0
-            contexts[statement.context] += 1
+            graph_names[statement.graph_name] ||= 0
+            graph_names[statement.graph_name] += 1
           end
           
-          contexts.each do |name, count|
+          graph_names.each do |name, count|
             bn = RDF::Node.new
             if name
-              # Add named contexts as namedGraphs
+              # Add named graphs as namedGraphs
               g << [ds, sd.join("#namedGraph"), bn]
               g << [bn, RDF.type, sd.join("#NamedGraph")]
               g << [bn, sd.join("#name"), name]

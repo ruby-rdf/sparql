@@ -34,7 +34,7 @@ module SPARQL; module Algebra
         path_op.execute(queryable, options.merge(
           subject: subject,
           object: object,
-          context: options.fetch(:context, false),
+          graph_name: options.fetch(:graph_name, false),
           depth: options[:depth].to_i + 1)
         ) do |solution|
           @solutions << solution

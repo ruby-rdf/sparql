@@ -141,8 +141,8 @@ module SPARQL; module Algebra
             debug(options) {"=> default data source #{uri}"}
             default_datasets << uri
           end
-          load_opts = {debug: options.fetch(:debug, nil), context: uri, base_uri: uri}
-          unless queryable.has_context?(uri)
+          load_opts = {debug: options.fetch(:debug, nil), graph_name: uri, base_uri: uri}
+          unless queryable.has_graph?(uri)
             debug(options) {"=> load #{uri}"}
             queryable.load(uri.to_s, load_opts)
           end
@@ -154,8 +154,8 @@ module SPARQL; module Algebra
 
         # Create an aggregate based on queryable having just the bits we want
         aggregate = RDF::AggregateRepo.new(queryable)
-        named_datasets.each {|name| aggregate.named(name) if queryable.has_context?(name)}
-        aggregate.default(*default_datasets.select {|name| queryable.has_context?(name)})
+        named_datasets.each {|name| aggregate.named(name) if queryable.has_graph?(name)}
+        aggregate.default(*default_datasets.select {|name| queryable.has_graph?(name)})
         aggregate.query(operands.last, options.merge(depth: options[:depth].to_i + 1), &base)
       end
       

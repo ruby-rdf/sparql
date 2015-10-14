@@ -45,7 +45,7 @@ module SPARQL; module Algebra
         else
           src.each do |statement|
             statement = statement.dup
-            statement.context = (dest_name unless dest_name == :default)
+            statement.graph_name = (dest_name unless dest_name == :default)
             queryable << statement
           end
         end
