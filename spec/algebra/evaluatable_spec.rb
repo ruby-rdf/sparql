@@ -90,7 +90,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        expect(described_class.new(RDF::DC.title).to_sxp_bin).to eq [:isIRI, RDF::DC.title]
+        expect(described_class.new(RDF::Vocab::DC.title).to_sxp_bin).to eq [:isIRI, RDF::Vocab::DC.title]
       end
     end
   end
@@ -123,7 +123,7 @@ describe SPARQL::Algebra do
 
     describe "#to_sxp_bin" do
       it "returns the correct SSE form" do
-        expect(described_class.new(RDF::DC.title).to_sxp_bin).to eq [:str, RDF::DC.title]
+        expect(described_class.new(RDF::Vocab::DC.title).to_sxp_bin).to eq [:str, RDF::Vocab::DC.title]
       end
     end
   end

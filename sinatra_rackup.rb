@@ -11,7 +11,7 @@ require 'uri'
 get '/' do
   settings.sparql_options.merge!(standard_prefixes: true)
   repository = RDF::Repository.new do |graph|
-    graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
+    graph << [RDF::Node.new, RDF::Vocab::DC.title, "Hello, world!"]
   end
   if params["query"]
     query = query.to_s =~ /^\w:/ ? RDF::Util::File.open_file(params["query"]) : :URI.decode(params["query"].to_s)

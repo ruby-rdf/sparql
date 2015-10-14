@@ -162,7 +162,7 @@ module SPARQL
   # ## Evaluating operators standalone
   # 
   #     Operator(:isBlank).evaluate(RDF::Node(:foobar))                          #=> RDF::Literal::TRUE
-  #     Operator(:isIRI).evaluate(RDF::DC.title)                                 #=> RDF::Literal::TRUE
+  #     Operator(:isIRI).evaluate(RDF::Vocab::DC.title)                                 #=> RDF::Literal::TRUE
   #     Operator(:isLiteral).evaluate(RDF::Literal(3.1415))                      #=> RDF::Literal::TRUE
   # 
   # ## Optimizing expressions containing constant subexpressions
@@ -174,9 +174,9 @@ module SPARQL
   # 
   #     # Find all people and their names & e-mail addresses:
   #     solutions = RDF::Query.execute(RDF::Graph.load('etc/doap.ttl')) do |query|
-  #       query.pattern [:person, RDF.type,  RDF::FOAF.Person]
-  #       query.pattern [:person, RDF::FOAF.name, :name]
-  #       query.pattern [:person, RDF::FOAF.mbox, :email], optional: true
+  #       query.pattern [:person, RDF.type,  RDF::Vocab::FOAF.Person]
+  #       query.pattern [:person, RDF::Vocab::FOAF.name, :name]
+  #       query.pattern [:person, RDF::Vocab::FOAF.mbox, :email], optional: true
   #     end
   # 
   #     # Find people who have a name but don't have a known e-mail address:
