@@ -74,7 +74,6 @@ module RDF::Util
 end
 
 module SPARQL
-  require 'support/extensions/inspects'
   require 'support/extensions/isomorphic'
   require 'support/matchers/solutions'
   require 'support/models'
