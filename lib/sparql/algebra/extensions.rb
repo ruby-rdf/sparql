@@ -86,8 +86,8 @@ class Array
   # Does this contain any nodes?
   #
   # @return [Boolean]
-  def has_blank_nodes?
-    any?(&:has_blank_nodes?)
+  def node?
+    any?(&:node?)
   end
   def evaluatable?; true; end
   def executable?; false; end
@@ -196,40 +196,6 @@ module RDF::Term
   end
 
   def aggregate?; false; end
-
-  # Term compatibility according to SPARQL
-  #
-  # Compatibility of two arguments is defined as:
-  # * The arguments are simple literals or literals typed as xsd:string
-  # * The arguments are plain literals with identical language tags
-  # * The first argument is a plain literal with language tag and the second argument is a simple literal or literal typed as xsd:string
-  #
-  # @example
-  #     compatible?("abc"	"b")                         #=> true
-  #     compatible?("abc"	"b"^^xsd:string)             #=> true
-  #     compatible?("abc"^^xsd:string	"b")             #=> true
-  #     compatible?("abc"^^xsd:string	"b"^^xsd:string) #=> true
-  #     compatible?("abc"@en	"b")                     #=> true
-  #     compatible?("abc"@en	"b"^^xsd:string)         #=> true
-  #     compatible?("abc"@en	"b"@en)                  #=> true
-  #     compatible?("abc"@fr	"b"@ja)                  #=> false
-  #     compatible?("abc"	"b"@ja)                      #=> false
-  #     compatible?("abc"	"b"@en)                      #=> false
-  #     compatible?("abc"^^xsd:string	"b"@en)          #=> false
-  #
-  # @see http://www.w3.org/TR/sparql11-query/#func-arg-compatibility
-  def compatible?(other)
-    return false unless literal?  && other.literal? && plain? && other.plain?
-
-    dtr = other.datatype
-
-    # * The arguments are simple literals or literals typed as xsd:string
-    # * The arguments are plain literals with identical language tags
-    # * The first argument is a plain literal with language tag and the second argument is a simple literal or literal typed as xsd:string
-    has_language? ?
-      (language == other.language || dtr == RDF::XSD.string) :
-      dtr == RDF::XSD.string
-  end
 
   ##
   # Return the non-destinguished variables contained within this operator

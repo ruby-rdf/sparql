@@ -1,4 +1,3 @@
-# FIXME: This depends on an update to RDF::Query#execute to be able to pass the graph_name as an option.
 module SPARQL; module Algebra
   class Operator
     ##

@@ -482,7 +482,7 @@ module SPARQL::Grammar
 
     # [39]	DeleteData	::=	"DELETE DATA" QuadData
     production(:DeleteData) do |input, data, callback|
-      raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
       input[:update_op] = SPARQL::Algebra::Expression(:deleteData, data[:pattern])
     end
 
@@ -492,7 +492,7 @@ module SPARQL::Grammar
       self.clear_bnode_cache
     end
     production(:DeleteWhere) do |input, data, callback|
-      raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
       self.nd_var_gen = "0"
       input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, data[:pattern])
     end
@@ -512,7 +512,7 @@ module SPARQL::Grammar
       self.clear_bnode_cache
     end
     production(:DeleteClause) do |input, data, callback|
-      raise Error, "DeleteClause contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.has_blank_nodes?
+      raise Error, "DeleteClause contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
       self.nd_var_gen = "0"
       input[:delete] = SPARQL::Algebra::Expression(:delete, data[:pattern])
     end
