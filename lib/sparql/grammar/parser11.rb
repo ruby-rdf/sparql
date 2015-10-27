@@ -476,11 +476,19 @@ module SPARQL::Grammar
     end
 
     # [38]	InsertData	::=	"INSERT DATA" QuadData
+    start_production(:InsertData) do |input, data, callback|
+      # Freeze existing bnodes, so that if an attempt is made to re-use such a node, and error is raised
+      self.freeze_bnodes
+    end
     production(:InsertData) do |input, data, callback|
       input[:update_op] = SPARQL::Algebra::Expression(:insertData, data[:pattern])
     end
 
     # [39]	DeleteData	::=	"DELETE DATA" QuadData
+    start_production(:DeleteData) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
+      self.gen_bnodes
+    end
     production(:DeleteData) do |input, data, callback|
       raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
       input[:update_op] = SPARQL::Algebra::Expression(:deleteData, data[:pattern])
@@ -489,11 +497,11 @@ module SPARQL::Grammar
     # [40]	DeleteWhere	::=	"DELETE WHERE" QuadPattern
     start_production(:DeleteWhere) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-      self.clear_bnode_cache
+      self.gen_bnodes
     end
     production(:DeleteWhere) do |input, data, callback|
       raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
-      self.nd_var_gen = "0"
+      self.gen_bnodes(false)
       input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, data[:pattern])
     end
 
@@ -509,11 +517,11 @@ module SPARQL::Grammar
     # [42]	DeleteClause	::=	"DELETE" QuadPattern
     start_production(:DeleteClause) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-      self.clear_bnode_cache
+      self.gen_bnodes
     end
     production(:DeleteClause) do |input, data, callback|
       raise Error, "DeleteClause contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
-      self.nd_var_gen = "0"
+      self.gen_bnodes(false)
       input[:delete] = SPARQL::Algebra::Expression(:delete, data[:pattern])
     end
 
@@ -548,13 +556,13 @@ module SPARQL::Grammar
     # QuadData is like QuadPattern, except without BNodes
     start_production(:QuadData) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
-      self.clear_bnode_cache
+      self.gen_bnodes
     end
     production(:QuadData) do |input, data, callback|
       # Transform using statements instead of patterns, and verify there are no variables
       raise Error, "QuadData empty" unless data[:pattern]
       raise Error, "QuadData contains variable operands: #{data[:pattern].to_sse}" if data[:pattern].first.variable?
-      self.nd_var_gen = "0"
+      self.gen_bnodes(false)
       input[:pattern] = data[:pattern]
     end
 
@@ -783,11 +791,11 @@ module SPARQL::Grammar
     # [73]  	ConstructTemplate	  ::=  	'{' ConstructTriples? '}'
     start_production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
-      self.clear_bnode_cache
+      self.gen_bnodes
     end
     production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
-      self.nd_var_gen = "0"
+      self.gen_bnodes(false)
       add_prod_datum(:ConstructTemplate, data[:pattern])
       add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
@@ -1637,10 +1645,18 @@ module SPARQL::Grammar
     # Used for generating BNode labels
     attr_accessor :nd_var_gen
 
-    # Reset the bnode cache, always generating new nodes, and start generating BNodes instead of non-distinguished variables
-    def clear_bnode_cache
-      @nd_var_gen = false
-      @bnode_cache = {}
+    # Generate BNodes, not non-distinguished variables
+    # @param [Boolean] value
+    # @return [void]
+    def gen_bnodes(value = true)
+      @nd_var_gen = value ? false : "0"
+    end
+
+    # Freeze BNodes, which allows us to detect if they're re-used
+    # @return [void]
+    def freeze_bnodes
+      @bnode_cache ||= {}
+      @bnode_cache.each_value(&:freeze)
     end
 
     # Generate a BNode identifier
@@ -1653,7 +1669,9 @@ module SPARQL::Grammar
           id = @options[:anon_base]
           @options[:anon_base] = @options[:anon_base].succ
         end
-        (@bnode_cache ||= {})[id.to_s] ||= RDF::Node.new(id)
+        @bnode_cache ||= {}
+        raise Error, "Illegal attempt to reuse a BNode" if @bnode_cache[id.to_s].frozen?
+        @bnode_cache[id.to_s] ||= RDF::Node.new(id)
       end
     end
 
