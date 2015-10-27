@@ -1684,8 +1684,8 @@ module SPARQL::Grammar
           @options[:anon_base] = @options[:anon_base].succ
         end
         @bnode_cache ||= {}
-        raise Error, "Illegal attempt to reuse a BNode" if @bnode_cache[id.to_s].frozen?
-        @bnode_cache[id.to_s] ||= RDF::Node.new(id)
+        raise Error, "Illegal attempt to reuse a BNode" if @bnode_cache[id] && @bnode_cache[id].frozen?
+        @bnode_cache[id] ||= RDF::Node.new(id)
       end
     end
 
