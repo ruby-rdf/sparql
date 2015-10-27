@@ -506,6 +506,9 @@ module SPARQL::Grammar
     end
 
     # [41]	Modify	::=	("WITH" iri)? ( DeleteClause InsertClause? | InsertClause) UsingClause* "WHERE" GroupGraphPattern
+    start_production(:Modify) do |input, data, callback|
+      self.clear_bnode_cache
+    end
     production(:Modify) do |input, data, callback|
       query = data[:query].first if data[:query]
       query = SPARQL::Algebra::Expression.for(:using, data[:using], query) if data[:using]
@@ -526,7 +529,12 @@ module SPARQL::Grammar
     end
 
     # [43]	InsertClause	::=	"INSERT" QuadPattern
+    start_production(:InsertClause) do |input, data, callback|
+      # Generate BNodes instead of non-distinguished variables.
+      self.gen_bnodes
+    end
     production(:InsertClause) do |input, data, callback|
+      self.gen_bnodes(false)
       input[:insert] = SPARQL::Algebra::Expression(:insert, data[:pattern])
     end
 
@@ -1650,6 +1658,12 @@ module SPARQL::Grammar
     # @return [void]
     def gen_bnodes(value = true)
       @nd_var_gen = value ? false : "0"
+    end
+
+    # Clear cached BNodes
+    # @return [void]
+    def clear_bnode_cache
+      @bnode_cache = {}
     end
 
     # Freeze BNodes, which allows us to detect if they're re-used
