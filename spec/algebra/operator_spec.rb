@@ -130,7 +130,7 @@ describe SPARQL::Algebra do
     describe "#boolean(RDF::Term)" do
       it "raises a TypeError" do
         expect { @op.new.send(:boolean, RDF::Node.new) }.to raise_error TypeError
-        expect { @op.new.send(:boolean, RDF::DC.title) }.to raise_error TypeError
+        expect { @op.new.send(:boolean, RDF::Vocab::DC.title) }.to raise_error TypeError
       end
     end
   end

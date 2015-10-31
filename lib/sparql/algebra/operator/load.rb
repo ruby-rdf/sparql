@@ -37,7 +37,7 @@ module SPARQL; module Algebra
         raise ArgumentError, "load expected one or two operands, got #{operands.length}" unless [1,2].include?(operands.length)
 
         location, name = operands
-        queryable.load(location, context: name)
+        queryable.load(location, graph_name: name)
       rescue IOError, Errno::ENOENT
         raise unless silent
       ensure

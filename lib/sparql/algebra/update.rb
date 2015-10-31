@@ -43,12 +43,12 @@ module SPARQL; module Algebra
       raise NotImplementedError, "#{self.class}#execute(#{queryable})"
     end
 
-    # Add context to sub-items, unless they already have a context
+    # Add graph_name to sub-items, unless they already have a graph_name
     # @param [RDF::URI, RDF::Query::Variable] value
     # @return [RDF::URI, RDF::Query::Variable]
-    def context=(value)
+    def graph_name=(value)
       operands.each do |operand|
-        operand.context = value if operand.respond_to?(:context) && operand.context != false
+        operand.graph_name = value if operand.respond_to?(:graph_name) && operand.graph_name != false
       end
       value
     end

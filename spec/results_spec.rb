@@ -149,8 +149,8 @@ describe SPARQL::Results do
                         },
       :multiple      => {
                         solution: [
-                            {x: RDF::Node.new("a"), y: RDF::DC.title, z: RDF::Literal("Hello, world!")},
-                            {x: RDF::Node.new("b"), y: RDF::DC.title, z: RDF::Literal("Foo bar")},
+                            {x: RDF::Node.new("a"), y: RDF::Vocab::DC.title, z: RDF::Literal("Hello, world!")},
+                            {x: RDF::Node.new("b"), y: RDF::Vocab::DC.title, z: RDF::Literal("Foo bar")},
                           ],
                          json: {
                            head: {vars: ["x", "y", "z"]},

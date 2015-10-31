@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b5",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-str.rq"
           },
@@ -75,7 +75,7 @@
         },
         {
           "action": {
-            "id": "_:b6",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-flt.rq"
           },
@@ -90,7 +90,7 @@
         },
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dbl.rq"
           },
@@ -105,7 +105,7 @@
         },
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b6",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dec.rq"
           },
@@ -120,7 +120,7 @@
         },
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b4",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-int.rq"
           },
@@ -135,7 +135,7 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b3",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dT.rq"
           },
@@ -150,7 +150,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b2",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-bool.rq"
           },

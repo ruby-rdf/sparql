@@ -53,7 +53,7 @@ class RDF::Query
       grounded_solutions_match = (count == other.count)
 
       grounded_solutions_match &&= each.all? do | solution |
-        solution.has_blank_nodes? || other.include?(solution)
+        solution.node? || other.include?(solution)
       end
 
       if grounded_solutions_match
@@ -61,8 +61,8 @@ class RDF::Query
         # consideration--we could just as well pass in self and other.  But we
         # will be iterating over this list quite a bit during the algorithm, so
         # we break it down to the parts we're interested in.
-        blank_solutions = find_all { |solution| solution.has_blank_nodes? }
-        other_blank_solutions = other.find_all { |solution| solution.has_blank_nodes? }
+        blank_solutions = find_all { |solution| solution.node? }
+        other_blank_solutions = other.find_all { |solution| solution.node? }
 
         nodes = RDF::Query::Solutions.blank_nodes_in(blank_solutions)
         other_nodes = RDF::Query::Solutions.blank_nodes_in(other_blank_solutions)
@@ -303,7 +303,7 @@ class RDF::Query
   class Solution
     # Does solution use any blank nodes?
     # @return [Boolean]
-    def has_blank_nodes?
+    def node?
       !blank_nodes.empty?
     end
 

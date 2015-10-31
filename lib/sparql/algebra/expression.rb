@@ -264,7 +264,7 @@ module SPARQL; module Algebra
     # Returns `false`.
     #
     # @return [Boolean]
-    def has_blank_nodes?
+    def node?
       false
     end
 

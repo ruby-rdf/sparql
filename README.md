@@ -117,7 +117,7 @@ for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.
 
 ### Remote datasets
 
-A SPARQL query containing `FROM` or `FROM NAMED` (also `UPDATE` or `UPDATE NAMED`) will load the referenced IRI unless the repository already contains a context with that same IRI. This is performed using [RDF.rb][] `RDF::Util::File.open_file` passing HTTP Accept headers for various available RDF formats. For best results, require [Linked Data][] to enable a full set of RDF formats in the `GET` request. Also, consider overriding `RDF::Util::File.open_file` with an implementation with support for HTTP Get headers (such as `Net::HTTP`).
+A SPARQL query containing `FROM` or `FROM NAMED` (also `UPDATE` or `UPDATE NAMED`) will load the referenced IRI unless the repository already contains a graph with that same IRI. This is performed using [RDF.rb][] `RDF::Util::File.open_file` passing HTTP Accept headers for various available RDF formats. For best results, require [Linked Data][] to enable a full set of RDF formats in the `GET` request. Also, consider overriding `RDF::Util::File.open_file` with an implementation with support for HTTP Get headers (such as `Net::HTTP`).
 
 Queries using datasets are re-written to use the identified graphs for `FROM` and `FROM NAMED` by filtering the results, allowing the use of a repository that contains many graphs without confusing information.
 
@@ -200,7 +200,7 @@ a full set of RDF formats.
     require 'rack/sparql'
     
     repository = RDF::Repository.new do |graph|
-      graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
+      graph << [RDF::Node.new, RDF::Vocab::DC.title, "Hello, world!"]
     end
     results = SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", repository)
     
@@ -222,7 +222,7 @@ a full set of RDF formats.
     get '/' do
       settings.sparql_options.replace(standard_prefixes: true)
       repository = RDF::Repository.new do |graph|
-        graph << [RDF::Node.new, RDF::DC.title, "Hello, world!"]
+        graph << [RDF::Node.new, RDF::Vocab::DC.title, "Hello, world!"]
       end
       if params["query"]
         query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)

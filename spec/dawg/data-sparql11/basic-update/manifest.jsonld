@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b31",
+            "id": "_:b44",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-data-spo1.ru"
           },
           "approval": "dawgt:Approved",
@@ -71,7 +71,7 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-data-spo1",
           "name": "Simple insert data 1",
           "result": {
-            "id": "_:b36",
+            "id": "_:b43",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/spo.ttl",
             "ut:result": {
               "id": "ut:success"
@@ -81,7 +81,7 @@
         },
         {
           "action": {
-            "id": "_:b30",
+            "id": "_:b42",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-data-named1.ru"
           },
           "approval": "dawgt:Approved",
@@ -92,10 +92,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-data-spo-named1",
           "name": "Simple insert data named 1",
           "result": {
-            "id": "_:b25",
+            "id": "_:b41",
             "ut:graphData": [
               {
-                "id": "_:b22",
+                "id": "_:b40",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/spo.ttl"
               }
@@ -108,10 +108,10 @@
         },
         {
           "action": {
-            "id": "_:b19",
+            "id": "_:b39",
             "ut:graphData": [
               {
-                "id": "_:b18",
+                "id": "_:b38",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/spo.ttl"
               }
@@ -126,10 +126,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-data-spo-named2",
           "name": "Simple insert data named 2",
           "result": {
-            "id": "_:b16",
+            "id": "_:b37",
             "ut:graphData": [
               {
-                "id": "_:b14",
+                "id": "_:b36",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/spo2.ttl"
               }
@@ -142,10 +142,10 @@
         },
         {
           "action": {
-            "id": "_:b10",
+            "id": "_:b35",
             "ut:graphData": [
               {
-                "id": "_:b9",
+                "id": "_:b34",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/spo.ttl"
               }
@@ -160,10 +160,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-data-spo-named3",
           "name": "Simple insert data named 3",
           "result": {
-            "id": "_:b8",
+            "id": "_:b19",
             "ut:graphData": [
               {
-                "id": "_:b6",
+                "id": "_:b18",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/spo.ttl"
               }
@@ -176,7 +176,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b17",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-01-pre.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-01.ru"
           },
@@ -188,14 +188,14 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-where-01",
           "name": "INSERT 01",
           "result": {
-            "id": "_:b0",
+            "id": "_:b16",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-01-post.ttl"
           },
           "type": "mf:UpdateEvaluationTest"
         },
         {
           "action": {
-            "id": "_:b27",
+            "id": "_:b31",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-02-pre.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-02.ru"
           },
@@ -207,11 +207,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-where-02",
           "name": "INSERT 02",
           "result": {
-            "id": "_:b46",
+            "id": "_:b30",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-02-post.ttl",
             "ut:graphData": [
               {
-                "id": "_:b47",
+                "id": "_:b29",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-02-g1-post.ttl"
               }
@@ -221,11 +221,11 @@
         },
         {
           "action": {
-            "id": "_:b42",
+            "id": "_:b28",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-03-pre.ttl",
             "ut:graphData": [
               {
-                "id": "_:b41",
+                "id": "_:b27",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-03-g1-pre.ttl"
               }
@@ -240,11 +240,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-where-03",
           "name": "INSERT 03",
           "result": {
-            "id": "_:b40",
+            "id": "_:b26",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-03-post.ttl",
             "ut:graphData": [
               {
-                "id": "_:b32",
+                "id": "_:b25",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-03-g1-post.ttl"
               }
@@ -254,11 +254,11 @@
         },
         {
           "action": {
-            "id": "_:b35",
+            "id": "_:b24",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-04-pre.ttl",
             "ut:graphData": [
               {
-                "id": "_:b34",
+                "id": "_:b23",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-04-g1-pre.ttl"
               }
@@ -273,11 +273,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-where-04",
           "name": "INSERT 04",
           "result": {
-            "id": "_:b26",
+            "id": "_:b33",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-04-post.ttl",
             "ut:graphData": [
               {
-                "id": "_:b23",
+                "id": "_:b32",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-04-g1-post.ttl"
               }
@@ -287,16 +287,16 @@
         },
         {
           "action": {
-            "id": "_:b20",
+            "id": "_:b12",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-pre.ttl",
             "ut:graphData": [
               {
-                "id": "_:b17",
+                "id": "_:b11",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-g1-pre.ttl"
               },
               {
-                "id": "_:b15",
+                "id": "_:b6",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-g2-pre.ttl"
               }
@@ -311,16 +311,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-using-01",
           "name": "INSERT USING 01",
           "result": {
-            "id": "_:b13",
+            "id": "_:b5",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-post.ttl",
             "ut:graphData": [
               {
-                "id": "_:b12",
+                "id": "_:b4",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-g1-post.ttl"
               },
               {
-                "id": "_:b11",
+                "id": "_:b3",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-g2-post.ttl"
               }
@@ -330,10 +330,10 @@
         },
         {
           "action": {
-            "id": "_:b29",
+            "id": "_:b10",
             "ut:graphData": [
               {
-                "id": "_:b28",
+                "id": "_:b9",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-05a-g1-pre.ttl"
               }
@@ -348,10 +348,10 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-05a",
           "name": "INSERT same bnode twice",
           "result": {
-            "id": "_:b49",
+            "id": "_:b8",
             "ut:graphData": [
               {
-                "id": "_:b48",
+                "id": "_:b7",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-05a-g3-post.ttl"
               }
@@ -361,18 +361,21 @@
         },
         {
           "action": {
-            "id": "_:b45",
+            "id": "_:b0",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-data-same-bnode.ru"
           },
-          "approval": "dawgt:NotClassified",
+          "approval": "dawgt:Approved",
           "comment": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2012JulSep/0196.html, this can be viewed as a variation of :insert-05a",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-12-11#resolution_5"
+          },
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-data-same-bnode",
           "name": "INSERTing the same bnode with INSERT DATA into two different Graphs is the same bnode",
           "result": {
-            "id": "_:b44",
+            "id": "_:b1",
             "ut:graphData": [
               {
-                "id": "_:b43",
+                "id": "_:b2",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-05a-g3-post.ttl"
               }
@@ -382,20 +385,23 @@
         },
         {
           "action": {
-            "id": "_:b39",
+            "id": "_:b22",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode-pre.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode.ru"
           },
-          "approval": "dawgt:NotClassified",
+          "approval": "dawgt:Approved",
           "comment": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2012OctDec/0001.html, this can be viewed as a further variation of :insert-05a",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-12-11#resolution_5"
+          },
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-where-same-bnode",
           "name": "INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode",
           "result": {
-            "id": "_:b38",
+            "id": "_:b21",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode-pre.ttl",
             "ut:graphData": [
               {
-                "id": "_:b37",
+                "id": "_:b20",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode-g3-post.ttl"
               }
@@ -405,20 +411,23 @@
         },
         {
           "action": {
-            "id": "_:b33",
+            "id": "_:b15",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode-pre.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode2.ru"
           },
-          "approval": "dawgt:NotClassified",
+          "approval": "dawgt:Approved",
           "comment": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2012OctDec/0001.html, this can be viewed as a further variation of :insert-05a",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-12-11#resolution_5"
+          },
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/manifest#insert-where-same-bnode2",
           "name": "INSERTing the same bnode with two INSERT WHERE statement within one request is NOT the same bnode even if both WHERE clauses have the empty solution mapping as the only solution.",
           "result": {
-            "id": "_:b24",
+            "id": "_:b14",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode-pre.ttl",
             "ut:graphData": [
               {
-                "id": "_:b21",
+                "id": "_:b13",
                 "rdfs:label": "http://example.org/g3",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-where-same-bnode-g3-post.ttl"
               }

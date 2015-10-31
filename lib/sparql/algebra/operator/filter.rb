@@ -64,7 +64,7 @@ module SPARQL; module Algebra
       def validate!
         unless (join = operands.last).is_a?(Join) &&
                 join.operands.all? {|op| op.is_a?(RDF::Query)} &&
-                join.operands.map(&:context).uniq.length == 1
+                join.operands.map(&:graph_name).uniq.length == 1
           operands.last.validate!
         end
         self

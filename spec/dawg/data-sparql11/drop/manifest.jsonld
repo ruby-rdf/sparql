@@ -61,16 +61,16 @@
       "entries": [
         {
           "action": {
-            "id": "_:b17",
+            "id": "_:b12",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b16",
+                "id": "_:b11",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
               },
               {
-                "id": "_:b15",
+                "id": "_:b10",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
               }
@@ -85,15 +85,15 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/manifest#dawg-drop-default-01",
           "name": "DROP DEFAULT",
           "result": {
-            "id": "_:b14",
+            "id": "_:b0",
             "ut:graphData": [
               {
-                "id": "_:b13",
+                "id": "_:b1",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
               },
               {
-                "id": "_:b12",
+                "id": "_:b2",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
               }
@@ -103,16 +103,16 @@
         },
         {
           "action": {
-            "id": "_:b11",
+            "id": "_:b17",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b9",
+                "id": "_:b13",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
               },
               {
-                "id": "_:b10",
+                "id": "_:b9",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
               }
@@ -172,16 +172,16 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b16",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b1",
+                "id": "_:b15",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
               },
               {
-                "id": "_:b0",
+                "id": "_:b14",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
               }

@@ -77,7 +77,7 @@
         },
         {
           "action": {
-            "id": "_:b9",
+            "id": "_:b6",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-1.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-2.rq"
           },
@@ -93,7 +93,7 @@
         },
         {
           "action": {
-            "id": "_:b6",
+            "id": "_:b5",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-3.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-3.rq"
           },
@@ -109,7 +109,7 @@
         },
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b4",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-4.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
           },
@@ -125,7 +125,7 @@
         },
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b2",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-4.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-5.rq"
           },
@@ -141,7 +141,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-6.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-6.rq"
           },
@@ -157,7 +157,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b10",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-7.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
           },
@@ -173,7 +173,7 @@
         },
         {
           "action": {
-            "id": "_:b12",
+            "id": "_:b9",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-8.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
           },
@@ -189,7 +189,7 @@
         },
         {
           "action": {
-            "id": "_:b10",
+            "id": "_:b8",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-9.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-9.rq"
           },
@@ -205,7 +205,7 @@
         },
         {
           "action": {
-            "id": "_:b8",
+            "id": "_:b3",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-9.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-10.rq"
           },
@@ -221,7 +221,7 @@
         },
         {
           "action": {
-            "id": "_:b7",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-numbers.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-numbers.rq"
           },
@@ -237,7 +237,7 @@
         },
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b12",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-builtin.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-builtin.rq"
           },
@@ -253,7 +253,7 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b7",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-function.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-function.rq"
           },

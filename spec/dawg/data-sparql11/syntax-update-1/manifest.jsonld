@@ -591,7 +591,10 @@
         },
         {
           "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-update-1/syntax-update-54.ru",
-          "approval": "dawgt:NotClassified",
+          "approval": "dawgt:Approved",
+          "dawgt:approvedBy": {
+            "id": "http://www.w3.org/2009/sparql/meeting/2012-12-11#resolution_5"
+          },
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-update-1/manifest#test_54",
           "name": "syntax-update-54.ru",
           "type": "mf:NegativeUpdateSyntaxTest11"

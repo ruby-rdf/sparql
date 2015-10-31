@@ -61,16 +61,16 @@
       "entries": [
         {
           "action": {
-            "id": "_:b20",
+            "id": "_:b9",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b16",
+                "id": "_:b5",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
               },
               {
-                "id": "_:b15",
+                "id": "_:b4",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
               }
@@ -89,12 +89,12 @@
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
             "ut:graphData": [
               {
-                "id": "_:b10",
+                "id": "_:b1",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
               },
               {
-                "id": "_:b9",
+                "id": "_:b12",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
               }
@@ -104,16 +104,16 @@
         },
         {
           "action": {
-            "id": "_:b8",
+            "id": "_:b17",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b7",
+                "id": "_:b16",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
               },
               {
-                "id": "_:b6",
+                "id": "_:b15",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
               }
@@ -128,16 +128,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/manifest#dawg-clear-graph-01",
           "name": "CLEAR GRAPH",
           "result": {
-            "id": "_:b5",
+            "id": "_:b14",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b4",
+                "id": "_:b13",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
               },
               {
-                "id": "_:b3",
+                "id": "_:b10",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
               }
@@ -147,11 +147,11 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b3",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b1",
+                "id": "_:b2",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
               },
@@ -171,16 +171,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/manifest#dawg-clear-named-01",
           "name": "CLEAR NAMED",
           "result": {
-            "id": "_:b12",
+            "id": "_:b7",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b13",
+                "id": "_:b6",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
               },
               {
-                "id": "_:b14",
+                "id": "_:b8",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
               }
@@ -218,12 +218,12 @@
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
             "ut:graphData": [
               {
-                "id": "_:b17",
+                "id": "_:b19",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
               },
               {
-                "id": "_:b19",
+                "id": "_:b20",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
               }

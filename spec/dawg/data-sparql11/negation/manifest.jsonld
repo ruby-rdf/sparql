@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b8",
+            "id": "_:b10",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl01.rq"
           },
@@ -75,7 +75,7 @@
         },
         {
           "action": {
-            "id": "_:b5",
+            "id": "_:b9",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subsetByExcl02.rq"
           },
@@ -90,7 +90,7 @@
         },
         {
           "action": {
-            "id": "_:b3",
+            "id": "_:b8",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/temporalProximity01.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/temporalProximity01.rq"
           },
@@ -105,7 +105,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b6",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-01.rq"
           },
@@ -120,7 +120,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b11",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-02.rq"
           },
@@ -135,7 +135,7 @@
         },
         {
           "action": {
-            "id": "_:b11",
+            "id": "_:b5",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-equals-1.rq"
           },
@@ -150,7 +150,7 @@
         },
         {
           "action": {
-            "id": "_:b10",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/subset-03.rq"
           },
@@ -165,7 +165,7 @@
         },
         {
           "action": {
-            "id": "_:b7",
+            "id": "_:b4",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/exists-01.rq"
           },
@@ -180,7 +180,7 @@
         },
         {
           "action": {
-            "id": "_:b9",
+            "id": "_:b3",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/set-data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/exists-02.rq"
           },
@@ -195,7 +195,7 @@
         },
         {
           "action": {
-            "id": "_:b6",
+            "id": "_:b2",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/full-minuend.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/full-minuend.rq"
           },
@@ -207,7 +207,7 @@
         },
         {
           "action": {
-            "id": "_:b4",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/part-minuend.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation/part-minuend.rq"
           },

@@ -442,9 +442,9 @@ module SPARQL; module Algebra
     # otherwise.
     #
     # @return [Boolean]
-    def has_blank_nodes?
+    def node?
       operands.any? do |operand|
-        operand.respond_to?(:has_blank_nodes?) ? operand.has_blank_nodes? : operand.node?
+        operand.respond_to?(:node?) ? operand.node? : operand.node?
       end
     end
 

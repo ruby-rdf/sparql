@@ -8,7 +8,7 @@ module SPARQL; module Spec
       #puts "open: #{file}"
       RDF::Util::File.open_file(file) do |f|
         hash = ::JSON.load(f.read)
-        Manifest.new(hash['@graph'].first, context: hash['@context'])
+        Manifest.new(hash['@graph'].first, graph_name: hash['@context'])
       end
     end
 
@@ -91,7 +91,7 @@ module SPARQL; module Spec
           data, format, default = info[:data], info[:format], info[:default]
           if data
             RDF::Reader.for(format).new(data, info).each_statement do |st|
-              st.context = RDF::URI(info[:base_uri]) if info[:base_uri]
+              st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
               r << st
             end
           end

@@ -60,7 +60,7 @@
       "entries": [
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b2",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.rq"
           },
@@ -78,7 +78,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.rq"
           },
@@ -96,7 +96,7 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
             "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.rq"
           },

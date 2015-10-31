@@ -60,11 +60,11 @@
       "entries": [
         {
           "action": {
-            "id": "_:b14",
+            "id": "_:b3",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b13",
+                "id": "_:b4",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               }
@@ -79,11 +79,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy01",
           "name": "COPY 1",
           "result": {
-            "id": "_:b12",
+            "id": "_:b25",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b11",
+                "id": "_:b24",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl"
               }
@@ -93,7 +93,7 @@
         },
         {
           "action": {
-            "id": "_:b10",
+            "id": "_:b14",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ru"
           },
@@ -105,11 +105,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy02",
           "name": "COPY 2",
           "result": {
-            "id": "_:b9",
+            "id": "_:b13",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b8",
+                "id": "_:b12",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl"
               }
@@ -143,11 +143,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy03",
           "name": "COPY 3",
           "result": {
-            "id": "_:b4",
+            "id": "_:b1",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b3",
+                "id": "_:b0",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               },
@@ -162,11 +162,11 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b23",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b1",
+                "id": "_:b22",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               }
@@ -181,16 +181,16 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy04",
           "name": "COPY 4",
           "result": {
-            "id": "_:b25",
+            "id": "_:b21",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b24",
+                "id": "_:b20",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               },
               {
-                "id": "_:b23",
+                "id": "_:b19",
                 "rdfs:label": "http://example.org/g2",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               }
@@ -200,11 +200,11 @@
         },
         {
           "action": {
-            "id": "_:b22",
+            "id": "_:b18",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b21",
+                "id": "_:b17",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               }
@@ -219,11 +219,11 @@
           "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy06",
           "name": "COPY 6",
           "result": {
-            "id": "_:b20",
+            "id": "_:b11",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
             "ut:graphData": [
               {
-                "id": "_:b19",
+                "id": "_:b10",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               }
@@ -233,11 +233,11 @@
         },
         {
           "action": {
-            "id": "_:b18",
+            "id": "_:b8",
             "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
             "ut:graphData": [
               {
-                "id": "_:b17",
+                "id": "_:b9",
                 "rdfs:label": "http://example.org/g1",
                 "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
               }

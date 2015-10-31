@@ -41,16 +41,16 @@ module SPARQL; module Algebra
         case operands.last
         when :default
           queryable.each_graph do |g|
-            g.clear! unless g.context
+            g.clear! unless g.graph_name
           end
         when :named
           queryable.each_graph do |g|
-            g.clear! if g.context
+            g.clear! if g.graph_name
           end
         when :all
           queryable.clear!
         when RDF::URI
-          if g = queryable.each_graph.detect {|c| c.context == operands.last}
+          if g = queryable.each_graph.detect {|c| c.graph_name == operands.last}
             g.clear!
           else
             raise IOError, "drop operation graph does not exist" unless silent

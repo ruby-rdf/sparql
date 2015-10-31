@@ -74,7 +74,6 @@ module RDF::Util
 end
 
 module SPARQL
-  require 'support/extensions/inspects'
   require 'support/extensions/isomorphic'
   require 'support/matchers/solutions'
   require 'support/models'
@@ -117,10 +116,7 @@ module SPARQL
         "ut:request": {"@type": "@id"}
       },
       "@type": "mf:Manifest",
-      "entries": {
-        "mf:action": {"ut:graphData": {}},
-        "mf:result": {"ut:graphData": {}}
-      }
+      "entries": {}
     }))
     # Module functions
 

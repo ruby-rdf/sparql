@@ -76,7 +76,7 @@
         },
         {
           "action": {
-            "id": "_:b2",
+            "id": "_:b1",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/construct/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/construct/constructwhere02.rq"
           },
@@ -92,7 +92,7 @@
         },
         {
           "action": {
-            "id": "_:b1",
+            "id": "_:b0",
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/construct/data.ttl",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/construct/constructwhere03.rq"
           },
@@ -108,7 +108,7 @@
         },
         {
           "action": {
-            "id": "_:b0",
+            "id": "_:b2",
             "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/construct/constructwhere04.rq"
           },
           "approval": "dawgt:Approved",

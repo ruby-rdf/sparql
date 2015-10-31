@@ -36,22 +36,22 @@ describe SPARQL::Algebra::Update do
   end
 
   context "using" do
-    it "loads USING graph as default context" do
+    it "loads USING graph as default graph" do
       queryable = RDF::Repository.new
       expect(queryable).to receive(:load).with("data-g1.ttl",
         {
           base_uri: RDF::URI.new("data-g1.ttl"),
-          context: RDF::URI.new("data-g1.ttl"),
+          graph_name: RDF::URI.new("data-g1.ttl"),
           debug: kind_of(Object)
         })
       query = SPARQL::Algebra::Expression.parse(%q((using (<data-g1.ttl>) (bgp))))
       query.execute(queryable)
     end
 
-    it "loads USING NAMED graph as named context" do
+    it "loads USING NAMED graph as named graph" do
       queryable = RDF::Repository.new
       expect(queryable).to receive(:load).with("data-g1.ttl", {
-        context: RDF::URI("data-g1.ttl"),
+        graph_name: RDF::URI("data-g1.ttl"),
         base_uri: RDF::URI("data-g1.ttl"),
         debug: kind_of(Object)
       })
@@ -68,7 +68,7 @@ describe SPARQL::Algebra::Update do
   end
 
   context "with" do
-    it "loads WITH graph as default context" do
+    it "loads WITH graph as default graph" do
       queryable = RDF::Repository.new
       expect(queryable).to receive(:load).with("data-g1.ttl",
         {

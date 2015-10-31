@@ -17,7 +17,7 @@ module SPARQL; module Algebra
       ##
       # Executes this query on the given `queryable` graph or repository.
       # Really a pass-through, as this is a syntactic object used for providing
-      # context for URIs.
+      # graph_name for URIs.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query

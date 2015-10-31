@@ -3,7 +3,7 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `bgp` operator.
     #
-    # Query with `context` set to false.
+    # Query with `graph_name` set to false.
     #
     # @example
     #   (prefix ((: <http://example/>))
@@ -13,7 +13,7 @@ module SPARQL; module Algebra
     class BGP < Operator
       NAME = [:bgp]
       ##
-      # A `graph` is an RDF::Query with a context.
+      # A `graph` is an RDF::Query with a graph_name.
       #
       # @overload self.new(*patterns)
       #   @param [Array<RDF::Query::Pattern>] patterns
@@ -23,7 +23,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query]
       def self.new(*patterns, &block)
-        RDF::Query.new(*(patterns + [{context: false}]), &block)
+        RDF::Query.new(*(patterns + [{graph_name: false}]), &block)
       end
     end # BGP
   end # Operator
