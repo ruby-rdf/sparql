@@ -36,8 +36,8 @@ Gem::Specification.new do |gem|
   gem.required_ruby_version      = '>= 1.9.3'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',                '~> 1.99'
-  gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 1.1', '>= 1.1.0'
-  gem.add_runtime_dependency     'ebnf',               '~> 0.3', '>= 0.3.9'
+  gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 1.99'
+  gem.add_runtime_dependency     'ebnf',               '~> 1.0'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
   gem.add_runtime_dependency     'sxp',                '~> 0.1'
   gem.add_runtime_dependency     'sparql-client',      '~> 1.1'
