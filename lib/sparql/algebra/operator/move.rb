@@ -53,7 +53,7 @@ module SPARQL; module Algebra
           # Copy statements using destination context
           src.each do |statement|
             statement = statement.dup
-            statement.graph_name = (dest_name unless dest_name == :default)
+            statement.context = (dest_name unless dest_name == :default)
             queryable << statement
           end
 
