@@ -35,6 +35,7 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
           when :select
             expect(result).to be_a(RDF::Query::Solutions)
             if id.to_s =~ /sort/
+              skip "JRuby sorting issue" if RUBY_ENGINE == 'jruby'
               expect(result).to describe_ordered_solutions(t.solutions)
             else
               expect(result).to describe_solutions(t.solutions, t)
