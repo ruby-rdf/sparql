@@ -6,7 +6,7 @@ module SPARQL::Grammar
   ##
   # A parser for the SPARQL 1.1 grammar.
   #
-  # @see http://www.w3.org/TR/rdf-sparql-query/#grammar
+  # @see http://www.w3.org/TR/sparql11-query/#grammar
   # @see http://en.wikipedia.org/wiki/LR_parser
   class Parser
     include SPARQL::Grammar::Meta

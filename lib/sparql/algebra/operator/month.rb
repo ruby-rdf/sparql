@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `month` operator.
     #
+    # Returns the month part of `arg` as an integer.
+    #
     # @example
     #     (prefix ((: <http://example.org/>))
     #       (project (?s ?x)

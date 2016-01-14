@@ -3,8 +3,6 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `in` operator.
     #
-    # Used for filters with more than one expression.
-    #
     # @example
     #   (ask (filter (in 2 1 2 3) (bgp)))
     #
@@ -16,11 +14,11 @@ module SPARQL; module Algebra
 
       ##
       # The IN operator tests whether the RDF term on the left-hand side is found in the values of list of expressions on the right-hand side. The test is done with "=" operator, which tests for the same value, as determined by the operator mapping.
-      # 
+      #
       # A list of zero terms on the right-hand side is legal.
-      # 
+      #
       # Errors in comparisons cause the IN expression to raise an error if the RDF term being tested is not found elsewhere in the list of terms.
-      # 
+      #
       # The IN operator is equivalent to the SPARQL expression:
       # 
       #     (lhs = expression1) || (lhs = expression2) || ...

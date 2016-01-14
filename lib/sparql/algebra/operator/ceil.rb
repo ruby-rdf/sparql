@@ -14,7 +14,7 @@ module SPARQL; module Algebra
       NAME = [:ceil]
 
       ##
-      # Returns the smallest (closest to negative infinity) number with no fractional part that is not less than the value of arg. An error is raised if arg is not a numeric value.
+      # Returns the smallest (closest to negative infinity) number with no fractional part that is not less than the value of `arg`. An error is raised if `arg` is not a numeric value.
       #
       # @param  [RDF::Literal] operand
       #   the operand

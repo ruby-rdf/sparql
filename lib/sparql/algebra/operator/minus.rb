@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     #            (bgp (triple ?animal <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type))))))
     #
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Minus < Operator::Binary
       include Query
 

@@ -16,7 +16,7 @@ module SPARQL; module Algebra
       NAME = :hours
 
       ##
-      # Returns the hours part of arg as an integer.
+      # Returns the hours part of `arg` as an integer. The value is as given in the lexical form of the XSD dateTime.
       #
       # @param  [RDF::Literal] operand
       #   the operand

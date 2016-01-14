@@ -1,8 +1,8 @@
 ##
 # isIRI(A)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-isIRI
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#func-isIRI
 
 (equal (isIRI <mailto:alice@example.org>) true)
 

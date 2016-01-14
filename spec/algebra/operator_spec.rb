@@ -13,7 +13,7 @@ describe SPARQL::Algebra do
     @op3 = SPARQL::Algebra::Operator::Ternary
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#ebv
+  # @see http://www.w3.org/TR/sparql11-query/#ebv
   context "Operator" do
     describe ".arity" do
       it "returns -1" do

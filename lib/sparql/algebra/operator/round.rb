@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `round` operator.
     #
+    # Returns the number with no fractional part that is closest to the argument. If there are two such numbers, then the one that is closest to positive infinity is returned. An error is raised if `arg` is not a numeric value.
+    # 
     # @example
     #   (round ?x)
     #

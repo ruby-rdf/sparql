@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (filter (isLiteral ?v)
     #         (bgp (triple ?x :p ?v)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#func-isLiteral
+    # @see http://www.w3.org/TR/sparql11-query/#func-isLiteral
     class IsLiteral < Operator::Unary
       include Evaluatable
 

@@ -327,12 +327,12 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
 [PDD]:              http://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html
 [SPARQL]:           http://en.wikipedia.org/wiki/SPARQL
-[SPARQL 1.0]:       http://www.w3.org/TR/rdf-sparql-query/
+[SPARQL 1.0]:       http://www.w3.org/TR/sparql11-query/
 [SPARQL 1.0 tests]:http://www.w3.org/2001/sw/DataAccess/tests/
 [SPARQL 1.1 tests]: http://www.w3.org/2009/sparql/docs/tests/
 [SSE]:              http://openjena.org/wiki/SSE
 [SXP]:              http://www.rubydoc.info/github/bendiken/sxp-ruby
-[grammar]:          http://www.w3.org/TR/rdf-sparql-query/#grammar
+[grammar]:          http://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           http://rubydoc.info/github/ruby-rdf/rdf
 [Backports]:        http://rubygems.org/gems/backports

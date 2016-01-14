@@ -65,7 +65,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-bound
+  # @see http://www.w3.org/TR/sparql11-query/#func-bound
   describe Operator::Bound do
     it_behaves_like "Evaluate", sse_examples('operator/bound/variable.sse')
 
@@ -84,7 +84,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-isIRI
+  # @see http://www.w3.org/TR/sparql11-query/#func-isIRI
   describe Operator::IsIRI do
     it_behaves_like "Evaluate", sse_examples('operator/is_iri/term.sse')
 
@@ -95,7 +95,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-isBlank
+  # @see http://www.w3.org/TR/sparql11-query/#func-isBlank
   describe Operator::IsBlank do
     it_behaves_like "Evaluate", sse_examples('operator/is_blank/term.sse')
 
@@ -106,7 +106,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-isLiteral
+  # @see http://www.w3.org/TR/sparql11-query/#func-isLiteral
   describe Operator::IsLiteral do
     it_behaves_like "Evaluate", sse_examples('operator/is_literal/term.sse')
 
@@ -117,7 +117,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-str
+  # @see http://www.w3.org/TR/sparql11-query/#func-str
   describe Operator::Str do
     it_behaves_like "Evaluate", sse_examples('operator/str/literal.sse')
 
@@ -128,7 +128,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-lang
+  # @see http://www.w3.org/TR/sparql11-query/#func-lang
   describe Operator::Lang do
     it_behaves_like "Evaluate", sse_examples('operator/lang/literal.sse')
 
@@ -140,7 +140,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-datatype
+  # @see http://www.w3.org/TR/sparql11-query/#func-datatype
   describe Operator::Datatype do
     it_behaves_like "Evaluate", sse_examples('operator/datatype/literal.sse')
 
@@ -155,8 +155,8 @@ describe SPARQL::Algebra do
   ##########################################################################
   # BINARY OPERATORS
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-or
-  # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+  # @see http://www.w3.org/TR/sparql11-query/#func-logical-or
+  # @see http://www.w3.org/TR/sparql11-query/#evaluation
   describe Operator::Or do
     it_behaves_like "Evaluate", sse_examples('operator/or/boolean.sse')
 
@@ -167,8 +167,8 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-and
-  # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+  # @see http://www.w3.org/TR/sparql11-query/#func-logical-and
+  # @see http://www.w3.org/TR/sparql11-query/#evaluation
   describe Operator::And do
     it_behaves_like "Evaluate", sse_examples('operator/and/boolean.sse')
 
@@ -179,7 +179,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+  # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
   describe Operator::Equal do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
     it_behaves_like "Evaluate", sse_examples('operator/equal/string.sse')
@@ -193,7 +193,7 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
     it_behaves_like "Evaluate", sse_examples('operator/equal/datetime.sse')
 
-    # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+    # @see http://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
     it_behaves_like "Evaluate", sse_examples('operator/equal/term.sse')
 
     describe "#to_sxp_bin" do
@@ -203,7 +203,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+  # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
   describe Operator::NotEqual do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
     it_behaves_like "Evaluate", sse_examples('operator/not_equal/string.sse')
@@ -220,7 +220,7 @@ describe SPARQL::Algebra do
     # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
     it_behaves_like "Evaluate", sse_examples('operator/not_equal/datetime.sse')
 
-    # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+    # @see http://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
     it_behaves_like "Evaluate", sse_examples('operator/not_equal/term.sse')
 
     describe "#to_sxp_bin" do
@@ -230,7 +230,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+  # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
   describe Operator::LessThan do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
     it_behaves_like "Evaluate", sse_examples('operator/less_than/string.sse')
@@ -251,7 +251,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+  # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
   describe Operator::GreaterThan do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
     it_behaves_like "Evaluate", sse_examples('operator/greater_than/string.sse')
@@ -272,7 +272,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+  # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
   describe Operator::LessThanOrEqual do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
     it_behaves_like "Evaluate", sse_examples('operator/less_than_or_equal/string.sse')
@@ -296,7 +296,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+  # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
   describe Operator::GreaterThanOrEqual do
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
     it_behaves_like "Evaluate", sse_examples('operator/greater_than_or_equal/string.sse')
@@ -353,7 +353,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+  # @see http://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
   describe Operator::Equal do
     it_behaves_like "Evaluate", sse_examples('operator/equal/term.sse')
 
@@ -364,7 +364,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+  # @see http://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
   describe Operator::NotEqual do
     it_behaves_like "Evaluate", sse_examples('operator/not_equal/term.sse')
 
@@ -375,7 +375,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-sameTerm
+  # @see http://www.w3.org/TR/sparql11-query/#func-sameTerm
   describe Operator::SameTerm do
     it_behaves_like "Evaluate", sse_examples('operator/same_term/term.sse')
 
@@ -392,7 +392,7 @@ describe SPARQL::Algebra do
     end
   end
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#func-langMatches
+  # @see http://www.w3.org/TR/sparql11-query/#func-langMatches
   describe Operator::LangMatches do
     it_behaves_like "Evaluate", sse_examples('operator/lang_matches/literal.sse')
 
@@ -406,7 +406,7 @@ describe SPARQL::Algebra do
   ##########################################################################
   # TERNARY OPERATORS
 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#funcex-regex
+  # @see http://www.w3.org/TR/sparql11-query/#funcex-regex
   # @see http://www.w3.org/TR/xpath-functions/#func-matches
   describe Operator::Regex do
     it_behaves_like "Evaluate", sse_examples('operator/regex/literal.sse')
@@ -420,20 +420,20 @@ describe SPARQL::Algebra do
 
   context "query forms" do
     {
-      # @see http://www.w3.org/TR/rdf-sparql-query/#QSynIRI
+      # @see http://www.w3.org/TR/sparql11-query/#QSynIRI
       %q((base <http://example.org/>
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Base.new(
           RDF::URI("http://example.org/"),
           RDF::Query.new {pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modDistinct
+      # @see http://www.w3.org/TR/sparql11-query/#modDistinct
       %q((distinct
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Distinct.new(
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+      # @see http://www.w3.org/TR/sparql11-query/#evaluation
       %q((exprlist (< ?x 1))) =>
         Operator::Exprlist.new(
           Operator::LessThan.new(Variable("x"), RDF::Literal.new(1))),
@@ -442,7 +442,7 @@ describe SPARQL::Algebra do
           Operator::LessThan.new(Variable("x"), RDF::Literal.new(1)),
           Operator::GreaterThan.new(Variable("y"), RDF::Literal.new(1))),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+      # @see http://www.w3.org/TR/sparql11-query/#evaluation
       %q((filter
           (< ?x 1)
           (bgp (triple <a> <b> 123.0)))) =>
@@ -461,7 +461,7 @@ describe SPARQL::Algebra do
             Operator::GreaterThan.new(Variable("y"), RDF::Literal.new(1))),
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#ebv
+      # @see http://www.w3.org/TR/sparql11-query/#ebv
       %q((filter ?x
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Filter.new(
@@ -474,14 +474,14 @@ describe SPARQL::Algebra do
           Operator::Equal.new(Variable("x"), RDF::URI("a")),
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#namedAndDefaultGraph
+      # @see http://www.w3.org/TR/sparql11-query/#namedAndDefaultGraph
       %q((graph ?g
           (bgp  (triple <a> <b> 123.0)))) =>
         Operator::Graph.new(
           Variable("g"),
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       %q((join
           (bgp (triple <a> <b> 123.0))
           (bgp (triple <a> <b> 456.0)))) =>
@@ -489,7 +489,7 @@ describe SPARQL::Algebra do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]},
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(456.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       %q((leftjoin
           (bgp (triple <a> <b> 123.0))
           (bgp (triple <a> <b> 456.0)))) =>
@@ -505,7 +505,7 @@ describe SPARQL::Algebra do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(456.0)]},
           Operator::Bound.new(Variable("x"))),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modOrderBy
+      # @see http://www.w3.org/TR/sparql11-query/#modOrderBy
       %q((order (<a>)
           (bgp (triple <a> <b> ?o)))) =>
         Operator::Order.new(
@@ -537,27 +537,27 @@ describe SPARQL::Algebra do
           [Variable(?a), Operator::Asc.new(RDF::Literal.new(1)), Operator::IsIRI.new(RDF::URI("b"))],
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), Variable("o")]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#QSynIRI
+      # @see http://www.w3.org/TR/sparql11-query/#QSynIRI
       %q((prefix ((ex: <http://example.org/>))
           (bgp (triple ?s ex:p1 123.0)))) =>
         Operator::Prefix.new(
           [[:"ex:", RDF::URI("http://example.org/")]],
           RDF::Query.new {pattern [RDF::Query::Variable.new("s"), EX.p1, RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modProjection
+      # @see http://www.w3.org/TR/sparql11-query/#modProjection
       %q((project (?s)
           (bgp (triple ?s <p> 123.0)))) =>
         Operator::Project.new(
           [Variable("s")],
           RDF::Query.new {pattern [Variable("s"), RDF::URI("p"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modReduced
+      # @see http://www.w3.org/TR/sparql11-query/#modReduced
       %q((reduced
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Reduced.new(
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebraEval
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebraEval
       %q((slice _ 100
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Slice.new(
@@ -570,14 +570,14 @@ describe SPARQL::Algebra do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlTriplePatterns
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlTriplePatterns
       %q((triple <a> <b> <c>)) => RDF::Query::Pattern.new(RDF::URI("a"), RDF::URI("b"), RDF::URI("c")),
       %q((triple ?a _:b "c")) => RDF::Query::Pattern.new(RDF::Query::Variable.new("a"), RDF::Node.new("b"), RDF::Literal.new("c")),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlBasicGraphPatterns
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlBasicGraphPatterns
       %q((bgp (triple <a> <b> <c>))) => RDF::Query.new { pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]},
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       %q((union
           (bgp (triple <a> <b> 123.0))
           (bgp (triple <a> <b> 456.0)))) =>

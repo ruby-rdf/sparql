@@ -3,6 +3,10 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `alt` (Alternative Property Path) operator.
     #
+    # Let P and Q be property path expressions.
+    #
+    #     eval(Path(X, alt(P,Q), Y)) = Union(eval(Path(X, P, Y)), eval(Path(X, Q, Y)))
+    #
     # @example
     #   (alt a b)
     #
@@ -28,7 +32,7 @@ module SPARQL; module Algebra
       #   each matching solution
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Alt #{[subject, operands, object].to_sse}"}

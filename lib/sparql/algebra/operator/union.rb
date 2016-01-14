@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (graph ?g
     #         (bgp (triple ?s ?p ?o)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Union < Operator::Binary
       include Query
       
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Union"}
         @solutions = RDF::Query::Solutions(operands.inject([]) do |memo, op|

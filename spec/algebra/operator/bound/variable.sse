@@ -1,8 +1,8 @@
 ##
 # bound(A)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-bound
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#func-bound
 
 (error (bound _:foobar) TypeError)
 (error (bound <mailto:alice@example.org>) TypeError)

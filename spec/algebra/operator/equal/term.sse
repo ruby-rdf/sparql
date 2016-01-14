@@ -1,8 +1,8 @@
 ##
 # RDFterm-equal(A, B)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
 
 (equal (= "Hello"@en "Hello"@en) true)
 (equal (= "Hello"@en "Hello"@EN) true)

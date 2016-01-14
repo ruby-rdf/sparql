@@ -3,7 +3,7 @@
 #
 # Returns the arithmetic quotient of the operands.
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-divide
 
 (error (/ 1 +0)   ZeroDivisionError)

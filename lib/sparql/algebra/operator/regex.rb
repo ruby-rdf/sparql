@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (filter (regex ?val "GHI")
     #         (bgp (triple ex:foo rdf:value ?val)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#funcex-regex
+    # @see http://www.w3.org/TR/sparql11-query/#funcex-regex
     # @see http://www.w3.org/TR/xpath-functions/#func-matches
     class Regex < Operator::Ternary
       include Evaluatable

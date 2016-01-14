@@ -6,7 +6,7 @@
 # If `A` is positive, its negative is returned; if it is negative, its
 # positive is returned.
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
 
 (equal (- 0)    0)

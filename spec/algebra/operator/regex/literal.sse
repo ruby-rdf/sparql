@@ -2,20 +2,20 @@
 # fn:matches(STRING, PATTERN)
 # fn:matches(STRING, PATTERN, FLAGS)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-matches
 
-# @see http://www.w3.org/TR/rdf-sparql-query/#restrictString
+# @see http://www.w3.org/TR/sparql11-query/#restrictString
 (equal (regex "SPARQL Tutorial" "^SPARQL" "")                   true)
 (equal (regex "The Semantic Web" "^SPARQL" "")                  false)
 (equal (regex "SPARQL Tutorial" "web" "i")                      false)
 (equal (regex "The Semantic Web" "web" "i"  )                   true)
 
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-str
+# @see http://www.w3.org/TR/sparql11-query/#func-str
 (equal (regex "<mailto:alice@work.example>" "@work.example" "") true)
 (equal (regex "<mailto:bob@home.example>" "@work.example" "")   false)
 
-# @see http://www.w3.org/TR/rdf-sparql-query/#funcex-regex
+# @see http://www.w3.org/TR/sparql11-query/#funcex-regex
 (equal (regex "Alice" "^ali" "i")                               true)
 (equal (regex "Bob" "^ali" "i")                                 false)
 

@@ -4,7 +4,7 @@
 # Returns `true` if and only if the value of `A` is equal to the value of
 # `B`.
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
 
 # Equal

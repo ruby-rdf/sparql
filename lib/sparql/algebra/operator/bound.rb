@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #           (bgp (triple ?a :b ?c))
     #           (bgp (triple ?c :d ?e))))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#func-bound
+    # @see http://www.w3.org/TR/sparql11-query/#func-bound
     class Bound < Operator::Unary
       include Evaluatable
 
@@ -30,8 +30,7 @@ module SPARQL; module Algebra
       end
 
       ##
-      # Returns `true` if the operand is a variable that is bound to a
-      # value in the given `bindings`, `false` otherwise.
+      # Returns `true` if `var` is bound to a value. Returns false otherwise. Variables with the value NaN or INF are considered bound.
       #
       # @param  [RDF::Query::Solution] bindings
       #   a query solution containing zero or more variable bindings

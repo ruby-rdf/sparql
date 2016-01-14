@@ -7,8 +7,8 @@ module SPARQL; module Algebra
     #   (&& ?x ?y)
     #   (and ?x ?y)
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#func-logical-and
-    # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+    # @see http://www.w3.org/TR/sparql11-query/#func-logical-and
+    # @see http://www.w3.org/TR/sparql11-query/#evaluation
     class And < Operator::Binary
       include Evaluatable
 
@@ -29,10 +29,7 @@ module SPARQL; module Algebra
       end
 
       ##
-      # Returns the logical `AND` of the left operand and the right operand.
-      #
-      # Note that this operator operates on the effective boolean value
-      # (EBV) of its operands.
+      # Returns a logical `AND` of `left` and `right`. Note that logical-and operates on the effective boolean value of its arguments.
       #
       # @param  [RDF::Query::Solution] bindings
       #   a query solution containing zero or more variable bindings
@@ -53,7 +50,7 @@ module SPARQL; module Algebra
           right = nil
         end
 
-        # From http://www.w3.org/TR/rdf-sparql-query/#evaluation
+        # From http://www.w3.org/TR/sparql11-query/#evaluation
         # A logical-and that encounters an error on only one branch will return an error if the other branch is
         # TRUE and FALSE if the other branch is FALSE.
         case

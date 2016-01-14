@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `seconds` operator.
     #
+    # Returns the seconds part of the lexical form of `arg`.
+    #
     # @example
     #     (prefix ((: <http://example.org/>))
     #       (project (?s ?x)

@@ -3,12 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `ask` operator.
     #
+    # Applications can use the ASK form to test whether or not a query pattern has a solution. No information is returned about the possible query solutions, just whether or not a solution exists.
+    #
     # @example
     #   (prefix ((: <http://example/>))
     #     (ask
     #       (bgp (triple :x :p ?x))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#ask
+    # @see http://www.w3.org/TR/sparql11-query/#ask
     class Ask < Operator::Unary
       include Query
       
@@ -26,7 +28,7 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @return [RDF::Literal::Boolean]\
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Ask #{operands.first}"}
         res = boolean(!queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1)).empty?)

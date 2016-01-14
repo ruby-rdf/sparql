@@ -1,8 +1,8 @@
 ##
 # langMatches(A, B)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-langMatches
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#func-langMatches
 
 (equal (langMatches "" "*")               false)
 (equal (langMatches "en" "*")             true)
@@ -11,7 +11,7 @@
 (equal (langMatches "EN" "en")            true)
 (equal (langMatches "en-US" "en")         true)
 
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-langMatches
+# @see http://www.w3.org/TR/sparql11-query/#func-langMatches
 (equal (langMatches "en" "FR")            false)
 (equal (langMatches "fr" "FR")            true)
 (equal (langMatches "fr-BE" "FR")         true)

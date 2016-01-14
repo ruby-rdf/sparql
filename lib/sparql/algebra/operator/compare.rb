@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (<=> ?x ?y)
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+    # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
     # @see http://www.w3.org/TR/xpath-functions/#func-compare
     class Compare < Operator::Binary
       include Evaluatable
@@ -33,8 +33,8 @@ module SPARQL; module Algebra
       # @raise  [TypeError] if either operand is not a literal
       def apply(left, right)
         case
-        # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-        # @see http://www.w3.org/TR/rdf-sparql-query/#modOrderBy
+        # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+        # @see http://www.w3.org/TR/sparql11-query/#modOrderBy
         when left.is_a?(RDF::Literal) && right.is_a?(RDF::Literal)
           case
           # @see http://www.w3.org/TR/xpath-functions/#string-compare

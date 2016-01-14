@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #       (order ((desc ?name))
     #         (bgp (triple ?x foaf:name ?name)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#func-isLiteral
+    # @see http://www.w3.org/TR/sparql11-query/#modOrderBy
     class Desc < Operator::Asc
       NAME = :desc
     end # Desc

@@ -1,8 +1,8 @@
 ##
 # fn:not(EBV(A))
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#ebv
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#ebv
 # @see http://www.w3.org/TR/xpath-functions/#func-not
 
 (equal (not true)  false)

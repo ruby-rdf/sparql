@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #       (filter (= ?v 2)
     #         (bgp (triple ?s <http://example/p> ?v)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#modProjection
+    # @see http://www.w3.org/TR/sparql11-query/#modProjection
     class Project < Operator::Binary
       include Query
       
@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         @solutions = queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1))
         @solutions = @solutions.project(*(operands.first))

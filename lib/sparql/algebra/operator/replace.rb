@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #         (extend ((?new (replace ?str "[^a-z0-9]" "-")))
     #           (bgp (triple ?s :str ?str)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#funcex-replace
+    # @see http://www.w3.org/TR/sparql11-query/#funcex-replace
     # @see http://www.w3.org/TR/xpath-functions/#func-replace
     class Replace < Operator::Quaternary
       include Evaluatable

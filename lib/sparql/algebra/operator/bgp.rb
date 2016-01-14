@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #   (prefix ((: <http://example/>))
     #     (bgp (triple ?s ?p ?o)))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class BGP < Operator
       NAME = [:bgp]
       ##

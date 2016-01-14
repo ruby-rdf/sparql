@@ -1,8 +1,8 @@
 ##
 # datatype(A)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-datatype
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#func-datatype
 
 (equal (datatype "Hello") xsd:string)
 

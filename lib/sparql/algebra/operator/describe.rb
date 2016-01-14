@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #     (describe (?x)
     #       (bgp (triple ?x exOrg:employeeId "1234"))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#describe
+    # @see http://www.w3.org/TR/sparql11-query/#describe
     class Describe < Operator::Binary
       include Query
       
@@ -39,7 +39,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Graph]
       #   containing the constructed triples
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#describe
+      # @see    http://www.w3.org/TR/sparql11-query/#describe
       def execute(queryable, options = {}, &block)
         debug(options) {"Describe #{operands.first}, #{options.inspect}"}
 

@@ -5,6 +5,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `now` operator.
     #
+    # Returns an XSD dateTime value for the current query execution. All calls to this function in any one query execution must return the same value. The exact moment returned is not specified.
+    #
     # @example
     #     (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
     #       (ask (filter (= (datatype ?n) xsd:dateTime)

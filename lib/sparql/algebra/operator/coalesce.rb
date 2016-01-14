@@ -3,8 +3,6 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `coalesce` function.
     #
-    # Used for filters with more than one expression.
-    #
     # @example
     #     (prefix ((: <http://example.org/>)
     #              (xsd: <http://www.w3.org/2001/XMLSchema#>))
@@ -25,9 +23,8 @@ module SPARQL; module Algebra
 
       ##
       # The COALESCE function form returns the RDF term value of the first expression that evaluates without error. In SPARQL, evaluating an unbound variable raises an error.
-      # 
+      #
       # If none of the arguments evaluates to an RDF term, an error is raised. If no expressions are evaluated without error, an error is raised.
-      # 
       #
       # @example
       #   Suppose ?x = 2 and ?y is not bound in some query solution:

@@ -1,7 +1,7 @@
 ##
 # op:numeric-subtract(A, B)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-subtract
 
 (equal (- 0.0 +INF)  -INF)

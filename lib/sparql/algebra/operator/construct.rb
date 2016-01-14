@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `construct` operator.
     #
+    # The CONSTRUCT query form returns a single RDF graph specified by a graph template. The result is an RDF graph formed by taking each query solution in the solution sequence, substituting for the variables in the graph template, and combining the triples into a single RDF graph by set union.
+    #
     # @example
     #   (prefix ((rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
     #            (foaf: <http://xmlns.com/foaf/0.1/>))
@@ -10,7 +12,7 @@ module SPARQL; module Algebra
     #       (project (?s ?p ?o)
     #         (bgp (triple ?s ?p ?o)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#ask
+    # @see http://www.w3.org/TR/sparql11-query/#construct
     class Construct < Operator::Binary
       include Query
       
@@ -20,10 +22,7 @@ module SPARQL; module Algebra
       # Executes this query on the given {RDF::Queryable} object.
       # Binds variables to the array of patterns in the first operand and returns the resulting RDF::Graph object
       #
-      # If any such instantiation produces a triple containing an unbound variable or an illegal RDF construct,
-      # such as an RDF::Literal in _subject_ or _predicate_ position, then that triple is not included in the output RDF
-      # graph. The graph template can contain triples with no variables (known as ground or explicit triples),
-      # and these also appear in the output RDF graph returned by the CONSTRUCT query form.
+      # If any such instantiation produces a triple containing an unbound variable or an illegal RDF construct, such as a literal in subject or predicate position, then that triple is not included in the output RDF graph. The graph template can contain triples with no variables (known as ground or explicit triples), and these also appear in the output RDF graph returned by the CONSTRUCT query form.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -35,7 +34,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Queryable]
       #   A Queryable with constructed triples
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#construct
+      # @see    http://www.w3.org/TR/sparql11-query/#construct
       def execute(queryable, options = {}, &block)
         debug(options) {"Construct #{operands.first}, #{options.inspect}"}
         graph = RDF::Graph.new
