@@ -262,7 +262,6 @@ options = {
   validate: false,
   verbose:  false,
 }
-suite = "rdfxml"
 opts = GetoptLong.new(
   ["--earl", GetoptLong::NO_ARGUMENT],
   ["--debug", GetoptLong::NO_ARGUMENT],

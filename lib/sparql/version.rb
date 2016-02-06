@@ -15,6 +15,6 @@ module SPARQL
 
     ##
     # @return [Array(Integer, Integer, Integer)]
-    def self.to_a() [MAJOR, MINOR, TINY] end
+    def self.to_a() STRING.split(".") end
   end
 end

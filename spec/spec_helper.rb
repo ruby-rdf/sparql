@@ -7,7 +7,6 @@ require 'rspec'
 require 'rdf'
 require 'rdf/isomorphic'
 require 'rdf/turtle'
-require 'rdf/n3'
 require 'rdf/vocab'
 
 require 'simplecov'

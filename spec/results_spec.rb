@@ -1,6 +1,5 @@
 $:.unshift File.expand_path("..", __FILE__)
 require 'spec_helper'
-require 'linkeddata'
 require 'csv'
 
 describe SPARQL::Results do
