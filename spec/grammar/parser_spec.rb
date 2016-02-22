@@ -1385,6 +1385,10 @@ describe SPARQL::Grammar::Parser do
 
   describe "when matching the [38] InsertData production rule", production: :InsertData do
     {
+      "empty triple" => [
+        %q(INSERT DATA {}),
+        %q((insertData ()))
+      ],
       "insert triple" => [
         %q(INSERT DATA {:a foaf:knows :b .}),
         %q((insertData ((triple :a foaf:knows :b))))
@@ -1406,6 +1410,10 @@ describe SPARQL::Grammar::Parser do
 
   describe "when matching the [39] DeleteData production rule", production: :DeleteData do
     {
+      "empty triple" => [
+        %q(DELETE DATA {}),
+        %q((deleteData ()))
+      ],
       "delete triple" => [
         %q(DELETE DATA {:a foaf:knows :b .}),
         %q((deleteData ((triple :a foaf:knows :b))))
