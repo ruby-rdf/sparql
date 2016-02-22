@@ -7,7 +7,7 @@
 # all other non-`NaN` values; negative infinity is less than all other
 # non-`NaN` values. If `A` or `B` is `NaN`, the function returns `false`.
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-greater-than
 
 (equal (> +0.0 -1.0) true)

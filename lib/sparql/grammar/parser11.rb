@@ -6,7 +6,7 @@ module SPARQL::Grammar
   ##
   # A parser for the SPARQL 1.1 grammar.
   #
-  # @see http://www.w3.org/TR/rdf-sparql-query/#grammar
+  # @see http://www.w3.org/TR/sparql11-query/#grammar
   # @see http://en.wikipedia.org/wiki/LR_parser
   class Parser
     include SPARQL::Grammar::Meta
@@ -490,8 +490,8 @@ module SPARQL::Grammar
       self.gen_bnodes
     end
     production(:DeleteData) do |input, data, callback|
-      raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
-      input[:update_op] = SPARQL::Algebra::Expression(:deleteData, data[:pattern])
+      raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if Array(data[:pattern]).any?(&:node?)
+      input[:update_op] = SPARQL::Algebra::Expression(:deleteData, Array(data[:pattern]))
     end
 
     # [40]	DeleteWhere	::=	"DELETE WHERE" QuadPattern
@@ -500,9 +500,9 @@ module SPARQL::Grammar
       self.gen_bnodes
     end
     production(:DeleteWhere) do |input, data, callback|
-      raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
+      raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if Array(data[:pattern]).any?(&:node?)
       self.gen_bnodes(false)
-      input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, data[:pattern])
+      input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, Array(data[:pattern]))
     end
 
     # [41]	Modify	::=	("WITH" iri)? ( DeleteClause InsertClause? | InsertClause) UsingClause* "WHERE" GroupGraphPattern
@@ -523,9 +523,9 @@ module SPARQL::Grammar
       self.gen_bnodes
     end
     production(:DeleteClause) do |input, data, callback|
-      raise Error, "DeleteClause contains BNode operands: #{data[:pattern].to_sse}" if data[:pattern].first.node?
+      raise Error, "DeleteClause contains BNode operands: #{Array(data[:pattern]).to_sse}" if Array(data[:pattern]).any?(&:node?)
       self.gen_bnodes(false)
-      input[:delete] = SPARQL::Algebra::Expression(:delete, data[:pattern])
+      input[:delete] = SPARQL::Algebra::Expression(:delete, Array(data[:pattern]))
     end
 
     # [43]	InsertClause	::=	"INSERT" QuadPattern
@@ -535,7 +535,7 @@ module SPARQL::Grammar
     end
     production(:InsertClause) do |input, data, callback|
       self.gen_bnodes(false)
-      input[:insert] = SPARQL::Algebra::Expression(:insert, data[:pattern])
+      input[:insert] = SPARQL::Algebra::Expression(:insert, Array(data[:pattern]))
     end
 
     # [44]	UsingClause	::=	"USING" ( iri | "NAMED" iri)
@@ -568,20 +568,19 @@ module SPARQL::Grammar
     end
     production(:QuadData) do |input, data, callback|
       # Transform using statements instead of patterns, and verify there are no variables
-      raise Error, "QuadData empty" unless data[:pattern]
-      raise Error, "QuadData contains variable operands: #{data[:pattern].to_sse}" if data[:pattern].first.variable?
+      raise Error, "QuadData contains variable operands: #{Array(data[:pattern]).to_sse}" if Array(data[:pattern]).any?(&:variable?)
       self.gen_bnodes(false)
-      input[:pattern] = data[:pattern]
+      input[:pattern] = Array(data[:pattern])
     end
 
     # [51] QuadsNotTriples	::=	"GRAPH" VarOrIri "{" TriplesTemplate? "}"
     production(:QuadsNotTriples) do |input, data, callback|
-      add_prod_datum(:pattern, [SPARQL::Algebra::Expression.for(:graph, data[:VarOrIri].last, data[:pattern])])
+      add_prod_datum(:pattern, [SPARQL::Algebra::Expression.for(:graph, data[:VarOrIri].last, Array(data[:pattern]))])
     end
 
     # [52]	TriplesTemplate	::=	TriplesSameSubject ("." TriplesTemplate? )?
     production(:TriplesTemplate) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+      add_prod_datum(:pattern, Array(data[:pattern]))
     end
 
     # [54]	GroupGraphPatternSub	::=	TriplesBlock? (GraphPatternNotTriples "."? TriplesBlock? )*
@@ -603,7 +602,7 @@ module SPARQL::Grammar
     # [55]  	TriplesBlock	  ::=  	TriplesSameSubjectPath
     #                               ( '.' TriplesBlock? )?
     production(:TriplesBlock) do |input, data, callback|
-      if data[:pattern]
+      if !Array(data[:pattern]).empty?
         query = SPARQL::Algebra::Operator::BGP.new
         Array(data[:pattern]).each {|p| query << p}
 
@@ -804,7 +803,7 @@ module SPARQL::Grammar
     production(:ConstructTemplate) do |input, data, callback|
       # Generate BNodes instead of non-distinguished variables
       self.gen_bnodes(false)
-      add_prod_datum(:ConstructTemplate, data[:pattern])
+      add_prod_datum(:ConstructTemplate, Array(data[:pattern]))
       add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
 

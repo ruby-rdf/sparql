@@ -17,7 +17,7 @@ module SPARQL; module Algebra
     #               (bgp (triple ?s :p ?v))
     #               (bgp (triple ?s :q ?w)))))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Group < Operator
       include Query
       

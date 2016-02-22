@@ -17,7 +17,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
           when 'datatype-2 : Literals with a datatype'
             skip "datatype now returns rdf:langString for language-tagged literals"
           when /Cast to xsd:boolean/
-            pending "figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/rdf-sparql-query/#FunctionMapping"
+            pending "figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/sparql11-query/#FunctionMapping"
           when /REDUCED/
             skip "REDUCED equivalent to DISTINCT"
           when /sq03/

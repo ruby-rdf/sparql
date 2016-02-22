@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # A SPARQL `concat` operator.
     #
+    # The CONCAT function corresponds to the XPath fn:concat function. The function accepts string literals as arguments.
+    #
     # @example
     #   (concat ?a ?b ...)
     #
@@ -14,7 +16,7 @@ module SPARQL; module Algebra
       NAME = :concat
 
       ##
-      # The lexical form of the returned literal is obtained by concatenating the lexical forms of its inputs. If all input literals are typed literals of type xsd:string, then the returned literal is also of type xsd:string, if all input literals are plain literals with identical language tag, then the returned literal is a plain literal with the same language tag, in all other cases, the returned literal is a simple literal.
+      # The lexical form of the returned literal is obtained by concatenating the lexical forms of its inputs. If all input literals are typed literals of type xsd:string, then the returned literal is also of type `xsd:string`, if all input literals are plain literals with identical language tag, then the returned literal is a plain literal with the same language tag, in all other cases, the returned literal is a simple literal.
       #
       # @example
       #     concat("foo", "bar")                         #=> "foobar"

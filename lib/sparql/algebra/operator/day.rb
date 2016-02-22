@@ -16,7 +16,7 @@ module SPARQL; module Algebra
       NAME = :day
 
       ##
-      # Returns the day part of arg as an integer.
+      # Returns the day part of `arg` as an integer.
       #
       # @param  [RDF::Literal] operand
       #   the operand

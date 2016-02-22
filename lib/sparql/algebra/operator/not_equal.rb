@@ -3,8 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL relational `!=` (not equal) comparison operator.
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-    # @see http://www.w3.org/TR/rdf-sparql-query/#func-RDFterm-equal
+    # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+    # @see http://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
     class NotEqual < Equal
       NAME = :'!='
 

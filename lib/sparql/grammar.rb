@@ -154,7 +154,7 @@ module SPARQL
   #       --output lib/sparql/grammar/meta.rb \
   #       etc/sparql11.bnf
   # 
-  # @see http://www.w3.org/TR/rdf-sparql-query/#grammar
+  # @see http://www.w3.org/TR/sparql11-query/#grammar
   # @see http://rubygems.org/gems/ebnf
   module Grammar
     autoload :Parser,     'sparql/grammar/parser11'

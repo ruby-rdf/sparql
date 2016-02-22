@@ -15,7 +15,7 @@ module SPARQL; module Algebra
     #     (graph :g
     #       ((triple :s :p :o))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Graph < Operator::Binary
       include Query
       
@@ -63,7 +63,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         debug(options) {"Graph #{operands.first}"}
         graph_name, query = operands.first, operands.last

@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #         (order (?v)
     #           (bgp (triple ??0 :num ?v))))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Slice < Operator::Ternary
       include Query
       
@@ -42,7 +42,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         offset = operands[0] == :_ ? 0 : operands[0].to_i
         limit = operands[1] == :_ ? -1 : operands[1].to_i

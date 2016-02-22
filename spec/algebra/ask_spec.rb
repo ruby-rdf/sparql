@@ -5,12 +5,6 @@ require 'sparql/client'
 
 include SPARQL::Algebra
 
-::RSpec::Matchers.define :have_result_set do |expected|
-  match do |result|
-    expect(result.map(&:to_hash).to_set).to eq expected.to_set
-  end
-end
-
 describe SPARQL::Algebra::Query do
   EX = RDF::EX = RDF::Vocabulary.new('http://example.org/') unless const_defined?(:EX)
 

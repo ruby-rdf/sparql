@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (project (?v)
     #         (bgp (triple ?x ?p ?v)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Reduced < Operator::Unary
       include Query
       
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         @solutions = operands.last.
           execute(queryable, options.merge(depth: options[:depth].to_i + 1)).reduced

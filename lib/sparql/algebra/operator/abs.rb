@@ -14,8 +14,8 @@ module SPARQL; module Algebra
       NAME = [:abs]
 
       ##
-      # Returns the absolute value of the operand. An error is raised if operand is not a numeric value
-      #
+      # Returns the absolute value of `arg`. An error is raised if `arg` is not a numeric value.
+      # 
       # @param  [RDF::Literal] operand
       #   the operand
       # @return [RDF::Literal] literal of same type

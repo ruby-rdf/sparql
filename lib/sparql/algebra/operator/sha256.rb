@@ -5,6 +5,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `sha256` operator.
     #
+    # Returns the SHA256 checksum, as a hex digit string, calculated on the UTF-8 representation of the simple literal or lexical form of the `xsd:string`. Hex digits `SHOULD` be in lower case.
+    #
     # @example
     #     (prefix ((: <http://example.org/>))
     #       (project (?hash)

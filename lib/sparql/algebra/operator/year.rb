@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `year` operator.
     #
+    # Returns the year part of `arg` as an integer.
+    #
     # @example
     #     (prefix ((: <http://example.org/>))
     #       (project (?s ?x)

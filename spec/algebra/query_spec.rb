@@ -5,12 +5,6 @@ require 'sparql/client'
 
 include SPARQL::Algebra
 
-::RSpec::Matchers.define :have_result_set do |expected|
-  match do |result|
-    expect(result.map(&:to_hash)).to eq expected
-  end
-end
-
 describe SPARQL::Algebra::Query do
   EX = RDF::EX = RDF::Vocabulary.new('http://example.org/') unless const_defined?(:EX)
 
@@ -40,7 +34,7 @@ describe SPARQL::Algebra::Query do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p1 123.0)))))
-        expect(query.execute(graph).map(&:to_hash)).to eq [{s: EX.x1}]
+        expect(query.execute(graph)).to have_result_set [{s: EX.x1}]
       end
     end
 
@@ -291,30 +285,33 @@ describe SPARQL::Algebra::Query do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (slice _ 1
-              (project (?s)
-                (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x1 }]
+              (order (?s)
+                (project (?s)
+                  (bgp (triple ?s ?p ?o))))))))
+        expect(query.execute(graph)).to have_result_set [ { s: EX.target }]
       end
       
       it "(slice 1 2)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (slice 1 2
-              (project (?s)
-                (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x2 }, { s: EX.x3 }]
+              (order (?s)
+                (project (?s)
+                  (bgp (triple ?s ?p ?o))))))))
+        expect(query.execute(graph)).to have_result_set [ { s: EX.target2 }, { s: EX.x1 }]
       end
       
       it "(slice 5 _)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (slice 5 _
-              (project (?s)
-                (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x5 },
-                                                       { s: EX.x6 },
-                                                       { s: EX.target },
-                                                       { s: EX.target2 } ]
+              (order (?s)
+                (project (?s)
+                  (bgp (triple ?s ?p ?o))))))))
+        expect(query.execute(graph)).to have_result_set [ { s: EX.x4 },
+                                                       { s: EX.x5 },
+                                                       { s: EX.x5 },
+                                                       { s: EX.x6 } ]
       end
       
       # From sp2b benchmark, query 7 bgp 2
@@ -357,7 +354,7 @@ describe SPARQL::Algebra::Query do
                  (triple ?doc3 ex:refs ?bag3)
                  (triple ?bag3 ?member3 ?doc)))))
 
-        expect(query.execute(graph).map(&:to_hash)).to include(
+        expect(query.execute(graph)).to have_result_set [
           { doc3: EX.doc1, class3: EX.class1, bag3: EX.bag1, member3: RDF::Node.new('ref1'), doc: EX.doc11 },
           { doc3: EX.doc1, class3: EX.class1, bag3: EX.bag1, member3: RDF::Node.new('ref2'), doc: EX.doc12 },
           { doc3: EX.doc1, class3: EX.class1, bag3: EX.bag1, member3: RDF::Node.new('ref3'), doc: EX.doc13 },
@@ -367,7 +364,7 @@ describe SPARQL::Algebra::Query do
           { doc3: EX.doc3, class3: EX.class2, bag3: EX.bag3, member3: RDF::Node.new('ref1'), doc: EX.doc31 },
           { doc3: EX.doc3, class3: EX.class2, bag3: EX.bag3, member3: RDF::Node.new('ref2'), doc: EX.doc32 },
           { doc3: EX.doc3, class3: EX.class2, bag3: EX.bag3, member3: RDF::Node.new('ref3'), doc: EX.doc33 }
-        )
+        ]
       end
 
       # From sp2b benchmark, query 7 bgp 1
@@ -419,7 +416,7 @@ describe SPARQL::Algebra::Query do
                  (triple ?doc ex:refs ?bag)
                  (triple ?bag ?member ?doc2)))))
 
-        expect(query.execute(graph).map(&:to_hash)).to include(
+        expect(query.execute(graph)).to have_result_set [
           { doc: EX.doc1, class: EX.class1, bag: EX.bag1,
             member: RDF::Node.new('ref1'), doc2: EX.doc11, title: EX.title1 },
           { doc: EX.doc1, class: EX.class1, bag: EX.bag1,
@@ -438,7 +435,7 @@ describe SPARQL::Algebra::Query do
             member: RDF::Node.new('ref2'), doc2: EX.doc32, title: EX.title3 },
           { doc: EX.doc3, class: EX.class2, bag: EX.bag3,
             member: RDF::Node.new('ref3'), doc2: EX.doc33, title: EX.title3 },
-        )
+        ]
       end
 
       it "?s1 p ?o1 / ?s2 p ?o2" do
@@ -451,12 +448,12 @@ describe SPARQL::Algebra::Query do
             (bgp (triple ?s1 ex:p ?o1)
                  (triple ?s2 ex:p ?o2)))))
         # Use set comparison for unordered compare on 1.8.7
-        expect(query.execute(graph).map(&:to_hash).to_set).to eq [
+        expect(query.execute(graph)).to have_result_set [
           {s1: EX.x1, o1: RDF::Literal(1), s2: EX.x1, o2: RDF::Literal(1)},
           {s1: EX.x1, o1: RDF::Literal(1), s2: EX.x2, o2: RDF::Literal(2)},
           {s1: EX.x2, o1: RDF::Literal(2), s2: EX.x1, o2: RDF::Literal(1)},
           {s1: EX.x2, o1: RDF::Literal(2), s2: EX.x2, o2: RDF::Literal(2)},
-        ].to_set
+        ]
       end
     end
   end
@@ -481,7 +478,7 @@ describe SPARQL::Algebra::Query do
                 (bgp (triple ?s ?p ?o)))))
         },
         sse: true
-      ).map(&:to_hash)).to eq [
+      )).to have_result_set [
         {o: RDF::Literal(1)},
       ]
     end
@@ -509,7 +506,7 @@ describe SPARQL::Algebra::Query do
                 (bgp (triple ?s ?p ?o)))))
         },
         sse: true
-      ).map(&:to_hash)).to eq [
+      )).to have_result_set [
         {o: RDF.Property},
         {o: RDF::RDFS.Class},
       ]
@@ -544,7 +541,7 @@ describe SPARQL::Algebra::Query do
                 (bgp (triple ?x foaf:mbox ?mbox)))))
         },
         sse: true
-      ).map(&:to_hash)).to eq [
+      )).to have_result_set [
         {name: RDF::Literal.new("Alice"), mbox: RDF::URI("mailto:alice@example.com")},
         {name: RDF::Literal.new("Alice"), mbox: RDF::URI("mailto:alice@work.example")},
       ]
@@ -589,7 +586,7 @@ describe SPARQL::Algebra::Query do
                   (bgp (triple ?x dc:created ?created))))))
         },
         sse: true
-      ).map(&:to_hash)).to eq [
+      )).to have_result_set [
         {name: RDF::Literal.new("Alice")},
       ]
     end
@@ -619,7 +616,7 @@ describe SPARQL::Algebra::Query do
               (= ?v 2)))
         },
         sse: true
-      ).map(&:to_hash)).to include(
+      )).to have_result_set [
         { 
             v: RDF::Literal.new('2' , datatype: RDF::URI('http://www.w3.org/2001/XMLSchema#integer')),
             w: RDF::Literal.new('4' , datatype: RDF::URI('http://www.w3.org/2001/XMLSchema#integer')),
@@ -636,7 +633,7 @@ describe SPARQL::Algebra::Query do
             v: RDF::Literal.new('1' , datatype: RDF::URI('http://www.w3.org/2001/XMLSchema#integer')),
             x: RDF::URI('http://example/x1'),
         },
-      )
+      ]
     end
   end
   
@@ -668,12 +665,12 @@ describe SPARQL::Algebra::Query do
                 (bgp (triple ?book dc11:title ?title)))))
         },
         sse: true
-      ).map(&:to_hash)).to include(
+      )).to have_result_set [
         {title: RDF::Literal.new("SPARQL Query Language Tutorial")},
         {title: RDF::Literal.new("SPARQL Protocol Tutorial")},
         {title: RDF::Literal.new("SPARQL")},
         {title: RDF::Literal.new("SPARQL (updated)")},
-      )
+      ]
     end
   end
 
@@ -898,7 +895,7 @@ describe SPARQL::Algebra::Query do
             else
               expected = opts[:expected]
               actual = sparql_query({sse: true, graphs: repo}.merge(opts))
-              expect(actual.map(&:to_hash)).to include(*expected)
+              expect(actual).to have_result_set expected
               expect(actual.length).to produce(expected.length, [{actual: actual.map(&:to_hash), expected: expected.map(&:to_hash)}.to_sse])
             end
           end
@@ -953,20 +950,20 @@ describe SPARQL::Algebra::Query do
 
   context "query forms" do
     {
-      # @see http://www.w3.org/TR/rdf-sparql-query/#QSynIRI
+      # @see http://www.w3.org/TR/sparql11-query/#QSynIRI
       %q((base <http://example.org/>
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Base.new(
           RDF::URI("http://example.org/"),
           RDF::Query.new {pattern [RDF::URI("http://example.org/a"), RDF::URI("http://example.org/b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modDistinct
+      # @see http://www.w3.org/TR/sparql11-query/#modDistinct
       %q((distinct
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Distinct.new(
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+      # @see http://www.w3.org/TR/sparql11-query/#evaluation
       %q((exprlist (< ?x 1))) =>
         Operator::Exprlist.new(
           Operator::LessThan.new(Variable("x"), RDF::Literal.new(1))),
@@ -975,7 +972,7 @@ describe SPARQL::Algebra::Query do
           Operator::LessThan.new(Variable("x"), RDF::Literal.new(1)),
           Operator::GreaterThan.new(Variable("y"), RDF::Literal.new(1))),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+      # @see http://www.w3.org/TR/sparql11-query/#evaluation
       %q((filter
           (< ?x 1)
           (bgp (triple <a> <b> 123.0)))) =>
@@ -994,7 +991,7 @@ describe SPARQL::Algebra::Query do
             Operator::GreaterThan.new(Variable("y"), RDF::Literal.new(1))),
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#ebv
+      # @see http://www.w3.org/TR/sparql11-query/#ebv
       %q((filter ?x
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Filter.new(
@@ -1007,14 +1004,14 @@ describe SPARQL::Algebra::Query do
           Operator::Equal.new(Variable("x"), RDF::URI("a")),
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#namedAndDefaultGraph
+      # @see http://www.w3.org/TR/sparql11-query/#namedAndDefaultGraph
       %q((graph ?g
           (bgp  (triple <a> <b> 123.0)))) =>
         Operator::Graph.new(
           Variable("g"),
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       %q((join
           (bgp (triple <a> <b> 123.0))
           (bgp (triple <a> <b> 456.0)))) =>
@@ -1022,7 +1019,7 @@ describe SPARQL::Algebra::Query do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]},
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(456.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       %q((leftjoin
           (bgp (triple <a> <b> 123.0))
           (bgp (triple <a> <b> 456.0)))) =>
@@ -1038,7 +1035,7 @@ describe SPARQL::Algebra::Query do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(456.0)]},
           Operator::Bound.new(Variable("x"))),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modOrderBy
+      # @see http://www.w3.org/TR/sparql11-query/#modOrderBy
       %q((order (<a>)
           (bgp (triple <a> <b> ?o)))) =>
         Operator::Order.new(
@@ -1070,27 +1067,27 @@ describe SPARQL::Algebra::Query do
           [Variable(?a), Operator::Asc.new(RDF::Literal.new(1)), Operator::IsIRI.new(RDF::URI("b"))],
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), Variable("o")]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#QSynIRI
+      # @see http://www.w3.org/TR/sparql11-query/#QSynIRI
       %q((prefix ((ex: <http://example.org/>))
           (bgp (triple ?s ex:p1 123.0)))) =>
         Operator::Prefix.new(
           [[:"ex:", RDF::URI("http://example.org/")]],
           RDF::Query.new {pattern [RDF::Query::Variable.new("s"), EX.p1, RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modProjection
+      # @see http://www.w3.org/TR/sparql11-query/#modProjection
       %q((project (?s)
           (bgp (triple ?s <p> 123.0)))) =>
         Operator::Project.new(
           [Variable("s")],
           RDF::Query.new {pattern [Variable("s"), RDF::URI("p"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#modReduced
+      # @see http://www.w3.org/TR/sparql11-query/#modReduced
       %q((reduced
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Reduced.new(
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebraEval
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebraEval
       %q((slice _ 100
           (bgp (triple <a> <b> 123.0)))) =>
         Operator::Slice.new(
@@ -1103,14 +1100,14 @@ describe SPARQL::Algebra::Query do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlTriplePatterns
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlTriplePatterns
       %q((triple <a> <b> <c>)) => RDF::Query::Pattern.new(RDF::URI("a"), RDF::URI("b"), RDF::URI("c")),
       %q((triple ?a _:b "c")) => RDF::Query::Pattern.new(RDF::Query::Variable.new("a"), RDF::Node.new("b"), RDF::Literal.new("c")),
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlBasicGraphPatterns
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlBasicGraphPatterns
       %q((bgp (triple <a> <b> <c>))) => RDF::Query.new { pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]},
 
-      # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       %q((union
           (bgp (triple <a> <b> 123.0))
           (bgp (triple <a> <b> 456.0)))) =>

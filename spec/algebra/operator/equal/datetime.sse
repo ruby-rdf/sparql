@@ -1,7 +1,7 @@
 ##
 # op:dateTime-equal(A, B)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-equal
 
 (equal (= "2002-04-02T12:00:00-01:00"^^xsd:dateTime "2002-04-02T17:00:00+04:00"^^xsd:dateTime) true)

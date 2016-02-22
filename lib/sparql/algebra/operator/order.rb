@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #       (order ((asc ?name))
     #         (bgp (triple ?x foaf:name ?name)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#modOrderBy
+    # @see http://www.w3.org/TR/sparql11-query/#modOrderBy
     class Order < Operator::Binary
       include Query
       
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
 
         debug(options) {"Order"}

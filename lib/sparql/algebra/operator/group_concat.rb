@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `groupconcat` set function.
     #
+    # GroupConcat is a set function which performs a string concatenation across the values of an expression with a group. The order of the strings is not specified. The separator character used in the concatenation may be given with the scalar argument SEPARATOR.
+    #
     # @example
     #    (prefix ((: <http://www.example.org/>))
     #      (filter (|| (= ?g "1 22") (= ?g "22 1"))

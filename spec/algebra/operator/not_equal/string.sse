@@ -2,7 +2,7 @@
 # fn:not(op:numeric-equal(fn:compare(A, B), 0))
 # fn:not(op:numeric-equal(fn:compare(STR(A), STR(B)), 0))
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-compare
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-equal
 # @see http://www.w3.org/TR/xpath-functions/#func-not

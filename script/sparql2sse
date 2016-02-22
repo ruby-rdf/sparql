@@ -40,7 +40,7 @@ rescue Exception => e
 end
 
 $output_format = :ntriples
-$input_format = :n3
+$input_format = :turtle
 input = nil
 
 parser_options = {

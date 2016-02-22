@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `minutes` operator.
     #
+    # Returns the minutes part of the lexical form of `arg`. The value is as given in the lexical form of the XSD dateTime.
+    #
     # @example
     #     (prefix ((: <http://example.org/>))
     #       (project (?s ?x)

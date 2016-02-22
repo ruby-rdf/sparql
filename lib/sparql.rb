@@ -3,7 +3,7 @@ require 'sparql/extensions'
 ##
 # A SPARQL for RDF.rb.
 #
-# @see http://www.w3.org/TR/rdf-sparql-query
+# @see http://www.w3.org/TR/sparql11-query
 module SPARQL
   autoload :Algebra, 'sparql/algebra'
   autoload :Grammar, 'sparql/grammar'

@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #       (filter (= ?v 2)
     #         (bgp (triple ?s <http://example/p> ?v)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+    # @see http://www.w3.org/TR/sparql11-query/#evaluation
     class Filter < Operator::Binary
       include Query
       
@@ -34,8 +34,8 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#ebv
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#ebv
       def execute(queryable, options = {}, &block)
         debug(options) {"Filter #{operands.first.to_sxp}"}
         opts = options.merge(queryable: queryable, depth: options[:depth].to_i + 1)

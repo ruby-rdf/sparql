@@ -14,7 +14,7 @@ module SPARQL; module Algebra
       NAME = :contains
 
       ##
-      # The CONTAINS function corresponds to the XPath fn:contains. The arguments must be argument compatible otherwise an error is raised.
+      # The `CONTAINS` function corresponds to the XPath fn:contains. The arguments must be argument compatible otherwise an error is raised.
       #
       # @example
       #    contains("foobar", "bar") #=> true

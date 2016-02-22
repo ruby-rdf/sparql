@@ -14,7 +14,7 @@ module SPARQL; module Algebra
     #           (triple ?s :q ?w)
     #         ))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+    # @see http://www.w3.org/TR/sparql11-query/#evaluation
     class Exprlist < Operator
       include Evaluatable
 

@@ -5,7 +5,7 @@
 #
 # Semantically, this operation performs no operation.
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-plus
 
 (equal (+ 0)    0)
@@ -24,7 +24,7 @@
 # Now implemented as part of plus
 # op:numeric-add(A, B)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-add
 
 (equal (+ 0.0 +INF)  +INF)

@@ -2,31 +2,33 @@ source "https://rubygems.org"
 
 gemspec
 
-gem "rdf",            git: "git://github.com/ruby-rdf/rdf.git", branch: "develop"
-gem "rdf-xsd",        git: "git://github.com/ruby-rdf/rdf-xsd.git", branch: "develop"
-gem 'ebnf',           git: "git://github.com/gkellogg/ebnf.git", branch: "develop"
-gem 'rdf-aggregate-repo', git: "git://github.com/ruby-rdf/rdf-aggregate-repo.git", branch: "develop"
-gem 'sparql-client',  git: "git://github.com/ruby-rdf/sparql-client.git", branch: "develop"
-gem 'sxp',            git: "git://github.com/gkellogg/sxp-ruby.git"
+gem 'ebnf',               github: "gkellogg/ebnf",                branch: "develop"
+gem 'rdf',                github: "ruby-rdf/rdf",                 branch: "develop"
+gem 'rdf-aggregate-repo', github: "ruby-rdf/rdf-aggregate-repo",  branch: "develop"
+gem "rdf-xsd",            github: "ruby-rdf/rdf-xsd",             branch: "develop"
+gem 'sparql-client',      github: "ruby-rdf/sparql-client",       branch: "develop"
+gem 'sxp',                github: "gkellogg/sxp-ruby"
 
 group :development do
-  gem "linkeddata",     git: "git://github.com/ruby-rdf/linkeddata.git", branch: "develop"
-  gem 'rdf-isomorphic', git: "git://github.com/ruby-rdf/rdf-isomorphic.git", branch: "develop"
-  gem 'rdf-json',       git: "git://github.com/ruby-rdf/rdf-json.git", branch: "develop"
-  gem 'rdf-microdata',  git: "git://github.com/ruby-rdf/rdf-microdata.git", branch: "develop"
-  gem 'rdf-n3',         git: "git://github.com/ruby-rdf/rdf-n3.git", branch: "develop"
-  gem 'rdf-rdfa',       git: "git://github.com/ruby-rdf/rdf-rdfa.git", branch: "develop"
-  gem 'rdf-rdfxml',     git: "git://github.com/ruby-rdf/rdf-rdfxml.git", branch: "develop"
-  gem "rdf-spec",       git: "git://github.com/ruby-rdf/rdf-spec.git", branch: "develop"
-  gem 'rdf-trig',       git: "git://github.com/ruby-rdf/rdf-trig.git", branch: "develop"
-  gem 'rdf-trix',       git: "git://github.com/ruby-rdf/rdf-trix.git", branch: "develop"
-  gem 'rdf-turtle',     git: "git://github.com/ruby-rdf/rdf-turtle.git", branch: "develop"
-  gem 'rdf-vocab',      git: "git://github.com/ruby-rdf/rdf-vocab.git", branch: "develop"
-  gem 'json-ld',        git: "git://github.com/ruby-rdf/json-ld.git", branch: "develop"
-  gem "equivalent-xml", '>= 0.2.8'
-  gem 'psych', platforms: [:mri, :rbx]
-  gem 'simplecov',      require: false
-  gem 'coveralls',      require: false
+  gem 'json-ld',          github: "ruby-rdf/json-ld",             branch: "develop"
+  gem 'linkeddata',       github: "ruby-rdf/linkeddata",          branch: "develop"
+  gem 'rdf-isomorphic',   github: "ruby-rdf/rdf-isomorphic",      branch: "develop"
+  gem 'rdf-json',         github: "ruby-rdf/rdf-json",            branch: "develop"
+  gem 'rdf-microdata',    github: "ruby-rdf/rdf-microdata",       branch: "develop"
+  gem 'rdf-n3',           github: "ruby-rdf/rdf-n3",              branch: "develop"
+  gem 'rdf-rdfa',         github: "ruby-rdf/rdf-rdfa",            branch: "develop"
+  gem 'rdf-reasoner',     github: "ruby-rdf/rdf-reasoner",        branch: "develop"
+  gem 'rdf-rdfxml',       github: "ruby-rdf/rdf-rdfxml",          branch: "develop"
+  gem "rdf-spec",         github: "ruby-rdf/rdf-spec",            branch: "develop"
+  gem 'rdf-tabular',      github: "ruby-rdf/rdf-tabular",         branch: "develop"
+  gem 'rdf-trig',         github: "ruby-rdf/rdf-trig",            branch: "develop"
+  gem 'rdf-trix',         github: "ruby-rdf/rdf-trix",            branch: "develop"
+  gem 'rdf-turtle',       github: "ruby-rdf/rdf-turtle",          branch: "develop"
+  gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
+  gem "equivalent-xml",   '>= 0.2.8'
+  gem 'psych',            platforms: [:mri, :rbx]
+  gem 'simplecov',        require: false
+  gem 'coveralls',        require: false
 end
 
 group :debug do

@@ -3,13 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `exists` operator.
     #
+    # There is a filter operator EXISTS that takes a graph pattern. EXISTS returns `true`/`false` depending on whether the pattern matches the dataset given the bindings in the current group graph pattern, the dataset and the active graph at this point in the query evaluation. No additional binding of variables occurs. The `NOT EXISTS` form translates into `fn:not(EXISTS{...})`.
+    #
     # @example
     #    (prefix ((ex: <http://www.example.org/>))
     #      (filter (exists (bgp (triple ?s ?p ex:o)))
     #      (bgp (triple ?s ?p ?o))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-abs
-    # @see http://www.w3.org/TR/xpath-functions/#func-abs
+    # @see http://www.w3.org/TR/sparql11-query/#func-filter-exists
     class Exists < Operator::Unary
       include Evaluatable
 

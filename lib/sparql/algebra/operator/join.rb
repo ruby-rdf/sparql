@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (graph ?g
     #         (bgp (triple ?s ?q ?v)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Join < Operator::Binary
       include Query
       
@@ -31,7 +31,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#merge-instance_method
       # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#compatible%3F-instance_method
       def execute(queryable, options = {}, &block)

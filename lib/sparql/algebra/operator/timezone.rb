@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `timezone` operator.
     #
+    # Returns the timezone part of `arg` as an xsd:dayTimeDuration. Raises an error if there is no timezone.
+    #
     # @example
     #     (prefix ((: <http://example.org/>))
     #       (project (?s ?x)

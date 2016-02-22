@@ -4,7 +4,7 @@
 # Returns `true` if the left operand is `true` and the right operand is
 # `false`. Otherwise, returns `false`.
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-boolean-greater-than
 
 (equal (> true  true)  false)

@@ -1,8 +1,8 @@
 ##
 # isBlank(A)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-isBlank
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#func-isBlank
 
 (equal (isBlank _:foobar) true)
 

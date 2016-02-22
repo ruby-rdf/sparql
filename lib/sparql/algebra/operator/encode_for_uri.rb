@@ -16,7 +16,7 @@ module SPARQL; module Algebra
       NAME = :encode_for_uri
 
       ##
-      # The ENCODE_FOR_URI function corresponds to the XPath fn:encode-for-uri function. It returns a simple literal with the lexical form obtained from the lexical form of its input after translating reserved characters according to the fn:encode-for-uri function.
+      # The `ENCODE_FOR_URI` function corresponds to the XPath fn:encode-for-uri function. It returns a simple literal with the lexical form obtained from the lexical form of its input after translating reserved characters according to the fn:encode-for-uri function.
       #
       # @example
       #     encode_for_uri("Los Angeles")	"Los%20Angeles"

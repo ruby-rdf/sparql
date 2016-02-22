@@ -647,7 +647,7 @@ module SPARQL; module Algebra
     # @param  [RDF::Literal] literal
     # @return [RDF::Literal::Boolean] `true` or `false`
     # @raise  [TypeError] if the literal could not be coerced to an `RDF::Literal::Boolean`
-    # @see    http://www.w3.org/TR/rdf-sparql-query/#ebv
+    # @see    http://www.w3.org/TR/sparql11-query/#ebv
     def boolean(literal)
       case literal
         when FalseClass then RDF::Literal::FALSE

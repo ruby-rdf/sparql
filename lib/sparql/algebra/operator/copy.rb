@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     # @example
     #   (copy silent <iri> to default)
     #
-    # @see hhttp://www.w3.org/TR/sparql11-update/#copy
+    # @see http://www.w3.org/TR/sparql11-update/#copy
     class Copy < Operator
       include SPARQL::Algebra::Update
 

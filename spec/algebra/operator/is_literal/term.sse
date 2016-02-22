@@ -1,8 +1,8 @@
 ##
 # isLiteral(A)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
-# @see http://www.w3.org/TR/rdf-sparql-query/#func-isLiteral
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#func-isLiteral
 
 (equal (isLiteral "foobar") true)
 (equal (isLiteral "Hello"@en) true)

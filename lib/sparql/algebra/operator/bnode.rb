@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `bnode` operator.
     #
+    # The BNODE function constructs a blank node that is distinct from all blank nodes in the dataset being queried and distinct from all blank nodes created by calls to this constructor for other query solutions. If the no argument form is used, every call results in a distinct blank node. If the form with a simple literal is used, every call results in distinct blank nodes for different simple literals, and the same blank node for calls with the same simple literal within expressions for one solution mapping.
+    #
     # @example
     #     (prefix ((: <http://example.org/>)
     #              (xsd: <http://www.w3.org/2001/XMLSchema#>))

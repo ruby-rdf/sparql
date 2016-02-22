@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #       (extend ((?z (+ ?o 10)))
     #         (bgp (triple ?s <http://example/p> ?o)))))
     #
-    # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+    # @see http://www.w3.org/TR/sparql11-query/#evaluation
     class Extend < Operator::Binary
       include Query
       
@@ -38,7 +38,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see http://www.w3.org/TR/rdf-sparql-query/#evaluation
+      # @see http://www.w3.org/TR/sparql11-query/#evaluation
       def execute(queryable, options = {}, &block)
         debug(options) {"Extend"}
         @solutions = operand(1).execute(queryable, options.merge(depth: options[:depth].to_i + 1))

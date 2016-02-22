@@ -7,15 +7,14 @@ require 'rspec'
 require 'rdf'
 require 'rdf/isomorphic'
 require 'rdf/turtle'
-require 'rdf/n3'
 require 'rdf/vocab'
 
 require 'simplecov'
 require 'coveralls'
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter[
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::HTMLFormatter,
   Coveralls::SimpleCov::Formatter
-]
+])
 SimpleCov.start do
   add_filter "/spec/"
 end

@@ -1,7 +1,7 @@
 ##
 # op:numeric-multiply(A, B)
 #
-# @see http://www.w3.org/TR/rdf-sparql-query/#OperatorMapping
+# @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
 # @see http://www.w3.org/TR/xpath-functions/#func-numeric-multiply
 
 (equal (* 0.0e0 +INF)  NaN)

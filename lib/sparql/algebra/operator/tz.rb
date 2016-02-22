@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `tz` operator.
     #
+    # Returns the timezone part of `arg` as a simple literal. Returns the empty string if there is no timezone.
+    #
     # @example
     #     (prefix ((: <http://example.org/>))
     #       (project (?s ?x)

@@ -34,7 +34,7 @@ module SPARQL; module Algebra
       #   each matching solution
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
-      # @see    http://www.w3.org/TR/rdf-sparql-query/#sparqlAlgebra
+      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {})
         debug(options) {"Sequence #{operands.to_sse}"}
 
