@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
 
   gem.name               = "sparql"
   gem.homepage           = "http://github.com/ruby-rdf/sparql"
-  gem.license            = 'Public Domain' if gem.respond_to?(:license=)
+  gem.license            = 'Unlicense'
   gem.summary            = "SPARQL Query and Update library for Ruby."
   gem.rubyforge_project  = 'sparql'
 
@@ -37,7 +37,7 @@ Gem::Specification.new do |gem|
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',                '>= 2.0.0.beta', '< 3'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '>= 2.0.0.beta', '< 3'
-  gem.add_runtime_dependency     'ebnf',               '~> 1.0', '>= 1.0.1'
+  gem.add_runtime_dependency     'ebnf',               '~> 1.0', '>= 1.0.1.beta'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
   gem.add_runtime_dependency     'sxp',                '>= 1.0.0.beta', '< 2'
   gem.add_runtime_dependency     'sparql-client',      '>= 2.0.0.beta', '< 3'
