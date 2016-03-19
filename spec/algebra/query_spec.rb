@@ -16,7 +16,7 @@ describe SPARQL::Algebra::Query do
       expect(sse.predicate.lexical).to eq 'a'
     end
   end
-  
+
   context "BGPs" do
     context "querying for a specific statement" do
       let(:graph) {RDF::Graph.new.insert([EX.x1, EX.p1, EX.x2])}
@@ -146,7 +146,7 @@ describe SPARQL::Algebra::Query do
                                                        { s: EX.target },
                                                        { s: EX.target2 }]
       end
-      
+
       it "(filter (isLiteral ?o))" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -156,7 +156,7 @@ describe SPARQL::Algebra::Query do
                                                        { s: EX.x2, o: RDF::Literal.new(2) },
                                                        { s: EX.x3, o: RDF::Literal.new(3) }]
       end
-      
+
       it "(filter (< ?o 3))" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -165,7 +165,7 @@ describe SPARQL::Algebra::Query do
         expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
                                                        { s: EX.x2, o: RDF::Literal.new(2) }]
       end
-      
+
       it "(filter (exprlist (> ?o 1) (< ?o 3)))" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -173,7 +173,7 @@ describe SPARQL::Algebra::Query do
               (bgp (triple ?s ex:p ?o))))))
         expect(query.execute(graph)).to have_result_set [ { s: EX.x2, o: RDF::Literal.new(2) }]
       end
-      
+
       it "(order ?o)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -204,7 +204,7 @@ describe SPARQL::Algebra::Query do
                                                        { s: EX.x1, o: RDF::Literal.new(1) }]
       end
 
-      it "(order ?o)(table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o \"example.org\")) (row (?o <http://www.example.org/>)))" do
+      it "((order ?o) (table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o \"example.org\")) (row (?o <http://www.example.org/>))))" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (order (?o)
@@ -215,7 +215,7 @@ describe SPARQL::Algebra::Query do
                                                        { o: RDF::Literal.new('example.org') }]
       end
 
-      it "(order ?o)(table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o \"example.org\")) (row (?o <http://www.example.org/>)))" do
+      it "((order ?o) (table (vars ?o) (row (?o _:1)) (row (?o undef)) (row (?o \"example.org\")) (row (?o <http://www.example.org/>))))" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (order (?o ?o2)
@@ -264,7 +264,7 @@ describe SPARQL::Algebra::Query do
               (bgp (triple ex:x1 ?p ?o))))))
         expect(query.execute(graph)).to have_result_set [ { o: RDF::Literal(1) } ]
       end
-      
+
       it "(reduced ?s)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -280,7 +280,7 @@ describe SPARQL::Algebra::Query do
                                                        { s: EX.target },
                                                        { s: EX.target2 }]
       end
-      
+
       it "(slice _ 1)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -290,7 +290,7 @@ describe SPARQL::Algebra::Query do
                   (bgp (triple ?s ?p ?o))))))))
         expect(query.execute(graph)).to have_result_set [ { s: EX.target }]
       end
-      
+
       it "(slice 1 2)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -300,7 +300,7 @@ describe SPARQL::Algebra::Query do
                   (bgp (triple ?s ?p ?o))))))))
         expect(query.execute(graph)).to have_result_set [ { s: EX.target2 }, { s: EX.x1 }]
       end
-      
+
       it "(slice 5 _)" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
@@ -313,7 +313,7 @@ describe SPARQL::Algebra::Query do
                                                        { s: EX.x5 },
                                                        { s: EX.x6 } ]
       end
-      
+
       # From sp2b benchmark, query 7 bgp 2
       it "?class3 p o / ?doc3 p2 ?class3 / ?doc3 p3 ?bag3 / ?bag3 ?member3 ?doc" do
         graph << [EX.class1, EX.subclass, EX.document]
@@ -458,6 +458,117 @@ describe SPARQL::Algebra::Query do
     end
   end
 
+  context "aggregates" do
+    let(:graph) {
+      RDF::Graph.new do |g|
+        # simple patterns
+        g << [EX.x1, EX.p, 1]
+        g << [EX.x1, EX.p, 2]
+        g << [EX.x1, EX.p, 3]
+        g << [EX.x2, EX.p, 3]
+      end
+    }
+
+    it "(count)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (count)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(4)}]
+    end
+
+    it "(count ?s)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (count ?s)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(4)}]
+    end
+
+    it "(count distinct ?s)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (count distinct ?s)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(2)}]
+    end
+
+    it "(sum ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (sum ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(9)}]
+    end
+
+    it "(sum distinct ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (sum distinct ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(6)}]
+    end
+
+    it "(min ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (min ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(1)}]
+    end
+
+    it "(min distinct ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (min distinct ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(1)}]
+    end
+
+    it "(max ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (max ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(3)}]
+    end
+
+    it "(max distinct ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (max distinct ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(3)}]
+    end
+
+    it "(avg ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (avg ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal::Decimal.new(2.25)}]
+    end
+
+    it "(avg distinct ?o)" do
+      query = SPARQL::Algebra::Expression.parse(%q(
+      (project (?c)
+       (extend ((?c ?.0))
+         (group () ((?.0 (avg distinct ?o)))
+           (bgp (triple ?s ?p ?o)))))))
+      expect(query.execute(graph)).to have_result_set [{c: RDF::Literal::Decimal.new(2)}]
+    end
+  end
+
   context "in" do
     it "Finds value in literals" do
       expect(sparql_query(
@@ -512,7 +623,7 @@ describe SPARQL::Algebra::Query do
       ]
     end
   end
-  
+
   context "join" do
     it "passes data/extracted-examples/query-4.1" do
       expect(sparql_query(
@@ -546,18 +657,18 @@ describe SPARQL::Algebra::Query do
         {name: RDF::Literal.new("Alice"), mbox: RDF::URI("mailto:alice@work.example")},
       ]
     end
-    
+
     it "parses" do
       query = %q(
           (join
             (bgp (triple :x :b ?a))
             (graph ?g2
               (bgp (triple :x :p ?x)))))
-      
+
       expect(SPARQL::Algebra.parse(query)).to be_a(SPARQL::Algebra::Operator::Join)
     end
   end
-  
+
   context "leftjoin" do
     it "passes data/examples/ex11.2.3.2_1" do
       expect(sparql_query(
@@ -636,7 +747,7 @@ describe SPARQL::Algebra::Query do
       ]
     end
   end
-  
+
   context "union" do
     it "passes data/extracted-examples/query-6.1" do
       expect(sparql_query(
@@ -1118,7 +1229,7 @@ describe SPARQL::Algebra::Query do
       it "generates SSE for #{sse}" do
         expect(SXP::Reader::SPARQL.read(sse)).to eq operator.to_sxp_bin
       end
-    
+
       it "parses SSE for #{sse}" do
         expect(SPARQL::Algebra::Expression.parse(sse)).to eq operator
       end
@@ -1148,7 +1259,7 @@ describe SPARQL::Algebra::Query do
       query = SPARQL::Algebra::Expression.parse(%q((dataset ((named <data-g1.ttl>)) (bgp))))
       query.execute(queryable)
     end
-    
+
     it "raises error when loading into an immutable queryable" do
       queryable = RDF::Graph.new
       expect(queryable).to receive(:immutable?).and_return(true)
