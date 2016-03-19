@@ -13,7 +13,7 @@ Gem::Specification.new do |gem|
 
   gem.name               = "sparql"
   gem.homepage           = "http://github.com/ruby-rdf/sparql"
-  gem.license            = 'Public Domain' if gem.respond_to?(:license=)
+  gem.license            = 'Unlicense'
   gem.summary            = "SPARQL Query and Update library for Ruby."
   gem.rubyforge_project  = 'sparql'
 
