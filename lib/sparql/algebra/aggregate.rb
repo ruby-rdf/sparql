@@ -15,6 +15,8 @@ module SPARQL; module Algebra
     # Aggregates this operator accross its operands using
     # a solutions enumerable.
     #
+    # The first operand may be :distinct, in which case the result of applying the rest of the operands is uniqued before applying the expression.
+    #
     # @param  [Enumerable<RDF::Query::Solution>] solutions ([])
     #   an enumerable set of query solutions
     # @param [Hash{Symbol => Object}] options ({})
@@ -23,6 +25,7 @@ module SPARQL; module Algebra
     # @raise [TypeError]
     # @abstract
     def aggregate(solutions = [], options = {})
+      operands.shift if distinct = (operands.first == :distinct)
       args_enum = solutions.map do |solution|
         operands.map do |operand|
           begin
@@ -33,7 +36,7 @@ module SPARQL; module Algebra
           end
         end.compact
       end
-      apply(args_enum)
+      apply(distinct ? args_enum.uniq : args_enum)
     end
 
     ##

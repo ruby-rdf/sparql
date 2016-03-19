@@ -18,8 +18,9 @@ module SPARQL; module Algebra
       include Aggregate
 
       NAME = :group_concat
+
       ##
-      # One or two operands, the second operand, if it exists, is a separator, defaulting to ' '.
+      # One, two or three operands, the first may be `distinct`, the last operand, if it exists, is a separator, defaulting to ' '.
       #
       # @param  [Enumerable<RDF::Query::Solution>] solutions ([])
       #   an enumerable set of query solutions
@@ -29,6 +30,7 @@ module SPARQL; module Algebra
       # @raise [TypeError]
       # @abstract
       def aggregate(solutions = [], options = {})
+        operands.shift if distinct = (operands.first == :distinct)
         sep = operands.length == 2 ? operand(0).last : RDF::Literal(' ')
         args_enum = solutions.map do |solution|
           begin
@@ -38,9 +40,8 @@ module SPARQL; module Algebra
             nil
           end
         end
-        apply(args_enum, sep)
+        apply(distinct ? args_enum.uniq : args_enum, sep)
       end
-
 
       ##
       # GroupConcat is a set function which performs a string concatenation across the values of an expression with a group. The order of the strings is not specified. The separator character used in the concatenation may be given with the scalar argument SEPARATOR.
