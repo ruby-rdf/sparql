@@ -7,7 +7,7 @@ gem 'rdf',                github: "ruby-rdf/rdf",                 branch: "devel
 gem 'rdf-aggregate-repo', github: "ruby-rdf/rdf-aggregate-repo",  branch: "develop"
 gem "rdf-xsd",            github: "ruby-rdf/rdf-xsd",             branch: "develop"
 gem 'sparql-client',      github: "ruby-rdf/sparql-client",       branch: "develop"
-gem 'sxp',                github: "gkellogg/sxp-ruby"
+gem 'sxp',                github: "gkellogg/sxp-ruby",            branch: "develop"
 
 group :development do
   gem 'json-ld',          github: "ruby-rdf/json-ld",             branch: "develop"
@@ -25,6 +25,7 @@ group :development do
   gem 'rdf-trix',         github: "ruby-rdf/rdf-trix",            branch: "develop"
   gem 'rdf-turtle',       github: "ruby-rdf/rdf-turtle",          branch: "develop"
   gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
+  gem 'ld-patch',         github: "gkellogg/ld-patch",            branch: "develop"
   gem "equivalent-xml",   '>= 0.2.8'
   gem 'psych',            platforms: [:mri, :rbx]
   gem 'simplecov',        require: false
