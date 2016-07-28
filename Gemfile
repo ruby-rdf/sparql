@@ -7,7 +7,7 @@ gem 'rdf',                github: "ruby-rdf/rdf",                 branch: "devel
 gem 'rdf-aggregate-repo', github: "ruby-rdf/rdf-aggregate-repo",  branch: "develop"
 gem "rdf-xsd",            github: "ruby-rdf/rdf-xsd",             branch: "develop"
 gem 'sparql-client',      github: "ruby-rdf/sparql-client",       branch: "develop"
-gem 'sxp',                github: "gkellogg/sxp-ruby",            branch: "develop"
+gem 'sxp',                github: "dryruby/sxp.rb",               branch: "develop"
 
 group :development do
   gem 'json-ld',          github: "ruby-rdf/json-ld",             branch: "develop"

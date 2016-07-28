@@ -24,7 +24,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
 * Implementation Report: {file:etc/earl.html EARL}
-* Compatible with Ruby >= 1.9.3.
+* Compatible with Ruby >= 2.2.2.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on all versions of Ruby.
 

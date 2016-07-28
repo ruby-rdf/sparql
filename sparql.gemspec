@@ -1,12 +1,6 @@
 #!/usr/bin/env ruby -rubygems
 # -*- encoding: utf-8 -*-
 
-begin
-  RUBY_ENGINE
-rescue NameError
-  RUBY_ENGINE = "ruby"  # Not defined in Ruby 1.8.7
-end
-
 Gem::Specification.new do |gem|
   gem.version            = File.read('VERSION').chomp
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
@@ -33,7 +27,7 @@ Gem::Specification.new do |gem|
     Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
     and includes SPARQL Client for accessing remote repositories.)
 
-  gem.required_ruby_version      = '>= 2.0'
+  gem.required_ruby_version      = '>= 2.2.2'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',                '~> 2.0'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 2.0'
