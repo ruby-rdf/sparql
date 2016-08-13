@@ -36,7 +36,6 @@ group :debug do
   gem 'shotgun'  unless ENV['CI']
   gem 'pry'
   gem 'pry-byebug', platforms: :mri
-  gem "wirble"
   gem 'redcarpet', platforms: :ruby
   gem 'ruby-prof', platforms: :mri
 end
