@@ -40,10 +40,10 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'sinatra',            '~> 1.4', '>= 1.4.6'
   gem.add_development_dependency 'rack',               '~> 1.6'
   gem.add_development_dependency 'rack-test',          '~> 0.6'
-  gem.add_development_dependency 'linkeddata',         '>= 1.99', '< 3'
+  gem.add_development_dependency 'linkeddata',         '~> 2.0'
   gem.add_development_dependency 'rdf-spec',           '~> 2.0'
   gem.add_development_dependency 'open-uri-cached',    '~> 0.0', '>= 0.0.5'
-  gem.add_development_dependency 'rspec',              '~> 3.2'
+  gem.add_development_dependency 'rspec',              '~> 3.5'
   gem.add_development_dependency 'rspec-its',          '~> 1.2'
   gem.add_development_dependency 'yard' ,              '~> 0.8'
 
