@@ -136,6 +136,6 @@ module SPARQL::Grammar
       "DELETE DATA",
       "DELETE WHERE",
       "INSERT DATA",
-    ]).inject({}) {|memo, t| memo[t.sub(' ', '_').downcase] = t; memo}.freeze
+    ]).inject({}) {|memo, t| memo[t.downcase] = t; memo}.freeze
   end
 end
