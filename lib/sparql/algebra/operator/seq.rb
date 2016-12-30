@@ -51,10 +51,10 @@ module SPARQL; module Algebra
         end
 
         left = queryable.query(q1, options.merge(object: v, depth: options[:depth].to_i + 1))
-        debug(options) {"(seq)=>(left) #{left.map(&:to_hash).to_sse}"}
+        debug(options) {"(seq)=>(left) #{left.map(&:to_h).to_sse}"}
 
         right = queryable.query(q2, options.merge(subject: v, depth: options[:depth].to_i + 1))
-        debug(options) {"(seq)=>(right) #{right.map(&:to_hash).to_sse}"}
+        debug(options) {"(seq)=>(right) #{right.map(&:to_h).to_sse}"}
 
         @solutions = RDF::Query::Solutions(left.map do |s1|
           right.map do |s2|
@@ -64,7 +64,7 @@ module SPARQL; module Algebra
           solution.bindings.delete(v.to_sym)
           solution
         end
-        debug(options) {"(seq)=> #{@solutions.map(&:to_hash).to_sse}"}
+        debug(options) {"(seq)=> #{@solutions.map(&:to_h).to_sse}"}
         @solutions.each(&block) if block_given?
         @solutions
       end

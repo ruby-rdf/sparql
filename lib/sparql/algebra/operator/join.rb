@@ -42,15 +42,15 @@ module SPARQL; module Algebra
         debug(options) {"Join #{operands.to_sse}"}
  
         left = queryable.query(operand(0), options.merge(depth: options[:depth].to_i + 1))
-        debug(options) {"(join)=>(left) #{left.map(&:to_hash).to_sse}"}
+        debug(options) {"(join)=>(left) #{left.map(&:to_h).to_sse}"}
 
         right = queryable.query(operand(1), options.merge(depth: options[:depth].to_i + 1))
-        debug(options) {"(join)=>(right) #{right.map(&:to_hash).to_sse}"}
+        debug(options) {"(join)=>(right) #{right.map(&:to_h).to_sse}"}
 
         @solutions = RDF::Query::Solutions(left.map do |s1|
           right.map { |s2| s2.merge(s1) if s2.compatible?(s1) }
         end.flatten.compact)
-        debug(options) {"(join)=> #{@solutions.map(&:to_hash).to_sse}"}
+        debug(options) {"(join)=> #{@solutions.map(&:to_h).to_sse}"}
         @solutions.each(&block) if block_given?
         @solutions
       end

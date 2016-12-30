@@ -39,22 +39,22 @@ module SPARQL; module Algebra
         debug(options) {"Sequence #{operands.to_sse}"}
 
         last = queryable.query(operands.shift, options.merge(depth: options[:depth].to_i + 1))
-        debug(options) {"(sequence)=>(last) #{last.map(&:to_hash).to_sse}"}
+        debug(options) {"(sequence)=>(last) #{last.map(&:to_h).to_sse}"}
 
         operands.each do |op|
           this = queryable.query(op, options.merge(depth: options[:depth].to_i + 1))
-          debug(options) {"(sequence)=>(this) #{this.map(&:to_hash).to_sse}"}
+          debug(options) {"(sequence)=>(this) #{this.map(&:to_h).to_sse}"}
 
           last = last.map do |s1|
             this.map do |s2|
               s2.merge(s1) if s2.compatible?(s1)
             end
           end.flatten.compact
-          debug(options) {"(sequence)=>(next) #{last.map(&:to_hash).to_sse}"}
+          debug(options) {"(sequence)=>(next) #{last.map(&:to_h).to_sse}"}
         end
 
         @solutions = RDF::Query::Solutions.new(last)
-        debug(options) {"(sequence)=> #{@solutions.map(&:to_hash).to_sse}"}
+        debug(options) {"(sequence)=> #{@solutions.map(&:to_h).to_sse}"}
         @solutions.each(&block) if block_given?
         @solutions
       end

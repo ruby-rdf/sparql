@@ -27,5 +27,5 @@ query = SPARQL::Algebra.parse(sse)
 solutions = query.execute(rep, debug: true)
 
 solutions.each_solution do |s|
-  puts s.to_hash
+  puts s.to_h
 end

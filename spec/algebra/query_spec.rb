@@ -1007,7 +1007,7 @@ describe SPARQL::Algebra::Query do
               expected = opts[:expected]
               actual = sparql_query({sse: true, graphs: repo}.merge(opts))
               expect(actual).to have_result_set expected
-              expect(actual.length).to produce(expected.length, [{actual: actual.map(&:to_hash), expected: expected.map(&:to_hash)}.to_sse])
+              expect(actual.length).to produce(expected.length, [{actual: actual.map(&:to_h), expected: expected.map(&:to_h)}.to_sse])
             end
           end
         end

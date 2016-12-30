@@ -43,10 +43,10 @@ module SPARQL; module Algebra
         queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1)) do |solution|
           begin
             pass = boolean(operands.first.evaluate(solution, opts)).true?
-            debug(options) {"(filter) #{pass.inspect} #{solution.to_hash.inspect}"}
+            debug(options) {"(filter) #{pass.inspect} #{solution.to_h.inspect}"}
             @solutions << solution if pass
           rescue
-            debug(options) {"(filter) rescue(#{$!}): #{solution.to_hash.inspect}"}
+            debug(options) {"(filter) rescue(#{$!}): #{solution.to_h.inspect}"}
           end
         end
         @solutions.each(&block) if block_given?

@@ -43,7 +43,7 @@ module SPARQL; module Algebra
         debug(options) {"Extend"}
         @solutions = operand(1).execute(queryable, options.merge(depth: options[:depth].to_i + 1))
         @solutions.each do |solution|
-          debug(options) {"===> soln #{solution.to_hash.inspect}"}
+          debug(options) {"===> soln #{solution.to_h.inspect}"}
           operand(0).each do |(var, expr)|
             begin
               val = expr.evaluate(solution, options.merge(

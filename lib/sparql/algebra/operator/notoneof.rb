@@ -43,7 +43,7 @@ module SPARQL; module Algebra
         query = Filter.new(NotIn.new(v, *operands), bgp)
         queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
           solution.bindings.delete(v.to_sym)
-          debug(options) {"(solution)-> #{solution.to_hash.to_sse}"}
+          debug(options) {"(solution)-> #{solution.to_h.to_sse}"}
           block.call(solution)
         end
       end
