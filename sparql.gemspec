@@ -29,13 +29,13 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version      = '>= 2.2.2'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',                '~> 2.0'
+  gem.add_runtime_dependency     'rdf',                '~> 2.1'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 2.0'
-  gem.add_runtime_dependency     'ebnf',               '~> 1.0', '>= 1.0.1'
+  gem.add_runtime_dependency     'ebnf',               '~> 1.1'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
   gem.add_runtime_dependency     'sxp',                '~> 1.0'
   gem.add_runtime_dependency     'sparql-client',      '~> 2.0'
-  gem.add_runtime_dependency     'rdf-xsd',            '~> 2.0'
+  gem.add_runtime_dependency     'rdf-xsd',            '~> 2.1'
 
   gem.add_development_dependency 'sinatra',            '~> 1.4', '>= 1.4.6'
   gem.add_development_dependency 'rack',               '~> 1.6'
