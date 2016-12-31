@@ -55,5 +55,5 @@ puts sse.to_sse
 solutions = sse.execute(rep, debug: true)
 
 solutions.each_solution do |s|
-  puts s.to_hash
+  puts s.to_h
 end

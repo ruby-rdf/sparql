@@ -817,6 +817,10 @@ describe SPARQL::Grammar::Parser do
         "SELECT * FROM <a> WHERE {?a ?b ?c}",
         %q((dataset (<a>) (bgp (triple ?a ?b ?c))))
       ],
+      "from (lc)" => [
+        "select * from <a> where {?a ?b ?c}",
+        %q((dataset (<a>) (bgp (triple ?a ?b ?c))))
+      ],
       "from named" => [
         "SELECT * FROM NAMED <a> WHERE {?a ?b ?c}",
         %q((dataset ((named <a>)) (bgp (triple ?a ?b ?c))))
@@ -1269,6 +1273,31 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
+  describe "when matching the [29] Update production rule", production: :Update do
+    {
+      "insert" => [
+        "INSERT DATA {<a> <b> <c>}",
+        %q((update (insertData ((triple <a> <b> <c>)))))
+      ],
+      "insert (LC)" => [
+        "insert data {<a> <b> <c>}",
+        %q((update (insertData ((triple <a> <b> <c>)))))
+      ],
+      "clear" => [
+        "CLEAR DEFAULT",
+        %q((update (clear default)))
+      ],
+      "clear (LC)" => [
+        "clear default",
+        %q((update (clear default)))
+      ],
+    }.each do |title, (input, output)|
+      it title do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
+      end
+    end
+  end
+
   describe "when matching the [31] Load production rule", production: :Load do
     {
       "load iri" => [%q(LOAD <a>), %((load <a>))],
@@ -1284,6 +1313,8 @@ describe SPARQL::Grammar::Parser do
   describe "when matching the [32] Clear production rule", production: :Clear do
     {
       "clear all" => [%q(CLEAR ALL), %((clear all))],
+      "clear all (LC)" => [%q(clear all), %((clear all))],
+      "clear all (Mixed)" => [%q(cLeAr AlL), %((clear all))],
       "clear all silent" => [%q(CLEAR SILENT ALL), %((clear silent all))],
       "clear default" => [%q(CLEAR DEFAULT), %((clear default))],
       "clear graph" => [%q(CLEAR GRAPH <g1>), %((clear <g1>))],

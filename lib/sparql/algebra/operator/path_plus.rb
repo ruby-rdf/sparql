@@ -60,7 +60,7 @@ module SPARQL; module Algebra
         # For all solutions, if they are not in the accumulator, add them and recurse, otherwise skip
         recursive_solutions = RDF::Query::Solutions.new
         immediate_solutions.reject {|s| cumulative_solutions.include?(s)}.each do |solution|
-          debug(options) {"(immediate solution)-> #{solution.to_hash.to_sse}"}
+          debug(options) {"(immediate solution)-> #{solution.to_h.to_sse}"}
 
           # Recurse on subject, if is a variable
           case
@@ -88,7 +88,7 @@ module SPARQL; module Algebra
               depth: options[:depth].to_i + 1)).uniq
           end
         end
-        debug(options) {"(recursive solutions)-> #{recursive_solutions.map(&:to_hash).to_sse}"} unless recursive_solutions.empty?
+        debug(options) {"(recursive solutions)-> #{recursive_solutions.map(&:to_h).to_sse}"} unless recursive_solutions.empty?
 
         solutions = (immediate_solutions + recursive_solutions).uniq
         solutions.each(&block) if block_given? # Only at top-level

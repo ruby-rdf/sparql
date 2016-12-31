@@ -1,12 +1,6 @@
 #!/usr/bin/env ruby -rubygems
 # -*- encoding: utf-8 -*-
 
-begin
-  RUBY_ENGINE
-rescue NameError
-  RUBY_ENGINE = "ruby"  # Not defined in Ruby 1.8.7
-end
-
 Gem::Specification.new do |gem|
   gem.version            = File.read('VERSION').chomp
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
@@ -33,23 +27,23 @@ Gem::Specification.new do |gem|
     Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
     and includes SPARQL Client for accessing remote repositories.)
 
-  gem.required_ruby_version      = '>= 2.0'
+  gem.required_ruby_version      = '>= 2.2.2'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',                '~> 2.0'
+  gem.add_runtime_dependency     'rdf',                '~> 2.1'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 2.0'
-  gem.add_runtime_dependency     'ebnf',               '~> 1.0', '>= 1.0.1'
+  gem.add_runtime_dependency     'ebnf',               '~> 1.1'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
   gem.add_runtime_dependency     'sxp',                '~> 1.0'
   gem.add_runtime_dependency     'sparql-client',      '~> 2.0'
-  gem.add_runtime_dependency     'rdf-xsd',            '~> 2.0'
+  gem.add_runtime_dependency     'rdf-xsd',            '~> 2.1'
 
   gem.add_development_dependency 'sinatra',            '~> 1.4', '>= 1.4.6'
   gem.add_development_dependency 'rack',               '~> 1.6'
   gem.add_development_dependency 'rack-test',          '~> 0.6'
-  gem.add_development_dependency 'linkeddata',         '>= 1.99', '< 3'
+  gem.add_development_dependency 'linkeddata',         '~> 2.0'
   gem.add_development_dependency 'rdf-spec',           '~> 2.0'
   gem.add_development_dependency 'open-uri-cached',    '~> 0.0', '>= 0.0.5'
-  gem.add_development_dependency 'rspec',              '~> 3.2'
+  gem.add_development_dependency 'rspec',              '~> 3.5'
   gem.add_development_dependency 'rspec-its',          '~> 1.2'
   gem.add_development_dependency 'yard' ,              '~> 0.8'
 

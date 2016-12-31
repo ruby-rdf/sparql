@@ -40,11 +40,11 @@ module SPARQL; module Algebra
         case patterns
         when RDF::Query
           # Record that the argument as a (bgp) for re-serialization back to SSE
-          RDF::Query.new(*(patterns.patterns + [{graph_name: name,}]), &block)
+          RDF::Query.new(*patterns.patterns, graph_name: name, &block)
         when Operator
           super
         else
-          RDF::Query.new(*(patterns + [{graph_name: name, as_container: true}]), &block)
+          RDF::Query.new(*patterns, graph_name: name, as_container: true, &block)
         end
       end
 

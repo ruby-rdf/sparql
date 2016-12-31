@@ -2,7 +2,7 @@ require 'rspec/matchers'
 
 ::RSpec::Matchers.define :have_result_set do |expected|
   def normalize(soln)
-    soln.to_hash.inject({}) do |c, (k, v)|
+    soln.to_h.inject({}) do |c, (k, v)|
       c.merge(k => v.to_base)
     end
   end

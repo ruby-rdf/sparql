@@ -39,7 +39,7 @@ QRY
 
 # Print out solutions
 solutions.each do |sln|
-  puts sln.to_hash.inspect
+  puts sln.to_h.inspect
 end
 
 ### Output
