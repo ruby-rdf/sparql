@@ -28,5 +28,42 @@ describe SPARQL::Grammar do
         expect(result).to eq RDF::Literal::TRUE
       end
     end
+
+    {
+      "issue 25" => {
+        query: %(
+          PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+          PREFIX owl: <http://www.w3.org/2002/07/owl#>
+
+          SELECT ?class (group_concat(DISTINCT ?item;separator=",") as ?keys) WHERE {
+            ?class rdf:type owl:Class .
+            ?class owl:hasKey ?key .
+            ?key rdf:rest*/rdf:first ?item .
+          }
+          GROUP BY ?class ?key
+        ),
+        sse: %{
+          (project
+            (?class ?keys)
+            (extend ((?keys ?.0))
+              (group (?class ?key)
+                ((?.0 (group_concat (separator ",") distinct ?item)))
+                (join
+                  (bgp (triple ?class <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class>))
+                  (join
+                    (bgp (triple ?class <http://www.w3.org/2002/07/owl#hasKey> ?key))
+                    (path ?key
+                      (seq
+                        (path* <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>)
+                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                      )
+                      ?item))))))
+        }
+      }
+    }.each do |test, options|
+      it "parses #{test}" do
+        expect(options[:query]).to generate(options[:sse], {})
+      end
+    end
   end
 end

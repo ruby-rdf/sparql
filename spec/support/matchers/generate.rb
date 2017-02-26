@@ -5,7 +5,7 @@ RSpec::Matchers.define :generate do |expected, options|
     @debug = options[:progress] ? 2 : []
     Proc.new do |query|
       parser = SPARQL::Grammar::Parser.new(query, {debug: @debug, resolve_iris: true}.merge(options))
-      options[:production] ? parser.parse(options[:production]) : parser
+      options[:production] ? parser.parse(options[:production]) : parser.parse
     end
   end
 
