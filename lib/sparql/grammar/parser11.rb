@@ -607,7 +607,13 @@ module SPARQL::Grammar
         Array(data[:pattern]).each {|p| query << p}
 
         # Append triples from ('.' TriplesBlock? )?
-        Array(data[:query]).each {|q| query += q}
+        Array(data[:query]).each do |q|
+          if q.respond_to?(:patterns)
+            query += q
+          else
+            query = SPARQL::Algebra::Operator::Join.new(query, q)
+          end
+        end
         if (lhs = (input.delete(:query) || []).first) && !lhs.empty?
           query = SPARQL::Algebra::Expression.for(:join, lhs, query)
         end
