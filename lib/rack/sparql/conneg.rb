@@ -76,7 +76,8 @@ module Rack; module SPARQL
         headers = headers.merge(VARY).merge('Content-Type' => results.content_type) # FIXME: don't overwrite existing Vary headers
         [status, headers, [results]]
       rescue RDF::WriterError => e
-        not_acceptable(e.message)
+        # Use this instead of not_acceptable so that headers are not lost.
+        http_error(406, e.message, headers.merge(VARY))
       end
     end
 
