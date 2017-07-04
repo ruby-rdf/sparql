@@ -615,9 +615,12 @@ module SPARQL::Grammar
           end
         end
         if (lhs = (input.delete(:query) || []).first) && !lhs.empty?
-          query = SPARQL::Algebra::Expression.for(:join, lhs, query)
+          query = SPARQL::Algebra::Operator::Join.new(lhs, query)
         end
         add_prod_datum(:query, query)
+      elsif !Array(data[:query]).empty?
+        # Join query and path
+        add_prod_datum(:query, SPARQL::Algebra::Operator::Join.new(data[:path].first, data[:query].first))
       else
         add_prod_datum(:query, data[:path])
       end

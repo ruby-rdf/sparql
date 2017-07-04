@@ -59,6 +59,25 @@ describe SPARQL::Grammar do
                       )
                       ?item))))))
         }
+      },
+      "issue 27" => {
+        query: %(
+          PREFIX simc: <http://www.ifi.uio.no/INF3580/simpson-collection#>
+          PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+
+          SELECT ?r ?f WHERE {
+            simc:Collection rdf:rest* ?r .
+            ?r rdf:first ?f
+          }
+        ),
+        sse: %{(project (?r ?f)
+         (join
+          (path <http://www.ifi.uio.no/INF3580/simpson-collection#Collection>
+           (path* <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>)
+           ?r)
+          (bgp (triple ?r <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ?f))
+         )
+        )}
       }
     }.each do |test, options|
       it "parses #{test}" do
