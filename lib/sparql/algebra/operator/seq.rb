@@ -1,12 +1,12 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # The SPARQL Property Path `reverse` (NegatedPropertySet) operator.
+    # The SPARQL Property Path `sequence` (SequencePath) operator.
     #
     # @example
     #   (seq :a :b)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_evalPP_inverse
+    # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_sequence
     class Seq < Operator::Binary
       include Query
       
