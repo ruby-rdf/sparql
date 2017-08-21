@@ -32,8 +32,8 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#merge-instance_method
-      # @see    http://rdf.rubyforge.org/RDF/Query/Solution.html#compatible%3F-instance_method
+      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
+      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
       def execute(queryable, options = {}, &block)
         filter = operand(2)
 

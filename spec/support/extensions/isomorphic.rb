@@ -12,8 +12,8 @@ class RDF::Query
   # Same basic idea, but instead of solutions, we close over solutions with
   # multiple variables
   #
-  # @see http://rdf.rubyforge.org
-  # @see http://rdf.rubyforge.org/isomorphic
+  # @see http://rubygems.org/gems/rdf
+  # @see http://rubygems.org/gems/rdf-isomorphic
   class Solutions
 
     # Returns `true` if this RDF::Solutions is isomorphic with another.

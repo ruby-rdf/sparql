@@ -9,7 +9,6 @@ Gem::Specification.new do |gem|
   gem.homepage           = "http://github.com/ruby-rdf/sparql"
   gem.license            = 'Unlicense'
   gem.summary            = "SPARQL Query and Update library for Ruby."
-  gem.rubyforge_project  = 'sparql'
 
   gem.authors            = ['Gregg Kellogg', 'Arto Bendiken']
   gem.email              = 'public-rdf-ruby@w3.org'
