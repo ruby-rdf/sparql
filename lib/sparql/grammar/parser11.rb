@@ -50,7 +50,6 @@ module SPARQL::Grammar
     # The internal representation of the result using hierarchy of RDF objects and SPARQL::Algebra::Operator
     # objects.
     # @return [Array]
-    # @see http://sparql.rubyforge.org/algebra
     attr_accessor :result
 
     # Terminals passed to lexer. Order matters!

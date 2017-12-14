@@ -141,21 +141,21 @@ module SPARQL
   # ## Constructing operator expressions manually
   # 
   #     Operator(:isBlank).new(RDF::Node(:foobar)).to_sxp                        #=> "(isBlank _:foobar)"
-  #     Operator(:isIRI).new(RDF::URI('http://rdf.rubyforge.org/')).to_sxp       #=> "(isIRI <http://rdf.rubyforge.org/>)"
+  #     Operator(:isIRI).new(RDF::URI('http://rubygems.org/gems/rdf/')).to_sxp       #=> "(isIRI <http://rubygems.org/gems/rdf/>)"
   #     Operator(:isLiteral).new(RDF::Literal(3.1415)).to_sxp                    #=> "(isLiteral 3.1415)"
   #     Operator(:str).new(Operator(:datatype).new(RDF::Literal(3.1415))).to_sxp #=> "(str (datatype 3.1415))"
   # 
   # ## Constructing operator expressions using SSE forms
   # 
   #     SPARQL::Algebra::Expression[:isBlank, RDF::Node(:foobar)].to_sxp                          #=> "(isBlank _:foobar)"
-  #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('http://rdf.rubyforge.org/')].to_sxp         #=> "(isIRI <http://rdf.rubyforge.org/>)"
+  #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('http://rubygems.org/gems/rdf/')].to_sxp         #=> "(isIRI <http://rubygems.org/gems/rdf/>)"
   #     SPARQL::Algebra::Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415)"
   #     SPARQL::Algebra::Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415))"
   # 
   # ## Constructing operator expressions using SSE strings
   # 
   #     SPARQL::Algebra::Expression.parse('(isBlank _:foobar)')
-  #     SPARQL::Algebra::Expression.parse('(isIRI <http://rdf.rubyforge.org/>)')
+  #     SPARQL::Algebra::Expression.parse('(isIRI <http://rubygems.org/gems/rdf/>)')
   #     SPARQL::Algebra::Expression.parse('(isLiteral 3.1415)')
   #     SPARQL::Algebra::Expression.parse('(str (datatype 3.1415))')
   # 
@@ -220,7 +220,7 @@ module SPARQL
   # scarcity.
   # 
   # [memoization]:      http://en.wikipedia.org/wiki/Memoization
-  # [RDF::Util::Cache]: http://rdf.rubyforge.org/RDF/Util/Cache.html
+  # [RDF::Util::Cache]: http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Util/Cache
   # 
   # ## Documentation
   # 
@@ -426,7 +426,7 @@ module SPARQL
     #
     # @param  [Symbol, #to_sym] name
     # @return [Variable]
-    # @see    http://rdf.rubyforge.org/RDF/Query/Variable.html
+    # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Variable
     def Variable(name)
       Variable.new(name)
     end

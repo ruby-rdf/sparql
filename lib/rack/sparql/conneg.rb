@@ -43,7 +43,7 @@ module Rack; module SPARQL
     #
     # @param  [Hash{String => String}] env
     # @return [Array(Integer, Hash, #each)]
-    # @see    http://rack.rubyforge.org/doc/SPEC.html
+    # @see    http://www.rubydoc.info/github/rack/rack/Rack/Runtime#call-instance_method
     def call(env)
       env['ORDERED_CONTENT_TYPES'] = parse_accept_header(env['HTTP_ACCEPT']) if env.has_key?('HTTP_ACCEPT')
       response = app.call(env)
