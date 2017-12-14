@@ -26,6 +26,7 @@ group :development do
   gem 'rdf-turtle',       github: "ruby-rdf/rdf-turtle",          branch: "develop"
   gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
   gem 'ld-patch',         github: "gkellogg/ld-patch",            branch: "develop"
+  gem 'shex',             github: "ruby-rdf/shex",                branch: "develop"
   gem "equivalent-xml",   '>= 0.6.0'
   gem 'psych',            platforms: [:mri, :rbx]
   gem 'simplecov',        require: false
