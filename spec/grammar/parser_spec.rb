@@ -753,6 +753,14 @@ describe SPARQL::Grammar::Parser do
       ],
       "count" => [
         %q(SELECT (COUNT(?O) AS ?C) WHERE {?S ?P ?O}), %q((project (?C) (extend ((?C ?.0)) (group () ((?.0 (count ?O))) (bgp (triple ?S ?P ?O))))))
+      ],
+      "illegal bind variable" => [
+        %q(SELECT * WHERE { ?s ?p ?o . BIND (?p AS ?o) }),
+        EBNF::LL1::Parser::Error
+      ],
+      "illegal bind variable (graph name)" => [
+        %q(SELECT * WHERE { GRAPH ?g {?s ?p ?o} . BIND (?p AS ?g) }),
+        EBNF::LL1::Parser::Error
       ]
     }.each do |title, (input, output)|
       it title do |example|
