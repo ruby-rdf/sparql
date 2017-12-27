@@ -2141,6 +2141,27 @@ describe SPARQL::Grammar::Parser do
            (bgp (triple ?x a ext:Subject) (triple ?x ?prop ?obj)))
         }
       ],
+      issue30: [
+        %q{
+          PREFIX ns:<http://ns.com>
+          CONSTRUCT {?item ns:link ?target}
+          WHERE {
+            ?item ?link ?wrapper .
+            {?item ?p ?wrapper .}
+            ?item ns:slot / ns:item ?target .
+          }
+        },
+        %q{
+          (prefix
+           ((ns: <http://ns.com>))
+           (construct ((triple ?item ns:link ?target))
+            (join
+             (join
+              (bgp (triple ?item ?link ?wrapper))
+              (bgp (triple ?item ?p ?wrapper)))
+             (path ?item (seq ns:slot ns:item) ?target))))
+        }
+      ],
     }.each do |title, (input, result)|
       it title do |example|
         expect(input).to generate(result, example.metadata.merge(resolve_iris: false))

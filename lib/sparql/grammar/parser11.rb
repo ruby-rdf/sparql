@@ -586,12 +586,20 @@ module SPARQL::Grammar
     production(:GroupGraphPatternSub) do |input, data, callback|
       debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
 
-      res = data[:query].first
+      res = case data[:query].length
+      when 0 then SPARQL::Algebra::Operator::BGP.new
+      when 1 then data[:query].first
+      when 2
+        SPARQL::Algebra::Operator::Join.new(*data[:query])
+      else
+        error(nil, "Expected 0-2 queryies, got #{data[:query].length}", production: :GroupGraphPatternSub)
+        SPARQL::Algebra::Operator::BGP.new
+      end
       debug("GroupGraphPatternSub(pre-filter)") {"res: #{res.inspect}"}
 
       if data[:filter]
         expr, query = flatten_filter(data[:filter])
-        query = res || SPARQL::Algebra::Operator::BGP.new
+        query = res
         # query should be nil
         res = SPARQL::Algebra::Operator::Filter.new(expr, query)
       end
