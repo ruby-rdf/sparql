@@ -753,6 +753,14 @@ describe SPARQL::Grammar::Parser do
       ],
       "count" => [
         %q(SELECT (COUNT(?O) AS ?C) WHERE {?S ?P ?O}), %q((project (?C) (extend ((?C ?.0)) (group () ((?.0 (count ?O))) (bgp (triple ?S ?P ?O))))))
+      ],
+      "illegal bind variable" => [
+        %q(SELECT * WHERE { ?s ?p ?o . BIND (?p AS ?o) }),
+        EBNF::LL1::Parser::Error
+      ],
+      "illegal bind variable (graph name)" => [
+        %q(SELECT * WHERE { GRAPH ?g {?s ?p ?o} . BIND (?p AS ?g) }),
+        EBNF::LL1::Parser::Error
       ]
     }.each do |title, (input, output)|
       it title do |example|
@@ -2131,6 +2139,27 @@ describe SPARQL::Grammar::Parser do
           (prefix
            ((ext: <http://ext.com/1.0#>) (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
            (bgp (triple ?x a ext:Subject) (triple ?x ?prop ?obj)))
+        }
+      ],
+      issue30: [
+        %q{
+          PREFIX ns:<http://ns.com>
+          CONSTRUCT {?item ns:link ?target}
+          WHERE {
+            ?item ?link ?wrapper .
+            {?item ?p ?wrapper .}
+            ?item ns:slot / ns:item ?target .
+          }
+        },
+        %q{
+          (prefix
+           ((ns: <http://ns.com>))
+           (construct ((triple ?item ns:link ?target))
+            (join
+             (join
+              (bgp (triple ?item ?link ?wrapper))
+              (bgp (triple ?item ?p ?wrapper)))
+             (path ?item (seq ns:slot ns:item) ?target))))
         }
       ],
     }.each do |title, (input, result)|

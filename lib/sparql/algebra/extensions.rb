@@ -325,18 +325,25 @@ class RDF::Query
   end
 
   ##
-  # Return the non-destinguished variables contained within patterns
+  # Return the non-destinguished variables contained within patterns and graph name
   # @return [Array<RDF::Query::Variable>]
   def ndvars
-    patterns.map(&:ndvars).flatten
+    vars.reject(&:distinguished?)
   end
 
   ##
-  # Return the variables contained within patterns
+  # Return the variables contained within patterns and graph name
   # @return [Array<RDF::Query::Variable>]
   def vars
-    patterns.map(&:vars).flatten
+    variables.values
   end
+
+  ##
+  # Returns `true` if this is executable (i.e., contains a graph patterns), `false`
+  # otherwise.
+  #
+  # @return [Boolean] `true` or `false`
+  def executable?; true; end
 end
 
 class RDF::Query::Pattern

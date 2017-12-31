@@ -586,12 +586,20 @@ module SPARQL::Grammar
     production(:GroupGraphPatternSub) do |input, data, callback|
       debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
 
-      res = data[:query].first
+      res = case data[:query].length
+      when 0 then SPARQL::Algebra::Operator::BGP.new
+      when 1 then data[:query].first
+      when 2
+        SPARQL::Algebra::Operator::Join.new(*data[:query])
+      else
+        error(nil, "Expected 0-2 queryies, got #{data[:query].length}", production: :GroupGraphPatternSub)
+        SPARQL::Algebra::Operator::BGP.new
+      end
       debug("GroupGraphPatternSub(pre-filter)") {"res: #{res.inspect}"}
 
       if data[:filter]
         expr, query = flatten_filter(data[:filter])
-        query = res || SPARQL::Algebra::Operator::BGP.new
+        query = res
         # query should be nil
         res = SPARQL::Algebra::Operator::Filter.new(expr, query)
       end
@@ -647,6 +655,11 @@ module SPARQL::Grammar
         lhs.operands.first.concat(data[:extend])
         add_prod_datum(:query, lhs)
       elsif data[:extend]
+        # The variable assigned in a BIND clause must not be already in-use within the immediately preceding TriplesBlock within a GroupGraphPattern.
+        # None of the variables on the lhs of data[:extend] may be used in lhs
+        data[:extend].each do |(v, _)|
+          error(nil, "BIND Variable #{v} used in pattern", production: :GraphPatternNotTriples) if lhs.vars.map(&:to_sym).include?(v.to_sym)
+        end
         add_prod_datum(:query, SPARQL::Algebra::Expression.for(:extend, data[:extend], lhs))
       elsif data[:leftjoin]
         add_prod_datum(:query, SPARQL::Algebra::Expression.for(:leftjoin, lhs, *data[:leftjoin]))
@@ -1831,14 +1844,14 @@ module SPARQL::Grammar
 
       # extension variables must not appear in projected variables.
       # Add them to the projection otherwise
-      extensions.each do |(var, expr)|
+      extensions.each do |(var, _)|
         raise Error, "Extension variable #{var} also in SELECT" if vars.map(&:to_s).include?(var.to_s)
         vars << var
       end
 
       # If any extension contains an aggregate, and there is now group, implicitly group by 1
       if !data[:group] &&
-         extensions.any? {|(var, function)| function.aggregate?} ||
+         extensions.any? {|(_, function)| function.aggregate?} ||
          having.any? {|c| c.aggregate? }
         debug {"Implicit group"}
         data[:group] = [[]]
@@ -1868,7 +1881,7 @@ module SPARQL::Grammar
 
           # Replace aggregates in expr as above
           expr.replace_aggregate! do |function|
-            if avf = aggregates.detect {|(v, f)| f == function}
+            if avf = aggregates.detect {|(_, f)| f == function}
               avf.first
             else
               # Allocate a temporary variable for this function, and retain the mapping for outside the group

@@ -22,7 +22,7 @@ module SPARQL; module Algebra
     #
     # @return [Hash{Symbol => RDF::Query::Variable}]
     def variables
-      operands.inject({}) {|hash, o| o.executable? ? hash.merge!(o.variables) : hash}
+      operands.inject({}) {|hash, o| o.executable? ? hash.merge(o.variables) : hash}
     end
 
     ##
