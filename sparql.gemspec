@@ -34,8 +34,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'ebnf',               '~> 1.1'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
   gem.add_runtime_dependency     'sxp',                '~> 1.0'
-  #gem.add_runtime_dependency     'sparql-client',      '~> 3.0'
-  gem.add_runtime_dependency     'sparql-client',      '>= 2.2', '< 4.0'
+  gem.add_runtime_dependency     'sparql-client',      '~> 3.0'
   gem.add_runtime_dependency     'rdf-xsd',            '~> 3.0'
 
   gem.add_development_dependency 'sinatra',            '~> 2.0'
