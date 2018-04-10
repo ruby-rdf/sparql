@@ -45,7 +45,7 @@ module SPARQL; module Algebra
 
       # The same blank node label cannot be used in two different basic graph patterns in the same query
       def validate!
-        left_nodes, right_nodes = operand(0).ndvars, operand(1).ndvars
+        left_nodes, right_nodes = operand(0).ndvars.map(&:name), operand(1).ndvars.map(&:name)
 
         unless (left_nodes.compact & right_nodes.compact).empty?
           raise ArgumentError,
