@@ -11,6 +11,8 @@ module SPARQL; module Algebra
     #      (row (?title "SPARQL Tutorial"))
     #      (row (?book :book2)))
     #
+    # @example empty table
+    #     (table unit)
     # @see http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data
     class Table < Operator
       include Query
@@ -33,7 +35,7 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, options = {}, &block)
         @solutions = RDF::Query::Solutions()
-        operands[1..-1].each do |row|
+        Array(operands[1..-1]).each do |row|
           next unless row.is_a?(Array)
           bindings = row[1..-1].inject({}) do |memo, (var, value)|
             memo[var.to_sym] = value unless value == :undef

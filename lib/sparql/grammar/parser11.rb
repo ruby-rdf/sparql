@@ -716,7 +716,7 @@ module SPARQL::Grammar
     production(:InlineDataOneVar) do |input, data, callback|
       add_prod_datum :Var, data[:Var]
 
-      data[:DataBlockValue].each do |d|
+      Array(data[:DataBlockValue]).each do |d|
         add_prod_datum :row, [[:row, data[:Var].dup << d]]
       end
     end
