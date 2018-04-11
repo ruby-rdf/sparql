@@ -52,7 +52,7 @@ class Array
   # @param [Hash{Symbol => Object}] options ({})
   #   options passed from query
   # @return [RDF::Term]
-  # @see {SPARQL::Algebra::Expression.evaluate}
+  # @see SPARQL::Algebra::Expression.evaluate
   def evaluate(bindings, options = {})
     SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings, options)})
   end

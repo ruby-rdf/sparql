@@ -2162,6 +2162,19 @@ describe SPARQL::Grammar::Parser do
              (path ?item (seq ns:slot ns:item) ?target))))
         }
       ],
+      issue32: [
+        %q{
+          SELECT * WHERE {
+              ?s ?p ?o
+              VALUES ?s { } # Notice the empty values list
+          }
+        },
+        %q{
+          (join
+            (bgp (triple ?s ?p ?o))
+            (table (vars ?s)))
+        }
+      ],
     }.each do |title, (input, result)|
       it title do |example|
         expect(input).to generate(result, example.metadata.merge(resolve_iris: false))

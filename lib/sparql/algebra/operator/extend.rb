@@ -63,8 +63,8 @@ module SPARQL; module Algebra
 
       # The variable introduced by the BIND clause must not have been used in the group graph pattern up to the point of use in BIND
       def validate!
-        bind_vars = operand(0).map(&:first)
-        query_vars = operand(1).vars
+        bind_vars = operand(0).map(&:first).map(&:name)
+        query_vars = operand(1).vars.map(&:name)
         
         unless (bind_vars.compact & query_vars.compact).empty?
           raise ArgumentError,

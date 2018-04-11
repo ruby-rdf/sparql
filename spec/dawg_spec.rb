@@ -73,10 +73,13 @@ shared_examples "DAWG" do |id, label, comment, tests|
         end
       when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
-          pending("Better Error Detection") if %w(
-            agg08.rq agg11.rq
-            syn-bad-pname-06.rq
+          skip("Better Error Detection") if %w(
+            agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
+            syn-bad-pname-06.rq group06.rq group07.rq
           ).include?(t.entry)
+          skip("Better Error Detection") if %w(
+            syn-bad-01.rq syn-bad-02.rq
+          ).include?(t.entry) && man_name == 'syntax-query'
           expect {SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)}.to raise_error
         end
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest'
