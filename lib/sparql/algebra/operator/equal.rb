@@ -25,7 +25,7 @@ module SPARQL; module Algebra
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if either operand is not an RDF term or operands are not comperable
       #
-      # @see {RDF::Term#==}
+      # @see RDF::Term#==
       def apply(term1, term2)
         term1 = term1.dup.extend(RDF::TypeCheck)
         term2 = term2.dup.extend(RDF::TypeCheck)
