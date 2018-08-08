@@ -17,11 +17,7 @@ Gem::Specification.new do |gem|
   gem.files              = %w(AUTHORS CREDITS README.md UNLICENSE VERSION bin/sparql) + Dir.glob('lib/**/*.rb')
   gem.bindir             = %q(bin)
   gem.executables        = %w(sparql)
-  gem.default_executable = gem.executables.first
   gem.require_paths      = %w(lib)
-  gem.extensions         = %w()
-  gem.test_files         = %w()
-  gem.has_rdoc           = false
   gem.description        = %(
     Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
     and includes SPARQL Client for accessing remote repositories.)
@@ -41,7 +37,7 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rack',               '~> 2.0'
   gem.add_development_dependency 'rack-test',          '~> 0.8'
   gem.add_development_dependency 'rdf-spec',           '~> 3.0'
-  #gem.add_development_dependency 'linkeddata',         '~> 3.0'
+  gem.add_development_dependency 'linkeddata',         '~> 3.0'
   gem.add_development_dependency 'linkeddata',         '>= 2.2', '< 4.0'
   gem.add_development_dependency 'open-uri-cached',    '~> 0.0', '>= 0.0.5'
   gem.add_development_dependency 'rspec',              '~> 3.7'
