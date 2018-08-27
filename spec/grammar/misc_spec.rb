@@ -78,6 +78,25 @@ describe SPARQL::Grammar do
           (bgp (triple ?r <http://www.w3.org/1999/02/22-rdf-syntax-ns#first> ?f))
          )
         )}
+      },
+      "issue 33" => {
+        query: %(
+          CONSTRUCT {
+              ?uri <http://prop3> ?anotherURI .
+          }
+          WHERE
+          {
+              ?uri a ?type ;
+                <http://prop1> / <http://prop2> ?anotherURI
+          }
+        ),
+        sse: %{(construct
+          ((triple ?uri <http://prop3> ?anotherURI)) 
+          (join
+           (bgp (triple ?uri a ?type)) 
+           (path ?uri (seq <http://prop1> <http://prop2>) ?anotherURI)
+          )
+        )}
       }
     }.each do |test, options|
       it "parses #{test}" do

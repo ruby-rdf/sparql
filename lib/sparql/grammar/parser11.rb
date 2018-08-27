@@ -216,7 +216,7 @@ module SPARQL::Grammar
       unless resolve_iris?
         # Only output if we're not resolving URIs internally
         add_prod_datum(:BaseDecl, data[:BaseDecl])
-        add_prod_datum(:PrefixDecl, data[:PrefixDecl]) if data[:PrefixDecl]
+        add_prod_datum(:PrefixDecl, data[:PrefixDecl])
       end
     end
 
@@ -624,11 +624,14 @@ module SPARQL::Grammar
         if (lhs = (input.delete(:query) || []).first) && !lhs.empty?
           query = SPARQL::Algebra::Operator::Join.new(lhs, query)
         end
+        if data[:path]
+          query = SPARQL::Algebra::Operator::Join.new(query, Array(data[:path]).first)
+        end
         add_prod_datum(:query, query)
       elsif !Array(data[:query]).empty?
         # Join query and path
         add_prod_datum(:query, SPARQL::Algebra::Operator::Join.new(data[:path].first, data[:query].first))
-      else
+      elsif data[:path]
         add_prod_datum(:query, data[:path])
       end
     end
@@ -856,11 +859,8 @@ module SPARQL::Grammar
       data[:Subject] = prod_data[:Subject]
       error(nil, "Expected Subject", production: :ObjectList) if !prod_data[:Subject] && validate?
       error(nil, "Expected Verb", production: :ObjectList) if !(prod_data[:Verb] || prod_data[:VerbPath]) && validate?
-      if prod_data[:Verb]
-        data[:Verb] = prod_data[:Verb]
-      else
-        data[:VerbPath] = prod_data[:VerbPath]
-      end
+      data[:Verb] = prod_data[:Verb] if prod_data[:Verb]
+      data[:VerbPath] = prod_data[:VerbPath] if prod_data[:VerbPath]
     end
     production(:ObjectList) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
@@ -874,7 +874,7 @@ module SPARQL::Grammar
         if prod_data[:Verb]
           add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
           add_prod_datum(:pattern, data[:pattern])
-        else
+        elsif prod_data[:VerbPath]
           add_prod_datum(:path,
             SPARQL::Algebra::Expression(:path,
                                         prod_data[:Subject].first,
@@ -886,11 +886,8 @@ module SPARQL::Grammar
 
     # [81]	TriplesSameSubjectPath	::=	VarOrTerm PropertyListPathNotEmpty | TriplesNode PropertyListPath
     production(:TriplesSameSubjectPath) do |input, data, callback|
-      if data[:pattern]
-        add_prod_datum(:pattern, data[:pattern])
-      else
-        add_prod_datum(:path, data[:path])
-      end
+      add_prod_datum(:pattern, data[:pattern])
+      add_prod_datum(:path, data[:path])
     end
 
     # [83]  	PropertyListPathNotEmpty	  ::=  	( VerbPath | VerbSimple ) ObjectList ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
@@ -900,16 +897,14 @@ module SPARQL::Grammar
       data[:Subject] = subject
     end
     production(:PropertyListPathNotEmpty) do |input, data, callback|
-      if data[:pattern]
-        add_prod_datum(:pattern, data[:pattern])
-      else
-        add_prod_datum(:path, data[:path])
-      end
+      add_prod_datum(:pattern, data[:pattern])
+      add_prod_datum(:path, data[:path])
     end
 
     # [84]  	VerbPath	  ::=  	Path
     production(:VerbPath) do |input, data, callback|
       if data[:Path]
+        input.delete(:Verb)
         input[:VerbPath] = data[:Path]
       else
         input[:Verb] = data[:iri]
