@@ -9,9 +9,9 @@ module SPARQL; module Algebra
     #    (prefix ((: <http://www.example.org/>))
     #      (filter (|| (= ?g "1 22") (= ?g "22 1"))
     #        (project (?g)
-    #          (extend ((?g ?.0))
-    #            (group () ((?.0 (group_concat ?o)))
-    #              (bgp (triple ??0 :p1 ?o)))))))
+    #          (extend ((?g ??.0))
+    #            (group () ((??.0 (group_concat ?o)))
+    #              (bgp (triple ??.0 :p1 ?o)))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
     class GroupConcat < Operator

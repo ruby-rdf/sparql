@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #    (prefix ((: <http://www.example.org/>))
     #      (project (?max)
-    #        (extend ((?min ?.0))
-    #          (group () ((?.0 (min ?o)))
+    #        (extend ((?min ??.0))
+    #          (group () ((??.0 (min ?o)))
     #            (bgp (triple ?s ?p ?o))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggMin

@@ -33,8 +33,7 @@ module SPARQL; module Algebra
         subject, object = options[:subject], options[:object]
         debug(options) {"Seq #{[subject, operands, object].to_sse}"}
 
-        v = RDF::Query::Variable.new
-        v.distinguished = false
+        v = RDF::Query::Variable.new(distinguished: false)
         q1 = if operand(0).is_a?(RDF::Term)
           RDF::Query.new do |q|
             q.pattern [subject, operand(0), v]

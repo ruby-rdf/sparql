@@ -35,8 +35,7 @@ module SPARQL; module Algebra
         debug(options) {"NotOneOf #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
 
-        v = RDF::Query::Variable.new
-        v.distinguished = false
+        v = RDF::Query::Variable.new(distinguished: false)
         bgp = RDF::Query.new do |q|
           q.pattern [subject, v, object]
         end

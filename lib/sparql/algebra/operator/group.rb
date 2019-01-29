@@ -11,8 +11,8 @@ module SPARQL; module Algebra
     # @example
     #     (prefix ((: <http://example/>))
     #       (project (?w ?S)
-    #         (extend ((?S ?.0))
-    #           (group (?w) ((?.0 (sample ?v)))
+    #         (extend ((?S ??.0))
+    #           (group (?w) ((??.0 (sample ?v)))
     #             (leftjoin
     #               (bgp (triple ?s :p ?v))
     #               (bgp (triple ?s :q ?w)))))))

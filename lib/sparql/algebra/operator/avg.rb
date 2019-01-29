@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #    (prefix ((: <http://www.example.org/>))
     #      (project (?avg)
-    #        (extend ((?avg ?.0))
-    #          (group () ((?.0 (avg ?o)))
+    #        (extend ((?avg ??.0))
+    #          (group () ((??.0 (avg ?o)))
     #            (bgp (triple ?s :dec ?o))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggAvg

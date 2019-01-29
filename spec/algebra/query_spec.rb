@@ -472,8 +472,8 @@ describe SPARQL::Algebra::Query do
     it "(count)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (count)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (count)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(4)}]
     end
@@ -481,8 +481,8 @@ describe SPARQL::Algebra::Query do
     it "(count ?s)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (count ?s)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (count ?s)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(4)}]
     end
@@ -490,8 +490,8 @@ describe SPARQL::Algebra::Query do
     it "(count distinct ?s)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (count distinct ?s)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (count distinct ?s)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(2)}]
     end
@@ -499,8 +499,8 @@ describe SPARQL::Algebra::Query do
     it "(sum ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (sum ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (sum ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(9)}]
     end
@@ -508,8 +508,8 @@ describe SPARQL::Algebra::Query do
     it "(sum distinct ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (sum distinct ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (sum distinct ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(6)}]
     end
@@ -517,8 +517,8 @@ describe SPARQL::Algebra::Query do
     it "(min ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (min ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (min ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(1)}]
     end
@@ -526,8 +526,8 @@ describe SPARQL::Algebra::Query do
     it "(min distinct ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (min distinct ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (min distinct ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(1)}]
     end
@@ -535,8 +535,8 @@ describe SPARQL::Algebra::Query do
     it "(max ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (max ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (max ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(3)}]
     end
@@ -544,8 +544,8 @@ describe SPARQL::Algebra::Query do
     it "(max distinct ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (max distinct ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (max distinct ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal(3)}]
     end
@@ -553,8 +553,8 @@ describe SPARQL::Algebra::Query do
     it "(avg ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (avg ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (avg ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal::Decimal.new(2.25)}]
     end
@@ -562,8 +562,8 @@ describe SPARQL::Algebra::Query do
     it "(avg distinct ?o)" do
       query = SPARQL::Algebra::Expression.parse(%q(
       (project (?c)
-       (extend ((?c ?.0))
-         (group () ((?.0 (avg distinct ?o)))
+       (extend ((?c ??.0))
+         (group () ((??.0 (avg distinct ?o)))
            (bgp (triple ?s ?p ?o)))))))
       expect(query.execute(graph)).to have_result_set [{c: RDF::Literal::Decimal.new(2)}]
     end

@@ -64,7 +64,7 @@ describe Sinatra::SPARQL do
     context "with format" do
       {
         ntriples: %r{_:a <http://example/b> "c" \.},
-        ttl: %r{\[ <http://example/b> "c"\]}
+        ttl: %r{\[\s?<http://example/b> "c"\]}
       }.each do |fmt, expected|
         context fmt do
           it "returns serialization" do
@@ -81,7 +81,7 @@ describe Sinatra::SPARQL do
     context "with Accept" do
       {
         "application/n-triples" => %r{_:a <http://example/b> "c" \.},
-        "application/turtle" => %r{\[ <http://example/b> "c"\]}
+        "application/turtle" => %r{\[\s?<http://example/b> "c"\]}
       }.each do |content_types, expected|
         context content_types do
           it "returns serialization" do
