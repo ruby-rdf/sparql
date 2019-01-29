@@ -2008,8 +2008,7 @@ describe SPARQL::Grammar::Parser do
     describe "when matching the [138] BlankNode production rule", production: :BlankNode do
       it "recognizes the BlankNode terminal" do |example|
         if output = parser(example.metadata[:production]).call(%q(_:foobar))
-          v = RDF::Query::Variable.new("foobar")
-          v.distinguished = false
+          v = RDF::Query::Variable.new("foobar", distinguished: false)
           expect(output.last).to eq v
           expect(output.last).not_to be_distinguished
         end

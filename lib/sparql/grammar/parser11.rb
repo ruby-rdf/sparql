@@ -1718,9 +1718,7 @@ module SPARQL::Grammar
 
       if id
         @vars[id] ||= begin
-          v = RDF::Query::Variable.new(id)
-          v.distinguished = distinguished
-          v
+          RDF::Query::Variable.new(id, distinguished: distinguished)
         end
       else
         unless distinguished
@@ -1728,9 +1726,7 @@ module SPARQL::Grammar
           id = @nd_var_gen
           @nd_var_gen = id.succ
         end
-        v = RDF::Query::Variable.new(id)
-        v.distinguished = distinguished
-        v
+        RDF::Query::Variable.new(id, distinguished: distinguished)
       end
     end
 
@@ -1880,8 +1876,7 @@ module SPARQL::Grammar
               avf.first
             else
               # Allocate a temporary variable for this function, and retain the mapping for outside the group
-              av = RDF::Query::Variable.new(".#{agg}")
-              av.distinguished = false
+              av = RDF::Query::Variable.new(".#{agg}", distinguished: false)
               agg += 1
               aggregates << [av, function]
               av
