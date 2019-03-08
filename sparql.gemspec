@@ -32,6 +32,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'sxp',                '~> 1.0'
   gem.add_runtime_dependency     'sparql-client',      '~> 3.0'
   gem.add_runtime_dependency     'rdf-xsd',            '~> 3.0'
+  gem.add_runtime_dependency     'i18n',               '<= 1.5.1' if RUBY_VERSION < "2.3"
 
   gem.add_development_dependency 'sinatra',            '~> 2.0'
   gem.add_development_dependency 'rack',               '~> 2.0'
