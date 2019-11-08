@@ -25,7 +25,6 @@ RSpec::Matchers.define :generate do |expected, options|
     when expected == EBNF::LL1::Parser::Error
       expect {parser(options).call(input)}.to raise_error(expected)
     when options[:last]
-      #require 'byebug'; byebug
       # Only look at end of production
       @actual = parser(options).call(input).last
       if expected.is_a?(String)
