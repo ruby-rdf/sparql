@@ -33,7 +33,7 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, options = {})
+      def execute(queryable, **options)
         debug(options) {"With: #{operand.to_sse}"}
         # Bound variable
         name = operands.shift
@@ -42,7 +42,7 @@ module SPARQL; module Algebra
           debug(options) {"=> default data source #{name}"}
           load_opts = {debug: options.fetch(:debug, nil), base_uri: name}
           debug(options) {"=> load #{name}"}
-          queryable.load(name.to_s, load_opts)
+          queryable.load(name.to_s, **load_opts)
         end
 
         # Set name for RDF::Graph descendants having no graph_name to the name variable
@@ -58,12 +58,12 @@ module SPARQL; module Algebra
         query = operands.shift
 
         # Restrict query portion to this graph
-        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+        queryable.query(query, depth: options[:depth].to_i + 1, **options) do |solution|
           debug(options) {"(solution)=>#{solution.inspect}"}
 
           # Execute each operand with queryable and solution
           operands.each do |op|
-            op.execute(queryable, solution, options.merge(depth: options[:depth].to_i + 1))
+            op.execute(queryable, solution, depth: options[:depth].to_i + 1, **options)
           end
         end
       end

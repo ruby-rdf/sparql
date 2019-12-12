@@ -175,8 +175,8 @@ module SPARQL
     # @param  [Hash{Symbol => Object}] options
     # @return [Parser]
     # @raise  [Parser::Error] on invalid input
-    def self.parse(query, options = {}, &block)
-      Parser.new(query, options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+    def self.parse(query, **options, &block)
+      Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
     end
 
     ##
@@ -190,8 +190,8 @@ module SPARQL
     # @yieldparam  [RDF::Reader] reader
     # @yieldreturn [void] ignored
     # @raise  [RDF::FormatError] if no reader found for the specified format
-    def self.open(filename, options = {}, &block)
-      RDF::Util::File.open_file(filename, options) do |file|
+    def self.open(filename, **options, &block)
+      RDF::Util::File.open_file(filename, **options) do |file|
         self.parse(file, options, &block)
       end
     end
@@ -206,8 +206,8 @@ module SPARQL
     # @param  [String, #to_s]          query
     # @param  [Hash{Symbol => Object}] options
     # @return [Boolean]
-    def self.valid?(query, options = {})
-      Parser.new(query, options).valid?
+    def self.valid?(query, **options)
+      Parser.new(query, **options).valid?
     end
 
     ##
@@ -225,7 +225,7 @@ module SPARQL
     # @yieldparam [Lexer] lexer
     # @return [Lexer]
     # @raise  [Lexer::Error] on invalid input
-    def self.tokenize(query, options = {}, &block)
+    def self.tokenize(query, **options, &block)
       Lexer.tokenize(query, options, &block)
     end
   end # Grammar

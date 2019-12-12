@@ -31,7 +31,7 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, solution, options = {})
+      def execute(queryable, solution, **options)
         debug(options) {"Insert"}
         patterns = operand.inject([]) do |memo, op|
           if op.respond_to?(:statements)

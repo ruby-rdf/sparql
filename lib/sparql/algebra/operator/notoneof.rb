@@ -31,7 +31,7 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"NotOneOf #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
 
@@ -40,7 +40,7 @@ module SPARQL; module Algebra
           q.pattern [subject, v, object]
         end
         query = Filter.new(NotIn.new(v, *operands), bgp)
-        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+        queryable.query(query, depth: options[:depth].to_i + 1, **options) do |solution|
           solution.bindings.delete(v.to_sym)
           debug(options) {"(solution)-> #{solution.to_h.to_sse}"}
           block.call(solution)

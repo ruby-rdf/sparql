@@ -185,7 +185,7 @@ module SPARQL
   # @return [String]
   #   String with serialized results and `#content_type`
   # @raise [RDF::WriterError] when inappropriate formatting options are used
-  def serialize_results(solutions, options = {})
+  def serialize_results(solutions, **options)
     format = options[:format].to_sym if options[:format]
     content_type = options[:content_type].to_s.split(';').first
     content_types = Array(options[:content_types] || '*/*')
@@ -236,7 +236,7 @@ module SPARQL
       end
       format ||= fmt.to_sym
       content_type ||= fmt.content_type.first
-      results = solutions.dump(format, options)
+      results = solutions.dump(format, **options)
       raise RDF::WriterError, "Unknown format #{fmt.inspect} for #{solutions.class}" unless results
       results
     when RDF::Query::Solutions
@@ -306,7 +306,7 @@ module SPARQL
   #   May also be an RDF::Writer content_type to serialize DESCRIBE or CONSTRUCT results
   # @return [String]
   #   String with serialized results and #content_type
-  def serialize_exception(exception, options = {})
+  def serialize_exception(exception, **options)
     format = options[:format]
     content_type = options[:content_type]
     content_type ||= SPARQL::Results::MIME_TYPES[format]

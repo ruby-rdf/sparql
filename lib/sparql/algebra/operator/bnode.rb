@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
       # @raise  [TypeError] if any operand is invalid
-      def initialize(literal = false, options = {})
+      def initialize(literal = false, **options)
         super
       end
 
@@ -42,8 +42,8 @@ module SPARQL; module Algebra
       # @param [Hash{Symbol => Object}] options ({})
       #   options passed from query
       # @return [RDF::Term]
-      def evaluate(bindings, options = {})
-        args = operands.map { |operand| operand.evaluate(bindings, options.merge(depth: options[:depth].to_i + 1)) }
+      def evaluate(bindings, **options)
+        args = operands.map { |operand| operand.evaluate(bindings, depth: options[:depth].to_i + 1, **options) }
         apply(args.first, bindings)
       end
 

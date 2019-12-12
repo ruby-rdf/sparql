@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-plus
     # @see http://www.w3.org/TR/xpath-functions/#func-numeric-add
-    class Plus < Operator::Unary
+    class Plus < Operator
       include Evaluatable
 
       NAME = [:+, :plus]

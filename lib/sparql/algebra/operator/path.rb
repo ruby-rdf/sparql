@@ -26,16 +26,17 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Path #{operands.to_sse}"}
         subject, path_op, object = operands
 
         @solutions = RDF::Query::Solutions.new
-        path_op.execute(queryable, options.merge(
+        path_op.execute(queryable,
           subject: subject,
           object: object,
           graph_name: options.fetch(:graph_name, false),
-          depth: options[:depth].to_i + 1)
+          depth: options[:depth].to_i + 1,
+          **options
         ) do |solution|
           @solutions << solution
         end

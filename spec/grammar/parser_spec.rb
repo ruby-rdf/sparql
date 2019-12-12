@@ -243,7 +243,7 @@ shared_examples "BuiltInCall" do
 end
 
 # [122]    RegexExpression
-shared_examples "RegexExpression" do |options = {}|
+shared_examples "RegexExpression" do |**options|
   context "RegexExpression" do
     {
       %q(REGEX ("foo"))        => EBNF::LL1::Parser::Error,
@@ -2181,7 +2181,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  def parser(production = nil, options = {})
+  def parser(production = nil, **options)
     @debug = options[:debug] || []
     Proc.new do |query|
       parser = described_class.new(query, {debug: @debug, resolve_iris: true}.merge(options))

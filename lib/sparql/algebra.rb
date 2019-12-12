@@ -372,8 +372,8 @@ module SPARQL
     # @param  [Hash{Symbol => Object}] options
     #   any additional options (see {Operator#initialize})
     # @return [SPARQL::Algebra::Operator]
-    def parse(sse, options = {})
-      Expression.parse(sse, options)
+    def parse(sse, **options)
+      Expression.parse(sse, **options)
     end
     module_function :parse
 
@@ -390,8 +390,8 @@ module SPARQL
     # @yieldparam  [SPARQL::Algebra::Expression] expression
     # @yieldreturn [void] ignored
     # @return [Expression]
-    def open(sse, options = {})
-      Expression.open(sse, options)
+    def open(sse, **options)
+      Expression.open(sse, **options)
     end
     module_function :open
 

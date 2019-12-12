@@ -62,7 +62,7 @@ describe SPARQL::Algebra do
       end
     end
 
-    def parse(query, options = {})
+    def parse(query, **options)
       parser = SPARQL::Grammar::Parser.new(query)
       parser.parse
     end

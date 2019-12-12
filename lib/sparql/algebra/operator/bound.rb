@@ -25,7 +25,7 @@ module SPARQL; module Algebra
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
       # @raise  [TypeError] if any operand is invalid
-      def initialize(var, options = {})
+      def initialize(var, **options)
         super
       end
 
@@ -38,7 +38,7 @@ module SPARQL; module Algebra
       #   options passed from query
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operand is not a variable
-      def evaluate(bindings, options = {})
+      def evaluate(bindings, **options)
         case var = operand
           when Variable
             bindings.respond_to?(:bound?) && bindings.bound?(var) ?

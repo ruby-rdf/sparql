@@ -441,7 +441,7 @@ describe SPARQL::Results do
           RuntimeError                => "RuntimeError"
         }.each do |cls, title|
           context "for #{cls}" do
-            subject { SPARQL.serialize_exception(cls.new("error string"), options)}
+            subject { SPARQL.serialize_exception(cls.new("error string"), **options)}
 
             [
               ['/html/head/title/text()', "SPARQL Processing Service: #{title}"],
@@ -468,7 +468,7 @@ describe SPARQL::Results do
           RuntimeError                => "RuntimeError"
         }.each do |cls, title|
           context "for #{cls}" do
-            subject { SPARQL.serialize_exception(cls.new("error string"), options)}
+            subject { SPARQL.serialize_exception(cls.new("error string"), **options)}
 
             it "has simple error string" do
               expect(subject).to eq "error string"

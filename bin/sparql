@@ -9,7 +9,7 @@ rescue LoadError
 end
 require 'getoptlong'
 
-def display_results(res, options)
+def display_results(res, **options)
   puts res.inspect if options[:verbose]
   puts case res
   when RDF::Graph   then res.dump(:ttl, base_uri: query.base_uri, prefixes: query.prefixes, standard_prefixes: true)
@@ -18,7 +18,7 @@ def display_results(res, options)
   end
 end
 
-def run(input, options = {})
+def run(input, **options)
   if options[:debug]
     puts "input graph:\n#{options[:dataset].dump(:trig, standard_prefixes: true)}\n" if options[:dataset]
     puts "query:\n#{input}\n"
@@ -33,14 +33,14 @@ def run(input, options = {})
     SPARQL::Algebra.parse(input, {debug: options[:debug], update: options[:update]})
   else
     # Only do grammar debugging if we're generating SSE
-    SPARQL::Grammar.parse(input, options)
+    SPARQL::Grammar.parse(input, **options)
   end
 
   puts ("\nSSE:\n" + query.to_sse) if options[:debug] || options[:to_sse]
 
   unless options[:to_sse]
     res = query.execute(options[:dataset], debug: options[:debug])
-    display_results(res, options)
+    display_results(res, **options)
   end
 end
 
@@ -132,7 +132,7 @@ case cmd
 when 'execute', 'parse'
   options[:to_sse] = true if cmd == 'parse'
   input ||= ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
-  run(input, options)
+  run(input, **options)
 when 'query'
   endpoint = ARGV.shift
   unless endpoint
@@ -142,7 +142,7 @@ when 'query'
   input ||= ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
   SPARQL::Client.new(endpoint) do |client|
     res = client.query(input)
-    display_results(res, options)
+    display_results(res, **options)
   end
 when 'server'
   if data_file = ARGV.shift

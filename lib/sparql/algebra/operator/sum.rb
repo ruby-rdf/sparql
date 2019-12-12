@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #            (bgp (triple ?s :dec ?o))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggSum
-    class Sum < Operator::Unary
+    class Sum < Operator
       include Aggregate
 
       NAME = :sum
@@ -23,6 +23,8 @@ module SPARQL; module Algebra
       #   enum of evaluated operand
       # @return [RDF::Literal::Numeric] The sum of the terms
       def apply(enum)
+        # FIXME: we don't actually do anything with distinct
+        operands.shift if distinct = (operands.first == :distinct)
         if enum.empty?
           RDF::Literal(0)
         elsif enum.flatten.all? {|n| n.is_a?(RDF::Literal::Numeric)}

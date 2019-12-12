@@ -28,8 +28,8 @@ module SPARQL
   #   a `queryable` object such as an RDF::Graph
   #   or RDF::Repository. 
   # @raise  [Parser::Error] on invalid input
-  def self.parse(query, options = {})
-    query = Grammar::Parser.new(query, options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+  def self.parse(query, **options)
+    query = Grammar::Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
   end
 
   ##
@@ -67,8 +67,8 @@ module SPARQL
   # @return [RDF::Graph, Boolean, RDF::Query::Solutions::Enumerator]
   #   Note, results may be used with {SPARQL.serialize_results} to obtain appropriate output encoding.
   # @raise  [SPARQL::MalformedQuery] on invalid input
-  def self.execute(query, queryable, options = {}, &block)
-    query = self.parse(query, options)
+  def self.execute(query, queryable, **options, &block)
+    query = self.parse(query, **options)
     queryable = queryable || RDF::Repository.new
     
     case options.fetch(:debug, nil)

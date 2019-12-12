@@ -22,17 +22,16 @@ Gem::Specification.new do |gem|
     Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
     and includes SPARQL Client for accessing remote repositories.)
 
-  gem.required_ruby_version      = '>= 2.2.2'
+  gem.required_ruby_version      = '>= 2.4'
   gem.requirements               = []
   gem.add_runtime_dependency     'rdf',                '~> 3.0'
   #gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.0'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '>= 2.2', '< 4.0'
-  gem.add_runtime_dependency     'ebnf',               '~> 1.1'
+  gem.add_runtime_dependency     'ebnf',               '~> 1.2'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
-  gem.add_runtime_dependency     'sxp',                '~> 1.0'
+  gem.add_runtime_dependency     'sxp',                '~> 1.1'
   gem.add_runtime_dependency     'sparql-client',      '~> 3.0'
   gem.add_runtime_dependency     'rdf-xsd',            '~> 3.0'
-  gem.add_runtime_dependency     'i18n',               '<= 1.5.1' if RUBY_VERSION < "2.3"
 
   gem.add_development_dependency 'sinatra',            '~> 2.0'
   gem.add_development_dependency 'rack',               '~> 2.0'

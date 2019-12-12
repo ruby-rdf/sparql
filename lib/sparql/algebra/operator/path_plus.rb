@@ -26,7 +26,7 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Path+ #{[subject, operands, object].to_sse}"}
 
@@ -53,7 +53,7 @@ module SPARQL; module Algebra
         # Keep track of solutions
         # Recurse into query
         immediate_solutions = []
-        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+        queryable.query(query, depth: options[:depth].to_i + 1, **options) do |solution|
           immediate_solutions << solution
         end
 
@@ -66,23 +66,23 @@ module SPARQL; module Algebra
           case
           when subject.variable? && object.variable?
             # Query starting with bound object as subject, but replace result with subject
-            rs = queryable.query(self, options.merge(
+            rs = queryable.query(self, **options.merge(
               subject: solution[object],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).map {|s| s.merge(subject.to_sym => solution[subject])}
             # Query starting with bound subject as object, but replace result with subject
-            ro = queryable.query(self, options.merge(
+            ro = queryable.query(self, **options.merge(
               object: solution[subject],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).map {|s| s.merge(object.to_sym => solution[object])}
             recursive_solutions += (rs + ro).uniq
           when subject.variable?
-            recursive_solutions += queryable.query(self, options.merge(
+            recursive_solutions += queryable.query(self, **options.merge(
               object: solution[subject],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).uniq
           when object.variable?
-            recursive_solutions += queryable.query(self, options.merge(
+            recursive_solutions += queryable.query(self, **options.merge(
               subject: solution[object],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).uniq

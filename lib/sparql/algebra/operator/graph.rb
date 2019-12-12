@@ -64,10 +64,10 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Graph #{operands.first}"}
         graph_name, query = operands.first, operands.last
-        @solutions = queryable.query(query, options.merge(graph_name: graph_name), &block)
+        @solutions = queryable.query(query, graph_name: graph_name, **options, &block)
       end
       
       ##

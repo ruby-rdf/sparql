@@ -31,9 +31,9 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Using"}
-        Dataset.new(*operands).execute(queryable, options.merge(depth: options[:depth].to_i + 1), &block)
+        Dataset.new(*operands).execute(queryable, depth: options[:depth].to_i + 1, **options, &block)
       end
     end # Using
   end # Operator

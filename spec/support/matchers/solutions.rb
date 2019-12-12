@@ -1,6 +1,7 @@
 require 'rspec/matchers'
 require 'rdf/isomorphic'
 require 'rdf/trig'
+require 'awesome_print'
 
 # For examining unordered solution sets
 RSpec::Matchers.define :describe_solutions do |expected_solutions, info|
@@ -16,11 +17,11 @@ RSpec::Matchers.define :describe_solutions do |expected_solutions, info|
     "\nactual:\n#{res}"
     missing = (expected_solutions - actual_solutions) rescue []
     extra = (actual_solutions - expected_solutions) rescue []
-    msg += "\nquery:\n#{info.query}"
-    msg += "\nsse:\n#{info.action.sse_string}"
-    msg += "\nmissing:\n#{missing.inspect}" unless missing.empty?
-    msg += "\nextra:\n#{extra.inspect}" unless extra.empty?
-    msg += "\ninfo:\n#{info.inspect}" if info
+    msg += "\ninfo:\n#{info.ai}"
+    msg += "\nquery:\n#{info.query}" if info.respond_to?(:query)
+    msg += "\nsse:\n#{info.action.sse_string}" if info.respond_to?(:action)
+    msg += "\nmissing:\n#{missing.ai}" unless missing.empty?
+    msg += "\nextra:\n#{extra.ai}" unless extra.empty?
     msg
   end
 end
@@ -46,8 +47,8 @@ RSpec::Matchers.define :describe_csv_solutions do |expected_solutions|
     "\nsimplified:\n#{@simplified_solutions.inspect}"
     missing = (expected_solutions - actual_solutions) rescue []
     extra = (actual_solutions - expected_solutions) rescue []
-    msg += "\nmissing:\n#{missing.inspect}" unless missing.empty?
-    msg += "\nextra:\n#{extra.inspect}" unless extra.empty?
+    msg += "\nmissing:\n#{missing.ai}" unless missing.empty?
+    msg += "\nextra:\n#{extra.ai}" unless extra.empty?
     msg
   end
 end
@@ -61,12 +62,12 @@ RSpec::Matchers.define :describe_ordered_solutions do |expected_solutions|
   
   failure_message do |actual_solutions|
     msg = "expected solutions to be ordered isomorphic\n" +
-    "expected:\n#{expected_solutions.inspect}" +
-    "\nactual:\n#{actual_solutions.inspect}"
+    "expected:\n#{expected_solutions.ai}" +
+    "\nactual:\n#{actual_solutions.ai}"
     missing = (expected_solutions - actual_solutions)
     extra = (actual_solutions - expected_solutions)
-    msg += "\nmissing:\n#{missing.inspect}" unless missing.empty?
-    msg += "\nextra:\n#{extra.inspect}" unless extra.empty?
+    msg += "\nmissing:\n#{missing.ai}" unless missing.empty?
+    msg += "\nextra:\n#{extra.ai}" unless extra.empty?
     msg
   end
 end

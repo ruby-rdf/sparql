@@ -31,10 +31,10 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Union"}
         @solutions = RDF::Query::Solutions(operands.inject([]) do |memo, op|
-          solns = op.execute(queryable, options.merge(depth: options[:depth].to_i + 1))
+          solns = op.execute(queryable, depth: options[:depth].to_i + 1, **options)
           debug(options) {"=> (op) #{solns.inspect}"}
           memo + solns
         end)

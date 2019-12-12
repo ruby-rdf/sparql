@@ -35,13 +35,13 @@ module SPARQL; module Algebra
       # @return [RDF::Queryable]
       #   A Queryable with constructed triples
       # @see    http://www.w3.org/TR/sparql11-query/#construct
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Construct #{operands.first}, #{options.inspect}"}
         graph = RDF::Graph.new
         patterns = operands.first
         query = operands.last
 
-        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)).each do |solution|
+        queryable.query(query, depth: options[:depth].to_i + 1, **options).each do |solution|
           debug(options) {"(construct apply) #{solution.inspect} to BGP"}
           
           # Create a mapping from BNodes within the pattern list to newly constructed BNodes

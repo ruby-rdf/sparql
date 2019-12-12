@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, options = {})
+      def execute(queryable, **options)
         # Operands are an array of patterns and Queries (when named).
         # Create a new query made up all patterns
         patterns = operand.inject([]) do |memo, op|
@@ -42,7 +42,7 @@ module SPARQL; module Algebra
         end
         query = RDF::Query.new(*patterns, {}) # FIXME: added hash argument needed until Statement#to_hash removed.
         debug(options) {"DeleteWhere query #{query.to_sse}"}
-        query.execute(queryable, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+        query.execute(queryable, depth: options[:depth].to_i + 1, **options) do |solution|
           debug(options) {"DeleteWhere solution #{solution.to_sse}"}
           query.each_statement do |pattern|
             pattern = pattern.dup.bind(solution)

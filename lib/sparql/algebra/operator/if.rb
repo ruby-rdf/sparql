@@ -33,10 +33,10 @@ module SPARQL; module Algebra
       #   a query solution containing zero or more variable bindings
       # @return [RDF::Term]
       # @raise [TypeError]
-      def evaluate(bindings, options = {})
-        operand(0).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1)) == RDF::Literal::TRUE ?
-          operand(1).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1).merge(depth: options[:depth].to_i + 1)) :
-          operand(2).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))
+      def evaluate(bindings, **options)
+        operand(0).evaluate(bindings, depth: options[:depth].to_i + 1, **options) == RDF::Literal::TRUE ?
+          operand(1).evaluate(bindings, depth: options[:depth].to_i + 1, **options) :
+          operand(2).evaluate(bindings, depth: options[:depth].to_i + 1, **options)
         rescue
           raise TypeError
       end

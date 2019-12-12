@@ -31,11 +31,11 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `queryable` is immutable
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, options = {})
+      def execute(queryable, **options)
         debug(options) {"Update"}
         raise IOError, "queryable is not mutable" unless queryable.mutable?
         operands.each do |op|
-          op.execute(queryable, options.merge(depth: options[:depth].to_i + 1))
+          op.execute(queryable, depth: options[:depth].to_i + 1, **options)
         end
         queryable
       end

@@ -24,7 +24,7 @@ module SPARQL; module Algebra
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
       # @raise  [TypeError] if any operand is invalid
-      def initialize(left, right, options = {})
+      def initialize(left, right, **options)
         super
       end
 
@@ -37,15 +37,15 @@ module SPARQL; module Algebra
       #   options passed from query
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operands could not be coerced to boolean literals
-      def evaluate(bindings, options = {})
+      def evaluate(bindings, **options)
         begin
-          left = boolean(operand(0).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))).true?
+          left = boolean(operand(0).evaluate(bindings, depth: options[:depth].to_i + 1, **options)).true?
         rescue TypeError
           left = nil
         end
         
         begin
-          right = boolean(operand(1).evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))).true?
+          right = boolean(operand(1).evaluate(bindings, depth: options[:depth].to_i + 1, **options)).true?
         rescue TypeError
           right = nil
         end

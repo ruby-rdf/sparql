@@ -31,9 +31,9 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         @solutions = operands.last.
-          execute(queryable, options.merge(depth: options[:depth].to_i + 1)).reduced
+          execute(queryable, depth: options[:depth].to_i + 1, **options).reduced
         @solutions.each(&block) if block_given?
         @solutions
       end

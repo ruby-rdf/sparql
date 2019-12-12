@@ -24,12 +24,12 @@ module SPARQL; module Algebra
     # @return [RDF::Term]
     # @raise [TypeError]
     # @abstract
-    def aggregate(solutions = [], options = {})
+    def aggregate(solutions = [], **options)
       operands.shift if distinct = (operands.first == :distinct)
       args_enum = solutions.map do |solution|
         operands.map do |operand|
           begin
-            operand.evaluate(solution, options.merge(depth: options[:depth].to_i + 1))
+            operand.evaluate(solution, depth: options[:depth].to_i + 1, **options)
           rescue TypeError
             # Ignore errors
             nil

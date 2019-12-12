@@ -38,12 +38,12 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlGroupAggregate
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Group"}
         exprlist = operands.first
         query = operands.last
         aggregates = operands.length == 3 ? operand(1) : []
-        solutions = queryable.query(query, options.merge(depth: options[:depth].to_i + 1))
+        solutions = queryable.query(query, depth: options[:depth].to_i + 1, **options)
 
         groups = solutions.group_by do |solution|
           # Evaluate each exprlist operand to get groups where each key is a new solution
@@ -54,14 +54,14 @@ module SPARQL; module Algebra
               if operand.is_a?(Array)
                 # Form is [variable, expression]
                 soln[operand.first] = operand.last.evaluate(solution,
-                                                            options.merge(
-                                                             queryable: queryable,
-                                                             depth: options[:depth].to_i + 1))
+                                                            queryable: queryable,
+                                                            depth: options[:depth].to_i + 1,
+                                                            **options)
               else
                 # Form is variable
-                soln[operand] = operand.evaluate(solution, options.merge(
-                                                            queryable: queryable,
-                                                            depth: options[:depth].to_i + 1))
+                soln[operand] = operand.evaluate(solution, queryable: queryable,
+                                                           depth: options[:depth].to_i + 1,
+                                                           **options)
               end
             rescue TypeError
               # Ignore expression
@@ -76,7 +76,7 @@ module SPARQL; module Algebra
         @solutions = RDF::Query::Solutions(groups.map do |group_soln, solns|
           aggregates.each do |(var, aggregate)|
             begin
-              group_soln[var] = aggregate.aggregate(solns, options)
+              group_soln[var] = aggregate.aggregate(solns, **options)
             rescue TypeError
               # Ignored in output
             end

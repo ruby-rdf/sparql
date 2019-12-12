@@ -24,7 +24,7 @@ describe SPARQL::Grammar do
       }
     }.each do |test, options|
       it "returns true for #{test}" do
-        result = sparql_query(options.merge(repository: "sparql-spec", form: :ask, to_hash: false))
+        result = sparql_query(repository: "sparql-spec", form: :ask, to_hash: false, **options)
         expect(result).to eq RDF::Literal::TRUE
       end
     end

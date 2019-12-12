@@ -1,7 +1,8 @@
 require 'rspec/matchers'
+require 'awesome_print'
 
 RSpec::Matchers.define :generate do |expected, options|
-  def parser(options = {})
+  def parser(**options)
     @debug = options[:progress] ? 2 : []
     Proc.new do |query|
       parser = SPARQL::Grammar::Parser.new(query, {debug: @debug, resolve_iris: true}.merge(options))
@@ -56,14 +57,14 @@ RSpec::Matchers.define :generate do |expected, options|
     when String
       "Expected     : #{expected}\n"
     else
-      "Expected     : #{expected.inspect}\n" +
+      "Expected     : #{expected.ai}\n" +
       "Expected(sse): #{expected.to_sxp}\n"
     end +
     case input
     when String
       "Actual       : #{actual}\n"
     else
-      "Actual       : #{actual.inspect}\n" +
+      "Actual       : #{actual.ai}\n" +
       "Actual(sse)  : #{actual.to_sxp}\n"
     end +
     "Processing results:\n#{@debug.is_a?(Array) ? @debug.join("\n") : ''}"

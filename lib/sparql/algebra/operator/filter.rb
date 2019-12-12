@@ -36,13 +36,13 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       # @see    http://www.w3.org/TR/sparql11-query/#ebv
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Filter #{operands.first.to_sxp}"}
         opts = options.merge(queryable: queryable, depth: options[:depth].to_i + 1)
         @solutions = RDF::Query::Solutions()
-        queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+        queryable.query(operands.last, depth: options[:depth].to_i + 1, **options) do |solution|
           begin
-            pass = boolean(operands.first.evaluate(solution, opts)).true?
+            pass = boolean(operands.first.evaluate(solution, **opts)).true?
             debug(options) {"(filter) #{pass.inspect} #{solution.to_h.inspect}"}
             @solutions << solution if pass
           rescue

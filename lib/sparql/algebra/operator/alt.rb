@@ -33,7 +33,7 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Alt #{[subject, operands, object].to_sse}"}
 
@@ -55,7 +55,7 @@ module SPARQL; module Algebra
         end
 
         query = Union.new(qa, qb)
-        queryable.query(query, options.merge(depth: options[:depth].to_i + 1), &block)
+        queryable.query(query, depth: options[:depth].to_i + 1, **options, &block)
       end
     end # Alt
   end # Operator

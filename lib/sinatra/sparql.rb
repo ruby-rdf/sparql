@@ -27,7 +27,7 @@ module Sinatra
       #
       # @see http://www.w3.org/TR/sparql11-service-description
       # @see http://www.w3.org/TR/void/
-      def service_description(options = {})
+      def service_description(**options)
         repository = options[:repository]
 
         g = RDF::Graph.new

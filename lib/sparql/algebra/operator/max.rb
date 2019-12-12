@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #            (bgp (triple ?s ?p ?o))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggMax
-    class Max < Operator::Unary
+    class Max < Operator
       include Aggregate
 
       NAME = :max
@@ -25,6 +25,8 @@ module SPARQL; module Algebra
       #   enum of evaluated operand
       # @return [RDF::Literal] The maximum value of the terms
       def apply(enum)
+        # FIXME: we don't actually do anything with distinct
+        operands.shift if distinct = (operands.first == :distinct)
         if enum.empty?
           raise TypeError, "Maximum of an empty multiset"
         elsif enum.flatten.all? {|n| n.literal?}
