@@ -29,7 +29,7 @@ module Rack; module SPARQL
     # @param  [Hash{Symbol => Object}] options
     #   Other options passed to writer.
     # @option options [RDF::Format, #to_sym] :format Specific RDF writer format to use
-    def initialize(app, **options)
+    def initialize(app, options = {})
       @app, @options = app, options
     end
 
