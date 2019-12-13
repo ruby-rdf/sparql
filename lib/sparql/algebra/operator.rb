@@ -331,7 +331,7 @@ module SPARQL; module Algebra
     # @overload initialize(*operands)
     #   @param  [Array<RDF::Term>] operands
     #
-    # @overload initialize(*operands, options)
+    # @overload initialize(*operands, **options)
     #   @param  [Array<RDF::Term>] operands
     #   @param  [Hash{Symbol => Object}] options
     #     any additional options

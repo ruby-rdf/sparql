@@ -7,7 +7,7 @@ describe SPARQL do
       query = "query"
       parser = double("Parser")
       operator = double("Operator")
-      expect(SPARQL::Grammar::Parser).to receive(:new).with(query).and_return(parser)
+      expect(SPARQL::Grammar::Parser).to receive(:new).with(query, any_args).and_return(parser)
       expect(parser).to receive(:parse).and_return(operator)
 
       expect(SPARQL.parse(query)).to eq operator
