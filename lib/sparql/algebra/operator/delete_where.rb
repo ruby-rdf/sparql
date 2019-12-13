@@ -40,7 +40,7 @@ module SPARQL; module Algebra
           end
           memo
         end
-        query = RDF::Query.new(*patterns, {}) # FIXME: added hash argument needed until Statement#to_hash removed.
+        query = RDF::Query.new(*patterns, **{}) # FIXME: added hash argument needed until Statement#to_hash removed.
         debug(options) {"DeleteWhere query #{query.to_sse}"}
         query.execute(queryable, depth: options[:depth].to_i + 1, **options) do |solution|
           debug(options) {"DeleteWhere solution #{solution.to_sse}"}

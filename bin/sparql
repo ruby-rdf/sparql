@@ -30,7 +30,7 @@ def run(input, **options)
   end
 
   query = if options[:sse]
-    SPARQL::Algebra.parse(input, {debug: options[:debug], update: options[:update]})
+    SPARQL::Algebra.parse(input, debug: options[:debug], update: options[:update])
   else
     # Only do grammar debugging if we're generating SSE
     SPARQL::Grammar.parse(input, **options)

@@ -54,11 +54,11 @@ module RDF::Queryable
 
       # Find terms not in self as a subject and recurse with their subjects
       terms.reject {|term| self.first(subject: term)}.each do |term|
-        self.query(predicate: term) do |statement|
+        self.query({predicate: term}) do |statement|
           query_terms << statement.subject
         end
 
-        self.query(object: term) do |statement|
+        self.query({object: term}) do |statement|
           query_terms << statement.subject
         end
       end
@@ -69,7 +69,7 @@ module RDF::Queryable
     # Don't consider term if already in graph
     terms.reject {|term| graph.first(subject: term)}.each do |term|
       # Find statements from queryiable with term as a subject
-      self.query(subject: term) do |statement|
+      self.query({subject: term}) do |statement|
         yield(statement) if block_given?
         graph << statement
         
@@ -81,7 +81,7 @@ module RDF::Queryable
             RDF.predicate => statement.predicate,
             RDF.object => statement.object,
           }
-        }).execute(self).each do |solution|
+        }, **{}).execute(self).each do |solution|
           # Recurse to include this subject
           recurse_opts = options.merge(non_subjects: false, graph: graph)
           self.concise_bounded_description(solution[:s], recurse_opts, &block)

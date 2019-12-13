@@ -255,7 +255,7 @@ module RDF::Queryable
         enum_for(:query, pattern, **options)
       end
     else
-      query_without_sparql(pattern, options, &block)
+      query_without_sparql(pattern, **options, &block)
     end
   end
   

@@ -1415,7 +1415,7 @@ module SPARQL::Grammar
         str = lit.delete(:string)
         lit[:datatype] = lit.delete(:iri) if lit[:iri]
         lit[:language] = lit.delete(:language).last.downcase if lit[:language]
-        input[:literal] = RDF::Literal.new(str, lit) if str
+        input[:literal] = RDF::Literal.new(str, **lit) if str
       end
     end
 

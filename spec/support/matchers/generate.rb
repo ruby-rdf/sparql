@@ -5,7 +5,7 @@ RSpec::Matchers.define :generate do |expected, options|
   def parser(**options)
     @debug = options[:progress] ? 2 : []
     Proc.new do |query|
-      parser = SPARQL::Grammar::Parser.new(query, {debug: @debug, resolve_iris: true}.merge(options))
+      parser = SPARQL::Grammar::Parser.new(query, debug: @debug, resolve_iris: true, **options)
       options[:production] ? parser.parse(options[:production]) : parser.parse
     end
   end
@@ -24,29 +24,29 @@ RSpec::Matchers.define :generate do |expected, options|
   match do |input|
     case
     when expected == EBNF::LL1::Parser::Error
-      expect {parser(options).call(input)}.to raise_error(expected)
+      expect {parser(**options).call(input)}.to raise_error(expected)
     when options[:last]
       # Only look at end of production
-      @actual = parser(options).call(input).last
+      @actual = parser(**options).call(input).last
       if expected.is_a?(String)
         expect(normalize(@actual.to_sxp)).to eq normalize(expected)
       else
         expect(@actual).to eq expected
       end
     when options[:shift]
-      @actual = parser(options).call(input)[1..-1]
+      @actual = parser(**options).call(input)[1..-1]
       expect(@actual).to eq expected
     when expected.nil?
-      @actual = parser(options).call(input)
+      @actual = parser(**options).call(input)
       expect(@actual).to be_nil
     when expected.is_a?(String)
-      @actual = parser(options).call(input).to_sxp
+      @actual = parser(**options).call(input).to_sxp
       expect(normalize(@actual)).to eq normalize(expected)
     when expected.is_a?(Symbol)
-      @actual = parser(options).call(input)
+      @actual = parser(**options).call(input)
       expect(@actual.to_sxp).to eq expected.to_s
     else
-      @actual = parser(options).call(input)
+      @actual = parser(**options).call(input)
       expect(@actual).to eq expected
     end
   end

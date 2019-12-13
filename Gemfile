@@ -27,6 +27,7 @@ group :development do
   gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
   gem 'ld-patch',         github: "gkellogg/ld-patch",            branch: "develop"
   gem 'shex',             github: "ruby-rdf/shex",                branch: "develop"
+  gem 'awesome_print',    github: 'MatthiasWinkelmann/awesome_print'
   gem "equivalent-xml",   '>= 0.6.0'
   gem 'psych',            platforms: [:mri, :rbx]
   gem 'simplecov',        require: false

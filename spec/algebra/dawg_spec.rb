@@ -70,7 +70,7 @@ shared_examples "DAWG-SSE" do |id, label, comment, tests|
             t.result.graphs.each do |info|
               data, format, default = info[:data], info[:format]
               if data
-                RDF::Reader.for(format).new(data, info).each_statement do |st|
+                RDF::Reader.for(format).new(data, **info).each_statement do |st|
                   st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
                   r << st
                 end

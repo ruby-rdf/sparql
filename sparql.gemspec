@@ -24,9 +24,8 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version      = '>= 2.4'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',                '~> 3.0'
-  #gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.0'
-  gem.add_runtime_dependency     'rdf-aggregate-repo', '>= 2.2', '< 4.0'
+  gem.add_runtime_dependency     'rdf',                '~> 3.1'
+  gem.add_runtime_dependency     'rdf-aggregate-repo', '>= 3.1'
   gem.add_runtime_dependency     'ebnf',               '~> 1.2'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
   gem.add_runtime_dependency     'sxp',                '~> 1.1'
@@ -35,13 +34,13 @@ Gem::Specification.new do |gem|
 
   gem.add_development_dependency 'sinatra',            '~> 2.0'
   gem.add_development_dependency 'rack',               '~> 2.0'
-  gem.add_development_dependency 'rack-test',          '~> 0.8'
-  gem.add_development_dependency 'rdf-spec',           '~> 3.0'
+  gem.add_development_dependency 'rack-test',          '~> 1.1'
+  gem.add_development_dependency 'rdf-spec',           '~> 3.1'
   gem.add_development_dependency 'linkeddata',         '~> 3.0'
   gem.add_development_dependency 'open-uri-cached',    '~> 0.0', '>= 0.0.5'
-  gem.add_development_dependency 'rspec',              '~> 3.7'
+  gem.add_development_dependency 'rspec',              '~> 3.9'
   gem.add_development_dependency 'rspec-its',          '~> 1.2'
-  gem.add_development_dependency 'yard' ,              '~> 0.9.12'
+  gem.add_development_dependency 'yard' ,              '~> 0.9.20'
 
   gem.post_install_message       = nil
 end
