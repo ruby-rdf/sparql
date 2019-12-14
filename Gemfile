@@ -30,8 +30,8 @@ group :development do
   gem 'awesome_print',    github: 'MatthiasWinkelmann/awesome_print'
   gem "equivalent-xml",   '>= 0.6.0'
   gem 'psych',            platforms: [:mri, :rbx]
-  gem 'simplecov',        require: false
-  gem 'coveralls',        require: false
+  gem 'simplecov',        platforms: :mri
+  gem 'coveralls',        '~> 0.8', platforms: :mri
 end
 
 group :debug do
