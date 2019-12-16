@@ -54,7 +54,7 @@ def server(options)
 
     get '/' do
       if params["query"]
-        query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::URI.decode(params["query"].to_s)
+        query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::CGI.unescape(params["query"].to_s)
         SPARQL.execute(query, settings.repository)
       else
         settings.sparql_options.replace(standard_prefixes: true)

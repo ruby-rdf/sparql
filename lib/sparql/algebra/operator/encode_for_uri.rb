@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       # @raise  [TypeError] if the operand is not a literal value
       def apply(operand)
         case operand
-          when RDF::Literal then RDF::Literal(::URI.encode(operand.to_s))
+          when RDF::Literal then RDF::Literal(CGI.escape(operand.to_s))
           else raise TypeError, "expected an RDF::Literal, but got #{operand.inspect}"
         end
       end

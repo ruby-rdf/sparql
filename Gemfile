@@ -11,11 +11,13 @@ gem 'sxp',                github: "dryruby/sxp.rb",               branch: "devel
 
 group :development do
   gem 'json-ld',          github: "ruby-rdf/json-ld",             branch: "develop"
+  gem 'json-ld-preloaded',github: "ruby-rdf/json-ld-preloaded",   branch: "develop"
   gem 'linkeddata',       github: "ruby-rdf/linkeddata",          branch: "develop"
   gem 'rdf-isomorphic',   github: "ruby-rdf/rdf-isomorphic",      branch: "develop"
   gem 'rdf-json',         github: "ruby-rdf/rdf-json",            branch: "develop"
   gem 'rdf-microdata',    github: "ruby-rdf/rdf-microdata",       branch: "develop"
   gem 'rdf-n3',           github: "ruby-rdf/rdf-n3",              branch: "develop"
+  gem 'rdf-normalize',    github: "ruby-rdf/rdf-normalize",       branch: "develop"
   gem 'rdf-rdfa',         github: "ruby-rdf/rdf-rdfa",            branch: "develop"
   gem 'rdf-reasoner',     github: "ruby-rdf/rdf-reasoner",        branch: "develop"
   gem 'rdf-rdfxml',       github: "ruby-rdf/rdf-rdfxml",          branch: "develop"
