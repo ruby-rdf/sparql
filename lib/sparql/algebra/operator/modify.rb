@@ -43,7 +43,7 @@ module SPARQL; module Algebra
 
           # Execute each operand with queryable and solution
           operands.each do |op|
-            op.execute(queryable, solution, depth: options[:depth].to_i + 1, **options)
+            op.execute(queryable, solutions: solution, depth: options[:depth].to_i + 1, **options)
           end
         end
         queryable
