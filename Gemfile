@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem 'ebnf',               github: "gkellogg/ebnf",                branch: "develop"
+gem 'ebnf',               github: "dryruby/ebnf",                 branch: "develop"
 gem 'rdf',                github: "ruby-rdf/rdf",                 branch: "develop"
 gem 'rdf-aggregate-repo', github: "ruby-rdf/rdf-aggregate-repo",  branch: "develop"
 gem "rdf-xsd",            github: "ruby-rdf/rdf-xsd",             branch: "develop"
@@ -27,7 +27,7 @@ group :development do
   gem 'rdf-trix',         github: "ruby-rdf/rdf-trix",            branch: "develop"
   gem 'rdf-turtle',       github: "ruby-rdf/rdf-turtle",          branch: "develop"
   gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
-  gem 'ld-patch',         github: "gkellogg/ld-patch",            branch: "develop"
+  gem 'ld-patch',         github: "ruby-rdf/ld-patch",            branch: "develop"
   gem 'shex',             github: "ruby-rdf/shex",                branch: "develop"
   gem 'awesome_print',    github: 'MatthiasWinkelmann/awesome_print'
   gem "equivalent-xml",   '>= 0.6.0'
