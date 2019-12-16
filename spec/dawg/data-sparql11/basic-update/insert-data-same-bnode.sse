@@ -7,9 +7,9 @@
     (modify
       (project (?count)
         (extend
-          ((?count ?.0))
+          ((?count ??.0))
           (group ()
-            ((?.0 (count)))
+            ((??.0 (count)))
             (graph :g2 (bgp (triple ?s ?p ?o))))))
       (insert ((graph :g3 ((triple :s :p ?count))))))
     (drop :g1)

@@ -13,8 +13,8 @@ module SPARQL; module Algebra
     #   options passed from query
     # @return [RDF::Term]
     # @abstract
-    def evaluate(bindings, options = {})
-      args = operands.map { |operand| operand.evaluate(bindings, options.merge(depth: options[:depth].to_i + 1)) }
+    def evaluate(bindings, **options)
+      args = operands.map { |operand| operand.evaluate(bindings, depth: options[:depth].to_i + 1, **options) }
       options[:memoize] ? memoize(*args) : apply(*args)
     end
 

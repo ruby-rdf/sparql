@@ -35,14 +35,14 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {})
+      def execute(queryable, **options)
         debug(options) {"Sequence #{operands.to_sse}"}
 
-        last = queryable.query(operands.shift, options.merge(depth: options[:depth].to_i + 1))
+        last = queryable.query(operands.shift, depth: options[:depth].to_i + 1, **options)
         debug(options) {"(sequence)=>(last) #{last.map(&:to_h).to_sse}"}
 
         operands.each do |op|
-          this = queryable.query(op, options.merge(depth: options[:depth].to_i + 1))
+          this = queryable.query(op, depth: options[:depth].to_i + 1, **options)
           debug(options) {"(sequence)=>(this) #{this.map(&:to_h).to_sse}"}
 
           last = last.map do |s1|

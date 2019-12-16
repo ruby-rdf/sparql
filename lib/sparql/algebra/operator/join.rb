@@ -34,17 +34,17 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
       # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         # Join(Ω1, Ω2) = { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible }
         # eval(D(G), Join(P1, P2)) = Join(eval(D(G), P1), eval(D(G), P2))
         #
         # Generate solutions independently, merge based on solution compatibility
         debug(options) {"Join #{operands.to_sse}"}
  
-        left = queryable.query(operand(0), options.merge(depth: options[:depth].to_i + 1))
+        left = queryable.query(operand(0), depth: options[:depth].to_i + 1, **options)
         debug(options) {"(join)=>(left) #{left.map(&:to_h).to_sse}"}
 
-        right = queryable.query(operand(1), options.merge(depth: options[:depth].to_i + 1))
+        right = queryable.query(operand(1), depth: options[:depth].to_i + 1, **options)
         debug(options) {"(join)=>(right) #{right.map(&:to_h).to_sse}"}
 
         @solutions = RDF::Query::Solutions(left.map do |s1|

@@ -33,7 +33,7 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         @solutions = RDF::Query::Solutions()
         Array(operands[1..-1]).each do |row|
           next unless row.is_a?(Array)

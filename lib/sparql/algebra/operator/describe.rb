@@ -40,7 +40,7 @@ module SPARQL; module Algebra
       # @return [RDF::Graph]
       #   containing the constructed triples
       # @see    http://www.w3.org/TR/sparql11-query/#describe
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Describe #{operands.first}, #{options.inspect}"}
 
         # Describe any constand URIs

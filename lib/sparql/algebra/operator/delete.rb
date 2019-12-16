@@ -20,7 +20,7 @@ module SPARQL; module Algebra
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
-      # @param  [RDF::Query::Solution] solution
+      # @param  [RDF::Query::Solution] :solution
       #   Solution to map to patterns for this operation
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
@@ -31,8 +31,10 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, solution, options = {})
+      def execute(queryable, solutions: nil, **options)
         debug(options) {"Delete: #{solution} against #{operands.to_sse}"}
+        # Only binds the first solution
+        solution = solutions.is_a?(RDF::Query::Solutions) ? solutions.first : solutions
         # Operands are an array of patterns and Queries (when named).
         # Create a new query made up all patterns
         patterns = operand.inject([]) do |memo, op|

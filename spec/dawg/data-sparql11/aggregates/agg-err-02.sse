@@ -1,6 +1,6 @@
 (prefix
  ((xsd: <http://www.w3.org/2001/XMLSchema#>) (: <http://example.com/data/#>))
  (project (?g ?avg)
-  (extend ((?avg ?.0))
-   (group (?g) ((?.0 (avg (if (isnumeric ?p) ?p (coalesce (xsd:double ?p) 0)))))
+  (extend ((?avg ??.0))
+   (group (?g) ((??.0 (avg (if (isnumeric ?p) ?p (coalesce (xsd:double ?p) 0)))))
      (bgp (triple ?g :p ?p)))) ))

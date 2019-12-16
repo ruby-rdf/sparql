@@ -1,0 +1,12 @@
+select ?x ?y where {
+   values ?x { 1 2 }
+   OPTIONAL {
+      select ?y where {
+          {
+              values ?y { 5 6  }
+          }  UNION {
+              bind (?x as ?y)
+          }
+      }
+  }
+}

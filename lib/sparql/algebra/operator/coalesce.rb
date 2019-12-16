@@ -41,10 +41,10 @@ module SPARQL; module Algebra
       #   options passed from query
       # @return [RDF::Term]
       # @raise  [TypeError] if none of the operands succeeds
-      def evaluate(bindings, options = {})
+      def evaluate(bindings, **options)
         operands.each do |op|
           begin
-            return op.evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))
+            return op.evaluate(bindings, depth: options[:depth].to_i + 1, **options)
           rescue
           end
         end

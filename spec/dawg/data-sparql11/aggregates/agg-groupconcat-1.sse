@@ -2,6 +2,6 @@
   (ask
     (filter (|| (= ?g "1 22") (= ?g "22 1"))
       (project (?g)
-        (extend ((?g ?.0))
-          (group () ((?.0 (group_concat ?o)))
+        (extend ((?g ??.0))
+          (group () ((??.0 (group_concat ?o)))
             (bgp (triple ??0 :p1 ?o))))))))

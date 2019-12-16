@@ -39,7 +39,7 @@ module SPARQL; module Algebra
     # @raise [NotImplementedError]
     #   If an attempt is made to perform an unsupported operation
     # @see    http://www.w3.org/TR/sparql11-update/
-    def execute(queryable, options = {}, &block)
+    def execute(queryable, **options, &block)
       raise NotImplementedError, "#{self.class}#execute(#{queryable})"
     end
 

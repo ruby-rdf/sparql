@@ -2,7 +2,7 @@ source "https://rubygems.org"
 
 gemspec
 
-gem 'ebnf',               github: "gkellogg/ebnf",                branch: "develop"
+gem 'ebnf',               github: "dryruby/ebnf",                 branch: "develop"
 gem 'rdf',                github: "ruby-rdf/rdf",                 branch: "develop"
 gem 'rdf-aggregate-repo', github: "ruby-rdf/rdf-aggregate-repo",  branch: "develop"
 gem "rdf-xsd",            github: "ruby-rdf/rdf-xsd",             branch: "develop"
@@ -11,11 +11,13 @@ gem 'sxp',                github: "dryruby/sxp.rb",               branch: "devel
 
 group :development do
   gem 'json-ld',          github: "ruby-rdf/json-ld",             branch: "develop"
+  gem 'json-ld-preloaded',github: "ruby-rdf/json-ld-preloaded",   branch: "develop"
   gem 'linkeddata',       github: "ruby-rdf/linkeddata",          branch: "develop"
   gem 'rdf-isomorphic',   github: "ruby-rdf/rdf-isomorphic",      branch: "develop"
   gem 'rdf-json',         github: "ruby-rdf/rdf-json",            branch: "develop"
   gem 'rdf-microdata',    github: "ruby-rdf/rdf-microdata",       branch: "develop"
   gem 'rdf-n3',           github: "ruby-rdf/rdf-n3",              branch: "develop"
+  gem 'rdf-normalize',    github: "ruby-rdf/rdf-normalize",       branch: "develop"
   gem 'rdf-rdfa',         github: "ruby-rdf/rdf-rdfa",            branch: "develop"
   gem 'rdf-reasoner',     github: "ruby-rdf/rdf-reasoner",        branch: "develop"
   gem 'rdf-rdfxml',       github: "ruby-rdf/rdf-rdfxml",          branch: "develop"
@@ -25,12 +27,13 @@ group :development do
   gem 'rdf-trix',         github: "ruby-rdf/rdf-trix",            branch: "develop"
   gem 'rdf-turtle',       github: "ruby-rdf/rdf-turtle",          branch: "develop"
   gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
-  gem 'ld-patch',         github: "gkellogg/ld-patch",            branch: "develop"
+  gem 'ld-patch',         github: "ruby-rdf/ld-patch",            branch: "develop"
   gem 'shex',             github: "ruby-rdf/shex",                branch: "develop"
+  gem 'awesome_print',    github: 'MatthiasWinkelmann/awesome_print'
   gem "equivalent-xml",   '>= 0.6.0'
   gem 'psych',            platforms: [:mri, :rbx]
-  gem 'simplecov',        require: false
-  gem 'coveralls',        require: false
+  gem 'simplecov',        platforms: :mri
+  gem 'coveralls',        '~> 0.8', platforms: :mri
 end
 
 group :debug do
@@ -43,9 +46,4 @@ end
 
 group :test do
   gem 'rake'
-end
-
-platforms :rbx do
-  gem 'rubysl', '~> 2.0'
-  gem 'rubinius', '~> 2.0'
 end

@@ -24,7 +24,7 @@ describe SPARQL::Grammar do
       }
     }.each do |test, options|
       it "returns true for #{test}" do
-        result = sparql_query(options.merge(repository: "sparql-spec", form: :ask, to_hash: false))
+        result = sparql_query(repository: "sparql-spec", form: :ask, to_hash: false, **options)
         expect(result).to eq RDF::Literal::TRUE
       end
     end
@@ -45,9 +45,9 @@ describe SPARQL::Grammar do
         sse: %{
           (project
             (?class ?keys)
-            (extend ((?keys ?.0))
+            (extend ((?keys ??.0))
               (group (?class ?key)
-                ((?.0 (group_concat (separator ",") distinct ?item)))
+                ((??.0 (group_concat (separator ",") distinct ?item)))
                 (join
                   (bgp (triple ?class <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class>))
                   (join

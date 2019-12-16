@@ -71,7 +71,7 @@ module Rack; module SPARQL
         serialize_options = {}
         serialize_options[:content_types] = env['ORDERED_CONTENT_TYPES'] if env['ORDERED_CONTENT_TYPES']
         serialize_options.merge!(@options)
-        results = ::SPARQL.serialize_results(body, serialize_options)
+        results = ::SPARQL.serialize_results(body, **serialize_options)
         raise RDF::WriterError, "can't serialize results" unless results
         headers = headers.merge(VARY).merge('Content-Type' => results.content_type) # FIXME: don't overwrite existing Vary headers
         [status, headers, [results]]

@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, options = {})
+      def execute(queryable, **options)
         operand.each do |op|
           debug(options) {"DeleteData #{op.to_sxp}"}
           queryable.delete(op)

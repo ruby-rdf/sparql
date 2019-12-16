@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Reverse #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]
 
@@ -42,7 +42,7 @@ module SPARQL; module Algebra
         else
           operand(0)
         end
-        queryable.query(query, options.merge(
+        queryable.query(query, **options.merge(
           subject: object,
           object: subject,
           depth: options[:depth].to_i + 1

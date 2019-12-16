@@ -18,7 +18,7 @@ module Rack
     # @param  [Hash{Symbol => Object}] options
     # @option options [Boolean]        :overwrite (false)
     # @return [void]
-    def self.register_mime_types!(options = {})
+    def self.register_mime_types!(**options)
       if defined?(Rack::Mime::MIME_TYPES)
         RDF::Format.each do |format|
           if !Rack::Mime::MIME_TYPES.has_key?(file_ext = ".#{format.to_sym}") || options[:overwrite]

@@ -28,7 +28,7 @@ def earl_preamble(options)
 )
 end
 
-def run_tc(t, options = {})
+def run_tc(t, **options)
   options[:msg] ||= {}
   options[:tests] ||= 0
   options[:tests] += 1
@@ -303,7 +303,7 @@ earl_preamble(options) if options[:earl]
       next unless tc.approved?
       name = Array(tc.name).join("") + Array(tc.entry).join("")
       next unless ARGV.empty? || ARGV.any? {|n| name.match(/#{n}/)}
-      run_tc(tc, options)
+      run_tc(tc, **options)
     end
   end
 end

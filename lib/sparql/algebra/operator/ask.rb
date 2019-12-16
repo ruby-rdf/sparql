@@ -29,9 +29,9 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Literal::Boolean]\
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {})
+      def execute(queryable, **options)
         debug(options) {"Ask #{operands.first}"}
-        res = boolean(!queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1)).empty?)
+        res = boolean(!queryable.query(operands.last, depth: options[:depth].to_i + 1, **options).empty?)
         yield res if block_given?
         res
       end

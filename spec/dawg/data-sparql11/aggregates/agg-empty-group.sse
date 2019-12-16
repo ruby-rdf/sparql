@@ -1,5 +1,5 @@
 (prefix ((ex: <http://example.com/>))
   (project (?x ?max)
-    (extend ((?max ?.0))
-      (group (?x) ((?.0 (max ?value)))
+    (extend ((?max ??.0))
+      (group (?x) ((??.0 (max ?value)))
         (bgp (triple ?x ex:p ?value))))))

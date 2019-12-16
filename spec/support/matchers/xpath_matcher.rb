@@ -1,5 +1,6 @@
 require 'rspec/matchers'
 require 'nokogiri'
+require 'awesome_print'
 
 RSpec::Matchers.define :have_xpath do |xpath, value|
   match do |actual|
@@ -24,7 +25,7 @@ RSpec::Matchers.define :have_xpath do |xpath, value|
   end
   
   failure_message do |actual|
-    msg = "expected that #{xpath.inspect} would be #{value.inspect} in:\n" + actual.to_s
+    msg = "expected that #{xpath.ai} would be #{value.ai} in:\n" + actual.to_s
     msg += "was: #{@doc.root.at_xpath(xpath, @namespaces)}"
   end
 end

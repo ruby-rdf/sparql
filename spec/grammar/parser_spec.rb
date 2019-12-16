@@ -243,7 +243,7 @@ shared_examples "BuiltInCall" do
 end
 
 # [122]    RegexExpression
-shared_examples "RegexExpression" do |options = {}|
+shared_examples "RegexExpression" do |**options|
   context "RegexExpression" do
     {
       %q(REGEX ("foo"))        => EBNF::LL1::Parser::Error,
@@ -752,7 +752,7 @@ describe SPARQL::Grammar::Parser do
         "ASK WHERE {GRAPH <a> {?a ?b ?c}}", %q((ask (graph <a> (bgp (triple ?a ?b ?c)))))
       ],
       "count" => [
-        %q(SELECT (COUNT(?O) AS ?C) WHERE {?S ?P ?O}), %q((project (?C) (extend ((?C ?.0)) (group () ((?.0 (count ?O))) (bgp (triple ?S ?P ?O))))))
+        %q(SELECT (COUNT(?O) AS ?C) WHERE {?S ?P ?O}), %q((project (?C) (extend ((?C ??.0)) (group () ((??.0 (count ?O))) (bgp (triple ?S ?P ?O))))))
       ],
       "illegal bind variable" => [
         %q(SELECT * WHERE { ?s ?p ?o . BIND (?p AS ?o) }),
@@ -918,8 +918,8 @@ describe SPARQL::Grammar::Parser do
       #  "SELECT ?w (SAMPLE(?v) AS ?S) {?s :p ?v . OPTIONAL { ?s :q ?w }} GROUP BY ?w",
       #  %q(
       #  (project (?w ?S)
-      #    (extend ((?S ?.0))
-      #      (group (?w) ((?.0 (sample ?v)))
+      #    (extend ((?S ??.0))
+      #      (group (?w) ((??.0 (sample ?v)))
       #        (leftjoin
       #          (bgp (triple ?s <p> ?v))
       #          (bgp (triple ?s <q> ?w))))))
@@ -2008,8 +2008,7 @@ describe SPARQL::Grammar::Parser do
     describe "when matching the [138] BlankNode production rule", production: :BlankNode do
       it "recognizes the BlankNode terminal" do |example|
         if output = parser(example.metadata[:production]).call(%q(_:foobar))
-          v = RDF::Query::Variable.new("foobar")
-          v.distinguished = false
+          v = RDF::Query::Variable.new("foobar", distinguished: false)
           expect(output.last).to eq v
           expect(output.last).not_to be_distinguished
         end
@@ -2182,7 +2181,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  def parser(production = nil, options = {})
+  def parser(production = nil, **options)
     @debug = options[:debug] || []
     Proc.new do |query|
       parser = described_class.new(query, {debug: @debug, resolve_iris: true}.merge(options))

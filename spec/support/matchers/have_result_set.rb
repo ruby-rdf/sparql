@@ -1,4 +1,5 @@
 require 'rspec/matchers'
+require 'awesome_print'
 
 ::RSpec::Matchers.define :have_result_set do |expected|
   def normalize(soln)
@@ -14,7 +15,7 @@ require 'rspec/matchers'
   end
 
   failure_message do |input|
-    "Expected     : #{@expected.inspect}\n" +
-    "Actual       : #{@actual.inspect}\n"
+    "Expected     : #{@expected.ai}\n" +
+    "Actual       : #{@actual.ai}\n"
   end
 end

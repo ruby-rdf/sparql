@@ -3,7 +3,7 @@
   (project (?x ?max)
     (join
       (project (?max)
-        (extend ((?max ?.0))
-          (group () ((?.0 (max ?y)))
+        (extend ((?max ??.0))
+          (group () ((??.0 (max ?y)))
             (bgp (triple ?x ex:p ?y)))))
       (bgp (triple ?x ex:p ?max)))))

@@ -36,7 +36,7 @@ describe SPARQL::Grammar do
       end
     end
 
-    def parse(query, options = {})
+    def parse(query, **options)
       parser = SPARQL::Grammar::Parser.new(query)
       parser.parse(options[:update] ? :UpdateUnit: :QueryUnit)
     end

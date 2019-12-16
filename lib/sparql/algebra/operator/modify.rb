@@ -34,16 +34,16 @@ module SPARQL; module Algebra
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    http://www.w3.org/TR/sparql11-update/
-      def execute(queryable, options = {})
+      def execute(queryable, **options)
         debug(options) {"Modify"}
         query = operands.shift
 
-        queryable.query(query, options.merge(depth: options[:depth].to_i + 1)) do |solution|
+        queryable.query(query, depth: options[:depth].to_i + 1, **options) do |solution|
           debug(options) {"(solution)=>#{solution.inspect}"}
 
           # Execute each operand with queryable and solution
           operands.each do |op|
-            op.execute(queryable, solution, options.merge(depth: options[:depth].to_i + 1))
+            op.execute(queryable, solutions: solution, depth: options[:depth].to_i + 1, **options)
           end
         end
         queryable

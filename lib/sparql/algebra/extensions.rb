@@ -4,7 +4,7 @@ require 'json'
 # Extensions for Ruby's `NilClass` class.
 class NilClass
 
-  def evaluate(bindings, options = {})
+  def evaluate(bindings, **options)
     self
   end
 
@@ -53,8 +53,8 @@ class Array
   #   options passed from query
   # @return [RDF::Term]
   # @see SPARQL::Algebra::Expression.evaluate
-  def evaluate(bindings, options = {})
-    SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings, options)})
+  def evaluate(bindings, **options)
+    SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings, **options)})
   end
 
   ##
@@ -67,7 +67,7 @@ class Array
   # @raise [NotImplementedError]
   #   If an attempt is made to perform an unsupported operation
   # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-  def execute(queryable, options = {})
+  def execute(queryable, **options)
     raise NotImplementedError, "SPARQL::Algebra '#{first}' operator not implemented"
   end
 
@@ -191,7 +191,7 @@ module RDF::Term
   # @param [Hash{Symbol => Object}] options ({})
   #   options passed from query
   # @return [RDF::Term]
-  def evaluate(bindings, options = {})
+  def evaluate(bindings, **options)
     self
   end
 
@@ -243,7 +243,7 @@ module RDF::Queryable
       solutions = if method(:query_execute).arity == 1
         query_execute(pattern, &block)
       else
-        query_execute(pattern, options, &block)
+        query_execute(pattern, **options, &block)
       end
       after_query(pattern) if respond_to?(:after_query)
 
@@ -252,10 +252,10 @@ module RDF::Queryable
         solutions
       else
         # Return an enumerator
-        enum_for(:query, pattern, options)
+        enum_for(:query, pattern, **options)
       end
     else
-      query_without_sparql(pattern, options, &block)
+      query_without_sparql(pattern, **options, &block)
     end
   end
   
@@ -386,14 +386,9 @@ class RDF::Query::Variable
   #   options passed from query
   # @return [RDF::Term] the value of this variable
   # @raise [TypeError] if the variable is not bound
-  def evaluate(bindings, options = {})
+  def evaluate(bindings, **options)
     raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
-  end
-
-  def to_s
-    prefix = distinguished? || name.to_s[0,1] == '.' ? '?' : "??"
-    unbound? ? "#{prefix}#{name}" : "#{prefix}#{name}=#{value}"
   end
 end # RDF::Query::Variable
 

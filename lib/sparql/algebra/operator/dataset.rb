@@ -126,7 +126,7 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &base)
+      def execute(queryable, **options, &base)
         debug(options) {"Dataset"}
         default_datasets = []
         named_datasets = []
@@ -144,7 +144,7 @@ module SPARQL; module Algebra
           load_opts = {debug: options.fetch(:debug, nil), graph_name: uri, base_uri: uri}
           unless queryable.has_graph?(uri)
             debug(options) {"=> load #{uri}"}
-            queryable.load(uri.to_s, load_opts)
+            queryable.load(uri.to_s, **load_opts)
           end
         end
         debug(options) {
@@ -156,7 +156,7 @@ module SPARQL; module Algebra
         aggregate = RDF::AggregateRepo.new(queryable)
         named_datasets.each {|name| aggregate.named(name) if queryable.has_graph?(name)}
         aggregate.default(*default_datasets.select {|name| queryable.has_graph?(name)})
-        aggregate.query(operands.last, options.merge(depth: options[:depth].to_i + 1), &base)
+        aggregate.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
       end
       
       ##

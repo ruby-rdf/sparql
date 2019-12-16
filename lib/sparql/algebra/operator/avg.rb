@@ -6,12 +6,12 @@ module SPARQL; module Algebra
     # @example
     #    (prefix ((: <http://www.example.org/>))
     #      (project (?avg)
-    #        (extend ((?avg ?.0))
-    #          (group () ((?.0 (avg ?o)))
+    #        (extend ((?avg ??.0))
+    #          (group () ((??.0 (avg ?o)))
     #            (bgp (triple ?s :dec ?o))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggAvg
-    class Avg < Operator::Unary
+    class Avg < Operator
       include Aggregate
 
       NAME = :avg
@@ -23,6 +23,8 @@ module SPARQL; module Algebra
       #   enum of evaluated operand
       # @return [RDF::Literal::Numeric] The numeric average of the terms
       def apply(enum)
+        # FIXME: we don't actually do anything with distinct
+        operands.shift if distinct = (operands.first == :distinct)
         if enum.empty?
           RDF::Literal(0)
         elsif enum.flatten.all? {|n| n.is_a?(RDF::Literal::Numeric)}

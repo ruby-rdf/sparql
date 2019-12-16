@@ -36,8 +36,8 @@ module SPARQL; module Algebra
       #   options passed from query
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operands could not be coerced to a boolean literal
-      def evaluate(bindings, options = {})
-        res = operands.all? {|op| boolean(op.evaluate(bindings, options.merge(depth: options[:depth].to_i + 1))).true? }
+      def evaluate(bindings, **options)
+        res = operands.all? {|op| boolean(op.evaluate(bindings, depth: options[:depth].to_i + 1, **options)).true? }
         RDF::Literal(res) # FIXME: error handling
       end
 

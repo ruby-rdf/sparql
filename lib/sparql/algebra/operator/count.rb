@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #    (prefix ((: <http://www.example.org>))
     #      (project (?C)
-    #        (extend ((?C ?.0))
-    #          (group () ((?.0 (count ?O)))
+    #        (extend ((?C ??.0))
+    #          (group () ((??.0 (count ?O)))
     #            (bgp (triple ?S ?P ?O))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggCount

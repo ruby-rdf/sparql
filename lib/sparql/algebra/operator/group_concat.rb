@@ -9,9 +9,9 @@ module SPARQL; module Algebra
     #    (prefix ((: <http://www.example.org/>))
     #      (filter (|| (= ?g "1 22") (= ?g "22 1"))
     #        (project (?g)
-    #          (extend ((?g ?.0))
-    #            (group () ((?.0 (group_concat ?o)))
-    #              (bgp (triple ??0 :p1 ?o)))))))
+    #          (extend ((?g ??.0))
+    #            (group () ((??.0 (group_concat ?o)))
+    #              (bgp (triple ??.0 :p1 ?o)))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
     class GroupConcat < Operator
@@ -29,12 +29,12 @@ module SPARQL; module Algebra
       # @return [RDF::Term]
       # @raise [TypeError]
       # @abstract
-      def aggregate(solutions = [], options = {})
+      def aggregate(solutions = [], **options)
         operands.shift if distinct = (operands.first == :distinct)
         sep = operands.length == 2 ? operand(0).last : RDF::Literal(' ')
         args_enum = solutions.map do |solution|
           begin
-            operands.last.evaluate(solution, options.merge(depth: options[:depth].to_i + 1))
+            operands.last.evaluate(solution, depth: options[:depth].to_i + 1, **options)
           rescue TypeError
             # Ignore errors
             nil

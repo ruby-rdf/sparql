@@ -29,10 +29,10 @@ module SPARQL; module Algebra
       # @return [RDF::Queryable, RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Base #{operands.first}"}
         Operator.base_uri = operands.first
-        queryable.query(operands.last, options.merge(depth: options[:depth].to_i + 1), &block)
+        queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &block)
       end
       
       ##

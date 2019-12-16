@@ -1415,7 +1415,7 @@ module SPARQL::Grammar
         str = lit.delete(:string)
         lit[:datatype] = lit.delete(:iri) if lit[:iri]
         lit[:language] = lit.delete(:language).last.downcase if lit[:language]
-        input[:literal] = RDF::Literal.new(str, lit) if str
+        input[:literal] = RDF::Literal.new(str, **lit) if str
       end
     end
 
@@ -1466,7 +1466,7 @@ module SPARQL::Grammar
     # @yieldparam  [SPARQL::Grammar::Parser] parser
     # @yieldreturn [void] ignored
     # @return [SPARQL::Grammar::Parser]
-    def initialize(input = nil, options = {}, &block)
+    def initialize(input = nil, **options, &block)
       @input = case input
       when IO, StringIO then input.read
       else input.to_s.dup
@@ -1530,10 +1530,13 @@ module SPARQL::Grammar
     # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     # @see http://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
     def parse(prod = START)
-      ll1_parse(@input, prod.to_sym, @options.merge(branch: BRANCH,
-                                                    first: FIRST,
-                                                    follow: FOLLOW,
-                                                    whitespace: WS)
+      ll1_parse(@input,
+        prod.to_sym,
+        branch: BRANCH,
+        first: FIRST,
+        follow: FOLLOW,
+        whitespace: WS,
+        **@options
       ) do |context, *data|
         case context
         when :trace
@@ -1718,9 +1721,7 @@ module SPARQL::Grammar
 
       if id
         @vars[id] ||= begin
-          v = RDF::Query::Variable.new(id)
-          v.distinguished = distinguished
-          v
+          RDF::Query::Variable.new(id, distinguished: distinguished)
         end
       else
         unless distinguished
@@ -1728,9 +1729,7 @@ module SPARQL::Grammar
           id = @nd_var_gen
           @nd_var_gen = id.succ
         end
-        v = RDF::Query::Variable.new(id)
-        v.distinguished = distinguished
-        v
+        RDF::Query::Variable.new(id, distinguished: distinguished)
       end
     end
 
@@ -1758,7 +1757,7 @@ module SPARQL::Grammar
     end
 
     # Create a literal
-    def literal(value, options = {})
+    def literal(value, **options)
       options = options.dup
       # Internal representation is to not use xsd:string, although it could arguably go the other way.
       options.delete(:datatype) if options[:datatype] == RDF::XSD.string
@@ -1767,7 +1766,7 @@ module SPARQL::Grammar
         "options: #{options.inspect}, " +
         "validate: #{validate?.inspect}, "
       end
-      RDF::Literal.new(value, options.merge(validate: validate?))
+      RDF::Literal.new(value, validate: validate?, **options)
     end
 
     # Take collection of objects and create RDF Collection using rdf:first, rdf:rest and rdf:nil
@@ -1798,7 +1797,7 @@ module SPARQL::Grammar
     #
     # @param [String] production Production generating pattern
     # @param [Hash{Symbol => Object}] options
-    def add_pattern(production, options)
+    def add_pattern(production, **options)
       progress(production, "[:pattern, #{options[:subject]}, #{options[:predicate]}, #{options[:object]}]")
       triple = {}
       options.each_pair do |r, v|
@@ -1880,8 +1879,7 @@ module SPARQL::Grammar
               avf.first
             else
               # Allocate a temporary variable for this function, and retain the mapping for outside the group
-              av = RDF::Query::Variable.new(".#{agg}")
-              av.distinguished = false
+              av = RDF::Query::Variable.new(".#{agg}", distinguished: false)
               agg += 1
               aggregates << [av, function]
               av

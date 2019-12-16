@@ -29,7 +29,7 @@ class RDF::Query
     # @example
     #     solutions_a.isomorphic_with solutions_b #=> true
     def isomorphic_with?(other, opts = {})
-      !(bijection_to(other, opts).nil?)
+      !(bijection_to(other, **opts).nil?)
     end
 
     alias_method :isomorphic?, :isomorphic_with?

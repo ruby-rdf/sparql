@@ -22,7 +22,7 @@ module RDF::Util
     #   HTTP Request headers.
     # @return [IO] File stream
     # @yield [IO] File stream
-    def self.open_file(filename_or_url, options = {}, &block)
+    def self.open_file(filename_or_url, **options, &block)
       case filename_or_url.to_s
       when /^file:/
         path = filename_or_url[5..-1]
@@ -56,18 +56,18 @@ module RDF::Util
             # For overriding Link header from test data
             document_options[:headers][:link] = options[:httpLink] if options[:httpLink]
 
-            remote_document = RDF::Util::File::RemoteDocument.new(response.read, document_options)
+            remote_document = RDF::Util::File::RemoteDocument.new(response.read, **document_options)
             if block_given?
               yield remote_document
             else
               remote_document
             end
           else
-            Kernel.open(filename_or_url.to_s, options, &block)
+            Kernel.open(filename_or_url.to_s, **options, &block)
           end
         end
       else
-        original_open_file(filename_or_url, options, &block)
+        original_open_file(filename_or_url, **options, &block)
       end
     end
   end
@@ -126,8 +126,7 @@ module SPARQL
       puts "Convert #{manifest_uri}"
       g = RDF::Repository.load(manifest_uri)
       JSON::LD::API.fromRDF(g) do |expanded|
-        JSON::LD::API.frame(expanded, FRAME) do |framed|
-          man = framed['@graph'].detect {|e| e['type'] == "mf:Manifest"}
+        JSON::LD::API.frame(expanded, FRAME) do |man|
           includes = Array(man["include"]).dup if man.has_key?("include")
 
           if save

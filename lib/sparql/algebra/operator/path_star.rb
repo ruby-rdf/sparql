@@ -29,13 +29,13 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Path* #{[subject, operands, object].to_sse}"}
 
         # (:x :p* :y) => (:x (:p+)? :y)
         query = PathOpt.new(PathPlus.new(*operands))
-        query.execute(queryable, options.merge(depth: options[:depth].to_i + 1), &block)
+        query.execute(queryable, depth: options[:depth].to_i + 1, **options, &block)
       end
     end # PathStar
   end # Operator

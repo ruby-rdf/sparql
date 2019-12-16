@@ -34,14 +34,14 @@ module SPARQL; module Algebra
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
       # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         filter = operand(2)
 
         debug(options) {"LeftJoin"}
-        left = queryable.query(operand(0), options.merge(depth: options[:depth].to_i + 1))
+        left = queryable.query(operand(0), depth: options[:depth].to_i + 1, **options)
         debug(options) {"=>(leftjoin left) #{left.inspect}"}
 
-        right = queryable.query(operand(1), options.merge(depth: options[:depth].to_i + 1))
+        right = queryable.query(operand(1), depth: options[:depth].to_i + 1, **options)
         debug(options) {"=>(leftjoin right) #{right.inspect}"}
 
         # LeftJoin(Ω1, Ω2, expr) =

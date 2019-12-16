@@ -26,7 +26,7 @@ module SPARQL; module Algebra
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
       # @raise  [TypeError] if any operand is invalid
-      def initialize(text, pattern, flags = RDF::Literal(''), options = {})
+      def initialize(text, pattern, flags = RDF::Literal(''), **options)
         super
       end
 

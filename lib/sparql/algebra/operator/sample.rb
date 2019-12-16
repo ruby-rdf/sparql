@@ -7,8 +7,8 @@ module SPARQL; module Algebra
     #   (prefix ((: <http://www.example.org/>))
     #     (filter (|| (|| (= ?sample 1.0) (= ?sample 2.2)) (= ?sample 3.5))
     #       (project (?sample)
-    #         (extend ((?sample ?.0))
-    #           (group () ((?.0 (sample ?o)))
+    #         (extend ((?sample ??.0))
+    #           (group () ((??.0 (sample ?o)))
     #             (bgp (triple ?s :dec ?o)))))))
     #
     # @see http://www.w3.org/TR/sparql11-query/#defn_aggSample

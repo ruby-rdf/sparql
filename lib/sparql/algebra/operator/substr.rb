@@ -22,7 +22,7 @@ module SPARQL; module Algebra
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
       # @raise  [TypeError] if any operand is invalid
-      def initialize(source, startingLoc, length = RDF::Literal(""), options = {})
+      def initialize(source, startingLoc, length = RDF::Literal(""), **options)
         super
       end
 

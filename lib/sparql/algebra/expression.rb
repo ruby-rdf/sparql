@@ -19,7 +19,7 @@ module SPARQL; module Algebra
     # @yieldparam  [SPARQL::Algebra::Expression] expression
     # @yieldreturn [void] ignored
     # @return [Expression]
-    def self.parse(sse, options = {}, &block)
+    def self.parse(sse, **options, &block)
       begin
         require 'sxp' # @see http://rubygems.org/gems/sxp
       rescue LoadError
@@ -38,7 +38,7 @@ module SPARQL; module Algebra
       Operator.base_uri = options.delete(:base_uri) if options.has_key?(:base_uri)
       Operator.prefixes = sxp.prefixes || {}
 
-      expression = self.new(sxp_result, options)
+      expression = self.new(sxp_result, **options)
 
       yield(expression) if block_given?
       expression
@@ -57,8 +57,8 @@ module SPARQL; module Algebra
     # @yieldparam  [SPARQL::Algebra::Expression] expression
     # @yieldreturn [void] ignored
     # @return [Expression]
-    def self.open(filename, options = {}, &block)
-      RDF::Util::File.open_file(filename, options) do |file|
+    def self.open(filename, **options, &block)
+      RDF::Util::File.open_file(filename, **options) do |file|
         options[:base_uri] ||= filename
         Expression.parse(file, options, &block)
       end
@@ -87,7 +87,7 @@ module SPARQL; module Algebra
     #   any additional options (see {Operator#initialize})
     # @return [Expression]
     # @raise  [TypeError] if any of the operands is invalid
-    def self.new(sse, options = {})
+    def self.new(sse, **options)
       raise ArgumentError, "invalid SPARQL::Algebra::Expression form: #{sse.inspect}" unless sse.is_a?(Array)
 
       operator = Operator.for(sse.first, sse.length - 1)
@@ -95,7 +95,7 @@ module SPARQL; module Algebra
         return case sse.first
         when Array
           debug(options) {"Map array elements #{sse}"}
-          sse.map {|s| self.new(s, options.merge(depth: options[:depth].to_i + 1))}
+          sse.map {|s| self.new(s, depth: options[:depth].to_i + 1, **options)}
         else
           debug(options) {"No operator found for #{sse.first}"}
           sse.map do |s|
@@ -110,7 +110,7 @@ module SPARQL; module Algebra
         debug(options) {"Operator=#{operator.inspect}, Operand=#{operand.inspect}"}
         case operand
           when Array
-            self.new(operand, options.merge(depth: options[:depth].to_i + 1))
+            self.new(operand, depth: options[:depth].to_i + 1, **options)
           when Operator, Variable, RDF::Term, RDF::Query, Symbol
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time

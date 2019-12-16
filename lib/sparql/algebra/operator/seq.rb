@@ -29,12 +29,11 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Seq #{[subject, operands, object].to_sse}"}
 
-        v = RDF::Query::Variable.new
-        v.distinguished = false
+        v = RDF::Query::Variable.new(distinguished: false)
         q1 = if operand(0).is_a?(RDF::Term)
           RDF::Query.new do |q|
             q.pattern [subject, operand(0), v]
@@ -50,10 +49,10 @@ module SPARQL; module Algebra
           operand(1)
         end
 
-        left = queryable.query(q1, options.merge(object: v, depth: options[:depth].to_i + 1))
+        left = queryable.query(q1, **options.merge(object: v, depth: options[:depth].to_i + 1))
         debug(options) {"(seq)=>(left) #{left.map(&:to_h).to_sse}"}
 
-        right = queryable.query(q2, options.merge(subject: v, depth: options[:depth].to_i + 1))
+        right = queryable.query(q2, **options.merge(subject: v, depth: options[:depth].to_i + 1))
         debug(options) {"(seq)=>(right) #{right.map(&:to_h).to_sse}"}
 
         @solutions = RDF::Query::Solutions(left.map do |s1|

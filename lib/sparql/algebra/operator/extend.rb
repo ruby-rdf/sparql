@@ -39,16 +39,16 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see http://www.w3.org/TR/sparql11-query/#evaluation
-      def execute(queryable, options = {}, &block)
+      def execute(queryable, **options, &block)
         debug(options) {"Extend"}
-        @solutions = operand(1).execute(queryable, options.merge(depth: options[:depth].to_i + 1))
+        @solutions = operand(1).execute(queryable, depth: options[:depth].to_i + 1, **options)
         @solutions.each do |solution|
           debug(options) {"===> soln #{solution.to_h.inspect}"}
           operand(0).each do |(var, expr)|
             begin
-              val = expr.evaluate(solution, options.merge(
-                                              queryable: queryable,
-                                              depth: options[:depth].to_i + 1))
+              val = expr.evaluate(solution, queryable: queryable,
+                                            depth: options[:depth].to_i + 1,
+                                            **options)
               debug(options) {"===> + #{var} => #{val.inspect}"}
               solution.bindings[var.to_sym] = val
             rescue TypeError => e

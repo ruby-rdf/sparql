@@ -14,7 +14,7 @@ get '/' do
     graph << [RDF::Node.new, RDF::Vocab::DC.title, "Hello, world!"]
   end
   if params["query"]
-    query = query.to_s =~ /^\w:/ ? RDF::Util::File.open_file(params["query"]) : :URI.decode(params["query"].to_s)
+    query = query.to_s =~ /^\w:/ ? RDF::Util::File.open_file(params["query"]) : CGI.unescape(params["query"].to_s)
     SPARQL.execute(query, repository)
   else
     service_description(repo: repository)
