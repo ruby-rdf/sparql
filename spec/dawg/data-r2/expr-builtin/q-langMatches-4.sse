@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/#>))
-  (filter (! (langMatches (lang ?v) "*"))
-    (bgp (triple :x ?p ?v))))

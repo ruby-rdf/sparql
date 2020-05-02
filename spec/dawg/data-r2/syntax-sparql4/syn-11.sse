@@ -1,5 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (filter true
-    (join
-      (bgp (triple ??a ?p ?v))
-      (bgp (triple ??0 ?q ??a)))))

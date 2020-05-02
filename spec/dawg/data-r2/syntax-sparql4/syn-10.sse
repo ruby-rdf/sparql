@@ -1,7 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (union
-    (bgp
-      (triple ??a ?p ?v)
-      (triple ??a ?q ??a)
-    )
-    (bgp (triple ??b ?q ??c))))

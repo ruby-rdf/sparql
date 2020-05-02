@@ -1,4 +1,0 @@
-(prefix ((: <http://example/>))
-  (project (?v)
-    (filter (= ?v 2)
-      (bgp (triple ?s :p ?v)))))

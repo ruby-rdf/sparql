@@ -1,7 +1,0 @@
-(join
-  (join
-    (bgp (triple ?s ?p ?o))
-    (service silent 
-      <g>
-      (bgp (triple ?s ?p ?o))))
-  (bgp (triple ?s ?p ?o)))

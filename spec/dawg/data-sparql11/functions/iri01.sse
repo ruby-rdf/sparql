@@ -1,3 +1,0 @@
-(base <http://example.org/> (project (?uri ?iri)
-  (extend ((?uri (iri "uri")) (?iri (iri "iri")))
-    (bgp))))

@@ -1,5 +1,0 @@
-(prefix ((: <http://example.org/>)
-         (xsd: <http://www.w3.org/2001/XMLSchema#>))
-  (project (?s ?new)
-    (extend ((?new (replace ?str "[^a-z0-9]" "-")))
-      (bgp (triple ?s :str ?str)))))

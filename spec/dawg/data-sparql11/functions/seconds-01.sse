@@ -1,4 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (project (?s ?x)
-    (extend ((?x (seconds ?date)))
-      (bgp (triple ?s :date ?date)))))

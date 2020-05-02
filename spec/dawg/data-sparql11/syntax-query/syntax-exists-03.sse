@@ -1,2 +1,0 @@
-(filter (! (exists (bgp (triple ?s ?p ?o))))
-  (bgp (triple ?s ?p ?o)))

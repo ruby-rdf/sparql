@@ -1,1 +1,0 @@
-(prefix ((: <http://example.org/>)) (update (add default :g1)))

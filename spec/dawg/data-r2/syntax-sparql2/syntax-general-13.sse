@@ -1,2 +1,0 @@
-(base <http://example/page.html>
-  (bgp (triple <a> <b> <#x>)))

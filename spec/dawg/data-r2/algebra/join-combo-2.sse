@@ -1,8 +1,0 @@
-(prefix ((: <http://example/>))
-  (project (?x ?y ?z)
-    (join
-      (graph ?g
-        (bgp (triple ?x ?p 1)))
-      (union
-        (bgp (triple ?x :p ?y))
-        (bgp (triple ?p a ?z))))))

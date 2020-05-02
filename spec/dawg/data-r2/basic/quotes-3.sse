@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/ns#>))
-  (project (?x)
-    (bgp (triple ?x ?p "x\ny"))))

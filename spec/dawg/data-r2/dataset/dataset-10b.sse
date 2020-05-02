@@ -1,6 +1,0 @@
-(prefix ((: <http://example/>))
-  (dataset (<data-g3-dup.ttl> (named <data-g3.ttl>))
-    (join
-      (bgp (triple ?s ?p ?o))
-      (graph ?g
-        (bgp (triple ?s ?q ?v))))))

@@ -1,6 +1,0 @@
-(update
-  (deleteData
-    ((triple <s1> <p1> <o1>)
-     (graph <G> ((triple <s> <p1> "o1") (triple <s> <p2> <o2>)))
-     (graph <G1> ((triple <s> <p1> "o1") (triple <s> <p2> <o2>)))
-     (triple <s1> <p1> <o1>))))

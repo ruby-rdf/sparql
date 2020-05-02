@@ -1,5 +1,0 @@
-(prefix ((rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
-         (ex: <http://example.com/#>))
-  (project (?val)
-    (filter (regex (str ?val) "example\\.com" "")
-      (bgp (triple ex:foo rdf:value ?val)))))

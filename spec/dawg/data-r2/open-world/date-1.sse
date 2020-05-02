@@ -1,4 +1,0 @@
-(prefix ((: <http://example/>)
-         (xsd: <http://www.w3.org/2001/XMLSchema#>))
-  (filter (= ?v "2006-08-23"^^xsd:date)
-    (bgp (triple ?x :r ?v))))

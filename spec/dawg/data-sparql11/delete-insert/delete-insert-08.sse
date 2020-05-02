@@ -1,7 +1,0 @@
-(update
- (modify
-  (leftjoin
-   (bgp (triple ?s <http://example.org/r> ?q))
-   (bgp (triple ?q <http://example.org/s> ?o)))
-  (delete ((triple _:a <http://example.org/p> 12)
-           (triple _:a <http://example.org/q> ?o)))))

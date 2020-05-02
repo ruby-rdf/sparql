@@ -1,4 +1,0 @@
-(prefix ((: <http://example.org/ns#>))
-  (leftjoin
-    (bgp)
-    (bgp (triple :a :b :c))))

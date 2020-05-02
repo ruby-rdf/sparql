@@ -1,3 +1,0 @@
-(prefix ((: <http://example/ns#>)
-         (t: <http://example/t#>))
-  (bgp (triple ?x :p "a"^^t:type1)))

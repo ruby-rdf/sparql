@@ -1,7 +1,0 @@
-(join
-  (project (?X)
-    (extend ((?X 1))
-      (bgp)))
-  (project (?X)
-    (extend ((?X 1))
-      (bgp))))

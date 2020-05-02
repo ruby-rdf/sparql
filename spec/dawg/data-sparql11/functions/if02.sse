@@ -1,3 +1,0 @@
-(project (?error)
-  (extend ((?error (if (/ 1 0) false true)))
-    (bgp)))

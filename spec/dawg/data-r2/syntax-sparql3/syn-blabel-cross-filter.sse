@@ -1,6 +1,0 @@
-(prefix ((: <http://xmlns.com/foaf/0.1/>))
-  (ask
-    (filter (regex ?homepage "^http://example.org/" "")
-    (join
-      (bgp (triple ??who :homepage ?homepage))
-      (bgp (triple ??who :schoolHomepage ?schoolPage))))))

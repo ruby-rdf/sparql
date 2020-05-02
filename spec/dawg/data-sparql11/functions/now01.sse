@@ -1,4 +1,0 @@
-(prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
-  (ask (filter (= (datatype ?n) xsd:dateTime)
-    (extend ((?n (now)))
-      (bgp)))))

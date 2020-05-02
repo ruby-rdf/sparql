@@ -1,4 +1,0 @@
-(prefix ((: <http://example.org/>))
- (project (?s ?num)
-   (filter (isnumeric ?num)
-     (bgp (triple ?s ?p ?num)))))

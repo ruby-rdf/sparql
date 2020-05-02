@@ -1,2 +1,0 @@
-(prefix ((og: <http://ogp.me/ns#>))
-  (bgp (triple ?page og:audio%3Atitle ?title)))

@@ -1,2 +1,0 @@
-(prefix ((: <http://example.org/data/>))
-  (bgp (triple ?x :p ?q)))

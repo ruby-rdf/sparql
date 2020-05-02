@@ -1,4 +1,0 @@
-(construct
-  ((triple ?s ?p 1816))
-  (dataset (<file>)
-    (bgp (triple ?s ?p 1816))))

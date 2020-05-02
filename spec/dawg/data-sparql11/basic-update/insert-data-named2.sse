@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/ns#>))
-  (update
-    (insertData ((graph <http://example.org/g1> ((triple :s :p :o2)))))))

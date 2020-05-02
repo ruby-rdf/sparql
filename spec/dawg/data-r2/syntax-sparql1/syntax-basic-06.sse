@@ -1,4 +1,0 @@
-(bgp
-  (triple ?x ?y ?z)
-  (triple ?a ?b ?c)
-)

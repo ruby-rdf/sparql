@@ -1,2 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (path :a0 (path* :p) :a1))

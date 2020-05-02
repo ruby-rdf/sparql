@@ -1,6 +1,0 @@
-(prefix ((: <http://example.org/>) (foaf: <http://xmlns.com/foaf/0.1/>))
-  (update
-    (modify
-      (graph <http://example.org/g1> (bgp (triple :a foaf:knows ?s) (triple ?s ?p ?o)))
-      (delete
-        ((graph <http://example.org/g1> ((triple ?s ?p ?o))))))))

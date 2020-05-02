@@ -1,2 +1,0 @@
-(prefix ((ex: <http://example/>))
-  (ask (bgp)))

@@ -1,4 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (project (?hash)
-    (extend ((?hash (sha1 ?l)))
-      (bgp (triple :s1 :str ?l)))))

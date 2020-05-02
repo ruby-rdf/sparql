@@ -1,5 +1,0 @@
-(prefix ((: <http://example/>))
-  (union
-    (bgp (triple ?s ?p ?o))
-    (graph ?g
-      (bgp (triple ?s ?p ?o)))))

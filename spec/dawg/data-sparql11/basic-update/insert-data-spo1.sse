@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/ns#>))
-  (update
-    (insertData ((triple :s :p :o)))))

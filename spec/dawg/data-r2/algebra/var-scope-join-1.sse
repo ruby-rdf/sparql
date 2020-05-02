@@ -1,6 +1,0 @@
-(prefix ((: <http://example/>))
-  (join
-    (bgp (triple ?X :name "paul"))
-    (leftjoin
-      (bgp (triple ?Y :name "george"))
-      (bgp (triple ?X :email ?Z)))))

@@ -1,8 +1,0 @@
-(prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
-  (construct ((triple ?P foaf:name ?FullName))
-    (project (?P ?FullName)
-      (extend ((?FullName (concat ?F " " ?L)))
-        (bgp
-          (triple ?P foaf:firstName ?F)
-          (triple ?P foaf:lastName ?L)
-        )))))

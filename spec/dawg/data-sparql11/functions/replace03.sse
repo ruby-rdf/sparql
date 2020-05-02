@@ -1,5 +1,0 @@
-(prefix ((: <http://example.org/>)
-         (xsd: <http://www.w3.org/2001/XMLSchema#>))
-  (project (?new)
-    (extend ((?new (replace ?str "(ab)|(a)" "[1=$1][2=$2]")))
-      (bgp (triple :s9 :str ?str)))))

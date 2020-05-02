@@ -1,6 +1,0 @@
-(prefix ((: <http://example.org/ns#>))
-  (project (?a ?c)
-    (filter (! (bound ?e))
-      (leftjoin
-        (bgp (triple ?a :b ?c))
-        (bgp (triple ?c :d ?e))))))
