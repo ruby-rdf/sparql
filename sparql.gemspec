@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name               = "sparql"
-  gem.homepage           = "http://github.com/ruby-rdf/sparql"
+  gem.homepage           = "https://github.com/ruby-rdf/sparql"
   gem.license            = 'Unlicense'
   gem.summary            = "SPARQL Query and Update library for Ruby."
 

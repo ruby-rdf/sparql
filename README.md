@@ -291,7 +291,7 @@ To get a local working copy of the development repository, do:
 ## Authors
 
 * [Gregg Kellogg](http://github.com/gkellogg) - <http://greggkellogg.net/>
-* [Arto Bendiken](http://github.com/bendiken) - <http://ar.to/>
+* [Arto Bendiken](http://github.com/artob) - <http://ar.to/>
 * [Pius Uzamere](http://github.com/pius) - <http://pius.me/>
 
 ## Contributing
