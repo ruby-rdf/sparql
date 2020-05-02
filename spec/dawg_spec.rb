@@ -8,7 +8,6 @@ shared_examples "DAWG" do |id, label, comment, tests|
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
-      next unless t.approved?
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
@@ -27,6 +26,8 @@ shared_examples "DAWG" do |id, label, comment, tests|
             pending "Graph variable binding differences"
           when /pp11|pp31/
             pending "Expects multiple equivalent property path solutions"
+          when 'date-1', /dawg-optional-filter-005-not-simplified/
+            pending "Different results on unapproved tests" unless t.approved?
           end
 
           result = sparql_query(graphs: t.graphs,

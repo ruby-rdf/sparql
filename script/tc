@@ -301,7 +301,6 @@ earl_preamble(options) if options[:earl]
     puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
     man.entries.each do |tc|
       next unless tc.action
-      next unless tc.approved?
       name = Array(tc.name).join("") + Array(tc.entry).join("")
       next unless ARGV.empty? || ARGV.any? {|n| name.match(/#{n}/)}
       run_tc(tc, **options)
