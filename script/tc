@@ -75,8 +75,8 @@ def run_tc(t, **options)
                             base_uri: RDF::URI(t.action.query_file),
                             form: t.form, to_hash: false)
 
-      options[:output].puts "expected: #{t.solutions.inspect}" if options[:verbose]
-      options[:output].puts "actual: #{actual.inspect}" if options[:verbose]
+      options[:output].puts "expected: #{t.solutions.to_sse}" if options[:verbose]
+      options[:output].puts "actual: #{actual.to_sse}" if options[:verbose]
 
       case t.form
       when :select, :create, :describe, :construct
@@ -86,11 +86,11 @@ def run_tc(t, **options)
         else
           options[:failures] ||= {}
           options[:failures][t] = %{
-expected:\n#{t.solutions.inspect}
-actual:\n#{actual.inspect}
+expected:\n#{t.solutions.to_sse}
+actual:\n#{actual.to_sse}
   }
-          options[:failures][t] += "\nmissing:\n#{(t.solutions - actual).inspect}" unless (t.solutions - actual).empty?
-          options[:failures][t] += "\nextra:\n#{(t.solutions - actual).inspect}" unless (actual - t.solutions).empty?
+          options[:failures][t] += "\nmissing:\n#{(t.solutions - actual).to_sse}" unless (t.solutions - actual).empty?
+          options[:failures][t] += "\nextra:\n#{(t.solutions - actual).to_sse}" unless (actual - t.solutions).empty?
           STDERR.write(options[:quiet] ? "F" : (" failed" + options[:failures][t]))
           result = "failed"
         end
@@ -101,7 +101,7 @@ actual:\n#{actual.inspect}
         else
           STDERR.write(options[:quiet] ? "F" : " failed\n")
           options[:failures] ||= {}
-          options[:failures][t] = %{ expected: #{t.solutions.inspect}}
+          options[:failures][t] = %{ expected: #{t.solutions.to_sse}}
           result = "failed"
         end
       else
@@ -114,8 +114,8 @@ actual:\n#{actual.inspect}
                             base_uri: RDF::URI(t.action.query_file),
                             form: t.form)
 
-      STDERR.puts "expected: #{t.solutions.inspect}" if options[:verbose]
-      STDERR.puts "actual: #{actual.inspect}" if options[:verbose]
+      STDERR.puts "expected: #{t.solutions.to_sse}" if options[:verbose]
+      STDERR.puts "actual: #{actual.to_sse}" if options[:verbose]
 
       simplified_solutions = RDF::Query::Solutions.new
       actual.each do |solution|
@@ -133,11 +133,11 @@ actual:\n#{actual.inspect}
       else
         options[:failures] ||= {}
         options[:failures][t] = %{
-expected:\n#{t.solutions.inspect}
-actual:\n#{actual.inspect}
+expected:\n#{t.solutions.to_sse}
+actual:\n#{actual.to_sse}
   }
-        options[:failures][t] += "\nmissing:\n#{(t.solutions - actual).inspect}" unless (t.solutions - actual).empty?
-        options[:failures][t] += "\nextra:\n#{(t.solutions - actual).inspect}" unless (actual - t.solutions).empty?
+        options[:failures][t] += "\nmissing:\n#{(t.solutions - actual).to_sse}" unless (t.solutions - actual).empty?
+        options[:failures][t] += "\nextra:\n#{(t.solutions - actual).to_sse}" unless (actual - t.solutions).empty?
         STDERR.write(options[:quiet] ? "F" : (" failed" + options[:failures][t]))
         result = "failed"
       end
@@ -300,6 +300,7 @@ earl_preamble(options) if options[:earl]
   end.each do |man|
     puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
     man.entries.each do |tc|
+      next unless tc.action
       next unless tc.approved?
       name = Array(tc.name).join("") + Array(tc.entry).join("")
       next unless ARGV.empty? || ARGV.any? {|n| name.match(/#{n}/)}

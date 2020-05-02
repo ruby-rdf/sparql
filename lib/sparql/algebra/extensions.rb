@@ -419,3 +419,16 @@ class RDF::Query::Solutions
   end
   alias_method :filter!, :filter
 end # RDF::Query::Solutions
+
+##
+# Extensions for `RDF::Query::Solution`.
+class RDF::Query::Solution
+  ##
+  # Returns the SXP representation of this object, defaults to `self`.
+  #
+  # @return [String]
+  def to_sxp_bin
+    to_a.to_sxp_bin
+  end
+  def to_sxp; to_sxp_bin; end
+end # RDF::Query::Solution

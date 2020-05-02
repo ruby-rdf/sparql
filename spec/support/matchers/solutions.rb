@@ -9,8 +9,8 @@ RSpec::Matchers.define :describe_solutions do |expected_solutions, info|
   
   failure_message do |actual_solutions|
     initial = info.initial.dump(:trig, standard_prefixes: true) if info.respond_to?(:initial)
-    exp = expected_solutions.is_a?(RDF::Enumerable) ? expected_solutions.dump(:trig, standard_prefixes: true) : expected_solutions.inspect
-    res = actual_solutions.is_a?(RDF::Enumerable) ? actual_solutions.dump(:trig, standard_prefixes: true) : actual_solutions.inspect
+    exp = expected_solutions.is_a?(RDF::Enumerable) ? expected_solutions.dump(:trig, standard_prefixes: true) : expected_solutions.to_sse
+    res = actual_solutions.is_a?(RDF::Enumerable) ? actual_solutions.dump(:trig, standard_prefixes: true) : actual_solutions.to_sse
     msg = "expected solutions to be isomorphic\n" +
     (initial ? "initial:\n#{initial}" : "\n") +
     "expected:\n#{exp}" +
@@ -43,8 +43,8 @@ RSpec::Matchers.define :describe_csv_solutions do |expected_solutions|
   
   failure_message do |actual_solutions|
     msg = "expected solutions to be isomorphic\n" +
-      "expected  :\n#{expected_solutions.inspect}" +
-    "\nsimplified:\n#{@simplified_solutions.inspect}"
+      "expected  :\n#{expected_solutions.to_sse}" +
+    "\nsimplified:\n#{@simplified_solutions.to_sse}"
     missing = (expected_solutions - actual_solutions) rescue []
     extra = (actual_solutions - expected_solutions) rescue []
     msg += "\nmissing:\n#{missing.ai}" unless missing.empty?
