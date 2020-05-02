@@ -10,7 +10,6 @@
     mf:entries
     ( 
     :group01
-##    :group02 # Now the same as group01
     :group03
     :group04
     :group05
@@ -28,17 +27,6 @@
          [ qt:query  <group01.rq> ;
            qt:data   <group-data-1.ttl> ] ;
     mf:result  <group01.srx>
-    .
-
-:group02 rdf:type mf:QueryEvaluationTest ;
-    mf:name "Group-2";
-    rdfs:comment    "Grouping, simple, using *" ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
-    mf:action
-         [ qt:query  <group02.rq> ;
-           qt:data   <group-data-1.ttl> ] ;
-    mf:result  <group02.srx>
     .
 
 :group03 rdf:type mf:QueryEvaluationTest ;

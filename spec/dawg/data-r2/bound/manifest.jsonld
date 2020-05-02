@@ -55,29 +55,25 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/manifest.ttl",
+  "type": "mf:Manifest",
+  "comment": "DAWG bound test cases",
+  "rdfs:label": "bound",
+  "entries": [
     {
-      "comment": "DAWG bound test cases",
-      "entries": [
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/bound1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "BOUND test case.",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0006"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/manifest#dawg-bound-query-001",
-          "name": "dawg-bound-query-001",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/bound1-result.ttl",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/manifest#dawg-bound-query-001",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/bound1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/data.ttl"
+      },
+      "name": "dawg-bound-query-001",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0006"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/bound1-result.ttl",
+      "approval": "dawgt:Approved",
+      "comment": "BOUND test case."
     }
   ]
 }

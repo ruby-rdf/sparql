@@ -55,217 +55,349 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "SPARQL Protocol",
+  "entries": [
     {
-      "comment": "SPARQL Protocol",
-      "entries": [
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_form",
-          "name": "query via URL-encoded POST",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_get",
-          "name": "GET query with protocol-specified default graph",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_post",
-          "name": "POST query with protocol-specified default graphs",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_post",
-          "name": "POST query with protocol-specified named graphs",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_get",
-          "name": "GET query with protocol-specified named graphs",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_full",
-          "name": "query with protocol-specified dataset (both named and default graphs)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_multiple_dataset",
-          "name": "query specifying dataset in both query string and protocol; test for use of protocol-specified dataset",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_get",
-          "name": "query via GET",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_select",
-          "name": "query appropriate content type (expect one of: XML, JSON, CSV, TSV)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_ask",
-          "name": "query appropriate content type (expect one of: XML, JSON)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_describe",
-          "name": "query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_construct",
-          "name": "query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graph",
-          "name": "update with protocol-specified default graph",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graphs",
-          "name": "update with protocol-specified default graphs",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_named_graphs",
-          "name": "update with protocol-specified named graphs",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_full",
-          "name": "update with protocol-specified dataset (both named and default graphs)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_form",
-          "name": "update via URL-encoded POST",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_direct",
-          "name": "update via POST directly",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_base_uri",
-          "name": "test for service-defined BASE URI (\"which MAY be the service endpoint\")",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_direct",
-          "name": "query via POST directly",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_method",
-          "name": "invoke query operation with a method other than GET or POST",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_queries",
-          "name": "invoke query operation with more than one query string",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_wrong_media_type",
-          "name": "invoke query operation with a POST with media type that's not url-encoded or application/sparql-query",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_form_type",
-          "name": "invoke query operation with url-encoded body, but without application/x-www-url-form-urlencoded media type",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_direct_type",
-          "name": "invoke query operation with SPARQL body, but without application/sparql-query media type",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_non_utf8",
-          "name": "invoke query operation with direct POST, but with a non-UTF8 encoding (UTF-16)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_syntax",
-          "name": "invoke query operation with invalid query syntax (4XX result)",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_get",
-          "name": "invoke update operation with GET",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_updates",
-          "name": "invoke update operation with more than one update string",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_wrong_media_type",
-          "name": "invoke update operation with a POST with media type that's not url-encoded or application/sparql-update",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_missing_form_type",
-          "name": "invoke update operation with url-encoded body, but without application/x-www-url-form-urlencoded media type",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_non_utf8",
-          "name": "invoke update operation with direct POST, but with a non-UTF8 encoding",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_syntax",
-          "name": "invoke update operation with invalid update syntax",
-          "type": "mf:ProtocolTest"
-        },
-        {
-          "approval": "dawgt:NotClassified",
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_dataset_conflict",
-          "name": "invoke update with both using-graph-uri/using-named-graph-uri parameter and USING/WITH clause",
-          "type": "mf:ProtocolTest"
-        }
-      ],
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_form",
+      "type": "mf:ProtocolTest",
+      "name": "query via URL-encoded POST",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/x-www-url-form-urlencoded\n    Content-Length: XXX\n\n    query=ASK%20%7B%7D\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_get",
+      "type": "mf:ProtocolTest",
+      "name": "GET query with protocol-specified default graph",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    GET /sparql?query=ASK%20%7B%20%3Chttp%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf%3E%20a%20%3Ftype%20.%20%3Chttp%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf%3E%20a%20%3Ftype%20.%20%7D&default-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&default-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf\n    Host: www.example\n    User-agent: sparql-client/0.1\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_post",
+      "type": "mf:ProtocolTest",
+      "name": "POST query with protocol-specified default graphs",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/?default-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&default-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK { <http://kasei.us/2009/09/sparql/data/data1.rdf> ?p ?o . <http://kasei.us/2009/09/sparql/data/data2.rdf> ?p ?o }\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_post",
+      "type": "mf:ProtocolTest",
+      "name": "POST query with protocol-specified named graphs",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/?named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK { GRAPH ?g { ?s ?p ?o } }\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_get",
+      "type": "mf:ProtocolTest",
+      "name": "GET query with protocol-specified named graphs",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    GET /sparql/?named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf&query=ASK%20%7B%20GRAPH%20%3Fg%20%7B%20%3Fs%20%3Fp%20%3Fo%20%7D%20%7D HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_full",
+      "type": "mf:ProtocolTest",
+      "name": "query with protocol-specified dataset (both named and default graphs)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/?default-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata3.rdf&named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    SELECT ?g ?x ?s { ?x ?y ?o  GRAPH ?g { ?s ?p ?o } }\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_multiple_dataset",
+      "type": "mf:ProtocolTest",
+      "name": "query specifying dataset in both query string and protocol; test for use of protocol-specified dataset",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/?default-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK FROM <http://kasei.us/2009/09/sparql/data/data1.rdf> { <data1.rdf> ?p ?o }\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_get",
+      "type": "mf:ProtocolTest",
+      "name": "query via GET",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    GET /sparql?query=ASK%20%7B%7D\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_select",
+      "type": "mf:ProtocolTest",
+      "name": "query appropriate content type (expect one of: XML, JSON, CSV, TSV)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    SELECT (1 AS ?value) {}\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml, application/sparql-results+json, text/tab-separated-values, or text/csv\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_ask",
+      "type": "mf:ProtocolTest",
+      "name": "query appropriate content type (expect one of: XML, JSON)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK {}\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_describe",
+      "type": "mf:ProtocolTest",
+      "name": "query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    DESCRIBE <http://example.org/>\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/rdf+xml, application/rdf+json or text/turtle\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_construct",
+      "type": "mf:ProtocolTest",
+      "name": "query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    CONSTRUCT { <s> <p> 1 } WHERE {}\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/rdf+xml, application/rdf+json or text/turtle\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graph",
+      "type": "mf:ProtocolTest",
+      "name": "update with protocol-specified default graph",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql?using-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-update\n    Content-Length: XXX\n\n    PREFIX dc: <http://purl.org/dc/terms/>\n    PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n    CLEAR ALL ;\n    INSERT DATA {\n        GRAPH <http://kasei.us/2009/09/sparql/data/data1.rdf> {\n            <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document\n        }\n    } ;\n    INSERT {\n        GRAPH <http://example.org/protocol-update-dataset-test/> {\n            ?s a dc:BibliographicResource\n        }\n    }\n    WHERE {\n        ?s a foaf:Document\n    }\n    \n#### Response\n\n    2xx or 3xx response\n\nfollowed by\n\n#### Request\n\n    POST /sparql HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Accept: application/sparql-results+xml\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK {\n        GRAPH <http://example.org/protocol-update-dataset-test/> {\n            <http://kasei.us/2009/09/sparql/data/data1.rdf> a <http://purl.org/dc/terms/BibliographicResource>\n        }\n    }\n\n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml\n    \n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graphs",
+      "type": "mf:ProtocolTest",
+      "name": "update with protocol-specified default graphs",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql?using-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&using-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-update\n    Content-Length: XXX\n\n    PREFIX dc: <http://purl.org/dc/terms/>\n    PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n    CLEAR ALL ;\n    INSERT DATA {\n        GRAPH <http://kasei.us/2009/09/sparql/data/data1.rdf> { <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document }\n        GRAPH <http://kasei.us/2009/09/sparql/data/data2.rdf> { <http://kasei.us/2009/09/sparql/data/data2.rdf> a foaf:Document }\n        GRAPH <http://kasei.us/2009/09/sparql/data/data3.rdf> { <http://kasei.us/2009/09/sparql/data/data3.rdf> a foaf:Document }\n    } ;\n    INSERT {\n        GRAPH <http://example.org/protocol-update-dataset-graphs-test/> {\n            ?s a dc:BibliographicResource\n        }\n    }\n    WHERE {\n        ?s a foaf:Document\n    }\n    \n#### Response\n\n    2xx or 3xx response\n\nfollowed by\n\n#### Request\n\n    POST /sparql HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Accept: application/sparql-results+xml\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK {\n        GRAPH <http://example.org/protocol-update-dataset-graphs-test/> {\n            <http://kasei.us/2009/09/sparql/data/data1.rdf> a <http://purl.org/dc/terms/BibliographicResource> .\n            <http://kasei.us/2009/09/sparql/data/data2.rdf> a <http://purl.org/dc/terms/BibliographicResource> .\n        }\n        FILTER NOT EXISTS {\n            GRAPH <http://example.org/protocol-update-dataset-graphs-test/> {\n                <http://kasei.us/2009/09/sparql/data/data3.rdf> a <http://purl.org/dc/terms/BibliographicResource> .\n            }\n        }\n    }\n\n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml\n    \n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_named_graphs",
+      "type": "mf:ProtocolTest",
+      "name": "update with protocol-specified named graphs",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql?using-named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&using-named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-update\n    Content-Length: XXX\n\n    PREFIX dc: <http://purl.org/dc/terms/>\n    PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n    CLEAR ALL ;\n    INSERT DATA {\n        GRAPH <http://kasei.us/2009/09/sparql/data/data1.rdf> { <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document }\n        GRAPH <http://kasei.us/2009/09/sparql/data/data2.rdf> { <http://kasei.us/2009/09/sparql/data/data2.rdf> a foaf:Document }\n        GRAPH <http://kasei.us/2009/09/sparql/data/data3.rdf> { <http://kasei.us/2009/09/sparql/data/data3.rdf> a foaf:Document }\n    } ;\n    INSERT {\n        GRAPH <http://example.org/protocol-update-dataset-named-graphs-test/> {\n            ?s a dc:BibliographicResource\n        }\n    }\n    WHERE {\n        GRAPH ?g {\n            ?s a foaf:Document\n        }\n    }\n    \n#### Response\n\n    2xx or 3xx response\n\nfollowed by\n\n#### Request\n\n    POST /sparql HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Accept: application/sparql-results+xml\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK {\n        GRAPH <http://example.org/protocol-update-dataset-named-graphs-test/> {\n            <http://kasei.us/2009/09/sparql/data/data1.rdf> a <http://purl.org/dc/terms/BibliographicResource> .\n            <http://kasei.us/2009/09/sparql/data/data2.rdf> a <http://purl.org/dc/terms/BibliographicResource> .\n        }\n        FILTER NOT EXISTS {\n            GRAPH <http://example.org/protocol-update-dataset-named-graphs-test/> {\n                <http://kasei.us/2009/09/sparql/data/data3.rdf> a <http://purl.org/dc/terms/BibliographicResource> .\n            }\n        }\n    }\n\n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml\n    \n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_full",
+      "type": "mf:ProtocolTest",
+      "name": "update with protocol-specified dataset (both named and default graphs)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql?using-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata1.rdf&using-named-graph-uri=http%3A%2F%2Fkasei.us%2F2009%2F09%2Fsparql%2Fdata%2Fdata2.rdf HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-update\n    Content-Length: XXX\n\n    PREFIX dc: <http://purl.org/dc/terms/>\n    PREFIX foaf: <http://xmlns.com/foaf/0.1/>\n    CLEAR ALL ;\n    INSERT DATA {\n        GRAPH <http://kasei.us/2009/09/sparql/data/data1.rdf> { <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document }\n        GRAPH <http://kasei.us/2009/09/sparql/data/data2.rdf> { <http://kasei.us/2009/09/sparql/data/data2.rdf> a foaf:Document }\n        GRAPH <http://kasei.us/2009/09/sparql/data/data3.rdf> { <http://kasei.us/2009/09/sparql/data/data3.rdf> a foaf:Document }\n    } ;\n    INSERT {\n        GRAPH <http://example.org/protocol-update-dataset-full-test/> {\n            ?s <http://example.org/in> ?in\n        }\n    }\n    WHERE {\n        {\n            GRAPH ?g { ?s a foaf:Document }\n            BIND(?g AS ?in)\n        }\n        UNION\n        {\n            ?s a foaf:Document .\n            BIND(\"default\" AS ?in)\n        }\n    }\n    \n#### Response\n\n    2xx or 3xx response\n\nfollowed by\n\n#### Request\n\n    POST /sparql HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Accept: application/sparql-results+xml\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK {\n        GRAPH <http://example.org/protocol-update-dataset-full-test/> {\n            <http://kasei.us/2009/09/sparql/data/data1.rdf> <http://example.org/in> \"default\" .\n            <http://kasei.us/2009/09/sparql/data/data2.rdf> <http://example.org/in> <http://kasei.us/2009/09/sparql/data/data2.rdf> .\n        }\n        FILTER NOT EXISTS {\n            GRAPH <http://example.org/protocol-update-dataset-full-test/> {\n                <http://kasei.us/2009/09/sparql/data/data3.rdf> ?p ?o\n            }\n        }\n    }\n\n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml\n    \n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_form",
+      "type": "mf:ProtocolTest",
+      "name": "update via URL-encoded POST",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/x-www-url-form-urlencoded\n    Content-Length: XXX\n\n    update=CLEAR%20ALL\n    \n#### Response\n\n    2xx or 3xx response\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_direct",
+      "type": "mf:ProtocolTest",
+      "name": "update via POST directly",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-update\n    Content-Length: XXX\n\n    CLEAR ALL\n    \n#### Response\n\n    2xx or 3xx response\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_base_uri",
+      "type": "mf:ProtocolTest",
+      "name": "test for service-defined BASE URI (\"which MAY be the service endpoint\")",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-update\n    Content-Length: XXX\n\n    CLEAR GRAPH <http://example.org/protocol-base-test/> ;\n    INSERT DATA { GRAPH <http://example.org/protocol-base-test/> { <http://example.org/s> <http://example.org/p> <test> } }\n    \n#### Response\n\n    2xx or 3xx response\n\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Accept: application/sparql-results+xml\n    Content-Length: XXX\n\n    SELECT ?o WHERE {\n        GRAPH <http://example.org/protocol-base-test/> {\n            <http://example.org/s> <http://example.org/p> ?o\n        }\n    }\n\n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml\n    \n    one result with `?o` bound to an IRI that is _not_ `<test>`\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_direct",
+      "type": "mf:ProtocolTest",
+      "name": "query via POST directly",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query\n    Content-Length: XXX\n\n    ASK {}\n    \n#### Response\n\n    2xx or 3xx response\n    Content-Type: application/sparql-results+xml or application/sparql-results+json\n\n    true\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_method",
+      "type": "mf:ProtocolTest",
+      "name": "invoke query operation with a method other than GET or POST",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    PUT /sparql?query=ASK%20%7B%7D            \n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_queries",
+      "type": "mf:ProtocolTest",
+      "name": "invoke query operation with more than one query string",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    GET /sparql?query=ASK%20%7B%7D&query=SELECT%20%2A%20%7B%7D\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_wrong_media_type",
+      "type": "mf:ProtocolTest",
+      "name": "invoke query operation with a POST with media type that's not url-encoded or application/sparql-query",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: text/plain\n    Content-Length: XXX\n\n    ASK {}\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_form_type",
+      "type": "mf:ProtocolTest",
+      "name": "invoke query operation with url-encoded body, but without application/x-www-url-form-urlencoded media type",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Length: XXX\n\n    query=ASK%20%7B%7D\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_direct_type",
+      "type": "mf:ProtocolTest",
+      "name": "invoke query operation with SPARQL body, but without application/sparql-query media type",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Length: XXX\n\n    ASK {}\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_non_utf8",
+      "type": "mf:ProtocolTest",
+      "name": "invoke query operation with direct POST, but with a non-UTF8 encoding (UTF-16)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n(content body encoded in utf-16)\n\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-query; charset=UTF-16\n    Content-Length: XXX\n\n    ASK {}\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_syntax",
+      "type": "mf:ProtocolTest",
+      "name": "invoke query operation with invalid query syntax (4XX result)",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    GET /sparql?query=ASK%20%7B\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_get",
+      "type": "mf:ProtocolTest",
+      "name": "invoke update operation with GET",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    GET /sparql?update=CLEAR%20ALL\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_updates",
+      "type": "mf:ProtocolTest",
+      "name": "invoke update operation with more than one update string",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/x-www-url-form-urlencoded\n    Content-Length: XXX\n\n    update=CLEAR%20NAMED&update=CLEAR%20DEFAULT\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_wrong_media_type",
+      "type": "mf:ProtocolTest",
+      "name": "invoke update operation with a POST with media type that's not url-encoded or application/sparql-update",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: text/plain\n    Content-Length: XXX\n\n    CLEAR NAMED\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_missing_form_type",
+      "type": "mf:ProtocolTest",
+      "name": "invoke update operation with url-encoded body, but without application/x-www-url-form-urlencoded media type",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Length: XXX\n\n    update=CLEAR%20NAMED\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_non_utf8",
+      "type": "mf:ProtocolTest",
+      "name": "invoke update operation with direct POST, but with a non-UTF8 encoding",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n(content body encoded in utf-16)\n\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/sparql-update; charset=UTF-16\n    Content-Length: XXX\n\n    CLEAR NAMED\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_syntax",
+      "type": "mf:ProtocolTest",
+      "name": "invoke update operation with invalid update syntax",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/x-www-url-form-urlencoded\n    Content-Length: XXX\n\n    update=CLEAR%20XYZ\n    \n#### Response\n\n    4xx\n       "
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_dataset_conflict",
+      "type": "mf:ProtocolTest",
+      "name": "invoke update with both using-graph-uri/using-named-graph-uri parameter and USING/WITH clause",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-11-20#resolution_3"
+      },
+      "approval": "dawgt:Approved",
+      "comment": "\n#### Request\n\n    POST /sparql/ HTTP/1.1\n    Host: www.example\n    User-agent: sparql-client/0.1\n    Content-Type: application/x-www-url-form-urlencoded\n    Content-Length: XXX\n\n    using-named-graph-uri=http%3A%2F%2Fexample%2Fpeople&update=%09%09PREFIX%20foaf%3A%20%20%3Chttp%3A%2F%2Fxmlns.com%2Ffoaf%2F0.1%2F%3E%0A%09%09WITH%20%3Chttp%3A%2F%2Fexample%2Faddresses%3E%0A%09%09DELETE%20%7B%20%3Fperson%20foaf%3AgivenName%20%27Bill%27%20%7D%0A%09%09INSERT%20%7B%20%3Fperson%20foaf%3AgivenName%20%27William%27%20%7D%0A%09%09WHERE%20%7B%0A%09%09%09%3Fperson%20foaf%3AgivenName%20%27Bill%27%0A%09%09%7D%0A\n    \n#### Response\n\n    4xx\n       "
     }
   ]
 }

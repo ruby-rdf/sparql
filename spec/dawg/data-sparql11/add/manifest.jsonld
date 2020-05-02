@@ -55,295 +55,255 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "Add",
+  "entries": [
     {
-      "entries": [
-        {
-          "action": {
-            "id": "_:b18",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b17",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01.ru"
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add01",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "name": "ADD 1",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-post.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add the default graph to an existing graph"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add02",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl"
+      },
+      "name": "ADD 2",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add the default graph to a non-existing graph"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add03",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
           },
-          "approval": "dawgt:Approved",
-          "comment": "Add the default graph to an existing graph",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-02-pre.ttl",
+            "rdfs:label": "http://example.org/g2"
+          }
+        ]
+      },
+      "name": "ADD 3",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
           },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add01",
-          "name": "ADD 1",
-          "result": {
-            "id": "_:b16",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b15",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-post.ttl"
-              }
-            ]
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-02-post.ttl",
+            "rdfs:label": "http://example.org/g2"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add a named graph to an existing graph"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add04",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "name": "ADD 4",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g2"
           },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b8",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01.ru"
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add a named graph to a non-existing graph"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add05",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-05.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
           },
-          "approval": "dawgt:Approved",
-          "comment": "Add the default graph to a non-existing graph",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03-pre.ttl",
+            "rdfs:label": "http://example.org/g3"
+          }
+        ]
+      },
+      "name": "ADD 5",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
           },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add02",
-          "name": "ADD 2",
-          "result": {
-            "id": "_:b6",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b7",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b14",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b13",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              },
-              {
-                "id": "_:b12",
-                "rdfs:label": "http://example.org/g2",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-02-pre.ttl"
-              }
-            ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Add a named graph to an existing graph",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add03",
-          "name": "ADD 3",
-          "result": {
-            "id": "_:b11",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b10",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              },
-              {
-                "id": "_:b9",
-                "rdfs:label": "http://example.org/g2",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-02-post.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b1",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Add a named graph to a non-existing graph",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add04",
-          "name": "ADD 4",
-          "result": {
-            "id": "_:b35",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b34",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              },
-              {
-                "id": "_:b33",
-                "rdfs:label": "http://example.org/g2",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b26",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b25",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              },
-              {
-                "id": "_:b24",
-                "rdfs:label": "http://example.org/g3",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03-pre.ttl"
-              }
-            ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-05.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Add a named graph to an existing graph with overlapping data",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add05",
-          "name": "ADD 5",
-          "result": {
-            "id": "_:b23",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b22",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              },
-              {
-                "id": "_:b21",
-                "rdfs:label": "http://example.org/g3",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03-post.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b5",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b4",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-06.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Add a non-existing graph to an existing graph",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add06",
-          "name": "ADD 6",
-          "result": {
-            "id": "_:b3",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b2",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b19",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b20",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-07.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Add an existing graph to the default graph",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add07",
-          "name": "ADD 7",
-          "result": {
-            "id": "_:b32",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-post.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b31",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b30",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b29",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ],
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-08.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Add a graph to itself",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add08",
-          "name": "ADD 8",
-          "result": {
-            "id": "_:b28",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
-            "ut:graphData": [
-              {
-                "id": "_:b27",
-                "rdfs:label": "http://example.org/g1",
-                "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl"
-              }
-            ]
-          },
-          "type": "mf:UpdateEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest.ttl",
-      "rdfs:label": "Add",
-      "type": "mf:Manifest"
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-03-post.ttl",
+            "rdfs:label": "http://example.org/g3"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add a named graph to an existing graph with overlapping data"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add06",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-06.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "name": "ADD 6",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add a non-existing graph to an existing graph"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add07",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-07.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "name": "ADD 7",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-post.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add an existing graph to the default graph"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/manifest#add08",
+      "type": "mf:UpdateEvaluationTest",
+      "action": {
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-08.ru",
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "name": "ADD 8",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-default.ttl",
+        "ut:graphData": [
+          {
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/add/add-01-pre.ttl",
+            "rdfs:label": "http://example.org/g1"
+          }
+        ]
+      },
+      "approval": "dawgt:Approved",
+      "comment": "Add a graph to itself"
     }
   ]
 }

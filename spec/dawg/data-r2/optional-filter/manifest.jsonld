@@ -55,101 +55,92 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest.ttl",
+  "type": "mf:Manifest",
+  "comment": "OPTIONAL with inner and outer FILTERs",
+  "rdfs:label": "OPTIONAL FILTER",
+  "entries": [
     {
-      "comment": "OPTIONAL with inner and outer FILTERs",
-      "entries": [
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTER inside an OPTIONAL does not block an entire solution",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-001",
-          "name": "OPTIONAL-FILTER",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-1-result.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTER outside an OPTIONAL tests bound and unbound variables",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-002",
-          "name": "OPTIONAL - Outer FILTER",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-2-result.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b5",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-3.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Use !bound to only run outer FILTERs against variables bound in an OPTIONAL",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-003",
-          "name": "OPTIONAL - Outer FILTER with BOUND",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-3-result.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b4",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-4.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTER inside an OPTIONAL does not corrupt the entire solution",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0006/02-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-004",
-          "name": "OPTIONAL - Inner FILTER with negative EBV for outer variables",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-4-result.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5.rq"
-          },
-          "comment": "Double curly braces get simplified to single curly braces early on, before filters are scoped",
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-005-simplified",
-          "name": "dawg-optional-filter-005-simplified",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5-result-simplified.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5.rq"
-          },
-          "comment": "Double curly braces do NOT get simplified to single curly braces early on, before filters are scoped",
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-005-not-simplified",
-          "name": "dawg-optional-filter-005-not-simplified",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5-result-not-simplified.ttl",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-001",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl"
+      },
+      "name": "OPTIONAL-FILTER",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-1-result.ttl",
+      "approval": "dawgt:Approved",
+      "comment": "FILTER inside an OPTIONAL does not block an entire solution"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-002",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-2.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl"
+      },
+      "name": "OPTIONAL - Outer FILTER",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-2-result.ttl",
+      "approval": "dawgt:Approved",
+      "comment": "FILTER outside an OPTIONAL tests bound and unbound variables"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-003",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-3.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl"
+      },
+      "name": "OPTIONAL - Outer FILTER with BOUND",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-3-result.ttl",
+      "approval": "dawgt:Approved",
+      "comment": "Use !bound to only run outer FILTERs against variables bound in an OPTIONAL"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-004",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-4.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl"
+      },
+      "name": "OPTIONAL - Inner FILTER with negative EBV for outer variables",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0006/02-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-4-result.ttl",
+      "approval": "dawgt:Approved",
+      "comment": "FILTER inside an OPTIONAL does not corrupt the entire solution"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-005-simplified",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl"
+      },
+      "name": "dawg-optional-filter-005-simplified",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5-result-simplified.ttl",
+      "comment": "Double curly braces get simplified to single curly braces early on, before filters are scoped"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest#dawg-optional-filter-005-not-simplified",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/data-1.ttl"
+      },
+      "name": "dawg-optional-filter-005-not-simplified",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/expr-5-result-not-simplified.ttl",
+      "comment": "Double curly braces do NOT get simplified to single curly braces early on, before filters are scoped"
     }
   ]
 }

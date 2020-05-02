@@ -55,118 +55,107 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "Casting",
+  "entries": [
     {
-      "entries": [
-        {
-          "action": {
-            "id": "_:b5",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-str.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-str",
-          "name": "Cast to xsd:string",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-str.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-flt.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-flt",
-          "name": "Cast to xsd:float",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-flt.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dbl.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-dbl",
-          "name": "Cast to xsd:double",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dbl.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b6",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dec.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-dec",
-          "name": "Cast to xsd:decimal",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dec.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b4",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-int.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-int",
-          "name": "Cast to xsd:integer",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-int.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dT.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-dT",
-          "name": "Cast to xsd:dateTime",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dT.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-bool.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-bool",
-          "name": "Cast to xsd:boolean",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-bool.srx",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest.ttl",
-      "rdfs:label": "Casting",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-str",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-str.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl"
+      },
+      "name": "Cast to xsd:string",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-str.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-flt",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-flt.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl"
+      },
+      "name": "Cast to xsd:float",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-flt.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-dbl",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dbl.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl"
+      },
+      "name": "Cast to xsd:double",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dbl.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-dec",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dec.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl"
+      },
+      "name": "Cast to xsd:decimal",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dec.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-int",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-int.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl"
+      },
+      "name": "Cast to xsd:integer",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-int.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-dT",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dT.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl"
+      },
+      "name": "Cast to xsd:dateTime",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-dT.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest#cast-bool",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-bool.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/data.ttl"
+      },
+      "name": "Cast to xsd:boolean",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/cast-bool.srx",
+      "approval": "dawgt:Approved"
     }
   ]
 }

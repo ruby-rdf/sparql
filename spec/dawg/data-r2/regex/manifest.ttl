@@ -6,6 +6,7 @@
 @prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label "REGEX" ;
     rdfs:comment "SPARQL regex test cases" ;
     mf:entries (
       :dawg-regex-001 :dawg-regex-002 :dawg-regex-003 :dawg-regex-004

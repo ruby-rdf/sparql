@@ -55,43 +55,40 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest.ttl",
+  "type": "mf:Manifest",
+  "comment": "Syntax tests Syntax SPARQL 1.1 Federation",
+  "rdfs:label": "Syntax Federation",
+  "entries": [
     {
-      "comment": "Syntax tests Syntax SPARQL 1.1 Federation",
-      "entries": [
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/syntax-service-01.rq",
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest#test_1",
-          "name": "syntax-service-01.rq",
-          "type": "mf:PositiveSyntaxTest11"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/syntax-service-02.rq",
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest#test_2",
-          "name": "syntax-service-02.rq",
-          "type": "mf:PositiveSyntaxTest11"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/syntax-service-03.rq",
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest#test_3",
-          "name": "syntax-service-03.rq",
-          "type": "mf:PositiveSyntaxTest11"
-        }
-      ],
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest#test_1",
+      "type": "mf:PositiveSyntaxTest11",
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/syntax-service-01.rq",
+      "name": "syntax-service-01.rq",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
+      },
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest#test_2",
+      "type": "mf:PositiveSyntaxTest11",
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/syntax-service-02.rq",
+      "name": "syntax-service-02.rq",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
+      },
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/manifest#test_3",
+      "type": "mf:PositiveSyntaxTest11",
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-fed/syntax-service-03.rq",
+      "name": "syntax-service-03.rq",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
+      },
+      "approval": "dawgt:Approved"
     }
   ]
 }

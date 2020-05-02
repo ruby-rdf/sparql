@@ -55,38 +55,34 @@
       "@type": "@id"
     }
   },
-  "@graph": [
-    {
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/manifest-evaluation.ttl",
-      "include": [
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/i18n/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest.ttl"
-      ],
-      "mf:entries": null,
-      "rdfs:label": "SPARQL Query Evaluation tests",
-      "type": "mf:Manifest"
-    }
-  ]
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/manifest-evaluation.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "SPARQL Query Evaluation tests",
+  "include": [
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/optional-filter/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/dataset/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/type-promotion/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/cast/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bound/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-builtin/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-ops/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/i18n/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/distinct/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest.ttl"
+  ],
+  "mf:entries": null
 }

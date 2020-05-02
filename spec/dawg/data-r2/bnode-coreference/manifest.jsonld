@@ -55,29 +55,24 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "type": "mf:Manifest",
+  "comment": "DAWG test cases on bnode co-reference",
+  "rdfs:label": "bnode co-reference",
+  "entries": [
     {
-      "comment": "DAWG test cases on bnode co-reference",
-      "entries": [
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/query.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Query results must maintain bnode co-references in the dataset",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0006"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/manifest#dawg-bnode-coref-001",
-          "name": "dawg-bnode-coreference",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/result.ttl",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "_:b0",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/manifest#dawg-bnode-coref-001",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/query.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/data.ttl"
+      },
+      "name": "dawg-bnode-coreference",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0006"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/result.ttl",
+      "approval": "dawgt:Approved",
+      "comment": "Query results must maintain bnode co-references in the dataset"
     }
   ]
 }

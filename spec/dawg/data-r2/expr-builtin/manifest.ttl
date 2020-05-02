@@ -8,6 +8,7 @@
 @prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label  "Built-ins" ;
     rdfs:comment  "DAWG Expression tests: Built-ins" ;
     mf:entries
     ( :dawg-str-1 :dawg-str-2 :dawg-str-3 :dawg-str-4

@@ -55,238 +55,220 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "Algebra",
+  "entries": [
     {
-      "entries": [
-        {
-          "action": {
-            "id": "_:b4",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Nested-optionals with a shared variable that does not appear in the middle pattern (a not well-formed query pattern as per \"Semantics and Complexity\" of SPARQL",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#nested-opt-1",
-          "name": "Nested Optionals - 1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt-alt.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "OPTIONALs parse in a left-associative manner",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#nested-opt-2",
-          "name": "Nested Optionals - 2",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt-alt.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "A FILTER inside an OPTIONAL can reference a variable bound in the required part of the OPTIONAL",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#opt-filter-1",
-          "name": "Optional-filter - 1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-1.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-2.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTERs inside an OPTIONAL can refer to variables from both the required and optional parts of the construct.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#opt-filter-2",
-          "name": "Optional-filter - 2 filters",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-2.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b10",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-3.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-3.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTERs in an OPTIONAL do not extend to variables bound outside of the LeftJoin(...) operation",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#opt-filter-3",
-          "name": "Optional-filter - scope of variable",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-3.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b9",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTER placed after the triple pattern that contains the variable tested",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-place-1",
-          "name": "Filter-placement - 1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-1.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b8",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTERs are scoped to the nearest enclosing group - placement within that group does not matter",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-place-2",
-          "name": "Filter-placement - 2",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-2.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-3.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTERs are scoped to the nearest enclosing group - placement within that group does not matter",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-place-3",
-          "name": "Filter-placement - 3",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-3.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b13",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "A FILTER is in scope for variables bound at the same level of the query tree",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-nested-1",
-          "name": "Filter-nested - 1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-1.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b12",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "A FILTER in a group { ... } cannot see variables bound outside that group",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-nested-2",
-          "name": "Filter-nested - 2",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-2.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b7",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-scope-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "FILTERs in an OPTIONAL do not extend to variables bound outside of the LeftJoin(...) operation",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-scope-1",
-          "name": "Filter-scope - 1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-scope-1.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b5",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/var-scope-join-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/var-scope-join-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Variables have query scope.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#join-scope-1",
-          "name": "Join scope - 1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/var-scope-join-1.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b11",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-graph-2.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Tests nested combination of Join with a BGP / OPT and a BGP / UNION",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#join-combo-1",
-          "name": "Join operator with OPTs, BGPs, and UNIONs",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-1.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b6",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-graph-2.ttl",
-            "mq:graphData": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-graph-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Tests combination of Join operator with Graph on LHS and Union on RHS",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#join-combo-2",
-          "name": "Join operator with Graph and Union",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-2.srx",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest.ttl",
-      "rdfs:label": "Algebra",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#nested-opt-1",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.ttl"
+      },
+      "name": "Nested Optionals - 1",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.srx",
+      "approval": "dawgt:Approved",
+      "comment": "Nested-optionals with a shared variable that does not appear in the middle pattern (a not well-formed query pattern as per \"Semantics and Complexity\" of SPARQL"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#nested-opt-2",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt-alt.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt.ttl"
+      },
+      "name": "Nested Optionals - 2",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/two-nested-opt-alt.srx",
+      "approval": "dawgt:Approved",
+      "comment": "OPTIONALs parse in a left-associative manner"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#opt-filter-1",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-1.ttl"
+      },
+      "name": "Optional-filter - 1",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-1.srx",
+      "approval": "dawgt:Approved",
+      "comment": "A FILTER inside an OPTIONAL can reference a variable bound in the required part of the OPTIONAL"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#opt-filter-2",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-2.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-2.ttl"
+      },
+      "name": "Optional-filter - 2 filters",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-2.srx",
+      "approval": "dawgt:Approved",
+      "comment": "FILTERs inside an OPTIONAL can refer to variables from both the required and optional parts of the construct."
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#opt-filter-3",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-3.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-3.ttl"
+      },
+      "name": "Optional-filter - scope of variable",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/opt-filter-3.srx",
+      "approval": "dawgt:Approved",
+      "comment": "FILTERs in an OPTIONAL do not extend to variables bound outside of the LeftJoin(...) operation"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-place-1",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl"
+      },
+      "name": "Filter-placement - 1",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-1.srx",
+      "approval": "dawgt:Approved",
+      "comment": "FILTER placed after the triple pattern that contains the variable tested"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-place-2",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-2.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl"
+      },
+      "name": "Filter-placement - 2",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-2.srx",
+      "approval": "dawgt:Approved",
+      "comment": "FILTERs are scoped to the nearest enclosing group - placement within that group does not matter"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-place-3",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-3.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl"
+      },
+      "name": "Filter-placement - 3",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-placement-3.srx",
+      "approval": "dawgt:Approved",
+      "comment": "FILTERs are scoped to the nearest enclosing group - placement within that group does not matter"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-nested-1",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-1.ttl"
+      },
+      "name": "Filter-nested - 1",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-1.srx",
+      "approval": "dawgt:Approved",
+      "comment": "A FILTER is in scope for variables bound at the same level of the query tree"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-nested-2",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-2.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-1.ttl"
+      },
+      "name": "Filter-nested - 2",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-nested-2.srx",
+      "approval": "dawgt:Approved",
+      "comment": "A FILTER in a group { ... } cannot see variables bound outside that group"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#filter-scope-1",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-scope-1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/data-2.ttl"
+      },
+      "name": "Filter-scope - 1",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/filter-scope-1.srx",
+      "approval": "dawgt:Approved",
+      "comment": "FILTERs in an OPTIONAL do not extend to variables bound outside of the LeftJoin(...) operation"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#join-scope-1",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/var-scope-join-1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/var-scope-join-1.ttl"
+      },
+      "name": "Join scope - 1",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/var-scope-join-1.srx",
+      "approval": "dawgt:Approved",
+      "comment": "Variables have query scope."
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#join-combo-1",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-1.rq",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-graph-2.ttl"
+      },
+      "name": "Join operator with OPTs, BGPs, and UNIONs",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-1.srx",
+      "approval": "dawgt:Approved",
+      "comment": "Tests nested combination of Join with a BGP / OPT and a BGP / UNION"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/manifest#join-combo-2",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-2.rq",
+        "mq:graphData": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-graph-1.ttl",
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-graph-2.ttl"
+      },
+      "name": "Join operator with Graph and Union",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
+      },
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/algebra/join-combo-2.srx",
+      "approval": "dawgt:Approved",
+      "comment": "Tests combination of Join operator with Graph on LHS and Union on RHS"
     }
   ]
 }

@@ -55,40 +55,36 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "SPARQL Service Description",
+  "entries": [
     {
-      "comment": "Service",
-      "entries": [
-        {
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#has-endpoint-triple",
-          "name": "Service description contains a matching sd:endpoint triple",
-          "type": "mf:ServiceDescriptionTest"
-        },
-        {
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#returns-rdf",
-          "name": "GET on endpoint returns RDF",
-          "type": "mf:ServiceDescriptionTest"
-        },
-        {
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#conforms-to-schema",
-          "name": "Service description conforms to schema",
-          "type": "mf:ServiceDescriptionTest"
-        }
-      ],
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#has-endpoint-triple",
+      "type": "mf:ServiceDescriptionTest",
+      "name": "Service description contains a matching sd:endpoint triple",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
+      },
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#returns-rdf",
+      "type": "mf:ServiceDescriptionTest",
+      "name": "GET on endpoint returns RDF",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
+      },
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#conforms-to-schema",
+      "type": "mf:ServiceDescriptionTest",
+      "name": "Service description conforms to schema",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
+      },
+      "approval": "dawgt:Approved"
     }
   ]
 }

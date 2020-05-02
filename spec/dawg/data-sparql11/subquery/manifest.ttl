@@ -155,9 +155,9 @@
     dawgt:approval dawgt:Approved ;
     dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:action
-         [ qt:query  <sq11.rq> ;
-           qt:data   <sq11.ttl> ] ;
-    mf:result  <sq11.srx>
+         [ qt:query  <sq13.rq> ;
+           qt:data   <sq13.ttl> ] ;
+    mf:result  <sq13.srx>
     . 
 
   :subquery14 rdf:type mf:QueryEvaluationTest ;

@@ -12,10 +12,10 @@
     ( 
 	:strdt01
 	:strdt02
-	:strdt03
+	:strdt03-rdf11
 	:strlang01
 	:strlang02
-	:strlang03
+	:strlang03-rdf11
 	:isnumeric01
 	:abs01
 	:ceil01
@@ -32,8 +32,8 @@
 	:contains01
 	:starts01
 	:ends01
-	:plus-1
-	:plus-2
+	:plus-1-corrected
+	:plus-2-corrected
 	:md5-01
 	:md5-02
 	:sha1-01
@@ -96,15 +96,14 @@
     mf:result  <strdt02.srx> ;
 	.
 
-:strdt03 rdf:type mf:QueryEvaluationTest ;
-	mf:name    "STRDT() TypeErrors" ;
+:strdt03-rdf11 rdf:type mf:QueryEvaluationTest ;
+	mf:name    "STRDT() TypeErrors (updated for RDF 1.1)" ;
 	mf:feature sparql:strdt ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
+    dawgt:approval dawgt:Proposed ;
     mf:action
          [ qt:query  <strdt03.rq> ;
            qt:data   <data.ttl> ] ;
-    mf:result  <strdt03.srx> ;
+    mf:result  <strdt03-rdf11.srx> ;
 	.
 
 :strlang01 rdf:type mf:QueryEvaluationTest ;
@@ -129,15 +128,14 @@
     mf:result  <strlang02.srx> ;
 	.
 
-:strlang03 rdf:type mf:QueryEvaluationTest ;
-	mf:name    "STRLANG() TypeErrors" ;
+:strlang03-rdf11 rdf:type mf:QueryEvaluationTest ;
+	mf:name    "STRLANG() TypeErrors (updated for RDF 1.1)" ;
 	mf:feature sparql:strlang ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
+    dawgt:approval dawgt:Proposed ;
     mf:action
          [ qt:query  <strlang03.rq> ;
            qt:data   <data.ttl> ] ;
-    mf:result  <strlang03.srx> ;
+    mf:result  <strlang03-rdf11.srx> ;
 	.
 
 :isnumeric01 rdf:type mf:QueryEvaluationTest ;
@@ -316,25 +314,23 @@
     mf:result  <ends01.srx> ;
 	.
 
-:plus-1 a mf:QueryEvaluationTest ;
-    mf:name    "plus-1" ;
+:plus-1-corrected a mf:QueryEvaluationTest ;
+    mf:name    "plus-1-corrected" ;
     rdfs:comment	"plus operator on ?x + ?y on string and numeric values" ;
+    dawgt:approval dawgt:Proposed ;
     mf:action
-       [ qt:query  <plus-1.rq> ;
+       [ qt:query  <plus-1-corrected.rq> ;
 	 qt:data   <data-builtin-3.ttl> ] ;
-     dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:result  <plus-1.srx> ;
     .
 
-:plus-2 a mf:QueryEvaluationTest ;
-    mf:name    "plus-2" ;
+:plus-2-corrected a mf:QueryEvaluationTest ;
+    mf:name    "plus-2-corrected" ;
     rdfs:comment	"plus operator in combination with str(), i.e.  str(?x) + str(?y), on string and numeric values" ;
+    dawgt:approval dawgt:Proposed ;
     mf:action
-       [ qt:query  <plus-2.rq> ;
+       [ qt:query  <plus-2-corrected.rq> ;
 	 qt:data   <data-builtin-3.ttl> ] ;
-     dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
     mf:result  <plus-2.srx> ;
     .
 
@@ -381,27 +377,6 @@
            qt:data   <hash-unicode.ttl> ] ;
     mf:result  <sha1-02.srx> ;
 	.
-
-# These tests are not part of the SPARQL test suite because SHA224 was removed from SPARQL 1.1
-## :sha224-01 rdf:type mf:QueryEvaluationTest ;
-## 	mf:name    "SHA224()" ;
-## 	mf:feature sparql:sha224 ;
-##     dawgt:approval dawgt:NotClassified ;
-##     mf:action
-##          [ qt:query  <sha224-01.rq> ;
-##            qt:data   <data.ttl> ] ;
-##     mf:result  <sha224-01.srx> ;
-## 	.
-## 
-## :sha224-02 rdf:type mf:QueryEvaluationTest ;
-## 	mf:name    "SHA224() on Unicode data" ;
-## 	mf:feature sparql:sha224 ;
-##     dawgt:approval dawgt:NotClassified ;
-##     mf:action
-##          [ qt:query  <sha224-02.rq> ;
-##            qt:data   <hash-unicode.ttl> ] ;
-##     mf:result  <sha224-02.srx> ;
-## 	.
 
 :sha256-01 rdf:type mf:QueryEvaluationTest ;
 	mf:name    "SHA256()" ;
@@ -670,17 +645,6 @@
     mf:result  <coalesce01.srx> ;
 	.
 
-:strbefore01 rdf:type mf:QueryEvaluationTest ;
-	mf:name    "STRBEFORE()" ;
-	mf:feature sparql:strbefore ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
-    mf:action
-         [ qt:query  <strbefore01.rq> ;
-           qt:data   <data2.ttl> ] ;
-    mf:result  <strbefore01.srx> ;
-	.
-
 :strbefore01a rdf:type mf:QueryEvaluationTest ;
 	mf:name    "STRBEFORE()" ;
 	mf:feature sparql:strbefore ;
@@ -701,17 +665,6 @@
          [ qt:query  <strbefore02.rq> ;
            qt:data   <data4.ttl> ] ;
     mf:result  <strbefore02.srx> ;
-	.
-
-:strafter01 rdf:type mf:QueryEvaluationTest ;
-	mf:name    "STRAFTER()" ;
-	mf:feature sparql:strafter ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3> ;
-    mf:action
-         [ qt:query  <strafter01.rq> ;
-           qt:data   <data2.ttl> ] ;
-    mf:result  <strafter01.srx> ;
 	.
 
 :strafter01a rdf:type mf:QueryEvaluationTest ;

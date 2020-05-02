@@ -6,6 +6,7 @@
 @prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label "Boolean Effective Value" ;
     rdfs:comment "Test of boolean expressions" ;
     mf:entries
     ( :dawg-boolean-literal :dawg-bev-1 :dawg-bev-2 :dawg-bev-3 :dawg-bev-4 :dawg-bev-5 :dawg-bev-6 ) .

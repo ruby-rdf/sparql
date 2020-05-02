@@ -55,118 +55,107 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "Project Expression",
+  "entries": [
     {
-      "entries": [
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp01.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp01.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp01",
-          "name": "Expression is equality",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp01.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp02.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp02.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp02",
-          "name": "Expression raise an error",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp02.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b6",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp03.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp03.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp03",
-          "name": "Reuse a project expression variable in select",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp03.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b5",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp04.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp04.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp04",
-          "name": "Reuse a project expression variable in order by",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp04.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b4",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp05.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp05.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp05",
-          "name": "Expression may return no value",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp05.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp06.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp06.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp06",
-          "name": "Expression has undefined variable",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp06.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp07.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp07.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp07",
-          "name": "Expression has variable that may be unbound",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp07.srx",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest.ttl",
-      "rdfs:label": "Project Expression",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp01",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp01.rq",
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp01.ttl"
+      },
+      "name": "Expression is equality",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
+      },
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp01.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp02",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp02.rq",
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp02.ttl"
+      },
+      "name": "Expression raise an error",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
+      },
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp02.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp03",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp03.rq",
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp03.ttl"
+      },
+      "name": "Reuse a project expression variable in select",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
+      },
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp03.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp04",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp04.rq",
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp04.ttl"
+      },
+      "name": "Reuse a project expression variable in order by",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
+      },
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp04.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp05",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp05.rq",
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp05.ttl"
+      },
+      "name": "Expression may return no value",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
+      },
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp05.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp06",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp06.rq",
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp06.ttl"
+      },
+      "name": "Expression has undefined variable",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
+      },
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp06.srx",
+      "approval": "dawgt:Approved"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/manifest#projexp07",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp07.rq",
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp07.ttl"
+      },
+      "name": "Expression has variable that may be unbound",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2010-09-07#resolution_3"
+      },
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/project-expression/projexp07.srx",
+      "approval": "dawgt:Approved"
     }
   ]
 }

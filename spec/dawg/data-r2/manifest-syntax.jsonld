@@ -55,19 +55,15 @@
       "@type": "@id"
     }
   },
-  "@graph": [
-    {
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/manifest-syntax.ttl",
-      "include": [
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql1/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql2/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql3/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest.ttl",
-        "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest.ttl"
-      ],
-      "mf:entries": null,
-      "rdfs:label": "SPARQL Syntax Tests",
-      "type": "mf:Manifest"
-    }
-  ]
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/manifest-syntax.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "SPARQL Syntax Tests",
+  "include": [
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql1/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql2/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql3/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest.ttl",
+    "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest.ttl"
+  ],
+  "mf:entries": null
 }

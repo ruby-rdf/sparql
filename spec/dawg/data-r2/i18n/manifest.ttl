@@ -8,7 +8,7 @@
 @prefix qt:     <http://www.w3.org/2001/sw/DataAccess/tests/test-query#> .
 
 <>  rdf:type mf:Manifest ;
-    rdfs:comment "I18N" ;
+    rdfs:label "I18N" ;
     mf:entries
     (
         :kanji-1

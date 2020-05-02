@@ -6,7 +6,8 @@
 @prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
 
 <>  rdf:type mf:Manifest ;
-    rdfs:label "Basic test cases" ;
+    rdfs:label "Basic" ;
+    rdfs:comment "Basic test cases" ;
     mf:entries
     ( 
       :base-prefix-1

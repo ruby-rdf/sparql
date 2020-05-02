@@ -12,7 +12,6 @@
     :subset-by-exclusion-nex-1
     :subset-by-exclusion-minus-1
     :temporal-proximity-by-exclusion-nex-1
-    #:temporal-proximity-by-exclusion-minus-1
     :subset-01
     :subset-02
     :set-equals-1
@@ -50,14 +49,6 @@
          [ qt:query  <temporalProximity01.rq> ;
            qt:data   <temporalProximity01.ttl> ] ;
     mf:result  <temporalProximity01.srx> .
-
-:temporal-proximity-by-exclusion-minus-1 rdf:type mf:QueryEvaluationTest ;
-    mf:name    "Medical, temporal proximity by exclusion (MINUS)" ;
-    dawgt:approval dawgt:NotClassified ;
-    mf:action
-         [ qt:query  <temporalProximity02.rq> ;
-           qt:data   <temporalProximity02.ttl> ] ;
-    mf:result  <temporalProximity02.srx> .
 
 :subset-01 rdf:type mf:QueryEvaluationTest ;
     mf:name    "Calculate which sets are subsets of others (include A subsetOf A)" ;

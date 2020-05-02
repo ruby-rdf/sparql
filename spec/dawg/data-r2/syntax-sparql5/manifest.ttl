@@ -6,6 +6,7 @@
 @prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label "Syntax 5" ;
     rdfs:comment "Syntax tests syntax-sparql5" ;
     mf:entries
     ( :syntax-reduced-01 :syntax-reduced-02

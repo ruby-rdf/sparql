@@ -6,6 +6,7 @@
 @prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label "OPTIONAL FILTER" ;
     rdfs:comment "OPTIONAL with inner and outer FILTERs" ;
     mf:entries
     (:dawg-optional-filter-001 :dawg-optional-filter-002 :dawg-optional-filter-003 :dawg-optional-filter-004 :dawg-optional-filter-005-simplified :dawg-optional-filter-005-not-simplified).
