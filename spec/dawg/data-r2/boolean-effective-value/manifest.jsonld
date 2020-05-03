@@ -63,106 +63,106 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest#dawg-boolean-literal",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-boolean-literal.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl"
-      },
-      "name": "Test literal 'true'",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-boolean-literal.ttl",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-boolean-literal.rq"
+      },
+      "name": "Test literal 'true'",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-boolean-literal.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest#dawg-bev-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl"
-      },
-      "name": "Test 'boolean effective value' - true",
+      "comment": "Non-zero numerics, non-empty strings, and the true boolean have an EBV of true",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-1.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Non-zero numerics, non-empty strings, and the true boolean have an EBV of true"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-1.rq"
+      },
+      "name": "Test 'boolean effective value' - true",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-1.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest#dawg-bev-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl"
-      },
-      "name": "Test 'boolean effective value' - false",
+      "comment": "Zero-valued numerics, the empty string, and the false boolean have an EBV of false",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-2.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Zero-valued numerics, the empty string, and the false boolean have an EBV of false"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-2.rq"
+      },
+      "name": "Test 'boolean effective value' - false",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-2.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest#dawg-bev-3",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-3.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl"
-      },
-      "name": "Test 'boolean effective value' - &&",
+      "comment": "The && operator takes the EBV of its operands",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-3.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "The && operator takes the EBV of its operands"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-3.rq"
+      },
+      "name": "Test 'boolean effective value' - &&",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-3.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest#dawg-bev-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl"
-      },
-      "name": "Test 'boolean effective value' - ||",
+      "comment": "The || operator takes the EBV of its operands",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-4.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "The || operator takes the EBV of its operands"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-4.rq"
+      },
+      "name": "Test 'boolean effective value' - ||",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-4.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest#dawg-bev-5",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-5.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-2.ttl"
-      },
-      "name": "Test 'boolean effective value' - optional",
+      "comment": "The EBV of an unbound value  or a literal with an unknown datatype is a type error, which eliminates the solution in question",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-5.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "The EBV of an unbound value  or a literal with an unknown datatype is a type error, which eliminates the solution in question"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-2.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-5.rq"
+      },
+      "name": "Test 'boolean effective value' - optional",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-5.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/manifest#dawg-bev-6",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-6.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-2.ttl"
-      },
-      "name": "Test 'boolean effective value' - unknown types",
+      "comment": "Negating a type error is still a type error",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0082/2007-06-12-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-6.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Negating a type error is still a type error"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/data-2.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/query-bev-6.rq"
+      },
+      "name": "Test 'boolean effective value' - unknown types",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/boolean-effective-value/result-bev-6.ttl"
     }
   ]
 }

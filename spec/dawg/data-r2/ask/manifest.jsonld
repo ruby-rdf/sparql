@@ -62,70 +62,70 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl"
-      },
-      "name": "ASK-1 (SPARQL XML results)",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.rq"
+      },
+      "name": "ASK-1 (SPARQL XML results)",
       "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.srx",
       "mq:queryForm": {
         "id": "mq:QueryAsk"
-      },
-      "approval": "dawgt:Approved"
+      }
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl"
-      },
-      "name": "ASK-4 (SPARQL XML results)",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.rq"
+      },
+      "name": "ASK-4 (SPARQL XML results)",
       "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.srx",
       "mq:queryForm": {
         "id": "mq:QueryAsk"
-      },
-      "approval": "dawgt:Approved"
+      }
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-7",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl"
-      },
-      "name": "ASK-7 (SPARQL XML results)",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.rq"
+      },
+      "name": "ASK-7 (SPARQL XML results)",
       "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.srx",
       "mq:queryForm": {
         "id": "mq:QueryAsk"
-      },
-      "approval": "dawgt:Approved"
+      }
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-8",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl"
-      },
-      "name": "ASK-8 (SPARQL XML results)",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
       },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.rq"
+      },
+      "name": "ASK-8 (SPARQL XML results)",
       "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.srx",
       "mq:queryForm": {
         "id": "mq:QueryAsk"
-      },
-      "approval": "dawgt:Approved"
+      }
     }
   ]
 }

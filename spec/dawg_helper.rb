@@ -126,7 +126,7 @@ module SPARQL
       puts "Convert #{manifest_uri}"
       g = RDF::Repository.load(manifest_uri)
       JSON::LD::API.fromRdf(g) do |expanded|
-        JSON::LD::API.frame(expanded, FRAME) do |man|
+        JSON::LD::API.frame(expanded, FRAME, ordered: true) do |man|
           includes = Array(man["include"]).dup if man.has_key?("include")
 
           if save

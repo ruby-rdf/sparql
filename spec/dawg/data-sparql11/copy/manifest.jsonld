@@ -62,182 +62,182 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "COPY 1",
+      "comment": "Copy the default graph to an existing graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ru"
+      },
+      "name": "COPY 1",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Copy the default graph to an existing graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy02",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl"
-      },
-      "name": "COPY 2",
+      "comment": "Copy the default graph to a non-existing graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ru"
+      },
+      "name": "COPY 2",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Copy the default graph to a non-existing graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy03",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-03.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-02.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "COPY 3",
+      "comment": "Copy a named graph to an existing graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-02.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-03.ru"
+      },
+      "name": "COPY 3",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           },
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Copy a named graph to an existing graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy04",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-03.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "COPY 4",
+      "comment": "Copy a named graph to a non-existing graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-03.ru"
+      },
+      "name": "COPY 4",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           },
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Copy a named graph to a non-existing graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy06",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-06.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "COPY 6",
+      "comment": "Copy an existing graph to the default graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-06.ru"
+      },
+      "name": "COPY 6",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Copy an existing graph to the default graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/manifest#copy07",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-07.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "COPY 7",
+      "comment": "Copy a graph to itself",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-22#resolution_2"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-07.ru"
+      },
+      "name": "COPY 7",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Copy a graph to itself"
+      }
     }
   ]
 }

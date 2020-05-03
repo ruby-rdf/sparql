@@ -63,182 +63,182 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-1",
+      "comment": "= in FILTER expressions is value equality",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-1.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "= in FILTER expressions is value equality"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-1.rq"
+      },
+      "name": "Equality 1-1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-1.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-2",
+      "comment": "= in FILTER expressions is value equality",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-2.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "= in FILTER expressions is value equality"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-2.rq"
+      },
+      "name": "Equality 1-2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-2.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-3",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-3.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
       "comment": "Numerics are not value-equivalent to plain literals",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-3.ttl",
-      "approval": "dawgt:Approved",
-      "name": "Equality 1-3"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-3.rq"
+      },
+      "name": "Equality 1-3",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-3.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-4",
+      "comment": "= compares plain literals and unknown types with the same lexical form as false",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-4.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "= compares plain literals and unknown types with the same lexical form as false"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-4.rq"
+      },
+      "name": "Equality 1-4",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-4.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-5",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-5.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
       "comment": "= on IRI terms",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-5.ttl",
-      "approval": "dawgt:Approved",
-      "name": "Equality 1-5"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-5.rq"
+      },
+      "name": "Equality 1-5",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-5.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-2-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq2-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality - 2 var - test equals",
+      "comment": "= in FILTER is value equality",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq2-1.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "= in FILTER is value equality"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq2-1.rq"
+      },
+      "name": "Equality - 2 var - test equals",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq2-1.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-2-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq2-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
       "comment": "!= in FILTER is value inequality",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq2-1.ttl",
-      "approval": "dawgt:Approved",
-      "name": "Equality - 2 var - test not equals "
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq2-1.rq"
+      },
+      "name": "Equality - 2 var - test not equals ",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq2-1.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-graph-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-1 -- graph",
+      "comment": "Graph pattern matching matches exact terms, not values",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-1.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Graph pattern matching matches exact terms, not values"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-1.rq"
+      },
+      "name": "Equality 1-1 -- graph",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-1.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-graph-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-2 -- graph",
+      "comment": "Graph pattern matching matches exact terms, not values",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-2.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Graph pattern matching matches exact terms, not values"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-2.rq"
+      },
+      "name": "Equality 1-2 -- graph",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-2.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-graph-3",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-3.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-3 -- graph",
+      "comment": "Graph pattern matching matches exact terms, not values",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-3.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Graph pattern matching matches exact terms, not values"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-3.rq"
+      },
+      "name": "Equality 1-3 -- graph",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-3.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-graph-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-4 -- graph",
+      "comment": "Graph pattern matching matches exact terms, not values",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-4.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Graph pattern matching matches exact terms, not values"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-4.rq"
+      },
+      "name": "Equality 1-4 -- graph",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-4.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/manifest#eq-graph-5",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-5.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl"
-      },
-      "name": "Equality 1-5 -- graph",
+      "comment": "Graph pattern matching matches exact terms, not values",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/06/19-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-5.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Graph pattern matching matches exact terms, not values"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/data-eq.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/query-eq-graph-5.rq"
+      },
+      "name": "Equality 1-5 -- graph",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/expr-equals/result-eq-graph-5.ttl"
     }
   ]
 }

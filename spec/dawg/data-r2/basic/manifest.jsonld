@@ -63,383 +63,383 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#base-prefix-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl"
-      },
-      "name": "Basic - Prefix/Base 1",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-1.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-1.rq"
+      },
+      "name": "Basic - Prefix/Base 1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-1.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#base-prefix-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl"
-      },
-      "name": "Basic - Prefix/Base 2",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-2.rq"
+      },
+      "name": "Basic - Prefix/Base 2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-2.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#base-prefix-3",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-3.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl"
-      },
-      "name": "Basic - Prefix/Base 3",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-3.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-3.rq"
+      },
+      "name": "Basic - Prefix/Base 3",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-3.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#base-prefix-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl"
-      },
-      "name": "Basic - Prefix/Base 4",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-4.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-4.rq"
+      },
+      "name": "Basic - Prefix/Base 4",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-4.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#base-prefix-5",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-5.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl"
-      },
-      "name": "Basic - Prefix/Base 5",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-5.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-5.rq"
+      },
+      "name": "Basic - Prefix/Base 5",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/base-prefix-5.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#list-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl"
-      },
-      "name": "Basic - List 1",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-1.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-1.rq"
+      },
+      "name": "Basic - List 1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-1.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#list-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl"
-      },
-      "name": "Basic - List 2",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-2.rq"
+      },
+      "name": "Basic - List 2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-2.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#list-3",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-3.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl"
-      },
-      "name": "Basic - List 3",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-3.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-3.rq"
+      },
+      "name": "Basic - List 3",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-3.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#list-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl"
-      },
-      "name": "Basic - List 4",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-4.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-2.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-4.rq"
+      },
+      "name": "Basic - List 4",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/list-4.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#quotes-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl"
-      },
-      "name": "Basic - Quotes 1",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-1.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-1.rq"
+      },
+      "name": "Basic - Quotes 1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-1.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#quotes-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl"
-      },
-      "name": "Basic - Quotes 2",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-2.rq"
+      },
+      "name": "Basic - Quotes 2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-2.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#quotes-3",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-3.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl"
-      },
-      "name": "Basic - Quotes 3",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-3.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-3.rq"
+      },
+      "name": "Basic - Quotes 3",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-3.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#quotes-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl"
-      },
-      "name": "Basic - Quotes 4",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-4.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-3.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-4.rq"
+      },
+      "name": "Basic - Quotes 4",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/quotes-4.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 1",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-1.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-1.rq"
+      },
+      "name": "Basic - Term 1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-1.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 2",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-2.rq"
+      },
+      "name": "Basic - Term 2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-2.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-3",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-3.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 3",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-3.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-3.rq"
+      },
+      "name": "Basic - Term 3",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-3.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-4",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-4.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 4",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-4.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-4.rq"
+      },
+      "name": "Basic - Term 4",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-4.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-5",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-5.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 5",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-5.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-5.rq"
+      },
+      "name": "Basic - Term 5",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-5.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-6",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-6.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 6",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-6.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-6.rq"
+      },
+      "name": "Basic - Term 6",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-6.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-7",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-7.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 7",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-7.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-7.rq"
+      },
+      "name": "Basic - Term 7",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-7.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-8",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-8.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 8",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-8.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-8.rq"
+      },
+      "name": "Basic - Term 8",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-8.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#term-9",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-9.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl"
-      },
-      "name": "Basic - Term 9",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-9.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-9.rq"
+      },
+      "name": "Basic - Term 9",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/term-9.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#var-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-5.ttl"
-      },
-      "name": "Basic - Var 1",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-1.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-5.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-1.rq"
+      },
+      "name": "Basic - Var 1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-1.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#var-2",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-2.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-5.ttl"
-      },
-      "name": "Basic - Var 2",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-5.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-2.rq"
+      },
+      "name": "Basic - Var 2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/var-2.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#bgp-no-match",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/bgp-no-match.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-7.ttl"
-      },
-      "name": "Non-matching triple pattern",
+      "comment": "Patterns not in data don't match",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/bgp-no-match.srx",
-      "approval": "dawgt:Approved",
-      "comment": "Patterns not in data don't match"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-7.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/bgp-no-match.rq"
+      },
+      "name": "Non-matching triple pattern",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/bgp-no-match.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#spoo-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/spoo-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-6.ttl"
-      },
-      "name": "Basic graph pattern - spoo",
+      "comment": "Test the :x :y :o1, :o2 construct",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/spoo-1.srx",
-      "approval": "dawgt:Approved",
-      "comment": "Test the :x :y :o1, :o2 construct"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-6.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/spoo-1.rq"
+      },
+      "name": "Basic graph pattern - spoo",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/spoo-1.srx"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest#prefix-name-1",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/prefix-name-1.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-6.ttl"
-      },
-      "name": "Prefix name 1",
+      "comment": "No local name - foo:",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/prefix-name-1.srx",
-      "approval": "dawgt:Approved",
-      "comment": "No local name - foo:"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/data-6.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/prefix-name-1.rq"
+      },
+      "name": "Prefix name 1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/prefix-name-1.srx"
     }
   ]
 }

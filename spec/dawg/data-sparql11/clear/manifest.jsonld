@@ -63,150 +63,150 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/manifest#dawg-clear-default-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "CLEAR DEFAULT",
+      "comment": "This is a CLEAR of the default graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default-01.ru"
+      },
+      "name": "CLEAR DEFAULT",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
           },
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "This is a CLEAR of the default graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/manifest#dawg-clear-graph-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-graph-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "CLEAR GRAPH",
+      "comment": "This is a CLEAR of an existing named graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-graph-01.ru"
+      },
+      "name": "CLEAR GRAPH",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
           },
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "This is a CLEAR of an existing named graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/manifest#dawg-clear-named-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-named-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "CLEAR NAMED",
+      "comment": "This is a CLEAR of all the named graphs",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-named-01.ru"
+      },
+      "name": "CLEAR NAMED",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
           },
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "This is a CLEAR of all the named graphs"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/manifest#dawg-clear-all-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-all-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "CLEAR ALL",
+      "comment": "This is a CLEAR of all graphs (default and named)",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-all-01.ru"
+      },
+      "name": "CLEAR ALL",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
           },
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "This is a CLEAR of all graphs (default and named)"
+      }
     }
   ]
 }

@@ -62,89 +62,89 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/manifest#exists01",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl"
-      },
-      "name": "Exists with one constant",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.srx",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.rq"
+      },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#exists"
       },
-      "approval": "dawgt:Approved"
+      "name": "Exists with one constant",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/manifest#exists02",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists02.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl"
-      },
-      "name": "Exists with ground triple",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists02.srx",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists02.rq"
+      },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#exists"
       },
-      "approval": "dawgt:Approved"
+      "name": "Exists with ground triple",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists02.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/manifest#exists03",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists03.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists02.ttl",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl"
-      },
-      "name": "Exists within graph pattern",
+      "comment": "Checks that exists is interpreted within named graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists03.srx",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl",
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists02.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists03.rq"
+      },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#exists"
       },
-      "approval": "dawgt:Approved",
-      "comment": "Checks that exists is interpreted within named graph"
+      "name": "Exists within graph pattern",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists03.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/manifest#exists04",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists04.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl"
-      },
-      "name": "Nested positive exists",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists04.srx",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists04.rq"
+      },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#exists"
       },
-      "approval": "dawgt:Approved"
+      "name": "Nested positive exists",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists04.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/manifest#exists05",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists05.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl"
-      },
-      "name": "Nested negative exists in positive exists",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists05.srx",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists01.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists05.rq"
+      },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#exists"
       },
-      "approval": "dawgt:Approved"
+      "name": "Nested negative exists in positive exists",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/exists/exists05.srx"
     }
   ]
 }

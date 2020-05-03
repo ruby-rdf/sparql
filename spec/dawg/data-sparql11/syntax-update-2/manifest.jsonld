@@ -63,12 +63,12 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-update-2/manifest#syntax-update-other-01",
       "type": "mf:PositiveUpdateSyntaxTest11",
-      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-update-2/large-request-01.ru",
-      "name": "syntax-update-other-01",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/syntax-update-2/large-request-01.ru",
+      "name": "syntax-update-other-01"
     }
   ]
 }

@@ -62,62 +62,62 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/manifest#jsonres01",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres01.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl"
-      },
-      "name": "jsonres01 - JSON Result Format",
+      "comment": "SELECT * WHERE { ?S ?P ?O }",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-08-16#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres01.srj",
-      "approval": "dawgt:Approved",
-      "comment": "SELECT * WHERE { ?S ?P ?O }"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres01.rq"
+      },
+      "name": "jsonres01 - JSON Result Format",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres01.srj"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/manifest#jsonres02",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres02.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl"
-      },
-      "name": "jsonres02 - JSON Result Format",
+      "comment": "SELECT with OPTIONAL (i.e. not all vars bound in all results)",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-08-16#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres02.srj",
-      "approval": "dawgt:Approved",
-      "comment": "SELECT with OPTIONAL (i.e. not all vars bound in all results)"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres02.rq"
+      },
+      "name": "jsonres02 - JSON Result Format",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres02.srj"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/manifest#jsonres03",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres03.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl"
-      },
-      "name": "jsonres03 - JSON Result Format",
+      "comment": "ASK - answer: true",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-08-16#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres03.srj",
-      "approval": "dawgt:Approved",
-      "comment": "ASK - answer: true"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres03.rq"
+      },
+      "name": "jsonres03 - JSON Result Format",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres03.srj"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/manifest#jsonres04",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres04.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl"
-      },
-      "name": "jsonres04 - JSON Result Format",
+      "comment": "ASK - answer: false",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-08-16#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres04.srj",
-      "approval": "dawgt:Approved",
-      "comment": "ASK - answer: false"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres04.rq"
+      },
+      "name": "jsonres04 - JSON Result Format",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/json-res/jsonres04.srj"
     }
   ]
 }

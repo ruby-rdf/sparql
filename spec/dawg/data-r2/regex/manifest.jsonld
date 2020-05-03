@@ -63,62 +63,62 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/manifest#dawg-regex-001",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-001.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl"
-      },
-      "name": "regex-query-001",
+      "comment": "Simple unanchored match test",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0029.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-001.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Simple unanchored match test"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-001.rq"
+      },
+      "name": "regex-query-001",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-001.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/manifest#dawg-regex-002",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-002.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl"
-      },
-      "name": "regex-query-002",
+      "comment": "Case insensitive unanchored match test",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0029.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-002.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Case insensitive unanchored match test"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-002.rq"
+      },
+      "name": "regex-query-002",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-002.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/manifest#dawg-regex-003",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-003.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl"
-      },
-      "name": "regex-query-003",
+      "comment": "Use/mention test",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0029.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-003.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Use/mention test"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-003.rq"
+      },
+      "name": "regex-query-003",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-003.ttl"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/manifest#dawg-regex-004",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-004.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl"
-      },
-      "name": "regex-query-004",
+      "comment": "str()+URI test",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0029.html"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-004.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "str()+URI test"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-data-01.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-query-004.rq"
+      },
+      "name": "regex-query-004",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/regex/regex-result-004.ttl"
     }
   ]
 }

@@ -62,17 +62,17 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/manifest#dawg-bnode-coref-001",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/query.rq",
-        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/data.ttl"
-      },
-      "name": "dawg-bnode-coreference",
+      "comment": "Query results must maintain bnode co-references in the dataset",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/0006"
       },
-      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/result.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "Query results must maintain bnode co-references in the dataset"
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/query.rq"
+      },
+      "name": "dawg-bnode-coreference",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/bnode-coreference/result.ttl"
     }
   ]
 }

@@ -242,7 +242,7 @@ module SPARQL; module Spec
 
     def parse_rdf_bindings(graph)
       JSON::LD::API.fromRDF(graph) do |expanded|
-        JSON::LD::API.frame(expanded, RESULT_FRAME, pruneBlankNodeIdentifiers: false) do |framed|
+        JSON::LD::API.frame(expanded, RESULT_FRAME, ordered: true, pruneBlankNodeIdentifiers: false) do |framed|
           nodes = {}
           solution = framed['solution'] if framed.has_key?('solution')
           solutions = Array(solution).

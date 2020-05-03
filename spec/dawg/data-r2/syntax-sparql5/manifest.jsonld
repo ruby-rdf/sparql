@@ -63,22 +63,22 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest#syntax-reduced-01",
       "type": "mf:PositiveSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-01.rq",
-      "name": "syntax-reduced-01.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-01.rq",
+      "name": "syntax-reduced-01.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest#syntax-reduced-02",
       "type": "mf:PositiveSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-02.rq",
-      "name": "syntax-reduced-02.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-02.rq",
+      "name": "syntax-reduced-02.rq"
     }
   ]
 }

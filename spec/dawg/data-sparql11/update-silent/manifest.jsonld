@@ -63,249 +63,249 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#load-silent",
       "type": "mf:UpdateEvaluationTest",
+      "comment": "Loading a non-existent graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
       "action": {
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/load-silent.ru"
       },
       "name": "LOAD SILENT",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-      },
       "result": {
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Loading a non-existent graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#load-into-silent",
       "type": "mf:UpdateEvaluationTest",
+      "comment": "Loading a non-existent named graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
       "action": {
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/load-silent-into.ru"
       },
       "name": "LOAD SILENT INTO",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-      },
       "result": {
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Loading a non-existent named graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#clear-silent",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/clear-silent.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
-      },
-      "name": "CLEAR SILENT GRAPH iri",
+      "comment": "Clearing a non-existent named graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/clear-silent.ru"
+      },
+      "name": "CLEAR SILENT GRAPH iri",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Clearing a non-existent named graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#clear-default-silent",
       "type": "mf:UpdateEvaluationTest",
+      "comment": "Clearing the already empty default graph. (This operation would also succeed without SILENT)",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
       "action": {
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/clear-default-silent.ru"
       },
       "name": "CLEAR SILENT DEFAULT",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-      },
       "result": {
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Clearing the already empty default graph. (This operation would also succeed without SILENT)"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#create-silent",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/create-silent.ru",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "CREATE SILENT iri",
+      "comment": "Creation of an already existent named graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/create-silent.ru"
+      },
+      "name": "CREATE SILENT iri",
       "result": {
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Creation of an already existent named graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#drop-silent",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/drop-silent.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
-      },
-      "name": "DROP SILENT GRAPH iri",
+      "comment": "Clearing a non-existent named graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/drop-silent.ru"
+      },
+      "name": "DROP SILENT GRAPH iri",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Clearing a non-existent named graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#drop-default-silent",
       "type": "mf:UpdateEvaluationTest",
+      "comment": "Clearing the already empty default graph. (This operation would also succeed withou SILENT)",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
       "action": {
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/drop-default-silent.ru"
       },
       "name": "DROP SILENT DEFAULT",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-      },
       "result": {
-      },
-      "approval": "dawgt:Approved",
-      "comment": "Clearing the already empty default graph. (This operation would also succeed withou SILENT)"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#copy-silent",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/copy-silent.ru",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "COPY SILENT",
+      "comment": "copy a non-existent graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/copy-silent.ru"
+      },
+      "name": "COPY SILENT",
       "result": {
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "copy a non-existent graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#copy-to-default-silent",
       "type": "mf:UpdateEvaluationTest",
+      "comment": "copy a non-existent graph to default graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
       "action": {
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/copy-to-default-silent.ru"
       },
       "name": "COPY SILENT TO DEFAULT",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-      },
       "result": {
-      },
-      "approval": "dawgt:Approved",
-      "comment": "copy a non-existent graph to default graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#move-silent",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/move-silent.ru",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "MOVE SILENT",
+      "comment": "move a non-existent graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/move-silent.ru"
+      },
+      "name": "MOVE SILENT",
       "result": {
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "move a non-existent graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#move-to-default-silent",
       "type": "mf:UpdateEvaluationTest",
+      "comment": "move a non-existent graph to default graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
       "action": {
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/move-to-default-silent.ru"
       },
       "name": "MOVE SILENT TO DEFAULT",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-      },
       "result": {
-      },
-      "approval": "dawgt:Approved",
-      "comment": "move a non-existent graph to default graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#add-silent",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/add-silent.ru",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "ADD SILENT",
+      "comment": "add a non-existent graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/add-silent.ru"
+      },
+      "name": "ADD SILENT",
       "result": {
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/spo.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "add a non-existent graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/manifest#add-to-default-silent",
       "type": "mf:UpdateEvaluationTest",
+      "comment": "add a non-existent graph to default graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
       "action": {
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/update-silent/add-to-default-silent.ru"
       },
       "name": "ADD SILENT TO DEFAULT",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-      },
       "result": {
-      },
-      "approval": "dawgt:Approved",
-      "comment": "add a non-existent graph to default graph"
+      }
     }
   ]
 }

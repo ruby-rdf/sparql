@@ -63,125 +63,125 @@
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-09",
       "type": "mf:PositiveSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-09.rq",
-      "name": "syn-09.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-09.rq",
+      "name": "syn-09.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-10",
       "type": "mf:PositiveSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-10.rq",
-      "name": "syn-10.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-10.rq",
+      "name": "syn-10.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-11",
       "type": "mf:PositiveSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-11.rq",
-      "name": "syn-11.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-11.rq",
+      "name": "syn-11.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-34",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-34.rq",
-      "name": "syn-bad-34.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-34.rq",
+      "name": "syn-bad-34.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-35",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-35.rq",
-      "name": "syn-bad-35.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-35.rq",
+      "name": "syn-bad-35.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-36",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-36.rq",
-      "name": "syn-bad-36.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-36.rq",
+      "name": "syn-bad-36.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-37",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-37.rq",
-      "name": "syn-bad-37.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-37.rq",
+      "name": "syn-bad-37.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-38",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-38.rq",
-      "name": "syn-bad-38.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2007/02/13-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-38.rq",
+      "name": "syn-bad-38.rq"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-OPT-breaks-BGP",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-OPT-breaks-BGP.rq",
-      "name": "syn-bad-OPT-breaks-BGP",
+      "comment": "bad: re-used BNode label after OPTIONAL",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0063/29-dawg-minutes.htm"
       },
-      "approval": "dawgt:Approved",
-      "comment": "bad: re-used BNode label after OPTIONAL"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-OPT-breaks-BGP.rq",
+      "name": "syn-bad-OPT-breaks-BGP"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-UNION-breaks-BGP",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-UNION-breaks-BGP.rq",
-      "name": "syn-bad-UNION-breaks-BGP",
+      "comment": "bad: re-used BNode label after UNION",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0118/04-dawg-minutes.html"
       },
-      "approval": "dawgt:Approved",
-      "comment": "bad: re-used BNode label after UNION"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-UNION-breaks-BGP.rq",
+      "name": "syn-bad-UNION-breaks-BGP"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-bad-GRAPH-breaks-BGP",
       "type": "mf:NegativeSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-GRAPH-breaks-BGP.rq",
-      "name": "syn-bad-GRAPH-breaks-BGP",
+      "comment": "bad: re-used BNode label after GRAPH",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0063/29-dawg-minutes.htm"
       },
-      "approval": "dawgt:Approved",
-      "comment": "bad: re-used BNode label after GRAPH"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-bad-GRAPH-breaks-BGP.rq",
+      "name": "syn-bad-GRAPH-breaks-BGP"
     },
     {
       "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/manifest#syn-leading-digits-in-prefixed-names",
       "type": "mf:PositiveSyntaxTest",
-      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-leading-digits-in-prefixed-names.rq",
-      "name": "syn-leading-digits-in-prefixed-names.rq",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007AprJun/att-0063/29-dawg-minutes.htm"
       },
-      "approval": "dawgt:Approved"
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql4/syn-leading-digits-in-prefixed-names.rq",
+      "name": "syn-leading-digits-in-prefixed-names.rq"
     }
   ]
 }

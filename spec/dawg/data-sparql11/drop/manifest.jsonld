@@ -63,124 +63,124 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/manifest#dawg-drop-default-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "DROP DEFAULT",
+      "comment": "This is a DROP of the default graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default-01.ru"
+      },
+      "name": "DROP DEFAULT",
       "result": {
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
           },
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "This is a DROP of the default graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/manifest#dawg-drop-graph-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-graph-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "DROP GRAPH",
+      "comment": "This is a DROP of an existing named graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-graph-01.ru"
+      },
+      "name": "DROP GRAPH",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
         "ut:graphData": [
           {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
           }
         ]
-      },
-      "approval": "dawgt:Approved",
-      "comment": "This is a DROP of an existing named graph"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/manifest#dawg-drop-named-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-named-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          }
-        ]
-      },
-      "name": "DROP NAMED",
+      "comment": "This is a DROP of all the named graphs",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-named-01.ru"
+      },
+      "name": "DROP NAMED",
       "result": {
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl"
-      },
-      "approval": "dawgt:Approved",
-      "comment": "This is a DROP of all the named graphs"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/manifest#dawg-drop-all-01",
       "type": "mf:UpdateEvaluationTest",
-      "action": {
-        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-all-01.ru",
-        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
-        "ut:graphData": [
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl",
-            "rdfs:label": "http://example.org/g1"
-          },
-          {
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl",
-            "rdfs:label": "http://example.org/g2"
-          }
-        ]
-      },
-      "name": "DROP ALL",
+      "comment": "This is a DROP of all graphs (default and named)",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
       },
-      "result": {
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-default.ttl",
+        "ut:graphData": [
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-g1.ttl"
+          }
+        ],
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/drop/drop-all-01.ru"
       },
-      "approval": "dawgt:Approved",
-      "comment": "This is a DROP of all graphs (default and named)"
+      "name": "DROP ALL",
+      "result": {
+      }
     }
   ]
 }

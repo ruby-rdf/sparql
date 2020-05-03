@@ -62,29 +62,29 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#has-endpoint-triple",
       "type": "mf:ServiceDescriptionTest",
-      "name": "Service description contains a matching sd:endpoint triple",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
       },
-      "approval": "dawgt:Approved"
+      "name": "Service description contains a matching sd:endpoint triple"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#returns-rdf",
       "type": "mf:ServiceDescriptionTest",
-      "name": "GET on endpoint returns RDF",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
       },
-      "approval": "dawgt:Approved"
+      "name": "GET on endpoint returns RDF"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service-description/manifest#conforms-to-schema",
       "type": "mf:ServiceDescriptionTest",
-      "name": "Service description conforms to schema",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-07-31#resolution_2"
       },
-      "approval": "dawgt:Approved"
+      "name": "Service description conforms to schema"
     }
   ]
 }

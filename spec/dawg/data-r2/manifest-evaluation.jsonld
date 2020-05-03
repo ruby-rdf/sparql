@@ -58,6 +58,7 @@
   "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/manifest-evaluation.ttl",
   "type": "mf:Manifest",
   "rdfs:label": "SPARQL Query Evaluation tests",
+  "mf:entries": null,
   "include": [
     "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/basic/manifest.ttl",
     "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/triple-match/manifest.ttl",
@@ -83,6 +84,5 @@
     "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest.ttl",
     "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/solution-seq/manifest.ttl",
     "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest.ttl"
-  ],
-  "mf:entries": null
+  ]
 }

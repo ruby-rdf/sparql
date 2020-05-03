@@ -62,202 +62,202 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery01",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf"
-      },
-      "name": "sq01 - Subquery within graph pattern",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-13#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rq"
+      },
+      "name": "sq01 - Subquery within graph pattern",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery02",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq02.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf"
-      },
-      "name": "sq02 - Subquery within graph pattern, graph variable is bound",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-13#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq02.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq02.rq"
+      },
+      "name": "sq02 - Subquery within graph pattern, graph variable is bound",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq02.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery03",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq03.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf"
-      },
-      "name": "sq03 - Subquery within graph pattern, graph variable is not bound",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-13#resolution_4"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq03.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq03.rq"
+      },
+      "name": "sq03 - Subquery within graph pattern, graph variable is not bound",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq03.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery04",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq04.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq04.rdf"
-      },
-      "name": "sq04 - Subquery within graph pattern, default graph does not apply",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-13#resolution_5"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq04.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq04.rdf",
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq01.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq04.rq"
+      },
+      "name": "sq04 - Subquery within graph pattern, default graph does not apply",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq04.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery05",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rdf"
-      },
-      "name": "sq05 - Subquery within graph pattern, from named applies",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-20#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rq"
+      },
+      "name": "sq05 - Subquery within graph pattern, from named applies",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery06",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq06.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rdf"
-      },
-      "name": "sq06 - Subquery with graph pattern, from named applies",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-20#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq06.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq06.rq"
+      },
+      "name": "sq06 - Subquery with graph pattern, from named applies",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq06.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery07",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq07.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rdf"
-      },
-      "name": "sq07 - Subquery with from ",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-20#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq07.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq05.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq07.rq"
+      },
+      "name": "sq07 - Subquery with from ",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq07.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery08",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq08.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq08.rdf"
-      },
-      "name": "sq08 - Subquery with aggregate",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-20#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq08.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq08.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq08.rq"
+      },
+      "name": "sq08 - Subquery with aggregate",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq08.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery09",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq09.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq09.rdf"
-      },
-      "name": "sq09 - Nested Subqueries",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-20#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq09.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq09.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq09.rq"
+      },
+      "name": "sq09 - Nested Subqueries",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq09.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery10",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq10.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq10.rdf"
-      },
-      "name": "sq10 - Subquery with exists",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2010-07-20#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq10.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq10.rdf",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq10.rq"
+      },
+      "name": "sq10 - Subquery with exists",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq10.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery11",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq11.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq11.ttl"
-      },
-      "name": "sq11 - Subquery limit per resource",
+      "comment": "This query limits results per number of orders, rather than by number of rows",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq11.srx",
-      "approval": "dawgt:Approved",
-      "comment": "This query limits results per number of orders, rather than by number of rows"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq11.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq11.rq"
+      },
+      "name": "sq11 - Subquery limit per resource",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq11.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery12",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq12.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq12.ttl"
-      },
-      "name": "sq12 - Subquery in CONSTRUCT with built-ins",
+      "comment": "This query constructs full names from first and last names",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq12_out.ttl",
-      "approval": "dawgt:Approved",
-      "comment": "This query constructs full names from first and last names"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq12.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq12.rq"
+      },
+      "name": "sq12 - Subquery in CONSTRUCT with built-ins",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq12_out.ttl"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery13",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq13.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq13.ttl"
-      },
-      "name": "sq13 - Subqueries don't inject bindings",
+      "comment": "The result of this subquery is a Kartesian product of all orders, rather than paris of orders sharing products, since subqueries are evaluated independent from bindings from outside the subquery",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq13.srx",
-      "approval": "dawgt:Approved",
-      "comment": "The result of this subquery is a Kartesian product of all orders, rather than paris of orders sharing products, since subqueries are evaluated independent from bindings from outside the subquery"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq13.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq13.rq"
+      },
+      "name": "sq13 - Subqueries don't inject bindings",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq13.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/manifest#subquery14",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq14.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq14.ttl"
-      },
-      "name": "sq14 - limit by resource",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-01-31#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq14-out.ttl",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq14.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq14.rq"
+      },
+      "name": "sq14 - limit by resource",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/subquery/sq14-out.ttl"
     }
   ]
 }

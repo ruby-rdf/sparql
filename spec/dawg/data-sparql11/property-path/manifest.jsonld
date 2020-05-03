@@ -62,353 +62,353 @@
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp01",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.ttl"
-      },
-      "name": "(pp01) Simple path",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.rq"
+      },
+      "name": "(pp01) Simple path",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp02",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp02.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.ttl"
-      },
-      "name": "(pp02) Star path",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp02.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp01.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp02.rq"
+      },
+      "name": "(pp02) Star path",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp02.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp03",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp03.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp03.ttl"
-      },
-      "name": "(pp03) Simple path with loop",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp03.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp03.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp03.rq"
+      },
+      "name": "(pp03) Simple path with loop",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp03.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp06",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp06.rq",
-        "mq:graphData": [
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp062.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp061.ttl"
-        ]
-      },
-      "name": "(pp06) Path with two graphs",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp06.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": [
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp061.ttl",
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp062.ttl"
+        ],
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp06.rq"
+      },
+      "name": "(pp06) Path with two graphs",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp06.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp07",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp06.rq",
-        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp07.ttl"
-      },
-      "name": "(pp07) Path with one graph",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp07.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp07.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp06.rq"
+      },
+      "name": "(pp07) Path with one graph",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp07.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp08",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp08.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp08.ttl"
-      },
-      "name": "(pp08) Reverse path",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp08.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp08.rq"
+      },
+      "name": "(pp08) Reverse path",
       "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp08.srx",
       "mq:queryForm": {
         "id": "mq:QueryAsk"
-      },
-      "approval": "dawgt:Approved"
+      }
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp09",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp09.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp09.ttl"
-      },
-      "name": "(pp09) Reverse sequence path",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp09.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp09.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp09.rq"
+      },
+      "name": "(pp09) Reverse sequence path",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp09.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp10",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp10.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp10.ttl"
-      },
-      "name": "(pp10) Path with negation",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp10.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp10.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp10.rq"
+      },
+      "name": "(pp10) Path with negation",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp10.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp11",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.ttl"
-      },
-      "name": "(pp11) Simple path and two paths to same target node",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.rq"
+      },
+      "name": "(pp11) Simple path and two paths to same target node",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp12",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp12.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.ttl"
-      },
-      "name": "(pp12) Variable length path and two paths to same target node",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-15#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp12.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp11.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp12.rq"
+      },
+      "name": "(pp12) Variable length path and two paths to same target node",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp12.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp14",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.ttl"
-      },
-      "name": "(pp14) Star path over foaf:knows",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.rq"
+      },
+      "name": "(pp14) Star path over foaf:knows",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp16",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp16.ttl"
-      },
-      "name": "(pp16) Duplicate paths and cycles through foaf:knows*",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-15#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp16.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp16.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp14.rq"
+      },
+      "name": "(pp16) Duplicate paths and cycles through foaf:knows*",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp16.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp21",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-2-2.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond.ttl"
-      },
-      "name": "(pp21) Diamond -- :p+",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-15#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-2-2.rq"
+      },
+      "name": "(pp21) Diamond -- :p+",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-2.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp23",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-2-2.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond-tail.ttl"
-      },
-      "name": "(pp23) Diamond, with tail -- :p+",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-15#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-tail-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond-tail.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-2-2.rq"
+      },
+      "name": "(pp23) Diamond, with tail -- :p+",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-tail-2.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp25",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-2-2.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond-loop.ttl"
-      },
-      "name": "(pp25) Diamond, with loop -- :p+",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-15#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-loop-2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond-loop.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-2-2.rq"
+      },
+      "name": "(pp25) Diamond, with loop -- :p+",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-loop-2.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp28a",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-3-3.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond-loop.ttl"
-      },
-      "name": "(pp28a) Diamond, with loop -- (:p/:p)?",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-08-07#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-loop-5a.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/data-diamond-loop.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-3-3.rq"
+      },
+      "name": "(pp28a) Diamond, with loop -- (:p/:p)?",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/diamond-loop-5a.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp30",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.ttl"
-      },
-      "name": "(pp30) Operator precedence 1",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.rq"
+      },
+      "name": "(pp30) Operator precedence 1",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp31",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p2.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.ttl"
-      },
-      "name": "(pp31) Operator precedence 2",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p2.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p1.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p2.rq"
+      },
+      "name": "(pp31) Operator precedence 2",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p2.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp32",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.ttl"
-      },
-      "name": "(pp32) Operator precedence 3",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.rq"
+      },
+      "name": "(pp32) Operator precedence 3",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp33",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p4.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.ttl"
-      },
-      "name": "(pp33) Operator precedence 4",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-03-29#resolution_3"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p4.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p3.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p4.rq"
+      },
+      "name": "(pp33) Operator precedence 4",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-p4.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp34",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-01.rq",
-        "mq:graphData": [
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-03.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl"
-        ]
-      },
-      "name": "(pp34) Named Graph 1",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-01.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": [
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl",
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl",
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-03.ttl"
+        ],
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-01.rq"
+      },
+      "name": "(pp34) Named Graph 1",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-01.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp35",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-02.rq",
-        "mq:graphData": [
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-03.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl"
-        ]
-      },
-      "name": "(pp35) Named Graph 2",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2011-04-05#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-01.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:graphData": [
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl",
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl",
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-03.ttl"
+        ],
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-02.rq"
+      },
+      "name": "(pp35) Named Graph 2",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-01.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp36",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp36.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/clique3.ttl"
-      },
-      "name": "(pp36) Arbitrary path with bound endpoints",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-15#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp36.srx",
-      "approval": "dawgt:Approved"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/clique3.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp36.rq"
+      },
+      "name": "(pp36) Arbitrary path with bound endpoints",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp36.srx"
     },
     {
       "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/manifest#pp37",
       "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp37.rq",
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp37.ttl"
-      },
       "comment": "Test case as per http://lists.w3.org/Archives/Public/public-rdf-dawg-comments/2012Feb/0006.html",
+      "approval": "dawgt:Approved",
       "dawgt:approvedBy": {
         "id": "http://www.w3.org/2009/sparql/meeting/2012-05-15#resolution_2"
       },
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp37.srx",
-      "approval": "dawgt:Approved",
-      "name": "(pp37) Nested (*)*"
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp37.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp37.rq"
+      },
+      "name": "(pp37) Nested (*)*",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/pp37.srx"
     }
   ]
 }
