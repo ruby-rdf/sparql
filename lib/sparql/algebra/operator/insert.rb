@@ -20,7 +20,7 @@ module SPARQL; module Algebra
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
-      # @param  [RDF::Query::Solution] :solutions
+      # @param  [RDF::Query::Solutions] solutions
       #   Solution to map to patterns for this operation
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options

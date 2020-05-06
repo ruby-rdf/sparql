@@ -405,8 +405,7 @@ module SPARQL
     def Expression(*sse)
       Expression.for(*sse)
     end
-    alias_method :Expr, :Expression
-    module_function :Expr, :Expression
+    module_function :Expression
 
     ##
     # @example
@@ -417,8 +416,7 @@ module SPARQL
     def Operator(name, arity = nil)
       Operator.for(name, arity)
     end
-    alias_method :Op, :Operator
-    module_function :Op, :Operator
+    module_function :Operator
 
     ##
     # @example
@@ -430,8 +428,7 @@ module SPARQL
     def Variable(name)
       Variable.new(name)
     end
-    alias_method :Var, :Variable
-    module_function :Var, :Variable
+    module_function :Variable
 
     Variable = RDF::Query::Variable
   end # Algebra
