@@ -36,13 +36,10 @@ def run_tc(t, **options)
 
   STDERR.write "run #{t.name}" unless options[:quiet]
 
-  query = options[:sse] ? t.action.sse_string : t.action.query_string
   result = nil
-  puts "\n" + query if options[:verbose]
+  puts "\n" + t.action.query_string if options[:verbose]
 
   puts t.inspect if options[:verbose]
-
-  puts t.action.sse_query_string if options[:verbose]
 
   case t.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
@@ -71,12 +68,12 @@ def run_tc(t, **options)
     when 'mf:QueryEvaluationTest'
       t.graphs.each {|k, s| puts "#{k}:\n#{s.inspect}\n"} if options[:verbose]
 
-      actual = sparql_query(graphs: t.graphs, query: query, sse: !!options[:sse],
+      actual = sparql_query(graphs: t.graphs, query: t.action.query_string,
                             base_uri: RDF::URI(t.action.query_file),
                             form: t.form, to_hash: false)
 
-      options[:output].puts "expected: #{t.solutions.to_sse}" if options[:verbose]
-      options[:output].puts "actual: #{actual.to_sse}" if options[:verbose]
+      STDERR.puts "expected: #{t.solutions.to_sse}" if options[:verbose]
+      STDERR.puts "actual: #{actual.to_sse}" if options[:verbose]
 
       case t.form
       when :select, :create, :describe, :construct
@@ -267,7 +264,6 @@ opts = GetoptLong.new(
   ["--debug", GetoptLong::NO_ARGUMENT],
   ["--output", "-o", GetoptLong::REQUIRED_ARGUMENT],
   ["--quiet", GetoptLong::NO_ARGUMENT],
-  ["--sse", GetoptLong::NO_ARGUMENT],
   ["--verbose", GetoptLong::NO_ARGUMENT],
 )
 opts.each do |opt, arg|
@@ -276,9 +272,8 @@ opts.each do |opt, arg|
   when '--debug'        then options[:debug] = true
   when '--output'       then options[:output] = File.open(arg, "w")
   when '--quiet'        then options[:quiet] = true
-  when '--sse'          then options[:sse] = true
   when '--validate'     then options[:validate] = true
-  when '--verbose'      then options[:verbose] = true; ENV['PARSER_DEBUG'] = "2"
+  when '--verbose'      then options[:verbose] = true; ENV['EXEC_DEBUG'] = "2"
   end
 end
 

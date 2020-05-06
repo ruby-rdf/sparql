@@ -84,8 +84,18 @@ module SPARQL; module Algebra
           group_soln
         end)
 
-        # Make sure that's at least an empty solution
-        @solutions << RDF::Query::Solution.new if @solutions.empty?
+        # If there exprlist is empty, make sure that's at least an empty solution
+        if @solutions.empty? && exprlist.empty?
+          soln = RDF::Query::Solution.new
+          aggregates.each do |(var, aggregate)|
+            begin
+              soln[var] = aggregate.aggregate([], **options)
+            rescue TypeError
+              # Ignored in output
+            end
+          end
+          @solutions << soln
+        end
 
         debug(options) {"=>(solutions) #{@solutions.inspect}"}
         @solutions.each(&block) if block_given?
