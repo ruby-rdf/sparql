@@ -288,12 +288,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-post.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-g2-post.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-g1-post.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/basic-update/insert-using-01-g2-post.ttl"
           }
         ]
       }

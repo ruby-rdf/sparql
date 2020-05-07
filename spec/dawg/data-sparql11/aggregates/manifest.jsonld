@@ -514,27 +514,50 @@
       "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-err-02.srx"
     },
     {
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group2",
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-1",
       "type": "mf:QueryEvaluationTest",
-      "rdfs:seeAlso": {
-        "id": "http://answers.semanticweb.com/questions/17410/semantics-of-sparql-aggregates"
-      },
-      "approval": "dawgt:Approved",
-      "dawgt:approvedBy": {
-        "id": "http://www.w3.org/2009/sparql/meeting/2012-10-30#resolution_2"
-      },
       "action": {
         "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group.rq"
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-1.rq"
       },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#aggregate"
       },
-      "name": [
-        "Aggregate over empty group resulting in a row with unbound variables",
-        "agg empty group"
-      ],
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group2.srx"
+      "name": "agg on empty set, explicit grouping",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-1.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-2",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-2.rq"
+      },
+      "mf:feature": {
+        "id": "http://www.w3.org/ns/sparql#aggregate"
+      },
+      "name": "agg on empty set, no grouping",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-2.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-count-01",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-01.rq"
+      },
+      "name": "COUNT: no match, no group",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-01.srj"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-count-02",
+      "type": "mf:QueryEvaluationTest",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-02.rq"
+      },
+      "name": "COUNT: no match, with group",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-02.srj"
     }
   ]
 }

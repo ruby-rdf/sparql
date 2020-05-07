@@ -45,7 +45,7 @@ describe "README" do
   context "Extension Functions" do
     let(:repo) {RDF::Repository.new << RDF::Statement.new(:s, RDF::URI("http://schema.org/email"), "gregg@greggkellogg.com")}
     let(:query) {%{
-      PREFIX rsp: <http://rubygems.org/gems/sparql#>
+      PREFIX rsp: <https://rubygems#>
       PREFIX schema: <http://schema.org/>
       SELECT ?crypted
       {
@@ -56,8 +56,8 @@ describe "README" do
     before(:all) {SPARQL::Algebra::Expression.extensions.clear}
 
     it "returns encrypted string" do
-      # Register a function using the IRI <http://rubygems.org/gems/sparql#crypt>
-      crypt_iri = RDF::URI("http://rubygems.org/gems/sparql#crypt")
+      # Register a function using the IRI <https://rubygems#crypt>
+      crypt_iri = RDF::URI("https://rubygems#crypt")
       SPARQL::Algebra::Expression.register_extension(crypt_iri) do |literal|
         raise TypeError, "argument must be a literal" unless literal.literal?
         RDF::Literal(literal.to_s.crypt("salt"))

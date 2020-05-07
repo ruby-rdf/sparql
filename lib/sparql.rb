@@ -10,7 +10,7 @@ module SPARQL
   autoload :Results, 'sparql/results'
   autoload :VERSION, 'sparql/version'
 
-  # @see http://rubygems.org/gems/sparql-client
+  # @see https://rubygems-client
   autoload :Client,  'sparql/client'
 
   ##

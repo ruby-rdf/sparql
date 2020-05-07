@@ -72,12 +72,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default-01.ru"
@@ -87,12 +87,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
           }
         ]
       }
@@ -109,12 +109,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-graph-01.ru"
@@ -124,12 +124,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/empty.ttl"
           }
         ]
       }
@@ -146,12 +146,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-named-01.ru"
@@ -183,12 +183,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-default.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-g1.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/clear/clear-all-01.ru"

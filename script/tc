@@ -1,118 +1,111 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require "bundler/setup"
-$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
-$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'spec')))
-require 'rdf'
-require 'rdf/isomorphic'
+require 'linkeddata'
 require 'rspec'
-require 'sparql'
-require File.expand_path(File.join(File.dirname(__FILE__), "..", 'spec', 'spec_helper'))
-require File.expand_path(File.join(File.dirname(__FILE__), "..", 'spec', 'dawg_helper'))
+require_relative '../lib/sparql'
+require 'sxp'
+require 'sparql/extensions'
+require 'sparql/algebra/extensions'
+require_relative "../spec/spec_helper"
+require_relative "../spec/dawg_helper"
+require_relative "../spec/support/extensions/comparitors"
+require_relative "../spec/support/extensions/isomorphic"
 require 'getoptlong'
 
-ASSERTOR = "http://greggkellogg.net/foaf#me"
+# Extend RDF::Enumerables with these functions.
+class RDF::Repository 
+  include RDF::Isomorphic
+end
+
+ASSERTOR = "https://greggkellogg.net/foaf#me"
 RUN_TIME = Time.now
 
 def earl_preamble(options)
   options[:output].write File.read(File.expand_path("../../etc/doap.ttl", __FILE__))
   options[:output].puts %(
-<> foaf:primaryTopic <http://rubygems.org/gems/sparql> ;
+<https://rubygems.org/gems/sparql> doap:release [
+  doap:name "sparql-#{SPARQL::VERSION}";
+  doap:revision "#{SPARQL::VERSION}";
+  doap:created "#{File.mtime(File.expand_path('../../VERSION', __FILE__)).strftime('%Y-%m-%d')}"^^xsd:date;
+] .
+<> foaf:primaryTopic <https://rubygems> ;
   dc:issued "#{RUN_TIME.xmlschema}"^^xsd:dateTime ;
   foaf:maker <#{ASSERTOR}> .
 
-<#{ASSERTOR}> a foaf:Person, earl:Assertor;
-  foaf:name "Gregg Kellogg";
-  foaf:title "Implementor";
-  foaf:homepage <http://greggkellogg.net/> .
+<#{ASSERTOR}> a earl:Assertor;
+  foaf:title "Implementor" .
 )
 end
 
-def run_tc(t, **options)
+def run_tc(tc, **options)
   options[:msg] ||= {}
   options[:tests] ||= 0
   options[:tests] += 1
   stderr, $stderr = $stderr, StringIO.new unless options[:debug]
 
-  STDERR.write "run #{t.name}" unless options[:quiet]
+  id = tc.attributes['id'].
+    sub(SPARQL::Spec::BASE_URI_10, '').
+    sub(SPARQL::Spec::BASE_URI_11, '')
+  STDERR.write "run #{id}" unless options[:quiet]
 
-  result = nil
-  puts "\n" + t.action.query_string if options[:verbose]
+  result = "untested"
 
-  puts t.inspect if options[:verbose]
+  if options[:verbose]
+    STDERR.puts "\nTestCase: #{tc.inspect}"
+    STDERR.puts "\nInput:\n" + tc.query_string if tc.query_string
+    STDERR.puts "\nData:\n" + tc.data_string if tc.respond_to?(:data) && tc.data
+    STDERR.puts "\nTest Data:\n" + tc.test_data_string if tc.respond_to?(:test_data_string) && tc.test_data_string
+    STDERR.puts "\nExpected:\n" + tc.solutions.to_sse if tc.respond_to?(:solutions)
+  end
 
-  case t.name
+  case tc.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
      # Decimal format changed in SPARQL 1.1
-    STDERR.write(options[:quiet] ? "." : " skipped\n")
-    result = "untested"
   when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
     # PNAME_LN changed in SPARQL 1.1
-    STDERR.write(options[:quiet] ? "." : " skipped\n")
-    result = "untested"
   when 'datatype-2 : Literals with a datatype'
      # datatype now returns rdf:langString for language-tagged literals
-    STDERR.write(options[:quiet] ? "." : " skipped\n")
-    result = "untested"
   when /REDUCED/
      # REDUCED equivalent to DISTINCT
-    STDERR.write(options[:quiet] ? "." : " skipped\n")
-    result = "untested"
   when /pp11|pp31/
      # Expects multiple equivalent property path solutions
-    STDERR.write(options[:quiet] ? "." : " skipped\n")
-    result = "untested"
   else
-
-    case t.type
+    case tc.type
     when 'mf:QueryEvaluationTest'
-      t.graphs.each {|k, s| puts "#{k}:\n#{s.inspect}\n"} if options[:verbose]
+      actual = sparql_query(graphs: tc.graphs, query: tc.action.query_string,
+                            base_uri: RDF::URI(tc.action.query_file),
+                            form: tc.form, to_hash: false)
 
-      actual = sparql_query(graphs: t.graphs, query: t.action.query_string,
-                            base_uri: RDF::URI(t.action.query_file),
-                            form: t.form, to_hash: false)
+      STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
 
-      STDERR.puts "expected: #{t.solutions.to_sse}" if options[:verbose]
-      STDERR.puts "actual: #{actual.to_sse}" if options[:verbose]
-
-      case t.form
+      case tc.form
       when :select, :create, :describe, :construct
-        if actual.isomorphic_with?(t.solutions)
-          STDERR.write(options[:quiet] ? "." : " ok\n")
+        if actual.isomorphic_with?(tc.solutions)
           result = "passed"
         else
-          options[:failures] ||= {}
-          options[:failures][t] = %{
-expected:\n#{t.solutions.to_sse}
-actual:\n#{actual.to_sse}
-  }
-          options[:failures][t] += "\nmissing:\n#{(t.solutions - actual).to_sse}" unless (t.solutions - actual).empty?
-          options[:failures][t] += "\nextra:\n#{(t.solutions - actual).to_sse}" unless (actual - t.solutions).empty?
-          STDERR.write(options[:quiet] ? "F" : (" failed" + options[:failures][t]))
+          if options[:verbose]
+            STDERR.puts "Missing:\n#{(tc.solutions - actual).to_sse}" unless (tc.solutions - actual).empty?
+            STDERR.puts "Extra:\n#{(tc.solutions - actual).to_sse}" unless (actual - tc.solutions).empty?
+          end
           result = "failed"
         end
       when :ask
-        if actual == t.solutions
-          STDERR.write(options[:quiet] ? "." : " ok\n")
+        if actual == tc.solutions
           result = "passed"
         else
-          STDERR.write(options[:quiet] ? "F" : " failed\n")
-          options[:failures] ||= {}
-          options[:failures][t] = %{ expected: #{t.solutions.to_sse}}
           result = "failed"
         end
       else
-        STDERR.puts "unknown form #{t.form.inspect}"
-        exit(1)
+        STDERR.puts "unknown form #{tc.form.inspect}"
       end
     when 'mf:CSVResultFormatTest'
-      actual = sparql_query(graphs: t.graphs,
-                            query: t.action.query_string,
-                            base_uri: RDF::URI(t.action.query_file),
-                            form: t.form)
+      actual = sparql_query(graphs: tc.graphs,
+                            query: tc.action.query_string,
+                            base_uri: RDF::URI(tc.action.query_file),
+                            form: tc.form)
 
-      STDERR.puts "expected: #{t.solutions.to_sse}" if options[:verbose]
-      STDERR.puts "actual: #{actual.to_sse}" if options[:verbose]
+      STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
 
       simplified_solutions = RDF::Query::Solutions.new
       actual.each do |solution|
@@ -124,24 +117,19 @@ actual:\n#{actual.to_sse}
         simplified_solutions << solution
       end
 
-      if simplified_solutions.isomorphic_with?(t.solutions)
-        STDERR.write(options[:quiet] ? "." : " ok\n")
+      if simplified_solutions.isomorphic_with?(tc.solutions)
         result = "passed"
       else
-        options[:failures] ||= {}
-        options[:failures][t] = %{
-expected:\n#{t.solutions.to_sse}
-actual:\n#{actual.to_sse}
-  }
-        options[:failures][t] += "\nmissing:\n#{(t.solutions - actual).to_sse}" unless (t.solutions - actual).empty?
-        options[:failures][t] += "\nextra:\n#{(t.solutions - actual).to_sse}" unless (actual - t.solutions).empty?
-        STDERR.write(options[:quiet] ? "F" : (" failed" + options[:failures][t]))
+        if options[:verbose]
+          STDERR.puts "Missing:\n#{(tc.solutions - actual).to_sse}" unless (tc.solutions - actual).empty?
+          STDERR.puts "Extra:\n#{(tc.solutions - actual).to_sse}" unless (actual - tc.solutions).empty?
+        end
         result = "failed"
       end
     when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest'
       # Load default and named graphs for result dataset
       expected = RDF::Repository.new do |r|
-        t.result.graphs.each do |info|
+        tc.result.graphs.each do |info|
           data, format = info[:data], info[:format]
           if data
             RDF::Reader.for(format).new(data, info).each_statement do |st|
@@ -152,110 +140,93 @@ actual:\n#{actual.to_sse}
         end
       end
 
-      actual = sparql_query(graphs: t.action.graphs,
-                            query: t.action.query_string,
-                            base_uri: RDF::URI(t.action.query_file),
-                            form: t.form,
+      actual = sparql_query(graphs: tc.action.graphs,
+                            query: tc.action.query_string,
+                            base_uri: RDF::URI(tc.action.query_file),
+                            form: tc.form,
                             debug: options[:debug])
 
-      STDERR.puts "expected: #{expected.dump(:trig)}" if options[:verbose]
-      STDERR.puts "actual: #{actual.dump(:trig)}" if options[:verbose]
+      STDERR.puts "Actual: #{actual.dump(:trig)}" if options[:verbose]
       if actual.isomorphic_with?(expected)
-        STDERR.write(options[:quiet] ? "." : " ok\n")
         result = "passed"
       else
-        options[:failures] ||= {}
-        options[:failures][t] = %{
-expected:\n#{expected.dump(:trig)}
-actual:\n#{actual.dump(:trig)}
-  }
-        STDERR.write(options[:quiet] ? "F" : (" failed" + options[:failures][t]))
         result = "failed"
       end
     when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
-      SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)
+      SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, validate: true)
       # No exception means it passes
-      STDERR.write(options[:quiet] ? "." : " ok\n")
       result = "passed"
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
       begin
-        SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true)
+        SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, validate: true)
       rescue Exception => e
-        STDERR.puts e.message if options[:verbose]
-        STDERR.write(options[:quiet] ? "." : " ok\n")
         result = "passed"
       end
       unless result == "passed"
-        options[:failures] ||= {}
-        options[:failures][t] = %{expected: Syntax Error}
-        STDERR.write(options[:quiet] ? "s" : (" failed" + options[:failures][t]))
-        result = "inapplicable"
+        result = "failed"
       end
     when 'mf:PositiveUpdateSyntaxTest11'
-      SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true)
+      SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, update: true, validate: true)
       # No exception means it passes
-      STDERR.write(options[:quiet] ? "." : " ok\n")
       result = "passed"
     when 'mf:NegativeUpdateSyntaxTest11'
       begin
-        SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true)
+        SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, update: true, validate: true)
       rescue Exception => e
-        STDERR.puts e.message if options[:verbose]
-        STDERR.write(options[:quiet] ? "." : " ok\n")
         result = "passed"
       end
       unless result == "passed"
-        options[:failures] ||= {}
-        options[:failures][t] = %{expected: Syntax Error}
-        STDERR.write(options[:quiet] ? "s" : (" failed" + options[:failures][t]))
-        result = "inapplicable"
+        result = "failed"
       end
     else
-      STDERR.puts "unknown test type #{t.type}"
+      STDERR.puts "unknown test type #{tc.type}"
     end
   end
+  options[:results][result] ||= 0
+  options[:results][result] += 1
 rescue Interrupt
   exit(1)
 rescue Exception => e
   if options[:quiet]
-    STDOUT.write("E")
-    options[:exceptions] ||= {}
-    options[:exceptions][t] = e.message + $stderr.read
+    options[:results]['exception'] ||= 0
+    options[:results]['exception'] += 1
   else
-    STDOUT.puts("\n#{e.message}")
-    STDOUT.puts e.backtrace
-    STDOUT.puts $stderr.read
+    STDERR.puts("Exception: #{e.message}")
+    if options[:verbose]
+      STDERR.puts e.backtrace
+      STDERR.puts $stderr.read
+    end
   end
   $stderr = stderr unless options[:debug]
-  result = "failed"
+  result = 'failed'
 ensure
 
   if options[:earl]
     options[:output].puts %{
 [ a earl:Assertion;
   earl:assertedBy <#{ASSERTOR}>;
-  earl:subject <http://rubygems.org/gems/sparql>;
-  earl:test <#{t.attributes['id']}>;
+  earl:subject <https://rubygems.org/gems/sparql>;
+  earl:test <#{tc.attributes['id']}>;
   earl:result [
     a earl:TestResult;
     earl:outcome earl:#{result};
-    dc:name """#{t.name}""";
-} +
-if msg = options.fetch(:failures, {})[t] || options.fetch(:exceptions, {})[t]
-%{    dc:description """#{msg}""";
-}
-else
-  ""
-end +
-%{    dc:date "#{RUN_TIME.xmlschema}"^^xsd:dateTime];
+    dc:name """#{tc.name}""";
+    dc:date "#{RUN_TIME.xmlschema}"^^xsd:dateTime];
   earl:mode earl:automatic ] .
 }
+  end
+
+  if options[:quiet]
+    STDERR.write(result == 'passed' ? '.' : result[0,1])
+  else
+    puts result
   end
 end
 
 options = {
   output:   STDOUT,
   quite:    false,
+  results: {},
   validate: false,
   verbose:  false,
 }
@@ -297,29 +268,15 @@ earl_preamble(options) if options[:earl]
     man.entries.each do |tc|
       next unless tc.action
       name = Array(tc.name).join("") + Array(tc.entry).join("")
-      next unless ARGV.empty? || ARGV.any? {|n| name.match(/#{n}/)}
+      next unless ARGV.empty? || ARGV.any? do |n|
+        tc.attributes['id'].match?(/#{n}/) ||
+        tc.action.is_a?(Hash) && tc.action['mq:query'].match?(/n/) ||
+        name.match(/#{n}/)
+      end
       run_tc(tc, **options)
     end
   end
 end
 
-if options[:quiet]
-  puts ""
-  if options[:exceptions]
-    puts "\nExceptions:"
-    options[:exceptions].each do |t, m|
-      puts "#{t.name}: #{m}\n"
-    end
-  end
-  if options[:failures]
-    puts "\nFailures"
-    options[:failures].each do |t, m|
-      puts "#{t.name}:#{m}\n"
-    end
-  end
-
-  msg = "#{options[:tests]} Tests"
-  msg += ", #{options[:failures].length} Failures" if options[:failures]
-  msg += ", #{options[:exceptions].length} Exceptions" if options[:exceptions]
-  puts msg
-end
+STDERR.puts "" if options[:quiet]
+options[:results].each {|k, v| puts "#{k}: #{v}"}

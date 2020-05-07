@@ -229,9 +229,9 @@
         "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/data-g1.ttl",
         "mq:graphData": [
           "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/data-g3.ttl",
-          "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/data-g2.ttl",
+          "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/data-g4.ttl",
           "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/data-g1.ttl",
-          "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/data-g4.ttl"
+          "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/data-g2.ttl"
         ],
         "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/graph/graph-11.rq"
       },

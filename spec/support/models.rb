@@ -181,7 +181,7 @@ module SPARQL; module Spec
     def graphs
       @graphs ||= begin
         graphs = []
-        graphs << {data: action.test_data_string, format: RDF::Format.for(action.test_data.to_s.to_s).to_sym} if action.test_data
+        graphs << {data: action.test_data_string, format: RDF::Format.for(action.test_data.to_s).to_sym} if action.test_data
         graphs + action.graphData.map do |g|
           {
             data: RDF::Util::File.open_file(g, &:read),

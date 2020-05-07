@@ -804,10 +804,10 @@
       },
       "mf:feature": [
         {
-          "id": "http://www.w3.org/ns/sparql#not"
+          "id": "http://www.w3.org/ns/sparql#in"
         },
         {
-          "id": "http://www.w3.org/ns/sparql#in"
+          "id": "http://www.w3.org/ns/sparql#not"
         }
       ],
       "name": "NOT IN 1",
@@ -826,10 +826,10 @@
       },
       "mf:feature": [
         {
-          "id": "http://www.w3.org/ns/sparql#not"
+          "id": "http://www.w3.org/ns/sparql#in"
         },
         {
-          "id": "http://www.w3.org/ns/sparql#in"
+          "id": "http://www.w3.org/ns/sparql#not"
         }
       ],
       "name": "NOT IN 2",

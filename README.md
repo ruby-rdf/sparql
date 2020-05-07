@@ -77,8 +77,8 @@ Additionally, queries now take a block, or return an `Enumerator`; this is in ke
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:
 
-    # Register a function using the IRI <http://rubygems.org/gems/sparql#crypt>
-    crypt_iri = RDF::URI("http://rubygems.org/gems/sparql#crypt")
+    # Register a function using the IRI <https://rubygems#crypt>
+    crypt_iri = RDF::URI("https://rubygems#crypt")
     SPARQL::Algebra::Expression.register_extension(crypt_iri) do |literal|
       raise TypeError, "argument must be a literal" unless literal.literal?
       RDF::Literal(literal.to_s.crypt)
@@ -86,7 +86,7 @@ Extension functions may be defined, which will be invoked during query evaluatio
 
 Then, use the function in a query:
 
-    PREFIX rsp: <http://rubygems.org/gems/sparql#>
+    PREFIX rsp: <https://rubygems#>
     PREFIX schema: <http://schema.org/>
     SELECT ?crypted
     {
@@ -155,7 +155,7 @@ a full set of RDF formats.
     queryable = RDF::Repository.load("etc/doap.ttl")
     sse = SPARQL.parse(%(
       PREFIX doap: <http://usefulinc.com/ns/doap#>
-      INSERT DATA { <http://rubygems.org/gems/sparql> doap:implements <http://www.w3.org/TR/sparql11-update/>}
+      INSERT DATA { <https://rubygems> doap:implements <http://www.w3.org/TR/sparql11-update/>}
     ), update: true)
     sse.execute(queryable)
 

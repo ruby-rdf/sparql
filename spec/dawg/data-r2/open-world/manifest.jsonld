@@ -193,13 +193,13 @@
       },
       "mf:requires": [
         {
-          "id": "mf:KnownTypesDefault2Neq"
+          "id": "mf:LangTagAwareness"
         },
         {
           "id": "mf:StringSimpleLiteralCmp"
         },
         {
-          "id": "mf:LangTagAwareness"
+          "id": "mf:KnownTypesDefault2Neq"
         }
       ],
       "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-08-result.srx"
@@ -240,10 +240,10 @@
       },
       "mf:requires": [
         {
-          "id": "mf:KnownTypesDefault2Neq"
+          "id": "mf:LangTagAwareness"
         },
         {
-          "id": "mf:LangTagAwareness"
+          "id": "mf:KnownTypesDefault2Neq"
         }
       ],
       "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-10-result.srx"
@@ -287,10 +287,10 @@
       },
       "mf:requires": [
         {
-          "id": "mf:KnownTypesDefault2Neq"
+          "id": "mf:LangTagAwareness"
         },
         {
-          "id": "mf:LangTagAwareness"
+          "id": "mf:KnownTypesDefault2Neq"
         }
       ],
       "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/open-world/open-eq-12-result.srx"

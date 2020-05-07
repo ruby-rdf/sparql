@@ -1,4 +1,3 @@
-@base <https://rubygems.org/gems/sparql> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -7,7 +6,7 @@
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix earl: <http://www.w3.org/ns/earl#> .
 
-<> a doap:Project;
+<https://rubygems.org/gems/sparql> a doap:Project;
    doap:name "SPARQL";
    doap:shortdesc "SPARQL library for Ruby."@en;
    doap:description """
@@ -28,7 +27,7 @@
    doap:category <http://dbpedia.org/resource/Resource_Description_Framework>,
      <http://dbpedia.org/resource/Ruby_(programming_language)>;
    doap:created "2008-07-15"^^xsd:date;
-   doap:download-page <>;
+   doap:download-page <https://rubygems.org/gems/sparql>;
    doap:homepage <https://github.com/ruby-rdf/sparql>;
    doap:license <https://creativecommons.org/licenses/publicdomain/>;
    doap:programming-language "Ruby" .
