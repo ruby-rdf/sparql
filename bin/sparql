@@ -1,6 +1,6 @@
 #!/usr/bin/env ruby
 require 'rubygems'
-$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
+$:.unshift("../../lib", __FILE__)
 require 'sparql'
 begin
   require 'linkeddata'

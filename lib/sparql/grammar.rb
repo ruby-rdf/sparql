@@ -143,7 +143,26 @@ module SPARQL
   #           (using (:g1 :g2)
   #             (bgp (triple ?s ?p ?o)))
   #           (insert ((triple ?s ?p "q"))))))
-  # 
+  #
+  # SPARQL:
+  #
+  #     PREFIX : <http://example.org/> 
+  #
+  #     SELECT * WHERE
+  #     {
+  #       ?s :p ?v .
+  #       BIND (2*?v AS ?v2) .
+  #       ?s :p1 ?v2 .
+  #     }
+  #
+  # SXP:
+  #
+  #     (prefix ((: <http://example.org/>))
+  #       (join
+  #         (extend ((?v2 (* 2 ?v)))
+  #           (bgp (triple ?s :p ?v)))
+  #         (bgp (triple ?s :p1 ?v2))))
+  #  
   # ## Implementation Notes
   # The parser is driven through a rules table contained in lib/sparql/grammar/meta.rb. This includes branch rules to indicate productions to be taken based on a current production.
   # 

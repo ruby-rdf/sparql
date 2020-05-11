@@ -7,7 +7,7 @@ describe SPARQL::Algebra do
   describe "Examples" do
     def self.read_examples
       examples = []
-      readme = File.join(File.expand_path(File.dirname(__FILE__)), "..", "..", "lib", "sparql", "algebra.rb")
+      readme = File.expand_path("../../../lib/sparql/algebra.rb", __FILE__)
       # Get comment lines and remove leading comment
       doc = File.open(readme).readlines.map do |l|
         l.match(/^\s+#\s(.*)$/) && $1

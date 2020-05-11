@@ -21,20 +21,20 @@ describe SPARQL::Algebra::Operator do
     context "with two expressions" do
       subject {op.send(:to_binary, Operator::Union, Operator::BGP.new, Operator::BGP.new)}
       it "returns a Union" do
-        should be_a(Operator::Union)
+        is_expected.to be_a(Operator::Union)
       end
       its(:operands) do
-        should == [Operator::BGP.new, Operator::BGP.new]
+        is_expected.to eq [Operator::BGP.new, Operator::BGP.new]
       end
     end
 
     context "with three expressions" do
       subject {op.send(:to_binary, Operator::Union, Operator::BGP.new, Operator::BGP.new, Operator::BGP.new)}
       it "returns a Union" do
-        should be_a(Operator::Union)
+        is_expected.to be_a(Operator::Union)
       end
       its(:operands) do
-        should == [Operator::BGP.new, Operator::Union.new(Operator::BGP.new, Operator::BGP.new)]
+        is_expected.to eq [Operator::BGP.new, Operator::Union.new(Operator::BGP.new, Operator::BGP.new)]
       end
     end
   end
