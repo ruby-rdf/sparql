@@ -123,15 +123,15 @@
         "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/service03.rq",
         "mq:serviceData": [
           {
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/data03endpoint2.ttl",
-            "mq:endpoint": {
-              "id": "http://example2.org/sparql"
-            }
-          },
-          {
             "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/data03endpoint1.ttl",
             "mq:endpoint": {
               "id": "http://example1.org/sparql"
+            }
+          },
+          {
+            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/data03endpoint2.ttl",
+            "mq:endpoint": {
+              "id": "http://example2.org/sparql"
             }
           }
         ]

@@ -355,8 +355,8 @@
       "action": {
         "mq:graphData": [
           "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-03.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl"
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl",
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl"
         ],
         "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-01.rq"
       },
@@ -373,8 +373,8 @@
       "action": {
         "mq:graphData": [
           "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-03.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl",
-          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl"
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-01.ttl",
+          "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/ng-02.ttl"
         ],
         "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/property-path/path-ng-02.rq"
       },

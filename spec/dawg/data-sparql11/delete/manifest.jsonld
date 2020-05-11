@@ -160,12 +160,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g3",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-05.ru"
@@ -377,16 +377,16 @@
       "action": {
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
           },
           {
             "rdfs:label": "http://example.org/g3",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-with-05.ru"
@@ -395,12 +395,12 @@
       "result": {
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s2.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g3",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s2.ttl"
           },
           {
             "rdfs:label": "http://example.org/g2",
@@ -436,12 +436,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g3",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02s.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g3",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
           }
         ]
       }
@@ -487,12 +487,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g3",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-02.ru"
@@ -568,12 +568,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g3",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
           }
         ]
       }
@@ -589,16 +589,16 @@
       "action": {
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g3",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
           },
           {
             "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g3",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-05.ru"
@@ -607,12 +607,12 @@
       "result": {
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g3",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01s2.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g3",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
           },
           {
             "rdfs:label": "http://example.org/g2",
@@ -636,12 +636,12 @@
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-02.ttl"
           },
           {
-            "rdfs:label": "http://example.org/g3",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-01.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g3",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-pre-03.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-using-06.ru"
@@ -650,16 +650,16 @@
       "result": {
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g3",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-03f.ttl"
           },
           {
             "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-01f.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete/delete-post-02f.ttl"
           }
         ]
       }

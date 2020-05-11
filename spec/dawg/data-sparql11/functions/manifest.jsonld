@@ -882,10 +882,10 @@
       },
       "mf:feature": [
         {
-          "id": "http://www.w3.org/ns/sparql#uri"
+          "id": "http://www.w3.org/ns/sparql#iri"
         },
         {
-          "id": "http://www.w3.org/ns/sparql#iri"
+          "id": "http://www.w3.org/ns/sparql#uri"
         }
       ],
       "name": "IRI()/URI()",

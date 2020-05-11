@@ -121,12 +121,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-default.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-02.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g1",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-01.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/move/move-03.ru"

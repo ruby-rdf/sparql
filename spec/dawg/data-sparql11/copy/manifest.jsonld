@@ -138,11 +138,11 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-default.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g1",
+            "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           },
           {
-            "rdfs:label": "http://example.org/g2",
+            "rdfs:label": "http://example.org/g1",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/copy/copy-01.ttl"
           }
         ]

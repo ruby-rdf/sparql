@@ -514,50 +514,54 @@
       "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-err-02.srx"
     },
     {
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-1",
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-max-1",
       "type": "mf:QueryEvaluationTest",
+      "comment": "aggregating empty results returns no rows, as there are no grouped results.",
       "action": {
         "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-1.rq"
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-max-1.rq"
       },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#aggregate"
       },
       "name": "agg on empty set, explicit grouping",
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-1.srx"
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-max-1.srx"
     },
     {
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-2",
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-max-2",
       "type": "mf:QueryEvaluationTest",
+      "comment": "aggregating empty results with no group-by always returns a single result.",
       "action": {
         "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-2.rq"
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-max-2.rq"
       },
       "mf:feature": {
         "id": "http://www.w3.org/ns/sparql#aggregate"
       },
       "name": "agg on empty set, no grouping",
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-2.srx"
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-max-2.srx"
     },
     {
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-count-01",
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-count-1",
       "type": "mf:QueryEvaluationTest",
+      "comment": "counting no results with grouping returns no results.",
       "action": {
         "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-01.rq"
-      },
-      "name": "COUNT: no match, no group",
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-01.srj"
-    },
-    {
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-count-02",
-      "type": "mf:QueryEvaluationTest",
-      "action": {
-        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
-        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-02.rq"
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-1.rq"
       },
       "name": "COUNT: no match, with group",
-      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-02.srj"
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-1.srj"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/manifest#agg-empty-group-count-2",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "counting no results without grouping always returns a single result.",
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/empty.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-2.rq"
+      },
+      "name": "COUNT: no match, no group",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/aggregates/agg-empty-group-count-2.srj"
     }
   ]
 }

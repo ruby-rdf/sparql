@@ -160,12 +160,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-01.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g2",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-02.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g3",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-03.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g2",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-02.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-where-05.ru"
@@ -175,12 +175,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-post-01s.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g3",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-post-03f.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-post-02f.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g3",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-post-03f.ttl"
           }
         ]
       }
@@ -197,12 +197,12 @@
         "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-01.ttl",
         "ut:graphData": [
           {
-            "rdfs:label": "http://example.org/g3",
-            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-03.ttl"
-          },
-          {
             "rdfs:label": "http://example.org/g2",
             "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-02.ttl"
+          },
+          {
+            "rdfs:label": "http://example.org/g3",
+            "ut:graph": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-pre-03.ttl"
           }
         ],
         "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-where/delete-where-06.ru"
