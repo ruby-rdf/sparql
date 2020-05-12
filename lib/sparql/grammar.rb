@@ -162,7 +162,89 @@ module SPARQL
   #         (extend ((?v2 (* 2 ?v)))
   #           (bgp (triple ?s :p ?v)))
   #         (bgp (triple ?s :p1 ?v2))))
-  #  
+  #
+  # SPARQL:
+  #
+  #     PREFIX : <http://bigdata.com>
+  #     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+  #     PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+  #     
+  #     SELECT ?age ?src WHERE {
+  #        ?bob foaf:name "Bob" .
+  #        <<?bob foaf:age ?age>> dct:source ?src .
+  #     }
+  #
+  # SXP:
+  # 
+  #     (prefix
+  #      (
+  #       (: <http://bigdata.com>)
+  #       (foaf: <http://xmlns.com/foaf/0.1/>)
+  #       (dct: <http://purl.org/dc/elements/1.1/>))
+  #      (project
+  #       (?age ?src)
+  #       (bgp
+  #        (triple ?bob foaf:name "Bob")
+  #        (triple (triple ?bob foaf:age ?age) dct:source ?src)) ))
+  #
+  # SPARQL:
+  #
+  #     PREFIX : <http://bigdata.com>
+  #     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+  #     PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+  #     
+  #     SELECT ?age ?src WHERE {
+  #        ?bob foaf:name "Bob" .
+  #        BIND( <<?bob foaf:age ?age>> AS ?t ) .
+  #        ?t dct:source ?src .
+  #     }
+  #
+  # SXP:
+  #
+  #     (prefix
+  #      (
+  #       (: <http://bigdata.com>)
+  #       (foaf: <http://xmlns.com/foaf/0.1/>)
+  #       (dct: <http://purl.org/dc/elements/1.1/>))
+  #      (project
+  #       (?age ?src)
+  #       (join
+  #        (extend ((?t (triple ?bob foaf:age ?age))) (bgp (triple ?bob foaf:name "Bob")))
+  #        (bgp (triple ?t dct:source ?src))) ))
+  #
+  # SPARQL:
+  #
+  #     PREFIX : <http://bigdata.com>
+  #     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+  #     PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+  #     
+  #     CONSTRUCT {
+  #       ?bob foaf:name "Bob" .
+  #       <<?bob foaf:age ?age>> dct:creator <http://example.com/crawlers#c1>;
+  #                              dct:source ?src .
+  #     }
+  #     WHERE {
+  #       ?bob foaf:name "Bob" .
+  #       <<?bob foaf:age ?age>> dct:source ?src .
+  #     }
+  #
+  # SXP:
+  #
+  #     (prefix
+  #      (
+  #       (: <http://bigdata.com>)
+  #       (foaf: <http://xmlns.com/foaf/0.1/>)
+  #       (dct: <http://purl.org/dc/elements/1.1/>))
+  #      (construct
+  #       (
+  #        (triple ?bob foaf:name "Bob")
+  #        (triple (triple ?bob foaf:age ?age) dct:creator <http://example.com/crawlers#c1>)
+  #        (triple (triple ?bob foaf:age ?age) dct:source ?src))
+  #       (bgp
+  #        (triple ?bob foaf:name "Bob")
+  #        (triple (triple ?bob foaf:age ?age) dct:source ?src)) ))
+  
+
   # ## Implementation Notes
   # The parser is driven through a rules table contained in lib/sparql/grammar/meta.rb. This includes branch rules to indicate productions to be taken based on a current production.
   # 

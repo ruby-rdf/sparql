@@ -28,6 +28,12 @@ module SPARQL; module Algebra
       # 
       # Extend(Ω, var, expr) = { Extend(μ, var, expr) | μ in Ω }
       #
+      # For SPARQL*, expr may be an embedded tiple pattern
+      #
+      #    (extend
+      #     ((?t (triple ?bob foaf:age ?age)))
+      #     (bgp (triple ?t dct:source ?src)))
+      #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options

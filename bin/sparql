@@ -81,12 +81,12 @@ def usage
   puts "       #{$0} query [options] end-point query-file Run the query against a remote end-point"
   puts "       #{$0} server [options] dataset-file        Start a server initialized from the specified dataset"
   puts "Options:"
-  puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
   puts "      --dataset:            File containing RDF graph or dataset"
   puts "      --debug:              Display detailed debug output"
+  puts "      --debug:              Display detailed debug output"
+  puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
   puts "      --port,-p             Port on which to run server; defaults to 9292"
   puts "      --sse:                Query input is in SSE format"
-  puts "      --debug:              Display detailed debug output"
   puts "      --update:             Process query as a SPARQL Update"
   puts "      --verbose:            Display details of processing"
   puts "      --help,-?:            This message"
@@ -98,11 +98,11 @@ cmd, input = ARGV.shift, nil
 opts = GetoptLong.new(
   ["--dataset", GetoptLong::REQUIRED_ARGUMENT],
   ["--debug", GetoptLong::NO_ARGUMENT],
+  ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
   ["--port", "-p", GetoptLong::REQUIRED_ARGUMENT],
-  ["--verbose", GetoptLong::NO_ARGUMENT],
   ["--sse", GetoptLong::NO_ARGUMENT],
   ["--update", GetoptLong::NO_ARGUMENT],
-  ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
+  ["--verbose", GetoptLong::NO_ARGUMENT],
   ["--help", "-?", GetoptLong::NO_ARGUMENT]
 )
 
@@ -112,11 +112,11 @@ options = {
 
 opts.each do |opt, arg|
   case opt
-  when '--dataset'       then options[:dataset].load(arg)
+  when '--dataset'       then options[:dataset].load(arg, rdfstar: :PG)
+  when '--debug'         then options[:debug] = true
   when '--execute'       then input = arg
   when '--port'          then options[:port] = arg.to_i
   when '--sse'           then options[:sse] = true
-  when '--debug'         then options[:debug] = true
   when '--update'        then options[:update] = true
   when '--verbose'       then options[:verbose] = true
   when "--help"          then usage

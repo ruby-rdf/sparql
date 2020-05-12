@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require "bundler/setup"
-$:.unshift(File.expand_path("../../lib", __FILE__)
+$:.unshift(File.expand_path("../../lib", __FILE__))
 require 'sparql'
 require 'getoptlong'
 require 'open-uri'
@@ -14,7 +14,7 @@ def run(input, parser_options)
   if $quiet
     $stdout = StringIO.new
   end
-  parser = SPARQL::Grammar::Parser.new(input.read, parser_options)
+  parser = SPARQL::Grammar::Parser.new(input.read, **parser_options)
   res = parser.parse(parser_options[:production])
   if $quiet
     $stdout = STDOUT

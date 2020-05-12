@@ -284,6 +284,10 @@ module SPARQL; module Spec
       end
       super
     end
+
+    def query_string
+      RDF::Util::File.open_file(property('action'), &:read)
+    end
   end
 
   class QueryAction < ::JSON::LD::Resource

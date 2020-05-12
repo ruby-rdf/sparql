@@ -73,7 +73,7 @@
     [57]  OptionalGraphPattern    ::= 'OPTIONAL' GroupGraphPattern
     [58]  GraphGraphPattern       ::= 'GRAPH' VarOrIri GroupGraphPattern
     [59]  ServiceGraphPattern     ::= 'SERVICE' 'SILENT'? VarOrIri GroupGraphPattern
-    [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
+    [60]  Bind                    ::= 'BIND' '(' (Expression | EmbTP) 'AS' Var ')'
     [61]  InlineData	            ::= 'VALUES' DataBlock
     [62]  DataBlock	              ::= InlineDataOneVar | InlineDataFull
     [63]  InlineDataOneVar	      ::= Var '{' DataBlockValue* '}'
@@ -89,14 +89,14 @@
     [72]  ExpressionList          ::= NIL | '(' Expression ( ',' Expression )* ')'
     [73]  ConstructTemplate       ::= '{' ConstructTriples? '}'
     [74]  ConstructTriples        ::= TriplesSameSubject ( '.' ConstructTriples? )?
-    [75]  TriplesSameSubject      ::= VarOrTerm PropertyListNotEmpty
+    [75]  TriplesSameSubject      ::= VarOrTermOrEmbTP PropertyListNotEmpty
                                     | TriplesNode PropertyList
     [76]  PropertyList            ::= PropertyListNotEmpty?
     [77]  PropertyListNotEmpty    ::= Verb ObjectList ( ';' ( Verb ObjectList )? )*
     [78]  Verb                    ::= VarOrIri | 'a'
     [79]  ObjectList              ::= Object ( ',' Object )*
     [80]  Object                  ::= GraphNode
-    [81]  TriplesSameSubjectPath  ::= VarOrTerm PropertyListPathNotEmpty
+    [81]  TriplesSameSubjectPath  ::= VarOrTermOrEmbTP PropertyListPathNotEmpty
                                     | TriplesNodePath PropertyListPath
     [82]  PropertyListPath        ::= PropertyListPathNotEmpty?
     [83]  PropertyListPathNotEmpty::= ( VerbPath | VerbSimple ) ObjectListPath
@@ -123,12 +123,15 @@
     [102] Collection             ::= '(' GraphNode+ ')'
     [103] CollectionPath         ::= '(' GraphNodePath+ ')'
     [104] GraphNode              ::= VarOrTerm | TriplesNode
-    [105] GraphNodePath          ::= VarOrTerm | TriplesNodePath
+    [105] GraphNodePath          ::= VarOrTermOrEmbTP | TriplesNodePath
     [106]  VarOrTerm               ::= Var | GraphTerm
+    [106s] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
     [107]  VarOrIri                ::= Var | iri
+    [107s] VarOrBlankNodeOrIriOrEmbTP ::= Var | BlankNode| iri | EmbTP
     [108]  Var                     ::= VAR1 | VAR2
     [109]  GraphTerm               ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral
                                     | BlankNode | NIL
+    [1xxs] EmbTP                   ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
     [110] Expression              ::= ConditionalOrExpression
     [111] ConditionalOrExpression ::= ConditionalAndExpression
                                       ( '||' ConditionalAndExpression )*

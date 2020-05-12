@@ -701,9 +701,9 @@ module SPARQL::Grammar
       end
     end
 
-    # [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
+    # [60]  Bind                    ::= 'BIND' '(' (Expression || EmbTP) 'AS' Var ')'
     production(:Bind) do |input, data, callback|
-      add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
+      add_prod_datum :extend, [(data[:Expression] || data[:pattern]).unshift(data[:Var].first)]
     end
 
     # [61]  InlineData	            ::= 'VALUES' DataBlock
@@ -1104,9 +1104,19 @@ module SPARQL::Grammar
       data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
     end
 
+    # [106s]  	VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
+    production(:VarOrTermOrEmbTP) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
+    end
+
     # [107]  	VarOrIri	  ::=  	Var | iri
     production(:VarOrIri) do |input, data, callback|
       data.values.each {|v| add_prod_datum(:VarOrIri, v)}
+    end
+
+    # [107s]  	VarOrBlankNodeOrIriOrEmbTP ::= Var | BlankNode| iri | EmbTP
+    production(:VarOrBlankNodeOrIriOrEmbTP) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrBlankNodeOrIriOrEmbTP, v)}
     end
 
     # [109]  	GraphTerm	  ::=  	iri |	RDFLiteral |	NumericLiteral
@@ -1117,6 +1127,17 @@ module SPARQL::Grammar
                       data[:literal] ||
                       data[:BlankNode] ||
                       data[:NIL])
+    end
+
+    # [1xx] EmbTP ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
+    production(:EmbTP) do |input, data, callback|
+      subject = data[:VarOrBlankNodeOrIriOrEmbTP]
+      predicate = data[:Verb]
+      object = data[:VarOrTerm]
+      add_pattern(:EmbTP,
+                  subject: subject,
+                  predicate: predicate,
+                  object: object)
     end
 
     # [110]  	Expression	  ::=  	ConditionalOrExpression

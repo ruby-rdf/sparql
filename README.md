@@ -27,6 +27,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * Compatible with Ruby >= 2.2.2.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on all versions of Ruby.
+* Provisional support for [SPARQL*][RDF*].
 
 ## Description
 
@@ -95,6 +96,63 @@ Then, use the function in a query:
     }
 
 See {SPARQL::Algebra::Expression.register_extension} for details.
+
+### SPARQLStar (SPARQL*)
+
+The gem supports [SPARQL*][RDF*] where patterns may include sub-patterns recursively, for a kind of Reification.
+
+For example, the following Turtle* file uses a statement as the subject of another statement:
+
+    @prefix : <http://bigdata.com/> .
+    @prefix foaf: <http://xmlns.com/foaf/0.1/> .
+    @prefix dct:  <http://purl.org/dc/elements/1.1/> .
+
+    :bob foaf:name "Bob" .
+    <<:bob foaf:age 23>> dct:creator <http://example.com/crawlers#c1>
+                         dct:source <http://example.net/homepage-listing.html> .
+
+This can be queried using the following query:
+
+    PREFIX : <http://bigdata.com>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+
+    SELECT ?age ?src WHERE {
+       ?bob foaf:name "Bob" .
+       <<?bob foaf:age ?age>> dct:source ?src .
+    }
+
+This treats `<<:bob foaf:age 23>>` as a subject resource, and the pattern `<<?bob foaf:age ?age>>` to match that resource and bind the associated variables.
+
+There is an alternate syntax using the `BIND` operator:
+
+    PREFIX : <http://bigdata.com>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+
+    SELECT ?age ?src WHERE {
+       ?bob foaf:name "Bob" .
+       BIND( <<?bob foaf:age ?age>> AS ?t ) .
+       ?t dct:source ?src .
+    }
+
+As well as a `CONSTRUCT`:
+
+    PREFIX : <http://bigdata.com>
+    PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+    PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+
+    CONSTRUCT {
+      ?bob foaf:name "Bob" .
+      <<?bob foaf:age ?age>> dct:creator <http://example.com/crawlers#c1>;
+                             dct:source ?src .
+    }
+    WHERE {
+      ?bob foaf:name "Bob" .
+      <<?bob foaf:age ?age>> dct:source ?src .
+    }
+
+Note that results can be serialized only when the format supports RDF*.
 
 ### Middleware
 
@@ -335,6 +393,7 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [grammar]:          http://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           http://rubydoc.info/github/ruby-rdf/rdf
+[RDF*][]:           https://lists.w3.org/Archives/Public/public-rdf-star/
 [Backports]:        http://rubygems.org/gems/backports
 [Linked Data]:      http://rubygems.org/gems/linkeddata
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames
