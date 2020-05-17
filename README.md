@@ -27,7 +27,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * Compatible with Ruby >= 2.2.2.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on all versions of Ruby.
-* Provisional support for [SPARQL*][RDF*].
+* Provisional support for [SPARQL*][].
 
 ## Description
 
@@ -99,30 +99,31 @@ See {SPARQL::Algebra::Expression.register_extension} for details.
 
 ### SPARQLStar (SPARQL*)
 
-The gem supports [SPARQL*][RDF*] where patterns may include sub-patterns recursively, for a kind of Reification.
+The gem supports [SPARQL*][] where patterns may include sub-patterns recursively, for a kind of Reification.
 
 For example, the following Turtle* file uses a statement as the subject of another statement:
 
     @prefix : <http://bigdata.com/> .
     @prefix foaf: <http://xmlns.com/foaf/0.1/> .
-    @prefix dct:  <http://purl.org/dc/elements/1.1/> .
+    @prefix ex:  <http://example.org/> .
 
     :bob foaf:name "Bob" .
-    <<:bob foaf:age 23>> dct:creator <http://example.com/crawlers#c1>
-                         dct:source <http://example.net/homepage-listing.html> .
+    <<:bob foaf:age 23>> ex:certainty 0.9 .
 
 This can be queried using the following query:
 
-    PREFIX : <http://bigdata.com>
+    PREFIX : <http://bigdata.com/>
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-    PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+    PREFIX ex:  <http://example.org/>
 
-    SELECT ?age ?src WHERE {
+    SELECT ?age ?c WHERE {
        ?bob foaf:name "Bob" .
-       <<?bob foaf:age ?age>> dct:source ?src .
+       <<?bob foaf:age ?age>> ex:certainty ?c .
     }
 
 This treats `<<:bob foaf:age 23>>` as a subject resource, and the pattern `<<?bob foaf:age ?age>>` to match that resource and bind the associated variables.
+
+#### BIND
 
 There is an alternate syntax using the `BIND` operator:
 
@@ -130,11 +131,17 @@ There is an alternate syntax using the `BIND` operator:
     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
     PREFIX dct:  <http://purl.org/dc/elements/1.1/>
 
-    SELECT ?age ?src WHERE {
+    SELECT ?a ?b ?c WHERE {
        ?bob foaf:name "Bob" .
-       BIND( <<?bob foaf:age ?age>> AS ?t ) .
-       ?t dct:source ?src .
+       BIND( <<?bob foaf:age ?age>> AS ?a ) .
+       ?t ?b ?c .
     }
+
+When binding, the triple can be either in Property Graph (`:PG`) or Separate Assertions (`:SA`) mode, as the query matches based on the pattern matching as a subject (or object) and does not need to be specifically asserted in the graph. When parsing in Property Graph mode, such triples will also be added to the enclosing graph. Thus, querying for `<<?bob foaf:age ?age>>` and `?bob foaf:age ?age` may not represent the same results.
+
+When binding an embedded triple to a variable, it is the matched triples which are bound, not the pattern. Thus, the example above with `SELECT ?a ?b ?c` would end up binding `?a` to `:bob foaf:name 23`.
+
+#### Construct
 
 As well as a `CONSTRUCT`:
 
@@ -144,15 +151,60 @@ As well as a `CONSTRUCT`:
 
     CONSTRUCT {
       ?bob foaf:name "Bob" .
-      <<?bob foaf:age ?age>> dct:creator <http://example.com/crawlers#c1>;
-                             dct:source ?src .
+      <<?bob foaf:age ?age>> ?b ?c .
     }
     WHERE {
       ?bob foaf:name "Bob" .
-      <<?bob foaf:age ?age>> dct:source ?src .
+      <<?bob foaf:age ?age>> ?b ?c .
     }
 
-Note that results can be serialized only when the format supports RDF*.
+Note that results can be serialized only when the format supports [RDF*][].
+
+#### SPARQL results
+
+The SPARQL results formats are extended to serialize embedded triples as described for [RDF4J](https://rdf4j.org/documentation/programming/rdfstar/):
+
+    {
+      "head" : {
+        "vars" : [
+          "a",
+          "b",
+          "c"
+        ]
+      },
+      "results" : {
+        "bindings": [
+          { "a" : {
+              "type" : "triple",
+              "value" : {
+                "s" : {
+                  "type" : "uri",
+                  "value" : "http://example.org/bob"
+                },
+                "p" : {
+                  "type" : "uri",
+                  "value" : "http://xmlns.com/foaf/0.1/name"
+                },
+                "o" : {
+                  "datatype" : "http://www.w3.org/2001/XMLSchema#integer",
+                  "type" : "literal",
+                  "value" : "23"
+                }
+              }
+            },
+            "b": { 
+              "type": "uri",
+              "value": "http://example.org/certainty"
+            },
+            "c" : {
+              "datatype" : "http://www.w3.org/2001/XMLSchema#decimal",
+              "type" : "literal",
+              "value" : "0.9"
+            }
+          }
+        ]
+      }
+    }
 
 ### Middleware
 
@@ -208,7 +260,7 @@ a full set of RDF formats.
       result.inspect
     end
 
-### Updating a respository
+### Updating a repository
 
     queryable = RDF::Repository.load("etc/doap.ttl")
     sse = SPARQL.parse(%(
@@ -393,7 +445,8 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [grammar]:          http://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           http://rubydoc.info/github/ruby-rdf/rdf
-[RDF*][]:           https://lists.w3.org/Archives/Public/public-rdf-star/
+[RDF*]:             https://lists.w3.org/Archives/Public/public-rdf-star/
+[SPARQL*]:          https://arxiv.org/pdf/1406.3399.pdf
 [Backports]:        http://rubygems.org/gems/backports
 [Linked Data]:      http://rubygems.org/gems/linkeddata
 [SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames

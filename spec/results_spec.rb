@@ -201,7 +201,7 @@ describe SPARQL::Results do
         subject {
           RDF::Query::Solutions.new([r[:solution]].flatten.map {|h| RDF::Query::Solution.new(h)})
         }
-        its(:to_json) {is_expected.to eq r[:json].to_json}
+        its(:to_json) {expect(JSON.parse(subject.to_json)).to eql JSON.parse(r[:json].to_json)}
         its(:to_csv) {is_expected.to eq r[:csv]}
         its(:to_tsv) {is_expected.to eq r[:tsv]}
 
