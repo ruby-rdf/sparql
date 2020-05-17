@@ -72,6 +72,18 @@ class Array
   end
 
   ##
+  # Binds the pattern to a solution, making it no longer variable if all variables are resolved to bound variables
+  #
+  # @param [RDF::Query::Solution] solution
+  # @return [self]
+  def bind(solution)
+    map! do |op|
+      op.respond_to?(:bind) ? op.bind(solution) : op
+    end
+    self
+  end
+
+  ##
   # Returns `true` if any of the operands are variables, `false`
   # otherwise.
   #
@@ -166,6 +178,12 @@ class Array
     each {|e| e.validate! if e.respond_to?(:validate!)}
     self
   end
+
+  ##
+  # Deep duplicate
+  def dup
+    map(&:dup)
+  end
 end
 
 ##
@@ -258,7 +276,6 @@ module RDF::Queryable
       query_without_sparql(pattern, **options, &block)
     end
   end
-  
 end
 
 class RDF::Statement
@@ -304,6 +321,16 @@ class RDF::Query
       res = [:bgp] + patterns.map(&:to_sxp_bin)
       (graph_name ? [:graph, graph_name, res] : res)
     end
+  end
+
+  ##
+  # Binds the pattern to a solution, making it no longer variable if all variables are resolved to bound variables
+  #
+  # @param [RDF::Query::Solution] solution
+  # @return [self]
+  def bind(solution)
+    patterns.each {|p| p.bind(solution)}
+    self
   end
 
   # Query results in a boolean result (e.g., ASK)

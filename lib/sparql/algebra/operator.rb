@@ -146,8 +146,6 @@ module SPARQL; module Algebra
     autoload :Using,              'sparql/algebra/operator/using'
     autoload :With,               'sparql/algebra/operator/with'
 
-
-
     ##
     # Returns an operator class for the given operator `name`.
     #
@@ -355,6 +353,22 @@ module SPARQL; module Algebra
           else raise TypeError, "invalid SPARQL::Algebra::Operator operand: #{operand.inspect}"
         end
       end
+    end
+
+    ##
+    # Deep duplicate operands
+    def dup
+      self.class.new(*operands.map(&:dup))
+    end
+
+    ##
+    # Binds the pattern to a solution, making it no longer variable if all variables are resolved to bound variables
+    #
+    # @param [RDF::Query::Solution] solution
+    # @return [self]
+    def bind(solution)
+      @operands.each {|op| op.bind(solution)}
+      self
     end
 
     ##
