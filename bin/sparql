@@ -12,9 +12,17 @@ require 'getoptlong'
 def display_results(res, **options)
   puts res.inspect if options[:verbose]
   puts case res
-  when RDF::Graph   then res.dump(:ttl, base_uri: query.base_uri, prefixes: query.prefixes, standard_prefixes: true)
+  when RDF::Graph   then res.dump(options.fetch(:format, :ttl), base_uri: query.base_uri, prefixes: query.prefixes, standard_prefixes: true)
   when RDF::Literal then res.inspect
-  else                   res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
+  else
+    case options[:format]
+    when :json then res.to_json
+    when :html  then res.to_html
+    when :xml  then res.to_xml
+    when :csv  then res.to_csv
+    when :tsv  then res.to_tsv
+    else            res.map {|s| s.bindings.map {|k,v| "#{k}: #{v}"}}.join("\n")
+    end
   end
 end
 
@@ -85,6 +93,7 @@ def usage
   puts "      --debug:              Display detailed debug output"
   puts "      --debug:              Display detailed debug output"
   puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
+  puts "      --format:             Output format for results"
   puts "      --port,-p             Port on which to run server; defaults to 9292"
   puts "      --sse:                Query input is in SSE format"
   puts "      --update:             Process query as a SPARQL Update"
@@ -99,6 +108,7 @@ opts = GetoptLong.new(
   ["--dataset", GetoptLong::REQUIRED_ARGUMENT],
   ["--debug", GetoptLong::NO_ARGUMENT],
   ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
+  ["--format", GetoptLong::REQUIRED_ARGUMENT],
   ["--port", "-p", GetoptLong::REQUIRED_ARGUMENT],
   ["--sse", GetoptLong::NO_ARGUMENT],
   ["--update", GetoptLong::NO_ARGUMENT],
@@ -115,6 +125,7 @@ opts.each do |opt, arg|
   when '--dataset'       then options[:dataset].load(arg, rdfstar: :PG)
   when '--debug'         then options[:debug] = true
   when '--execute'       then input = arg
+  when '--format'        then options[:format] = arg.to_sym
   when '--port'          then options[:port] = arg.to_i
   when '--sse'           then options[:sse] = true
   when '--update'        then options[:update] = true

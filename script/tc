@@ -219,7 +219,7 @@ ensure
   if options[:quiet]
     STDERR.write(result == 'passed' ? '.' : result[0,1])
   else
-    puts result
+    puts " #{result}"
   end
 end
 
