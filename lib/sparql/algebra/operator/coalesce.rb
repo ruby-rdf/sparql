@@ -15,7 +15,7 @@ module SPARQL; module Algebra
     #             (bgp (triple ?s :p ?o))
     #             (bgp (triple ?s :q ?x))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-coalesce
+    # @see https://www.w3.org/TR/sparql11-query/#func-coalesce
     class Coalesce < Operator
       include Evaluatable
 

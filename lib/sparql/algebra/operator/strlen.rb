@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (strlen ?x)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-strlen
-    # @see http://www.w3.org/TR/xpath-functions/#func-string-length
+    # @see https://www.w3.org/TR/sparql11-query/#func-strlen
+    # @see https://www.w3.org/TR/xpath-functions/#func-string-length
     class StrLen < Operator::Unary
       include Evaluatable
 

@@ -8,8 +8,8 @@ module SPARQL; module Algebra
     # @example
     #   (encode_for_uri ?x)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-encode
-    # @see http://www.w3.org/TR/xpath-functions/#func-abs
+    # @see https://www.w3.org/TR/sparql11-query/#func-encode
+    # @see https://www.w3.org/TR/xpath-functions/#func-abs
     class EncodeForURI < Operator::Unary
       include Evaluatable
 

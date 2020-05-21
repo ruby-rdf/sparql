@@ -6,8 +6,8 @@ module SPARQL; module Algebra
   # or more operands which are `Enumerable` lists of `RDF::Term`
   # and return a single `RDF::Term` or `TypeError`.
   #
-  # @see http://www.w3.org/TR/sparql11-query/#setFunctions
-  # @see http://www.w3.org/TR/sparql11-query/#aggregates
+  # @see https://www.w3.org/TR/sparql11-query/#setFunctions
+  # @see https://www.w3.org/TR/sparql11-query/#aggregates
   #
   # @abstract
   module Aggregate

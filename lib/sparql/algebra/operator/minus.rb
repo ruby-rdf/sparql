@@ -11,8 +11,8 @@ module SPARQL; module Algebra
     #          (filter (|| (= ?type ex:Reptile) (= ?type ex:Insect))
     #            (bgp (triple ?animal <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type))))))
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Minus < Operator::Binary
       include Query
 
@@ -33,8 +33,8 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#defn_algMinus
-      # @see    http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation
+      # @see    https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#defn_algMinus
+      # @see    https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation
       def execute(queryable, **options, &block)
         # Let Ω1 and Ω2 be multisets of solution mappings. We define:
         # 

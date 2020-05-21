@@ -7,8 +7,8 @@ module SPARQL; module Algebra
     #   (&& ?x ?y)
     #   (and ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-logical-and
-    # @see http://www.w3.org/TR/sparql11-query/#evaluation
+    # @see https://www.w3.org/TR/sparql11-query/#func-logical-and
+    # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class And < Operator::Binary
       include Evaluatable
 
@@ -50,7 +50,7 @@ module SPARQL; module Algebra
           right = nil
         end
 
-        # From http://www.w3.org/TR/sparql11-query/#evaluation
+        # From https://www.w3.org/TR/sparql11-query/#evaluation
         # A logical-and that encounters an error on only one branch will return an error if the other branch is
         # TRUE and FALSE if the other branch is FALSE.
         case

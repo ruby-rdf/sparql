@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (substr ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-substr
-    # @see http://www.w3.org/TR/xpath-functions/#func-substring
+    # @see https://www.w3.org/TR/sparql11-query/#func-substr
+    # @see https://www.w3.org/TR/xpath-functions/#func-substring
     class SubStr < Operator::Ternary
       include Evaluatable
 
@@ -71,7 +71,7 @@ module SPARQL; module Algebra
       # Remove the optional argument.
       #
       # @return [Array] `self`
-      # @see    http://openjena.org/wiki/SSE
+      # @see    https://openjena.org/wiki/SSE
       def to_sxp_bin
         [NAME] + operands.reject {|o| o.to_s == ""}
       end

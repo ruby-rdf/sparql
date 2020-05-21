@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (= ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
-    # @see http://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
+    # @see https://www.w3.org/TR/sparql11-query/#OperatorMapping
+    # @see https://www.w3.org/TR/sparql11-query/#func-RDFterm-equal
     class Equal < Compare
       NAME = :'='
 

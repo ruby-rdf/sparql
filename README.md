@@ -2,15 +2,15 @@
 
 This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
-[![Gem Version](https://badge.fury.io/rb/sparql.png)](http://badge.fury.io/rb/sparql)
+[![Gem Version](https://badge.fury.io/rb/sparql.png)](https://badge.fury.io/rb/sparql)
 
-[![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](http://travis-ci.org/ruby-rdf/sparql)
+[![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](https://travis-ci.org/ruby-rdf/sparql)
 
 [![Coverage Status](https://coveralls.io/repos/ruby-rdf/sparql/badge.svg)](https://coveralls.io/r/ruby-rdf/sparql)
 
 ## Features
 
-* 100% free and unencumbered [public domain](http://unlicense.org/) software.
+* 100% free and unencumbered [public domain](https://unlicense.org/) software.
 * Complete [SPARQL 1.1 Query][] parsing and execution
 * SPARQL results as [XML][SPARQL XML], [JSON][SPARQL JSON],
   [CSV][SPARQL 1.1 Query Results CSV and TSV Formats],
@@ -46,20 +46,20 @@ The {SPARQL} gem uses the [SPARQL 1.1 Query][] {file:etc/sparql11.html EBNF gram
 
 The SPARQL gem now implements the following [SPARQL 1.1 Query][] operations:
 
-* [Functions](http://www.w3.org/TR/sparql11-query/#SparqlOps)
-* [BIND](http://www.w3.org/TR/sparql11-query/#bind)
-* [GROUP BY](http://www.w3.org/TR/sparql11-query/#groupby)
-* [Aggregates](http://www.w3.org/TR/sparql11-query/#aggregates)
-* [Subqueries](http://www.w3.org/TR/sparql11-query/#subqueries)
-* [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
-* [Inline Data](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
-* [Exists](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#func-filter-exists)
-* [Negation](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation)
-* [Property Paths](http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#propertypaths)
+* [Functions](https://www.w3.org/TR/sparql11-query/#SparqlOps)
+* [BIND](https://www.w3.org/TR/sparql11-query/#bind)
+* [GROUP BY](https://www.w3.org/TR/sparql11-query/#groupby)
+* [Aggregates](https://www.w3.org/TR/sparql11-query/#aggregates)
+* [Subqueries](https://www.w3.org/TR/sparql11-query/#subqueries)
+* [Inline Data](https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
+* [Inline Data](https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data)
+* [Exists](https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#func-filter-exists)
+* [Negation](https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation)
+* [Property Paths](https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#propertypaths)
 
 The gem also includes the following [SPARQL 1.1 Update][] operations:
-* [Graph Update](http://www.w3.org/TR/sparql11-update/#graphUpdate)
-* [Graph Management](http://www.w3.org/TR/sparql11-update/#graphManagement)
+* [Graph Update](https://www.w3.org/TR/sparql11-update/#graphUpdate)
+* [Graph Management](https://www.w3.org/TR/sparql11-update/#graphManagement)
 
 Not supported:
 
@@ -71,7 +71,7 @@ Not supported:
 either in this, or related gems.
 
 ### Updates for RDF 1.1
-Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb][], which adheres to [RDF 1.1 Concepts](http://www.w3.org/TR/rdf11-concepts/) rather than [RDF 1.0](http://www.w3.org/TR/rdf-concepts/). The main difference is that there is now no difference between a _Simple Literal_ (a literal with no datatype or language) and a Literal with datatype _xsd:string_; this causes some minor differences in the way in which queries are understood, and when expecting different results.
+Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb][], which adheres to [RDF 1.1 Concepts](https://www.w3.org/TR/rdf11-concepts/) rather than [RDF 1.0](https://www.w3.org/TR/rdf-concepts/). The main difference is that there is now no difference between a _Simple Literal_ (a literal with no datatype or language) and a Literal with datatype _xsd:string_; this causes some minor differences in the way in which queries are understood, and when expecting different results.
 
 Additionally, queries now take a block, or return an `Enumerator`; this is in keeping with much of the behavior of [RDF.rb][] methods, including `Queryable#query`, and with version 1.1 or [RDF.rb][], Query#execute. As a consequence, all queries which used to be of the form `query.execute(repository)` may equally be called as `repository.query(query)`. Previously, results were returned as a concrete class implementing `RDF::Queryable` or `RDF::Query::Solutions`, these are now `Enumerators`.
 
@@ -367,14 +367,14 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Dependencies
 
-* [Ruby](http://ruby-lang.org/) (>= 2.2.2)
-* [RDF.rb](http://rubygems.org/gems/rdf) (~> 3.0)
+* [Ruby](https://ruby-lang.org/) (>= 2.2.2)
+* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.0)
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.0)
 * [SXP](https://rubygems.org/gems/sxp) (~> 1.0)
 * [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
 * [JSON](https://rubygems.org/gems/json) (>= 1.8.2)
 * Soft dependency on [Linked Data][] (>= 3.0)
-* Soft dependency on [Nokogiri](http://rubygems.org/gems/nokogiri) (>= 1.7)
+* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (>= 1.7)
   Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient
 * Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.3.0)
   Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included
@@ -383,7 +383,7 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Installation
 
-The recommended installation method is via [RubyGems](http://rubygems.org/).
+The recommended installation method is via [RubyGems](https://rubygems.org/).
 To install the latest official release of the `SPARQL` gem, do:
 
     % [sudo] gem install sparql
@@ -396,13 +396,13 @@ To get a local working copy of the development repository, do:
 
 ## Mailing List
 
-* <http://lists.w3.org/Archives/Public/public-rdf-ruby/>
+* <https://lists.w3.org/Archives/Public/public-rdf-ruby/>
 
 ## Authors
 
-* [Gregg Kellogg](http://github.com/gkellogg) - <http://greggkellogg.net/>
-* [Arto Bendiken](http://github.com/artob) - <http://ar.to/>
-* [Pius Uzamere](http://github.com/pius) - <http://pius.me/>
+* [Gregg Kellogg](https://github.com/gkellogg) - <https://greggkellogg.net/>
+* [Arto Bendiken](https://github.com/artob) - <https://ar.to/>
+* [Pius Uzamere](https://github.com/pius) - <https://pius.me/>
 
 ## Contributing
 This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange development and release activity. All submissions _must_ be on a feature branch based on the _develop_ branch to ease staging and integration.
@@ -422,51 +422,51 @@ This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange develo
 ## License
 
 This is free and unencumbered public domain software. For more information,
-see <http://unlicense.org/> or the accompanying {file:UNLICENSE} file.
+see <https://unlicense.org/> or the accompanying {file:UNLICENSE} file.
 
-A copy of the [SPARQL EBNF][] and derived parser files are included in the repository, which are not covered under the UNLICENSE. These files are covered via the [W3C Document License](http://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231).
+A copy of the [SPARQL EBNF][] and derived parser files are included in the repository, which are not covered under the UNLICENSE. These files are covered via the [W3C Document License](https://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231).
 
 A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in the repository, which are not covered under the UNLICENSE; see the references for test copyright information.
 
-[Ruby]:             http://ruby-lang.org/
-[RDF]:              http://www.w3.org/RDF/
-[RDF::DO]:          http://rubygems.org/gems/rdf-do
-[RDF::Mongo]:       http://rubygems.org/gems/rdf-mongo
-[Rack::LinkedData]: http://rubygems.org/gems/rack-linkeddata
-[YARD]:             http://yardoc.org/
-[YARD-GS]:          http://rubydoc.info/docs/yard/file/docs/GettingStarted.md
-[PDD]:              http://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html
-[SPARQL]:           http://en.wikipedia.org/wiki/SPARQL
-[SPARQL 1.0]:       http://www.w3.org/TR/sparql11-query/
-[SPARQL 1.0 tests]:http://www.w3.org/2001/sw/DataAccess/tests/
-[SPARQL 1.1 tests]: http://www.w3.org/2009/sparql/docs/tests/
+[Ruby]:             https://ruby-lang.org/
+[RDF]:              https://www.w3.org/RDF/
+[RDF::DO]:          https://rubygems.org/gems/rdf-do
+[RDF::Mongo]:       https://rubygems.org/gems/rdf-mongo
+[Rack::LinkedData]: https://rubygems.org/gems/rack-linkeddata
+[YARD]:             https://yardoc.org/
+[YARD-GS]:          https://rubydoc.info/docs/yard/file/docs/GettingStarted.md
+[PDD]:              https://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html
+[SPARQL]:           https://en.wikipedia.org/wiki/SPARQL
+[SPARQL 1.0]:       https://www.w3.org/TR/sparql11-query/
+[SPARQL 1.0 tests]:https://www.w3.org/2001/sw/DataAccess/tests/
+[SPARQL 1.1 tests]: https://www.w3.org/2009/sparql/docs/tests/
 [SSE]:              https://jena.apache.org/documentation/notes/sse.html
-[SXP]:              http://www.rubydoc.info/github/dryruby/sxp
-[grammar]:          http://www.w3.org/TR/sparql11-query/#grammar
-[RDF 1.1]:          http://www.w3.org/TR/rdf11-concepts
-[RDF.rb]:           http://rubydoc.info/github/ruby-rdf/rdf
+[SXP]:              https://www.rubydoc.info/github/dryruby/sxp
+[grammar]:          https://www.w3.org/TR/sparql11-query/#grammar
+[RDF 1.1]:          https://www.w3.org/TR/rdf11-concepts
+[RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
 [RDF*]:             https://lists.w3.org/Archives/Public/public-rdf-star/
 [SPARQL*]:          https://arxiv.org/pdf/1406.3399.pdf
-[Backports]:        http://rubygems.org/gems/backports
-[Linked Data]:      http://rubygems.org/gems/linkeddata
-[SPARQL doc]:       http://rubydoc.info/github/ruby-rdf/sparql/frames
-[SPARQL XML]:       http://www.w3.org/TR/rdf-sparql-XMLres/
-[SPARQL JSON]:      http://www.w3.org/TR/rdf-sparql-json-res/
-[SPARQL EBNF]:      http://www.w3.org/TR/sparql11-query/#sparqlGrammar
+[Backports]:        https://rubygems.org/gems/backports
+[Linked Data]:      https://rubygems.org/gems/linkeddata
+[SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames
+[SPARQL XML]:       https://www.w3.org/TR/rdf-sparql-XMLres/
+[SPARQL JSON]:      https://www.w3.org/TR/rdf-sparql-json-res/
+[SPARQL EBNF]:      https://www.w3.org/TR/sparql11-query/#sparqlGrammar
 
-[SSD]:              http://www.w3.org/TR/sparql11-service-description/
-[Rack]:             http://rack.github.io
-[Sinatra]:          http://www.sinatrarb.com/
-[conneg]:           http://en.wikipedia.org/wiki/Content_negotiation
+[SSD]:              https://www.w3.org/TR/sparql11-service-description/
+[Rack]:             https://rack.github.io
+[Sinatra]:          https://www.sinatrarb.com/
+[conneg]:           https://en.wikipedia.org/wiki/Content_negotiation
 
-[SPARQL 1.1 Query]:                             http://www.w3.org/TR/sparql11-query/
-[SPARQL 1.1 Update]:                            http://www.w3.org/TR/sparql11-update/
-[SPARQL 1.1 Service Description]:               http://www.w3.org/TR/sparql11-service-description/
-[SPARQL 1.1 Federated Query]:                   http://www.w3.org/TR/sparql11-federated-query/
-[SPARQL 1.1 Query Results JSON Format]:         http://www.w3.org/TR/sparql11-results-json/
-[SPARQL 1.1 Query Results CSV and TSV Formats]: http://www.w3.org/TR/sparql11-results-csv-tsv/
-[SPARQL Query Results XML Format]:              http://www.w3.org/TR/rdf-sparql-XMLres/
-[SPARQL 1.1 Entailment Regimes]:                http://www.w3.org/TR/sparql11-entailment/
-[SPARQL 1.1 Protocol]:                          http://www.w3.org/TR/sparql11-protocol/
-[SPARQL 1.1 Graph Store HTTP Protocol]:         http://www.w3.org/TR/sparql11-http-rdf-update/
+[SPARQL 1.1 Query]:                             https://www.w3.org/TR/sparql11-query/
+[SPARQL 1.1 Update]:                            https://www.w3.org/TR/sparql11-update/
+[SPARQL 1.1 Service Description]:               https://www.w3.org/TR/sparql11-service-description/
+[SPARQL 1.1 Federated Query]:                   https://www.w3.org/TR/sparql11-federated-query/
+[SPARQL 1.1 Query Results JSON Format]:         https://www.w3.org/TR/sparql11-results-json/
+[SPARQL 1.1 Query Results CSV and TSV Formats]: https://www.w3.org/TR/sparql11-results-csv-tsv/
+[SPARQL Query Results XML Format]:              https://www.w3.org/TR/rdf-sparql-XMLres/
+[SPARQL 1.1 Entailment Regimes]:                https://www.w3.org/TR/sparql11-entailment/
+[SPARQL 1.1 Protocol]:                          https://www.w3.org/TR/sparql11-protocol/
+[SPARQL 1.1 Graph Store HTTP Protocol]:         https://www.w3.org/TR/sparql11-http-rdf-update/
 

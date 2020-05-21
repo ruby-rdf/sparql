@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     #       (project (?s ?p ?o)
     #         (bgp (triple ?s ?p ?o)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#construct
+    # @see https://www.w3.org/TR/sparql11-query/#construct
     class Construct < Operator::Binary
       include Query
       
@@ -34,7 +34,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Queryable]
       #   A Queryable with constructed triples
-      # @see    http://www.w3.org/TR/sparql11-query/#construct
+      # @see    https://www.w3.org/TR/sparql11-query/#construct
       def execute(queryable, **options, &block)
         debug(options) {"Construct #{operands.first}, #{options.inspect}"}
         graph = RDF::Graph.new

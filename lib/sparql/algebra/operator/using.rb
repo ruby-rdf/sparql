@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     # @example
     #   (using (:g1) (bgp (triple ?s ?p ?o)))
     #
-    # @see http://www.w3.org/TR/sparql11-update/#add
+    # @see https://www.w3.org/TR/sparql11-update/#add
     class Using < Operator
       include SPARQL::Algebra::Query
 
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       #   Returns queryable.
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, **options, &block)
         debug(options) {"Using"}
         Dataset.new(*operands).execute(queryable, depth: options[:depth].to_i + 1, **options, &block)

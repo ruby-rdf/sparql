@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #           (filter (langMatches (lang ?str) "en")
     #             (bgp (triple ?s :str ?str))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-strlang
+    # @see https://www.w3.org/TR/sparql11-query/#func-strlang
     class StrLang < Operator::Binary
       include Evaluatable
 
@@ -24,7 +24,7 @@ module SPARQL; module Algebra
       # @param  [RDF::Literal] langTag
       #   datatype
       # @return [RDF::Literal] a datatyped literal
-      # @see http://www.w3.org/TR/sparql11-query/#func-strlang
+      # @see https://www.w3.org/TR/sparql11-query/#func-strlang
       def apply(value, langTag)
         raise TypeError, "Literal #{value.inspect} is not simple" unless value.simple?
         RDF::Literal.new(value.to_s, language: langTag.to_s)

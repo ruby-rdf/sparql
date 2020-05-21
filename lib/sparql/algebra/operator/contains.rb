@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (contains ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-contains
-    # @see http://www.w3.org/TR/xpath-functions/#func-contains
+    # @see https://www.w3.org/TR/sparql11-query/#func-contains
+    # @see https://www.w3.org/TR/xpath-functions/#func-contains
     class Contains < Operator::Binary
       include Evaluatable
 

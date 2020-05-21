@@ -8,8 +8,8 @@ module SPARQL; module Algebra
     #     (filter (langMatches (lang ?v) "en-GB")
     #       (bgp (triple :x ?p ?v))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-langMatches
-    # @see http://tools.ietf.org/html/rfc4647#section-3.3.1
+    # @see https://www.w3.org/TR/sparql11-query/#func-langMatches
+    # @see https://tools.ietf.org/html/rfc4647#section-3.3.1
     class LangMatches < Operator::Binary
       include Evaluatable
 
@@ -23,7 +23,7 @@ module SPARQL; module Algebra
       #   a simple literal containing a language tag
       # @param  [RDF::Literal] language_range
       #   a simple literal containing a language range, per
-      #   [RFC 4647 section 2.1](http://tools.ietf.org/html/rfc4647#section-2.1)
+      #   [RFC 4647 section 2.1](https://tools.ietf.org/html/rfc4647#section-2.1)
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if either operand is unbound
       # @raise  [TypeError] if either operand is not a simple literal

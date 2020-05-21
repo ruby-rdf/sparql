@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (bgp (triple ?y :q ?w))
     #       (= ?v 2)))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class LeftJoin < Operator
       include Query
       
@@ -31,9 +31,9 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
-      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
+      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
       def execute(queryable, **options, &block)
         filter = operand(2)
 

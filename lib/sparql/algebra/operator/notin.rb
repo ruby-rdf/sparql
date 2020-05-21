@@ -8,7 +8,7 @@ module SPARQL; module Algebra
     # @example
     #   (ask (filter (notin ?o 1 2) (bgp)))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-notin
+    # @see https://www.w3.org/TR/sparql11-query/#func-notin
     class NotIn < Operator
       include Evaluatable
 

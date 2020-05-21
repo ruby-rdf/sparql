@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #           (bgp (triple ?a :b ?c))
     #           (bgp (triple ?c :d ?e))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-bound
+    # @see https://www.w3.org/TR/sparql11-query/#func-bound
     class Bound < Operator::Unary
       include Evaluatable
 

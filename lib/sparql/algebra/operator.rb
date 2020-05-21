@@ -546,7 +546,7 @@ module SPARQL; module Algebra
     # Returns the SPARQL S-Expression (SSE) representation of this operator.
     #
     # @return [Array]
-    # @see    http://openjena.org/wiki/SSE
+    # @see    https://openjena.org/wiki/SSE
     def to_sxp_bin
       operator = [self.class.const_get(:NAME)].flatten.first
       [operator, *(operands || []).map(&:to_sxp_bin)]
@@ -558,7 +558,7 @@ module SPARQL; module Algebra
     # @return [String]
     def to_sxp
       begin
-        require 'sxp' # @see http://rubygems.org/gems/sxp
+        require 'sxp' # @see https://rubygems.org/gems/sxp
       rescue LoadError
         abort "SPARQL::Algebra::Operator#to_sxp requires the SXP gem (hint: `gem install sxp')."
       end
@@ -661,7 +661,7 @@ module SPARQL; module Algebra
     # @param  [RDF::Literal] literal
     # @return [RDF::Literal::Boolean] `true` or `false`
     # @raise  [TypeError] if the literal could not be coerced to an `RDF::Literal::Boolean`
-    # @see    http://www.w3.org/TR/sparql11-query/#ebv
+    # @see    https://www.w3.org/TR/sparql11-query/#ebv
     def boolean(literal)
       case literal
         when FalseClass then RDF::Literal::FALSE

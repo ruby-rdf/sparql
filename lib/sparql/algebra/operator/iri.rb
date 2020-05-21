@@ -8,7 +8,7 @@ module SPARQL; module Algebra
     #       (extend ((?uri (uri "uri")) (?iri (iri "iri")))
     #         (bgp))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-iri
+    # @see https://www.w3.org/TR/sparql11-query/#func-iri
     class IRI < Operator::Unary
       include Evaluatable
 

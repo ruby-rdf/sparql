@@ -13,7 +13,7 @@ module SPARQL; module Algebra
     #         (extend ((?n (now)))
     #           (bgp)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-now
+    # @see https://www.w3.org/TR/sparql11-query/#func-now
     class Now < Operator::Nullary
       include Evaluatable
 

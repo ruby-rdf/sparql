@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (filter (sameTerm ?v)
     #         (bgp (triple ?x :p ?v)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-sameTerm
+    # @see https://www.w3.org/TR/sparql11-query/#func-sameTerm
     class SameTerm < Operator::Binary
       include Evaluatable
 

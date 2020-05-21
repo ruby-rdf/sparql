@@ -1,4 +1,4 @@
-require 'rdf' # @see http://rubygems.org/gems/rdf
+require 'rdf' # @see https://rubygems.org/gems/rdf
 require 'rdf/xsd'
 
 module SPARQL
@@ -141,21 +141,21 @@ module SPARQL
   # ## Constructing operator expressions manually
   # 
   #     Operator(:isBlank).new(RDF::Node(:foobar)).to_sxp                        #=> "(isBlank _:foobar)"
-  #     Operator(:isIRI).new(RDF::URI('http://rubygems.org/gems/rdf/')).to_sxp       #=> "(isIRI <http://rubygems.org/gems/rdf/>)"
+  #     Operator(:isIRI).new(RDF::URI('https://rubygems.org/gems/rdf/')).to_sxp       #=> "(isIRI <https://rubygems.org/gems/rdf/>)"
   #     Operator(:isLiteral).new(RDF::Literal(3.1415)).to_sxp                    #=> "(isLiteral 3.1415)"
   #     Operator(:str).new(Operator(:datatype).new(RDF::Literal(3.1415))).to_sxp #=> "(str (datatype 3.1415))"
   # 
   # ## Constructing operator expressions using SSE forms
   # 
   #     SPARQL::Algebra::Expression[:isBlank, RDF::Node(:foobar)].to_sxp                          #=> "(isBlank _:foobar)"
-  #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('http://rubygems.org/gems/rdf/')].to_sxp         #=> "(isIRI <http://rubygems.org/gems/rdf/>)"
+  #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('https://rubygems.org/gems/rdf/')].to_sxp         #=> "(isIRI <https://rubygems.org/gems/rdf/>)"
   #     SPARQL::Algebra::Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415)"
   #     SPARQL::Algebra::Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415))"
   # 
   # ## Constructing operator expressions using SSE strings
   # 
   #     SPARQL::Algebra::Expression.parse('(isBlank _:foobar)')
-  #     SPARQL::Algebra::Expression.parse('(isIRI <http://rubygems.org/gems/rdf/>)')
+  #     SPARQL::Algebra::Expression.parse('(isIRI <https://rubygems.org/gems/rdf/>)')
   #     SPARQL::Algebra::Expression.parse('(isLiteral 3.1415)')
   #     SPARQL::Algebra::Expression.parse('(str (datatype 3.1415))')
   # 

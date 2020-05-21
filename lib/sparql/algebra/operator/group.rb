@@ -17,7 +17,7 @@ module SPARQL; module Algebra
     #               (bgp (triple ?s :p ?v))
     #               (bgp (triple ?s :q ?w)))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Group < Operator
       include Query
       
@@ -37,7 +37,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlGroupAggregate
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlGroupAggregate
       def execute(queryable, **options, &block)
         debug(options) {"Group"}
         exprlist = operands.first

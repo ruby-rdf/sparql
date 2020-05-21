@@ -13,7 +13,7 @@ module SPARQL; module Algebra
     #         (extend ((?hash (sha1 ?l)))
     #           (bgp (triple :s1 :str ?l)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-sha1
+    # @see https://www.w3.org/TR/sparql11-query/#func-sha1
     class SHA1 < Operator::Unary
       include Evaluatable
 

@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (path? :p)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_evalPP_ZeroOrOnePath
+    # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_ZeroOrOnePath
     class PathOpt < Operator::Unary
       include Query
       
@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       #   each matching solution
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Path? #{[subject, operands, object].to_sse}"}

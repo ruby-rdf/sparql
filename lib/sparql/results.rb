@@ -14,7 +14,7 @@ module SPARQL
     ##
     # Generate Solutions as JSON
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-json-res/
+    # @see https://www.w3.org/TR/rdf-sparql-json-res/
     def to_json
       require 'json' unless defined?(::JSON)
 
@@ -58,7 +58,7 @@ module SPARQL
     ##
     # Generate Solutions as XML
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-XMLres/
+    # @see https://www.w3.org/TR/rdf-sparql-XMLres/
     def to_xml
       require 'builder' unless defined?(::Builder)
       
@@ -139,7 +139,7 @@ module SPARQL
     ##
     # Generate Solutions as CSV
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-json-res/#results
+    # @see https://www.w3.org/TR/2013/REC-sparql11-results-csv-tsv-20130321/
     def to_csv
       require 'csv' unless defined?(::CSV)
       bnode_map = {}
@@ -165,7 +165,7 @@ module SPARQL
     ##
     # Generate Solutions as TSV
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-json-res/#results
+    # @see https://www.w3.org/TR/2013/REC-sparql11-results-csv-tsv-20130321/
     def to_tsv
       require 'csv' unless defined?(::CSV)
       results = [
@@ -299,7 +299,7 @@ module SPARQL
   # @param [Array<String>] available
   # @return [String]
   #
-  # @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
+  # @see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
   def first_content_type(acceptable, available)
     return acceptable.first if available.empty?
     available.flatten!

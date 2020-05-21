@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (strstarts ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-strstarts
-    # @see http://www.w3.org/TR/xpath-functions/#func-starts-with
+    # @see https://www.w3.org/TR/sparql11-query/#func-strstarts
+    # @see https://www.w3.org/TR/xpath-functions/#func-starts-with
     class StrStarts < Operator::Binary
       include Evaluatable
 

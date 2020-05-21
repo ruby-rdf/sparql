@@ -66,7 +66,7 @@ class Array
   # @param  [Hash{Symbol => Object}] options
   # @raise [NotImplementedError]
   #   If an attempt is made to perform an unsupported operation
-  # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+  # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
   def execute(queryable, **options)
     raise NotImplementedError, "SPARQL::Algebra '#{first}' operator not implemented"
   end

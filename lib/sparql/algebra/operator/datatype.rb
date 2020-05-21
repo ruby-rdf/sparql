@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #       (filter (= (datatype (xsd:double ?v)) xsd:double)
     #         (bgp (triple ?s :p ?v)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-datatype
+    # @see https://www.w3.org/TR/sparql11-query/#func-datatype
     class Datatype < Operator::Unary
       include Evaluatable
 

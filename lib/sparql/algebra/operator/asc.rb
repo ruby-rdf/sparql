@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #       (order ((asc ?name))
     #         (bgp (triple ?x foaf:name ?name)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#modOrderBy
+    # @see https://www.w3.org/TR/sparql11-query/#modOrderBy
     class Asc < Operator::Unary
       include Evaluatable
 

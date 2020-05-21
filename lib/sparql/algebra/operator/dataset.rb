@@ -102,7 +102,7 @@ module SPARQL; module Algebra
     #         (graph ?g (bgp (triple ?s ?p ?o))))))
     #
     # @example Dataset with multiple named graphs
-    # @see http://www.w3.org/TR/sparql11-query/#specifyingDataset
+    # @see https://www.w3.org/TR/sparql11-query/#specifyingDataset
     class Dataset < Binary
       include Query
 
@@ -125,7 +125,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &base)
         debug(options) {"Dataset"}
         default_datasets = []

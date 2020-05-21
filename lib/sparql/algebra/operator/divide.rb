@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (/ 4 2)
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-divide
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-divide
     class Divide < Operator::Binary
       include Evaluatable
 

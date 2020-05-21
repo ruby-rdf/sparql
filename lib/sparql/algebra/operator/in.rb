@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (ask (filter (in 2 1 2 3) (bgp)))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-in
+    # @see https://www.w3.org/TR/sparql11-query/#func-in
     class In < Operator
       include Evaluatable
 

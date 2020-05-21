@@ -13,7 +13,7 @@ module SPARQL; module Algebra
     #
     # @example empty table
     #     (table unit)
-    # @see http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data
+    # @see https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data
     class Table < Operator
       include Query
       
@@ -32,7 +32,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         @solutions = RDF::Query::Solutions()
         Array(operands[1..-1]).each do |row|

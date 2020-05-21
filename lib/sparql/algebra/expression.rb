@@ -21,7 +21,7 @@ module SPARQL; module Algebra
     # @return [Expression]
     def self.parse(sse, **options, &block)
       begin
-        require 'sxp' # @see http://rubygems.org/gems/sxp
+        require 'sxp' # @see https://rubygems.org/gems/sxp
       rescue LoadError
         abort "SPARQL::Algebra::Expression.parse requires the SXP gem (hint: `gem install sxp')."
       end
@@ -175,8 +175,8 @@ module SPARQL; module Algebra
     # @param [RDF::URI] function
     # @param [Array<RDF::Term>] args splat of args to function
     # @return [RDF::Term]
-    # @see http://www.w3.org/TR/sparql11-query/#extensionFunctions
-    # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping
+    # @see https://www.w3.org/TR/sparql11-query/#extensionFunctions
+    # @see https://www.w3.org/TR/sparql11-query/#FunctionMapping
     def self.extension(function, *args)
       if function.to_s.start_with?(RDF::XSD.to_s)
         self.cast(function, args.first)
@@ -197,7 +197,7 @@ module SPARQL; module Algebra
     #   Value, which should be a typed literal, where the type must be that specified
     # @raise [TypeError] if datatype is not a URI or value cannot be cast to datatype
     # @return [RDF::Term]
-    # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping
+    # @see https://www.w3.org/TR/sparql11-query/#FunctionMapping
     def self.cast(datatype, value)
       case datatype
       when RDF::XSD.dateTime
@@ -313,7 +313,7 @@ module SPARQL; module Algebra
     # more useful.
     #
     # @return [Array] `self`
-    # @see    http://openjena.org/wiki/SSE
+    # @see    https://openjena.org/wiki/SSE
     def to_sxp_bin
       self
     end

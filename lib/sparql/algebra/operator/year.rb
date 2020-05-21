@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #         (extend ((?x (year ?date)))
     #           (bgp (triple ?s :date ?date)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-year
+    # @see https://www.w3.org/TR/sparql11-query/#func-year
     class Year < Operator::Unary
       include Evaluatable
 

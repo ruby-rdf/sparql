@@ -8,8 +8,8 @@ module SPARQL; module Algebra
     # @example
     #   (round ?x)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-round
-    # @see http://www.w3.org/TR/xpath-functions/#func-round
+    # @see https://www.w3.org/TR/sparql11-query/#func-round
+    # @see https://www.w3.org/TR/xpath-functions/#func-round
     class Round < Operator::Unary
       include Evaluatable
 

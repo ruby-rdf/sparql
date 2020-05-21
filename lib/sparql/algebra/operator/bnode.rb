@@ -16,7 +16,7 @@ module SPARQL; module Algebra
     #               (triple ?b :str ?s2)
     #             )))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-bnode
+    # @see https://www.w3.org/TR/sparql11-query/#func-bnode
     class BNode < Operator::Unary
       include Evaluatable
 
@@ -82,7 +82,7 @@ module SPARQL; module Algebra
       # Remove the optional argument.
       #
       # @return [Array] `self`
-      # @see    http://openjena.org/wiki/SSE
+      # @see    https://openjena.org/wiki/SSE
       def to_sxp_bin
         [NAME] + operands.reject {|o| o == false}
       end

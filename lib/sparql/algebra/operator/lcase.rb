@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (lcase ?x)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-lcase
-    # @see http://www.w3.org/TR/xpath-functions/#func-lcase
+    # @see https://www.w3.org/TR/sparql11-query/#func-lcase
+    # @see https://www.w3.org/TR/xpath-functions/#func-lcase
     class LCase < Operator::Unary
       include Evaluatable
 

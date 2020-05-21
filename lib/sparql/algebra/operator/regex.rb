@@ -10,8 +10,8 @@ module SPARQL; module Algebra
     #       (filter (regex ?val "GHI")
     #         (bgp (triple ex:foo rdf:value ?val)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#funcex-regex
-    # @see http://www.w3.org/TR/xpath-functions/#func-matches
+    # @see https://www.w3.org/TR/sparql11-query/#funcex-regex
+    # @see https://www.w3.org/TR/xpath-functions/#func-matches
     class Regex < Operator::Ternary
       include Evaluatable
 
@@ -43,17 +43,17 @@ module SPARQL; module Algebra
       # @raise  [TypeError] if any operand is unbound
       # @raise  [TypeError] if any operand is not a simple literal
       def apply(text, pattern, flags = RDF::Literal(''))
-        # @see http://www.w3.org/TR/xpath-functions/#regex-syntax
+        # @see https://www.w3.org/TR/xpath-functions/#regex-syntax
         raise TypeError, "expected a plain RDF::Literal, but got #{text.inspect}" unless text.is_a?(RDF::Literal) && text.plain?
         text = text.to_s
         # TODO: validate text syntax
 
-        # @see http://www.w3.org/TR/xpath-functions/#regex-syntax
+        # @see https://www.w3.org/TR/xpath-functions/#regex-syntax
         raise TypeError, "expected a plain RDF::Literal, but got #{pattern.inspect}" unless pattern.is_a?(RDF::Literal) && pattern.plain?
         pattern = pattern.to_s
         # TODO: validate pattern syntax
 
-        # @see http://www.w3.org/TR/xpath-functions/#flags
+        # @see https://www.w3.org/TR/xpath-functions/#flags
         raise TypeError, "expected a plain RDF::Literal, but got #{flags.inspect}" unless flags.is_a?(RDF::Literal) && flags.plain?
         flags = flags.to_s
         # TODO: validate flag syntax

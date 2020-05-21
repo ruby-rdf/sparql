@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     # @example
     #   (drop default)
     #
-    # @see http://www.w3.org/TR/sparql11-update/#drop
+    # @see https://www.w3.org/TR/sparql11-update/#drop
     class Drop < Operator
       include SPARQL::Algebra::Update
 
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       #   Returns queryable.
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, **options)
         debug(options) {"Drop"}
         silent = operands.first == :silent

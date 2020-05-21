@@ -7,8 +7,8 @@ module SPARQL; module Algebra
     #   (+ ?x ?y)
     #   (plus ?x ?y)
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-plus
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-add
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-plus
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-add
     class Plus < Operator
       include Evaluatable
 

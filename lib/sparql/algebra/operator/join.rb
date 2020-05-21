@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (graph ?g
     #         (bgp (triple ?s ?q ?v)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Join < Operator::Binary
       include Query
       
@@ -31,9 +31,9 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
-      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
+      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
       def execute(queryable, **options, &block)
         # Join(Ω1, Ω2) = { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible }
         # eval(D(G), Join(P1, P2)) = Join(eval(D(G), P1), eval(D(G), P2))

@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     # @example
     #   (move silent <iri> to default)
     #
-    # @see http://www.w3.org/TR/sparql11-update/#move
+    # @see https://www.w3.org/TR/sparql11-update/#move
     class Move < Operator
       include SPARQL::Algebra::Update
 
@@ -28,7 +28,7 @@ module SPARQL; module Algebra
       #   Returns queryable.
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, **options)
         debug(options) {"Move"}
         silent = operands.first == :silent

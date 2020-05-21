@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     # @example
     #   (clear silent default)
     #
-    # @see http://www.w3.org/TR/sparql11-update/#clear
+    # @see https://www.w3.org/TR/sparql11-update/#clear
     class Clear < Operator
       include SPARQL::Algebra::Update
 
@@ -28,7 +28,7 @@ module SPARQL; module Algebra
       #   Returns queryable.
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, **options)
         debug(options) {"Clear"}
         silent = operands.first == :silent

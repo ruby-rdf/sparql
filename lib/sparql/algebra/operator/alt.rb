@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     # @example
     #   (alt a b)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_evalPP_alternative
+    # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_alternative
     class Alt < Operator::Binary
       include Query
       
@@ -32,7 +32,7 @@ module SPARQL; module Algebra
       #   each matching solution
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         subject, object = options[:subject], options[:object]
         debug(options) {"Alt #{[subject, operands, object].to_sse}"}

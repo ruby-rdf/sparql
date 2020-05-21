@@ -8,8 +8,8 @@ module SPARQL; module Algebra
     # @example
     #   (concat ?a ?b ...)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-concat
-    # @see http://www.w3.org/TR/xpath-functions/#func-concat
+    # @see https://www.w3.org/TR/sparql11-query/#func-concat
+    # @see https://www.w3.org/TR/xpath-functions/#func-concat
     class Concat < Operator
       include Evaluatable
 

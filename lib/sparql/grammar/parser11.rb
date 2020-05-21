@@ -6,8 +6,8 @@ module SPARQL::Grammar
   ##
   # A parser for the SPARQL 1.1 grammar.
   #
-  # @see http://www.w3.org/TR/sparql11-query/#grammar
-  # @see http://en.wikipedia.org/wiki/LR_parser
+  # @see https://www.w3.org/TR/sparql11-query/#grammar
+  # @see https://en.wikipedia.org/wiki/LR_parser
   class Parser
     include SPARQL::Grammar::Meta
     include SPARQL::Grammar::Terminals
@@ -1548,8 +1548,8 @@ module SPARQL::Grammar
     # @param [Symbol, #to_s] prod The starting production for the parser.
     #   It may be a URI from the grammar, or a symbol representing the local_name portion of the grammar URI.
     # @return [Array]
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-    # @see http://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
     def parse(prod = START)
       ll1_parse(@input,
         prod.to_sym,

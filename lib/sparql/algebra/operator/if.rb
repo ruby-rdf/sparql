@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #           (extend ((?integer (if (= (lang ?o) "ja") true false)))
     #             (bgp (triple ?s ?p ?o))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-if
+    # @see https://www.w3.org/TR/sparql11-query/#func-if
     class If < Operator::Ternary
       include Evaluatable
       

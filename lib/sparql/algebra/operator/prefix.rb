@@ -8,7 +8,7 @@ module SPARQL; module Algebra
     #     (graph ?g
     #       (bgp (triple ?s ?p ?o))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#QSynIRI
+    # @see https://www.w3.org/TR/sparql11-query/#QSynIRI
     class Prefix < Binary
       include Query
       
@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         debug(options) {"Prefix"}
         @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &block)

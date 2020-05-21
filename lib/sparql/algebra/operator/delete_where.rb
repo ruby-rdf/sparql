@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     # @example
     #   (deleteWhere ((triple :a foaf:knows ?b))
     #
-    # @see http://www.w3.org/TR/sparql11-update/#deleteWhere
+    # @see https://www.w3.org/TR/sparql11-update/#deleteWhere
     class DeleteWhere < Operator::Unary
       include SPARQL::Algebra::Update
 
@@ -28,7 +28,7 @@ module SPARQL; module Algebra
       #   Returns queryable.
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, **options)
         # Operands are an array of patterns and Queries (when named).
         # Create a new query made up all patterns

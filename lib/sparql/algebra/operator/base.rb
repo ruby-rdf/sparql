@@ -7,7 +7,7 @@ module SPARQL; module Algebra
     #   (base <http://example.org/>
     #     (bgp (triple <a> <b> 123.0)))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#QSynIRI
+    # @see https://www.w3.org/TR/sparql11-query/#QSynIRI
     class Base < Binary
       include Query
       
@@ -28,7 +28,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Queryable, RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         debug(options) {"Base #{operands.first}"}
         Operator.base_uri = operands.first
