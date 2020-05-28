@@ -139,7 +139,7 @@
   "name": "SPARQL 1.1 Query and Update",
   "bibRef": "[[SPARQL11-QUERY]]",
   "generatedBy": {
-    "@id": "http://rubygems.org/gems/earl-report",
+    "@id": "https://rubygems.org/gems/earl-report",
     "@type": [
       "Software",
       "doap:Project"

@@ -10,7 +10,7 @@
 <https://rubygems.org/gems/rdf-turtle> a doap:Project, earl:TestSubject, earl:Software ;
   doap:name          "RDF::Turtle" ;
   doap:homepage      <https://ruby-rdf.github.com/rdf-turtle> ;
-  doap:license       <http://creativecommons.org/publicdomain/zero/1.0/> ;
+  doap:license       <https://unlicense.org/> ;
   doap:shortdesc     "Turtle reader/writer for Ruby."@en ;
   doap:description   "RDF::Turtle is an Turtle reader/writer for the RDF.rb library suite."@en ;
   doap:created       "2011-08-29"^^xsd:date ;

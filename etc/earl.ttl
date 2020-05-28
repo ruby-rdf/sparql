@@ -29,7 +29,7 @@
    doap:created "2008-07-15"^^xsd:date;
    doap:download-page <https://rubygems.org/gems/sparql>;
    doap:homepage <https://github.com/ruby-rdf/sparql>;
-   doap:license <https://creativecommons.org/licenses/publicdomain/>;
+   doap:license <https://unlicense.org/>;
    doap:programming-language "Ruby" .
 
 <https://greggkellogg.net/foaf#me> a foaf:Person;

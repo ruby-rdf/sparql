@@ -123,6 +123,8 @@ This can be queried using the following query:
 
 This treats `<<:bob foaf:age 23>>` as a subject resource, and the pattern `<<?bob foaf:age ?age>>` to match that resource and bind the associated variables.
 
+**Note: This feature is subject to change or elimination as the standards process progresses.**
+
 #### BIND
 
 There is an alternate syntax using the `BIND` operator:
