@@ -38,10 +38,11 @@ module SPARQL; module Algebra
       ##
       # Return optimized query
       #
-      # @return [Union, RDF::Query] `self`
-      def optimize
+      # @return [Base] a copy of `self`
+      # @see SPARQL::Algebra::Expression#optimize
+      def optimize(**options)
         Operator.base_uri = operands.first
-        operands.last.optimize!
+        operands.last.optimize(**options)
       end
 
       # Query results in a boolean result (e.g., ASK)

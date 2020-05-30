@@ -88,11 +88,12 @@ module SPARQL; module Algebra
       # If optimize operands, and if the first two operands are both Queries, replace
       # with the unique sum of the query elements
       #
-      # @return [Union, RDF::Query] `self`
+      # @return [Object] a copy of `self`
+      # @see SPARQL::Algebra::Expression#optimize
       # FIXME
-      def optimize!
+      def optimize!(**options)
         return self
-        ops = operands.map {|o| o.optimize }.select {|o| o.respond_to?(:empty?) && !o.empty?}
+        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         expr = ops.pop unless ops.last.executable?
         expr = nil if expr.respond_to?(:true?) && expr.true?
         

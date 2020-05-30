@@ -70,7 +70,7 @@ module SPARQL
   # @raise  [SPARQL::MalformedQuery] on invalid input
   def self.execute(query, queryable, **options, &block)
     query = self.parse(query, **options)
-    query = query.optimize if options[:optimize]
+    query = query.optimize(**options) if options[:optimize]
     queryable = queryable || RDF::Repository.new
     
     case options.fetch(:debug, nil)

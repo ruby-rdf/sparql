@@ -59,9 +59,10 @@ module SPARQL; module Algebra
       #
       # Optimize operands and remove any which are empty.
       #
-      # @return [Union, RDF::Query] `self`
-      def optimize!
-        ops = operands.map {|o| o.optimize }.select {|o| o.respond_to?(:empty?) && !o.empty?}
+      # @return [self]
+      # @see SPARQL::Algebra::Expression#optimize!
+      def optimize!(**options)
+        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self
       end

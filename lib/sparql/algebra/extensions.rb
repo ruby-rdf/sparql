@@ -31,10 +31,9 @@ class Object
   ##
   # A duplicate of this object.
   #
-  # @return [self]
-  # @see    RDF::Query::Pattern#cost
-  # @since  0.3.0
-  def optimize
+  # @return [Object] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
     self.dup
   end
 end
@@ -84,12 +83,11 @@ class Array
   ##
   # Return an optimized version of this array.
   #
-  # @return [self]
-  # @see    RDF::Query::Pattern#cost
-  # @since  0.3.0
-  def optimize
+  # @return [Array] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
     self.map do |op|
-      op.optimize if op.respond_to?(:optimize)
+      op.optimize(**options) if op.respond_to?(:optimize)
     end
   end
 
@@ -223,10 +221,9 @@ class Hash
   ##
   # A duplicate of this hash.
   #
-  # @return [self]
-  # @see    RDF::Query::Pattern#cost
-  # @since  0.3.0
-  def optimize
+  # @return [Hash] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
     self.dup
   end
 end
@@ -264,10 +261,9 @@ module RDF::Term
   ##
   # A duplicate of this term.
   #
-  # @return [self]
-  # @see    RDF::Query::Pattern#cost
-  # @since  0.3.0
-  def optimize
+  # @return [RDF::Term] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
     optimized = self.dup
     optimized.lexical = nil if optimized.respond_to?(:lexical=)
     optimized
@@ -336,10 +332,9 @@ class RDF::Statement
   ##
   # A duplicate of this Statement.
   #
-  # @return [self]
-  # @see    RDF::Query::Pattern#cost
-  # @since  0.3.0
-  def optimize
+  # @return [RDF::Statement] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
     self.dup
   end
 end
@@ -422,7 +417,9 @@ class RDF::Query
   ##
   # Optimize the query, removing lexical shortcuts in URIs
   #
-  def optimize!
+  # @return [self]
+  # @see SPARQL::Algebra::Expression#optimize!
+  def optimize!(**options)
     @patterns = @patterns.map do |pattern|
       components = pattern.to_a.map do |term|
         if term.respond_to?(:lexical=)
@@ -494,10 +491,9 @@ class RDF::Query::Variable
   ##
   # Return self
   #
-  # @return [self]
-  # @see    RDF::Query::Pattern#cost
-  # @since  0.3.0
-  def optimize
+  # @return [RDF::Query::Variable] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
     self
   end
 end # RDF::Query::Variable

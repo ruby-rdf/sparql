@@ -512,7 +512,8 @@ module SPARQL; module Algebra
     # at runtime.
     #
     # @return [SPARQL::Algebra::Expression]
-    def optimize
+    # @see    RDF::Query#optimize
+    def optimize(**options)
       if constant?
         # Note that if evaluation results in a `TypeError` or other error,
         # we must return `self` so that the error is conserved at runtime:
@@ -527,11 +528,10 @@ module SPARQL; module Algebra
     # according to their cost estimates.
     #
     # @return [self]
-    # @see    RDF::Query::Pattern#cost
-    # @since  0.3.0
-    def optimize!
+    # @see    RDF::Query#optimize!
+    def optimize!(**options)
       @operands.map! do |op|
-        op.optimize if op.respond_to?(:optimize)
+        op.optimize(**options) if op.respond_to?(:optimize)
       end
       self
     end

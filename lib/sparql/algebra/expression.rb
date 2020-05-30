@@ -284,18 +284,22 @@ module SPARQL; module Algebra
     # Subclasses can override this method in order to implement something
     # more useful.
     #
+    # @param  [Hash{Symbol => Object}] options
+    #   any additional options for optimization
     # @return [Expression] a copy of `self`
-    def optimize
-      self.dup.optimize!
+    # @see    RDF::Query#optimize
+    def optimize(**options)
+      self.dup.optimize!(**options)
     end
 
     ##
     # Optimizes this query.
     #
+    # @param  [Hash{Symbol => Object}] options
+    #   any additional options for optimization
     # @return [self]
-    # @see    RDF::Query::Pattern#cost
-    # @since  0.3.0
-    def optimize!
+    # @see    RDF::Query#optimize!
+    def optimize!(**options)
       self
     end
 

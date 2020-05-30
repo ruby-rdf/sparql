@@ -40,9 +40,10 @@ module SPARQL; module Algebra
       #
       # Replace with the query with URIs having their lexical shortcut removed
       #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands.last.optimize
+      # @return [Prefix] a copy of `self`
+      # @see SPARQL::Algebra::Expression#optimize
+      def optimize(**options)
+        operands.last.optimize(**options)
       end
 
       # Combine two prefix definitions, merging their definitions

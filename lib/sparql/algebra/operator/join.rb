@@ -75,8 +75,10 @@ module SPARQL; module Algebra
       #   Replace join(A, Z) by A
       #
       # @return [Join, RDF::Query] `self`
-      def optimize!
-        ops = operands.map {|o| o.optimize }.select {|o| o.respond_to?(:empty?) && !o.empty?}
+      # @return [self]
+      # @see SPARQL::Algebra::Expression#optimize!
+      def optimize!(**options)
+        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self
       end
