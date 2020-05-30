@@ -122,16 +122,6 @@ module SPARQL; module Algebra
         end
         super
       end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # TODO
-      #
-      # @return [Group] `self`
-      def optimize
-        self
-      end
     end # Group
   end # Operator
 end; end # SPARQL::Algebra

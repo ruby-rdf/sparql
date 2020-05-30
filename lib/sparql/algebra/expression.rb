@@ -280,12 +280,22 @@ module SPARQL; module Algebra
     ##
     # Returns an optimized version of this expression.
     #
-    # This is the default implementation, which simply returns `self`.
+    # This is the default implementation, which simply returns a copy of `self`.
     # Subclasses can override this method in order to implement something
     # more useful.
     #
-    # @return [Expression] `self`
+    # @return [Expression] a copy of `self`
     def optimize
+      self.dup.optimize!
+    end
+
+    ##
+    # Optimizes this query.
+    #
+    # @return [self]
+    # @see    RDF::Query::Pattern#cost
+    # @since  0.3.0
+    def optimize!
       self
     end
 

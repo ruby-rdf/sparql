@@ -40,16 +40,6 @@ module SPARQL; module Algebra
         res = operands.all? {|op| boolean(op.evaluate(bindings, depth: options[:depth].to_i + 1, **options)).true? }
         RDF::Literal(res) # FIXME: error handling
       end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
     end # Exprlist
   end # Operator
 end; end # SPARQL::Algebra

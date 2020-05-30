@@ -165,11 +165,6 @@ module SPARQL
   #     Operator(:isIRI).evaluate(RDF::Vocab::DC.title)                                 #=> RDF::Literal::TRUE
   #     Operator(:isLiteral).evaluate(RDF::Literal(3.1415))                      #=> RDF::Literal::TRUE
   # 
-  # ## Optimizing expressions containing constant subexpressions
-  # 
-  #     SPARQL::Algebra::Expression.parse('(sameTerm ?var ?var)').optimize            #=> RDF::Literal::TRUE
-  #     SPARQL::Algebra::Expression.parse('(* -2 (- (* (+ 1 2) (+ 3 4))))').optimize  #=> RDF::Literal(42)
-  # 
   # ## Evaluating expressions on a solution sequence
   # 
   #     # Find all people and their names & e-mail addresses:

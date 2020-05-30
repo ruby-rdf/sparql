@@ -34,12 +34,11 @@ module SPARQL; module Algebra
         debug(options) {"Prefix"}
         @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &block)
       end
-      
+
       ##
       # Returns an optimized version of this query.
       #
-      # If optimize operands, and if the first two operands are both Queries, replace
-      # with the unique sum of the query elements
+      # Replace with the query with URIs having their lexical shortcut removed
       #
       # @return [Union, RDF::Query] `self`
       def optimize

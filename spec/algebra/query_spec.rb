@@ -25,6 +25,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x1 ex:p2 ex:x2)))))
         expect(query.execute(graph)).to be_empty
+        expect(query.optimize.execute(graph)).to be_empty
       end
     end
 
@@ -35,6 +36,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p1 123.0)))))
         expect(query.execute(graph)).to have_result_set [{s: EX.x1}]
+        expect(query.optimize.execute(graph)).to have_result_set [{s: EX.x1}]
       end
     end
 
@@ -68,6 +70,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p 1)))))
         expect(query.execute(graph)).to have_result_set([{ s: EX.x1 }])
+        expect(query.optimize.execute(graph)).to have_result_set([{ s: EX.x1 }])
       end
 
       it "s ?p o" do
@@ -75,6 +78,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x2 ?p 2)))))
         expect(query.execute(graph)).to have_result_set [ { p: EX.p } ]
+        expect(query.optimize.execute(graph)).to have_result_set [ { p: EX.p } ]
       end
 
       it "s p ?o" do
@@ -82,15 +86,21 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x3 ex:p ?o)))))
         expect(query.execute(graph)).to have_result_set [ { o: RDF::Literal.new(3) } ]
+        expect(query.optimize.execute(graph)).to have_result_set [ { o: RDF::Literal.new(3) } ]
       end
 
       it "?s p ?o" do
         query = SPARQL::Algebra::Expression.parse(%q(
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ex:p ?o)))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
-                                                       { s: EX.x2, o: RDF::Literal.new(2) },
-                                                       { s: EX.x3, o: RDF::Literal.new(3) }]
+        expect(query.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) },
+          { s: EX.x3, o: RDF::Literal.new(3) }]
+        expect(query.optimize.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) },
+          { s: EX.x3, o: RDF::Literal.new(3) }]
       end
 
       it "?s ?p o" do
@@ -98,6 +108,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?s ?p 3)))))
         expect(query.execute(graph)).to have_result_set [ { s: EX.x3, p: EX.p } ]
+        expect(query.optimize.execute(graph)).to have_result_set [ { s: EX.x3, p: EX.p } ]
       end
 
       it "s ?p ?o" do
@@ -105,6 +116,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ex:x1 ?p ?o)))))
         expect(query.execute(graph)).to have_result_set [ { p: EX.p, o: RDF::Literal(1) } ]
+        expect(query.optimize.execute(graph)).to have_result_set [ { p: EX.p, o: RDF::Literal(1) } ]
       end
 
       it "?s p o / ?s p1 o1" do
@@ -113,6 +125,7 @@ describe SPARQL::Algebra::Query do
             (bgp (triple ?s ex:p3 ex:x3)
                  (triple ?s ex:p2 ex:x3)))))
         expect(query.execute(graph)).to have_result_set [ { s: EX.x5 } ]
+        expect(query.optimize.execute(graph)).to have_result_set [ { s: EX.x5 } ]
       end
 
       it "?s1 p ?o1 / ?o1 p2 ?o2 / ?o2 p3 ?o3" do
@@ -122,6 +135,7 @@ describe SPARQL::Algebra::Query do
                  (triple ?o ex:pchain2 ?o2)
                  (triple ?o2 ex:pchain3 ?o3)))))
         expect(query.execute(graph)).to have_result_set [ { s: EX.x6, o: EX.target, o2: EX.target2, o3: EX.target3 } ]
+        expect(query.optimize.execute(graph)).to have_result_set [ { s: EX.x6, o: EX.target, o2: EX.target2, o3: EX.target3 } ]
       end
 
       it "?same p ?same" do
@@ -129,6 +143,7 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (bgp (triple ?same ex:psame ?same)))))
         expect(query.execute(graph)).to have_result_set [ { same: EX.x4 } ]
+        expect(query.optimize.execute(graph)).to have_result_set [ { same: EX.x4 } ]
       end
 
       it "(distinct ?s)" do
@@ -137,14 +152,24 @@ describe SPARQL::Algebra::Query do
             (distinct
               (project (?s)
                 (bgp (triple ?s ?p ?o)))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x1 },
-                                                       { s: EX.x2 },
-                                                       { s: EX.x3 },
-                                                       { s: EX.x4 },
-                                                       { s: EX.x5 },
-                                                       { s: EX.x6 },
-                                                       { s: EX.target },
-                                                       { s: EX.target2 }]
+        expect(query.execute(graph)).to have_result_set [
+          { s: EX.x1 },
+          { s: EX.x2 },
+          { s: EX.x3 },
+          { s: EX.x4 },
+          { s: EX.x5 },
+          { s: EX.x6 },
+          { s: EX.target },
+          { s: EX.target2 }]
+        expect(query.optimize.execute(graph)).to have_result_set [
+          { s: EX.x1 },
+          { s: EX.x2 },
+          { s: EX.x3 },
+          { s: EX.x4 },
+          { s: EX.x5 },
+          { s: EX.x6 },
+          { s: EX.target },
+          { s: EX.target2 }]
       end
 
       it "(filter (isLiteral ?o))" do
@@ -152,9 +177,14 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (filter (isLiteral ?o)
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
-                                                       { s: EX.x2, o: RDF::Literal.new(2) },
-                                                       { s: EX.x3, o: RDF::Literal.new(3) }]
+        expect(query.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) },
+          { s: EX.x3, o: RDF::Literal.new(3) }]
+          expect(query.optimize.execute(graph)).to have_result_set [
+            { s: EX.x1, o: RDF::Literal.new(1) },
+            { s: EX.x2, o: RDF::Literal.new(2) },
+            { s: EX.x3, o: RDF::Literal.new(3) }]
       end
 
       it "(filter (< ?o 3))" do
@@ -162,8 +192,12 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (filter (< ?o 3)
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
-                                                       { s: EX.x2, o: RDF::Literal.new(2) }]
+        expect(query.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) }]
+        expect(query.optimize.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) }]
       end
 
       it "(filter (exprlist (> ?o 1) (< ?o 3)))" do
@@ -172,6 +206,7 @@ describe SPARQL::Algebra::Query do
             (filter (exprlist (> ?o 1) (< ?o 3))
               (bgp (triple ?s ex:p ?o))))))
         expect(query.execute(graph)).to have_result_set [ { s: EX.x2, o: RDF::Literal.new(2) }]
+        expect(query.optimize.execute(graph)).to have_result_set [ { s: EX.x2, o: RDF::Literal.new(2) }]
       end
 
       it "(order ?o)" do
@@ -179,9 +214,14 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (order (?o)
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
-                                                       { s: EX.x2, o: RDF::Literal.new(2) },
-                                                       { s: EX.x3, o: RDF::Literal.new(3) }]
+        expect(query.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) },
+          { s: EX.x3, o: RDF::Literal.new(3) }]
+        expect(query.optimize.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) },
+          { s: EX.x3, o: RDF::Literal.new(3) }]
       end
 
       it "(order ((asc ?o)))" do
@@ -189,9 +229,14 @@ describe SPARQL::Algebra::Query do
           (prefix ((ex: <http://example.org/>))
             (order ((asc ?o))
               (bgp (triple ?s ex:p ?o))))))
-        expect(query.execute(graph)).to have_result_set [ { s: EX.x1, o: RDF::Literal.new(1) },
-                                                       { s: EX.x2, o: RDF::Literal.new(2) },
-                                                       { s: EX.x3, o: RDF::Literal.new(3) }]
+        expect(query.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) },
+          { s: EX.x3, o: RDF::Literal.new(3) }]
+          expect(query.optimize.execute(graph)).to have_result_set [
+            { s: EX.x1, o: RDF::Literal.new(1) },
+            { s: EX.x2, o: RDF::Literal.new(2) },
+            { s: EX.x3, o: RDF::Literal.new(3) }]
       end
 
       it "(order ((desc ?o)))" do

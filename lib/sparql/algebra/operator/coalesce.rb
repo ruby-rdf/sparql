@@ -50,16 +50,6 @@ module SPARQL; module Algebra
         end
         raise TypeError, "None of the operands evaluated"
       end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
     end # Coalesce
   end # Operator
 end; end # SPARQL::Algebra

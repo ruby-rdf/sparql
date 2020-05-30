@@ -34,15 +34,14 @@ module SPARQL; module Algebra
         Operator.base_uri = operands.first
         queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &block)
       end
-      
+
       ##
-      # Returns an optimized version of this query.
-      #
       # Return optimized query
       #
       # @return [Union, RDF::Query] `self`
       def optimize
-        operands.last.optimize
+        Operator.base_uri = operands.first
+        operands.last.optimize!
       end
 
       # Query results in a boolean result (e.g., ASK)

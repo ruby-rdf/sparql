@@ -27,6 +27,16 @@ class Object
   def to_sse
     SXP::Generator.string(self.to_sxp_bin)
   end
+
+  ##
+  # A duplicate of this object.
+  #
+  # @return [self]
+  # @see    RDF::Query::Pattern#cost
+  # @since  0.3.0
+  def optimize
+    self.dup
+  end
 end
 
 ##
@@ -72,6 +82,18 @@ class Array
   end
 
   ##
+  # Return an optimized version of this array.
+  #
+  # @return [self]
+  # @see    RDF::Query::Pattern#cost
+  # @since  0.3.0
+  def optimize
+    self.map do |op|
+      op.optimize if op.respond_to?(:optimize)
+    end
+  end
+
+  ##
   # Binds the pattern to a solution, making it no longer variable if all variables are resolved to bound variables
   #
   # @param [RDF::Query::Solution] solution
@@ -90,7 +112,7 @@ class Array
   # @return [Boolean] `true` or `false`
   # @see    #constant?
   def variable?
-    any?(&:variable?)
+    any? {|op| op.respond_to?(:variable?) && op.variable?}
   end
   def constant?; !(variable?); end
 
@@ -197,6 +219,16 @@ class Hash
     to_a.to_sxp_bin
   end
   def to_sxp; to_sxp_bin; end
+
+  ##
+  # A duplicate of this hash.
+  #
+  # @return [self]
+  # @see    RDF::Query::Pattern#cost
+  # @since  0.3.0
+  def optimize
+    self.dup
+  end
 end
 
 ##
@@ -227,6 +259,18 @@ module RDF::Term
   # @return [Array<RDF::Query::Variable>]
   def vars
     variable? ? [self] : []
+  end
+
+  ##
+  # A duplicate of this term.
+  #
+  # @return [self]
+  # @see    RDF::Query::Pattern#cost
+  # @since  0.3.0
+  def optimize
+    optimized = self.dup
+    optimized.lexical = nil if optimized.respond_to?(:lexical=)
+    optimized
   end
 end # RDF::Term
 
@@ -287,6 +331,16 @@ class RDF::Statement
     else
       [:triple, subject, predicate, object]
     end
+  end
+
+  ##
+  # A duplicate of this Statement.
+  #
+  # @return [self]
+  # @see    RDF::Query::Pattern#cost
+  # @since  0.3.0
+  def optimize
+    self.dup
   end
 end
 
@@ -366,6 +420,25 @@ class RDF::Query
   end
 
   ##
+  # Optimize the query, removing lexical shortcuts in URIs
+  #
+  def optimize!
+    @patterns = @patterns.map do |pattern|
+      components = pattern.to_a.map do |term|
+        if term.respond_to?(:lexical=)
+          term.dup.instance_eval {@lexical = nil; self}
+        else
+          term
+        end
+      end
+      RDF::Query::Pattern.from(components)
+    end.sort! do |a, b|
+      (a.cost || 0) <=> (b.cost || 0)
+    end
+    self
+  end
+
+  ##
   # Returns `true` if this is executable (i.e., contains a graph patterns), `false`
   # otherwise.
   #
@@ -416,6 +489,16 @@ class RDF::Query::Variable
   def evaluate(bindings, **options)
     raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
+  end
+
+  ##
+  # Return self
+  #
+  # @return [self]
+  # @see    RDF::Query::Pattern#cost
+  # @since  0.3.0
+  def optimize
+    self
   end
 end # RDF::Query::Variable
 

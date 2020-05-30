@@ -448,7 +448,7 @@ module SPARQL; module Algebra
     # @return [Boolean] `true` or `false`
     # @see    #constant?
     def variable?
-      operands.any?(&:variable?)
+      operands.any? {|op| op.respond_to?(:variable?) && op.variable?}
     end
 
     ##
@@ -505,7 +505,7 @@ module SPARQL; module Algebra
     #
     # For constant expressions containing no variables, returns the result
     # of evaluating the expression with empty bindings; otherwise returns
-    # `self`.
+    # a copy of `self`.
     #
     # Optimization is not possible if the expression raises an exception,
     # such as a `TypeError` or `ZeroDivisionError`, which must be conserved
@@ -518,8 +518,22 @@ module SPARQL; module Algebra
         # we must return `self` so that the error is conserved at runtime:
         evaluate(RDF::Query::Solution.new) rescue self
       else
-        super # returns `self`
+        super # returns a copy of `self`
       end
+    end
+
+    ##
+    # Optimizes this query by optimizing its constituent operands
+    # according to their cost estimates.
+    #
+    # @return [self]
+    # @see    RDF::Query::Pattern#cost
+    # @since  0.3.0
+    def optimize!
+      @operands.map! do |op|
+        op.optimize if op.respond_to?(:optimize)
+      end
+      self
     end
 
     ##

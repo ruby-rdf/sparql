@@ -60,16 +60,6 @@ module SPARQL; module Algebra
         # Return Concise Bounded Description
         queryable.concise_bounded_description(*to_describe.uniq, &block)
       end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
 
       # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
       # @return [Boolean]

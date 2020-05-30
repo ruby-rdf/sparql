@@ -35,16 +35,6 @@ module SPARQL; module Algebra
         yield res if block_given?
         res
       end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
 
       # Query results in a boolean result (e.g., ASK)
       # @return [Boolean]

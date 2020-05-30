@@ -33,6 +33,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
+                                optimize: true,
                                 form: t.form)
 
           case t.form

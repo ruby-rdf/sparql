@@ -69,20 +69,9 @@ module SPARQL; module Algebra
         graph_name, query = operands.first, operands.last
         @solutions = queryable.query(query, graph_name: graph_name, **options, &block)
       end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
-      
+
       ##
       # Don't do any more rewriting
-      # FIXME: if ooperator is JOIN, and rewritten sub-operators are queries, can do simple merge of sub-graphs
       # @return [SPARQL::Algebra::Expression] `self`
       def rewrite(&block)
         self

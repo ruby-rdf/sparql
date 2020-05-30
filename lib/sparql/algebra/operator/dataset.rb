@@ -158,17 +158,6 @@ module SPARQL; module Algebra
         aggregate.default(*default_datasets.select {|name| queryable.has_graph?(name)})
         aggregate.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
       end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # If optimize operands, and if the first two operands are both Queries, replace
-      # with the unique sum of the query elements
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands.last.optimize
-      end
     end # Dataset
   end # Operator
 end; end # SPARQL::Algebra

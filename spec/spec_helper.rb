@@ -132,5 +132,6 @@ def sparql_query(opts)
     SPARQL.parse(query_str, **query_opts)
   end
 
+  query = query.optimize if opts[:optimize]
   repo.query(query, debug: opts[:debug] || !!ENV['EXEC_DEBUG'])
 end

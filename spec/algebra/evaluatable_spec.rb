@@ -380,8 +380,17 @@ describe SPARQL::Algebra do
     it_behaves_like "Evaluate", sse_examples('operator/same_term/term.sse')
 
     describe "#optimize" do
-      it "returns RDF::Literal::TRUE if both operands are the same variable" do
-        expect(described_class.new(Variable(:var), Variable(:var)).optimize).to eql RDF::Literal::TRUE
+      it "returns RDF::Literal::TRUE if both operands are bound and the same variable" do
+        v1 = Variable(:var)
+        v1.bind(RDF::Query::Solution.new({var: 'foo'}))
+        v2 = Variable(:var)
+        expect(described_class.new(v1, v2).optimize).to eql RDF::Literal::TRUE
+      end
+
+      it "returns itself if both operands are the same variable but unbounZ" do
+        v1 = Variable(:var)
+        v2 = Variable(:var)
+        expect(described_class.new(v1, v2).optimize).not_to eql RDF::Literal::TRUE
       end
     end
 

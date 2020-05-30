@@ -52,7 +52,7 @@ module SPARQL; module Algebra
       end
       
       ##
-      # Returns an optimized version of this query.
+      # Optimizes this query.
       #
       # Groups of one graph pattern (not a filter) become join(Z, A) and can be replaced by A.
       # The empty graph pattern Z is the identity for join:
@@ -60,7 +60,7 @@ module SPARQL; module Algebra
       #   Replace join(A, Z) by A
       #
       # @return [Join, RDF::Query] `self`
-      def optimize
+      def optimize!
         ops = operands.map {|o| o.optimize }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self

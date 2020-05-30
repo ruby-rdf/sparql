@@ -83,16 +83,6 @@ module SPARQL; module Algebra
         end
         super
       end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return FIXME
-      def optimize
-        operands = operands.map(&:optimize)
-      end
     end # Filter
   end # Operator
 end; end # SPARQL::Algebra

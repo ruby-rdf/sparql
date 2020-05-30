@@ -69,16 +69,6 @@ module SPARQL; module Algebra
         end
         self
       end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
     end # Filter
   end # Operator
 end; end # SPARQL::Algebra

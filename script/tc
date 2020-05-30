@@ -50,10 +50,14 @@ def run_tc(tc, **options)
   STDERR.write "run #{id}" unless options[:quiet]
 
   result = "untested"
+  query_string = tc.query_string || tc.action.query_string
+  sxp = SPARQL.parse(query_string, base_uri: RDF::URI(tc.action.query_file))
 
   if options[:verbose]
     STDERR.puts "\nTestCase: #{tc.inspect}"
-    STDERR.puts "\nInput:\n" + tc.query_string if tc.query_string
+    STDERR.puts "\nInput:\n" + query_string
+    STDERR.puts "\nSSE:\n" + sxp.to_sse
+    STDERR.puts "\nSSE (optimized):\n" + sxp.optimize.to_sse if options[:optimize]
     STDERR.puts "\nData:\n" + tc.data_string if tc.respond_to?(:data) && tc.data
     STDERR.puts "\nTest Data:\n" + tc.test_data_string if tc.respond_to?(:test_data_string) && tc.test_data_string
     STDERR.puts "\nExpected:\n" + tc.solutions.to_sse if tc.respond_to?(:solutions)
@@ -73,9 +77,10 @@ def run_tc(tc, **options)
   else
     case tc.type
     when 'mf:QueryEvaluationTest'
-      actual = sparql_query(graphs: tc.graphs, query: tc.action.query_string,
+      actual = sparql_query(graphs: tc.graphs, query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
-                            form: tc.form, to_hash: false)
+                            form: tc.form, to_hash: false,
+                            optimize: options[:optimize])
 
       STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
 
@@ -101,8 +106,9 @@ def run_tc(tc, **options)
       end
     when 'mf:CSVResultFormatTest'
       actual = sparql_query(graphs: tc.graphs,
-                            query: tc.action.query_string,
+                            query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
+                            optimize: options[:optimize],
                             form: tc.form)
 
       STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
@@ -141,8 +147,9 @@ def run_tc(tc, **options)
       end
 
       actual = sparql_query(graphs: tc.action.graphs,
-                            query: tc.action.query_string,
+                            query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
+                            optimize: options[:optimize],
                             form: tc.form,
                             debug: options[:debug])
 
@@ -153,12 +160,12 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
-      SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, validate: true)
+      SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true)
       # No exception means it passes
       result = "passed"
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
       begin
-        SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, validate: true)
+        SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true)
       rescue Exception => e
         result = "passed"
       end
@@ -166,12 +173,12 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:PositiveUpdateSyntaxTest11'
-      SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, update: true, validate: true)
+      SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true)
       # No exception means it passes
       result = "passed"
     when 'mf:NegativeUpdateSyntaxTest11'
       begin
-        SPARQL.parse(tc.action.query_string, base_uri: tc.base_uri, update: true, validate: true)
+        SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true)
       rescue Exception => e
         result = "passed"
       end
@@ -233,6 +240,7 @@ options = {
 opts = GetoptLong.new(
   ["--earl", GetoptLong::NO_ARGUMENT],
   ["--debug", GetoptLong::NO_ARGUMENT],
+  ["--optimize", GetoptLong::NO_ARGUMENT],
   ["--output", "-o", GetoptLong::REQUIRED_ARGUMENT],
   ["--quiet", GetoptLong::NO_ARGUMENT],
   ["--verbose", GetoptLong::NO_ARGUMENT],
@@ -241,6 +249,7 @@ opts.each do |opt, arg|
   case opt
   when '--earl'         then options[:quiet] = options[:earl] = true
   when '--debug'        then options[:debug] = true
+  when '--optimize'     then options[:optimize] = true
   when '--output'       then options[:output] = File.open(arg, "w")
   when '--quiet'        then options[:quiet] = true
   when '--validate'     then options[:validate] = true

@@ -52,16 +52,6 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
     end # Slice
   end # Operator
 end; end # SPARQL::Algebra

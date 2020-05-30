@@ -54,16 +54,6 @@ module SPARQL; module Algebra
         else RDF::Literal::FALSE
         end
       end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
     end # In
   end # Operator
 end; end # SPARQL::Algebra

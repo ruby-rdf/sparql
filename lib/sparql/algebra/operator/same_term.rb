@@ -33,12 +33,14 @@ module SPARQL; module Algebra
       ##
       # Returns an optimized version of this expression.
       #
+      # Return true if variable operand1 is a bound variable and equals operand2
+      #
       # @return [SPARQL::Algebra::Expression]
       def optimize
-        if operand(0).is_a?(Variable) && operand(0).eql?(operand(1))
+        if operand(0).is_a?(Variable) && operand(0).bound? && operand(0).eql?(operand(1))
           RDF::Literal::TRUE
         else
-          super # @see Operator#optimize
+          super # @see Operator#optimize!
         end
       end
     end # SameTerm

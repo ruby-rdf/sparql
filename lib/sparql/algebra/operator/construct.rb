@@ -74,16 +74,6 @@ module SPARQL; module Algebra
         graph.each(&block) if block_given?
         graph
       end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
-      end
 
       # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)
       # @return [Boolean]
