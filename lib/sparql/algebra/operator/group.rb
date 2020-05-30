@@ -17,7 +17,7 @@ module SPARQL; module Algebra
     #               (bgp (triple ?s :p ?v))
     #               (bgp (triple ?s :q ?w)))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Group < Operator
       include Query
       
@@ -37,7 +37,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlGroupAggregate
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlGroupAggregate
       def execute(queryable, **options, &block)
         debug(options) {"Group"}
         exprlist = operands.first
@@ -84,8 +84,18 @@ module SPARQL; module Algebra
           group_soln
         end)
 
-        # Make sure that's at least an empty solution
-        @solutions << RDF::Query::Solution.new if @solutions.empty?
+        # If there exprlist is empty, make sure that's at least an empty solution
+        if @solutions.empty? && exprlist.empty?
+          soln = RDF::Query::Solution.new
+          aggregates.each do |(var, aggregate)|
+            begin
+              soln[var] = aggregate.aggregate([], **options)
+            rescue TypeError
+              # Ignored in output
+            end
+          end
+          @solutions << soln
+        end
 
         debug(options) {"=>(solutions) #{@solutions.inspect}"}
         @solutions.each(&block) if block_given?
@@ -111,16 +121,6 @@ module SPARQL; module Algebra
                "projecting ungrouped/extended variables: #{(project_vars.compact - available_vars.compact).to_sse}"
         end
         super
-      end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # TODO
-      #
-      # @return [Group] `self`
-      def optimize
-        self
       end
     end # Group
   end # Operator

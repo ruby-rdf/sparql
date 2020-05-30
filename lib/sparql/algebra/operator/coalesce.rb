@@ -15,7 +15,7 @@ module SPARQL; module Algebra
     #             (bgp (triple ?s :p ?o))
     #             (bgp (triple ?s :q ?x))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-coalesce
+    # @see https://www.w3.org/TR/sparql11-query/#func-coalesce
     class Coalesce < Operator
       include Evaluatable
 
@@ -49,16 +49,6 @@ module SPARQL; module Algebra
           end
         end
         raise TypeError, "None of the operands evaluated"
-      end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
       end
     end # Coalesce
   end # Operator

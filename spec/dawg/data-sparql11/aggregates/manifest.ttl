@@ -37,7 +37,10 @@
     :agg-sample-01 
     :agg-err-01
     :agg-err-02
-    :agg-empty-group2
+    :agg-empty-group-max-1
+    :agg-empty-group-max-2
+    :agg-empty-group-count-1
+    :agg-empty-group-count-2
 ) .
 
 
@@ -333,29 +336,42 @@
     mf:result  <agg-err-02.srx>
     .    
 
-# :agg-empty-group rdf:type mf:QueryEvaluationTest ;
-# 	mf:name "agg empty group" ;
-#     mf:name "Aggregate over empty group resulting in a row with unbound variables" ;
-# 	mf:feature sparql:aggregate ;
-# 	rdfs:seeAlso <http://answers.semanticweb.com/questions/17410/semantics-of-sparql-aggregates> ;
-# #     dawgt:approval dawgt:Approved ;
-# #     dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-08-07#resolution_2> ;
-# 	rdfs:comment "Unapproved on 2012-10-30 due to typo in agg-empty-group.srx";
-#     mf:action
-#          [ qt:query  <agg-empty-group.rq> ;
-#            qt:data   <empty.ttl> ] ;
-#     mf:result  <agg-empty-group.srx>
-#     .    
+## Aggregate on empty pattern match.
 
-:agg-empty-group2 rdf:type mf:QueryEvaluationTest ;
-	mf:name "agg empty group" ;
-    mf:name "Aggregate over empty group resulting in a row with unbound variables" ;
+:agg-empty-group-max-1 rdf:type mf:QueryEvaluationTest ;
+	mf:name "agg on empty set, explicit grouping" ;
+    rdfs:comment "aggregating empty results returns no rows, as there are no grouped results." ;
 	mf:feature sparql:aggregate ;
-	rdfs:seeAlso <http://answers.semanticweb.com/questions/17410/semantics-of-sparql-aggregates> ;
-    dawgt:approval dawgt:Approved ;
-    dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2012-10-30#resolution_2> ;
     mf:action
-         [ qt:query  <agg-empty-group.rq> ;
+         [ qt:query  <agg-empty-group-max-1.rq> ;
            qt:data   <empty.ttl> ] ;
-    mf:result  <agg-empty-group2.srx>
+    mf:result  <agg-empty-group-max-1.srx>
     .    
+
+:agg-empty-group-max-2 rdf:type mf:QueryEvaluationTest ;
+	mf:name "agg on empty set, no grouping" ;
+    rdfs:comment "aggregating empty results with no group-by always returns a single result." ;
+	mf:feature sparql:aggregate ;
+    mf:action
+         [ qt:query  <agg-empty-group-max-2.rq> ;
+           qt:data   <empty.ttl> ] ;
+    mf:result  <agg-empty-group-max-2.srx>
+    .    
+
+:agg-empty-group-count-1  rdf:type mf:QueryEvaluationTest ;
+    mf:name "COUNT: no match, with group";
+    rdfs:comment "counting no results with grouping returns no results." ;
+    mf:action
+         [ qt:query  <agg-empty-group-count-1.rq> ;
+           qt:data   <empty.ttl> ] ;
+    mf:result  <agg-empty-group-count-1.srj>
+    .
+
+:agg-empty-group-count-2  rdf:type mf:QueryEvaluationTest ;
+	mf:name "COUNT: no match, no group" ;
+    rdfs:comment "counting no results without grouping always returns a single result." ;
+    mf:action
+         [ qt:query  <agg-empty-group-count-2.rq> ;
+           qt:data   <empty.ttl> ] ;
+    mf:result  <agg-empty-group-count-2.srj>
+    .

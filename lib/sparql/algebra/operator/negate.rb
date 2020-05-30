@@ -7,7 +7,7 @@ module SPARQL; module Algebra
     #   (- ?x)
     #   (negate ?x)
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
     class Negate < Operator::Unary
       include Evaluatable
 

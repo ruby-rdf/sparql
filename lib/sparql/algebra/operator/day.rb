@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #         (extend ((?x (day ?date)))
     #           (bgp (triple ?s :date ?date)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-day
+    # @see https://www.w3.org/TR/sparql11-query/#func-day
     class Day < Operator::Unary
       include Evaluatable
 

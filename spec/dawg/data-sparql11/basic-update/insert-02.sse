@@ -1,5 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (update
-    (modify
-      (bgp (triple ?s ?p ?o))
-      (insert ((graph :g1 ((triple ?s ?p "q"))))))))

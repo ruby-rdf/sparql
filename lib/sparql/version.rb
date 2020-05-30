@@ -1,6 +1,6 @@
 module SPARQL
   module VERSION
-    VERSION_FILE = File.join(File.expand_path(File.dirname(__FILE__)), "..", "..", "VERSION")
+    VERSION_FILE = File.expand_path("../../../VERSION", __FILE__)
     MAJOR, MINOR, TINY, EXTRA = File.read(VERSION_FILE).chomp.split(".")
 
     STRING = [MAJOR, MINOR, TINY, EXTRA].compact.join('.')

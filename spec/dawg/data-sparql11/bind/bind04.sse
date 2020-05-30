@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (extend ((?z ?nova))
-    (bgp (triple ?s ?p ?o))))

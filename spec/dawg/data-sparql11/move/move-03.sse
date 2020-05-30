@@ -1,1 +1,0 @@
-(prefix ((: <http://example.org/>)) (update (move :g1 :g2)))

@@ -7,7 +7,7 @@ module SPARQL; module Algebra
     #   (* ?x ?y)
     #   (multiply ?x ?y)
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-multiply
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-multiply
     class Multiply < Operator::Binary
       include Evaluatable
 

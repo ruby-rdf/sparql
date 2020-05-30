@@ -14,7 +14,7 @@ module SPARQL; module Algebra
     #             (extend ((?uuid (uuid)))
     #               (bgp))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-uuid
+    # @see https://www.w3.org/TR/sparql11-query/#func-uuid
     class UUID < Operator::Nullary
       include Evaluatable
 

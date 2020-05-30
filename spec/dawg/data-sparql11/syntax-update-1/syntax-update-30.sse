@@ -1,1 +1,0 @@
-(update (deleteData ((graph <G> ((triple <s> <p> "o1") (triple <s> <p> "o2") (triple <s> <p> "o3"))))))

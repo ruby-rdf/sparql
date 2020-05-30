@@ -3,7 +3,7 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `lang` operator.
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-lang
+    # @see https://www.w3.org/TR/sparql11-query/#func-lang
     class Lang < Operator::Unary
       include Evaluatable
 

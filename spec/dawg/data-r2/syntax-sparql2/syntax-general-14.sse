@@ -1,2 +1,0 @@
-(base <http://example/page.html?query>
-  (bgp (triple <a> <b> <&param=value>)))

@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #          (group () ((??.0 (sum ?o)))
     #            (bgp (triple ?s :dec ?o))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_aggSum
+    # @see https://www.w3.org/TR/sparql11-query/#defn_aggSum
     class Sum < Operator
       include Aggregate
 

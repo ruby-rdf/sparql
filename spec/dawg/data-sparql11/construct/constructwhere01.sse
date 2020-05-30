@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (construct ((triple ?s ?p ?o))
-    (bgp (triple ?s ?p ?o))))

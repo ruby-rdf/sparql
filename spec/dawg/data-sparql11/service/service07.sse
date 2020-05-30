@@ -1,7 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (project (?s ?o1 ?o2)
-    (join
-      (bgp (triple ?s ?p ?o1))
-      (service silent 
-        <http://invalid.endpoint.org/sparql>
-        (bgp (triple ?s ?p2 ?o2))))))

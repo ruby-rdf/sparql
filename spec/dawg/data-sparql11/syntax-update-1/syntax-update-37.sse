@@ -1,3 +1,0 @@
-(update
-  (create <g>)
-  (load <remote> <g>))

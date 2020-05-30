@@ -1052,6 +1052,17 @@ describe SPARQL::Algebra::Update do
               expect(actual).to describe_solutions(expected, nil)
             end
           end
+
+          it "#{tname} (with optimization)" do
+            if opts[:error]
+              expect {sparql_query({sse: true, graphs: repo}.merge(opts))}.to raise_error(opts[:error])
+            else
+              expected = RDF::Repository.new << RDF::TriG::Reader.new(opts[:expected])
+              sxp = SPARQL::Algebra.parse(opts[:query])
+              actual = sparql_query({sse: true, graphs: repo, optimize: true}.merge(opts))
+              expect(actual).to describe_solutions(expected, nil)
+            end
+          end
         end
       end
     end

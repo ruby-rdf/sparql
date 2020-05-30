@@ -13,7 +13,7 @@ module SPARQL; module Algebra
     #         (extend ((?hash (md5 ?l)))
     #           (bgp (triple :s1 :str ?l)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-md5
+    # @see https://www.w3.org/TR/sparql11-query/#func-md5
     class MD5 < Operator::Unary
       include Evaluatable
 

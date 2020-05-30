@@ -101,6 +101,17 @@ describe SPARQL::Algebra::Query do
             query: query)
         ).to be_isomorphic(graph_r)
       end
+
+      it "constructs #{example} (with optimization)" do
+        graph_r = RDF::Graph.new << RDF::Turtle::Reader.new(result)
+
+        expect(
+          sparql_query(
+            form: :construct, sse: true, optimize: true,
+            graphs: {default: {data: source, format: :ttl}},
+            query: query)
+        ).to be_isomorphic(graph_r)
+      end
     end
   end
 end

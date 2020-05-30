@@ -6,7 +6,7 @@ describe SPARQL::Grammar do
   describe "Examples" do
     def self.read_examples
       examples = []
-      readme = File.join(File.expand_path(File.dirname(__FILE__)), "..", "..", "lib", "sparql", "grammar.rb")
+      readme = File.expand_path("../../../lib/sparql/grammar.rb", __FILE__)
       # Get comment lines and remove leading comment
       doc = File.open(readme).readlines.map do |l|
         l.match(/^\s+#\s(.*)$/) && $1
@@ -27,11 +27,10 @@ describe SPARQL::Grammar do
     read_examples.each do |example|
       describe "query #{example[:sparql]}" do
         let(:update) {example[:sxp].include?('(update')}
-        subject {
-          parse(example[:sparql], update: update)}
+        subject {parse(example[:sparql], update: update)}
 
         it "parses to #{example[:sxp]}" do
-          should == SPARQL::Algebra.parse(example[:sxp])
+          is_expected.to eq SPARQL::Algebra.parse(example[:sxp])
         end
       end
     end

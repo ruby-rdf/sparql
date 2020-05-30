@@ -110,6 +110,7 @@ module SPARQL::Grammar
                  |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
                  |true
                  |false
+                 |<<|>>
                  |&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a]
               )xim.freeze
 

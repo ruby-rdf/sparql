@@ -1,5 +1,0 @@
-(prefix ((: <http://example.org/>)
-         (xsd: <http://www.w3.org/2001/XMLSchema#>))
-  (project (?s ?str ?ab ?aab ?abcy ?a ?aen ?abx ?axyzx)
-    (extend ((?ab (strafter ?str "b")) (?aab (strafter ?str "ab")) (?abcy (strafter ?str "b"@cy)) (?a (strafter ?str "")) (?aen (strafter ?str ""@en)) (?abx (strafter ?str "b")) (?axyzx (strafter ?str "xyz")))
-      (bgp (triple ?s :str ?str)))))

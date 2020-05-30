@@ -1,8 +1,0 @@
-(prefix ((: <http://example.org/test#>)
-         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
-  (project (?X ?Y1 ?Y2)
-    (bgp
-      (triple ?X rdf:type :Person)
-      (triple ?X :name ?Y1)
-      (triple ?X :nick ?Y2)
-    )))

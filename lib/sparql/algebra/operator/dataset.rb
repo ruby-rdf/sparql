@@ -102,7 +102,7 @@ module SPARQL; module Algebra
     #         (graph ?g (bgp (triple ?s ?p ?o))))))
     #
     # @example Dataset with multiple named graphs
-    # @see http://www.w3.org/TR/sparql11-query/#specifyingDataset
+    # @see https://www.w3.org/TR/sparql11-query/#specifyingDataset
     class Dataset < Binary
       include Query
 
@@ -125,7 +125,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &base)
         debug(options) {"Dataset"}
         default_datasets = []
@@ -157,17 +157,6 @@ module SPARQL; module Algebra
         named_datasets.each {|name| aggregate.named(name) if queryable.has_graph?(name)}
         aggregate.default(*default_datasets.select {|name| queryable.has_graph?(name)})
         aggregate.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
-      end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # If optimize operands, and if the first two operands are both Queries, replace
-      # with the unique sum of the query elements
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands.last.optimize
       end
     end # Dataset
   end # Operator

@@ -1,4 +1,3 @@
-@base <http://rubygems.org/gems/sparql> .
 @prefix dc: <http://purl.org/dc/terms/> .
 @prefix doap: <http://usefulinc.com/ns/doap#> .
 @prefix foaf: <http://xmlns.com/foaf/0.1/> .
@@ -7,42 +6,41 @@
 @prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
 @prefix earl: <http://www.w3.org/ns/earl#> .
 
-<> a doap:Project;
+<https://rubygems.org/gems/sparql> a doap:Project;
    doap:name "SPARQL";
    doap:shortdesc "SPARQL library for Ruby."@en;
    doap:description """
      Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
      and includes SPARQL Client for accessing remote repositories."""@en;
-   doap:implements  <http://www.w3.org/TR/sparql11-query/>,
-                    <http://www.w3.org/TR/sparql11-update/>,
-                    <http://www.w3.org/TR/sparql11-results-json/>,
-                    <http://www.w3.org/TR/sparql11-results-csv-tsv/>,
-                    <http://www.w3.org/TR/rdf-sparql-XMLres/> ;
-   doap:developer   <http://greggkellogg.net/foaf#me>;
-   doap:maintainer  <http://greggkellogg.net/foaf#me>;
-   doap:documenter  <http://greggkellogg.net/foaf#me>;
-   dc:creator       <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>;
-   foaf:maker       <http://greggkellogg.net/foaf#me>, <http://ar.to/#self>;
-   doap:blog        <http://greggkellogg.net/>, <http://ar.to/>, <http://blog.datagraph.org/>;
-   doap:bug-database <http://github.com/ruby-rdf/sparql/issues>;
-   doap:category <http://dbpedia.org/resource/Resource_Description_Framework>,
-     <http://dbpedia.org/resource/Ruby_(programming_language)>;
+   doap:implements  <https://www.w3.org/TR/sparql11-query/>,
+                    <https://www.w3.org/TR/sparql11-update/>,
+                    <https://www.w3.org/TR/sparql11-results-json/>,
+                    <https://www.w3.org/TR/sparql11-results-csv-tsv/>,
+                    <https://www.w3.org/TR/rdf-sparql-XMLres/> ;
+   doap:developer   <https://greggkellogg.net/foaf#me>;
+   doap:maintainer  <https://greggkellogg.net/foaf#me>;
+   doap:documenter  <https://greggkellogg.net/foaf#me>;
+   dc:creator       <https://greggkellogg.net/foaf#me>, <https://ar.to/#self>;
+   foaf:maker       <https://greggkellogg.net/foaf#me>, <https://ar.to/#self>;
+   doap:blog        <https://greggkellogg.net/>;
+   doap:bug-database <https://github.com/ruby-rdf/sparql/issues>;
+   doap:category <https://dbpedia.org/resource/Resource_Description_Framework>,
+     <https://dbpedia.org/resource/Ruby_(programming_language)>;
    doap:created "2008-07-15"^^xsd:date;
-   doap:download-page <http://rubygems.org/gems/sparql>;
-   doap:homepage <http://github.com/ruby-rdf/sparql>;
-   doap:license <http://creativecommons.org/licenses/publicdomain/>;
-   doap:platform "Ruby" .
+   doap:download-page <https://rubygems.org/gems/sparql>;
+   doap:homepage <https://github.com/ruby-rdf/sparql>;
+   doap:license <https://unlicense.org/1.0/>;
+   doap:programming-language "Ruby" .
 
-<http://greggkellogg.net/foaf#me> a foaf:Person;
-   foaf:homepage <http://greggkellogg.net/>;
+<https://greggkellogg.net/foaf#me> a foaf:Person;
+   foaf:homepage <https://greggkellogg.net/>;
    foaf:mbox <mailto:gregg@greggkellogg.net>;
    foaf:mbox_sha1sum "35bc44e6d0070e5ad50ccbe0d24403c96af2b9bd";
    foaf:name "Gregg Kellogg" .
 
-<http://ar.to/#self> a foaf:Person;
-   rdfs:isDefinedBy <http://datagraph.org/bendiken/foaf>;
-   foaf:homepage <http://ar.to/>;
-   foaf:made <http://rubygems.org/gems/rdf>;
+<https://ar.to/#self> a foaf:Person;
+   foaf:homepage <https://ar.to/>;
+   foaf:made <>;
    foaf:mbox <mailto:arto.bendiken@gmail.com>;
    foaf:mbox_sha1sum "a033f652c84a4d73b8c26d318c2395699dd2bdfb",
      "d0737cceb55eb7d740578d2db1bc0727e3ed49ce";

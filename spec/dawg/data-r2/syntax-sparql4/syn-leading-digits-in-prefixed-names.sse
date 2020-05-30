@@ -1,8 +1,0 @@
-(prefix ((dob: <http://placetime.com/interval/gregorian/1977-01-18T04:00:00Z/P>)
-         (time: <http://www.ai.sri.com/daml/ontologies/time/Time.daml#>)
-         (dc: <http://purl.org/dc/elements/1.1/>))
-  (project (?desc)
-    (bgp
-      (triple dob:1D a time:ProperInterval)
-      (triple dob:1D dc:description ?desc)
-    )))

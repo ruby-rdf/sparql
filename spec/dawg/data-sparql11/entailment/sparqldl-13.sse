@@ -1,9 +1,0 @@
-(prefix ((: <http://example.org/test#>)
-         (owl: <http://www.w3.org/2002/07/owl#>)
-         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
-  (project (?a ?b ?x)
-    (bgp
-      (triple ?a :p ?b)
-      (triple ?b owl:sameAs ?x)
-      (triple ?x :q ?x)
-    )))

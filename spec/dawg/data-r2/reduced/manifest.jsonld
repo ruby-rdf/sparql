@@ -55,49 +55,43 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "REDUCED",
+  "entries": [
     {
-      "entries": [
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-star.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest#reduced-1",
-          "name": "SELECT REDUCED *",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-1.srx",
-          "result:Cardinality": {
-            "id": "mf:LaxCardinality"
-          },
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-str.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest#reduced-2",
-          "name": "SELECT REDUCED ?x with strings",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-2.srx",
-          "result:Cardinality": {
-            "id": "mf:LaxCardinality"
-          },
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest.ttl",
-      "rdfs:label": "REDUCED",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest#reduced-1",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-star.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-1.rq"
+      },
+      "name": "SELECT REDUCED *",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-1.srx",
+      "mf:resultCardinality": {
+        "id": "mf:LaxCardinality"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/manifest#reduced-2",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-str.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-2.rq"
+      },
+      "name": "SELECT REDUCED ?x with strings",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/reduced/reduced-2.srx",
+      "mf:resultCardinality": {
+        "id": "mf:LaxCardinality"
+      }
     }
   ]
 }

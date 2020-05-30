@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (filter (isBlank ?v)
     #         (bgp (triple ?x :p ?v)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-isBlank
+    # @see https://www.w3.org/TR/sparql11-query/#func-isBlank
     class IsBlank < Operator::Unary
       include Evaluatable
 

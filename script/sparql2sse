@@ -1,7 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 require "bundler/setup"
-$:.unshift(File.expand_path(File.join(File.dirname(__FILE__), "..", 'lib')))
+$:.unshift(File.expand_path("../../lib", __FILE__))
 require 'sparql'
 require 'getoptlong'
 require 'open-uri'
@@ -14,8 +14,9 @@ def run(input, parser_options)
   if $quiet
     $stdout = StringIO.new
   end
-  parser = SPARQL::Grammar::Parser.new(input.read, parser_options)
+  parser = SPARQL::Grammar::Parser.new(input.read, **parser_options)
   res = parser.parse(parser_options[:production])
+  res.optimize! if parser_options[:optimize]
   if $quiet
     $stdout = STDOUT
     print "."
@@ -44,9 +45,9 @@ $input_format = :turtle
 input = nil
 
 parser_options = {
-  :progress   => false,
+  progress:   false,
   production: :QueryUnit,
-  :prefixes   => {},
+  prefixes:   {},
 }
 
 opts = GetoptLong.new(
@@ -54,6 +55,7 @@ opts = GetoptLong.new(
   ["--dbg", GetoptLong::NO_ARGUMENT],
   ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
   ["--help", "-?", GetoptLong::NO_ARGUMENT],
+  ["--optimize", GetoptLong::NO_ARGUMENT],
   ["--parse-only", GetoptLong::NO_ARGUMENT],
   ["--production", GetoptLong::REQUIRED_ARGUMENT],
   ["--progress", GetoptLong::NO_ARGUMENT],
@@ -70,6 +72,7 @@ opts.each do |opt, arg|
   when '--dump' then $dump = true
   when '--execute' then input = arg
   when '--quiet' then $quiet = true
+  when '--optimize' then parser_options[:optimize] = true
   when '--production' then parser_options[:production] = arg.to_sym
   when '--progress' then parser_options[:progress] = true
   when '--resolve-uris' then parser_options[:resolve_iris] = true
@@ -84,16 +87,16 @@ opts.each do |opt, arg|
   when "--help"
     puts "Usage: #{$0} [options] file-or-uri ..."
     puts "Options:"
-    puts "      --quiet:              Output '.' when parsing files, except on error"
+    puts "      --debug:              Display detailed debug output"
+    puts "      --dump:               Dump raw output, otherwise serialize to SSE"
     puts "      --execute,-e:         Use option argument as the input if no files are given"
     puts "      --production:         Begin parsing with specific BNF production, defaults to Query"
-    puts "      --uri:                Use argument as default BASE (for non-standard productions)"
+    puts "      --progress:           Display parser progress when running productions"
+    puts "      --quiet:              Output '.' when parsing files, except on error"
     puts "      --resolve-uris:       Resolve URIs and QNames in output rather than generating (base ...) or (prefix ...)"
     puts "      --standard-prefixes:  Apply standard prefixes to parser (for non-standard productions)"
-    puts "      --dump:               Dump raw output, otherwise serialize to SSE"
-    puts "      --progress:           Display parser progress when running productions"
+    puts "      --uri:                Use argument as default BASE (for non-standard productions)"
     puts "      --validate:           Run in validation mode"
-    puts "      --debug:              Display detailed debug output"
     puts "      --help,-?:            This message"
     exit(0)
   end

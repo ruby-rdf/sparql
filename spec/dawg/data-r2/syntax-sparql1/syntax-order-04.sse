@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/ns#>))
-  (order ((desc ?o))
-    (bgp (triple ?s ?p ?o))))

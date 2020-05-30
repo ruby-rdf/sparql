@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (ask (filter (in 2 1 2 3) (bgp)))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-in
+    # @see https://www.w3.org/TR/sparql11-query/#func-in
     class In < Operator
       include Evaluatable
 
@@ -53,16 +53,6 @@ module SPARQL; module Algebra
         when error_found then raise TypeError
         else RDF::Literal::FALSE
         end
-      end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
       end
     end # In
   end # Operator

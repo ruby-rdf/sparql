@@ -51,6 +51,21 @@ namespace :doc do
   end
 end
 
+desc "Create concatenated test manifests"
+file "etc/manifest-cache.nt" do
+  require 'rdf'
+  require 'json/ld'
+  require 'rdf/ntriples'
+  graph = RDF::Graph.new do |g|
+    Dir.glob("spec/dawg/**/manifest.jsonld").each do |man|
+      puts "load #{man}"
+      g.load(man, unique_bnodes: true)
+    end
+  end
+  puts "write"
+  RDF::NTriples::Writer.open("etc/manifest-cache.nt", unique_bnodes: true, validate: false) {|w| w << graph}
+end
+
 desc 'Create versions of ebnf files in etc'
 task etc: %w{etc/sparql11.sxp etc/sparql11.html etc/sparql11.ll1.sxp}
 

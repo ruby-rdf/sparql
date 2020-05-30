@@ -1,5 +1,0 @@
-(join
-  (bgp)
-  (table (vars ?x ?y)
-    (row (?x 1) (?y 2))
-  ))

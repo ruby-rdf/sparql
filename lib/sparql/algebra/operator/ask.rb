@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #     (ask
     #       (bgp (triple :x :p ?x))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#ask
+    # @see https://www.w3.org/TR/sparql11-query/#ask
     class Ask < Operator::Unary
       include Query
       
@@ -28,22 +28,12 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @return [RDF::Literal::Boolean]\
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options)
         debug(options) {"Ask #{operands.first}"}
         res = boolean(!queryable.query(operands.last, depth: options[:depth].to_i + 1, **options).empty?)
         yield res if block_given?
         res
-      end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
       end
 
       # Query results in a boolean result (e.g., ASK)

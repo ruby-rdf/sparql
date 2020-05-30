@@ -1,6 +1,0 @@
-(prefix ((: <http://example/>))
-  (update
-    (modify
-      (with :g
-        (bgp (triple ?s ?p ?o))
-        (insert ((triple <base:s> ?p ?o)))))))

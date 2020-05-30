@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (ceil ?x)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-ceil
-    # @see http://www.w3.org/TR/xpath-functions/#func-ceil
+    # @see https://www.w3.org/TR/sparql11-query/#func-ceil
+    # @see https://www.w3.org/TR/xpath-functions/#func-ceil
     class Ceil < Operator::Unary
       include Evaluatable
 

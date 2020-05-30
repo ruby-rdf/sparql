@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #       (bgp (triple ?s ?p ?o))
     #       (insert ((triple ?s ?p "q")))))
     #
-    # @see http://www.w3.org/TR/sparql11-update/#graphUpdate
+    # @see https://www.w3.org/TR/sparql11-update/#graphUpdate
     class Update < Operator
       include SPARQL::Algebra::Update
       
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       #   If an attempt is made to perform an unsupported operation
       # @raise [IOError]
       #   If `queryable` is immutable
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, **options)
         debug(options) {"Update"}
         raise IOError, "queryable is not mutable" unless queryable.mutable?

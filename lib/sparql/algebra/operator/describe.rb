@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #     (describe (?x)
     #       (bgp (triple ?x exOrg:employeeId "1234"))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#describe
+    # @see https://www.w3.org/TR/sparql11-query/#describe
     class Describe < Operator::Binary
       include Query
       
@@ -39,7 +39,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Graph]
       #   containing the constructed triples
-      # @see    http://www.w3.org/TR/sparql11-query/#describe
+      # @see    https://www.w3.org/TR/sparql11-query/#describe
       def execute(queryable, **options, &block)
         debug(options) {"Describe #{operands.first}, #{options.inspect}"}
 
@@ -59,16 +59,6 @@ module SPARQL; module Algebra
 
         # Return Concise Bounded Description
         queryable.concise_bounded_description(*to_describe.uniq, &block)
-      end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
       end
 
       # Query results statements (e.g., CONSTRUCT, DESCRIBE, CREATE)

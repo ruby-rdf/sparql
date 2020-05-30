@@ -8,7 +8,7 @@ module SPARQL; module Algebra
     # @example
     #   (ask (filter (notin ?o 1 2) (bgp)))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-notin
+    # @see https://www.w3.org/TR/sparql11-query/#func-notin
     class NotIn < Operator
       include Evaluatable
 
@@ -57,16 +57,6 @@ module SPARQL; module Algebra
         when error_found then raise TypeError
         else RDF::Literal::TRUE
         end
-      end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
       end
     end # Exprlist
   end # Operator

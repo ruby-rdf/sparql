@@ -7,7 +7,7 @@ module SPARQL; module Algebra
     #   (! ?x)
     #   (not ?x)
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-not
+    # @see https://www.w3.org/TR/xpath-functions/#func-not
     class Not < Operator::Unary
       include Evaluatable
 

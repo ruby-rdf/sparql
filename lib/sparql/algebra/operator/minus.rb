@@ -11,8 +11,8 @@ module SPARQL; module Algebra
     #          (filter (|| (= ?type ex:Reptile) (= ?type ex:Insect))
     #            (bgp (triple ?animal <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type))))))
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Minus < Operator::Binary
       include Query
 
@@ -33,8 +33,8 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#defn_algMinus
-      # @see    http://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation
+      # @see    https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#defn_algMinus
+      # @see    https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation
       def execute(queryable, **options, &block)
         # Let Ω1 and Ω2 be multisets of solution mappings. We define:
         # 
@@ -52,16 +52,17 @@ module SPARQL; module Algebra
       end
       
       ##
-      # Returns an optimized version of this query.
+      # Optimizes this query.
       #
       # Groups of one graph pattern (not a filter) become join(Z, A) and can be replaced by A.
       # The empty graph pattern Z is the identity for join:
       #   Replace join(Z, A) by A
       #   Replace join(A, Z) by A
       #
-      # @return [Join, RDF::Query] `self`
-      def optimize
-        ops = operands.map {|o| o.optimize }.select {|o| o.respond_to?(:empty?) && !o.empty?}
+      # @return [self]
+      # @see SPARQL::Algebra::Expression#optimize!
+      def optimize!(**options)
+        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self
       end

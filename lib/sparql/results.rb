@@ -14,28 +14,38 @@ module SPARQL
     ##
     # Generate Solutions as JSON
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-json-res/
+    # @see https://www.w3.org/TR/rdf-sparql-json-res/
     def to_json
       require 'json' unless defined?(::JSON)
-      
+
+      format = ->(value) do
+        case value
+        when RDF::URI then {type: "uri", value: value.to_s }
+        when RDF::Node then {type: "bnode", value: value.id }
+        when RDF::Literal
+          if value.datatype?
+            {type: "typed-literal", datatype: value.datatype.to_s, value: value.to_s }
+          elsif value.language?
+            {type: "literal", "xml:lang" => value.language.to_s, value: value.to_s }
+          else
+            {type: "literal", value: value.to_s }
+          end
+        when RDF::Statement
+          {
+            type: 'triple',
+            value: {
+              s: format.call(value.subject),
+              p: format.call(value.predicate),
+              o: format.call(value.object)
+            }
+          }
+        end
+      end
+
       bindings = self.map do |solution|
         variable_names.inject({}) do |memo, n|
-          memo.merge case s = solution[n]
-          when RDF::URI
-            {n => {type: "uri", value: s.to_s }}
-          when RDF::Node
-            {n => {type: "bnode", value: s.id }}
-          when RDF::Literal
-            if s.datatype?
-              {n => {type: "typed-literal", datatype: s.datatype.to_s, value: s.to_s }}
-            elsif s.language
-              {n => {type: "literal", "xml:lang" => s.language.to_s, value: s.to_s }}
-            else
-              {n => {type: "literal", value: s.to_s }}
-            end
-          else
-            {}
-          end
+          rep = format.call(solution[n])
+          rep ? memo.merge(n => rep) : memo
         end
       end
 
@@ -48,12 +58,36 @@ module SPARQL
     ##
     # Generate Solutions as XML
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-XMLres/
+    # @see https://www.w3.org/TR/rdf-sparql-XMLres/
     def to_xml
       require 'builder' unless defined?(::Builder)
       
       xml = ::Builder::XmlMarkup.new(indent: 2)
       xml.instruct!
+
+      format = ->(s) do
+        case s
+        when RDF::URI
+          xml.uri(s.to_s)
+        when RDF::Node
+          xml.bnode(s.id)
+        when RDF::Literal
+          if s.datatype?
+            xml.literal(s.to_s, "datatype" => s.datatype.to_s)
+          elsif s.language
+            xml.literal(s.to_s, "xml:lang" => s.language.to_s)
+          else
+            xml.literal(s.to_s)
+          end
+        when RDF::Statement
+          xml.triple do
+            xml.s {format.call(s.subject)}
+            xml.p {format.call(s.predicate)}
+            xml.o {format.call(s.object)}
+          end
+        end
+      end
+
       xml.sparql(xmlns: "http://www.w3.org/2005/sparql-results#") do
         xml.head do
           variable_names.each do |n|
@@ -67,20 +101,7 @@ module SPARQL
                 s = solution[n]
                 next unless s
                 xml.binding(name: n) do
-                  case s
-                  when RDF::URI
-                    xml.uri(s.to_s)
-                  when RDF::Node
-                    xml.bnode(s.id)
-                  when RDF::Literal
-                    if s.datatype?
-                      xml.literal(s.to_s, "datatype" => s.datatype.to_s)
-                    elsif s.language
-                      xml.literal(s.to_s, "xml:lang" => s.language.to_s)
-                    else
-                      xml.literal(s.to_s)
-                    end
-                  end
+                  format.call(s)
                 end
               end
             end
@@ -118,7 +139,7 @@ module SPARQL
     ##
     # Generate Solutions as CSV
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-json-res/#results
+    # @see https://www.w3.org/TR/2013/REC-sparql11-results-csv-tsv-20130321/
     def to_csv
       require 'csv' unless defined?(::CSV)
       bnode_map = {}
@@ -135,7 +156,7 @@ module SPARQL
                 this
               end
             else
-              solution[n].to_s
+              solution[n].to_s.strip
             end
           end
         end
@@ -144,11 +165,9 @@ module SPARQL
     ##
     # Generate Solutions as TSV
     # @return [String]
-    # @see http://www.w3.org/TR/rdf-sparql-json-res/#results
+    # @see https://www.w3.org/TR/2013/REC-sparql11-results-csv-tsv-20130321/
     def to_tsv
       require 'csv' unless defined?(::CSV)
-      bnode_map = {}
-      bnode_gen = "_:a"
       results = [
         variable_names.map {|v| "?#{v}"}.join("\t")
       ] + self.map do |solution|
@@ -159,7 +178,7 @@ module SPARQL
           when nil
             ""
           else
-            RDF::NTriples.serialize(term)
+            RDF::NTriples.serialize(term).strip
           end
         end.join("\t")
       end
@@ -226,7 +245,7 @@ module SPARQL
     when RDF::Queryable
       begin
         require 'linkeddata'
-      rescue LoadError => e
+      rescue LoadError
         require 'rdf/ntriples'
       end
       fmt = RDF::Format.for(format ? format.to_sym : {content_type: content_type})
@@ -280,7 +299,7 @@ module SPARQL
   # @param [Array<String>] available
   # @return [String]
   #
-  # @see http://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
+  # @see https://www.w3.org/Protocols/rfc2616/rfc2616-sec14.html#sec14.1
   def first_content_type(acceptable, available)
     return acceptable.first if available.empty?
     available.flatten!

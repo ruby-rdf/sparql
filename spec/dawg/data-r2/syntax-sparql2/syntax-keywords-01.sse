@@ -1,3 +1,0 @@
-(prefix ((FILTER: <http://example.org/ns#>))
-  (filter ?z
-    (bgp (triple ?x FILTER:foo ?z))))

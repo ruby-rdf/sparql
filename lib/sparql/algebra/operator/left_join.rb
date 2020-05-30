@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (bgp (triple ?y :q ?w))
     #       (= ?v 2)))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class LeftJoin < Operator
       include Query
       
@@ -31,9 +31,9 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
-      # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
+      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
       def execute(queryable, **options, &block)
         filter = operand(2)
 
@@ -83,14 +83,17 @@ module SPARQL; module Algebra
       end
 
       ##
-      # Returns an optimized version of this query.
+      # Optimizes this query.
       #
       # If optimize operands, and if the first two operands are both Queries, replace
       # with the unique sum of the query elements
       #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        ops = operands.map {|o| o.optimize }.select {|o| o.respond_to?(:empty?) && !o.empty?}
+      # @return [Object] a copy of `self`
+      # @see SPARQL::Algebra::Expression#optimize
+      # FIXME
+      def optimize!(**options)
+        return self
+        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         expr = ops.pop unless ops.last.executable?
         expr = nil if expr.respond_to?(:true?) && expr.true?
         
@@ -102,7 +105,7 @@ module SPARQL; module Algebra
         when 1
           expr ? Filter.new(expr, ops.first) : ops.first
         else
-          expr ? LeftJoin(ops[0], ops[1], expr) : LeftJoin(ops[0], ops[1])
+          expr ? LeftJoin.new(ops[0], ops[1], expr) : LeftJoin.new(ops[0], ops[1])
         end
       end
     end # LeftJoin

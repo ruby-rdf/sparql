@@ -12,8 +12,8 @@ module SPARQL; module Algebra
     #                   (bgp (triple ?s ?p ex:o1))))
     #        (bgp (triple ?s ?p ex:o))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-abs
-    # @see http://www.w3.org/TR/xpath-functions/#func-abs
+    # @see https://www.w3.org/TR/sparql11-query/#func-abs
+    # @see https://www.w3.org/TR/xpath-functions/#func-abs
     class NotExists < Operator::Unary
       include Evaluatable
 

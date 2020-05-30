@@ -21,7 +21,7 @@ module SPARQL; module Algebra
     # @return [Expression]
     def self.parse(sse, **options, &block)
       begin
-        require 'sxp' # @see http://rubygems.org/gems/sxp
+        require 'sxp' # @see https://rubygems.org/gems/sxp
       rescue LoadError
         abort "SPARQL::Algebra::Expression.parse requires the SXP gem (hint: `gem install sxp')."
       end
@@ -175,8 +175,8 @@ module SPARQL; module Algebra
     # @param [RDF::URI] function
     # @param [Array<RDF::Term>] args splat of args to function
     # @return [RDF::Term]
-    # @see http://www.w3.org/TR/sparql11-query/#extensionFunctions
-    # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping
+    # @see https://www.w3.org/TR/sparql11-query/#extensionFunctions
+    # @see https://www.w3.org/TR/sparql11-query/#FunctionMapping
     def self.extension(function, *args)
       if function.to_s.start_with?(RDF::XSD.to_s)
         self.cast(function, args.first)
@@ -197,7 +197,7 @@ module SPARQL; module Algebra
     #   Value, which should be a typed literal, where the type must be that specified
     # @raise [TypeError] if datatype is not a URI or value cannot be cast to datatype
     # @return [RDF::Term]
-    # @see http://www.w3.org/TR/sparql11-query/#FunctionMapping
+    # @see https://www.w3.org/TR/sparql11-query/#FunctionMapping
     def self.cast(datatype, value)
       case datatype
       when RDF::XSD.dateTime
@@ -280,12 +280,26 @@ module SPARQL; module Algebra
     ##
     # Returns an optimized version of this expression.
     #
-    # This is the default implementation, which simply returns `self`.
+    # This is the default implementation, which simply returns a copy of `self`.
     # Subclasses can override this method in order to implement something
     # more useful.
     #
-    # @return [Expression] `self`
-    def optimize
+    # @param  [Hash{Symbol => Object}] options
+    #   any additional options for optimization
+    # @return [Expression] a copy of `self`
+    # @see    RDF::Query#optimize
+    def optimize(**options)
+      self.dup.optimize!(**options)
+    end
+
+    ##
+    # Optimizes this query.
+    #
+    # @param  [Hash{Symbol => Object}] options
+    #   any additional options for optimization
+    # @return [self]
+    # @see    RDF::Query#optimize!
+    def optimize!(**options)
       self
     end
 
@@ -313,7 +327,7 @@ module SPARQL; module Algebra
     # more useful.
     #
     # @return [Array] `self`
-    # @see    http://openjena.org/wiki/SSE
+    # @see    https://openjena.org/wiki/SSE
     def to_sxp_bin
       self
     end

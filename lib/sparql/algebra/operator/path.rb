@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (path :a (path+ :p) ?z)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlTranslatePathExpressions
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlTranslatePathExpressions
     class Path < Operator::Ternary
       include Query
       
@@ -25,7 +25,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         debug(options) {"Path #{operands.to_sse}"}
         subject, path_op, object = operands

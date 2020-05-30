@@ -1,4 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (project (?X)
-    (order (?X)
-      (path :A0 (path* (path* :P)) ?X))))

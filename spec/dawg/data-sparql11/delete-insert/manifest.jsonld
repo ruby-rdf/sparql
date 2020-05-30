@@ -55,253 +55,234 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest.ttl",
+  "type": "mf:Manifest",
+  "comment": "Tests for SPARQL UPDATE",
+  "rdfs:label": "DELETE INSERT",
+  "entries": [
     {
-      "comment": "Tests for SPARQL UPDATE",
-      "entries": [
-        {
-          "action": {
-            "id": "_:b5",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-01.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "This update request reverts all foaf:knows relations",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-01",
-          "name": "DELETE INSERT 1",
-          "result": {
-            "id": "_:b8",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-01.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b7",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-01b.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "This test case, as a variant of dawg-delete-insert-01, shoes that DELETE followed by INSERT is different from DELETE INSERT in a single operation",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-01b",
-          "name": "DELETE INSERT 1b",
-          "result": {
-            "id": "_:b6",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-01b.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b2",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-01c.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "This test case, as a variant of dawg-delete-insert-01, shoes that INSERT followed by DELETE is different from DELETE INSERT in a single operation.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-01c",
-          "name": "DELETE INSERT 1c",
-          "result": {
-            "id": "_:b4",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-01b.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-02.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan'.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-02",
-          "name": "DELETE INSERT 2",
-          "result": {
-            "id": "_:b15",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-02.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-03.ru",
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using an unnamed bnode as wildcard",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-03",
-          "name": "DELETE INSERT 3",
-          "type": "mf:NegativeSyntaxTest11"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-03b.ru",
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using a named bnode as wildcard",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-03b",
-          "name": "DELETE INSERT 3b",
-          "type": "mf:NegativeSyntaxTest11"
-        },
-        {
-          "action": {
-            "id": "_:b10",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-04.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using a naive rewriting, as suggested in http://lists.w3.org/Archives/Public/public-rdf-dawg/2011JanMar/0305.html",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-04",
-          "name": "DELETE INSERT 4",
-          "result": {
-            "id": "_:b9",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-02.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-04b.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using a simpler rewriting than dawg-delete-insert-04",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-04b",
-          "name": "DELETE INSERT 4b",
-          "result": {
-            "id": "_:b1",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-02.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05.ru",
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and inserts that all 'Alans' know themselves only.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-05",
-          "name": "DELETE INSERT 5",
-          "type": "mf:NegativeSyntaxTest11"
-        },
-        {
-          "action": {
-            "id": "_:b14",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05b.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and inserts that all 'Alans' know themselves only, using a rewriting analogous to :dawg-delete-insert-04b",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-05b",
-          "name": "DELETE INSERT 5b",
-          "result": {
-            "id": "_:b13",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-05.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05.ru",
-          "approval": "dawgt:Approved",
-          "comment": "dawg-delete-insert-06 and dawg-delete-insert-06b show that the rewriting in dawg-delete-insert-05b.ru isn't equivalent to dawg-delete-insert-05.ru in case Alan doesn't know anybody.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-06",
-          "name": "DELETE INSERT 6",
-          "type": "mf:NegativeSyntaxTest11"
-        },
-        {
-          "action": {
-            "id": "_:b12",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-06.ttl",
-            "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05b.ru"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "dawg-delete-insert-06 and dawg-delete-insert-06b show that the rewriting in dawg-delete-insert-05b.ru isn't equivalent to dawg-delete-insert-05.ru in case Alan doesn't know anybody.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-06b",
-          "name": "DELETE INSERT 6b",
-          "result": {
-            "id": "_:b11",
-            "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-06.ttl"
-          },
-          "type": "mf:UpdateEvaluationTest"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-07.ru",
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and inserts a single foaf:knows triple with a blank node as object for 'Alan'. This shows the different behavior of bnodes in INSERT (similar to CONSTRUCT) and DELETE (bnodes act as wildcards) templates.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-07",
-          "name": "DELETE INSERT 7",
-          "type": "mf:NegativeSyntaxTest11"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-07b.ru",
-          "approval": "dawgt:Approved",
-          "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and replaces them by bnodes. This shows the different behavior of bnodes in INSERT (similar to CONSTRUCT) and DELETE (bnodes act as wildcards) templates. As opposed to test case dawg-delete-insert-7, note that the result graph in this example is non-lean.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-07b",
-          "name": "DELETE INSERT 7b",
-          "type": "mf:NegativeSyntaxTest11"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-08.ru",
-          "approval": "dawgt:Approved",
-          "comment": "This DELETE test was first brought up in http://lists.w3.org/Archives/Public/public-rdf-dawg/2011JanMar/0290.html. It demonstrates how unbound variables (from an OPTIONAL) are handled in DELETE templates",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-08",
-          "name": "DELETE INSERT 8",
-          "type": "mf:NegativeSyntaxTest11"
-        },
-        {
-          "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-09.ru",
-          "approval": "dawgt:Approved",
-          "comment": "This DELETE test was first brought up in http://lists.w3.org/Archives/Public/public-rdf-dawg/2011JanMar/0317.html. It demonstrates the behavior of shared bnodes in a DELETE template.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-09",
-          "name": "DELETE INSERT 9",
-          "type": "mf:NegativeSyntaxTest11"
-        }
-      ],
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-01",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "This update request reverts all foaf:knows relations",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-01.ru"
+      },
+      "name": "DELETE INSERT 1",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-01.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-01b",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "This test case, as a variant of dawg-delete-insert-01, shoes that DELETE followed by INSERT is different from DELETE INSERT in a single operation",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-01b.ru"
+      },
+      "name": "DELETE INSERT 1b",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-01b.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-01c",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "This test case, as a variant of dawg-delete-insert-01, shoes that INSERT followed by DELETE is different from DELETE INSERT in a single operation.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-01c.ru"
+      },
+      "name": "DELETE INSERT 1c",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-01b.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-02",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan'.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-02.ru"
+      },
+      "name": "DELETE INSERT 2",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-02.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-03",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using an unnamed bnode as wildcard",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-03.ru",
+      "name": "DELETE INSERT 3"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-03b",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using a named bnode as wildcard",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-03b.ru",
+      "name": "DELETE INSERT 3b"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-04",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using a naive rewriting, as suggested in http://lists.w3.org/Archives/Public/public-rdf-dawg/2011JanMar/0305.html",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-04.ru"
+      },
+      "name": "DELETE INSERT 4",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-02.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-04b",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' using a simpler rewriting than dawg-delete-insert-04",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-04b.ru"
+      },
+      "name": "DELETE INSERT 4b",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-02.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-05",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and inserts that all 'Alans' know themselves only.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05.ru",
+      "name": "DELETE INSERT 5"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-05b",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and inserts that all 'Alans' know themselves only, using a rewriting analogous to :dawg-delete-insert-04b",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-01.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05b.ru"
+      },
+      "name": "DELETE INSERT 5b",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-post-05.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-06",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "dawg-delete-insert-06 and dawg-delete-insert-06b show that the rewriting in dawg-delete-insert-05b.ru isn't equivalent to dawg-delete-insert-05.ru in case Alan doesn't know anybody.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05.ru",
+      "name": "DELETE INSERT 6"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-06b",
+      "type": "mf:UpdateEvaluationTest",
+      "comment": "dawg-delete-insert-06 and dawg-delete-insert-06b show that the rewriting in dawg-delete-insert-05b.ru isn't equivalent to dawg-delete-insert-05.ru in case Alan doesn't know anybody.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-06.ttl",
+        "ut:request": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-05b.ru"
+      },
+      "name": "DELETE INSERT 6b",
+      "result": {
+        "ut:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-pre-06.ttl"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-07",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and inserts a single foaf:knows triple with a blank node as object for 'Alan'. This shows the different behavior of bnodes in INSERT (similar to CONSTRUCT) and DELETE (bnodes act as wildcards) templates.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-07.ru",
+      "name": "DELETE INSERT 7"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-07b",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "This deletes all foaf:knows relations from anyone named 'Alan' and replaces them by bnodes. This shows the different behavior of bnodes in INSERT (similar to CONSTRUCT) and DELETE (bnodes act as wildcards) templates. As opposed to test case dawg-delete-insert-7, note that the result graph in this example is non-lean.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-07b.ru",
+      "name": "DELETE INSERT 7b"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-08",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "This DELETE test was first brought up in http://lists.w3.org/Archives/Public/public-rdf-dawg/2011JanMar/0290.html. It demonstrates how unbound variables (from an OPTIONAL) are handled in DELETE templates",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-08.ru",
+      "name": "DELETE INSERT 8"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/manifest#dawg-delete-insert-09",
+      "type": "mf:NegativeSyntaxTest11",
+      "comment": "This DELETE test was first brought up in http://lists.w3.org/Archives/Public/public-rdf-dawg/2011JanMar/0317.html. It demonstrates the behavior of shared bnodes in a DELETE template.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2012-02-07#resolution_3"
+      },
+      "action": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/delete-insert/delete-insert-09.ru",
+      "name": "DELETE INSERT 9"
     }
   ]
 }

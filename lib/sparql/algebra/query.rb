@@ -49,7 +49,7 @@ module SPARQL; module Algebra
     #   Note, results may be used with {SPARQL.serialize_results} to obtain appropriate output encoding.
     # @raise [NotImplementedError]
     #   If an attempt is made to perform an unsupported operation
-    # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     def execute(queryable, **options, &block)
       raise NotImplementedError, "#{self.class}#execute(#{queryable})"
     end

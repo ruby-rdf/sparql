@@ -1,7 +1,0 @@
-(prefix ((: <http://example/>))
-  (join
-    (bgp (triple :x :p ?v))
-    (leftjoin
-      (bgp (triple :x :q ?w))
-      (bgp (triple :x :p ?v2))
-      (= ?v 1))))

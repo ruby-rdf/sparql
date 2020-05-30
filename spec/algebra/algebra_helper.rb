@@ -1,5 +1,5 @@
 begin
-  require 'sxp' # @see http://rubygems.org/gems/sxp
+  require 'sxp' # @see https://rubygems.org/gems/sxp
 rescue LoadError
   abort "SPARQL::Algebra specs require the SXP gem (hint: `gem install sxp')."
 end

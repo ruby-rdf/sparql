@@ -27,6 +27,15 @@ class Object
   def to_sse
     SXP::Generator.string(self.to_sxp_bin)
   end
+
+  ##
+  # A duplicate of this object.
+  #
+  # @return [Object] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
+    self.dup
+  end
 end
 
 ##
@@ -66,9 +75,32 @@ class Array
   # @param  [Hash{Symbol => Object}] options
   # @raise [NotImplementedError]
   #   If an attempt is made to perform an unsupported operation
-  # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+  # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
   def execute(queryable, **options)
     raise NotImplementedError, "SPARQL::Algebra '#{first}' operator not implemented"
+  end
+
+  ##
+  # Return an optimized version of this array.
+  #
+  # @return [Array] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
+    self.map do |op|
+      op.optimize(**options) if op.respond_to?(:optimize)
+    end
+  end
+
+  ##
+  # Binds the pattern to a solution, making it no longer variable if all variables are resolved to bound variables
+  #
+  # @param [RDF::Query::Solution] solution
+  # @return [self]
+  def bind(solution)
+    map! do |op|
+      op.respond_to?(:bind) ? op.bind(solution) : op
+    end
+    self
   end
 
   ##
@@ -78,7 +110,7 @@ class Array
   # @return [Boolean] `true` or `false`
   # @see    #constant?
   def variable?
-    any?(&:variable?)
+    any? {|op| op.respond_to?(:variable?) && op.variable?}
   end
   def constant?; !(variable?); end
 
@@ -166,6 +198,12 @@ class Array
     each {|e| e.validate! if e.respond_to?(:validate!)}
     self
   end
+
+  ##
+  # Deep duplicate
+  def dup
+    map(&:dup)
+  end
 end
 
 ##
@@ -179,6 +217,15 @@ class Hash
     to_a.to_sxp_bin
   end
   def to_sxp; to_sxp_bin; end
+
+  ##
+  # A duplicate of this hash.
+  #
+  # @return [Hash] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
+    self.dup
+  end
 end
 
 ##
@@ -209,6 +256,17 @@ module RDF::Term
   # @return [Array<RDF::Query::Variable>]
   def vars
     variable? ? [self] : []
+  end
+
+  ##
+  # A duplicate of this term.
+  #
+  # @return [RDF::Term] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
+    optimized = self.dup
+    optimized.lexical = nil if optimized.respond_to?(:lexical=)
+    optimized
   end
 end # RDF::Term
 
@@ -258,7 +316,6 @@ module RDF::Queryable
       query_without_sparql(pattern, **options, &block)
     end
   end
-  
 end
 
 class RDF::Statement
@@ -270,6 +327,15 @@ class RDF::Statement
     else
       [:triple, subject, predicate, object]
     end
+  end
+
+  ##
+  # A duplicate of this Statement.
+  #
+  # @return [RDF::Statement] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
+    self.dup
   end
 end
 
@@ -306,6 +372,16 @@ class RDF::Query
     end
   end
 
+  ##
+  # Binds the pattern to a solution, making it no longer variable if all variables are resolved to bound variables
+  #
+  # @param [RDF::Query::Solution] solution
+  # @return [self]
+  def bind(solution)
+    patterns.each {|p| p.bind(solution)}
+    self
+  end
+
   # Query results in a boolean result (e.g., ASK)
   # @return [Boolean]
   def query_yields_boolean?
@@ -336,6 +412,27 @@ class RDF::Query
   # @return [Array<RDF::Query::Variable>]
   def vars
     variables.values
+  end
+
+  ##
+  # Optimize the query, removing lexical shortcuts in URIs
+  #
+  # @return [self]
+  # @see SPARQL::Algebra::Expression#optimize!
+  def optimize!(**options)
+    @patterns = @patterns.map do |pattern|
+      components = pattern.to_a.map do |term|
+        if term.respond_to?(:lexical=)
+          term.dup.instance_eval {@lexical = nil; self}
+        else
+          term
+        end
+      end
+      RDF::Query::Pattern.from(components)
+    end.sort! do |a, b|
+      (a.cost || 0) <=> (b.cost || 0)
+    end
+    self
   end
 
   ##
@@ -390,6 +487,15 @@ class RDF::Query::Variable
     raise TypeError if bindings.respond_to?(:bound?) && !bindings.bound?(self)
     bindings[name.to_sym]
   end
+
+  ##
+  # Return self
+  #
+  # @return [RDF::Query::Variable] a copy of `self`
+  # @see SPARQL::Algebra::Expression#optimize
+  def optimize(**options)
+    self
+  end
 end # RDF::Query::Variable
 
 ##
@@ -419,3 +525,16 @@ class RDF::Query::Solutions
   end
   alias_method :filter!, :filter
 end # RDF::Query::Solutions
+
+##
+# Extensions for `RDF::Query::Solution`.
+class RDF::Query::Solution
+  ##
+  # Returns the SXP representation of this object, defaults to `self`.
+  #
+  # @return [String]
+  def to_sxp_bin
+    to_a.to_sxp_bin
+  end
+  def to_sxp; to_sxp_bin; end
+end # RDF::Query::Solution

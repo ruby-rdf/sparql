@@ -55,85 +55,77 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "ASK",
+  "entries": [
     {
-      "entries": [
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-1",
-          "mq:queryForm": {
-            "id": "mq:QueryAsk"
-          },
-          "name": "ASK-1 (SPARQL XML results)",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-4",
-          "mq:queryForm": {
-            "id": "mq:QueryAsk"
-          },
-          "name": "ASK-4 (SPARQL XML results)",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-7",
-          "mq:queryForm": {
-            "id": "mq:QueryAsk"
-          },
-          "name": "ASK-7 (SPARQL XML results)",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-8",
-          "mq:queryForm": {
-            "id": "mq:QueryAsk"
-          },
-          "name": "ASK-8 (SPARQL XML results)",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.srx",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest.ttl",
-      "rdfs:label": "ASK",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-1",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.rq"
+      },
+      "name": "ASK-1 (SPARQL XML results)",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-1.srx",
+      "mq:queryForm": {
+        "id": "mq:QueryAsk"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-4",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.rq"
+      },
+      "name": "ASK-4 (SPARQL XML results)",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-4.srx",
+      "mq:queryForm": {
+        "id": "mq:QueryAsk"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-7",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0060/2007-08-07-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.rq"
+      },
+      "name": "ASK-7 (SPARQL XML results)",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-7.srx",
+      "mq:queryForm": {
+        "id": "mq:QueryAsk"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/manifest#ask-8",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0087/14-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/data.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.rq"
+      },
+      "name": "ASK-8 (SPARQL XML results)",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/ask/ask-8.srx",
+      "mq:queryForm": {
+        "id": "mq:QueryAsk"
+      }
     }
   ]
 }

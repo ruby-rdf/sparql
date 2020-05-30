@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (filter (sameTerm ?v)
     #         (bgp (triple ?x :p ?v)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-sameTerm
+    # @see https://www.w3.org/TR/sparql11-query/#func-sameTerm
     class SameTerm < Operator::Binary
       include Evaluatable
 
@@ -33,12 +33,15 @@ module SPARQL; module Algebra
       ##
       # Returns an optimized version of this expression.
       #
-      # @return [SPARQL::Algebra::Expression]
-      def optimize
-        if operand(0).is_a?(Variable) && operand(0).eql?(operand(1))
+      # Return true if variable operand1 is a bound variable and equals operand2
+      #
+      # @return [SameTerm] a copy of `self`
+      # @see SPARQL::Algebra::Expression#optimize
+      def optimize(**options)
+        if operand(0).is_a?(Variable) && operand(0).bound? && operand(0).eql?(operand(1))
           RDF::Literal::TRUE
         else
-          super # @see Operator#optimize
+          super # @see Operator#optimize!
         end
       end
     end # SameTerm

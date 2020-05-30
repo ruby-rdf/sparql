@@ -1,5 +1,0 @@
-(prefix ((: <http://example.org/>)
-         (xsd: <http://www.w3.org/2001/XMLSchema#>))
-  (project (?s ?str)
-    (filter (strstarts (str ?str) "1")
-      (bgp (triple ?s ?p ?str)))))

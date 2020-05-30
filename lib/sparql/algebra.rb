@@ -1,4 +1,4 @@
-require 'rdf' # @see http://rubygems.org/gems/rdf
+require 'rdf' # @see https://rubygems.org/gems/rdf
 require 'rdf/xsd'
 
 module SPARQL
@@ -141,21 +141,21 @@ module SPARQL
   # ## Constructing operator expressions manually
   # 
   #     Operator(:isBlank).new(RDF::Node(:foobar)).to_sxp                        #=> "(isBlank _:foobar)"
-  #     Operator(:isIRI).new(RDF::URI('http://rubygems.org/gems/rdf/')).to_sxp       #=> "(isIRI <http://rubygems.org/gems/rdf/>)"
+  #     Operator(:isIRI).new(RDF::URI('https://rubygems.org/gems/rdf/')).to_sxp       #=> "(isIRI <https://rubygems.org/gems/rdf/>)"
   #     Operator(:isLiteral).new(RDF::Literal(3.1415)).to_sxp                    #=> "(isLiteral 3.1415)"
   #     Operator(:str).new(Operator(:datatype).new(RDF::Literal(3.1415))).to_sxp #=> "(str (datatype 3.1415))"
   # 
   # ## Constructing operator expressions using SSE forms
   # 
   #     SPARQL::Algebra::Expression[:isBlank, RDF::Node(:foobar)].to_sxp                          #=> "(isBlank _:foobar)"
-  #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('http://rubygems.org/gems/rdf/')].to_sxp         #=> "(isIRI <http://rubygems.org/gems/rdf/>)"
+  #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('https://rubygems.org/gems/rdf/')].to_sxp         #=> "(isIRI <https://rubygems.org/gems/rdf/>)"
   #     SPARQL::Algebra::Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415)"
   #     SPARQL::Algebra::Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415))"
   # 
   # ## Constructing operator expressions using SSE strings
   # 
   #     SPARQL::Algebra::Expression.parse('(isBlank _:foobar)')
-  #     SPARQL::Algebra::Expression.parse('(isIRI <http://rubygems.org/gems/rdf/>)')
+  #     SPARQL::Algebra::Expression.parse('(isIRI <https://rubygems.org/gems/rdf/>)')
   #     SPARQL::Algebra::Expression.parse('(isLiteral 3.1415)')
   #     SPARQL::Algebra::Expression.parse('(str (datatype 3.1415))')
   # 
@@ -164,11 +164,6 @@ module SPARQL
   #     Operator(:isBlank).evaluate(RDF::Node(:foobar))                          #=> RDF::Literal::TRUE
   #     Operator(:isIRI).evaluate(RDF::Vocab::DC.title)                                 #=> RDF::Literal::TRUE
   #     Operator(:isLiteral).evaluate(RDF::Literal(3.1415))                      #=> RDF::Literal::TRUE
-  # 
-  # ## Optimizing expressions containing constant subexpressions
-  # 
-  #     SPARQL::Algebra::Expression.parse('(sameTerm ?var ?var)').optimize            #=> RDF::Literal::TRUE
-  #     SPARQL::Algebra::Expression.parse('(* -2 (- (* (+ 1 2) (+ 3 4))))').optimize  #=> RDF::Literal(42)
   # 
   # ## Evaluating expressions on a solution sequence
   # 
@@ -405,8 +400,7 @@ module SPARQL
     def Expression(*sse)
       Expression.for(*sse)
     end
-    alias_method :Expr, :Expression
-    module_function :Expr, :Expression
+    module_function :Expression
 
     ##
     # @example
@@ -417,8 +411,7 @@ module SPARQL
     def Operator(name, arity = nil)
       Operator.for(name, arity)
     end
-    alias_method :Op, :Operator
-    module_function :Op, :Operator
+    module_function :Operator
 
     ##
     # @example
@@ -430,8 +423,7 @@ module SPARQL
     def Variable(name)
       Variable.new(name)
     end
-    alias_method :Var, :Variable
-    module_function :Var, :Variable
+    module_function :Variable
 
     Variable = RDF::Query::Variable
   end # Algebra

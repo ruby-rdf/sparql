@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #         (extend ((?x (seconds ?date)))
     #           (bgp (triple ?s :date ?date)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-seconds
+    # @see https://www.w3.org/TR/sparql11-query/#func-seconds
     class Seconds < Operator::Unary
       include Evaluatable
 

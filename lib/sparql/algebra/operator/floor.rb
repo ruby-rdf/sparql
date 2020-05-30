@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (floor ?x)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-floor
-    # @see http://www.w3.org/TR/xpath-functions/#func-floor
+    # @see https://www.w3.org/TR/sparql11-query/#func-floor
+    # @see https://www.w3.org/TR/xpath-functions/#func-floor
     class Floor < Operator::Unary
       include Evaluatable
 

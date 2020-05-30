@@ -1,3 +1,0 @@
-(prefix ((person: <http://localhost/persons/>))
-  (project (?subject ?predicate)
-    (bgp (triple ?subject ?predicate person:Paul_Erdoes))))

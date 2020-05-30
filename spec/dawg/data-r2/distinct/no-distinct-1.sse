@@ -1,2 +1,0 @@
-(project (?v)
-  (bgp (triple ?x ?p ?v)))

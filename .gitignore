@@ -7,4 +7,6 @@ Gemfile.lock
 /.rbx/
 /.pryrc
 /coverage/
+*.html
+*.haml
 *.byebug_history

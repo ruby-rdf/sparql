@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (strends ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-strends
-    # @see http://www.w3.org/TR/xpath-functions/#func-ends-with
+    # @see https://www.w3.org/TR/sparql11-query/#func-strends
+    # @see https://wwww.w3.org/TR/xpath-functions/#func-ends-with
     class StrEnds < Operator::Binary
       include Evaluatable
 

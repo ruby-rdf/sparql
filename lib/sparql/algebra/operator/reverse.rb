@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (reverse :p)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_evalPP_inverse
+    # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_inverse
     class Reverse < Operator::Unary
       include Query
       
@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       #   each matching solution
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         debug(options) {"Reverse #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]

@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #          (group () ((??.0 (min ?o)))
     #            (bgp (triple ?s ?p ?o))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_aggMin
+    # @see https://www.w3.org/TR/sparql11-query/#defn_aggMin
     class Min < Operator
       include Aggregate
 

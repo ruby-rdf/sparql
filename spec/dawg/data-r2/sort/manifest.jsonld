@@ -55,221 +55,205 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest.ttl",
+  "type": "mf:Manifest",
+  "comment": "Sorting test cases.",
+  "rdfs:label": "SORT",
+  "entries": [
     {
-      "comment": "Sorting test cases.",
-      "entries": [
-        {
-          "action": {
-            "id": "_:b11",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Alphabetic sort (ascending) on untyped literals",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-1",
-          "name": "sort-1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-1.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b6",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-1.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Alphabetic sort (descending) on untyped literals",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-2",
-          "name": "sort-2",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-2.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b5",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-3.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-3.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort on (possibly unbound) URIs",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-3",
-          "name": "sort-3",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-3.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b4",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-4.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort on datatyped (integer) literals",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-4",
-          "name": "sort-4",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-4.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-4.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-5.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort first on untyped literals (ascending), then on datatyped (integer) literals (descending",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-5",
-          "name": "sort-5",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-5.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-6.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-6.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort on mixed result of uris and literals.",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-6",
-          "name": "sort-6",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-6.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b10",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-7.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort on comparable mixed typed literals (integer and float)",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-7",
-          "name": "sort-7",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-7.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b9",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-8.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort on several mixed values (bnode, uri, literal)",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-8",
-          "name": "sort-8",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-8.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b8",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-9.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-9.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Alphabetic sort (ascending) on datatyped (string) literals",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-9",
-          "name": "sort-9",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-9.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-9.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-10.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Alphabetic sort (descending) on datatyped (string) literals",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2007/06/26-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-10",
-          "name": "sort-10",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-10.rdf",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-numbers.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-numbers.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort by a bracketted expression",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-numbers",
-          "name": "Expression sort",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-numbers.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b12",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-builtin.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-builtin.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort by a builtin operator",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-builtin",
-          "name": "Builtin sort",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-builtin.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b7",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-function.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-function.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Sort by function invocation",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-function",
-          "name": "Function sort",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-function.ttl",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-1",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Alphabetic sort (ascending) on untyped literals",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-1.rq"
+      },
+      "name": "sort-1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-1.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-2",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Alphabetic sort (descending) on untyped literals",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-1.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-2.rq"
+      },
+      "name": "sort-2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-2.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-3",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort on (possibly unbound) URIs",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-3.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-3.rq"
+      },
+      "name": "sort-3",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-3.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-4",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort on datatyped (integer) literals",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
+      },
+      "name": "sort-4",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-4.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-5",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort first on untyped literals (ascending), then on datatyped (integer) literals (descending",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-4.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-5.rq"
+      },
+      "name": "sort-5",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-5.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-6",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort on mixed result of uris and literals.",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-6.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-6.rq"
+      },
+      "name": "sort-6",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-6.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-7",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort on comparable mixed typed literals (integer and float)",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-7.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
+      },
+      "name": "sort-7",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-7.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-8",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort on several mixed values (bnode, uri, literal)",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-8.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-4.rq"
+      },
+      "name": "sort-8",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-8.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-9",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Alphabetic sort (ascending) on datatyped (string) literals",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-9.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-9.rq"
+      },
+      "name": "sort-9",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-9.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-10",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Alphabetic sort (descending) on datatyped (string) literals",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2007/06/26-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-9.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-10.rq"
+      },
+      "name": "sort-10",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-10.rdf"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-numbers",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort by a bracketted expression",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-numbers.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-numbers.rq"
+      },
+      "name": "Expression sort",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-numbers.ttl"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-builtin",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort by a builtin operator",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-builtin.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-builtin.rq"
+      },
+      "name": "Builtin sort",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-builtin.ttl"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/manifest#dawg-sort-function",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Sort by function invocation",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0096/21-dawg-minutes.html"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/data-sort-function.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/query-sort-function.rq"
+      },
+      "name": "Function sort",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/sort/result-sort-function.ttl"
     }
   ]
 }

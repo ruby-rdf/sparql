@@ -55,108 +55,99 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "type": "mf:Manifest",
+  "comment": "Some DAWG test cases on the CONSTRUCT result form",
+  "rdfs:label": "CONSTRUCT",
+  "entries": [
     {
-      "comment": "Some DAWG test cases on the CONSTRUCT result form",
-      "entries": [
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-ident.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-ident.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Graph equivalent result graph",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-1",
-          "mq:queryForm": {
-            "id": "mq:QueryConstruct"
-          },
-          "name": "dawg-construct-identity",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-ident.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-ident.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-subgraph.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Result subgraph of original graph",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-2",
-          "mq:queryForm": {
-            "id": "mq:QueryConstruct"
-          },
-          "name": "dawg-construct-subgraph",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-subgraph.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-reif.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-reif-1.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Reification of the default graph",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-3",
-          "mq:queryForm": {
-            "id": "mq:QueryConstruct"
-          },
-          "name": "dawg-construct-reification-1",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-reif.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b5",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-reif.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-reif-2.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Reification of the default graph",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-4",
-          "mq:queryForm": {
-            "id": "mq:QueryConstruct"
-          },
-          "name": "dawg-construct-reification-2",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-reif.ttl",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b4",
-            "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-opt.ttl",
-            "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-construct-optional.rq"
-          },
-          "approval": "dawgt:Approved",
-          "comment": "Reification of the default graph",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-5",
-          "mq:queryForm": {
-            "id": "mq:QueryConstruct"
-          },
-          "name": "dawg-construct-optional",
-          "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-construct-optional.ttl",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "_:b3",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-1",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Graph equivalent result graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-ident.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-ident.rq"
+      },
+      "name": "dawg-construct-identity",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-ident.ttl",
+      "mq:queryForm": {
+        "id": "mq:QueryConstruct"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-2",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Result subgraph of original graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-ident.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-subgraph.rq"
+      },
+      "name": "dawg-construct-subgraph",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-subgraph.ttl",
+      "mq:queryForm": {
+        "id": "mq:QueryConstruct"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-3",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Reification of the default graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-reif.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-reif-1.rq"
+      },
+      "name": "dawg-construct-reification-1",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-reif.ttl",
+      "mq:queryForm": {
+        "id": "mq:QueryConstruct"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-4",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Reification of the default graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-reif.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-reif-2.rq"
+      },
+      "name": "dawg-construct-reification-2",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-reif.ttl",
+      "mq:queryForm": {
+        "id": "mq:QueryConstruct"
+      }
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/manifest#construct-5",
+      "type": "mf:QueryEvaluationTest",
+      "comment": "Reification of the default graph",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/data-opt.ttl",
+        "mq:query": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/query-construct-optional.rq"
+      },
+      "name": "dawg-construct-optional",
+      "result": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/construct/result-construct-optional.ttl",
+      "mq:queryForm": {
+        "id": "mq:QueryConstruct"
+      }
     }
   ]
 }

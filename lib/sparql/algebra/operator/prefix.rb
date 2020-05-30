@@ -8,7 +8,7 @@ module SPARQL; module Algebra
     #     (graph ?g
     #       (bgp (triple ?s ?p ?o))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#QSynIRI
+    # @see https://www.w3.org/TR/sparql11-query/#QSynIRI
     class Prefix < Binary
       include Query
       
@@ -29,21 +29,21 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         debug(options) {"Prefix"}
         @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &block)
       end
-      
+
       ##
       # Returns an optimized version of this query.
       #
-      # If optimize operands, and if the first two operands are both Queries, replace
-      # with the unique sum of the query elements
+      # Replace with the query with URIs having their lexical shortcut removed
       #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands.last.optimize
+      # @return [Prefix] a copy of `self`
+      # @see SPARQL::Algebra::Expression#optimize
+      def optimize(**options)
+        operands.last.optimize(**options)
       end
 
       # Combine two prefix definitions, merging their definitions

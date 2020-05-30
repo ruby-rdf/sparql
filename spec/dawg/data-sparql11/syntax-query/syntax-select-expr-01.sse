@@ -1,3 +1,0 @@
-(project (?z)
-  (extend ((?z (+ ?x ?y)))
-    (bgp)))

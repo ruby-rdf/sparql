@@ -6,7 +6,7 @@ Gem::Specification.new do |gem|
   gem.date               = File.mtime('VERSION').strftime('%Y-%m-%d')
 
   gem.name               = "sparql"
-  gem.homepage           = "http://github.com/ruby-rdf/sparql"
+  gem.homepage           = "https://github.com/ruby-rdf/sparql"
   gem.license            = 'Unlicense'
   gem.summary            = "SPARQL Query and Update library for Ruby."
 
@@ -24,7 +24,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version      = '>= 2.4'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',                '~> 3.1'
+  gem.add_runtime_dependency     'rdf',                '~> 3.1', '>= 3.1.2'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.1'
   gem.add_runtime_dependency     'ebnf',               '~> 1.2'
   gem.add_runtime_dependency     'builder',            '~> 3.2'

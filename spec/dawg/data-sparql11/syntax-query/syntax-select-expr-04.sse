@@ -1,4 +1,0 @@
-(prefix ((: <http://example/>))
-  (project (?z ?F)
-    (extend ((?F (:function (+ ?x ?y))))
-      (bgp))))

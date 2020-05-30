@@ -1,2 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (ask (bgp (triple :s1 :p1 :s2))))

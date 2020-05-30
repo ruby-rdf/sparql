@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #         (extend ((?x (hours ?date)))
     #           (bgp (triple ?s :date ?date)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-hours
+    # @see https://www.w3.org/TR/sparql11-query/#func-hours
     class Hours < Operator::Unary
       include Evaluatable
 

@@ -1,4 +1,0 @@
-(prefix ((: <http://example.org/ns#>))
-  (project (?x)
-    (filter true
-      (bgp (triple ?x :p "foo")))))

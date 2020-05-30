@@ -6,6 +6,7 @@
 @prefix qt:     <http://www.w3.org/2001/sw/DataAccess/tests/test-query#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label "dataset" ;
     rdfs:comment "Tests for GRAPH" ;
     mf:entries
     (
@@ -106,16 +107,6 @@
     mf:result  <dataset-08.ttl> ;
     .
 
-:dawg-dataset-09  rdf:type mf:QueryEvaluationTest ;
-	mf:name "dataset-09" ;
-    rdfs:comment  "Data: default and named (bnodes) / Query: common subjects" ;
-    dawgt:approval dawgt:Withdrawn ;
-    #dawgt:approvedBy <http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes> ;
-    mf:action
-            [ qt:query        <dataset-09.rq> ] ;
-    mf:result  <dataset-09.ttl> ;
-    .
-
 :dawg-dataset-09b  rdf:type mf:QueryEvaluationTest ;
 	mf:name "dataset-09b" ;
     rdfs:comment  "Data: default and named (bnodes) / Query: common subjects" ;
@@ -124,16 +115,6 @@
     mf:action
             [ qt:query        <dataset-09b.rq> ] ;
     mf:result  <dataset-09.ttl> ;
-    .
-
-:dawg-dataset-10  rdf:type mf:QueryEvaluationTest ;
-	mf:name "dataset-10" ;
-    rdfs:comment  "Data: default and named (same data, with bnodes) / Query: common subjects" ;
-    dawgt:approval dawgt:Withdrawn ;
-    #dawgt:approvedBy <http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0047/31-dawg-minutes> ;
-    mf:action
-            [ qt:query        <dataset-10.rq> ] ;
-    mf:result  <dataset-10.ttl> ;
     .
 
 :dawg-dataset-10b  rdf:type mf:QueryEvaluationTest ;
@@ -154,16 +135,6 @@
     mf:action
             [ qt:query        <dataset-11.rq> ] ;
     mf:result  <dataset-11.ttl> ;
-    .
-
-:dawg-dataset-12  rdf:type mf:QueryEvaluationTest ;
-	mf:name "dataset-12" ;
-    rdfs:comment  "Data: default (several) and named (several) / Query: get everything" ;
-    dawgt:approval dawgt:Withdrawn ;
-    #dawgt:approvedBy <http://lists.w3.org/Archives/Public/public-rdf-dawg/2007JulSep/att-0118/04-dawg-minutes.html> ;
-    mf:action
-            [ qt:query        <dataset-12.rq> ] ;
-    mf:result  <dataset-12.ttl> ;
     .
 
 :dawg-dataset-12b  rdf:type mf:QueryEvaluationTest ;

@@ -1,2 +1,0 @@
-(service <g>
-  (bgp (triple ?s ?p ?o)))

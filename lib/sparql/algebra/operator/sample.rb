@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #           (group () ((??.0 (sample ?o)))
     #             (bgp (triple ?s :dec ?o)))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_aggSample
+    # @see https://www.w3.org/TR/sparql11-query/#defn_aggSample
     class Sample < Operator::Unary
       include Aggregate
 

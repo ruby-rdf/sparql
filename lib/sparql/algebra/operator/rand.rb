@@ -8,7 +8,7 @@ module SPARQL; module Algebra
     # @example
     #   (rand)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#idp2130040
+    # @see https://www.w3.org/TR/sparql11-query/#idp2130040
     class Rand < Operator::Nullary
       include Evaluatable
 

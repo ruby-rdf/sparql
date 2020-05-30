@@ -55,163 +55,149 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest.ttl",
+  "type": "mf:Manifest",
+  "rdfs:label": "BIND",
+  "entries": [
     {
-      "entries": [
-        {
-          "action": {
-            "id": "_:b8",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind01.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind01",
-          "name": "bind01 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind01.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b7",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind02.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind02",
-          "name": "bind02 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind02.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b6",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind03.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind03",
-          "name": "bind03 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind03.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b9",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind04.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind04",
-          "name": "bind04 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind04.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b5",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind05.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind05",
-          "name": "bind05 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind05.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b1",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind06.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind06",
-          "name": "bind06 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind06.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b4",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind07.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind07",
-          "name": "bind07 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind07.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b3",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind08.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind08",
-          "name": "bind08 - BIND",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind08.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b2",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind10.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-12-06#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind10",
-          "name": "bind10 - BIND scoping - Variable in filter not in scope",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind10.srx",
-          "type": "mf:QueryEvaluationTest"
-        },
-        {
-          "action": {
-            "id": "_:b0",
-            "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
-            "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind11.rq"
-          },
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://www.w3.org/2009/sparql/meeting/2011-12-06#resolution_2"
-          },
-          "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind11",
-          "name": "bind11 - BIND scoping - Variable in filter in scope",
-          "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind11.srx",
-          "type": "mf:QueryEvaluationTest"
-        }
-      ],
-      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest.ttl",
-      "rdfs:label": "BIND",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind01",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind01.rq"
+      },
+      "name": "bind01 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind01.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind02",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind02.rq"
+      },
+      "name": "bind02 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind02.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind03",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind03.rq"
+      },
+      "name": "bind03 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind03.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind04",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind04.rq"
+      },
+      "name": "bind04 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind04.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind05",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind05.rq"
+      },
+      "name": "bind05 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind05.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind06",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind06.rq"
+      },
+      "name": "bind06 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind06.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind07",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind07.rq"
+      },
+      "name": "bind07 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind07.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind08",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind08.rq"
+      },
+      "name": "bind08 - BIND",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind08.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind10",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-12-06#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind10.rq"
+      },
+      "name": "bind10 - BIND scoping - Variable in filter not in scope",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind10.srx"
+    },
+    {
+      "id": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/manifest#bind11",
+      "type": "mf:QueryEvaluationTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://www.w3.org/2009/sparql/meeting/2011-12-06#resolution_2"
+      },
+      "action": {
+        "mq:data": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/data.ttl",
+        "mq:query": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind11.rq"
+      },
+      "name": "bind11 - BIND scoping - Variable in filter in scope",
+      "result": "http://www.w3.org/2009/sparql/docs/tests/data-sparql11/bind/bind11.srx"
     }
   ]
 }

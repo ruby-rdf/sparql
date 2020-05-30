@@ -1,3 +1,0 @@
-(prefix ((q: <http://example.org/>))
-  (filter (exprlist (q:name 1) (q:name 1 2) (q:name 1 2))
-    (bgp)))

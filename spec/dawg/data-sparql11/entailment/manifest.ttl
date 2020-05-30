@@ -58,10 +58,8 @@
       :rdfs12
       :rdfs13
       :rif01            
-      :rif02                   ## not classified
       :rif03           
       :rif04           
-      :rif05                   ## not classified
       :rif06           
       :simple1         
       :simple2         
@@ -335,7 +333,6 @@
         [ qt:query  <parent5.rq> ; 
         qt:data <parent.ttl> ; 
            sd:EntailmentProfile pr:DL ;
-           sd:EntailmentProfile pr:DL ;
            sd:entailmentRegime ent:OWL-Direct ] ;
          mf:result  <parent5.srx> .
                             
@@ -583,17 +580,6 @@
            sd:entailmentRegime ent:RIF ] ;
     mf:result  <rif01.srx> .
 
-:rif02 rdf:type mf:QueryEvaluationTest ;
-    mf:name    "RIF Logical Entailment (referencing RIF in RDF)" ;
-    dawgt:approval dawgt:NotClassified ;
-    mf:action
-         [ qt:query     <rif02.rq> ;
-           qt:data      <rif02.ttl> ;
-           qt:graphData [ qt:graph <rif-in-rdf.ttl>;
-                          rdfs:label "http://example.org/r1" ];
-           sd:entailmentRegime ent:RIF ] ;
-    mf:result  <rif02.srx> .
-
 :rif03 rdf:type mf:QueryEvaluationTest ;
     mf:name    "RIF Core WG tests: Frames" ;
     dawgt:approval dawgt:Approved ;
@@ -613,15 +599,6 @@
            qt:data      <rif04.ttl> ;
            sd:entailmentRegime ent:RIF ] ;
     mf:result  <rif04.srx> .
-
-:rif05 rdf:type mf:QueryEvaluationTest ;
-    mf:name    "RIF Core WG tests: IRI from RDF Literal" ;
-    dawgt:approval dawgt:NotClassified ;
-    mf:action
-         [ qt:query     <rif05.rq> ;
-           qt:data      <rif05.ttl> ;
-           sd:entailmentRegime ent:RIF ] ;
-    mf:result  <rif05.srx> .
 
 :rif06 rdf:type mf:QueryEvaluationTest ;
     mf:name    "RIF Core WG tests: RDF Combination Blank Node" ;

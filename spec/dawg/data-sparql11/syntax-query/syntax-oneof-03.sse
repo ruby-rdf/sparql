@@ -1,2 +1,0 @@
-(filter (in ?o 1 <x>)
-  (bgp (triple ?s ?p ?o)))

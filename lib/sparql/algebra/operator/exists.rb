@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #      (filter (exists (bgp (triple ?s ?p ex:o)))
     #      (bgp (triple ?s ?p ?o))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-filter-exists
+    # @see https://www.w3.org/TR/sparql11-query/#func-filter-exists
     class Exists < Operator::Unary
       include Evaluatable
 

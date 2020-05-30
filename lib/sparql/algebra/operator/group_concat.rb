@@ -13,7 +13,7 @@ module SPARQL; module Algebra
     #            (group () ((??.0 (group_concat ?o)))
     #              (bgp (triple ??.0 :p1 ?o)))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
+    # @see https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
     class GroupConcat < Operator
       include Aggregate
 

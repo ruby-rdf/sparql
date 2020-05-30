@@ -6,8 +6,8 @@ module SPARQL::Grammar
   ##
   # A parser for the SPARQL 1.1 grammar.
   #
-  # @see http://www.w3.org/TR/sparql11-query/#grammar
-  # @see http://en.wikipedia.org/wiki/LR_parser
+  # @see https://www.w3.org/TR/sparql11-query/#grammar
+  # @see https://en.wikipedia.org/wiki/LR_parser
   class Parser
     include SPARQL::Grammar::Meta
     include SPARQL::Grammar::Terminals
@@ -701,9 +701,9 @@ module SPARQL::Grammar
       end
     end
 
-    # [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
+    # [60]  Bind                    ::= 'BIND' '(' (Expression || EmbTP) 'AS' Var ')'
     production(:Bind) do |input, data, callback|
-      add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
+      add_prod_datum :extend, [(data[:Expression] || data[:pattern]).unshift(data[:Var].first)]
     end
 
     # [61]  InlineData	            ::= 'VALUES' DataBlock
@@ -1104,9 +1104,19 @@ module SPARQL::Grammar
       data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
     end
 
+    # [106s]  	VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
+    production(:VarOrTermOrEmbTP) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
+    end
+
     # [107]  	VarOrIri	  ::=  	Var | iri
     production(:VarOrIri) do |input, data, callback|
       data.values.each {|v| add_prod_datum(:VarOrIri, v)}
+    end
+
+    # [107s]  	VarOrBlankNodeOrIriOrEmbTP ::= Var | BlankNode| iri | EmbTP
+    production(:VarOrBlankNodeOrIriOrEmbTP) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrBlankNodeOrIriOrEmbTP, v)}
     end
 
     # [109]  	GraphTerm	  ::=  	iri |	RDFLiteral |	NumericLiteral
@@ -1117,6 +1127,17 @@ module SPARQL::Grammar
                       data[:literal] ||
                       data[:BlankNode] ||
                       data[:NIL])
+    end
+
+    # [1xx] EmbTP ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
+    production(:EmbTP) do |input, data, callback|
+      subject = data[:VarOrBlankNodeOrIriOrEmbTP]
+      predicate = data[:Verb]
+      object = data[:VarOrTerm]
+      add_pattern(:EmbTP,
+                  subject: subject,
+                  predicate: predicate,
+                  object: object)
     end
 
     # [110]  	Expression	  ::=  	ConditionalOrExpression
@@ -1527,8 +1548,8 @@ module SPARQL::Grammar
     # @param [Symbol, #to_s] prod The starting production for the parser.
     #   It may be a URI from the grammar, or a symbol representing the local_name portion of the grammar URI.
     # @return [Array]
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-    # @see http://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
     def parse(prod = START)
       ll1_parse(@input,
         prod.to_sym,

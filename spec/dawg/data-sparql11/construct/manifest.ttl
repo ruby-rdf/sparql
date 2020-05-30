@@ -55,7 +55,8 @@
     dawgt:approval dawgt:Approved ;
     dawgt:approvedBy <http://www.w3.org/2009/sparql/meeting/2011-02-01#resolution_3> ;
     mf:action
-         [ qt:query  <constructwhere04.rq> ] ;
+         [ qt:query  <constructwhere04.rq> ;
+           qt:graphData <data.ttl> ] ;
     mf:result  <constructwhere04result.ttl>
     .
 

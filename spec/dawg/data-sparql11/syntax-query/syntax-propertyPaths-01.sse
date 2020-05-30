@@ -1,3 +1,0 @@
-(prefix ((: <http://www.example.org/>))
-  (project (?X)
-    (path ??0 (alt (alt :p :q) :r) ?X)))

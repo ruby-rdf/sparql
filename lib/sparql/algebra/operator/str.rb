@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (filter (= (str ?v) "1")
     #         (bgp (triple ?x :p ?v)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-str
+    # @see https://www.w3.org/TR/sparql11-query/#func-str
     class Str < Operator::Unary
       include Evaluatable
 

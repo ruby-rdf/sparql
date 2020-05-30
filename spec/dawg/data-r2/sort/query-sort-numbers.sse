@@ -1,7 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (project (?s)
-    (order ((+ ?o1 ?o2))
-      (bgp
-        (triple ?s :p ?o1)
-        (triple ?s :q ?o2)
-      ))))

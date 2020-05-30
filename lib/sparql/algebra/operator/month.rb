@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #         (extend ((?x (month ?date)))
     #           (bgp (triple ?s :date ?date)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-month
+    # @see https://www.w3.org/TR/sparql11-query/#func-month
     class Month < Operator::Unary
       include Evaluatable
 

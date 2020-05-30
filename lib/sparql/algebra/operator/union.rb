@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #       (graph ?g
     #         (bgp (triple ?s ?p ?o)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+    # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Union < Operator::Binary
       include Query
       
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         debug(options) {"Union"}
         @solutions = RDF::Query::Solutions(operands.inject([]) do |memo, op|
@@ -55,13 +55,14 @@ module SPARQL; module Algebra
       end
 
       ##
-      # Returns an optimized version of this query.
+      # Optimizes this query.
       #
       # Optimize operands and remove any which are empty.
       #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        ops = operands.map {|o| o.optimize }.select {|o| o.respond_to?(:empty?) && !o.empty?}
+      # @return [self]
+      # @see SPARQL::Algebra::Expression#optimize!
+      def optimize!(**options)
+        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self
       end

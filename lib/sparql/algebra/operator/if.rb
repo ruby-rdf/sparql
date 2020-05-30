@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #           (extend ((?integer (if (= (lang ?o) "ja") true false)))
     #             (bgp (triple ?s ?p ?o))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-if
+    # @see https://www.w3.org/TR/sparql11-query/#func-if
     class If < Operator::Ternary
       include Evaluatable
       
@@ -39,16 +39,6 @@ module SPARQL; module Algebra
           operand(2).evaluate(bindings, depth: options[:depth].to_i + 1, **options)
         rescue
           raise TypeError
-      end
-      
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
       end
     end # If
   end # Operator

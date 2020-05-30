@@ -7,7 +7,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
-      next unless t.approved?
+      next unless t.action
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
@@ -20,15 +20,20 @@ shared_examples "DAWG" do |id, label, comment, tests|
             pending "figuring out why xsd:boolean doesn't behave according to http://www.w3.org/TR/sparql11-query/#FunctionMapping"
           when /REDUCED/
             skip "REDUCED equivalent to DISTINCT"
+          when 'Strings: Distinct', 'All: Distinct'
+            skip "More compact representation"
           when /sq03/
             pending "Graph variable binding differences"
           when /pp11|pp31/
             pending "Expects multiple equivalent property path solutions"
+          when 'date-1', /dawg-optional-filter-005-not-simplified/
+            pending "Different results on unapproved tests" unless t.approved?
           end
 
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
+                                optimize: true,
                                 form: t.form)
 
           case t.form
@@ -59,7 +64,7 @@ shared_examples "DAWG" do |id, label, comment, tests|
         end
       when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
         it "positive syntax for #{t.entry} - #{t.name} - #{t.comment}" do
-          skip "Spurrious error on Ruby < 2.0" if t.name == 'syntax-bind-02.rq' && RUBY_VERSION < "2.0"
+          skip "Spurrious error on Ruby < 2.0" if t.name == 'syntax-bind-02.rq'
           case t.name
           when 'Basic - Term 7', 'syntax-lit-08.rq'
             skip "Decimal format changed in SPARQL 1.1"
@@ -133,7 +138,7 @@ describe SPARQL do
   before(:each) {$stderr = StringIO.new}
   after(:each) {$stderr = STDERR}
 
-  describe "w3c dawg SPARQL 1.0 tests" do
+  describe "w3c dawg SPARQL 1.0 syntax tests" do
     main_man = SPARQL::Spec::Manifest.open(SPARQL::Spec.sparql1_0_syntax_tests)
     main_man.include.each do |man|
       it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
@@ -163,4 +168,4 @@ describe SPARQL do
       it_behaves_like "DAWG", man.attributes['id'], man.attributes['rdfs:label'], man.attributes['rdfs:comment'] || man.comment, man.entries
     end
   end
-end unless ENV['CI'] && (RUBY_VERSION < "2.0" || RUBY_ENGINE == 'rbx')
+end unless ENV['CI']

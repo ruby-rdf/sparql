@@ -1,5 +1,0 @@
-(prefix ((: <http://www.example.org>))
-  (join
-    (extend ((?o1 (+ 1 ?o)))
-      (bgp (triple :s :p ?o)))
-    (bgp (triple :s :q ?o1))))

@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #         (extend ((?x (timezone ?date)))
     #           (bgp (triple ?s :date ?date)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-timezone
+    # @see https://www.w3.org/TR/sparql11-query/#func-timezone
     class Timezone < Operator::Unary
       include Evaluatable
 

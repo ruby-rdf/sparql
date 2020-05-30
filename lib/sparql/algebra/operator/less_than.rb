@@ -6,11 +6,11 @@ module SPARQL; module Algebra
     # @example
     #   (< ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#OperatorMapping
-    # @see http://www.w3.org/TR/xpath-functions/#func-compare
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-less-than
-    # @see http://www.w3.org/TR/xpath-functions/#func-boolean-less-than
-    # @see http://www.w3.org/TR/xpath-functions/#func-dateTime-less-than
+    # @see https://www.w3.org/TR/sparql11-query/#OperatorMapping
+    # @see https://www.w3.org/TR/xpath-functions/#func-compare
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-less-than
+    # @see https://www.w3.org/TR/xpath-functions/#func-boolean-less-than
+    # @see https://www.w3.org/TR/xpath-functions/#func-dateTime-less-than
     class LessThan < Compare
       NAME = :<
 

@@ -6,7 +6,7 @@ module SPARQL; module Algebra
     # @example
     #   (notoneof ex:p1 ex:p2)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#eval_negatedPropertySet
+    # @see https://www.w3.org/TR/sparql11-query/#eval_negatedPropertySet
     class NotOneOf < Operator
       include Query
       
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       #   each matching solution
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
-      # @see    http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
+      # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         debug(options) {"NotOneOf #{operands.to_sse}"}
         subject, object = options[:subject], options[:object]

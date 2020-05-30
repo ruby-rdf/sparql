@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (strafter ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-strafter
-    # @see http://www.w3.org/TR/xpath-functions/#func-substring-after
+    # @see https://www.w3.org/TR/sparql11-query/#func-strafter
+    # @see https://www.w3.org/TR/xpath-functions/#func-substring-after
     class StrAfter < Operator::Binary
       include Evaluatable
 

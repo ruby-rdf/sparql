@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     #       (filter (isNumeric ?v)
     #         (bgp (triple ?x :p ?v)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-isNumeric
+    # @see https://www.w3.org/TR/sparql11-query/#func-isNumeric
     class IsNumeric < Operator::Unary
       include Evaluatable
 

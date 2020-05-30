@@ -1,4 +1,0 @@
-(update
- (modify (bgp)
- (delete ((triple <:a <http://example.org/p> 12)
-          (triple _:a <http://example.org/q> _:b)))))

@@ -1,2 +1,0 @@
-(prefix ((UNION: <http://example.org/ns#>))
-  (bgp (triple ?x UNION:foo ?z)))

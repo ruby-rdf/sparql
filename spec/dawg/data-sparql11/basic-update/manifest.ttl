@@ -7,7 +7,8 @@
 @prefix sd:      <http://www.w3.org/ns/sparql-service-description#> .
 
 <>  rdf:type mf:Manifest ;
-    rdfs:label "Basic SPARQL 1.1 Update test cases" ;
+    rdfs:label "Basic Update" ;
+    rdfs:comment "Basic SPARQL 1.1 Update test cases" ;
     mf:entries
     ( 
       :insert-data-spo1
@@ -164,24 +165,6 @@
                                rdfs:label "http://example.org/g2" ] ;
             ] ;
     .
-
-# 2012-07-10: :insert-05 was removed from the manifest list (in favor of :insert-05a) as mf:result isn't able to properly capture the situation of a bnode being shared across graphs in the expected resulting graph store state.
-# :insert-05 a mf:UpdateEvaluationTest ;
-#    mf:name "INSERT same bnode twice" ; 
-#    rdfs:comment "As per http://lists.w3.org/Archives/Public/public-rdf-dawg/2012AprJun/0165.html. Tests whether inserting the same triples from the same source graph into the same target graph twice is idempotent, even in the presence of blank nodes. Note that this doesn't imply that blank nodes are actually shared across graphs, but only that the two graphs remain equivalent, cf. http://lists.w3.org/Archives/Public/public-rdf-dawg/2012JulSep/0009.html" ; 
-#    dawgt:approval dawgt:NotClassified ;
-#    mf:action [
-#                 ut:request <insert-05.ru> ;
-#                 ut:graphData [ ut:graph <insert-05-g1-pre.ttl> ;
-#                                rdfs:label "http://example.org/g1" ] ;
-#              ] ;
-#    mf:result [
-#                 ut:graphData [ ut:graph <insert-05-g1-pre.ttl> ;
-#                                rdfs:label "http://example.org/g1" ] ;
-#                 ut:graphData [ ut:graph <insert-05-g1-pre.ttl> ;
-#                                rdfs:label "http://example.org/g2" ] ;
-#              ] ;
-#  .   
 
 :insert-05a a mf:UpdateEvaluationTest ;
    mf:name "INSERT same bnode twice" ; 

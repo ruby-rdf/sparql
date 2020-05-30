@@ -7,7 +7,7 @@
 @prefix sd:     <http://www.w3.org/ns/sparql-service-description#> .
 
 <>  rdf:type mf:Manifest ;
-    rdfs:comment "Service" ;
+    rdfs:label "SPARQL Service Description" ;
     mf:entries
     (
 		:has-endpoint-triple

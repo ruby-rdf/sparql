@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     # @example
     #   (insert ((triple ?s ?p "q")))
     #
-    # @see http://www.w3.org/TR/sparql11-update/#insert
+    # @see https://www.w3.org/TR/sparql11-update/#insert
     class Insert < Operator::Unary
       include SPARQL::Algebra::Update
 
@@ -20,7 +20,7 @@ module SPARQL; module Algebra
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
-      # @param  [RDF::Query::Solution] :solutions
+      # @param  [RDF::Query::Solutions] solutions
       #   Solution to map to patterns for this operation
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
@@ -30,7 +30,7 @@ module SPARQL; module Algebra
       #   Returns queryable.
       # @raise [IOError]
       #   If `from` does not exist, unless the `silent` operator is present
-      # @see    http://www.w3.org/TR/sparql11-update/
+      # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, solutions: nil, **options)
         # Only binds the first solution
         solution = solutions.is_a?(RDF::Query::Solutions) ? solutions.first : solutions

@@ -55,33 +55,30 @@
       "@type": "@id"
     }
   },
-  "@graph": [
+  "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest.ttl",
+  "type": "mf:Manifest",
+  "comment": "Syntax tests syntax-sparql5",
+  "rdfs:label": "Syntax 5",
+  "entries": [
     {
-      "comment": "Syntax tests syntax-sparql5",
-      "entries": [
-        {
-          "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-01.rq",
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest#syntax-reduced-01",
-          "name": "syntax-reduced-01.rq",
-          "type": "mf:PositiveSyntaxTest"
-        },
-        {
-          "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-02.rq",
-          "approval": "dawgt:Approved",
-          "dawgt:approvedBy": {
-            "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
-          },
-          "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest#syntax-reduced-02",
-          "name": "syntax-reduced-02.rq",
-          "type": "mf:PositiveSyntaxTest"
-        }
-      ],
-      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest.ttl",
-      "type": "mf:Manifest"
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest#syntax-reduced-01",
+      "type": "mf:PositiveSyntaxTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
+      },
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-01.rq",
+      "name": "syntax-reduced-01.rq"
+    },
+    {
+      "id": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/manifest#syntax-reduced-02",
+      "type": "mf:PositiveSyntaxTest",
+      "approval": "dawgt:Approved",
+      "dawgt:approvedBy": {
+        "id": "http://lists.w3.org/Archives/Public/public-rdf-dawg/2007OctDec/att-0069/13-dawg-minutes.html"
+      },
+      "action": "http://www.w3.org/2001/sw/DataAccess/tests/data-r2/syntax-sparql5/syntax-reduced-02.rq",
+      "name": "syntax-reduced-02.rq"
     }
   ]
 }

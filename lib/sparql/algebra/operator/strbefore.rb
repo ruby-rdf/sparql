@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (strbefore ?x ?y)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-strbefore
-    # @see http://www.w3.org/TR/xpath-functions/#func-substring-before
+    # @see https://www.w3.org/TR/sparql11-query/#func-strbefore
+    # @see https://www.w3.org/TR/xpath-functions/#func-substring-before
     class StrBefore < Operator::Binary
       include Evaluatable
 

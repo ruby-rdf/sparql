@@ -1,6 +1,7 @@
 (
  (rule _empty "0" (seq))
  (rule QueryUnit "1" (cleanup opt) (alt _empty Query))
+ (rule EmbTP "1xxs" (seq "<<" VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP ">>"))
  (rule Query "2" (seq Prologue _Query_1))
  (rule _Query_1 "2.1" (alt SelectQuery ConstructQuery DescribeQuery AskQuery))
  (rule UpdateUnit "3" (seq Update))
@@ -178,7 +179,8 @@
  (rule ServiceGraphPattern "59"
   (seq "SERVICE" _ServiceGraphPattern_1 VarOrIri GroupGraphPattern))
  (rule _ServiceGraphPattern_1 "59.1" (cleanup opt) (alt _empty "SILENT"))
- (rule Bind "60" (seq "BIND" "(" Expression "AS" Var ")"))
+ (rule Bind "60" (seq "BIND" "(" _Bind_1 "AS" Var ")"))
+ (rule _Bind_1 "60.1" (alt Expression EmbTP))
  (rule InlineData "61" (seq "VALUES" DataBlock))
  (rule DataBlock "62" (alt InlineDataOneVar InlineDataFull))
  (rule InlineDataOneVar "63" (seq Var "{" _InlineDataOneVar_1 "}"))
@@ -187,10 +189,10 @@
   (cleanup merge)
   (seq DataBlockValue _InlineDataOneVar_1))
  (rule InlineDataFull "64" (seq _InlineDataFull_1 "{" _InlineDataFull_2 "}"))
- (rule _InlineDataFull_1 "64.1" (alt NIL _InlineDataFull_3))
  (rule _InlineDataFull_10 "64.10"
   (cleanup merge)
   (seq DataBlockValue _InlineDataFull_9))
+ (rule _InlineDataFull_1 "64.1" (alt NIL _InlineDataFull_3))
  (rule _InlineDataFull_2 "64.2" (cleanup star) (alt _empty _InlineDataFull_7))
  (rule _InlineDataFull_3 "64.3" (seq "(" _InlineDataFull_4 ")"))
  (rule _InlineDataFull_4 "64.4" (cleanup star) (alt _empty _InlineDataFull_5))
@@ -236,7 +238,7 @@
  (rule _ConstructTriples_2 "74.2" (seq "." _ConstructTriples_3))
  (rule _ConstructTriples_3 "74.3" (cleanup opt) (alt _empty ConstructTriples))
  (rule TriplesSameSubject "75" (alt _TriplesSameSubject_1 _TriplesSameSubject_2))
- (rule _TriplesSameSubject_1 "75.1" (seq VarOrTerm PropertyListNotEmpty))
+ (rule _TriplesSameSubject_1 "75.1" (seq VarOrTermOrEmbTP PropertyListNotEmpty))
  (rule _TriplesSameSubject_2 "75.2" (seq TriplesNode PropertyList))
  (rule PropertyList "76" (cleanup opt) (alt _empty PropertyListNotEmpty))
  (rule PropertyListNotEmpty "77" (seq Verb ObjectList _PropertyListNotEmpty_1))
@@ -259,7 +261,8 @@
  (rule Object "80" (seq GraphNode))
  (rule TriplesSameSubjectPath "81"
   (alt _TriplesSameSubjectPath_1 _TriplesSameSubjectPath_2))
- (rule _TriplesSameSubjectPath_1 "81.1" (seq VarOrTerm PropertyListPathNotEmpty))
+ (rule _TriplesSameSubjectPath_1 "81.1"
+  (seq VarOrTermOrEmbTP PropertyListPathNotEmpty))
  (rule _TriplesSameSubjectPath_2 "81.2" (seq TriplesNodePath PropertyListPath))
  (rule PropertyListPath "82" (cleanup opt) (alt _empty PropertyListPathNotEmpty))
  (rule PropertyListPathNotEmpty "83"
@@ -338,9 +341,11 @@
  (rule _CollectionPath_2 "103.2" (cleanup star) (alt _empty _CollectionPath_3))
  (rule _CollectionPath_3 "103.3" (cleanup merge) (seq GraphNodePath _CollectionPath_2))
  (rule GraphNode "104" (alt VarOrTerm TriplesNode))
- (rule GraphNodePath "105" (alt VarOrTerm TriplesNodePath))
+ (rule GraphNodePath "105" (alt VarOrTermOrEmbTP TriplesNodePath))
+ (rule VarOrTermOrEmbTP "106s" (alt Var GraphTerm EmbTP))
  (rule VarOrTerm "106" (alt Var GraphTerm))
  (rule VarOrIri "107" (alt Var iri))
+ (rule VarOrBlankNodeOrIriOrEmbTP "107s" (alt Var BlankNode iri EmbTP))
  (rule Var "108" (alt VAR1 VAR2))
  (rule GraphTerm "109"
   (alt iri RDFLiteral NumericLiteral BooleanLiteral BlankNode NIL))
@@ -456,8 +461,8 @@
  (rule _BuiltInCall_27 "121.27" (seq "HOURS" "(" Expression ")"))
  (rule _BuiltInCall_28 "121.28" (seq "MINUTES" "(" Expression ")"))
  (rule _BuiltInCall_29 "121.29" (seq "SECONDS" "(" Expression ")"))
- (rule _BuiltInCall_3 "121.3" (seq "LANGMATCHES" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_30 "121.30" (seq "TIMEZONE" "(" Expression ")"))
+ (rule _BuiltInCall_3 "121.3" (seq "LANGMATCHES" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_31 "121.31" (seq "TZ" "(" Expression ")"))
  (rule _BuiltInCall_32 "121.32" (seq "NOW" NIL))
  (rule _BuiltInCall_33 "121.33" (seq "UUID" NIL))

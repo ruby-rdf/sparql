@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #         (extend ((?x (tz ?date)))
     #           (bgp (triple ?s :date ?date)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-tz
+    # @see https://www.w3.org/TR/sparql11-query/#func-tz
     class TZ < Operator::Unary
       include Evaluatable
 

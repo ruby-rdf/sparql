@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #          (group () ((??.0 (count ?O)))
     #            (bgp (triple ?S ?P ?O))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_aggCount
+    # @see https://www.w3.org/TR/sparql11-query/#defn_aggCount
     class Count < Operator
       include Aggregate
 

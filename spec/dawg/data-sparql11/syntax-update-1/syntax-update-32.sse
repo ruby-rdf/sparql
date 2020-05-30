@@ -1,9 +1,0 @@
-(base <base:>
-  (prefix ((: <http://example/>))
-    (update
-      (modify
-        (with :g
-          (using (<base:g1> <base:g2> (named :gn1) (named :gn2))
-            (bgp (triple ?s ?p ?o)))
-          (delete ((triple <s> ?p ?o)))
-          (insert ((triple ?s ?p <#o>))))))))

@@ -14,7 +14,7 @@ module SPARQL; module Algebra
     #           (triple ?s :q ?w)
     #         ))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#evaluation
+    # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Exprlist < Operator
       include Evaluatable
 
@@ -39,16 +39,6 @@ module SPARQL; module Algebra
       def evaluate(bindings, **options)
         res = operands.all? {|op| boolean(op.evaluate(bindings, depth: options[:depth].to_i + 1, **options)).true? }
         RDF::Literal(res) # FIXME: error handling
-      end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return [Union, RDF::Query] `self`
-      def optimize
-        operands = operands.map(&:optimize)
       end
     end # Exprlist
   end # Operator

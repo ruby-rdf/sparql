@@ -1,3 +1,0 @@
-(base <http://example.org/>
-  (prefix ((: <#>))
-    (bgp (triple :x :p "Long \"\" Literal"))))

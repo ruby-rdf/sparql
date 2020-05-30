@@ -146,8 +146,6 @@ module SPARQL; module Algebra
     autoload :Using,              'sparql/algebra/operator/using'
     autoload :With,               'sparql/algebra/operator/with'
 
-
-
     ##
     # Returns an operator class for the given operator `name`.
     #
@@ -358,6 +356,22 @@ module SPARQL; module Algebra
     end
 
     ##
+    # Deep duplicate operands
+    def dup
+      self.class.new(*operands.map(&:dup))
+    end
+
+    ##
+    # Binds the pattern to a solution, making it no longer variable if all variables are resolved to bound variables
+    #
+    # @param [RDF::Query::Solution] solution
+    # @return [self]
+    def bind(solution)
+      @operands.each {|op| op.bind(solution)}
+      self
+    end
+
+    ##
     # Base URI used for reading data sources with relative URIs
     #
     # @return [RDF::URI]
@@ -434,7 +448,7 @@ module SPARQL; module Algebra
     # @return [Boolean] `true` or `false`
     # @see    #constant?
     def variable?
-      operands.any?(&:variable?)
+      operands.any? {|op| op.respond_to?(:variable?) && op.variable?}
     end
 
     ##
@@ -491,21 +505,35 @@ module SPARQL; module Algebra
     #
     # For constant expressions containing no variables, returns the result
     # of evaluating the expression with empty bindings; otherwise returns
-    # `self`.
+    # a copy of `self`.
     #
     # Optimization is not possible if the expression raises an exception,
     # such as a `TypeError` or `ZeroDivisionError`, which must be conserved
     # at runtime.
     #
     # @return [SPARQL::Algebra::Expression]
-    def optimize
+    # @see    RDF::Query#optimize
+    def optimize(**options)
       if constant?
         # Note that if evaluation results in a `TypeError` or other error,
         # we must return `self` so that the error is conserved at runtime:
         evaluate(RDF::Query::Solution.new) rescue self
       else
-        super # returns `self`
+        super # returns a copy of `self`
       end
+    end
+
+    ##
+    # Optimizes this query by optimizing its constituent operands
+    # according to their cost estimates.
+    #
+    # @return [self]
+    # @see    RDF::Query#optimize!
+    def optimize!(**options)
+      @operands.map! do |op|
+        op.optimize(**options) if op.respond_to?(:optimize)
+      end
+      self
     end
 
     ##
@@ -532,7 +560,7 @@ module SPARQL; module Algebra
     # Returns the SPARQL S-Expression (SSE) representation of this operator.
     #
     # @return [Array]
-    # @see    http://openjena.org/wiki/SSE
+    # @see    https://openjena.org/wiki/SSE
     def to_sxp_bin
       operator = [self.class.const_get(:NAME)].flatten.first
       [operator, *(operands || []).map(&:to_sxp_bin)]
@@ -544,7 +572,7 @@ module SPARQL; module Algebra
     # @return [String]
     def to_sxp
       begin
-        require 'sxp' # @see http://rubygems.org/gems/sxp
+        require 'sxp' # @see https://rubygems.org/gems/sxp
       rescue LoadError
         abort "SPARQL::Algebra::Operator#to_sxp requires the SXP gem (hint: `gem install sxp')."
       end
@@ -647,7 +675,7 @@ module SPARQL; module Algebra
     # @param  [RDF::Literal] literal
     # @return [RDF::Literal::Boolean] `true` or `false`
     # @raise  [TypeError] if the literal could not be coerced to an `RDF::Literal::Boolean`
-    # @see    http://www.w3.org/TR/sparql11-query/#ebv
+    # @see    https://www.w3.org/TR/sparql11-query/#ebv
     def boolean(literal)
       case literal
         when FalseClass then RDF::Literal::FALSE

@@ -1,3 +1,0 @@
-(project (?Z)
-  (extend ((?Z (+ ?o 1)))
-    (bgp (triple ?s ?p ?o))))

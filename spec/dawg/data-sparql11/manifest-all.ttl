@@ -38,8 +38,19 @@
 		<syntax-fed/manifest.ttl>
 		<service-description/manifest.ttl>
 		<protocol/manifest.ttl>
-	).
-
+		<http-rdf-update/manifest.ttl>
+	) ;
+	mf:includedSpecifications (
+		<http://www.w3.org/TR/sparql11-query/>
+		<http://www.w3.org/TR/sparql11-update/>
+		<http://www.w3.org/TR/sparql11-results-csv-tsv/>
+		<http://www.w3.org/TR/sparql11-results-json/>
+		<http://www.w3.org/TR/sparql11-federated-query/>
+		<http://www.w3.org/TR/sparql11-entailment/>
+		<http://www.w3.org/TR/sparql11-service-description/>
+		<http://www.w3.org/TR/sparql11-protocol/>
+		<http://www.w3.org/TR/sparql11-http-rdf-update/>
+	) .
 
 <http://www.w3.org/TR/sparql11-query/> rdfs:label "SPARQL 1.1 Query Language" ;
 	mf:conformanceRequirement (
@@ -103,4 +114,9 @@
 <http://www.w3.org/TR/sparql11-protocol/> rdfs:label "SPARQL 1.1 Protocol" ;
 	mf:conformanceRequirement (
 		<protocol/manifest.ttl>
+	).
+
+<http://www.w3.org/TR/sparql11-http-rdf-update/> rdfs:label "SPARQL 1.1 Graph Store HTTP Protocol" ;
+	mf:conformanceRequirement (
+		<http-rdf-update/manifest.ttl>
 	).

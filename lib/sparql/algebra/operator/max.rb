@@ -10,7 +10,7 @@ module SPARQL; module Algebra
     #          (group () ((??.0 (max ?o)))
     #            (bgp (triple ?s ?p ?o))))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#defn_aggMax
+    # @see https://www.w3.org/TR/sparql11-query/#defn_aggMax
     class Max < Operator
       include Aggregate
 

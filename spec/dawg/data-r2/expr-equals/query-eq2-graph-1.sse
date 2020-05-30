@@ -1,7 +1,0 @@
-(prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
-         (: <http://example.org/things#>))
-  (project (?x1 ?x2 ?v)
-    (bgp
-      (triple ?x1 :p ?v)
-      (triple ?x2 :p ?v)
-    )))

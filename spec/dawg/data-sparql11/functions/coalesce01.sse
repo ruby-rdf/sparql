@@ -1,7 +1,0 @@
-(prefix ((: <http://example.org/>)
-         (xsd: <http://www.w3.org/2001/XMLSchema#>))
-  (project (?cx ?div ?def ?err)
-    (extend ((?cx (coalesce ?x -1)) (?div (coalesce (/ ?o ?x) -2)) (?def (coalesce ?z -3)) (?err (coalesce ?z)))
-      (leftjoin
-        (bgp (triple ?s :p ?o))
-        (bgp (triple ?s :q ?x))))))

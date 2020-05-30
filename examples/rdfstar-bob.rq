@@ -1,0 +1,8 @@
+PREFIX : <http://bigdata.com>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX ex:  <http://example.org/>
+
+SELECT ?age ?c WHERE {
+   ?bob foaf:name "Bob" .
+   <<?bob foaf:age ?age>> ex:certainty ?c .
+}

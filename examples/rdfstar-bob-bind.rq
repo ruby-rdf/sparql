@@ -1,0 +1,8 @@
+PREFIX : <http://bigdata.com>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+
+SELECT ?a ?b ?c WHERE {
+   ?bob foaf:name "Bob" .
+   BIND( <<?bob foaf:age ?age>> AS ?a ) .
+   ?a ?b ?c .
+}

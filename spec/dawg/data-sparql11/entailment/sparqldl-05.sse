@@ -1,3 +1,0 @@
-(prefix ((: <http://example.org/test#>)
-         (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
-  (bgp (triple ??0 rdf:type :Person)))

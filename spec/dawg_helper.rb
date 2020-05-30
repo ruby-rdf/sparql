@@ -125,8 +125,8 @@ module SPARQL
     def self.convert_manifest(manifest_uri, save=false)
       puts "Convert #{manifest_uri}"
       g = RDF::Repository.load(manifest_uri)
-      JSON::LD::API.fromRDF(g) do |expanded|
-        JSON::LD::API.frame(expanded, FRAME) do |man|
+      JSON::LD::API.fromRdf(g) do |expanded|
+        JSON::LD::API.frame(expanded, FRAME, ordered: true) do |man|
           includes = Array(man["include"]).dup if man.has_key?("include")
 
           if save
@@ -134,10 +134,10 @@ module SPARQL
               sub(%r{^(#{SPARQL::Spec::BASE_URI_10}|#{SPARQL::Spec::BASE_URI_11})}, BASE_DIRECTORY).
               sub(".ttl", ".jsonld")
             File.open(local_man, "w") do |f|
-              f.puts framed.to_json(::JSON::LD::JSON_STATE)
+              f.puts man.to_json(::JSON::LD::JSON_STATE)
             end
           else
-            puts framed.to_json(::JSON::LD::JSON_STATE)
+            puts man.to_json(::JSON::LD::JSON_STATE)
           end
 
           # Recurse into sub-manifests

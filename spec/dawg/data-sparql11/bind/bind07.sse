@@ -1,9 +1,0 @@
-(prefix ((: <http://example.org/>))
-  (project (?s ?p ?o ?z)
-    (join
-      (bgp (triple ?s ?p ?o))
-      (union
-        (extend ((?z (+ ?o 1)))
-          (bgp))
-        (extend ((?z (+ ?o 2)))
-          (bgp))))))

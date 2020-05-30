@@ -43,7 +43,7 @@ module RDF::Queryable
   # @yieldreturn [void] ignored
   # @return [RDF::Graph]
   #
-  # @see http://www.w3.org/Submission/CBD/
+  # @see https://www.w3.org/Submission/CBD/
   def concise_bounded_description(*terms, &block)
     options = terms.last.is_a?(Hash) ? terms.pop.dup : {}
 

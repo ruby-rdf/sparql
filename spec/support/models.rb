@@ -8,7 +8,7 @@ module SPARQL; module Spec
       #puts "open: #{file}"
       RDF::Util::File.open_file(file) do |f|
         hash = ::JSON.load(f.read)
-        Manifest.new(hash['@graph'].first, graph_name: hash['@context'])
+        Manifest.new(hash, graph_name: hash['@context'])
       end
     end
 
@@ -146,23 +146,6 @@ module SPARQL; module Spec
       RDF::Util::File.open_file(query_file, &:read)
     end
 
-    def sse_file
-      file = query_file.to_s.
-        sub(BASE_URI_11, BASE_DIRECTORY).
-        sub(/\.ru$/, ".sse")
-
-      # Use alternate file for RDF 1.1
-      if RDF::VERSION.to_s >= "1.1"
-        file_11 = file.sub(".sse", "_11.sse")
-        file = file_11 if File.exist?(file_11)
-      end
-      RDF::URI(file)
-    end
-  
-    def sse_string
-      IO.read(sse_file.path)
-    end
-
     #def to_hash
     #  super.merge(request: request, sse: sse_string, query: query_string)
     #end
@@ -198,7 +181,7 @@ module SPARQL; module Spec
     def graphs
       @graphs ||= begin
         graphs = []
-        graphs << {data: action.test_data_string, format: RDF::Format.for(action.test_data.to_s.to_s).to_sym} if action.test_data
+        graphs << {data: action.test_data_string, format: RDF::Format.for(action.test_data.to_s).to_sym} if action.test_data
         graphs + action.graphData.map do |g|
           {
             data: RDF::Util::File.open_file(g, &:read),
@@ -259,7 +242,7 @@ module SPARQL; module Spec
 
     def parse_rdf_bindings(graph)
       JSON::LD::API.fromRDF(graph) do |expanded|
-        JSON::LD::API.frame(expanded, RESULT_FRAME, pruneBlankNodeIdentifiers: false) do |framed|
+        JSON::LD::API.frame(expanded, RESULT_FRAME, ordered: true, pruneBlankNodeIdentifiers: false) do |framed|
           nodes = {}
           solution = framed['solution'] if framed.has_key?('solution')
           solutions = Array(solution).
@@ -301,6 +284,10 @@ module SPARQL; module Spec
       end
       super
     end
+
+    def query_string
+      RDF::Util::File.open_file(property('action'), &:read)
+    end
   end
 
   class QueryAction < ::JSON::LD::Resource
@@ -310,24 +297,6 @@ module SPARQL; module Spec
 
     def query_string
       RDF::Util::File.open_file(query_file, &:read)
-    end
-
-    def sse_file
-      file = query_file.to_s.
-        sub(BASE_URI_10, BASE_DIRECTORY).
-        sub(BASE_URI_11, BASE_DIRECTORY).
-        sub(/\.r[qu]$/, ".sse")
-
-      # Use alternate file for RDF 1.1
-      if RDF::VERSION.to_s >= "1.1"
-        file_11 = file.sub(".sse", "_11.sse")
-        file = file_11 if File.exist?(file_11)
-      end
-      RDF::URI(file)
-    end
-  
-    def sse_string
-      IO.read(sse_file.path)
     end
 
     def test_data_string

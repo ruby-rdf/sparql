@@ -3,14 +3,14 @@ require 'sparql/extensions'
 ##
 # A SPARQL for RDF.rb.
 #
-# @see http://www.w3.org/TR/sparql11-query
+# @see https://www.w3.org/TR/sparql11-query
 module SPARQL
   autoload :Algebra, 'sparql/algebra'
   autoload :Grammar, 'sparql/grammar'
   autoload :Results, 'sparql/results'
   autoload :VERSION, 'sparql/version'
 
-  # @see http://rubygems.org/gems/sparql-client
+  # @see https://rubygems-client
   autoload :Client,  'sparql/client'
 
   ##
@@ -52,12 +52,13 @@ module SPARQL
   #   results = SPARQL.execute("SELECT * WHERE { ?s ?p ?o }", repository)
   #
   # @param  [IO, StringIO, String, #to_s]  query
+  # @param  [RDF::Queryable]  queryable
   # @param  [Hash{Symbol => Object}] options
-  # @option options  [RDF::Queryable]  :queryable
-  # @option options [RDF::URI, String, Array<RDF::URI, String>] :load_datasets
-  #   One or more URIs used to initialize a new instance of `queryable` in the default graph.
+  # @option options [Boolean] :optimize
+  #   Optimize query before execution.
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :default_graph_uri
-  #   One or more URIs used to initialize a new instance of `queryable` in the default graph.
+  # @option options [RDF::URI, String, Array<RDF::URI, String>] :load_datasets
+  #   One or more URIs used to initialize a new instance of `queryable` in the default graph. One or more URIs used to initialize a new instance of `queryable` in the default graph.
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :named_graph_uri
   #   One or more URIs used to initialize the `queryable` as a named graph.
   # @yield  [solution]
@@ -69,6 +70,7 @@ module SPARQL
   # @raise  [SPARQL::MalformedQuery] on invalid input
   def self.execute(query, queryable, **options, &block)
     query = self.parse(query, **options)
+    query = query.optimize(**options) if options[:optimize]
     queryable = queryable || RDF::Repository.new
     
     case options.fetch(:debug, nil)

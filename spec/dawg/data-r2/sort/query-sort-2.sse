@@ -1,4 +1,0 @@
-(prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
-  (project (?name)
-    (order ((desc ?name))
-      (bgp (triple ?x foaf:name ?name)))))

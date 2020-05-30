@@ -10,8 +10,8 @@ module SPARQL; module Algebra
     #         (extend ((?new (replace ?str "[^a-z0-9]" "-")))
     #           (bgp (triple ?s :str ?str)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#funcex-replace
-    # @see http://www.w3.org/TR/xpath-functions/#func-replace
+    # @see https://www.w3.org/TR/sparql11-query/#funcex-replace
+    # @see https://www.w3.org/TR/xpath-functions/#func-replace
     class Replace < Operator::Quaternary
       include Evaluatable
 
@@ -72,7 +72,7 @@ module SPARQL; module Algebra
       # Remove the optional argument.
       #
       # @return [Array] `self`
-      # @see    http://openjena.org/wiki/SSE
+      # @see    https://openjena.org/wiki/SSE
       def to_sxp_bin
         [NAME] + operands.reject {|o| o.to_s == ""}
       end

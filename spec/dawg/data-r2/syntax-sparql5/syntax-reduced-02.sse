@@ -1,3 +1,0 @@
-(reduced
-  (project (?x ?y)
-    (bgp (triple ?x ?y ?z))))

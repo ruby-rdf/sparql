@@ -1,1 +1,0 @@
-(ask (filter (notin 2) (bgp)))

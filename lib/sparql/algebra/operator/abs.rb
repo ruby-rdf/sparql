@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # @example
     #   (abs ?x)
     #
-    # @see http://www.w3.org/TR/sparql11-query/#func-abs
-    # @see http://www.w3.org/TR/xpath-functions/#func-abs
+    # @see https://www.w3.org/TR/sparql11-query/#func-abs
+    # @see https://www.w3.org/TR/xpath-functions/#func-abs
     class Abs < Operator::Unary
       include Evaluatable
 

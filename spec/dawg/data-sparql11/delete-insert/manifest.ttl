@@ -7,6 +7,7 @@
 @prefix ut:     <http://www.w3.org/2009/sparql/tests/test-update#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label "DELETE INSERT" ;
     rdfs:comment "Tests for SPARQL UPDATE" ;
     mf:entries
     (

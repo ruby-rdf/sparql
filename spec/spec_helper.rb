@@ -38,7 +38,7 @@ RSpec.configure do |config|
 end
 
 # Create and maintain a cache of downloaded URIs
-URI_CACHE = File.expand_path(File.join(File.dirname(__FILE__), "uri-cache"))
+URI_CACHE = File.expand_path("../uri-cache", __FILE__)
 Dir.mkdir(URI_CACHE) unless File.directory?(URI_CACHE)
 OpenURI::Cache.class_eval { @cache_path = URI_CACHE }
 
@@ -132,5 +132,6 @@ def sparql_query(opts)
     SPARQL.parse(query_str, **query_opts)
   end
 
+  query = query.optimize if opts[:optimize]
   repo.query(query, debug: opts[:debug] || !!ENV['EXEC_DEBUG'])
 end

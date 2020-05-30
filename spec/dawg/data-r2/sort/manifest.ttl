@@ -6,6 +6,7 @@
 @prefix dawgt:   <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
 
 <>  rdf:type mf:Manifest ;
+    rdfs:label "SORT" ;
     rdfs:comment "Sorting test cases." ;
     mf:entries
     ( :dawg-sort-1 :dawg-sort-2 :dawg-sort-3 :dawg-sort-4

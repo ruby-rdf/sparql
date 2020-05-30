@@ -5,7 +5,7 @@ module SPARQL; module Algebra
     #   (- ?x ?y)
     #   (subtract ?x ?y)
     #
-    # @see http://www.w3.org/TR/xpath-functions/#func-numeric-subtract
+    # @see https://www.w3.org/TR/xpath-functions/#func-numeric-subtract
     class Subtract < Operator::Binary
       include Evaluatable
 

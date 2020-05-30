@@ -8,7 +8,7 @@ module Sinatra
   #
   # To override negotiation on Content-Type, set :format in `sparql_options` to a RDF Format class, or symbol identifying a format.
   #
-  # @see http://www.sinatrarb.com/extensions.html
+  # @see https://www.sinatrarb.com/extensions.html
   module SPARQL
     ##
     # Helper methods.
@@ -25,8 +25,8 @@ module Sinatra
       #   URI of the service endpoint, defaults to "/sparql" in the current realm.
       # @return [RDF::Graph]
       #
-      # @see http://www.w3.org/TR/sparql11-service-description
-      # @see http://www.w3.org/TR/void/
+      # @see https://www.w3.org/TR/sparql11-service-description
+      # @see https://www.w3.org/TR/void/
       def service_description(**options)
         repository = options[:repository]
 

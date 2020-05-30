@@ -11,7 +11,7 @@ module SPARQL; module Algebra
     #       (extend ((?z (+ ?o 10)))
     #         (bgp (triple ?s <http://example/p> ?o)))))
     #
-    # @see http://www.w3.org/TR/sparql11-query/#evaluation
+    # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Extend < Operator::Binary
       include Query
       
@@ -28,6 +28,12 @@ module SPARQL; module Algebra
       # 
       # Extend(Ω, var, expr) = { Extend(μ, var, expr) | μ in Ω }
       #
+      # For SPARQL*, expr may be an embedded tiple pattern
+      #
+      #    (extend
+      #     ((?t (triple ?bob foaf:age ?age)))
+      #     (bgp (triple ?t dct:source ?src)))
+      #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
@@ -38,7 +44,7 @@ module SPARQL; module Algebra
       # @yieldreturn [void] ignored
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
-      # @see http://www.w3.org/TR/sparql11-query/#evaluation
+      # @see https://www.w3.org/TR/sparql11-query/#evaluation
       def execute(queryable, **options, &block)
         debug(options) {"Extend"}
         @solutions = operand(1).execute(queryable, depth: options[:depth].to_i + 1, **options)
@@ -50,7 +56,12 @@ module SPARQL; module Algebra
                                             depth: options[:depth].to_i + 1,
                                             **options)
               debug(options) {"===> + #{var} => #{val.inspect}"}
-              solution.bindings[var.to_sym] = val
+              solution.bindings[var.to_sym] = if val.is_a?(RDF::Query::Pattern)
+                # Variable is bound to the solution
+                val.bind(solution)
+              else
+                val
+              end
             rescue TypeError => e
               # Evaluates to error, ignore
               debug(options) {"===> #{var} error: #{e.message}"}
@@ -71,16 +82,6 @@ module SPARQL; module Algebra
                "bound variable used in query: #{(bind_vars.compact & query_vars.compact).to_sse}"
         end
         super
-      end
-
-      ##
-      # Returns an optimized version of this query.
-      #
-      # Return optimized query
-      #
-      # @return FIXME
-      def optimize
-        operands = operands.map(&:optimize)
       end
     end # Filter
   end # Operator
