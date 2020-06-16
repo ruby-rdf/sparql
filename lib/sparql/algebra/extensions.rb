@@ -34,7 +34,14 @@ class Object
   # @return [Object] a copy of `self`
   # @see SPARQL::Algebra::Expression#optimize
   def optimize(**options)
-    self.dup
+    self.deep_dup
+  end
+
+  ##
+  # Default for deep_dup is shallow dup
+  # @return [Object]
+  def deep_dup
+    dup
   end
 end
 
@@ -201,8 +208,8 @@ class Array
 
   ##
   # Deep duplicate
-  def dup
-    map(&:dup)
+  def deep_dup
+    map(&:deep_dup)
   end
 end
 
@@ -224,7 +231,13 @@ class Hash
   # @return [Hash] a copy of `self`
   # @see SPARQL::Algebra::Expression#optimize
   def optimize(**options)
-    self.dup
+    self.deep_dup
+  end
+
+  ##
+  # Deep duplicate
+  def deep_dup
+    inject({}) {|memo, (k, v)| memo.merge(k => v.deep_dup)}
   end
 end
 
@@ -264,7 +277,7 @@ module RDF::Term
   # @return [RDF::Term] a copy of `self`
   # @see SPARQL::Algebra::Expression#optimize
   def optimize(**options)
-    optimized = self.dup
+    optimized = self.deep_dup
     optimized.lexical = nil if optimized.respond_to?(:lexical=)
     optimized
   end
