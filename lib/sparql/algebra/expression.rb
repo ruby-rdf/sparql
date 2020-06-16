@@ -289,7 +289,7 @@ module SPARQL; module Algebra
     # @return [Expression] a copy of `self`
     # @see    RDF::Query#optimize
     def optimize(**options)
-      self.dup.optimize!(**options)
+      self.deep_dup.optimize!(**options)
     end
 
     ##
