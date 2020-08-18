@@ -427,6 +427,7 @@ class RDF::Query
     variables.values
   end
 
+  alias_method :optimize_without_expression!, :optimize!
   ##
   # Optimize the query, removing lexical shortcuts in URIs
   #
@@ -441,11 +442,9 @@ class RDF::Query
           term
         end
       end
-      RDF::Query::Pattern.from(components)
-    end.sort! do |a, b|
-      (a.cost || 0) <=> (b.cost || 0)
+      RDF::Query::Pattern.from(components, **pattern.options)
     end
-    self
+    self.optimize_without_expression!(**options)
   end
 
   ##
