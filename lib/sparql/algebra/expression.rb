@@ -20,13 +20,6 @@ module SPARQL; module Algebra
     # @yieldreturn [void] ignored
     # @return [Expression]
     def self.parse(sse, **options, &block)
-      begin
-        require 'sxp' # @see https://rubygems.org/gems/sxp
-      rescue LoadError
-        abort "SPARQL::Algebra::Expression.parse requires the SXP gem (hint: `gem install sxp')."
-      end
-      require 'sparql/algebra/sxp_extensions'
-      
       sse = sse.encode(Encoding::UTF_8)
       sxp = SXP::Reader::SPARQL.new(sse) do |reader|
         # Set base_uri if we have one
