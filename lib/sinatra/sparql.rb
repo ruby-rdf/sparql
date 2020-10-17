@@ -103,7 +103,7 @@ module Sinatra
       app.helpers(Sinatra::SPARQL::Helpers)
       app.send(:include, ::SPARQL)
       app.send(:include, ::RDF)
-      app.send(:include, ::LinkedData)
+      app.send(:include, ::LinkedData) if defined?(::LinkedData)
     end
   end
 end

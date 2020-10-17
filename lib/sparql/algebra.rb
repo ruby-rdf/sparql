@@ -142,15 +142,15 @@ module SPARQL
   # 
   #     Operator(:isBlank).new(RDF::Node(:foobar)).to_sxp                        #=> "(isBlank _:foobar)"
   #     Operator(:isIRI).new(RDF::URI('https://rubygems.org/gems/rdf/')).to_sxp       #=> "(isIRI <https://rubygems.org/gems/rdf/>)"
-  #     Operator(:isLiteral).new(RDF::Literal(3.1415)).to_sxp                    #=> "(isLiteral 3.1415)"
-  #     Operator(:str).new(Operator(:datatype).new(RDF::Literal(3.1415))).to_sxp #=> "(str (datatype 3.1415))"
+  #     Operator(:isLiteral).new(RDF::Literal(3.1415)).to_sxp                    #=> "(isLiteral 3.1415e0)"
+  #     Operator(:str).new(Operator(:datatype).new(RDF::Literal(3.1415))).to_sxp #=> "(str (datatype 3.1415e0))"
   # 
   # ## Constructing operator expressions using SSE forms
   # 
   #     SPARQL::Algebra::Expression[:isBlank, RDF::Node(:foobar)].to_sxp                          #=> "(isBlank _:foobar)"
   #     SPARQL::Algebra::Expression[:isIRI, RDF::URI('https://rubygems.org/gems/rdf/')].to_sxp         #=> "(isIRI <https://rubygems.org/gems/rdf/>)"
-  #     SPARQL::Algebra::Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415)"
-  #     SPARQL::Algebra::Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415))"
+  #     SPARQL::Algebra::Expression[:isLiteral, RDF::Literal(3.1415)].to_sxp                      #=> "(isLiteral 3.1415e0)"
+  #     SPARQL::Algebra::Expression[:str, [:datatype, RDF::Literal(3.1415)]].to_sxp               #=> "(str (datatype 3.1415e0))"
   # 
   # ## Constructing operator expressions using SSE strings
   # 

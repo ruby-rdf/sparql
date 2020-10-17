@@ -571,13 +571,6 @@ module SPARQL; module Algebra
     #
     # @return [String]
     def to_sxp
-      begin
-        require 'sxp' # @see https://rubygems.org/gems/sxp
-      rescue LoadError
-        abort "SPARQL::Algebra::Operator#to_sxp requires the SXP gem (hint: `gem install sxp')."
-      end
-      require 'sparql/algebra/sxp_extensions'
-
       to_sxp_bin.to_sxp
     end
 

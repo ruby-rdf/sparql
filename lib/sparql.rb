@@ -1,4 +1,6 @@
+require 'sxp'
 require 'sparql/extensions'
+require 'sparql/algebra/sxp_extensions'
 
 ##
 # A SPARQL for RDF.rb.

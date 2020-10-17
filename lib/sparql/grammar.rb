@@ -1,7 +1,6 @@
 require 'rdf' # @see https://rubygems.org/gems/rdf
 require 'sparql/algebra'
 require 'json'
-require 'sxp'
 
 module SPARQL
   ##
