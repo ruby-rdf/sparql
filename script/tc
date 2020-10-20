@@ -91,7 +91,7 @@ def run_tc(tc, **options)
         else
           if options[:verbose]
             STDERR.puts "Missing:\n#{(tc.solutions - actual).to_sse}" unless (tc.solutions - actual).empty?
-            STDERR.puts "Extra:\n#{(tc.solutions - actual).to_sse}" unless (actual - tc.solutions).empty?
+            STDERR.puts "Extra:\n#{(actual - tc.solutions).to_sse}" unless (actual - tc.solutions).empty?
           end
           result = "failed"
         end

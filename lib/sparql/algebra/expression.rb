@@ -222,21 +222,45 @@ module SPARQL; module Algebra
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
-          RDF::Literal.new(!value.to_s.empty?, datatype: datatype, validate: true)
+          RDF::Literal::Boolean.new(value.value, datatype: datatype, validate: true)
         end
       when RDF::XSD.decimal, RDF::XSD.integer
         case value
         when RDF::Literal::Boolean
           RDF::Literal.new(value.object ? 1 : 0, datatype: datatype)
-        when RDF::Literal::Integer, RDF::Literal::Decimal
-          RDF::Literal.new(value, datatype: datatype)
+        when RDF::Literal::Numeric
+          RDF::Literal.new(value.object, datatype: datatype)
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time, RDF::URI, RDF::Node
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
           RDF::Literal.new(value.value, datatype: datatype, validate: true)
         end
       when RDF::XSD.string
-         RDF::Literal.new(value, datatype: datatype)
+        # Cast to string rules based on https://www.w3.org/TR/xpath-functions/#casting-to-string
+        case value
+        when RDF::Literal::Integer
+          RDF::Literal.new(value.canonicalize.to_s, datatype: datatype)
+        when RDF::Literal::Decimal
+          if value == value.ceil
+            RDF::Literal.new(value.ceil, datatype: datatype)
+          else
+            RDF::Literal.new(value.canonicalize.to_s, datatype: datatype)
+          end
+        when RDF::Literal::Float, RDF::Literal::Double
+          if value.abs >= 0.000001 && value.abs < 1000000
+            # If SV has an absolute value that is greater than or equal to 0.000001 (one millionth) and less than 1000000 (one million), then the value is converted to an xs:decimal and the resulting xs:decimal is converted to an xs:string according to the rules above, as though using an implementation of xs:decimal that imposes no limits on the totalDigits or fractionDigits facets.
+            cast(datatype, RDF::Literal::Decimal.new(value.object))
+          elsif value.object.zero?
+            # If SV has the value positive or negative zero, TV is "0" or "-0" respectively.
+            RDF::Literal.new(value.to_s.start_with?('-') ? '-0' : '0', datatype: datatype)
+          else
+            # If SV is positive or negative infinity, TV is the string "INF" or "-INF" respectively.
+            # In other cases, the result consists of a mantissa, which has the lexical form of an xs:decimal, followed by the letter "E", followed by an exponent which has the lexical form of an xs:integer. Leading zeroes and "+" signs are prohibited in the exponent. For the mantissa, there must be a decimal point, and there must be exactly one digit before the decimal point, which must be non-zero. The "+" sign is prohibited. There must be at least one digit after the decimal point. Apart from this mandatory digit, trailing zero digits are prohibited.
+            RDF::Literal.new(value.canonicalize.to_s, datatype: datatype)
+          end
+        else
+          RDF::Literal.new(value.canonicalize.to_s, datatype: datatype)
+        end
       else
         raise TypeError, "Expected datatype (#{datatype}) to be a recognized XPath function"
       end
