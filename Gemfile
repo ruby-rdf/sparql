@@ -29,7 +29,6 @@ group :development do
   gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
   gem 'ld-patch',         github: "ruby-rdf/ld-patch",            branch: "develop"
   gem 'shex',             github: "ruby-rdf/shex",                branch: "develop"
-  gem 'awesome_print',    github: 'MatthiasWinkelmann/awesome_print'
   gem "equivalent-xml",   '>= 0.6.0'
   gem 'psych',            platforms: [:mri, :rbx]
   gem 'simplecov',        platforms: :mri
@@ -42,6 +41,7 @@ group :debug do
   gem 'pry-byebug', platforms: :mri
   gem 'redcarpet', platforms: :ruby
   gem 'ruby-prof', platforms: :mri
+  gem 'awesome_print',    github: 'akshaymohite/awesome_print'
 end
 
 group :test do
