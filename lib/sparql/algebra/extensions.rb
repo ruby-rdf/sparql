@@ -448,10 +448,9 @@ class RDF::Query
   end
 
   ##
-  # Returns `true` if this is executable (i.e., contains a graph patterns), `false`
-  # otherwise.
+  # Returns `true` as this is executable.
   #
-  # @return [Boolean] `true` or `false`
+  # @return [Boolean] `true`
   def executable?; true; end
 end
 
@@ -479,6 +478,12 @@ class RDF::Query::Pattern
   def vars
     variables.values
   end
+
+  ##
+  # Returns `true` as this is executable.
+  #
+  # @return [Boolean] `true`
+  def executable?; true; end
 end
 
 ##
