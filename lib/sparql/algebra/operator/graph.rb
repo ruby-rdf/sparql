@@ -36,7 +36,7 @@ module SPARQL; module Algebra
       #   @param [Array<RDF::Query::Pattern>] patterns
       #     Quads
       # @return [RDF::Query]
-      def self.new(name, patterns, &block)
+      def self.new(name, patterns, options = {}, &block)
         case patterns
         when RDF::Query
           # Record that the argument as a (bgp) for re-serialization back to SSE
