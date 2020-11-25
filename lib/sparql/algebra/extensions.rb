@@ -461,7 +461,7 @@ class RDF::Query
   # @see SPARQL::Algebra::Expression#optimize!
   def optimize!(**options)
     @patterns = @patterns.map do |pattern|
-      components = pattern.to_a.map do |term|
+      components = pattern.to_quad.map do |term|
         if term.respond_to?(:lexical=)
           term.dup.instance_eval {@lexical = nil; self}
         else
