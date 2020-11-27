@@ -186,7 +186,7 @@ module SPARQL
           when nil
             ""
           else
-            RDF::NTriples.serialize(term).strip
+            RDF::NTriples.serialize(term).strip.gsub(/[\t\n\r]/, "\t" => '\t', "\n" => '\n', "\r" => '\r')
           end
         end.join("\t")
       end
