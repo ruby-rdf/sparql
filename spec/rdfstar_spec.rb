@@ -93,9 +93,9 @@ describe "SPARQL*" do
                 "a": {
                   "type": "triple",
                   "value": {
-                    "s": {"type" : "uri", "value" : "http://bigdata.com/bob"},
-                    "p": {"type" : "uri", "value" : "http://xmlns.com/foaf/0.1/age"},
-                    "o": {"type" : "typed-literal", "datatype" : "http://www.w3.org/2001/XMLSchema#integer", "value" : "23"}
+                    "subject": {"type" : "uri", "value" : "http://bigdata.com/bob"},
+                    "predicate": {"type" : "uri", "value" : "http://xmlns.com/foaf/0.1/age"},
+                    "object": {"type" : "typed-literal", "datatype" : "http://www.w3.org/2001/XMLSchema#integer", "value" : "23"}
                   }
                 },
                 "b": {"type": "uri", "value": "http://example.org/certainty"},
@@ -115,15 +115,15 @@ describe "SPARQL*" do
               <result>
                 <binding name="a">
                   <triple>
-                    <s>
+                    <subject>
                       <uri>http://bigdata.com/bob</uri>
-                    </s>
-                    <p>
+                    </subject>
+                    <predicate>
                       <uri>http://xmlns.com/foaf/0.1/age</uri>
-                    </p>
-                    <o>
+                    </predicate>
+                    <object>
                       <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
-                    </o>
+                    </object>
                   </triple>
                 </binding>
                 <binding name="b">
@@ -135,8 +135,8 @@ describe "SPARQL*" do
               </result>
             </results>
           </sparql>)),
-        csv: %(a,b,c\r\n"<http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> ""23""^^<http://www.w3.org/2001/XMLSchema#integer> .",http://example.org/certainty,0.9\r\n),
-        tsv: %(?a\t?b\t?c\r\n<http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer> .\t<http://example.org/certainty>\t0.9\r\n),
+        csv: %(a,b,c\r\n"http://bigdata.com/bob,http://xmlns.com/foaf/0.1/age,23",http://example.org/certainty,0.9\r\n),
+        tsv: %(?a\t?b\t?c\r\n<http://bigdata.com/bob>\\t<http://xmlns.com/foaf/0.1/age>\\t23\t<http://example.org/certainty>\t0.9\r\n),
       }
     },
   }.each do |name, params|
