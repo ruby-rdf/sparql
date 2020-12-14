@@ -130,7 +130,7 @@
     [108]  Var                    ::= VAR1 | VAR2
     [109]  GraphTerm              ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral
                                     | BlankNode | NIL
-    [174] EmbTP                   ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
+    [174] EmbTP                   ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
     [110] Expression              ::= ConditionalOrExpression
     [111] ConditionalOrExpression ::= ConditionalAndExpression
                                       ( '||' ConditionalAndExpression )*
@@ -241,6 +241,8 @@
     [136] iri                     ::= IRIREF | PrefixedName
     [137] PrefixedName            ::= PNAME_LN | PNAME_NS
     [138] BlankNode               ::= BLANK_NODE_LABEL | ANON
+    [175]	EmbSubjectOrObject	    ::=	Var | BlankNode | iri | RDFLiteral
+                                    | NumericLiteral | BooleanLiteral | EmbTP
     [176] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
     [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
 

@@ -675,7 +675,7 @@
       <td>[174]</td>
       <td><code>EmbTP</code></td>
       <td>::=</td>
-      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-VarOrBlankNodeOrIriOrEmbTP">VarOrBlankNodeOrIriOrEmbTP</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-VarOrTermOrEmbTP">VarOrTermOrEmbTP</a> &quot;&gt;&gt;&quot;</td>
+      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> &quot;&gt;&gt;&quot;</td>
     </tr>
     <tr id="grammar-production-Expression">
       <td>[110]</td>
@@ -1165,6 +1165,12 @@
       <td><code>BlankNode</code></td>
       <td>::=</td>
       <td><a href="#grammar-production-BLANK_NODE_LABEL">BLANK_NODE_LABEL</a> <code>|</code> <a href="#grammar-production-ANON">ANON</a></td>
+    </tr>
+    <tr id="grammar-production-EmbSubjectOrObject">
+      <td>[175]</td>
+      <td><code>EmbSubjectOrObject</code></td>
+      <td>::=</td>
+      <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-BlankNode">BlankNode</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
     </tr>
     <tr id="grammar-production-VarOrTermOrEmbTP">
       <td>[176]</td>

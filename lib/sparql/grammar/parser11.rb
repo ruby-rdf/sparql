@@ -1122,11 +1122,6 @@ module SPARQL::Grammar
       data.values.each {|v| add_prod_datum(:VarOrIri, v)}
     end
 
-    # [107s]  	VarOrBlankNodeOrIriOrEmbTP ::= Var | BlankNode| iri | EmbTP
-    production(:VarOrBlankNodeOrIriOrEmbTP) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrBlankNodeOrIriOrEmbTP, v)}
-    end
-
     # [109]  	GraphTerm	  ::=  	iri |	RDFLiteral |	NumericLiteral
     #                         |	BooleanLiteral |	BlankNode |	NIL
     production(:GraphTerm) do |input, data, callback|
@@ -1137,15 +1132,20 @@ module SPARQL::Grammar
                       data[:NIL])
     end
 
-    # [174] EmbTP ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
+    # [174] EmbTP ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
     production(:EmbTP) do |input, data, callback|
-      subject = data[:VarOrBlankNodeOrIriOrEmbTP]
+      subject, object = data[:EmbSubjectOrObject]
       predicate = data[:Verb]
-      object = data[:VarOrTerm]
       add_pattern(:EmbTP,
                   subject: subject,
                   predicate: predicate,
                   object: object)
+    end
+
+    # [175] EmbSubjectOrObject ::=	Var | BlankNode | iri | RDFLiteral
+    #                            | NumericLiteral | BooleanLiteral | EmbTP
+    production(:EmbSubjectOrObject) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:EmbSubjectOrObject, v)}
     end
 
     # [110]  	Expression	  ::=  	ConditionalOrExpression

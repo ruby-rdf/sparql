@@ -351,7 +351,7 @@
  (rule Var "108" (alt VAR1 VAR2))
  (rule GraphTerm "109"
   (alt iri RDFLiteral NumericLiteral BooleanLiteral BlankNode NIL))
- (rule EmbTP "174" (seq "<<" VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP ">>"))
+ (rule EmbTP "174" (seq "<<" EmbSubjectOrObject Verb EmbSubjectOrObject ">>"))
  (rule Expression "110" (seq ConditionalOrExpression))
  (rule ConditionalOrExpression "111"
   (seq ConditionalAndExpression _ConditionalOrExpression_1))
@@ -554,6 +554,8 @@
  (rule iri "136" (alt IRIREF PrefixedName))
  (rule PrefixedName "137" (alt PNAME_LN PNAME_NS))
  (rule BlankNode "138" (alt BLANK_NODE_LABEL ANON))
+ (rule EmbSubjectOrObject "175"
+  (alt Var BlankNode iri RDFLiteral NumericLiteral BooleanLiteral EmbTP))
  (rule VarOrTermOrEmbTP "176" (alt Var GraphTerm EmbTP))
  (rule AnnotationPattern "177" (seq "{|" PropertyListNotEmpty "|}"))
  (terminals _terminals (seq))
