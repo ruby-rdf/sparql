@@ -1479,10 +1479,8 @@ module SPARQL::Grammar
     #   definitions.
     # @option options [Boolean]  :validate     (false)
     #   whether to validate the parsed statements and values
-    # @option options [Boolean] :progress
-    #   Show progress of parser productions
-    # @option options [Boolean] :debug
-    #   Detailed debug output
+    # @option options [Logger, #write, #<<] :logger
+    #   Record error/info/debug output
     # @yield  [parser] `self`
     # @yieldparam  [SPARQL::Grammar::Parser] parser
     # @yieldreturn [void] ignored
@@ -1494,10 +1492,6 @@ module SPARQL::Grammar
       end
       @input.encode!(Encoding::UTF_8) if @input.respond_to?(:encode!)
       @options = {anon_base: "b0", validate: false}.merge(options)
-      @options[:debug] ||= case
-      when options[:progress] then 2
-      when options[:validate] then 1
-      end
 
       debug("base IRI") {base_uri.inspect}
       debug("validate") {validate?.inspect}
@@ -1558,23 +1552,7 @@ module SPARQL::Grammar
         follow: FOLLOW,
         whitespace: WS,
         **@options
-      ) do |context, *data|
-        case context
-        when :trace
-          level, lineno, depth, *args = data
-          message = args.to_sse
-          d_str = depth > 100 ? ' ' * 100 + '+' : ' ' * depth
-          str = "[#{lineno}](#{level})#{d_str}#{message}".chop
-          case @options[:debug]
-          when Array
-            @options[:debug] << str unless level > 2
-          when TrueClass
-            $stderr.puts str
-          when Integer
-            $stderr.puts(str) if level <= @options[:debug]
-          end
-        end
-      end
+      )
 
       # The last thing on the @prod_data stack is the result
       @result = case

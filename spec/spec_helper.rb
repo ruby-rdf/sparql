@@ -5,6 +5,7 @@ require 'yaml'
 require 'open-uri/cached'
 require 'rspec'
 require 'rdf'
+require 'rdf/spec'
 require 'rdf/isomorphic'
 require 'rdf/turtle'
 require 'rdf/vocab'
@@ -125,17 +126,16 @@ def sparql_query(opts)
   end
 
   query_str = opts[:query]
-  query_opts = {debug: opts[:debug] || !!ENV['PARSER_DEBUG']}
+  query_opts = {logger: opts.fetch(:logger, RDF::Spec.logger)}
   query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
-  
+
   query = if opts[:sse]
     SPARQL::Algebra.parse(query_str, **query_opts)
   else
-    query_opts[:progress] = opts.delete(:progress)
     SPARQL.parse(query_str, **query_opts)
   end
 
   query = query.optimize if opts[:optimize]
-  repo.query(query, debug: opts[:debug] || !!ENV['EXEC_DEBUG'])
+  repo.query(query, logger: opts.fetch(:logger, RDF::Spec.logger))
 end

@@ -37,7 +37,6 @@ module SPARQL; module Spec
   end
 
   class SPARQLTest < JSON::LD::Resource
-    attr_accessor :debug
     attr_accessor :action
 
     def query_file

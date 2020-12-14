@@ -141,7 +141,7 @@ module SPARQL; module Algebra
             debug(options) {"=> default data source #{uri}"}
             default_datasets << uri
           end
-          load_opts = {debug: options.fetch(:debug, nil), graph_name: uri, base_uri: uri}
+          load_opts = {logger: options.fetch(:logger, false), graph_name: uri, base_uri: uri}
           unless queryable.has_graph?(uri)
             debug(options) {"=> load #{uri}"}
             queryable.load(uri.to_s, **load_opts)

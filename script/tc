@@ -42,7 +42,6 @@ def run_tc(tc, **options)
   options[:msg] ||= {}
   options[:tests] ||= 0
   options[:tests] += 1
-  stderr, $stderr = $stderr, StringIO.new unless options[:debug]
 
   id = tc.attributes['id'].
     sub(SPARQL::Spec::BASE_URI_10, '').
@@ -80,7 +79,8 @@ def run_tc(tc, **options)
       actual = sparql_query(graphs: tc.graphs, query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
                             form: tc.form, to_hash: false,
-                            optimize: options[:optimize])
+                            optimize: options[:optimize],
+                            logger: options[:logger])
 
       STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
 
@@ -109,7 +109,8 @@ def run_tc(tc, **options)
                             query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
                             optimize: options[:optimize],
-                            form: tc.form)
+                            form: tc.form,
+                            logger: options[:logger])
 
       STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
 
@@ -151,7 +152,7 @@ def run_tc(tc, **options)
                             base_uri: RDF::URI(tc.action.query_file),
                             optimize: options[:optimize],
                             form: tc.form,
-                            debug: options[:debug])
+                            logger: options[:logger])
 
       STDERR.puts "Actual: #{actual.dump(:trig)}" if options[:verbose]
       if actual.isomorphic_with?(expected)
@@ -160,12 +161,12 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
-      SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true)
+      SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, logger: options[:logger])
       # No exception means it passes
       result = "passed"
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
       begin
-        SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true)
+        SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, logger: options[:logger])
       rescue Exception => e
         result = "passed"
       end
@@ -173,12 +174,12 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:PositiveUpdateSyntaxTest11'
-      SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true)
+      SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, logger: options[:logger])
       # No exception means it passes
       result = "passed"
     when 'mf:NegativeUpdateSyntaxTest11'
       begin
-        SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true)
+        SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, logger: options[:logger])
       rescue Exception => e
         result = "passed"
       end
@@ -204,7 +205,6 @@ rescue Exception => e
       STDERR.puts $stderr.read
     end
   end
-  $stderr = stderr unless options[:debug]
   result = 'failed'
 ensure
 
@@ -230,12 +230,17 @@ ensure
   end
 end
 
+logger = Logger.new(STDERR)
+logger.level = Logger::WARN
+logger.formatter = lambda {|severity, datetime, progname, msg| "%5s %s\n" % [severity, msg]}
+
 options = {
   output:   STDOUT,
   quite:    false,
   results: {},
   validate: false,
   verbose:  false,
+  logger: logger,
 }
 opts = GetoptLong.new(
   ["--earl", GetoptLong::NO_ARGUMENT],
@@ -248,12 +253,12 @@ opts = GetoptLong.new(
 opts.each do |opt, arg|
   case opt
   when '--earl'         then options[:quiet] = options[:earl] = true
-  when '--debug'        then options[:debug] = true
+  when '--debug'        then logger.level = Logger::DEBUG
   when '--optimize'     then options[:optimize] = true
   when '--output'       then options[:output] = File.open(arg, "w")
   when '--quiet'        then options[:quiet] = true
   when '--validate'     then options[:validate] = true
-  when '--verbose'      then options[:verbose] = true; ENV['EXEC_DEBUG'] = "2"
+  when '--verbose'      then logger.level = Logger::INFO
   end
 end
 

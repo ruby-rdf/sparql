@@ -2182,9 +2182,9 @@ describe SPARQL::Grammar::Parser do
   end
 
   def parser(production = nil, **options)
-    @debug = options[:debug] || []
+    @logger = options.fetch(:logger, false)
     Proc.new do |query|
-      parser = described_class.new(query, {debug: @debug, resolve_iris: true}.merge(options))
+      parser = described_class.new(query, {logger: @logger, resolve_iris: true}.merge(options))
       production ? parser.parse(production) : parser
     end
   end

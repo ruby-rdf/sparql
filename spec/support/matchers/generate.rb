@@ -3,9 +3,8 @@ require 'awesome_print'
 
 RSpec::Matchers.define :generate do |expected, options|
   def parser(**options)
-    @debug = options[:progress] ? 2 : []
     Proc.new do |query|
-      parser = SPARQL::Grammar::Parser.new(query, debug: @debug, resolve_iris: true, **options)
+      parser = SPARQL::Grammar::Parser.new(query, logger: options[:logger], resolve_iris: true, **options)
       options[:production] ? parser.parse(options[:production]) : parser.parse
     end
   end

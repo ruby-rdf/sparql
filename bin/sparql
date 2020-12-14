@@ -38,7 +38,7 @@ def run(input, **options)
   end
 
   query = if options[:sse]
-    SPARQL::Algebra.parse(input, debug: options[:debug], update: options[:update])
+    SPARQL::Algebra.parse(input, logger: options[:logger], update: options[:update])
   else
     # Only do grammar debugging if we're generating SSE
     SPARQL::Grammar.parse(input, **options)
@@ -47,7 +47,7 @@ def run(input, **options)
   puts ("\nSSE:\n" + query.to_sse) if options[:debug] || options[:to_sse]
 
   unless options[:to_sse]
-    res = query.execute(options[:dataset], debug: options[:debug])
+    res = query.execute(options[:dataset], logger: options[:logger])
     display_results(res, **options)
   end
 end
@@ -91,7 +91,6 @@ def usage
   puts "Options:"
   puts "      --dataset:            File containing RDF graph or dataset"
   puts "      --debug:              Display detailed debug output"
-  puts "      --debug:              Display detailed debug output"
   puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
   puts "      --format:             Output format for results"
   puts "      --port,-p             Port on which to run server; defaults to 9292"
@@ -116,20 +115,25 @@ opts = GetoptLong.new(
   ["--help", "-?", GetoptLong::NO_ARGUMENT]
 )
 
+logger = Logger.new(STDERR)
+logger.level = Logger::WARN
+logger.formatter = lambda {|severity, datetime, progname, msg| "%5s %s\n" % [severity, msg]}
+
 options = {
   dataset: RDF::Repository.new,
+  logger: logger,
 }
 
 opts.each do |opt, arg|
   case opt
-  when '--dataset'       then options[:dataset].load(arg, rdfstar: :PG)
-  when '--debug'         then options[:debug] = true
+  when '--dataset'       then options[:dataset].load(arg, rdfstar: true)
+  when '--debug'         then options[:debug] = true ; logger.level = Logger::DEBUG
   when '--execute'       then input = arg
   when '--format'        then options[:format] = arg.to_sym
   when '--port'          then options[:port] = arg.to_i
   when '--sse'           then options[:sse] = true
   when '--update'        then options[:update] = true
-  when '--verbose'       then options[:verbose] = true
+  when '--verbose'       then options[:verbose] = true ; logger.level = Logger::INFO
   when "--help"          then usage
   end
 end

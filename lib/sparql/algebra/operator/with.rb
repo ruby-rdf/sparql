@@ -40,7 +40,7 @@ module SPARQL; module Algebra
 
         unless queryable.has_graph?(name)
           debug(options) {"=> default data source #{name}"}
-          load_opts = {debug: options.fetch(:debug, nil), base_uri: name}
+          load_opts = {logger: options.fetch(:logger, false), base_uri: name}
           debug(options) {"=> load #{name}"}
           queryable.load(name.to_s, **load_opts)
         end

@@ -2,6 +2,7 @@
 require 'rubygems'
 require "bundler/setup"
 $:.unshift(File.expand_path("../../lib", __FILE__))
+require 'logger'
 require 'sparql'
 require 'getoptlong'
 require 'open-uri'
@@ -29,7 +30,7 @@ def run(input, parser_options)
   secs = Time.new - start
   puts "Parsed in #{secs} seconds."
 rescue Exception => e
-  if parser_options[:debug] || parser_options[:progress]
+  if parser_options[:logger].level <= Logger.INFO
     fname = input.respond_to?(:path) ? input.path : "-stdin-"
     $stderr.puts("\nIn #{fname}: #{e.message}")
     raise e
@@ -44,15 +45,20 @@ $output_format = :ntriples
 $input_format = :turtle
 input = nil
 
+logger = Logger.new(STDERR)
+logger.level = Logger::WARN
+logger.formatter = lambda {|severity, datetime, progname, msg| "%5s %s\n" % [severity, msg]}
+
 parser_options = {
   progress:   false,
   production: :QueryUnit,
   prefixes:   {},
+  logger: logger,
 }
 
 opts = GetoptLong.new(
   ["--dump", GetoptLong::NO_ARGUMENT],
-  ["--dbg", GetoptLong::NO_ARGUMENT],
+  ["--debug", GetoptLong::NO_ARGUMENT],
   ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
   ["--help", "-?", GetoptLong::NO_ARGUMENT],
   ["--optimize", GetoptLong::NO_ARGUMENT],
@@ -68,13 +74,13 @@ opts = GetoptLong.new(
 
 opts.each do |opt, arg|
   case opt
-  when '--dbg' then parser_options[:debug] = true
+  when '--debug' then logger.level = Logger::DEBUG
   when '--dump' then $dump = true
   when '--execute' then input = arg
   when '--quiet' then $quiet = true
   when '--optimize' then parser_options[:optimize] = true
   when '--production' then parser_options[:production] = arg.to_sym
-  when '--progress' then parser_options[:progress] = true
+  when '--progress' then logger.level = Logger::INFO
   when '--resolve-uris' then parser_options[:resolve_iris] = true
   when '--standard-prefixes'
     # Use a standard prefixes

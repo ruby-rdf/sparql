@@ -113,7 +113,7 @@ module SPARQL; module Algebra
       end
 
       debug(options) {"#{operator.inspect}(#{operands.map(&:inspect).join(',')})"}
-      options.delete_if {|k, v| [:debug, :depth, :prefixes, :base_uri, :update, :validate].include?(k) }
+      options.delete_if {|k, v| [:debug, :logger, :depth, :prefixes, :base_uri, :update, :validate].include?(k) }
       operands << options unless options.empty?
       operator.new(*operands)
     end
@@ -380,7 +380,7 @@ module SPARQL; module Algebra
     #   @param [String] node processing node
     #   @param [String] message
     #   @param [Hash{Symbol => Object}] options
-    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Logger] :logger for logging progress
     #   @option options [Integer] :depth (@productions.length)
     #     Processing depth for indenting message output.
     #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
@@ -388,7 +388,7 @@ module SPARQL; module Algebra
     # @overload: May be called with node and an option hash
     #   @param [String] node processing node
     #   @param [Hash{Symbol => Object}] options
-    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Logger] :logger for logging progress
     #   @option options [Integer] :depth (@productions.length)
     #     Processing depth for indenting message output.
     #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
@@ -396,22 +396,14 @@ module SPARQL; module Algebra
     # @overload: May be called with only options, in which case the block is used to return the output message
     #   @param [String] node processing node
     #   @param [Hash{Symbol => Object}] options
-    #   @option options [Boolean] :debug output debug messages to $stderr
+    #   @option options [Logger] :logger for logging progress
     #   @option options [Integer] :depth (@productions.length)
     #     Processing depth for indenting message output.
     #   @yieldreturn [String] appended to message, to allow for lazy-evaulation of message
-    def self.debug(*args)
+    def self.debug(*args, &block)
       options = args.last.is_a?(Hash) ? args.pop : {}
-      return unless options[:debug]
-      message = args.join(": ")
-      message = message + yield if block_given?
-      depth = options[:depth] || 0
-      case options[:debug]
-      when Array
-        options[:debug] << "#{' ' * depth}#{message}"
-      else
-        $stderr.puts("#{' ' * depth}#{message}")
-      end
+      return unless options[:logger]
+      options[:logger].debug(*args, **options, &block)
     end
     
     def debug(*args, &block)

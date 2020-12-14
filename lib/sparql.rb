@@ -74,12 +74,9 @@ module SPARQL
     query = self.parse(query, **options)
     query = query.optimize(**options) if options[:optimize]
     queryable = queryable || RDF::Repository.new
-    
-    case options.fetch(:debug, nil)
-    when TrueClass
-      puts query.to_sxp
-    when Array
-      options[:debug] << query.to_sxp
+
+    if options[:logger]
+      options[:logger].debug("SPARQL.execute") {SXP::Generator.string query.to_sxp_bin}
     end
 
     if options.has_key?(:load_datasets)
