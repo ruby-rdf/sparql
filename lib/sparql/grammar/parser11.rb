@@ -867,9 +867,17 @@ module SPARQL::Grammar
       add_prod_datum(:path, data[:path])
     end
 
-    # [80]  	Object	  ::=  	GraphNode
+    # [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
+    start_production(:AnnotationPattern) do |input, data, callback|
+      data[:TriplesNode] = prod_data[:pattern].first
+    end
+    production(:AnnotationPattern) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+    end
+
+    # [80]  	Object	  ::=  	GraphNode | EmbTP
     production(:Object) do |input, data, callback|
-      object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode]
+      object = data[:GraphNode] || data[:EmbTP]
       if object
         if prod_data[:Verb]
           add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
@@ -1129,7 +1137,7 @@ module SPARQL::Grammar
                       data[:NIL])
     end
 
-    # [1xx] EmbTP ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
+    # [174] EmbTP ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
     production(:EmbTP) do |input, data, callback|
       subject = data[:VarOrBlankNodeOrIriOrEmbTP]
       predicate = data[:Verb]

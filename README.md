@@ -449,8 +449,8 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [grammar]:          https://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          https://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
-[RDF*]:             https://lists.w3.org/Archives/Public/public-rdf-star/
-[SPARQL*]:          https://arxiv.org/pdf/1406.3399.pdf
+[RDF*]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
+[SPARQL*]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
 [Backports]:        https://rubygems.org/gems/backports
 [Linked Data]:      https://rubygems.org/gems/linkeddata
 [SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames
