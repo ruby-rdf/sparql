@@ -8,7 +8,7 @@ require 'sxp'
 require 'sparql/extensions'
 require 'sparql/algebra/extensions'
 require_relative "../spec/spec_helper"
-require_relative "../spec/dawg_helper"
+require_relative "../spec/suite_helper"
 require_relative "../spec/support/extensions/comparitors"
 require_relative "../spec/support/extensions/isomorphic"
 require 'getoptlong'
@@ -43,14 +43,12 @@ def run_tc(tc, **options)
   options[:tests] ||= 0
   options[:tests] += 1
 
-  id = tc.attributes['id'].
-    sub(SPARQL::Spec::BASE_URI_10, '').
-    sub(SPARQL::Spec::BASE_URI_11, '')
+  id = tc.attributes['id'].sub('http://www.w3.org/2001/sw/DataAccess/tests/', '')
   STDERR.write "run #{id}" unless options[:quiet]
 
   result = "untested"
   query_string = tc.query_string || tc.action.query_string
-  sxp = SPARQL.parse(query_string, base_uri: RDF::URI(tc.action.query_file))
+  sxp = SPARQL.parse(query_string, update: tc.type.include?('Update'), base_uri: RDF::URI(tc.action.query_file))
 
   if options[:verbose]
     STDERR.puts "\nTestCase: #{tc.inspect}"
@@ -60,6 +58,7 @@ def run_tc(tc, **options)
     STDERR.puts "\nData:\n" + tc.data_string if tc.respond_to?(:data) && tc.data
     STDERR.puts "\nTest Data:\n" + tc.test_data_string if tc.respond_to?(:test_data_string) && tc.test_data_string
     STDERR.puts "\nExpected:\n" + tc.solutions.to_sse if tc.respond_to?(:solutions)
+    STDERR.puts "\nExpected:\n" + tc.expected.dump(:trig, standard_prefixes: true) if tc.respond_to?(:expected)
   end
 
   case tc.name
@@ -154,7 +153,7 @@ def run_tc(tc, **options)
                             form: tc.form,
                             logger: options[:logger])
 
-      STDERR.puts "Actual: #{actual.dump(:trig)}" if options[:verbose]
+      STDERR.puts "Actual: #{actual.dump(:trig, standard_prefixes: true)}" if options[:verbose]
       if actual.isomorphic_with?(expected)
         result = "passed"
       else
@@ -245,6 +244,7 @@ options = {
 opts = GetoptLong.new(
   ["--earl", GetoptLong::NO_ARGUMENT],
   ["--debug", GetoptLong::NO_ARGUMENT],
+  ["--info", GetoptLong::NO_ARGUMENT],
   ["--optimize", GetoptLong::NO_ARGUMENT],
   ["--output", "-o", GetoptLong::REQUIRED_ARGUMENT],
   ["--quiet", GetoptLong::NO_ARGUMENT],
@@ -254,43 +254,33 @@ opts.each do |opt, arg|
   case opt
   when '--earl'         then options[:quiet] = options[:earl] = true
   when '--debug'        then logger.level = Logger::DEBUG
+  when '--info'        then logger.level = Logger::INFO
   when '--optimize'     then options[:optimize] = true
   when '--output'       then options[:output] = File.open(arg, "w")
   when '--quiet'        then options[:quiet] = true
   when '--validate'     then options[:validate] = true
-  when '--verbose'      then logger.level = Logger::INFO
+  when '--verbose'      then options[:verbose] = true
   end
 end
 
 earl_preamble(options) if options[:earl]
 
-[SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests].each do |suite|
-  main_man = SPARQL::Spec::Manifest.open(suite)
-  main_man.include.reject do |m|
-    %w{
-      entailment
-      
-      csv-tsv-res
-      http-rdf-dupdate
-      protocol
-      service-description
-      service
-      syntax-fed
-    }.include?(m.attributes['id'].to_s.split('/')[-2])
-  end.each do |man|
-    puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
-    man.entries.each do |tc|
-      next unless tc.action
-      name = Array(tc.name).join("") + Array(tc.entry).join("")
-      next unless ARGV.empty? || ARGV.any? do |n|
-        tc.attributes['id'].match?(/#{n}/) ||
-        tc.action.is_a?(Hash) && tc.action['mq:query'].match?(/n/) ||
-        name.match(/#{n}/)
+[SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests].
+  flatten.each do |path|
+    SPARQL::Spec::Manifest.open(path) do |man|
+      puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
+      man.entries.each do |tc|
+        next unless tc.action
+        name = Array(tc.name).join("") + Array(tc.entry).join("")
+        next unless ARGV.empty? || ARGV.any? do |n|
+          tc.attributes['id'].match?(/#{n}/) ||
+          tc.action.is_a?(Hash) && tc.action['mq:query'].match?(/n/) ||
+          name.match(/#{n}/)
+        end
+        run_tc(tc, **options)
       end
-      run_tc(tc, **options)
     end
   end
-end
 
 STDERR.puts "" if options[:quiet]
 options[:results].each {|k, v| puts "#{k}: #{v}"}

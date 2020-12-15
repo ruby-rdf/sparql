@@ -37,7 +37,6 @@ Gem::Specification.new do |gem|
   gem.add_development_dependency 'rack-test',          '~> 1.1'
   gem.add_development_dependency 'rdf-spec',           '~> 3.1'
   gem.add_development_dependency 'linkeddata',         '~> 3.0'
-  gem.add_development_dependency 'open-uri-cached',    '~> 0.0', '>= 0.0.5'
   gem.add_development_dependency 'rspec',              '~> 3.9'
   gem.add_development_dependency 'rspec-its',          '~> 1.2'
   gem.add_development_dependency 'yard' ,              '~> 0.9.20'
