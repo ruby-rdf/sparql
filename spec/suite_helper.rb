@@ -189,4 +189,10 @@ module SPARQL::Spec
       "#{BASE}data-sparql11/#{partial}/manifest.ttl"
     end
   end
+
+  def self.sparql_star_tests
+    %w(syntax query update).map do |partial|
+      "https://w3c.github.io/rdf-star/tests/sparql/manifest-#{partial}.jsonld"
+    end
+  end
 end

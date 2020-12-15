@@ -30,7 +30,7 @@ def run(input, parser_options)
   secs = Time.new - start
   puts "Parsed in #{secs} seconds."
 rescue Exception => e
-  if parser_options[:logger].level <= Logger.INFO
+  if parser_options[:logger].level <= Logger::INFO
     fname = input.respond_to?(:path) ? input.path : "-stdin-"
     $stderr.puts("\nIn #{fname}: #{e.message}")
     raise e

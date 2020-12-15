@@ -48,7 +48,12 @@ def run_tc(tc, **options)
 
   result = "untested"
   query_string = tc.query_string || tc.action.query_string
-  sxp = SPARQL.parse(query_string, update: tc.type.include?('Update'), base_uri: RDF::URI(tc.action.query_file))
+  sxp = SPARQL.parse(query_string,
+                     update: tc.type.include?('Update'),
+                     base_uri: RDF::URI(tc.action.query_file),
+                     logger: options[:logger]) rescue "(error)"
+
+  options[:logger].clear
 
   if options[:verbose]
     STDERR.puts "\nTestCase: #{tc.inspect}"
@@ -189,23 +194,23 @@ def run_tc(tc, **options)
       STDERR.puts "unknown test type #{tc.type}"
     end
   end
-  options[:results][result] ||= 0
-  options[:results][result] += 1
+  STDERR.puts options[:logger].to_s if options[:logger].level <= Logger::INFO
 rescue Interrupt
   exit(1)
 rescue Exception => e
-  if options[:quiet]
-    options[:results]['exception'] ||= 0
-    options[:results]['exception'] += 1
-  else
+  result = 'exception'
+  unless options[:quiet]
     STDERR.puts("Exception: #{e.message}")
     if options[:verbose]
       STDERR.puts e.backtrace
-      STDERR.puts $stderr.read
+      STDERR.puts options[:logger].to_s
+    else
+      STDERR.puts options[:logger].to_s #if options[:logger].level <= Logger::INFO
     end
   end
-  result = 'failed'
 ensure
+  options[:results][result] ||= 0
+  options[:results][result] += 1
 
   if options[:earl]
     options[:output].puts %{
@@ -229,9 +234,8 @@ ensure
   end
 end
 
-logger = Logger.new(STDERR)
+logger = RDF::Spec.logger
 logger.level = Logger::WARN
-logger.formatter = lambda {|severity, datetime, progname, msg| "%5s %s\n" % [severity, msg]}
 
 options = {
   output:   STDOUT,
@@ -254,7 +258,7 @@ opts.each do |opt, arg|
   case opt
   when '--earl'         then options[:quiet] = options[:earl] = true
   when '--debug'        then logger.level = Logger::DEBUG
-  when '--info'        then logger.level = Logger::INFO
+  when '--info'         then logger.level = Logger::INFO
   when '--optimize'     then options[:optimize] = true
   when '--output'       then options[:output] = File.open(arg, "w")
   when '--quiet'        then options[:quiet] = true
@@ -265,7 +269,7 @@ end
 
 earl_preamble(options) if options[:earl]
 
-[SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests].
+[SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests, SPARQL::Spec.sparql_star_tests].
   flatten.each do |path|
     SPARQL::Spec::Manifest.open(path) do |man|
       puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?

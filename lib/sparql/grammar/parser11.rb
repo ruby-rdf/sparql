@@ -586,7 +586,7 @@ module SPARQL::Grammar
     production(:GroupGraphPatternSub) do |input, data, callback|
       debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
 
-      res = case data[:query].length
+      res = case Array(data[:query]).length
       when 0 then SPARQL::Algebra::Operator::BGP.new
       when 1 then data[:query].first
       when 2

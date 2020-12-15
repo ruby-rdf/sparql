@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'suite_helper'
 require 'rdf/rdfxml'
 
-shared_examples "DAWG" do |id, label, comment, tests|
+shared_examples "SUITE" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
@@ -136,7 +136,7 @@ describe SPARQL do
   describe "w3c dawg SPARQL 1.0 syntax tests" do
     SPARQL::Spec.sparql1_0_syntax_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
-        it_behaves_like "DAWG", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -144,7 +144,7 @@ describe SPARQL do
   describe "w3c dawg SPARQL 1.0 tests" do
     SPARQL::Spec.sparql1_0_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
-        it_behaves_like "DAWG", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -152,7 +152,15 @@ describe SPARQL do
   describe "w3c dawg SPARQL 1.1 tests" do
     SPARQL::Spec.sparql1_1_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
-        it_behaves_like "DAWG", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+      end
+    end
+  end
+
+  describe "SPARQL* tests" do
+    SPARQL::Spec.sparql_star_tests.each do |path|
+      SPARQL::Spec::Manifest.open(path) do |man|
+        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end

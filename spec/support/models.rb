@@ -36,17 +36,10 @@ module SPARQL; module Spec
 
     def self.open(file)
       #puts "open: #{file}"
-      if file.end_with?('.jsonld')
-        RDF::Util::File.open_file(file) do |f|
-          hash = ::JSON.load(f.read)
-          Manifest.new(hash, graph_name: hash['@context'])
-        end
-      else
-        g = RDF::Repository.load(file, format:  :ttl)
-        JSON::LD::API.fromRDF(g) do |expanded|
-          JSON::LD::API.frame(expanded, FRAME) do |framed|
-            yield Manifest.new(framed)
-          end
+      g = RDF::Repository.load(file)
+      JSON::LD::API.fromRDF(g) do |expanded|
+        JSON::LD::API.frame(expanded, FRAME) do |framed|
+          yield Manifest.new(framed)
         end
       end
     end
