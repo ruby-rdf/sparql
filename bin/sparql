@@ -60,6 +60,11 @@ def server(options)
     register Sinatra::SPARQL
     set :repository, repository
 
+    before do
+      options[:logger].info "#{request.request_method} [#{request.path_info}], " +
+        params.merge(Accept: request.accept.map(&:to_s)).map {|k,v| "#{k}=#{v}" unless k.to_s == "content"}.join(" ")
+    end
+
     get '/' do
       if params["query"]
         query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::CGI.unescape(params["query"].to_s)
@@ -78,16 +83,16 @@ def server(options)
       SPARQL.execute(params['query'], settings.repository)
     end
   end
-  Rack::Server.start(app: app)
+  Rack::Server.start(app: app, Port: options.fetch(:port, 9292))
 rescue LoadError
   $stderr.puts "Running SPARQL server requires Rack to be in environment: #{$!.message}"
 end
 
 def usage
-  puts "Usage: #{$0} execute [options] query-file         Execute a query against the specified dataset"
-  puts "       #{$0} parse [options] query-file           Parse a query into SPARQL S-Expressions (SSE)"
-  puts "       #{$0} query [options] end-point query-file Run the query against a remote end-point"
-  puts "       #{$0} server [options] dataset-file        Start a server initialized from the specified dataset"
+  puts "Usage: #{File.basename($0)} execute [options] query-file         Execute a query against the specified dataset"
+  puts "       #{File.basename($0)} parse [options] query-file           Parse a query into SPARQL S-Expressions (SSE)"
+  puts "       #{File.basename($0)} query [options] end-point query-file Run the query against a remote end-point"
+  puts "       #{File.basename($0)} server [options] dataset-file        Start a server initialized from the specified dataset"
   puts "Options:"
   puts "      --dataset:            File containing RDF graph or dataset"
   puts "      --debug:              Display detailed debug output"
