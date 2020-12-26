@@ -2,32 +2,39 @@ require "bundler/setup"
 require 'psych'
 require 'rspec/its'
 require 'yaml'
-require 'open-uri/cached'
 require 'rspec'
 require 'rdf'
+require 'rdf/spec'
 require 'rdf/isomorphic'
 require 'rdf/turtle'
 require 'rdf/vocab'
 
-require 'simplecov'
-require 'coveralls'
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::HTMLFormatter,
-  Coveralls::SimpleCov::Formatter
-])
-SimpleCov.start do
-  add_filter "/spec/"
+begin
+  require 'simplecov'
+  require 'coveralls'
+  SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+    SimpleCov::Formatter::HTMLFormatter,
+    Coveralls::SimpleCov::Formatter
+  ])
+  SimpleCov.start do
+    add_filter "/spec/"
+  end
+rescue LoadError => e
+  STDERR.puts "Coverage Skipped: #{e.message}"
 end
 
 require 'sparql'
 
 Dir[File.join(File.dirname(__FILE__), "support/**/*.rb")].each {|f| require f}
 
-RSpec.configure do |config|
-  #config.include(RDF::Spec::Matchers)
-  config.filter_run focus: true
-  config.run_all_when_everything_filtered = true
-  config.exclusion_filter = {
+RSpec.configure do |rspec|
+  #rspec.include(RDF::Spec::Matchers)
+  rspec.filter_run focus: true
+  rspec.run_all_when_everything_filtered = true
+  rspec.expect_with :rspec do |c|
+    c.on_potential_false_positives = :nothing
+  end
+  rspec.exclusion_filter = {
     :ruby           => lambda { |version| RUBY_VERSION.to_s !~ /^#{version}/},
     :blank_nodes    => 'unique',
     :arithmetic     => 'native',
@@ -36,11 +43,6 @@ RSpec.configure do |config|
     :reduced        => 'all',
   }
 end
-
-# Create and maintain a cache of downloaded URIs
-URI_CACHE = File.expand_path("../uri-cache", __FILE__)
-Dir.mkdir(URI_CACHE) unless File.directory?(URI_CACHE)
-OpenURI::Cache.class_eval { @cache_path = URI_CACHE }
 
 DAWGT = RDF::Vocabulary.new('http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#')
 ENT   = RDF::Vocabulary.new('http://www.w3.org/ns/entailment/RDF')
@@ -121,17 +123,16 @@ def sparql_query(opts)
   end
 
   query_str = opts[:query]
-  query_opts = {debug: opts[:debug] || !!ENV['PARSER_DEBUG']}
+  query_opts = {logger: opts.fetch(:logger, RDF::Spec.logger)}
   query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
-  
+
   query = if opts[:sse]
     SPARQL::Algebra.parse(query_str, **query_opts)
   else
-    query_opts[:progress] = opts.delete(:progress)
     SPARQL.parse(query_str, **query_opts)
   end
 
   query = query.optimize if opts[:optimize]
-  repo.query(query, debug: opts[:debug] || !!ENV['EXEC_DEBUG'])
+  repo.query(query, logger: opts.fetch(:logger, RDF::Spec.logger))
 end

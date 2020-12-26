@@ -45,7 +45,7 @@ module SPARQL; module Algebra
         end
         patterns.each do |pattern|
           pattern = pattern.dup.bind(solution)
-          debug(options) {"Insert statement #{statement.to_sse}"}
+          debug(options) {"Insert pattern #{pattern.to_sse}"}
           # Only insert bound or constant patterns
           queryable.insert(RDF::Statement.from(pattern)) if pattern.bound? || pattern.constant?
         end

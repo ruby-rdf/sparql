@@ -32,7 +32,7 @@ module SPARQL; module Algebra
       #   If `from` does not exist, unless the `silent` operator is present
       # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, solutions: nil, **options)
-        debug(options) {"Delete: #{solution} against #{operands.to_sse}"}
+        debug(options) {"Delete: #{solutions} against #{operands.to_sse}"}
         # Only binds the first solution
         solution = solutions.is_a?(RDF::Query::Solutions) ? solutions.first : solutions
         # Operands are an array of patterns and Queries (when named).
@@ -47,7 +47,7 @@ module SPARQL; module Algebra
         end
         patterns.each do |pattern|
           pattern = pattern.dup.bind(solution)
-          debug(options) {"Delete statement #{statement.to_sse}"}
+          debug(options) {"Delete pattern #{pattern.to_sse}"}
           queryable.delete(RDF::Statement.from(pattern)) if pattern.bound? || pattern.constant?
         end
         queryable

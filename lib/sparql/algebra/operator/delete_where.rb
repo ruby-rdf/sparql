@@ -46,7 +46,7 @@ module SPARQL; module Algebra
           debug(options) {"DeleteWhere solution #{solution.to_sse}"}
           query.each_statement do |pattern|
             pattern = pattern.dup.bind(solution)
-            debug(options) {"DeleteWhere statement #{statement.to_sse}"}
+            debug(options) {"DeleteWhere pattern #{pattern.to_sse}"}
             queryable.delete(RDF::Statement.from(pattern)) if pattern.bound? || pattern.constant?
           end
         end

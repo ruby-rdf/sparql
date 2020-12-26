@@ -4,12 +4,48 @@ require 'sparql/client'
 
 module SPARQL; module Spec
   class Manifest < JSON::LD::Resource
+    FRAME = JSON.parse(%q({
+      "@context": {
+        "xsd": "http://www.w3.org/2001/XMLSchema#",
+        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
+        "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+        "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+        "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
+        "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+        "id": "@id",
+        "type": "@type",
+    
+        "comment": "rdfs:comment",
+        "entries": {"@id": "mf:entries", "@type": "@id", "@container": "@list"},
+        "include": {"@id": "mf:include", "@type": "@id", "@container": "@list"},
+        "name": "mf:name",
+        "action": {"@id": "mf:action", "@type": "@id"},
+        "result": {"@id": "mf:result", "@type": "@id"},
+        "approval": {"@id": "dawgt:approval", "@type": "@id"},
+        "mq:data": {"@type": "@id"},
+        "mq:graphData": {"@type": "@id"},
+        "mq:query": {"@type": "@id"},
+        "ut:data": {"@type": "@id"},
+        "ut:graph": {"@type": "@id"},
+        "ut:graphData": {"@type": "@id", "@container": "@set"},
+        "ut:request": {"@type": "@id"}
+      },
+      "@type": "mf:Manifest",
+      "entries": {}
+    }))
+
     def self.open(file)
       #puts "open: #{file}"
-      RDF::Util::File.open_file(file) do |f|
-        hash = ::JSON.load(f.read)
-        Manifest.new(hash, graph_name: hash['@context'])
+      g = RDF::Repository.load(file)
+      JSON::LD::API.fromRDF(g) do |expanded|
+        JSON::LD::API.frame(expanded, FRAME) do |framed|
+          yield Manifest.new(framed)
+        end
       end
+    end
+
+    def label
+      attributes['rdfs:label']
     end
 
     def include
@@ -37,8 +73,8 @@ module SPARQL; module Spec
   end
 
   class SPARQLTest < JSON::LD::Resource
-    attr_accessor :debug
     attr_accessor :action
+    attr_accessor :logger
 
     def query_file
       action.query_file
@@ -98,6 +134,23 @@ module SPARQL; module Spec
         end
       end
     end
+
+    # Expected dataset
+    # Load default and named graphs for result dataset
+    def expected
+      RDF::Repository.new do |r|
+        result.graphs.each do |info|
+          data, format = info[:data], info[:format]
+          if data
+            RDF::Reader.for(format).new(data, info).each_statement do |st|
+              st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
+              r << st
+            end
+          end
+        end
+      end
+    end
+
   end
 
   class UpdateDataSet < JSON::LD::Resource
@@ -198,10 +251,8 @@ module SPARQL; module Spec
       result = RDF::URI(self.result)
 
       # Use alternate results for RDF 1.1
-      file_11 = result.to_s.
-        sub(BASE_URI_10, BASE_DIRECTORY).
-        sub(BASE_URI_11, BASE_DIRECTORY).
-        sub(/\.(\w+)$/, '_11.\1')
+      file_11 = result.to_s
+
       result = RDF::URI(file_11) if File.exist?(file_11)
 
       case form

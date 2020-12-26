@@ -34,9 +34,9 @@ module SPARQL
           {
             type: 'triple',
             value: {
-              s: format.call(value.subject),
-              p: format.call(value.predicate),
-              o: format.call(value.object)
+              subject: format.call(value.subject),
+              predicate: format.call(value.predicate),
+              object: format.call(value.object)
             }
           }
         end
@@ -81,9 +81,9 @@ module SPARQL
           end
         when RDF::Statement
           xml.triple do
-            xml.s {format.call(s.subject)}
-            xml.p {format.call(s.predicate)}
-            xml.o {format.call(s.object)}
+            xml.subject {format.call(s.subject)}
+            xml.predicate {format.call(s.predicate)}
+            xml.object {format.call(s.object)}
           end
         end
       end
@@ -140,9 +140,8 @@ module SPARQL
     # Generate Solutions as CSV
     # @return [String]
     # @see https://www.w3.org/TR/2013/REC-sparql11-results-csv-tsv-20130321/
-    def to_csv
+    def to_csv(bnode_map: {})
       require 'csv' unless defined?(::CSV)
-      bnode_map = {}
       bnode_gen = "_:a"
       CSV.generate(row_sep: "\r\n") do |csv|
         csv << variable_names.to_a
@@ -155,6 +154,10 @@ module SPARQL
                 bnode_gen = bnode_gen.succ
                 this
               end
+            when RDF::Statement
+              RDF::Query::Solutions(
+                RDF::Query::Solution.new(subject: term.subject, predicate: term.predicate, object: term.object)
+              ).to_csv(bnode_map: bnode_map).split.last.strip
             else
               solution[n].to_s.strip
             end
@@ -175,10 +178,15 @@ module SPARQL
           case term = solution[n]
           when RDF::Literal::Integer, RDF::Literal::Decimal, RDF::Literal::Double
             term.canonicalize.to_s
+          when RDF::Statement
+            emb_stmt = RDF::Query::Solutions(
+              RDF::Query::Solution.new(subject: term.subject, predicate: term.predicate, object: term.object)
+            ).to_tsv.split("\n").last.strip
+            emb_stmt.gsub(/[\t\n\r]/, "\t" => '\t', "\n" => '\n', "\r" => '\r')
           when nil
             ""
           else
-            RDF::NTriples.serialize(term).strip
+            RDF::NTriples.serialize(term).strip.gsub(/[\t\n\r]/, "\t" => '\t', "\n" => '\n', "\r" => '\r')
           end
         end.join("\t")
       end

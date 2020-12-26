@@ -586,7 +586,7 @@ module SPARQL::Grammar
     production(:GroupGraphPatternSub) do |input, data, callback|
       debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
 
-      res = case data[:query].length
+      res = case Array(data[:query]).length
       when 0 then SPARQL::Algebra::Operator::BGP.new
       when 1 then data[:query].first
       when 2
@@ -867,9 +867,17 @@ module SPARQL::Grammar
       add_prod_datum(:path, data[:path])
     end
 
-    # [80]  	Object	  ::=  	GraphNode
+    # [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
+    start_production(:AnnotationPattern) do |input, data, callback|
+      data[:TriplesNode] = prod_data[:pattern].first
+    end
+    production(:AnnotationPattern) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+    end
+
+    # [80]  	Object	  ::=  	GraphNode | EmbTP
     production(:Object) do |input, data, callback|
-      object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode]
+      object = data[:GraphNode] || data[:EmbTP]
       if object
         if prod_data[:Verb]
           add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
@@ -1114,11 +1122,6 @@ module SPARQL::Grammar
       data.values.each {|v| add_prod_datum(:VarOrIri, v)}
     end
 
-    # [107s]  	VarOrBlankNodeOrIriOrEmbTP ::= Var | BlankNode| iri | EmbTP
-    production(:VarOrBlankNodeOrIriOrEmbTP) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrBlankNodeOrIriOrEmbTP, v)}
-    end
-
     # [109]  	GraphTerm	  ::=  	iri |	RDFLiteral |	NumericLiteral
     #                         |	BooleanLiteral |	BlankNode |	NIL
     production(:GraphTerm) do |input, data, callback|
@@ -1129,15 +1132,20 @@ module SPARQL::Grammar
                       data[:NIL])
     end
 
-    # [1xx] EmbTP ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
+    # [174] EmbTP ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
     production(:EmbTP) do |input, data, callback|
-      subject = data[:VarOrBlankNodeOrIriOrEmbTP]
+      subject, object = data[:EmbSubjectOrObject]
       predicate = data[:Verb]
-      object = data[:VarOrTerm]
       add_pattern(:EmbTP,
                   subject: subject,
                   predicate: predicate,
                   object: object)
+    end
+
+    # [175] EmbSubjectOrObject ::=	Var | BlankNode | iri | RDFLiteral
+    #                            | NumericLiteral | BooleanLiteral | EmbTP
+    production(:EmbSubjectOrObject) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:EmbSubjectOrObject, v)}
     end
 
     # [110]  	Expression	  ::=  	ConditionalOrExpression
@@ -1479,10 +1487,8 @@ module SPARQL::Grammar
     #   definitions.
     # @option options [Boolean]  :validate     (false)
     #   whether to validate the parsed statements and values
-    # @option options [Boolean] :progress
-    #   Show progress of parser productions
-    # @option options [Boolean] :debug
-    #   Detailed debug output
+    # @option options [Logger, #write, #<<] :logger
+    #   Record error/info/debug output
     # @yield  [parser] `self`
     # @yieldparam  [SPARQL::Grammar::Parser] parser
     # @yieldreturn [void] ignored
@@ -1494,10 +1500,6 @@ module SPARQL::Grammar
       end
       @input.encode!(Encoding::UTF_8) if @input.respond_to?(:encode!)
       @options = {anon_base: "b0", validate: false}.merge(options)
-      @options[:debug] ||= case
-      when options[:progress] then 2
-      when options[:validate] then 1
-      end
 
       debug("base IRI") {base_uri.inspect}
       debug("validate") {validate?.inspect}
@@ -1558,23 +1560,7 @@ module SPARQL::Grammar
         follow: FOLLOW,
         whitespace: WS,
         **@options
-      ) do |context, *data|
-        case context
-        when :trace
-          level, lineno, depth, *args = data
-          message = args.to_sse
-          d_str = depth > 100 ? ' ' * 100 + '+' : ' ' * depth
-          str = "[#{lineno}](#{level})#{d_str}#{message}".chop
-          case @options[:debug]
-          when Array
-            @options[:debug] << str unless level > 2
-          when TrueClass
-            $stderr.puts str
-          when Integer
-            $stderr.puts(str) if level <= @options[:debug]
-          end
-        end
-      end
+      )
 
       # The last thing on the @prod_data stack is the result
       @result = case

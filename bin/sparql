@@ -38,7 +38,7 @@ def run(input, **options)
   end
 
   query = if options[:sse]
-    SPARQL::Algebra.parse(input, debug: options[:debug], update: options[:update])
+    SPARQL::Algebra.parse(input, logger: options[:logger], update: options[:update])
   else
     # Only do grammar debugging if we're generating SSE
     SPARQL::Grammar.parse(input, **options)
@@ -47,7 +47,7 @@ def run(input, **options)
   puts ("\nSSE:\n" + query.to_sse) if options[:debug] || options[:to_sse]
 
   unless options[:to_sse]
-    res = query.execute(options[:dataset], debug: options[:debug])
+    res = query.execute(options[:dataset], logger: options[:logger])
     display_results(res, **options)
   end
 end
@@ -59,6 +59,11 @@ def server(options)
   app = Sinatra.new do
     register Sinatra::SPARQL
     set :repository, repository
+
+    before do
+      options[:logger].info "#{request.request_method} [#{request.path_info}], " +
+        params.merge(Accept: request.accept.map(&:to_s)).map {|k,v| "#{k}=#{v}" unless k.to_s == "content"}.join(" ")
+    end
 
     get '/' do
       if params["query"]
@@ -78,19 +83,18 @@ def server(options)
       SPARQL.execute(params['query'], settings.repository)
     end
   end
-  Rack::Server.start(app: app)
+  Rack::Server.start(app: app, Port: options.fetch(:port, 9292))
 rescue LoadError
   $stderr.puts "Running SPARQL server requires Rack to be in environment: #{$!.message}"
 end
 
 def usage
-  puts "Usage: #{$0} execute [options] query-file         Execute a query against the specified dataset"
-  puts "       #{$0} parse [options] query-file           Parse a query into SPARQL S-Expressions (SSE)"
-  puts "       #{$0} query [options] end-point query-file Run the query against a remote end-point"
-  puts "       #{$0} server [options] dataset-file        Start a server initialized from the specified dataset"
+  puts "Usage: #{File.basename($0)} execute [options] query-file         Execute a query against the specified dataset"
+  puts "       #{File.basename($0)} parse [options] query-file           Parse a query into SPARQL S-Expressions (SSE)"
+  puts "       #{File.basename($0)} query [options] end-point query-file Run the query against a remote end-point"
+  puts "       #{File.basename($0)} server [options] dataset-file        Start a server initialized from the specified dataset"
   puts "Options:"
   puts "      --dataset:            File containing RDF graph or dataset"
-  puts "      --debug:              Display detailed debug output"
   puts "      --debug:              Display detailed debug output"
   puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
   puts "      --format:             Output format for results"
@@ -116,20 +120,25 @@ opts = GetoptLong.new(
   ["--help", "-?", GetoptLong::NO_ARGUMENT]
 )
 
+logger = Logger.new(STDERR)
+logger.level = Logger::WARN
+logger.formatter = lambda {|severity, datetime, progname, msg| "%5s %s\n" % [severity, msg]}
+
 options = {
   dataset: RDF::Repository.new,
+  logger: logger,
 }
 
 opts.each do |opt, arg|
   case opt
-  when '--dataset'       then options[:dataset].load(arg, rdfstar: :PG)
-  when '--debug'         then options[:debug] = true
+  when '--dataset'       then options[:dataset].load(arg, rdfstar: true)
+  when '--debug'         then options[:debug] = true ; logger.level = Logger::DEBUG
   when '--execute'       then input = arg
   when '--format'        then options[:format] = arg.to_sym
   when '--port'          then options[:port] = arg.to_i
   when '--sse'           then options[:sse] = true
   when '--update'        then options[:update] = true
-  when '--verbose'       then options[:verbose] = true
+  when '--verbose'       then options[:verbose] = true ; logger.level = Logger::INFO
   when "--help"          then usage
   end
 end

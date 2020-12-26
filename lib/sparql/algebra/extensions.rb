@@ -283,6 +283,20 @@ module RDF::Term
   end
 end # RDF::Term
 
+class RDF::Literal::Double
+  ##
+  # Returns the SXP representation of this object.
+  #
+  # @return [String]
+  def to_sxp
+    case
+      when nan? then 'nan.0'
+      when infinite? then (infinite? > 0 ? '+inf.0' : '-inf.0')
+      else canonicalize.to_s.downcase
+    end
+  end
+end
+
 # Override RDF::Queryable to execute against SPARQL::Algebra::Query elements as well as RDF::Query and RDF::Pattern
 module RDF::Queryable
   alias_method :query_without_sparql, :query
@@ -335,11 +349,21 @@ class RDF::Statement
   # Transform Statement Pattern into an SXP
   # @return [Array]
   def to_sxp_bin
-    if has_graph?
-      [:quad, subject, predicate, object, graph_name]
-    else
-      [:triple, subject, predicate, object]
-    end
+    [ (has_graph? ? :quad : :triple),
+      (:inferred if inferred?),
+      subject,
+      predicate,
+      object,
+      graph_name
+    ].compact.map(&:to_sxp_bin)
+  end
+
+  ##
+  # Returns an S-Expression (SXP) representation
+  #
+  # @return [String]
+  def to_sxp
+    to_sxp_bin.to_sxp
   end
 
   ##
@@ -350,6 +374,8 @@ class RDF::Statement
   def optimize(**options)
     self.dup
   end
+
+  def executable?; false; end
 end
 
 class RDF::Query
@@ -435,7 +461,7 @@ class RDF::Query
   # @see SPARQL::Algebra::Expression#optimize!
   def optimize!(**options)
     @patterns = @patterns.map do |pattern|
-      components = pattern.to_a.map do |term|
+      components = pattern.to_quad.map do |term|
         if term.respond_to?(:lexical=)
           term.dup.instance_eval {@lexical = nil; self}
         else
@@ -448,24 +474,13 @@ class RDF::Query
   end
 
   ##
-  # Returns `true` if this is executable (i.e., contains a graph patterns), `false`
-  # otherwise.
+  # Returns `true` as this is executable.
   #
-  # @return [Boolean] `true` or `false`
+  # @return [Boolean] `true`
   def executable?; true; end
 end
 
 class RDF::Query::Pattern
-  # Transform Query Pattern into an SXP
-  # @return [Array]
-  def to_sxp_bin
-    if has_graph?
-      [:quad, subject, predicate, object, graph_name]
-    else
-      [:triple, subject, predicate, object]
-    end
-  end
-
   ##
   # Return the non-destinguished variables contained within this pattern
   # @return [Array<RDF::Query::Variable>]
@@ -479,6 +494,12 @@ class RDF::Query::Pattern
   def vars
     variables.values
   end
+
+  ##
+  # Returns `true` as this is executable.
+  #
+  # @return [Boolean] `true`
+  def executable?; true; end
 end
 
 ##

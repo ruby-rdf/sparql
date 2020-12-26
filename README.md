@@ -3,10 +3,9 @@
 This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 [![Gem Version](https://badge.fury.io/rb/sparql.png)](https://badge.fury.io/rb/sparql)
-
-[![Build Status](https://travis-ci.org/ruby-rdf/sparql.png?branch=master)](https://travis-ci.org/ruby-rdf/sparql)
-
+[![Build Status](https://github.com/ruby-rdf/sparql/workflows/CI/badge.svg?branch=develop)](https://github.com/ruby-rdf/sparql/actions?query=workflow%3ACI)
 [![Coverage Status](https://coveralls.io/repos/ruby-rdf/sparql/badge.svg)](https://coveralls.io/r/ruby-rdf/sparql)
+[![Gitter chat](https://badges.gitter.im/ruby-rdf/rdf.png)](https://gitter.im/ruby-rdf/rdf)
 
 ## Features
 
@@ -419,7 +418,9 @@ This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange develo
   list in the the `README`. Alphabetical order applies.
 * Do note that in order for us to merge any non-trivial changes (as a rule
   of thumb, additions larger than about 15 lines of code), we need an
-  explicit [public domain dedication][PDD] on record from you.
+  explicit [public domain dedication][PDD] on record from you,
+  which you will be asked to agree to on the first commit to a repo within the organization.
+  Note that the agreement applies to all repos in the [Ruby RDF](https://github.com/ruby-rdf/) organization.
 
 ## License
 
@@ -437,7 +438,7 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [Rack::LinkedData]: https://rubygems.org/gems/rack-linkeddata
 [YARD]:             https://yardoc.org/
 [YARD-GS]:          https://rubydoc.info/docs/yard/file/docs/GettingStarted.md
-[PDD]:              https://lists.w3.org/Archives/Public/public-rdf-ruby/2010May/0013.html
+[PDD]:              https://unlicense.org/#unlicensing-contributions
 [SPARQL]:           https://en.wikipedia.org/wiki/SPARQL
 [SPARQL 1.0]:       https://www.w3.org/TR/sparql11-query/
 [SPARQL 1.0 tests]:https://www.w3.org/2001/sw/DataAccess/tests/
@@ -447,8 +448,8 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [grammar]:          https://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          https://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
-[RDF*]:             https://lists.w3.org/Archives/Public/public-rdf-star/
-[SPARQL*]:          https://arxiv.org/pdf/1406.3399.pdf
+[RDF*]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
+[SPARQL*]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
 [Backports]:        https://rubygems.org/gems/backports
 [Linked Data]:      https://rubygems.org/gems/linkeddata
 [SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames

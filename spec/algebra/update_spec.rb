@@ -39,22 +39,21 @@ describe SPARQL::Algebra::Update do
     it "loads USING graph as default graph" do
       queryable = RDF::Repository.new
       expect(queryable).to receive(:load).with("data-g1.ttl",
-        {
+        hash_including({
           base_uri: RDF::URI.new("data-g1.ttl"),
-          graph_name: RDF::URI.new("data-g1.ttl"),
-          debug: kind_of(Object)
-        })
+          graph_name: RDF::URI.new("data-g1.ttl")
+        }))
       query = SPARQL::Algebra::Expression.parse(%q((using (<data-g1.ttl>) (bgp))))
       query.execute(queryable)
     end
 
     it "loads USING NAMED graph as named graph" do
       queryable = RDF::Repository.new
-      expect(queryable).to receive(:load).with("data-g1.ttl", {
-        graph_name: RDF::URI("data-g1.ttl"),
-        base_uri: RDF::URI("data-g1.ttl"),
-        debug: kind_of(Object)
-      })
+      expect(queryable).to receive(:load).with("data-g1.ttl",
+        hash_including({
+          base_uri: RDF::URI.new("data-g1.ttl"),
+          graph_name: RDF::URI.new("data-g1.ttl")
+        }))
       query = SPARQL::Algebra::Expression.parse(%q((using ((named <data-g1.ttl>)) (bgp))))
       query.execute(queryable)
     end
@@ -71,10 +70,9 @@ describe SPARQL::Algebra::Update do
     it "loads WITH graph as default graph" do
       queryable = RDF::Repository.new
       expect(queryable).to receive(:load).with("data-g1.ttl",
-        {
-          base_uri: RDF::URI.new("data-g1.ttl"),
-          debug: kind_of(Object)
-        })
+        hash_including({
+          base_uri: RDF::URI.new("data-g1.ttl")
+        }))
       query = SPARQL::Algebra::Expression.parse(%q((with <data-g1.ttl> (bgp))))
       query.execute(queryable)
     end

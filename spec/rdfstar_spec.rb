@@ -8,8 +8,9 @@ describe "SPARQL*" do
     RDF::Graph.new do |g|
       g << RDF::NTriples::Reader.new(%(
         <http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/name> "Bob" .
+        <http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer> .
         <<<http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer>>> <http://example.org/certainty> "0.9"^^<http://www.w3.org/2001/XMLSchema#decimal> .
-      ), rdfstar: :PG)
+      ), rdfstar: true)
     end
   end
 
@@ -34,6 +35,58 @@ describe "SPARQL*" do
            (?age ?c)
            (bgp
             (triple ?bob foaf:name "Bob")
+            (triple (triple ?bob foaf:age ?age) ex:certainty ?c)) ))),
+        json: JSON.parse(%({
+          "head": {"vars": ["age", "c"]},
+          "results": {
+            "bindings": [{
+              "age": {"type": "typed-literal", "value": "23", "datatype": "http://www.w3.org/2001/XMLSchema#integer"},
+              "c": {"type": "typed-literal", "value": "0.9", "datatype": "http://www.w3.org/2001/XMLSchema#decimal"}
+            }]
+          }
+        })),
+        xml: Nokogiri::XML.parse(%(<?xml version="1.0" encoding="UTF-8"?>
+          <sparql xmlns="http://www.w3.org/2005/sparql-results#">
+            <head>
+              <variable name="age"/>
+              <variable name="c"/>
+            </head>
+            <results>
+              <result>
+                <binding name="age">
+                  <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
+                </binding>
+                <binding name="c">
+                  <literal datatype="http://www.w3.org/2001/XMLSchema#decimal">0.9</literal>
+                </binding>
+              </result>
+            </results>
+          </sparql>)),
+        csv: %(age,c\r\n23,0.9\r\n),
+        tsv: %(?age\t?c\r\n23\t0.9\r\n),
+      }
+    },
+    "Base Query (annotation syntax)": {
+      query: %(
+        PREFIX : <http://bigdata.com/>
+        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+        PREFIX ex:  <http://example.org/>
+    
+        SELECT ?age ?c WHERE {
+          ?bob foaf:name "Bob" .
+           ?bob foaf:age ?age {| ex:certainty ?c |}.
+        }
+      ),
+      result: {
+        sxp: %(
+          (prefix ((: <http://bigdata.com/>)
+            (foaf: <http://xmlns.com/foaf/0.1/>)
+            (ex: <http://example.org/>))
+          (project
+           (?age ?c)
+           (bgp
+            (triple ?bob foaf:name "Bob")
+            (triple ?bob foaf:age ?age)
             (triple (triple ?bob foaf:age ?age) ex:certainty ?c)) ))),
         json: JSON.parse(%({
           "head": {"vars": ["age", "c"]},
@@ -93,9 +146,9 @@ describe "SPARQL*" do
                 "a": {
                   "type": "triple",
                   "value": {
-                    "s": {"type" : "uri", "value" : "http://bigdata.com/bob"},
-                    "p": {"type" : "uri", "value" : "http://xmlns.com/foaf/0.1/age"},
-                    "o": {"type" : "typed-literal", "datatype" : "http://www.w3.org/2001/XMLSchema#integer", "value" : "23"}
+                    "subject": {"type" : "uri", "value" : "http://bigdata.com/bob"},
+                    "predicate": {"type" : "uri", "value" : "http://xmlns.com/foaf/0.1/age"},
+                    "object": {"type" : "typed-literal", "datatype" : "http://www.w3.org/2001/XMLSchema#integer", "value" : "23"}
                   }
                 },
                 "b": {"type": "uri", "value": "http://example.org/certainty"},
@@ -115,15 +168,15 @@ describe "SPARQL*" do
               <result>
                 <binding name="a">
                   <triple>
-                    <s>
+                    <subject>
                       <uri>http://bigdata.com/bob</uri>
-                    </s>
-                    <p>
+                    </subject>
+                    <predicate>
                       <uri>http://xmlns.com/foaf/0.1/age</uri>
-                    </p>
-                    <o>
+                    </predicate>
+                    <object>
                       <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
-                    </o>
+                    </object>
                   </triple>
                 </binding>
                 <binding name="b">
@@ -135,8 +188,8 @@ describe "SPARQL*" do
               </result>
             </results>
           </sparql>)),
-        csv: %(a,b,c\r\n"<http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> ""23""^^<http://www.w3.org/2001/XMLSchema#integer> .",http://example.org/certainty,0.9\r\n),
-        tsv: %(?a\t?b\t?c\r\n<http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer> .\t<http://example.org/certainty>\t0.9\r\n),
+        csv: %(a,b,c\r\n"http://bigdata.com/bob,http://xmlns.com/foaf/0.1/age,23",http://example.org/certainty,0.9\r\n),
+        tsv: %(?a\t?b\t?c\r\n<http://bigdata.com/bob>\\t<http://xmlns.com/foaf/0.1/age>\\t23\t<http://example.org/certainty>\t0.9\r\n),
       }
     },
   }.each do |name, params|
@@ -148,7 +201,7 @@ describe "SPARQL*" do
       subject {result}
 
       it "parses to SXP" do
-        expect(query).to eql SPARQL::Algebra.parse(params[:result][:sxp])
+        expect(query).to produce(SPARQL::Algebra.parse(params[:result][:sxp]), [])
       end
 
       it "generates JSON results" do

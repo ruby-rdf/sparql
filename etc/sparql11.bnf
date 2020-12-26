@@ -94,8 +94,8 @@
     [76]  PropertyList            ::= PropertyListNotEmpty?
     [77]  PropertyListNotEmpty    ::= Verb ObjectList ( ';' ( Verb ObjectList )? )*
     [78]  Verb                    ::= VarOrIri | 'a'
-    [79]  ObjectList              ::= Object ( ',' Object )*
-    [80]  Object                  ::= GraphNode
+    [79]  ObjectList              ::= Object AnnotationPattern? ( ',' Object AnnotationPattern? )*
+    [80]  Object                  ::= GraphNode | EmbTP
     [81]  TriplesSameSubjectPath  ::= VarOrTermOrEmbTP PropertyListPathNotEmpty
                                     | TriplesNodePath PropertyListPath
     [82]  PropertyListPath        ::= PropertyListPathNotEmpty?
@@ -103,7 +103,7 @@
                                       ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
     [84]  VerbPath                ::= Path
     [85]  VerbSimple              ::= Var
-    [86]  ObjectListPath          ::= ObjectPath ( ',' ObjectPath )*
+    [86]  ObjectListPath          ::= ObjectPath AnnotationPattern? ( ',' ObjectPath AnnotationPattern? )*
     [87]  ObjectPath              ::= GraphNodePath
     [88]  Path                    ::= PathAlternative
     [89]  PathAlternative         ::= PathSequence ( '|' PathSequence )*
@@ -120,18 +120,17 @@
     [99]  BlankNodePropertyList   ::= '[' PropertyListNotEmpty ']'
     [100] TriplesNodePath         ::= CollectionPath | BlankNodePropertyListPath
     [101] BlankNodePropertyListPath::= '[' PropertyListPathNotEmpty ']'
-    [102] Collection             ::= '(' GraphNode+ ')'
-    [103] CollectionPath         ::= '(' GraphNodePath+ ')'
-    [104] GraphNode              ::= VarOrTerm | TriplesNode
-    [105] GraphNodePath          ::= VarOrTermOrEmbTP | TriplesNodePath
-    [106]  VarOrTerm               ::= Var | GraphTerm
-    [106s] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
-    [107]  VarOrIri                ::= Var | iri
+    [102] Collection              ::= '(' GraphNode+ ')'
+    [103] CollectionPath          ::= '(' GraphNodePath+ ')'
+    [104] GraphNode               ::= VarOrTerm | TriplesNode
+    [105] GraphNodePath           ::= VarOrTermOrEmbTP | TriplesNodePath
+    [106] VarOrTerm               ::= Var | GraphTerm
+    [107] VarOrIri                ::= Var | iri
     [107s] VarOrBlankNodeOrIriOrEmbTP ::= Var | BlankNode| iri | EmbTP
-    [108]  Var                     ::= VAR1 | VAR2
-    [109]  GraphTerm               ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral
+    [108]  Var                    ::= VAR1 | VAR2
+    [109]  GraphTerm              ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral
                                     | BlankNode | NIL
-    [1xxs] EmbTP                   ::= '<<' VarOrBlankNodeOrIriOrEmbTP Verb VarOrTermOrEmbTP '>>'
+    [174] EmbTP                   ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
     [110] Expression              ::= ConditionalOrExpression
     [111] ConditionalOrExpression ::= ConditionalAndExpression
                                       ( '||' ConditionalAndExpression )*
@@ -242,6 +241,10 @@
     [136] iri                     ::= IRIREF | PrefixedName
     [137] PrefixedName            ::= PNAME_LN | PNAME_NS
     [138] BlankNode               ::= BLANK_NODE_LABEL | ANON
+    [175]	EmbSubjectOrObject	    ::=	Var | BlankNode | iri | RDFLiteral
+                                    | NumericLiteral | BooleanLiteral | EmbTP
+    [176] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
+    [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
 
     @terminals
 

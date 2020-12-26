@@ -358,7 +358,7 @@ module SPARQL; module Algebra
     ##
     # Deep duplicate operands
     def deep_dup
-      self.class.new(*operands.map(&:deep_dup))
+      self.class.new(*operands.map(&:deep_dup), @options)
     end
 
     ##
