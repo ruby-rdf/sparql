@@ -191,8 +191,8 @@ module SPARQL::Spec
   end
 
   def self.sparql_star_tests
-    %w(syntax query update).map do |partial|
-      "https://w3c.github.io/rdf-star/tests/sparql/manifest-#{partial}.jsonld"
+    ["syntax/manifest", "manifest-query", "manifest-update"].map do |man|
+      "https://w3c.github.io/rdf-star/tests/sparql/#{man}.jsonld"
     end
   end
 end
