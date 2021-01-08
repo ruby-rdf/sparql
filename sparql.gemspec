@@ -18,9 +18,7 @@ Gem::Specification.new do |gem|
   gem.bindir             = %q(bin)
   gem.executables        = %w(sparql)
   gem.require_paths      = %w(lib)
-  gem.description        = %(
-    Implements SPARQL grammar parsing to SPARQL Algebra, SPARQL Algebra processing
-    and includes SPARQL Client for accessing remote repositories.)
+  gem.description        = %(SPARQL Implements SPARQL 1.1 Query, Update and result formats for the Ruby RDF.rb library suite.)
 
   gem.required_ruby_version      = '>= 2.4'
   gem.requirements               = []

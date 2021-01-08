@@ -41,7 +41,6 @@ group :debug do
   gem 'pry-byebug', platforms: :mri
   gem 'redcarpet', platforms: :ruby
   gem 'ruby-prof', platforms: :mri
-  gem 'awesome_print',    github: 'akshaymohite/awesome_print'
 end
 
 group :test do
