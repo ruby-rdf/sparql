@@ -1,6 +1,6 @@
 require 'rspec/matchers'
 require 'nokogiri'
-require 'awesome_print'
+require 'amazing_print'
 
 RSpec::Matchers.define :have_xpath do |xpath, value|
   match do |actual|
