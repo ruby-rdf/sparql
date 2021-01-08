@@ -878,10 +878,10 @@ module SPARQL::Grammar
     # [80]  	Object	  ::=  	GraphNode | EmbTP
     production(:Object) do |input, data, callback|
       object = data[:GraphNode] || data[:EmbTP]
+      add_prod_datum(:pattern, data[:pattern])
       if object
         if prod_data[:Verb]
           add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
-          add_prod_datum(:pattern, data[:pattern])
         elsif prod_data[:VerbPath]
           add_prod_datum(:path,
             SPARQL::Algebra::Expression(:path,
