@@ -16,6 +16,13 @@ module SPARQL; module Algebra
 
       NAME = :min
 
+      def initialize(*operands, **options)
+        raise ArgumentError,
+          "min operator accepts at most one argument with an optional :distinct" if
+          (operands - %i{distinct}).length != 1
+        super
+      end
+
       ##
       # Min is a SPARQL set function that return the minimum value from a group respectively.
       #

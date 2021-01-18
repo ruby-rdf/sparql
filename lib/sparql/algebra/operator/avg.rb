@@ -16,6 +16,13 @@ module SPARQL; module Algebra
 
       NAME = :avg
 
+      def initialize(*operands, **options)
+        raise ArgumentError,
+          "avg operator accepts at most one argument with an optional :distinct" if
+          (operands - %i{distinct}).length != 1
+        super
+      end
+
       ##
       # The Avg set function calculates the average value for an expression over a group. It is defined in terms of Sum and Count.
       #

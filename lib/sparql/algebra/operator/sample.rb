@@ -12,10 +12,17 @@ module SPARQL; module Algebra
     #             (bgp (triple ?s :dec ?o)))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggSample
-    class Sample < Operator::Unary
+    class Sample < Operator
       include Aggregate
 
       NAME = :sample
+
+      def initialize(*operands, **options)
+        raise ArgumentError,
+          "sample operator accepts at most one argument with an optional :distinct" if
+          (operands - %i{distinct}).length != 1
+        super
+      end
 
       ##
       # Sample is a set function which returns an arbitrary value from the multiset passed to it.
