@@ -1,5 +1,5 @@
 require 'rspec/matchers'
-require 'awesome_print'
+require 'amazing_print'
 
 ::RSpec::Matchers.define :have_result_set do |expected|
   def normalize(soln)

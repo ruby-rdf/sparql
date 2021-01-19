@@ -16,6 +16,13 @@ module SPARQL; module Algebra
 
       NAME = :max
 
+      def initialize(*operands, **options)
+        raise ArgumentError,
+          "max operator accepts at most one argument with an optional :distinct" if
+          (operands - %i{distinct}).length != 1
+        super
+      end
+
       ##
       # Max is a SPARQL set function that return the maximum value from a group respectively.
       #

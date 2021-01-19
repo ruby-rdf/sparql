@@ -4,7 +4,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 [![Gem Version](https://badge.fury.io/rb/sparql.png)](https://badge.fury.io/rb/sparql)
 [![Build Status](https://github.com/ruby-rdf/sparql/workflows/CI/badge.svg?branch=develop)](https://github.com/ruby-rdf/sparql/actions?query=workflow%3ACI)
-[![Coverage Status](https://coveralls.io/repos/ruby-rdf/sparql/badge.svg)](https://coveralls.io/r/ruby-rdf/sparql)
+[![Coverage Status](https://coveralls.io/repos/ruby-rdf/sparql/badge.svg?branch=develop)](https://coveralls.io/r/ruby-rdf/sparql?branch=develop)
 [![Gitter chat](https://badges.gitter.im/ruby-rdf/rdf.png)](https://gitter.im/ruby-rdf/rdf)
 
 ## Features

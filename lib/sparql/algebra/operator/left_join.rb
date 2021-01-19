@@ -37,6 +37,10 @@ module SPARQL; module Algebra
       def execute(queryable, **options, &block)
         filter = operand(2)
 
+        raise ArgumentError,
+          "leftjoin operator accepts at most two arguments with an optional filter" if
+          operands.length < 2 || operands.length > 3
+
         debug(options) {"LeftJoin"}
         left = queryable.query(operand(0), depth: options[:depth].to_i + 1, **options)
         debug(options) {"=>(leftjoin left) #{left.inspect}"}

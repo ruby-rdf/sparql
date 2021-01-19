@@ -1,0 +1,6 @@
+SELECT * 
+WHERE  {
+  << ?s:marriedTo :Beth >> :at :Kelby .
+  FILTER (?s = :Peter) .
+  BIND (<< ?s:marriedTo :Beth >> as ?r) .
+}

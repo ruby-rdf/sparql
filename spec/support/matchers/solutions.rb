@@ -1,7 +1,7 @@
 require 'rspec/matchers'
 require 'rdf/isomorphic'
 require 'rdf/trig'
-require 'awesome_print'
+require 'amazing_print'
 
 # For examining unordered solution sets
 RSpec::Matchers.define :describe_solutions do |expected_solutions, info|

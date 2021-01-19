@@ -336,8 +336,8 @@ module SPARQL; module Algebra
     #   @option options [Boolean] :memoize (false)
     #     whether to memoize results for particular operands
     # @raise  [TypeError] if any operand is invalid
-    def initialize(*operands)
-      @options  = operands.last.is_a?(Hash) ? operands.pop.dup : {}
+    def initialize(*operands, **options)
+      @options  = options.dup
       @operands = operands.map! do |operand|
         case operand
           when Array
@@ -358,7 +358,7 @@ module SPARQL; module Algebra
     ##
     # Deep duplicate operands
     def deep_dup
-      self.class.new(*operands.map(&:deep_dup), @options)
+      self.class.new(*operands.map(&:deep_dup), **@options)
     end
 
     ##
@@ -745,7 +745,7 @@ module SPARQL; module Algebra
       ##
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
-      def initialize(options = {})
+      def initialize(**options)
         super
       end
     end # Nullary
@@ -764,7 +764,7 @@ module SPARQL; module Algebra
       #   the operand
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
-      def initialize(arg, options = {})
+      def initialize(arg, **options)
         super
       end
     end # Unary
@@ -785,7 +785,7 @@ module SPARQL; module Algebra
       #   the second operand
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
-      def initialize(arg1, arg2, options = {})
+      def initialize(arg1, arg2, **options)
         super
       end
     end # Binary
@@ -808,7 +808,7 @@ module SPARQL; module Algebra
       #   the third operand
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
-      def initialize(arg1, arg2, arg3, options = {})
+      def initialize(arg1, arg2, arg3, **options)
         super
       end
     end # Ternary
@@ -833,7 +833,7 @@ module SPARQL; module Algebra
       #   the forth operand
       # @param  [Hash{Symbol => Object}] options
       #   any additional options (see {Operator#initialize})
-      def initialize(arg1, arg2, arg3, arg4, options = {})
+      def initialize(arg1, arg2, arg3, arg4, **options)
         super
       end
     end # Ternary

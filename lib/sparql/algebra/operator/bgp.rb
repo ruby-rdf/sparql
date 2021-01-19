@@ -22,7 +22,7 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @return [RDF::Query]
-      def self.new(*patterns, &block)
+      def self.new(*patterns, **options, &block)
         RDF::Query.new(*patterns, graph_name: false, &block)
       end
     end # BGP

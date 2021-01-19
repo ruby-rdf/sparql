@@ -292,7 +292,7 @@ module SPARQL
     # @raise  [RDF::FormatError] if no reader found for the specified format
     def self.open(filename, **options, &block)
       RDF::Util::File.open_file(filename, **options) do |file|
-        self.parse(file, options, &block)
+        self.parse(file, **options, &block)
       end
     end
 
@@ -326,7 +326,7 @@ module SPARQL
     # @return [Lexer]
     # @raise  [Lexer::Error] on invalid input
     def self.tokenize(query, **options, &block)
-      Lexer.tokenize(query, options, &block)
+      Lexer.tokenize(query, **options, &block)
     end
   end # Grammar
 end # SPARQL

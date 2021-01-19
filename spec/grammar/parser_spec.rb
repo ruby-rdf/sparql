@@ -2184,7 +2184,7 @@ describe SPARQL::Grammar::Parser do
   def parser(production = nil, **options)
     @logger = options.fetch(:logger, false)
     Proc.new do |query|
-      parser = described_class.new(query, {logger: @logger, resolve_iris: true}.merge(options))
+      parser = described_class.new(query, logger: @logger, resolve_iris: true, **options)
       production ? parser.parse(production) : parser
     end
   end

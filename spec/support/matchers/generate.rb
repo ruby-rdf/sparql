@@ -1,5 +1,5 @@
 require 'rspec/matchers'
-require 'awesome_print'
+require 'amazing_print'
 
 RSpec::Matchers.define :generate do |expected, options|
   def parser(**options)

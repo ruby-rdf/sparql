@@ -53,7 +53,7 @@ module SPARQL; module Algebra
     def self.open(filename, **options, &block)
       RDF::Util::File.open_file(filename, **options) do |file|
         options[:base_uri] ||= filename
-        Expression.parse(file, options, &block)
+        Expression.parse(file, **options, &block)
       end
     end
 
@@ -114,8 +114,11 @@ module SPARQL; module Algebra
 
       debug(options) {"#{operator.inspect}(#{operands.map(&:inspect).join(',')})"}
       options.delete_if {|k, v| [:debug, :logger, :depth, :prefixes, :base_uri, :update, :validate].include?(k) }
-      operands << options unless options.empty?
-      operator.new(*operands)
+      begin
+        operator.new(*operands, **options)
+      rescue ArgumentError => e
+        error(options) {"Operator=#{operator.inspect}: #{e}"}
+      end
     end
 
     ##
@@ -332,7 +335,7 @@ module SPARQL; module Algebra
     # @param [Hash{Symbol => Object}] options ({})
     #   options passed from query
     # @return [Expression] `self`
-    def evaluate(bindings, options = {})
+    def evaluate(bindings, **options)
       self
     end
 

@@ -25,11 +25,7 @@ module RDF::Queryable
   #
   # Used to implement the SPARQL `DESCRIBE` operator.
   #
-  # @overload concise_bounded_description(*terms, &block)
-  #   @param [Array<RDF::Term>] terms
-  #     List of terms to include in the results.
-  #
-  # @overload concise_bounded_description(*terms, options, &block)
+  # @overload concise_bounded_description(*terms, **options, &block)
   #   @param [Array<RDF::Term>] terms
   #     List of terms to include in the results.
   #   @param [Hash{Symbol => Object}] options
@@ -44,16 +40,14 @@ module RDF::Queryable
   # @return [RDF::Graph]
   #
   # @see https://www.w3.org/Submission/CBD/
-  def concise_bounded_description(*terms, &block)
-    options = terms.last.is_a?(Hash) ? terms.pop.dup : {}
-
+  def concise_bounded_description(*terms, **options, &block)
     graph = options[:graph] || RDF::Graph.new
 
     if options[:non_subjects]
       query_terms = terms.dup
 
       # Find terms not in self as a subject and recurse with their subjects
-      terms.reject {|term| self.first(subject: term)}.each do |term|
+      terms.reject {|term| self.first({subject: term})}.each do |term|
         self.query({predicate: term}) do |statement|
           query_terms << statement.subject
         end
@@ -67,7 +61,7 @@ module RDF::Queryable
     end
 
     # Don't consider term if already in graph
-    terms.reject {|term| graph.first(subject: term)}.each do |term|
+    terms.reject {|term| graph.first({subject: term})}.each do |term|
       # Find statements from queryiable with term as a subject
       self.query({subject: term}) do |statement|
         yield(statement) if block_given?
@@ -84,13 +78,13 @@ module RDF::Queryable
         }, **{}).execute(self).each do |solution|
           # Recurse to include this subject
           recurse_opts = options.merge(non_subjects: false, graph: graph)
-          self.concise_bounded_description(solution[:s], recurse_opts, &block)
+          self.concise_bounded_description(solution[:s], **recurse_opts, &block)
         end
 
         # Recurse if object is a BNode and it is not already in subjects
         if statement.object.node?
           recurse_opts = options.merge(non_subjects: false, graph: graph)
-          self.concise_bounded_description(statement.object, recurse_opts, &block)
+          self.concise_bounded_description(statement.object, **recurse_opts, &block)
         end
       end
     end
