@@ -320,7 +320,7 @@ module RDF::Queryable
   # @yieldreturn [void] ignored
   # @return [Enumerator]
   # @see    RDF::Queryable#query_pattern
-  def query(pattern, options = {}, &block)
+  def query(pattern, **options, &block)
     raise TypeError, "#{self} is not queryable" if respond_to?(:queryable?) && !queryable?
 
     if pattern.is_a?(SPARQL::Algebra::Operator) && pattern.respond_to?(:execute)

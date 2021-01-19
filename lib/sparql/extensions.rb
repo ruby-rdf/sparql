@@ -25,11 +25,7 @@ module RDF::Queryable
   #
   # Used to implement the SPARQL `DESCRIBE` operator.
   #
-  # @overload concise_bounded_description(*terms, &block)
-  #   @param [Array<RDF::Term>] terms
-  #     List of terms to include in the results.
-  #
-  # @overload concise_bounded_description(*terms, options, &block)
+  # @overload concise_bounded_description(*terms, **options, &block)
   #   @param [Array<RDF::Term>] terms
   #     List of terms to include in the results.
   #   @param [Hash{Symbol => Object}] options
@@ -44,9 +40,7 @@ module RDF::Queryable
   # @return [RDF::Graph]
   #
   # @see https://www.w3.org/Submission/CBD/
-  def concise_bounded_description(*terms, &block)
-    options = terms.last.is_a?(Hash) ? terms.pop.dup : {}
-
+  def concise_bounded_description(*terms, **options, &block)
     graph = options[:graph] || RDF::Graph.new
 
     if options[:non_subjects]

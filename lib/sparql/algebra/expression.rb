@@ -53,7 +53,7 @@ module SPARQL; module Algebra
     def self.open(filename, **options, &block)
       RDF::Util::File.open_file(filename, **options) do |file|
         options[:base_uri] ||= filename
-        Expression.parse(file, options, &block)
+        Expression.parse(file, **options, &block)
       end
     end
 
