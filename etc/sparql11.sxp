@@ -254,11 +254,11 @@
  (rule _PropertyListNotEmpty_5 "77.5" (seq Verb ObjectList))
  (rule Verb "78" (alt VarOrIri "a"))
  (rule ObjectList "79" (seq Object _ObjectList_1 _ObjectList_2))
- (rule _ObjectList_1 "79.1" (cleanup opt) (alt _empty AnnotationPattern))
+ (rule _ObjectList_1 "79.1" (cleanup opt) (alt _empty Annotation))
  (rule _ObjectList_2 "79.2" (cleanup star) (alt _empty _ObjectList_4))
  (rule _ObjectList_4 "79.4" (cleanup merge) (seq _ObjectList_3 _ObjectList_2))
  (rule _ObjectList_3 "79.3" (seq "," Object _ObjectList_5))
- (rule _ObjectList_5 "79.5" (cleanup opt) (alt _empty AnnotationPattern))
+ (rule _ObjectList_5 "79.5" (cleanup opt) (alt _empty Annotation))
  (rule Object "80" (alt GraphNode EmbTP))
  (rule TriplesSameSubjectPath "81"
   (alt _TriplesSameSubjectPath_1 _TriplesSameSubjectPath_2))
@@ -557,7 +557,8 @@
  (rule EmbSubjectOrObject "175"
   (alt Var BlankNode iri RDFLiteral NumericLiteral BooleanLiteral EmbTP))
  (rule VarOrTermOrEmbTP "176" (alt Var GraphTerm EmbTP))
- (rule AnnotationPattern "177" (seq "{|" PropertyListNotEmpty "|}"))
+ (rule Annotation "177" (seq "{|" PropertyListNotEmpty "|}"))
+ (rule AnnotationPattern "177p" (seq "{|" PropertyListPathNotEmpty "|}"))
  (terminals _terminals (seq))
  (terminal IRIREF "139" (seq "<" (star (alt (range "^#x00-#x20<>\"{}|^`\\") UCHAR)) ">"))
  (terminal PNAME_NS "140" (seq (opt PN_PREFIX) ":"))

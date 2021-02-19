@@ -483,7 +483,7 @@
       <td>[79]</td>
       <td><code>ObjectList</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-Object">Object</a> <a href="#grammar-production-AnnotationPattern">AnnotationPattern</a><code>?</code>  <code>(</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-Object">Object</a> <a href="#grammar-production-AnnotationPattern">AnnotationPattern</a><code>?</code> <code>)</code> <code>*</code> </td>
+      <td><a href="#grammar-production-Object">Object</a> <a href="#grammar-production-Annotation">Annotation</a><code>?</code>  <code>(</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-Object">Object</a> <a href="#grammar-production-Annotation">Annotation</a><code>?</code> <code>)</code> <code>*</code> </td>
     </tr>
     <tr id="grammar-production-Object">
       <td>[80]</td>
@@ -1178,11 +1178,17 @@
       <td>::=</td>
       <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-GraphTerm">GraphTerm</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
     </tr>
-    <tr id="grammar-production-AnnotationPattern">
+    <tr id="grammar-production-Annotation">
       <td>[177]</td>
-      <td><code>AnnotationPattern</code></td>
+      <td><code>Annotation</code></td>
       <td>::=</td>
       <td>&quot;{|&quot; <a href="#grammar-production-PropertyListNotEmpty">PropertyListNotEmpty</a> &quot;|}&quot;</td>
+    </tr>
+    <tr id="grammar-production-AnnotationPattern">
+      <td>[177p]</td>
+      <td><code>AnnotationPattern</code></td>
+      <td>::=</td>
+      <td>&quot;{|&quot; <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a> &quot;|}&quot;</td>
     </tr>
     <tr id="grammar-production-">
       <td colspan=2>@terminals</td>

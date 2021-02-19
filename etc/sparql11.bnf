@@ -94,7 +94,7 @@
     [76]  PropertyList            ::= PropertyListNotEmpty?
     [77]  PropertyListNotEmpty    ::= Verb ObjectList ( ';' ( Verb ObjectList )? )*
     [78]  Verb                    ::= VarOrIri | 'a'
-    [79]  ObjectList              ::= Object AnnotationPattern? ( ',' Object AnnotationPattern? )*
+    [79]  ObjectList              ::= Object Annotation? ( ',' Object Annotation? )*
     [80]  Object                  ::= GraphNode | EmbTP
     [81]  TriplesSameSubjectPath  ::= VarOrTermOrEmbTP PropertyListPathNotEmpty
                                     | TriplesNodePath PropertyListPath
@@ -244,7 +244,8 @@
     [175]	EmbSubjectOrObject	    ::=	Var | BlankNode | iri | RDFLiteral
                                     | NumericLiteral | BooleanLiteral | EmbTP
     [176] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
-    [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
+    [177]	Annotation      	      ::=	'{|' PropertyListNotEmpty '|}'
+    [177p]  AnnotationPattern	    ::=	'{|' PropertyListPathNotEmpty '|}'
 
     @terminals
 

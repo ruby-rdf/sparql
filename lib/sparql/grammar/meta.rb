@@ -954,8 +954,11 @@ module SPARQL::Grammar::Meta
       "sameTerm" => [:Expression],
       "true" => [:Expression],
     },
-    :AnnotationPattern => {
+    :Annotation => {
       "{|" => ["{|", :PropertyListNotEmpty, "|}"],
+    },
+    :AnnotationPattern => {
+      "{|" => ["{|", :PropertyListPathNotEmpty, "|}"],
     },
     :ArgList => {
       "(" => [:_ArgList_1],
@@ -3836,6 +3839,7 @@ module SPARQL::Grammar::Meta
       "]" => [],
       "{" => [],
       "{|" => [:AnnotationPattern],
+      "|}" => [],
       "}" => [],
     },
     :_ObjectListPath_2 => {
@@ -3851,6 +3855,7 @@ module SPARQL::Grammar::Meta
       "VALUES" => [],
       "]" => [],
       "{" => [],
+      "|}" => [],
       "}" => [],
     },
     :_ObjectListPath_3 => {
@@ -3873,6 +3878,7 @@ module SPARQL::Grammar::Meta
       "]" => [],
       "{" => [],
       "{|" => [:AnnotationPattern],
+      "|}" => [],
       "}" => [],
     },
     :_ObjectList_1 => {
@@ -3888,7 +3894,7 @@ module SPARQL::Grammar::Meta
       "VALUES" => [],
       "]" => [],
       "{" => [],
-      "{|" => [:AnnotationPattern],
+      "{|" => [:Annotation],
       "|}" => [],
       "}" => [],
     },
@@ -3927,7 +3933,7 @@ module SPARQL::Grammar::Meta
       "VALUES" => [],
       "]" => [],
       "{" => [],
-      "{|" => [:AnnotationPattern],
+      "{|" => [:Annotation],
       "|}" => [],
       "}" => [],
     },
@@ -4794,6 +4800,7 @@ module SPARQL::Grammar::Meta
       "VALUES" => [],
       "]" => [],
       "{" => [],
+      "|}" => [],
       "}" => [],
     },
     :_PropertyListPathNotEmpty_3 => {
@@ -4823,6 +4830,7 @@ module SPARQL::Grammar::Meta
       "^" => [:_PropertyListPathNotEmpty_6],
       "a" => [:_PropertyListPathNotEmpty_6],
       "{" => [],
+      "|}" => [],
       "}" => [],
     },
     :_PropertyListPathNotEmpty_6 => {
@@ -7762,16 +7770,30 @@ module SPARQL::Grammar::Meta
       "GROUP_CONCAT",
       :PNAME_LN,
       :PNAME_NS],
+    :Annotation => [
+      "{|"],
     :AnnotationPattern => [
       "{|"],
     :_AnnotationPattern_1 => [
+      :VAR1,
+      :VAR2,
+      "a",
+      "^",
+      :IRIREF,
+      "!",
+      "(",
+      :PNAME_LN,
+      :PNAME_NS],
+    :_AnnotationPattern_2 => [
+      "|}"],
+    :_Annotation_1 => [
       "a",
       :VAR1,
       :VAR2,
       :IRIREF,
       :PNAME_LN,
       :PNAME_NS],
-    :_AnnotationPattern_2 => [
+    :_Annotation_2 => [
       "|}"],
     :ArgList => [
       :NIL,
@@ -21981,7 +22003,7 @@ module SPARQL::Grammar::Meta
       :PNAME_NS],
     :_Aggregate_9 => [
       ")"],
-    :AnnotationPattern => [
+    :Annotation => [
       ",",
       "]",
       "|}",
@@ -21992,6 +22014,21 @@ module SPARQL::Grammar::Meta
       "{",
       "OPTIONAL",
       "MINUS",
+      "SERVICE",
+      "FILTER",
+      "BIND",
+      "VALUES"],
+    :AnnotationPattern => [
+      ",",
+      "]",
+      "|}",
+      ";",
+      ".",
+      "}",
+      "{",
+      "OPTIONAL",
+      "MINUS",
+      "GRAPH",
       "SERVICE",
       "FILTER",
       "BIND",
@@ -22003,6 +22040,36 @@ module SPARQL::Grammar::Meta
       ";",
       ".",
       "}",
+      "{",
+      "OPTIONAL",
+      "MINUS",
+      "GRAPH",
+      "SERVICE",
+      "FILTER",
+      "BIND",
+      "VALUES"],
+    :_AnnotationPattern_2 => [
+      ",",
+      "]",
+      "|}",
+      ";",
+      ".",
+      "}",
+      "{",
+      "OPTIONAL",
+      "MINUS",
+      "GRAPH",
+      "SERVICE",
+      "FILTER",
+      "BIND",
+      "VALUES"],
+    :_Annotation_1 => [
+      ",",
+      "]",
+      "|}",
+      ";",
+      ".",
+      "}",
       "GRAPH",
       "{",
       "OPTIONAL",
@@ -22011,7 +22078,7 @@ module SPARQL::Grammar::Meta
       "FILTER",
       "BIND",
       "VALUES"],
-    :_AnnotationPattern_2 => [
+    :_Annotation_2 => [
       ",",
       "]",
       "|}",
@@ -23006,6 +23073,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       :VAR1,
@@ -23051,6 +23119,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       :VAR1,
@@ -23096,6 +23165,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       :VAR1,
@@ -35280,6 +35350,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       :VAR1,
@@ -35331,6 +35402,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       :VAR1,
@@ -35380,6 +35452,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       :VAR1,
@@ -37432,6 +37505,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       ".",
@@ -40182,6 +40256,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :ObjectListPath => [
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40196,6 +40271,7 @@ module SPARQL::Grammar::Meta
     :_ObjectListPath_1 => [
       ",",
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40209,6 +40285,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :_ObjectListPath_2 => [
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40223,6 +40300,7 @@ module SPARQL::Grammar::Meta
     :_ObjectListPath_3 => [
       ",",
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40236,6 +40314,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :_ObjectListPath_4 => [
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40250,6 +40329,7 @@ module SPARQL::Grammar::Meta
     :_ObjectListPath_5 => [
       ",",
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40263,6 +40343,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :_ObjectListPath_6 => [
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40276,6 +40357,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :_ObjectListPath_7 => [
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40290,6 +40372,7 @@ module SPARQL::Grammar::Meta
     :_ObjectListPath_8 => [
       ",",
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40304,6 +40387,7 @@ module SPARQL::Grammar::Meta
     :_ObjectListPath_9 => [
       ",",
       "]",
+      "|}",
       ";",
       ".",
       "}",
@@ -40449,6 +40533,7 @@ module SPARQL::Grammar::Meta
     :ObjectPath => [
       "{|",
       "]",
+      "|}",
       ",",
       ";",
       ".",
@@ -42320,6 +42405,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :PropertyListPathNotEmpty => [
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42360,6 +42446,7 @@ module SPARQL::Grammar::Meta
     :_PropertyListPathNotEmpty_10 => [
       ";",
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42373,6 +42460,7 @@ module SPARQL::Grammar::Meta
     :_PropertyListPathNotEmpty_11 => [
       ";",
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42385,6 +42473,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :_PropertyListPathNotEmpty_2 => [
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42398,6 +42487,7 @@ module SPARQL::Grammar::Meta
     :_PropertyListPathNotEmpty_3 => [
       ";",
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42410,6 +42500,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :_PropertyListPathNotEmpty_4 => [
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42423,6 +42514,7 @@ module SPARQL::Grammar::Meta
     :_PropertyListPathNotEmpty_5 => [
       ";",
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42436,6 +42528,7 @@ module SPARQL::Grammar::Meta
     :_PropertyListPathNotEmpty_6 => [
       ";",
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42475,6 +42568,7 @@ module SPARQL::Grammar::Meta
       :DOUBLE_NEGATIVE],
     :_PropertyListPathNotEmpty_8 => [
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -42487,6 +42581,7 @@ module SPARQL::Grammar::Meta
       "VALUES"],
     :_PropertyListPathNotEmpty_9 => [
       "]",
+      "|}",
       ".",
       "}",
       "{",
@@ -46167,6 +46262,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       ",",
       ";",
       :VAR1,
@@ -46738,6 +46834,7 @@ module SPARQL::Grammar::Meta
       "{|",
       ")",
       "]",
+      "|}",
       :VAR1,
       :VAR2,
       :IRIREF,

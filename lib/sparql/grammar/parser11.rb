@@ -867,12 +867,26 @@ module SPARQL::Grammar
       add_prod_datum(:path, data[:path])
     end
 
-    # [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
+    # [177]	Annotation	      ::=	'{|' PropertyListNotEmpty '|}'
+    start_production(:Annotation) do |input, data, callback|
+      data[:TriplesNode] = prod_data[:pattern].first
+    end
+    production(:Annotation) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+    end
+
+    # [177]	AnnotationPattern	      ::=	'{|' PropertyListPathNotEmpty '|}'
     start_production(:AnnotationPattern) do |input, data, callback|
       data[:TriplesNode] = prod_data[:pattern].first
     end
     production(:AnnotationPattern) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+      if data[:pattern]
+        add_prod_datum(:pattern, data[:pattern])
+      elsif data[:path]
+        # Replace the subject in the path with the node being annotated.
+        data[:path].first.operands[0] = data[:TriplesNode]
+        add_prod_datum(:path, data[:path])
+      end
     end
 
     # [80]  	Object	  ::=  	GraphNode | EmbTP
@@ -951,6 +965,9 @@ module SPARQL::Grammar
             data[:pattern].unshift(RDF::Query::Pattern.new(prod_data[:Subject].first, prod_data[:Verb], object.first))
             bgp = SPARQL::Algebra::Expression[:bgp, data[:pattern]]
             add_prod_datum(:path, SPARQL::Algebra::Expression[:sequence, bgp, *data[:path]])
+          elsif data[:path]
+            # AnnotationPath case
+            add_prod_datum(:path, data[:path])
           else
             add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
             add_prod_datum(:pattern, data[:pattern])
