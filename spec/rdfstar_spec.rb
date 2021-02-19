@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'nokogiri'
 require 'equivalent-xml'
 
-describe "SPARQL*" do
+describe "SPARQL-star" do
   let(:data) do
     RDF::Graph.new do |g|
       g << RDF::NTriples::Reader.new(%(

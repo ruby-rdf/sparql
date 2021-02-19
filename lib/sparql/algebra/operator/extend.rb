@@ -28,7 +28,7 @@ module SPARQL; module Algebra
       # 
       # Extend(Ω, var, expr) = { Extend(μ, var, expr) | μ in Ω }
       #
-      # For SPARQL*, expr may be an embedded tiple pattern
+      # For SPARQL-star, expr may be an embedded tiple pattern
       #
       #    (extend
       #     ((?t (triple ?bob foaf:age ?age)))

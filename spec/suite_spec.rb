@@ -157,7 +157,7 @@ describe SPARQL do
     end
   end
 
-  describe "SPARQL* tests" do
+  describe "SPARQL-star tests" do
     SPARQL::Spec.sparql_star_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
