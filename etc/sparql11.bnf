@@ -35,7 +35,7 @@
     [25]  LimitOffsetClauses      ::= LimitClause OffsetClause? | OffsetClause LimitClause?
     [26]  LimitClause             ::= 'LIMIT' INTEGER
     [27]  OffsetClause            ::= 'OFFSET' INTEGER
-    [28]  ValuesClause	          ::= ( 'VALUES' DataBlock )?
+    [28]  ValuesClause            ::= ( 'VALUES' DataBlock )?
     [29]  Update                  ::= Prologue ( Update1 ( ';' Update )? )?
     [30]  Update1                 ::= Load | Clear | Drop | Add | Move | Copy | Create
                                     | InsertData | DeleteData | DeleteWhere | Modify
@@ -74,12 +74,12 @@
     [58]  GraphGraphPattern       ::= 'GRAPH' VarOrIri GroupGraphPattern
     [59]  ServiceGraphPattern     ::= 'SERVICE' 'SILENT'? VarOrIri GroupGraphPattern
     [60]  Bind                    ::= 'BIND' '(' (Expression | EmbTP) 'AS' Var ')'
-    [61]  InlineData	            ::= 'VALUES' DataBlock
-    [62]  DataBlock	              ::= InlineDataOneVar | InlineDataFull
-    [63]  InlineDataOneVar	      ::= Var '{' DataBlockValue* '}'
-    [64]  InlineDataFull	        ::= ( NIL | '(' Var* ')' )
+    [61]  InlineData              ::= 'VALUES' DataBlock
+    [62]  DataBlock               ::= InlineDataOneVar | InlineDataFull
+    [63]  InlineDataOneVar        ::= Var '{' DataBlockValue* '}'
+    [64]  InlineDataFull          ::= ( NIL | '(' Var* ')' )
                                      '{' ( '(' DataBlockValue* ')' | NIL )* '}'
-    [65]  DataBlockValue	        ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
+    [65]  DataBlockValue          ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
     [66]  MinusGraphPattern       ::= 'MINUS' GroupGraphPattern
     [67]  GroupOrUnionGraphPattern::= GroupGraphPattern ( 'UNION' GroupGraphPattern )*
     [68]  Filter                  ::= 'FILTER' Constraint
@@ -94,8 +94,8 @@
     [76]  PropertyList            ::= PropertyListNotEmpty?
     [77]  PropertyListNotEmpty    ::= Verb ObjectList ( ';' ( Verb ObjectList )? )*
     [78]  Verb                    ::= VarOrIri | 'a'
-    [79]  ObjectList              ::= Object Annotation? ( ',' Object Annotation? )*
-    [80]  Object                  ::= GraphNode | EmbTP
+    [79]  ObjectList              ::= Object ( ',' Object )*
+    [80]  Object                  ::= GraphNode AnnotationPattern?
     [81]  TriplesSameSubjectPath  ::= VarOrTermOrEmbTP PropertyListPathNotEmpty
                                     | TriplesNodePath PropertyListPath
     [82]  PropertyListPath        ::= PropertyListPathNotEmpty?
@@ -103,8 +103,8 @@
                                       ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
     [84]  VerbPath                ::= Path
     [85]  VerbSimple              ::= Var
-    [86]  ObjectListPath          ::= ObjectPath AnnotationPattern? ( ',' ObjectPath AnnotationPattern? )*
-    [87]  ObjectPath              ::= GraphNodePath
+    [86]  ObjectListPath          ::= ObjectPath ( ',' ObjectPath )*
+    [87]  ObjectPath              ::= GraphNodePath AnnotationPatternPath?
     [88]  Path                    ::= PathAlternative
     [89]  PathAlternative         ::= PathSequence ( '|' PathSequence )*
     [90]  PathSequence            ::= PathEltOrInverse ( '/' PathEltOrInverse )*
@@ -122,15 +122,13 @@
     [101] BlankNodePropertyListPath::= '[' PropertyListPathNotEmpty ']'
     [102] Collection              ::= '(' GraphNode+ ')'
     [103] CollectionPath          ::= '(' GraphNodePath+ ')'
-    [104] GraphNode               ::= VarOrTerm | TriplesNode
+    [104] GraphNode               ::= VarOrTermOrEmbTP | TriplesNode
     [105] GraphNodePath           ::= VarOrTermOrEmbTP | TriplesNodePath
     [106] VarOrTerm               ::= Var | GraphTerm
     [107] VarOrIri                ::= Var | iri
-    [107s] VarOrBlankNodeOrIriOrEmbTP ::= Var | BlankNode| iri | EmbTP
-    [108]  Var                    ::= VAR1 | VAR2
+    [108] Var                     ::= VAR1 | VAR2
     [109]  GraphTerm              ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral
                                     | BlankNode | NIL
-    [174] EmbTP                   ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
     [110] Expression              ::= ConditionalOrExpression
     [111] ConditionalOrExpression ::= ConditionalAndExpression
                                       ( '||' ConditionalAndExpression )*
@@ -241,11 +239,12 @@
     [136] iri                     ::= IRIREF | PrefixedName
     [137] PrefixedName            ::= PNAME_LN | PNAME_NS
     [138] BlankNode               ::= BLANK_NODE_LABEL | ANON
-    [175]	EmbSubjectOrObject	    ::=	Var | BlankNode | iri | RDFLiteral
+    [174] EmbTP                   ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
+    [175] EmbSubjectOrObject      ::= Var | BlankNode | iri | RDFLiteral
                                     | NumericLiteral | BooleanLiteral | EmbTP
     [176] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
-    [177]	Annotation      	      ::=	'{|' PropertyListNotEmpty '|}'
-    [177p]  AnnotationPattern	    ::=	'{|' PropertyListPathNotEmpty '|}'
+    [177] AnnotationPattern       ::= '{|' PropertyListNotEmpty '|}'
+    [178] AnnotationPatternPath   ::= '{|' PropertyListPathNotEmpty '|}'
 
     @terminals
 

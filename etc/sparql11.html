@@ -483,13 +483,13 @@
       <td>[79]</td>
       <td><code>ObjectList</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-Object">Object</a> <a href="#grammar-production-Annotation">Annotation</a><code>?</code>  <code>(</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-Object">Object</a> <a href="#grammar-production-Annotation">Annotation</a><code>?</code> <code>)</code> <code>*</code> </td>
+      <td><a href="#grammar-production-Object">Object</a> <code>(</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-Object">Object</a><code>)</code> <code>*</code> </td>
     </tr>
     <tr id="grammar-production-Object">
       <td>[80]</td>
       <td><code>Object</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-GraphNode">GraphNode</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
+      <td><a href="#grammar-production-GraphNode">GraphNode</a> <a href="#grammar-production-AnnotationPattern">AnnotationPattern</a><code>?</code> </td>
     </tr>
     <tr id="grammar-production-TriplesSameSubjectPath">
       <td>[81]</td>
@@ -525,13 +525,13 @@
       <td>[86]</td>
       <td><code>ObjectListPath</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-ObjectPath">ObjectPath</a> <a href="#grammar-production-AnnotationPattern">AnnotationPattern</a><code>?</code>  <code>(</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-ObjectPath">ObjectPath</a> <a href="#grammar-production-AnnotationPattern">AnnotationPattern</a><code>?</code> <code>)</code> <code>*</code> </td>
+      <td><a href="#grammar-production-ObjectPath">ObjectPath</a> <code>(</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-ObjectPath">ObjectPath</a><code>)</code> <code>*</code> </td>
     </tr>
     <tr id="grammar-production-ObjectPath">
       <td>[87]</td>
       <td><code>ObjectPath</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-GraphNodePath">GraphNodePath</a></td>
+      <td><a href="#grammar-production-GraphNodePath">GraphNodePath</a> <a href="#grammar-production-AnnotationPatternPath">AnnotationPatternPath</a><code>?</code> </td>
     </tr>
     <tr id="grammar-production-Path">
       <td>[88]</td>
@@ -633,7 +633,7 @@
       <td>[104]</td>
       <td><code>GraphNode</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-VarOrTerm">VarOrTerm</a> <code>|</code> <a href="#grammar-production-TriplesNode">TriplesNode</a></td>
+      <td><a href="#grammar-production-VarOrTermOrEmbTP">VarOrTermOrEmbTP</a> <code>|</code> <a href="#grammar-production-TriplesNode">TriplesNode</a></td>
     </tr>
     <tr id="grammar-production-GraphNodePath">
       <td>[105]</td>
@@ -653,12 +653,6 @@
       <td>::=</td>
       <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-iri">iri</a></td>
     </tr>
-    <tr id="grammar-production-VarOrBlankNodeOrIriOrEmbTP">
-      <td>[107s]</td>
-      <td><code>VarOrBlankNodeOrIriOrEmbTP</code></td>
-      <td>::=</td>
-      <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-BlankNode">BlankNode</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
-    </tr>
     <tr id="grammar-production-Var">
       <td>[108]</td>
       <td><code>Var</code></td>
@@ -670,12 +664,6 @@
       <td><code>GraphTerm</code></td>
       <td>::=</td>
       <td><a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-BlankNode">BlankNode</a> <code>|</code> <a href="#grammar-production-NIL">NIL</a></td>
-    </tr>
-    <tr id="grammar-production-EmbTP">
-      <td>[174]</td>
-      <td><code>EmbTP</code></td>
-      <td>::=</td>
-      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> &quot;&gt;&gt;&quot;</td>
     </tr>
     <tr id="grammar-production-Expression">
       <td>[110]</td>
@@ -1166,6 +1154,12 @@
       <td>::=</td>
       <td><a href="#grammar-production-BLANK_NODE_LABEL">BLANK_NODE_LABEL</a> <code>|</code> <a href="#grammar-production-ANON">ANON</a></td>
     </tr>
+    <tr id="grammar-production-EmbTP">
+      <td>[174]</td>
+      <td><code>EmbTP</code></td>
+      <td>::=</td>
+      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> &quot;&gt;&gt;&quot;</td>
+    </tr>
     <tr id="grammar-production-EmbSubjectOrObject">
       <td>[175]</td>
       <td><code>EmbSubjectOrObject</code></td>
@@ -1178,15 +1172,15 @@
       <td>::=</td>
       <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-GraphTerm">GraphTerm</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
     </tr>
-    <tr id="grammar-production-Annotation">
+    <tr id="grammar-production-AnnotationPattern">
       <td>[177]</td>
-      <td><code>Annotation</code></td>
+      <td><code>AnnotationPattern</code></td>
       <td>::=</td>
       <td>&quot;{|&quot; <a href="#grammar-production-PropertyListNotEmpty">PropertyListNotEmpty</a> &quot;|}&quot;</td>
     </tr>
-    <tr id="grammar-production-AnnotationPattern">
-      <td>[177p]</td>
-      <td><code>AnnotationPattern</code></td>
+    <tr id="grammar-production-AnnotationPatternPath">
+      <td>[178]</td>
+      <td><code>AnnotationPatternPath</code></td>
       <td>::=</td>
       <td>&quot;{|&quot; <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a> &quot;|}&quot;</td>
     </tr>

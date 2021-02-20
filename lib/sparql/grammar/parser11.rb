@@ -831,7 +831,7 @@ module SPARQL::Grammar
       add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
 
-    # [75]  	TriplesSameSubject	  ::=  	VarOrTerm PropertyListNotEmpty
+    # [75]  	TriplesSameSubject	  ::=  	VarOrTermOrEmbTP PropertyListNotEmpty
     #                                 |	TriplesNode PropertyList
     production(:TriplesSameSubject) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
@@ -840,8 +840,8 @@ module SPARQL::Grammar
     # [77]  	PropertyListNotEmpty	  ::=  	Verb ObjectList
     #                                       ( ';' ( Verb ObjectList )? )*
     start_production(:PropertyListNotEmpty) do |input, data, callback|
-      subject = input[:VarOrTerm] || input[:TriplesNode] || input[:GraphNode]
-      error(nil, "Expected VarOrTerm or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if validate? && !subject
+      subject = input[:VarOrTermOrEmbTP] || input[:TriplesNode] || input[:GraphNode]
+      error(nil, "Expected VarOrTermOrEmbTP or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
     production(:PropertyListNotEmpty) do |input, data, callback|
@@ -867,31 +867,13 @@ module SPARQL::Grammar
       add_prod_datum(:path, data[:path])
     end
 
-    # [177]	Annotation	      ::=	'{|' PropertyListNotEmpty '|}'
-    start_production(:Annotation) do |input, data, callback|
-      data[:TriplesNode] = prod_data[:pattern].first
+    # [80]  	Object	  ::=  	GraphNode AnnotationPattern?
+    start_production(:Object) do |input, data, callback|
+      data[:Subject] = Array(input[:Subject]).first
+      data[:Verb] = Array(input[:Verb]).first
     end
-    production(:Annotation) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
-    end
-
-    # [177]	AnnotationPattern	      ::=	'{|' PropertyListPathNotEmpty '|}'
-    start_production(:AnnotationPattern) do |input, data, callback|
-      data[:TriplesNode] = prod_data[:pattern].first
-    end
-    production(:AnnotationPattern) do |input, data, callback|
-      if data[:pattern]
-        add_prod_datum(:pattern, data[:pattern])
-      elsif data[:path]
-        # Replace the subject in the path with the node being annotated.
-        data[:path].first.operands[0] = data[:TriplesNode]
-        add_prod_datum(:path, data[:path])
-      end
-    end
-
-    # [80]  	Object	  ::=  	GraphNode | EmbTP
     production(:Object) do |input, data, callback|
-      object = data[:GraphNode] || data[:EmbTP]
+      object = data[:GraphNode]
       add_prod_datum(:pattern, data[:pattern])
       if object
         if prod_data[:Verb]
@@ -905,8 +887,17 @@ module SPARQL::Grammar
         end
       end
     end
+    start_production(:_Object_1) do |input, data, callback|
+      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first)
+      error("ObjectPath", "Expected Verb",
+        production: :_Object_1) unless input[:Verb]
+      data[:TriplesNode] = [pattern]
+    end
+    production(:_Object_1) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+    end
 
-    # [81]	TriplesSameSubjectPath	::=	VarOrTerm PropertyListPathNotEmpty | TriplesNode PropertyListPath
+    # [81]	TriplesSameSubjectPath	::=	VarOrTermOrEmbTP PropertyListPathNotEmpty | TriplesNode PropertyListPath
     production(:TriplesSameSubjectPath) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
       add_prod_datum(:path, data[:path])
@@ -914,8 +905,8 @@ module SPARQL::Grammar
 
     # [83]  	PropertyListPathNotEmpty	  ::=  	( VerbPath | VerbSimple ) ObjectList ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
     start_production(:PropertyListPathNotEmpty) do |input, data, callback|
-      subject = input[:VarOrTerm] || input[:TriplesNode] || input[:GraphNode]
-      error(nil, "Expected VarOrTerm, got nothing", production: :PropertyListPathNotEmpty) if validate? && !subject
+      subject = input[:VarOrTermOrEmbTP] || input[:TriplesNode] || input[:GraphNode]
+      error(nil, "Expected VarOrTermOrEmbTP, got nothing", production: :PropertyListPathNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
     production(:PropertyListPathNotEmpty) do |input, data, callback|
@@ -955,9 +946,13 @@ module SPARQL::Grammar
       add_prod_datum(:path, data[:path])
     end
 
-    # [87]  	ObjectPath	  ::=  	GraphNodePath
+    # [87]  	ObjectPath	  ::=  	GraphNodePath AnnotationPatternPath?
+    start_production(:ObjectPath) do |input, data, callback|
+      data[:Subject] = Array(input[:Subject]).first
+      data[:Verb] = Array(input[:Verb]).first
+    end
     production(:ObjectPath) do |input, data, callback|
-      object = data[:VarOrTerm] || data[:TriplesNode] || data[:GraphNode]
+      object = data[:VarOrTermOrEmbTP] || data[:TriplesNode] || data[:GraphNode]
       if object
         if prod_data[:Verb]
           if data[:pattern] && data[:path]
@@ -966,7 +961,7 @@ module SPARQL::Grammar
             bgp = SPARQL::Algebra::Expression[:bgp, data[:pattern]]
             add_prod_datum(:path, SPARQL::Algebra::Expression[:sequence, bgp, *data[:path]])
           elsif data[:path]
-            # AnnotationPath case
+            # AnnotationPatternPath case
             add_prod_datum(:path, data[:path])
           else
             add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
@@ -981,6 +976,16 @@ module SPARQL::Grammar
         end
       end
     end
+    start_production(:_ObjectPath_1) do |input, data, callback|
+      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first)
+      error("ObjectPath", "Expected Verb",
+        production: :_ObjectPath_1) unless input[:Verb]
+      data[:TriplesNode] = [pattern]
+    end
+    production(:_ObjectPath_1) do |input, data, callback|
+      add_prod_datum(:pattern, data[:pattern])
+    end
+
     # [88]  	Path	  ::=  	PathAlternative
     # output is a :Path or :iri
     production(:Path) do |input, data, callback|
@@ -1109,29 +1114,24 @@ module SPARQL::Grammar
       add_prod_datum(:path, data[:path])
     end
 
-    # [104]  	GraphNode	  ::=  	VarOrTerm |	TriplesNode
+    # [104]  	GraphNode	  ::=  	VarOrTermOrEmbTP |	TriplesNode
     production(:GraphNode) do |input, data, callback|
-      term = data[:VarOrTerm] || data[:TriplesNode]
+      term = data[:VarOrTermOrEmbTP] || data[:TriplesNode]
       add_prod_datum(:pattern, data[:pattern])
       add_prod_datum(:GraphNode, term)
     end
 
-    # [105]	GraphNodePath	::=	VarOrTerm | TriplesNodePath
+    # [105]	GraphNodePath	::=	VarOrTermOrEmbTP | TriplesNodePath
     production(:GraphNodePath) do |input, data, callback|
-      term = data[:VarOrTerm] || data[:TriplesNode]
+      term = data[:VarOrTermOrEmbTP] || data[:TriplesNode]
       add_prod_datum(:pattern, data[:pattern])
       add_prod_datum(:path, data[:path])
       add_prod_datum(:GraphNode, term)
     end
 
-    # [106]  	VarOrTerm	  ::=  	Var | GraphTerm
-    production(:VarOrTerm) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
-    end
-
     # [106s]  	VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
     production(:VarOrTermOrEmbTP) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
+      data.values.each {|v| add_prod_datum(:VarOrTermOrEmbTP, v)}
     end
 
     # [107]  	VarOrIri	  ::=  	Var | iri
@@ -1485,6 +1485,28 @@ module SPARQL::Grammar
 
       # Keep track of this for parent UnaryExpression production
       add_prod_datum(:UnaryExpression, data[:UnaryExpression])
+    end
+
+    # [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
+    #start_production(:AnnotationPattern) do |input, data, callback|
+    #  data[:TriplesNode] = prod_data[:TriplesNode].first
+    #end
+    #production(:AnnotationPattern) do |input, data, callback|
+    #  add_prod_datum(:pattern, data[:pattern])
+    #end
+
+    # [178]	AnnotationPatternPath	      ::=	'{|' PropertyListPathNotEmpty '|}'
+    start_production(:AnnotationPatternPath) do |input, data, callback|
+      data[:TriplesNode] = input[:TriplesNode]
+    end
+    production(:AnnotationPatternPath) do |input, data, callback|
+      if data[:pattern]
+        add_prod_datum(:pattern, data[:pattern])
+      elsif data[:path]
+        # Replace the subject in the path with the node being annotated.
+        data[:path].first.operands[0] = data[:TriplesNode]
+        add_prod_datum(:path, data[:path])
+      end
     end
 
     ##
