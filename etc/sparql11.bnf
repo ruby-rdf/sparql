@@ -211,6 +211,11 @@
                                     | 'isBLANK' '(' Expression ')' 
                                     | 'isLITERAL' '(' Expression ')' 
                                     | 'isNUMERIC' '(' Expression ')' 
+                                    | 'TRIPLE' '(' Expression ',' Expression ',' Expression ')' 
+                                    | 'isTriple' '(' Expression ')' 
+                                    | 'SUBJECT' '(' Expression ')' 
+                                    | 'PREDICATE' '(' Expression ')' 
+                                    | 'OBJECT' '(' Expression ')' 
                                     | RegexExpression 
                                     | ExistsFunc 
                                     | NotExistsFunc

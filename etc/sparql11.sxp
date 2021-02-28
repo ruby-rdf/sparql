@@ -435,8 +435,9 @@
    _BuiltInCall_36 _BuiltInCall_37 _BuiltInCall_38 _BuiltInCall_39
    _BuiltInCall_40 _BuiltInCall_41 _BuiltInCall_42 _BuiltInCall_43
    _BuiltInCall_44 _BuiltInCall_45 _BuiltInCall_46 _BuiltInCall_47
-   _BuiltInCall_48 _BuiltInCall_49 _BuiltInCall_50 RegexExpression ExistsFunc
-   NotExistsFunc ))
+   _BuiltInCall_48 _BuiltInCall_49 _BuiltInCall_50 _BuiltInCall_51
+   _BuiltInCall_52 _BuiltInCall_53 _BuiltInCall_54 _BuiltInCall_55
+   RegexExpression ExistsFunc NotExistsFunc ))
  (rule _BuiltInCall_1 "121.1" (seq "STR" "(" Expression ")"))
  (rule _BuiltInCall_2 "121.2" (seq "LANG" "(" Expression ")"))
  (rule _BuiltInCall_3 "121.3" (seq "LANGMATCHES" "(" Expression "," Expression ")"))
@@ -444,9 +445,9 @@
  (rule _BuiltInCall_5 "121.5" (seq "BOUND" "(" Var ")"))
  (rule _BuiltInCall_6 "121.6" (seq "IRI" "(" Expression ")"))
  (rule _BuiltInCall_7 "121.7" (seq "URI" "(" Expression ")"))
- (rule _BuiltInCall_8 "121.8" (seq "BNODE" _BuiltInCall_51))
- (rule _BuiltInCall_51 "121.51" (alt _BuiltInCall_52 NIL))
- (rule _BuiltInCall_52 "121.52" (seq "(" Expression ")"))
+ (rule _BuiltInCall_8 "121.8" (seq "BNODE" _BuiltInCall_56))
+ (rule _BuiltInCall_56 "121.56" (alt _BuiltInCall_57 NIL))
+ (rule _BuiltInCall_57 "121.57" (seq "(" Expression ")"))
  (rule _BuiltInCall_9 "121.9" (seq "RAND" NIL))
  (rule _BuiltInCall_10 "121.10" (seq "ABS" "(" Expression ")"))
  (rule _BuiltInCall_11 "121.11" (seq "CEIL" "(" Expression ")"))
@@ -490,6 +491,12 @@
  (rule _BuiltInCall_48 "121.48" (seq "isBLANK" "(" Expression ")"))
  (rule _BuiltInCall_49 "121.49" (seq "isLITERAL" "(" Expression ")"))
  (rule _BuiltInCall_50 "121.50" (seq "isNUMERIC" "(" Expression ")"))
+ (rule _BuiltInCall_51 "121.51"
+  (seq "TRIPLE" "(" Expression "," Expression "," Expression ")"))
+ (rule _BuiltInCall_52 "121.52" (seq "isTriple" "(" Expression ")"))
+ (rule _BuiltInCall_53 "121.53" (seq "SUBJECT" "(" Expression ")"))
+ (rule _BuiltInCall_54 "121.54" (seq "PREDICATE" "(" Expression ")"))
+ (rule _BuiltInCall_55 "121.55" (seq "OBJECT" "(" Expression ")"))
  (rule RegexExpression "122"
   (seq "REGEX" "(" Expression "," Expression _RegexExpression_1 ")"))
  (rule _RegexExpression_1 "122.1" (cleanup opt) (alt _empty _RegexExpression_2))
