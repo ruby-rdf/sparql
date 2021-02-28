@@ -529,6 +529,15 @@ class RDF::Query::Variable
   def optimize(**options)
     self
   end
+
+  # Display variable as SXP
+  # @return [Array]
+  def to_sxp_bin
+    prefix = distinguished? ? (existential? ? '$' : '?') : (existential? ? '$$' : '??')
+    unbound? ? "#{prefix}#{name}" : ["#{prefix}#{name}".to_sym, value].to_sxp_bin
+  end
+
+  def to_sxp; to_sxp_bin; end
 end # RDF::Query::Variable
 
 ##

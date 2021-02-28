@@ -88,7 +88,6 @@ module SPARQL; module Spec
       action ? query_file.to_s.split('/').last : '??'
     end
 
-
     def approved?
       approval.to_s.include? "Approved"
     end
@@ -126,7 +125,7 @@ module SPARQL; module Spec
         action.graphs.each do |info|
           data, format, default = info[:data], info[:format], info[:default]
           if data
-            RDF::Reader.for(format).new(data, info).each_statement do |st|
+            RDF::Reader.for(format).new(data, rdfstar: true, **info).each_statement do |st|
               st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
               r << st
             end
@@ -142,7 +141,7 @@ module SPARQL; module Spec
         result.graphs.each do |info|
           data, format = info[:data], info[:format]
           if data
-            RDF::Reader.for(format).new(data, **info).each_statement do |st|
+            RDF::Reader.for(format).new(data, rdfstar: true, **info).each_statement do |st|
               st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
               r << st
             end

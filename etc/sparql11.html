@@ -399,7 +399,7 @@
       <td>[65]</td>
       <td><code>DataBlockValue</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> &quot;UNDEF&quot;</td>
+      <td><a href="#grammar-production-EmbTD">EmbTD</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> &quot;UNDEF&quot;</td>
     </tr>
     <tr id="grammar-production-MinusGraphPattern">
       <td>[66]</td>
@@ -1183,6 +1183,18 @@
       <td><code>AnnotationPatternPath</code></td>
       <td>::=</td>
       <td>&quot;{|&quot; <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a> &quot;|}&quot;</td>
+    </tr>
+    <tr id="grammar-production-EmbTD">
+      <td>[179]</td>
+      <td><code>EmbTD</code></td>
+      <td>::=</td>
+      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-DataValueTerm">DataValueTerm</a> <code>(</code> <a href="#grammar-production-iri">iri</a> <code>|</code> "<code class="grammar-literal">a</code>"<code>)</code>  <a href="#grammar-production-DataValueTerm">DataValueTerm</a> &quot;&gt;&gt;&quot;</td>
+    </tr>
+    <tr id="grammar-production-DataValueTerm">
+      <td>[180]</td>
+      <td><code>DataValueTerm</code></td>
+      <td>::=</td>
+      <td><a href="#grammar-production-EmbTD">EmbTD</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a></td>
     </tr>
     <tr id="grammar-production-">
       <td colspan=2>@terminals</td>

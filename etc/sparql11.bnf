@@ -79,7 +79,7 @@
     [63]  InlineDataOneVar        ::= Var '{' DataBlockValue* '}'
     [64]  InlineDataFull          ::= ( NIL | '(' Var* ')' )
                                      '{' ( '(' DataBlockValue* ')' | NIL )* '}'
-    [65]  DataBlockValue          ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
+    [65]  DataBlockValue          ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
     [66]  MinusGraphPattern       ::= 'MINUS' GroupGraphPattern
     [67]  GroupOrUnionGraphPattern::= GroupGraphPattern ( 'UNION' GroupGraphPattern )*
     [68]  Filter                  ::= 'FILTER' Constraint
@@ -127,7 +127,7 @@
     [106] VarOrTerm               ::= Var | GraphTerm
     [107] VarOrIri                ::= Var | iri
     [108] Var                     ::= VAR1 | VAR2
-    [109]  GraphTerm              ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral
+    [109] GraphTerm               ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral
                                     | BlankNode | NIL
     [110] Expression              ::= ConditionalOrExpression
     [111] ConditionalOrExpression ::= ConditionalAndExpression
@@ -245,6 +245,8 @@
     [176] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
     [177] AnnotationPattern       ::= '{|' PropertyListNotEmpty '|}'
     [178] AnnotationPatternPath   ::= '{|' PropertyListPathNotEmpty '|}'
+    [179] EmbTD                   ::= '<<' DataValueTerm ( iri | 'a' ) DataValueTerm '>>'
+    [180] DataValueTerm           ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral
 
     @terminals
 

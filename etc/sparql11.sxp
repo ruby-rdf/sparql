@@ -203,7 +203,7 @@
   (cleanup merge)
   (seq DataBlockValue _InlineDataFull_9))
  (rule DataBlockValue "65"
-  (alt iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
+  (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
  (rule MinusGraphPattern "66" (seq "MINUS" GroupGraphPattern))
  (rule GroupOrUnionGraphPattern "67"
   (seq GroupGraphPattern _GroupOrUnionGraphPattern_1))
@@ -253,13 +253,12 @@
   (alt _empty _PropertyListNotEmpty_5))
  (rule _PropertyListNotEmpty_5 "77.5" (seq Verb ObjectList))
  (rule Verb "78" (alt VarOrIri "a"))
- (rule ObjectList "79" (seq Object _ObjectList_1 _ObjectList_2))
- (rule _ObjectList_1 "79.1" (cleanup opt) (alt _empty AnnotationPattern))
- (rule _ObjectList_2 "79.2" (cleanup star) (alt _empty _ObjectList_4))
- (rule _ObjectList_4 "79.4" (cleanup merge) (seq _ObjectList_3 _ObjectList_2))
- (rule _ObjectList_3 "79.3" (seq "," Object _ObjectList_5))
- (rule _ObjectList_5 "79.5" (cleanup opt) (alt _empty AnnotationPattern))
- (rule Object "80" (seq GraphNode))
+ (rule ObjectList "79" (seq Object _ObjectList_1))
+ (rule _ObjectList_1 "79.1" (cleanup star) (alt _empty _ObjectList_3))
+ (rule _ObjectList_3 "79.3" (cleanup merge) (seq _ObjectList_2 _ObjectList_1))
+ (rule _ObjectList_2 "79.2" (seq "," Object))
+ (rule Object "80" (seq GraphNode _Object_1))
+ (rule _Object_1 "80.1" (cleanup opt) (alt _empty AnnotationPattern))
  (rule TriplesSameSubjectPath "81"
   (alt _TriplesSameSubjectPath_1 _TriplesSameSubjectPath_2))
  (rule _TriplesSameSubjectPath_1 "81.1"
@@ -557,6 +556,9 @@
  (rule VarOrTermOrEmbTP "176" (alt Var GraphTerm EmbTP))
  (rule AnnotationPattern "177" (seq "{|" PropertyListNotEmpty "|}"))
  (rule AnnotationPatternPath "178" (seq "{|" PropertyListPathNotEmpty "|}"))
+ (rule EmbTD "179" (seq "<<" DataValueTerm _EmbTD_1 DataValueTerm ">>"))
+ (rule _EmbTD_1 "179.1" (alt iri "a"))
+ (rule DataValueTerm "180" (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral))
  (terminals _terminals (seq))
  (terminal IRIREF "139" (seq "<" (star (alt (range "^#x00-#x20<>\"{}|^`\\") UCHAR)) ">"))
  (terminal PNAME_NS "140" (seq (opt PN_PREFIX) ":"))

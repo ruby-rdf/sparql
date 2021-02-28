@@ -752,7 +752,7 @@ module SPARQL::Grammar
       end
     end
 
-    # [65]  DataBlockValue	        ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
+    # [65]  DataBlockValue	        ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
     production(:DataBlockValue) do |input, data, callback|
       add_prod_datum :DataBlockValue, data.values.first
     end
@@ -1509,6 +1509,21 @@ module SPARQL::Grammar
       end
     end
 
+    # [179] EmbTD                   ::= '<<' DataValueTerm ( iri | 'a' ) DataValueTerm '>>'
+    production(:EmbTD) do |input, data, callback|
+      subject, object = data[:DataValueTerm]
+      predicate = data[:iri]
+      add_pattern(:EmbTD,
+                  subject: subject,
+                  predicate: predicate,
+                  object: object)
+    end
+
+    # [180] DataValueTerm           ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral
+    production(:DataValueTerm) do |input, data, callback|
+      add_prod_datum :DataValueTerm, data.values.first
+    end
+    
     ##
     # Initializes a new parser instance.
     #

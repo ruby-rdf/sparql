@@ -191,7 +191,7 @@ module SPARQL::Spec
   end
 
   def self.sparql_star_tests
-    ["syntax/manifest", "manifest-query", "manifest-update"].map do |man|
+    ["syntax/manifest", "eval/manifest", "manifest-query", "manifest-update"].map do |man|
       "https://w3c.github.io/rdf-star/tests/sparql/#{man}.jsonld"
     end
   end
