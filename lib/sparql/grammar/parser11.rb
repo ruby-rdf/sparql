@@ -647,7 +647,7 @@ module SPARQL::Grammar
       data[:input_query] = input.delete(:query) || [SPARQL::Algebra::Operator::BGP.new]
     end
     production(:GraphPatternNotTriples) do |input, data, callback|
-      lhs = data[:input_query].first
+      lhs = Array(data[:input_query]).first
 
       # Filter trickls up to GroupGraphPatternSub
       add_prod_datum(:filter, data[:filter])
@@ -701,9 +701,9 @@ module SPARQL::Grammar
       end
     end
 
-    # [60]  Bind                    ::= 'BIND' '(' (Expression || EmbTP) 'AS' Var ')'
+    # [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
     production(:Bind) do |input, data, callback|
-      add_prod_datum :extend, [(data[:Expression] || data[:pattern]).unshift(data[:Var].first)]
+      add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
     end
 
     # [61]  InlineData	            ::= 'VALUES' DataBlock

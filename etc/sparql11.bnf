@@ -73,7 +73,7 @@
     [57]  OptionalGraphPattern    ::= 'OPTIONAL' GroupGraphPattern
     [58]  GraphGraphPattern       ::= 'GRAPH' VarOrIri GroupGraphPattern
     [59]  ServiceGraphPattern     ::= 'SERVICE' 'SILENT'? VarOrIri GroupGraphPattern
-    [60]  Bind                    ::= 'BIND' '(' (Expression | EmbTP) 'AS' Var ')'
+    [60]  Bind                    ::= 'BIND' '(' Expression 'AS' Var ')'
     [61]  InlineData              ::= 'VALUES' DataBlock
     [62]  DataBlock               ::= InlineDataOneVar | InlineDataFull
     [63]  InlineDataOneVar        ::= Var '{' DataBlockValue* '}'

@@ -28,12 +28,6 @@ module SPARQL; module Algebra
       # 
       # Extend(Ω, var, expr) = { Extend(μ, var, expr) | μ in Ω }
       #
-      # For SPARQL-star, expr may be an embedded tiple pattern
-      #
-      #    (extend
-      #     ((?t (triple ?bob foaf:age ?age)))
-      #     (bgp (triple ?t dct:source ?src)))
-      #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
@@ -56,12 +50,7 @@ module SPARQL; module Algebra
                                             depth: options[:depth].to_i + 1,
                                             **options)
               debug(options) {"===> + #{var} => #{val.inspect}"}
-              solution.bindings[var.to_sym] = if val.is_a?(RDF::Query::Pattern)
-                # Variable is bound to the solution
-                val.bind(solution)
-              else
-                val
-              end
+              solution.bindings[var.to_sym] = val
             rescue TypeError => e
               # Evaluates to error, ignore
               debug(options) {"===> #{var} error: #{e.message}"}

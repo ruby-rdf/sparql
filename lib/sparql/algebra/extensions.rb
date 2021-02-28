@@ -532,12 +532,10 @@ class RDF::Query::Variable
 
   # Display variable as SXP
   # @return [Array]
-  def to_sxp_bin
+  def to_sxp
     prefix = distinguished? ? (existential? ? '$' : '?') : (existential? ? '$$' : '??')
-    unbound? ? "#{prefix}#{name}" : ["#{prefix}#{name}".to_sym, value].to_sxp_bin
+    unbound? ? "#{prefix}#{name}".to_sym.to_sxp : ["#{prefix}#{name}".to_sym, value].to_sxp
   end
-
-  def to_sxp; to_sxp_bin; end
 end # RDF::Query::Variable
 
 ##

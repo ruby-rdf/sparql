@@ -178,8 +178,7 @@
  (rule ServiceGraphPattern "59"
   (seq "SERVICE" _ServiceGraphPattern_1 VarOrIri GroupGraphPattern))
  (rule _ServiceGraphPattern_1 "59.1" (cleanup opt) (alt _empty "SILENT"))
- (rule Bind "60" (seq "BIND" "(" _Bind_1 "AS" Var ")"))
- (rule _Bind_1 "60.1" (alt Expression EmbTP))
+ (rule Bind "60" (seq "BIND" "(" Expression "AS" Var ")"))
  (rule InlineData "61" (seq "VALUES" DataBlock))
  (rule DataBlock "62" (alt InlineDataOneVar InlineDataFull))
  (rule InlineDataOneVar "63" (seq Var "{" _InlineDataOneVar_1 "}"))

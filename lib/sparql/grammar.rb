@@ -192,31 +192,6 @@ module SPARQL
   #     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
   #     PREFIX dct:  <http://purl.org/dc/elements/1.1/>
   #     
-  #     SELECT ?age ?src WHERE {
-  #        ?bob foaf:name "Bob" .
-  #        BIND( <<?bob foaf:age ?age>> AS ?t ) .
-  #        ?t dct:source ?src .
-  #     }
-  #
-  # SXP:
-  #
-  #     (prefix
-  #      (
-  #       (: <http://bigdata.com>)
-  #       (foaf: <http://xmlns.com/foaf/0.1/>)
-  #       (dct: <http://purl.org/dc/elements/1.1/>))
-  #      (project
-  #       (?age ?src)
-  #       (join
-  #        (extend ((?t (triple ?bob foaf:age ?age))) (bgp (triple ?bob foaf:name "Bob")))
-  #        (bgp (triple ?t dct:source ?src))) ))
-  #
-  # SPARQL:
-  #
-  #     PREFIX : <http://bigdata.com>
-  #     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-  #     PREFIX dct:  <http://purl.org/dc/elements/1.1/>
-  #     
   #     CONSTRUCT {
   #       ?bob foaf:name "Bob" .
   #       <<?bob foaf:age ?age>> dct:creator <http://example.com/crawlers#c1>;
