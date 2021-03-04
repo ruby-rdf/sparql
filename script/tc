@@ -62,8 +62,10 @@ def run_tc(tc, **options)
     STDERR.puts "\nSSE (optimized):\n" + sxp.optimize.to_sse if options[:optimize]
     STDERR.puts "\nData:\n" + tc.data_string if tc.respond_to?(:data) && tc.data
     STDERR.puts "\nTest Data:\n" + tc.test_data_string if tc.respond_to?(:test_data_string) && tc.test_data_string
-    STDERR.puts "\nExpected:\n" + tc.solutions.to_sse if tc.respond_to?(:solutions)
-    STDERR.puts "\nExpected:\n" + tc.expected.dump(:trig, standard_prefixes: true) if tc.respond_to?(:expected)
+    STDERR.puts "\nExpected:\n" + (
+    tc.solutions.is_a?(RDF::Enumerable) ?
+      tc.solutions.dump(:trig, standard_prefixes: true) :
+      tc.solutions.to_sse)
   end
 
   case tc.name
@@ -86,14 +88,19 @@ def run_tc(tc, **options)
                             optimize: options[:optimize],
                             logger: options[:logger])
 
-      STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
+      if options[:verbose]
+        STDERR.puts "\nActual:\n" + (
+          actual.is_a?(RDF::Enumerable) ?
+            actual.dump(:trig, standard_prefixes: true) :
+            actual.to_sse)
+      end
 
       case tc.form
       when :select, :create, :describe, :construct
         if actual.isomorphic_with?(tc.solutions)
           result = "passed"
         else
-          if options[:verbose]
+          if options[:verbose] && tc.solutions.respond_to?(:_)
             STDERR.puts "Missing:\n#{(tc.solutions - actual).to_sse}" unless (tc.solutions - actual).empty?
             STDERR.puts "Extra:\n#{(actual - tc.solutions).to_sse}" unless (actual - tc.solutions).empty?
           end

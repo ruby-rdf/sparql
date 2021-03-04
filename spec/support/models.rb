@@ -269,11 +269,11 @@ module SPARQL; module Spec
           if form == :select
             parse_rdf_bindings(RDF::Graph.load(result))
           else
-            RDF::Graph.load(result).objects.detect {|o| o.literal?}
+            RDF::Graph.load(result, rdfstar: true).objects.detect {|o| o.literal?}
           end
         end
       when :describe, :create, :construct
-        RDF::Repository.load(result, base_uri: result, format: :ttl)
+        RDF::Graph.load(result, rdfstar: true, base_uri: result, format: :ttl)
       end
     end
 
