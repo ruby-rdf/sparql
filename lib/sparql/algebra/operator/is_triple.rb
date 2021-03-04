@@ -1,13 +1,15 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # The SPARQL `isTriple` operator.
+    # The SPARQL `isTRIPLE` operator.
     #
-    # @see xxx
+    # Returns true if term is an RDF-star triple. Returns false otherwise.
+    #
+    # @see https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#istriple
     class IsTriple < Operator::Unary
       include Evaluatable
 
-      NAME = :isTriple
+      NAME = :
 
       ##
       # Returns `true` if the operand is an `RDF::Statement`, `false` otherwise.

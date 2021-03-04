@@ -1,11 +1,11 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # The SPARQL logical `predicate` operator.
+    # The SPARQL `PREDICATE` operator.
     #
-    # Returns the predicate part of `arg` as a term.
+    # If triple is an RDF-star triple, the function returns the predicate of this triple. Passing anything other than an RDF-star triple is an error.
     #
-    # @see xxx
+    # @see https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#predicate
     class Predicate < Operator::Unary
       include Evaluatable
 

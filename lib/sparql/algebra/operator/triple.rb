@@ -3,7 +3,9 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `triple` operator.
     #
-    # @see xxx
+    # If the 3-tuple (term1, term2, term3) is an RDF-star triple, the function returns this triple. If the 3-tuple is not an RDF-star triple, then the function raises an error.
+    #
+    # @see https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#triple
     class Triple < Operator::Ternary
       include Evaluatable
 

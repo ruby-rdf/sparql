@@ -212,10 +212,10 @@
                                     | 'isLITERAL' '(' Expression ')' 
                                     | 'isNUMERIC' '(' Expression ')' 
                                     | 'TRIPLE' '(' Expression ',' Expression ',' Expression ')' 
-                                    | 'isTriple' '(' Expression ')' 
                                     | 'SUBJECT' '(' Expression ')' 
                                     | 'PREDICATE' '(' Expression ')' 
                                     | 'OBJECT' '(' Expression ')' 
+                                    | 'isTRIPLE' '(' Expression ')' 
                                     | RegexExpression 
                                     | ExistsFunc 
                                     | NotExistsFunc

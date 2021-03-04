@@ -1,11 +1,13 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # The SPARQL logical `subject` operator.
+    # The SPARQL `SUBJECT` operator.
     #
     # Returns the subject part of `arg` as a term.
     #
-    # @see xxx
+    # If triple is an RDF-star triple, the function returns the subject of this triple. Passing anything other than an RDF-star triple is an error.
+    #
+    # @see https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#subject
     class Subject < Operator::Unary
       include Evaluatable
 
