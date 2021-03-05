@@ -493,10 +493,10 @@
  (rule _BuiltInCall_50 "121.50" (seq "isNUMERIC" "(" Expression ")"))
  (rule _BuiltInCall_51 "121.51"
   (seq "TRIPLE" "(" Expression "," Expression "," Expression ")"))
- (rule _BuiltInCall_52 "121.52" (seq "" "(" Expression ")"))
- (rule _BuiltInCall_53 "121.53" (seq "SUBJECT" "(" Expression ")"))
- (rule _BuiltInCall_54 "121.54" (seq "PREDICATE" "(" Expression ")"))
- (rule _BuiltInCall_55 "121.55" (seq "OBJECT" "(" Expression ")"))
+ (rule _BuiltInCall_52 "121.52" (seq "SUBJECT" "(" Expression ")"))
+ (rule _BuiltInCall_53 "121.53" (seq "PREDICATE" "(" Expression ")"))
+ (rule _BuiltInCall_54 "121.54" (seq "OBJECT" "(" Expression ")"))
+ (rule _BuiltInCall_55 "121.55" (seq "isTRIPLE" "(" Expression ")"))
  (rule RegexExpression "122"
   (seq "REGEX" "(" Expression "," Expression _RegexExpression_1 ")"))
  (rule _RegexExpression_1 "122.1" (cleanup opt) (alt _empty _RegexExpression_2))

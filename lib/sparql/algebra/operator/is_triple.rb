@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     class IsTriple < Operator::Unary
       include Evaluatable
 
-      NAME = :
+      NAME = :isTRIPLE
 
       ##
       # Returns `true` if the operand is an `RDF::Statement`, `false` otherwise.

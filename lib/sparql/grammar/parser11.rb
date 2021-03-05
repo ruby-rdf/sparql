@@ -23,7 +23,7 @@ module SPARQL::Grammar
       STRAFTER STRBEFORE STRDT STRENDS STRLANG STRLEN STRSTARTS STRUUID STR
       TIMEZONE TZ UCASE URI UUID YEAR
       isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
-       TRIPLE SUBJECT PREDICATE OBJECT
+      isTRIPLE TRIPLE SUBJECT PREDICATE OBJECT
     }.map {|s| s.downcase.to_sym}.freeze
 
     BUILTIN_RULES = [:aggregate, :regex, :substr, :replace, :exists, :notexists].freeze
@@ -185,7 +185,7 @@ module SPARQL::Grammar
          |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR|SUM
          |TIMEZONE|TZ|UCASE|UNDEF|URI|UUID|YEAR
          |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
-         ||TRIPLE|SUBJECT|PREDICATE|OBJECT
+         |isTRIPLE|TRIPLE|SUBJECT|PREDICATE|OBJECT
         }x
         add_prod_datum(token.value.downcase.to_sym, token.value.downcase.to_sym)
       else

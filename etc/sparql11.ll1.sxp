@@ -296,7 +296,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (cleanup plus)
   (seq GroupCondition _GroupClause_2))
@@ -309,7 +309,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" _eps "isBLANK" "isIRI"
-   "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (cleanup star)
   (alt _empty _GroupClause_3))
@@ -322,7 +322,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (cleanup merge)
   (seq GroupCondition _GroupClause_2))
@@ -335,7 +335,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "(" "ABS" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE" "CONCAT" "CONTAINS"
    "COUNT" "DATATYPE" "DAY" "ENCODE_FOR_URI" "EXISTS" "FLOOR" "GROUP_CONCAT"
    "HAVING" "HOURS" "IF" "IRI" IRIREF "LANG" "LANGMATCHES" "LCASE" "LIMIT"
@@ -345,7 +345,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (alt BuiltInCall FunctionCall _GroupCondition_1 Var))
  (rule _GroupCondition_1 "20.1"
   (first "(")
@@ -358,7 +358,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (seq "(" Expression _GroupCondition_2 ")"))
  (rule _GroupCondition_2 "20.2"
   (first "AS" _eps)
@@ -379,7 +379,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" )
+   "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (cleanup plus)
   (seq HavingCondition _HavingClause_2))
@@ -392,7 +392,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" _eps "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (cleanup star)
   (alt _empty _HavingClause_3))
@@ -405,7 +405,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" )
+   "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (cleanup merge)
   (seq HavingCondition _HavingClause_2))
@@ -418,7 +418,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" )
+   "isTRIPLE" "isURI" "sameTerm" )
   (follow "(" "." "<<" "ABS" ANON "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
@@ -432,7 +432,7 @@
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" "VALUES" VAR1
    VAR2 "YEAR" "[" _eof "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "true" "{" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "true" "{" "}" )
   (seq Constraint))
  (rule OrderClause "23"
   (first "ORDER")
@@ -447,7 +447,7 @@
    "SHA224" "SHA256" "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT"
    "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM"
    "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "VALUES" _eof "}")
   (cleanup plus)
   (seq OrderCondition _OrderClause_2))
@@ -460,7 +460,7 @@
    "SHA224" "SHA256" "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT"
    "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM"
    "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" _eps
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "VALUES" _eof "}")
   (cleanup star)
   (alt _empty _OrderClause_3))
@@ -473,7 +473,7 @@
    "SHA224" "SHA256" "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT"
    "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM"
    "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "VALUES" _eof "}")
   (cleanup merge)
   (seq OrderCondition _OrderClause_2))
@@ -486,7 +486,7 @@
    "SHA224" "SHA256" "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT"
    "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM"
    "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "(" "ABS" "ASC" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE" "CONCAT"
    "CONTAINS" "COUNT" "DATATYPE" "DAY" "DESC" "ENCODE_FOR_URI" "EXISTS" "FLOOR"
    "GROUP_CONCAT" "HOURS" "IF" "IRI" IRIREF "LANG" "LANGMATCHES" "LCASE"
@@ -496,7 +496,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (alt _OrderCondition_1 _OrderCondition_2))
  (rule _OrderCondition_1 "24.1"
   (first "ASC" "DESC")
@@ -509,7 +509,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (seq _OrderCondition_3 BrackettedExpression))
  (rule _OrderCondition_3 "24.3" (first "ASC" "DESC") (follow "(") (alt "ASC" "DESC"))
  (rule _OrderCondition_2 "24.2"
@@ -521,7 +521,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "(" "ABS" "ASC" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE" "CONCAT"
    "CONTAINS" "COUNT" "DATATYPE" "DAY" "DESC" "ENCODE_FOR_URI" "EXISTS" "FLOOR"
    "GROUP_CONCAT" "HOURS" "IF" "IRI" IRIREF "LANG" "LANGMATCHES" "LCASE"
@@ -531,7 +531,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (alt Constraint Var))
  (rule LimitOffsetClauses "25"
   (first "LIMIT" "OFFSET")
@@ -851,7 +851,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "UNION" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false"
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm"
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm"
    "true" "{" "||" "}" )
   (seq "{" _GroupGraphPattern_1 "}"))
  (rule _GroupGraphPattern_1 "53.1"
@@ -1164,7 +1164,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" )
+   "isTRIPLE" "isURI" "sameTerm" )
   (follow "(" "." "<<" "ABS" ANON "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE"
    "BOUND" "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY"
    DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE "DESC" DOUBLE DOUBLE_NEGATIVE
@@ -1178,7 +1178,7 @@
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS"
    "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI"
    "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK" "isIRI"
-   "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{" "}" )
+   "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{" "}" )
   (alt BrackettedExpression BuiltInCall FunctionCall))
  (rule FunctionCall "70"
   (first IRIREF PNAME_LN PNAME_NS)
@@ -1195,7 +1195,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{" "}"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{" "}"
   )
   (seq iri ArgList))
  (rule ArgList "71"
@@ -1214,7 +1214,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (alt NIL _ArgList_1))
  (rule _ArgList_1 "71.1"
@@ -1233,7 +1233,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _ArgList_2 Expression _ArgList_3 ")"))
  (rule _ArgList_2 "71.2"
@@ -1249,7 +1249,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _ArgList_3 "71.3"
@@ -1279,7 +1279,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (alt NIL _ExpressionList_1))
  (rule _ExpressionList_1 "72.1"
@@ -1298,7 +1298,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression _ExpressionList_2 ")"))
  (rule _ExpressionList_2 "72.2"
@@ -1953,7 +1953,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "WHERE" "YEAR" "[" "]" "^" _eof "a"
-   "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" "{" "{|" "||" "|}" "}" )
   (alt VAR1 VAR2))
  (rule GraphTerm "109"
@@ -1980,7 +1980,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")" "," ";" "AS")
   (seq ConditionalOrExpression))
  (rule ConditionalOrExpression "111"
@@ -1995,7 +1995,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")" "," ";" "AS")
   (seq ConditionalAndExpression _ConditionalOrExpression_1))
  (rule _ConditionalOrExpression_1 "111.1"
@@ -2024,7 +2024,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")" "," ";" "AS" "||")
   (seq ValueLogical _ConditionalAndExpression_1))
  (rule _ConditionalAndExpression_1 "112.1"
@@ -2053,7 +2053,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq RelationalExpression))
  (rule RelationalExpression "114"
@@ -2068,7 +2068,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq NumericExpression _RelationalExpression_1))
  (rule _RelationalExpression_1 "114.1"
@@ -2126,7 +2126,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "," ";" "<" "<=" "=" ">" ">=" "AS" "IN" "NOT" "||")
   (seq AdditiveExpression))
  (rule AdditiveExpression "116"
@@ -2141,7 +2141,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "," ";" "<" "<=" "=" ">" ">=" "AS" "IN" "NOT" "||")
   (seq MultiplicativeExpression _AdditiveExpression_1))
  (rule _AdditiveExpression_1 "116.1"
@@ -2226,7 +2226,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "+" "," "-" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -2275,7 +2275,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -2310,7 +2310,7 @@
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS"
    "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI"
    "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "true" )
+   "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -2332,7 +2332,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression ")"))
  (rule BuiltInCall "121"
@@ -2343,7 +2343,7 @@
    "SAMPLE" "SECONDS" "SHA1" "SHA224" "SHA256" "SHA384" "SHA512" "STR"
    "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS"
    "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI"
-   "UUID" "YEAR" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "UUID" "YEAR" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -2359,7 +2359,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (alt Aggregate _BuiltInCall_1 _BuiltInCall_2 _BuiltInCall_3 _BuiltInCall_4
    _BuiltInCall_5 _BuiltInCall_6 _BuiltInCall_7 _BuiltInCall_8 _BuiltInCall_9
@@ -2392,7 +2392,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STR" "(" Expression ")"))
  (rule _BuiltInCall_2 "121.2"
@@ -2411,7 +2411,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "LANG" "(" Expression ")"))
  (rule _BuiltInCall_3 "121.3"
@@ -2430,7 +2430,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "LANGMATCHES" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_4 "121.4"
@@ -2449,7 +2449,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "DATATYPE" "(" Expression ")"))
  (rule _BuiltInCall_5 "121.5"
@@ -2468,7 +2468,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "BOUND" "(" Var ")"))
  (rule _BuiltInCall_6 "121.6"
@@ -2487,7 +2487,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "IRI" "(" Expression ")"))
  (rule _BuiltInCall_7 "121.7"
@@ -2506,7 +2506,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "URI" "(" Expression ")"))
  (rule _BuiltInCall_8 "121.8"
@@ -2525,7 +2525,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "BNODE" _BuiltInCall_56))
  (rule _BuiltInCall_56 "121.56"
@@ -2544,7 +2544,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (alt _BuiltInCall_57 NIL))
  (rule _BuiltInCall_57 "121.57"
@@ -2563,7 +2563,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression ")"))
  (rule _BuiltInCall_9 "121.9"
@@ -2582,7 +2582,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "RAND" NIL))
  (rule _BuiltInCall_10 "121.10"
@@ -2601,7 +2601,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "ABS" "(" Expression ")"))
  (rule _BuiltInCall_11 "121.11"
@@ -2620,7 +2620,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "CEIL" "(" Expression ")"))
  (rule _BuiltInCall_12 "121.12"
@@ -2639,7 +2639,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "FLOOR" "(" Expression ")"))
  (rule _BuiltInCall_13 "121.13"
@@ -2658,7 +2658,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "ROUND" "(" Expression ")"))
  (rule _BuiltInCall_14 "121.14"
@@ -2677,7 +2677,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "CONCAT" ExpressionList))
  (rule _BuiltInCall_15 "121.15"
@@ -2696,7 +2696,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRLEN" "(" Expression ")"))
  (rule _BuiltInCall_16 "121.16"
@@ -2715,7 +2715,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "UCASE" "(" Expression ")"))
  (rule _BuiltInCall_17 "121.17"
@@ -2734,7 +2734,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "LCASE" "(" Expression ")"))
  (rule _BuiltInCall_18 "121.18"
@@ -2753,7 +2753,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "ENCODE_FOR_URI" "(" Expression ")"))
  (rule _BuiltInCall_19 "121.19"
@@ -2772,7 +2772,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "CONTAINS" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_20 "121.20"
@@ -2791,7 +2791,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRSTARTS" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_21 "121.21"
@@ -2810,7 +2810,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRENDS" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_22 "121.22"
@@ -2829,7 +2829,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRBEFORE" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_23 "121.23"
@@ -2848,7 +2848,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRAFTER" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_24 "121.24"
@@ -2867,7 +2867,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "YEAR" "(" Expression ")"))
  (rule _BuiltInCall_25 "121.25"
@@ -2886,7 +2886,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "MONTH" "(" Expression ")"))
  (rule _BuiltInCall_26 "121.26"
@@ -2905,7 +2905,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "DAY" "(" Expression ")"))
  (rule _BuiltInCall_27 "121.27"
@@ -2924,7 +2924,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "HOURS" "(" Expression ")"))
  (rule _BuiltInCall_28 "121.28"
@@ -2943,7 +2943,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "MINUTES" "(" Expression ")"))
  (rule _BuiltInCall_29 "121.29"
@@ -2962,7 +2962,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SECONDS" "(" Expression ")"))
  (rule _BuiltInCall_30 "121.30"
@@ -2981,7 +2981,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "TIMEZONE" "(" Expression ")"))
  (rule _BuiltInCall_31 "121.31"
@@ -3000,7 +3000,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "TZ" "(" Expression ")"))
  (rule _BuiltInCall_32 "121.32"
@@ -3019,7 +3019,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "NOW" NIL))
  (rule _BuiltInCall_33 "121.33"
@@ -3038,7 +3038,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "UUID" NIL))
  (rule _BuiltInCall_34 "121.34"
@@ -3057,7 +3057,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRUUID" NIL))
  (rule _BuiltInCall_35 "121.35"
@@ -3076,7 +3076,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "MD5" "(" Expression ")"))
  (rule _BuiltInCall_36 "121.36"
@@ -3095,7 +3095,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SHA1" "(" Expression ")"))
  (rule _BuiltInCall_37 "121.37"
@@ -3114,7 +3114,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SHA224" "(" Expression ")"))
  (rule _BuiltInCall_38 "121.38"
@@ -3133,7 +3133,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SHA256" "(" Expression ")"))
  (rule _BuiltInCall_39 "121.39"
@@ -3152,7 +3152,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SHA384" "(" Expression ")"))
  (rule _BuiltInCall_40 "121.40"
@@ -3171,7 +3171,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SHA512" "(" Expression ")"))
  (rule _BuiltInCall_41 "121.41"
@@ -3190,7 +3190,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "COALESCE" ExpressionList))
  (rule _BuiltInCall_42 "121.42"
@@ -3209,7 +3209,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "IF" "(" Expression "," Expression "," Expression ")"))
  (rule _BuiltInCall_43 "121.43"
@@ -3228,7 +3228,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRLANG" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_44 "121.44"
@@ -3247,7 +3247,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "STRDT" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_45 "121.45"
@@ -3266,7 +3266,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "sameTerm" "(" Expression "," Expression ")"))
  (rule _BuiltInCall_46 "121.46"
@@ -3285,7 +3285,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "isIRI" "(" Expression ")"))
  (rule _BuiltInCall_47 "121.47"
@@ -3304,7 +3304,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "isURI" "(" Expression ")"))
  (rule _BuiltInCall_48 "121.48"
@@ -3323,7 +3323,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "isBLANK" "(" Expression ")"))
  (rule _BuiltInCall_49 "121.49"
@@ -3342,7 +3342,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "isLITERAL" "(" Expression ")"))
  (rule _BuiltInCall_50 "121.50"
@@ -3361,7 +3361,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "isNUMERIC" "(" Expression ")"))
  (rule _BuiltInCall_51 "121.51"
@@ -3380,29 +3380,10 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "TRIPLE" "(" Expression "," Expression "," Expression ")"))
  (rule _BuiltInCall_52 "121.52"
-  (first "")
-  (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
-   ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
-   "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
-   DECIMAL_NEGATIVE DECIMAL_POSITIVE "DESC" DOUBLE DOUBLE_NEGATIVE
-   DOUBLE_POSITIVE "ENCODE_FOR_URI" "EXISTS" "FILTER" "FLOOR" "GRAPH"
-   "GROUP_CONCAT" "HAVING" "HOURS" "IF" "IN" INTEGER INTEGER_NEGATIVE
-   INTEGER_POSITIVE "IRI" IRIREF "LANG" "LANGMATCHES" "LCASE" "LIMIT" "MAX"
-   "MD5" "MIN" "MINUS" "MINUTES" "MONTH" NIL "NOT" "NOW" "OBJECT" "OFFSET"
-   "OPTIONAL" "ORDER" PNAME_LN PNAME_NS "PREDICATE" "RAND" "REGEX" "REPLACE"
-   "ROUND" "SAMPLE" "SECONDS" "SERVICE" "SHA1" "SHA224" "SHA256" "SHA384"
-   "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" STRING_LITERAL1
-   STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
-   "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
-   "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
-   "||" "}" )
-  (seq "" "(" Expression ")"))
- (rule _BuiltInCall_53 "121.53"
   (first "SUBJECT")
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -3418,10 +3399,10 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SUBJECT" "(" Expression ")"))
- (rule _BuiltInCall_54 "121.54"
+ (rule _BuiltInCall_53 "121.53"
   (first "PREDICATE")
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -3437,10 +3418,10 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "PREDICATE" "(" Expression ")"))
- (rule _BuiltInCall_55 "121.55"
+ (rule _BuiltInCall_54 "121.54"
   (first "OBJECT")
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -3456,9 +3437,28 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "OBJECT" "(" Expression ")"))
+ (rule _BuiltInCall_55 "121.55"
+  (first "isTRIPLE")
+  (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
+   ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
+   "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
+   DECIMAL_NEGATIVE DECIMAL_POSITIVE "DESC" DOUBLE DOUBLE_NEGATIVE
+   DOUBLE_POSITIVE "ENCODE_FOR_URI" "EXISTS" "FILTER" "FLOOR" "GRAPH"
+   "GROUP_CONCAT" "HAVING" "HOURS" "IF" "IN" INTEGER INTEGER_NEGATIVE
+   INTEGER_POSITIVE "IRI" IRIREF "LANG" "LANGMATCHES" "LCASE" "LIMIT" "MAX"
+   "MD5" "MIN" "MINUS" "MINUTES" "MONTH" NIL "NOT" "NOW" "OBJECT" "OFFSET"
+   "OPTIONAL" "ORDER" PNAME_LN PNAME_NS "PREDICATE" "RAND" "REGEX" "REPLACE"
+   "ROUND" "SAMPLE" "SECONDS" "SERVICE" "SHA1" "SHA224" "SHA256" "SHA384"
+   "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" STRING_LITERAL1
+   STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
+   "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
+   "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
+   "||" "}" )
+  (seq "isTRIPLE" "(" Expression ")"))
  (rule RegexExpression "122"
   (first "REGEX")
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
@@ -3475,7 +3475,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "REGEX" "(" Expression "," Expression _RegexExpression_1 ")"))
  (rule _RegexExpression_1 "122.1"
@@ -3500,7 +3500,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SUBSTR" "(" Expression "," Expression _SubstringExpression_1 ")"))
  (rule _SubstringExpression_1 "123.1"
@@ -3525,7 +3525,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "REPLACE" "(" Expression "," Expression "," Expression
    _StrReplaceExpression_1 ")" ))
@@ -3551,7 +3551,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "EXISTS" GroupGraphPattern))
  (rule NotExistsFunc "126"
@@ -3570,7 +3570,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "NOT" "EXISTS" GroupGraphPattern))
  (rule Aggregate "127"
@@ -3589,7 +3589,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (alt _Aggregate_1 _Aggregate_2 _Aggregate_3 _Aggregate_4 _Aggregate_5
    _Aggregate_6 _Aggregate_7 ))
@@ -3609,7 +3609,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "COUNT" "(" _Aggregate_8 _Aggregate_9 ")"))
  (rule _Aggregate_8 "127.8"
@@ -3625,7 +3625,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _Aggregate_9 "127.9"
@@ -3640,7 +3640,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")")
   (alt "*" Expression))
  (rule _Aggregate_2 "127.2"
@@ -3659,7 +3659,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SUM" "(" _Aggregate_10 Expression ")"))
  (rule _Aggregate_10 "127.10"
@@ -3675,7 +3675,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _Aggregate_3 "127.3"
@@ -3694,7 +3694,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "MIN" "(" _Aggregate_11 Expression ")"))
  (rule _Aggregate_11 "127.11"
@@ -3710,7 +3710,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _Aggregate_4 "127.4"
@@ -3729,7 +3729,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "MAX" "(" _Aggregate_12 Expression ")"))
  (rule _Aggregate_12 "127.12"
@@ -3745,7 +3745,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _Aggregate_5 "127.5"
@@ -3764,7 +3764,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "AVG" "(" _Aggregate_13 Expression ")"))
  (rule _Aggregate_13 "127.13"
@@ -3780,7 +3780,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _Aggregate_6 "127.6"
@@ -3799,7 +3799,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "SAMPLE" "(" _Aggregate_14 Expression ")"))
  (rule _Aggregate_14 "127.14"
@@ -3815,7 +3815,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _Aggregate_7 "127.7"
@@ -3834,7 +3834,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "GROUP_CONCAT" "(" _Aggregate_15 Expression _Aggregate_16 ")"))
  (rule _Aggregate_15 "127.15"
@@ -3850,7 +3850,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (cleanup opt)
   (alt _empty "DISTINCT"))
  (rule _Aggregate_16 "127.16"
@@ -4204,7 +4204,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "(" "." "<<" ANON "BIND" BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
    DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE "FILTER" "FROM"
    "GRAPH" INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "MINUS" NIL
@@ -4287,7 +4287,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" _eps "isBLANK" "isIRI"
-   "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (seq _GroupClause_2))
  (rule _GroupClause_6 "19.6"
@@ -4299,7 +4299,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" _eps "isBLANK" "isIRI"
-   "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (seq _GroupClause_2))
  (rule _GroupCondition_4 "20.4"
@@ -4314,7 +4314,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "(" "ABS" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE" "CONCAT" "CONTAINS"
    "COUNT" "DATATYPE" "DAY" "ENCODE_FOR_URI" "EXISTS" "FLOOR" "GROUP_CONCAT"
    "HAVING" "HOURS" "IF" "IRI" IRIREF "LANG" "LANGMATCHES" "LCASE" "LIMIT"
@@ -4324,7 +4324,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (seq Expression _GroupCondition_2 ")"))
  (rule _HavingClause_4 "21.4"
   (first "(" "ABS" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE" "CONCAT" "CONTAINS"
@@ -4335,7 +4335,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" )
+   "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (seq _HavingClause_1))
  (rule _HavingClause_5 "21.5"
@@ -4347,7 +4347,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" _eps "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (seq _HavingClause_2))
  (rule _HavingClause_6 "21.6"
@@ -4359,7 +4359,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" "YEAR" _eps "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (seq _HavingClause_2))
  (rule _OrderClause_4 "23.4"
@@ -4375,7 +4375,7 @@
    "SHA224" "SHA256" "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT"
    "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM"
    "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" _eps
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "VALUES" _eof "}")
   (seq _OrderClause_2))
  (rule _OrderClause_6 "23.6"
@@ -4387,7 +4387,7 @@
    "SHA224" "SHA256" "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT"
    "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM"
    "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" _eps
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "VALUES" _eof "}")
   (seq _OrderClause_2))
  (rule _OrderCondition_4 "24.4"
@@ -4401,7 +4401,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (seq BrackettedExpression))
  (rule _LimitOffsetClauses_5 "25.5"
   (first "OFFSET" _eps)
@@ -4535,7 +4535,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "UNION" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false"
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm"
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm"
    "true" "{" "||" "}" )
   (seq _GroupGraphPattern_1 "}"))
  (rule _GroupGraphPatternSub_7 "54.7"
@@ -4704,7 +4704,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{" "}"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{" "}"
   )
   (seq ArgList))
  (rule _ArgList_6 "71.6"
@@ -4719,7 +4719,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -4735,7 +4735,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _ArgList_2 Expression _ArgList_3 ")"))
  (rule _ArgList_7 "71.7" (first "," _eps) (follow ")") (seq _ArgList_3))
@@ -4751,7 +4751,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")" ",")
   (seq Expression))
  (rule _ExpressionList_5 "72.5"
@@ -4766,7 +4766,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -4781,7 +4781,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression _ExpressionList_2 ")"))
  (rule _ExpressionList_6 "72.6" (first "," _eps) (follow ")") (seq _ExpressionList_2))
@@ -4797,7 +4797,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")" ",")
   (seq Expression))
  (rule _ConstructTemplate_2 "73.2"
@@ -5140,7 +5140,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")" "," ";" "AS" "||")
   (seq ConditionalAndExpression))
  (rule _ConditionalAndExpression_4 "112.4"
@@ -5163,7 +5163,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq ValueLogical))
  (rule _RelationalExpression_11 "114.11"
@@ -5182,7 +5182,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq NumericExpression))
  (rule _RelationalExpression_13 "114.13"
@@ -5197,7 +5197,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq NumericExpression))
  (rule _RelationalExpression_14 "114.14"
@@ -5212,7 +5212,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq NumericExpression))
  (rule _RelationalExpression_15 "114.15"
@@ -5227,7 +5227,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq NumericExpression))
  (rule _RelationalExpression_16 "114.16"
@@ -5242,7 +5242,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq NumericExpression))
  (rule _RelationalExpression_17 "114.17"
@@ -5257,7 +5257,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "&&" ")" "," ";" "AS" "||")
   (seq NumericExpression))
  (rule _RelationalExpression_18 "114.18"
@@ -5286,7 +5286,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "+" "," "-" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5303,7 +5303,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "+" "," "-" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5326,7 +5326,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "+" "," "-" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5343,7 +5343,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "+" "," "-" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5372,7 +5372,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5389,7 +5389,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5406,7 +5406,7 @@
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS"
    "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI"
    "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "true" )
+   "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5423,7 +5423,7 @@
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS"
    "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI"
    "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "true" )
+   "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5440,7 +5440,7 @@
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS"
    "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI"
    "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "true" )
+   "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" "AS"
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
@@ -5457,7 +5457,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -5472,7 +5472,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression ")"))
  (rule _BuiltInCall_58 "121.58"
@@ -5491,7 +5491,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_59 "121.59"
@@ -5510,7 +5510,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Var ")"))
  (rule _BuiltInCall_60 "121.60"
@@ -5529,7 +5529,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _BuiltInCall_56))
  (rule _BuiltInCall_61 "121.61"
@@ -5544,7 +5544,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -5559,7 +5559,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression ")"))
  (rule _BuiltInCall_62 "121.62"
@@ -5578,7 +5578,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq NIL))
  (rule _BuiltInCall_63 "121.63"
@@ -5597,7 +5597,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq ExpressionList))
  (rule _BuiltInCall_64 "121.64"
@@ -5616,7 +5616,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_65 "121.65"
@@ -5635,7 +5635,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_66 "121.66"
@@ -5654,7 +5654,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_67 "121.67"
@@ -5673,7 +5673,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_68 "121.68"
@@ -5692,7 +5692,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_69 "121.69"
@@ -5711,7 +5711,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq NIL))
  (rule _BuiltInCall_70 "121.70"
@@ -5730,7 +5730,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq NIL))
  (rule _BuiltInCall_71 "121.71"
@@ -5749,7 +5749,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq NIL))
  (rule _BuiltInCall_72 "121.72"
@@ -5768,7 +5768,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq ExpressionList))
  (rule _BuiltInCall_73 "121.73"
@@ -5787,7 +5787,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression "," Expression ")"))
  (rule _BuiltInCall_74 "121.74"
@@ -5806,7 +5806,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_75 "121.75"
@@ -5825,7 +5825,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_76 "121.76"
@@ -5844,7 +5844,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression ")"))
  (rule _BuiltInCall_77 "121.77"
@@ -5863,7 +5863,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression "," Expression ")"))
  (rule _RegexExpression_3 "122.3"
@@ -5882,7 +5882,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression _RegexExpression_1 ")"))
  (rule _RegexExpression_4 "122.4"
@@ -5897,7 +5897,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")")
   (seq Expression))
  (rule _SubstringExpression_3 "123.3"
@@ -5916,7 +5916,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression _SubstringExpression_1 ")"))
  (rule _SubstringExpression_4 "123.4"
@@ -5931,7 +5931,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")")
   (seq Expression))
  (rule _StrReplaceExpression_3 "124.3"
@@ -5950,7 +5950,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" Expression "," Expression "," Expression _StrReplaceExpression_1 ")"))
  (rule _StrReplaceExpression_4 "124.4"
@@ -5965,7 +5965,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow ")")
   (seq Expression))
  (rule _ExistsFunc_1 "125.1"
@@ -5984,7 +5984,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq GroupGraphPattern))
  (rule _Aggregate_18 "127.18"
@@ -6003,7 +6003,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _Aggregate_8 _Aggregate_9 ")"))
  (rule _Aggregate_19 "127.19"
@@ -6022,7 +6022,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _Aggregate_10 Expression ")"))
  (rule _Aggregate_20 "127.20"
@@ -6041,7 +6041,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _Aggregate_11 Expression ")"))
  (rule _Aggregate_21 "127.21"
@@ -6060,7 +6060,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _Aggregate_12 Expression ")"))
  (rule _Aggregate_22 "127.22"
@@ -6079,7 +6079,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _Aggregate_13 Expression ")"))
  (rule _Aggregate_23 "127.23"
@@ -6098,7 +6098,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _Aggregate_14 Expression ")"))
  (rule _Aggregate_24 "127.24"
@@ -6117,7 +6117,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "(" _Aggregate_15 Expression _Aggregate_16 ")"))
  (rule _Aggregate_25 "127.25"
@@ -6222,7 +6222,7 @@
    "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT" "STRENDS" "STRLANG"
    "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE"
    "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK" "isIRI" "isLITERAL"
-   "isNUMERIC" "" "isURI" "sameTerm" )
+   "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eof "}")
   (seq _GroupClause_1))
  (rule _GroupCondition_5 "20.5"
@@ -6236,7 +6236,7 @@
    "STRBEFORE" "STRDT" "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID"
    "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID"
    "VALUES" VAR1 VAR2 "YEAR" _eof "isBLANK" "isIRI" "isLITERAL" "isNUMERIC"
-   "" "isURI" "sameTerm" "}" )
+   "isTRIPLE" "isURI" "sameTerm" "}" )
   (seq _GroupCondition_2 ")"))
  (rule _OrderClause_7 "23.7"
   (first "(" "ABS" "ASC" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE" "CONCAT"
@@ -6247,7 +6247,7 @@
    "SHA224" "SHA256" "SHA384" "SHA512" "STR" "STRAFTER" "STRBEFORE" "STRDT"
    "STRENDS" "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM"
    "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" )
   (follow "LIMIT" "OFFSET" "VALUES" _eof "}")
   (seq _OrderClause_1))
  (rule _Load_6 "31.6"
@@ -6320,7 +6320,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "UNION" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false"
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm"
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm"
    "true" "{" "||" "}" )
   (seq "}"))
  (rule _GroupGraphPatternSub_10 "54.10"
@@ -6368,7 +6368,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "WHERE" "YEAR" "[" _eof "false"
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm"
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm"
    "true" "{" "||" "}" )
   (seq ")"))
  (rule _InlineDataFull_19 "64.19" (first ")") (follow "(" NIL "}") (seq ")"))
@@ -6384,7 +6384,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6399,7 +6399,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression _ArgList_3 ")"))
  (rule _ExpressionList_8 "72.8"
@@ -6418,7 +6418,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _ExpressionList_2 ")"))
  (rule _ConstructTemplate_3 "73.3" (first "}") (follow "FROM" "WHERE" "{") (seq "}"))
@@ -6490,7 +6490,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq ")"))
  (rule _BuiltInCall_78 "121.78"
@@ -6505,7 +6505,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6520,7 +6520,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_79 "121.79"
@@ -6539,7 +6539,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "WHERE" "YEAR" "[" _eof "false"
-   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm"
+   "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm"
    "true" "{" "||" "}" )
   (seq Var ")"))
  (rule _BuiltInCall_80 "121.80"
@@ -6558,7 +6558,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq ")"))
  (rule _BuiltInCall_81 "121.81"
@@ -6573,7 +6573,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6588,7 +6588,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_82 "121.82"
@@ -6603,7 +6603,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6618,7 +6618,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_83 "121.83"
@@ -6633,7 +6633,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6648,7 +6648,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_84 "121.84"
@@ -6663,7 +6663,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6678,7 +6678,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_85 "121.85"
@@ -6693,7 +6693,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6708,7 +6708,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_86 "121.86"
@@ -6723,7 +6723,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6738,7 +6738,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression "," Expression ")"))
  (rule _BuiltInCall_87 "121.87"
@@ -6753,7 +6753,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6768,7 +6768,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_88 "121.88"
@@ -6783,7 +6783,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6798,7 +6798,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_89 "121.89"
@@ -6813,7 +6813,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6828,7 +6828,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression ")"))
  (rule _BuiltInCall_90 "121.90"
@@ -6843,7 +6843,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6858,7 +6858,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression "," Expression ")"))
  (rule _RegexExpression_5 "122.5"
@@ -6873,7 +6873,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6888,7 +6888,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression _RegexExpression_1 ")"))
  (rule _SubstringExpression_5 "123.5"
@@ -6903,7 +6903,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6918,7 +6918,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression _SubstringExpression_1 ")"))
  (rule _StrReplaceExpression_5 "124.5"
@@ -6933,7 +6933,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -6948,7 +6948,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression "," Expression _StrReplaceExpression_1 ")"))
  (rule _Aggregate_26 "127.26"
@@ -6963,7 +6963,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -6979,7 +6979,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_8 _Aggregate_9 ")"))
  (rule _Aggregate_27 "127.27"
@@ -6994,7 +6994,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -7010,7 +7010,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_10 Expression ")"))
  (rule _Aggregate_28 "127.28"
@@ -7025,7 +7025,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -7041,7 +7041,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_11 Expression ")"))
  (rule _Aggregate_29 "127.29"
@@ -7056,7 +7056,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -7072,7 +7072,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_12 Expression ")"))
  (rule _Aggregate_30 "127.30"
@@ -7087,7 +7087,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -7103,7 +7103,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_13 Expression ")"))
  (rule _Aggregate_31 "127.31"
@@ -7118,7 +7118,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -7134,7 +7134,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_14 Expression ")"))
  (rule _Aggregate_32 "127.32"
@@ -7149,7 +7149,7 @@
    "STRENDS" STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
    STRING_LITERAL_LONG2 "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT"
    "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2
-   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "" "isURI"
+   "YEAR" "false" "isBLANK" "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI"
    "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
@@ -7165,7 +7165,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_15 Expression _Aggregate_16 ")"))
  (rule _Aggregate_33 "127.33" (first "=") (follow ")") (seq "=" String))
@@ -7251,7 +7251,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _ArgList_3 ")"))
  (rule _BuiltInCall_91 "121.91"
@@ -7270,7 +7270,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_92 "121.92"
@@ -7289,7 +7289,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_93 "121.93"
@@ -7308,7 +7308,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_94 "121.94"
@@ -7327,7 +7327,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_95 "121.95"
@@ -7346,7 +7346,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_96 "121.96"
@@ -7365,7 +7365,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_97 "121.97"
@@ -7384,7 +7384,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression "," Expression ")"))
  (rule _BuiltInCall_98 "121.98"
@@ -7403,7 +7403,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_99 "121.99"
@@ -7422,7 +7422,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_100 "121.100"
@@ -7441,7 +7441,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression ")"))
  (rule _BuiltInCall_101 "121.101"
@@ -7460,7 +7460,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression "," Expression ")"))
  (rule _RegexExpression_6 "122.6"
@@ -7479,7 +7479,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression _RegexExpression_1 ")"))
  (rule _SubstringExpression_6 "123.6"
@@ -7498,7 +7498,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression _SubstringExpression_1 ")"))
  (rule _StrReplaceExpression_6 "124.6"
@@ -7517,7 +7517,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression "," Expression _StrReplaceExpression_1 ")"))
  (rule _Aggregate_34 "127.34"
@@ -7532,7 +7532,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -7547,7 +7547,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_9 ")"))
  (rule _Aggregate_35 "127.35"
@@ -7562,7 +7562,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -7577,7 +7577,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression _Aggregate_16 ")"))
  (rule _Aggregate_36 "127.36"
@@ -7634,7 +7634,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -7649,7 +7649,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression _RegexExpression_1 ")"))
  (rule _SubstringExpression_7 "123.7"
@@ -7664,7 +7664,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -7679,7 +7679,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression _SubstringExpression_1 ")"))
  (rule _StrReplaceExpression_7 "124.7"
@@ -7694,7 +7694,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -7709,7 +7709,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression "," Expression _StrReplaceExpression_1 ")"))
  (rule _Aggregate_37 "127.37"
@@ -7728,7 +7728,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_16 ")"))
  (rule _EmbTP_4 "174.4"
@@ -7763,7 +7763,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _RegexExpression_1 ")"))
  (rule _SubstringExpression_8 "123.8"
@@ -7782,7 +7782,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _SubstringExpression_1 ")"))
  (rule _StrReplaceExpression_8 "124.8"
@@ -7801,7 +7801,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq "," Expression _StrReplaceExpression_1 ")"))
  (rule _StrReplaceExpression_9 "124.9"
@@ -7816,7 +7816,7 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    "STRLANG" "STRLEN" "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE"
    "TRIPLE" "TZ" "UCASE" "URI" "UUID" VAR1 VAR2 "YEAR" "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" )
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" )
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
    ">=" "ABS" ANON "AS" "ASC" "AVG" "BIND" BLANK_NODE_LABEL "BNODE" "BOUND"
    "CEIL" "COALESCE" "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL
@@ -7831,7 +7831,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq Expression _StrReplaceExpression_1 ")"))
  (rule _StrReplaceExpression_10 "124.10"
@@ -7850,6 +7850,6 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "STRLANG" "STRLEN"
    "STRSTARTS" "STRUUID" "SUBJECT" "SUBSTR" "SUM" "TIMEZONE" "TRIPLE" "TZ"
    "UCASE" "URI" "UUID" "VALUES" VAR1 VAR2 "YEAR" "[" _eof "false" "isBLANK"
-   "isIRI" "isLITERAL" "isNUMERIC" "" "isURI" "sameTerm" "true" "{"
+   "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _StrReplaceExpression_1 ")")) )
