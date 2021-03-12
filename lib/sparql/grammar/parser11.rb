@@ -1306,6 +1306,7 @@ module SPARQL::Grammar
     #                                 | iriOrFunction | RDFLiteral
     #                                 | NumericLiteral | BooleanLiteral
     #                                 | Var
+    #                                 | EmbTP
     production(:PrimaryExpression) do |input, data, callback|
       if data[:Expression]
         add_prod_datum(:Expression, data[:Expression])
@@ -1319,6 +1320,8 @@ module SPARQL::Grammar
         add_prod_datum(:Expression, data[:literal])
       elsif data[:Var]
         add_prod_datum(:Expression, data[:Var])
+      elsif data[:pattern]
+        add_prod_datum(:Expression, data[:pattern])
       end
 
       # Keep track of this for parent UnaryExpression production

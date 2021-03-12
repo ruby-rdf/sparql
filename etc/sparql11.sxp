@@ -420,7 +420,7 @@
  (rule _UnaryExpression_3 "118.3" (seq "-" PrimaryExpression))
  (rule PrimaryExpression "119"
   (alt BrackettedExpression BuiltInCall iriOrFunction RDFLiteral NumericLiteral
-   BooleanLiteral Var ))
+   BooleanLiteral Var EmbTP ))
  (rule BrackettedExpression "120" (seq "(" Expression ")"))
  (rule BuiltInCall "121"
   (alt Aggregate _BuiltInCall_1 _BuiltInCall_2 _BuiltInCall_3 _BuiltInCall_4
