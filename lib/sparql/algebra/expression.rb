@@ -4,6 +4,8 @@ module SPARQL; module Algebra
   #
   # @abstract
   module Expression
+    include RDF::Util::Logger
+
     ##
     # @example
     #   Expression.parse('(isLiteral 3.1415)')
@@ -410,7 +412,8 @@ module SPARQL; module Algebra
     end
     
     def debug(*args, &block)
-      Expression.debug(*args, &block)
+      options = args.last.is_a?(Hash) ? args.pop : {}
+      log_debug(*args, **options, &block)
     end
   end # Expression
 end; end # SPARQL::Algebra

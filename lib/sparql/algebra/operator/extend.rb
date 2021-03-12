@@ -50,6 +50,7 @@ module SPARQL; module Algebra
                                             depth: options[:depth].to_i + 1,
                                             **options)
               debug(options) {"===> + #{var} => #{val.inspect}"}
+              val = val.dup.bind(solution) if val.is_a?(RDF::Query::Pattern)
               solution.bindings[var.to_sym] = val
             rescue TypeError => e
               # Evaluates to error, ignore

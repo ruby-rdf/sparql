@@ -63,9 +63,11 @@ def run_tc(tc, **options)
     STDERR.puts "\nData:\n" + tc.data_string if tc.respond_to?(:data) && tc.data
     STDERR.puts "\nTest Data:\n" + tc.test_data_string if tc.respond_to?(:test_data_string) && tc.test_data_string
     STDERR.puts "\nExpected:\n" + (
-    tc.solutions.is_a?(RDF::Enumerable) ?
+    tc.expected ?
+      tc.expected.dump(:trig, standard_prefixes: true) :
+    (tc.solutions.is_a?(RDF::Enumerable) ?
       tc.solutions.dump(:trig, standard_prefixes: true) :
-      tc.solutions.to_sse)
+      tc.solutions.to_sse))
   end
 
   case tc.name
@@ -150,7 +152,7 @@ def run_tc(tc, **options)
         tc.result.graphs.each do |info|
           data, format = info[:data], info[:format]
           if data
-            RDF::Reader.for(format).new(data, info).each_statement do |st|
+            RDF::Reader.for(format).new(data, rdfstar: true, **info).each_statement do |st|
               st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
               r << st
             end
