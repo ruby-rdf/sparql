@@ -14,7 +14,8 @@
                     <https://www.w3.org/TR/sparql11-update/>,
                     <https://www.w3.org/TR/sparql11-results-json/>,
                     <https://www.w3.org/TR/sparql11-results-csv-tsv/>,
-                    <https://www.w3.org/TR/rdf-sparql-XMLres/> ;
+                    <https://www.w3.org/TR/rdf-sparql-XMLres/>,
+                    <https://w3c.github.io/rdf-star/rdf-star-cg-spec.html> ;
    doap:developer   <https://greggkellogg.net/foaf#me>;
    doap:maintainer  <https://greggkellogg.net/foaf#me>;
    doap:documenter  <https://greggkellogg.net/foaf#me>;
