@@ -7,14 +7,15 @@
 @prefix earl: <http://www.w3.org/ns/earl#> .
 
 <https://rubygems.org/gems/sparql> a doap:Project;
-   doap:name "SPARQL";
+   doap:name "Ruby SPARQL";
    doap:shortdesc "SPARQL library for Ruby."@en;
    doap:description "SPARQL Implements SPARQL 1.1 Query, Update and result formats for the Ruby RDF.rb library suite."@en;
    doap:implements  <https://www.w3.org/TR/sparql11-query/>,
                     <https://www.w3.org/TR/sparql11-update/>,
                     <https://www.w3.org/TR/sparql11-results-json/>,
                     <https://www.w3.org/TR/sparql11-results-csv-tsv/>,
-                    <https://www.w3.org/TR/rdf-sparql-XMLres/> ;
+                    <https://www.w3.org/TR/rdf-sparql-XMLres/>,
+                    <https://w3c.github.io/rdf-star/rdf-star-cg-spec.html> ;
    doap:developer   <https://greggkellogg.net/foaf#me>;
    doap:maintainer  <https://greggkellogg.net/foaf#me>;
    doap:documenter  <https://greggkellogg.net/foaf#me>;

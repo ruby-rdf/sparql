@@ -22,7 +22,7 @@ Gem::Specification.new do |gem|
 
   gem.required_ruby_version      = '>= 2.4'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',                '~> 3.1', '>= 3.1.8'
+  gem.add_runtime_dependency     'rdf',                '~> 3.1', '>= 3.1.12'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.1'
   gem.add_runtime_dependency     'ebnf',               '~> 2.1'
   gem.add_runtime_dependency     'builder',            '~> 3.2'

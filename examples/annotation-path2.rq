@@ -1,0 +1,3 @@
+SELECT * {
+  ?x :p ?o {| :q [ rdfs:subClassOf*/rdf:type ?T ] |} .
+  }

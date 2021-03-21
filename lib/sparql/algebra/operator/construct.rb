@@ -52,10 +52,11 @@ module SPARQL; module Algebra
               terms[r] = case o = pattern.send(r)
               when RDF::Node            then nodes[o] ||= RDF::Node.new
               when RDF::Query::Variable then solution[o]
+              when RDF::Query::Pattern  then RDF::Statement.from(o.dup.bind(solution))
               else                           o
               end
             end
-            
+
             statement = RDF::Statement.from(terms)
 
             # Sanity checking on statement

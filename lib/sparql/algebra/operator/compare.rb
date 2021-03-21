@@ -62,6 +62,8 @@ module SPARQL; module Algebra
         when left.is_a?(RDF::Node) && right.is_a?(RDF::Node)
           # BNode comparison is undefined.
           RDF::Literal(0)
+        when left.is_a?(RDF::Statement) && right.is_a?(RDF::Statement)
+          RDF::Literal(RDF::Literal(left.to_s).send(self.class.const_get(:NAME), RDF::Literal(right.to_s)))
         when left.nil? && right.nil?
           RDF::Literal(0)
         
@@ -75,6 +77,11 @@ module SPARQL; module Algebra
         when left.is_a?(RDF::Node) && right.is_a?(RDF::Term)
           RDF::Literal(-1)
         when right.is_a?(RDF::Node) && left.is_a?(RDF::Term)
+          RDF::Literal(1)
+
+        when left.is_a?(RDF::Statement) && right.is_a?(RDF::Term)
+          RDF::Literal(-1)
+        when right.is_a?(RDF::Statement) && left.is_a?(RDF::Term)
           RDF::Literal(1)
 
         when left.is_a?(RDF::Node) && right.is_a?(RDF::URI)

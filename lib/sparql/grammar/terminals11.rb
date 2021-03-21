@@ -108,6 +108,7 @@ module SPARQL::Grammar
                  |TIMEZONE|TO|TZ|UCASE|UNDEF|UNION|URI|USING|UUID|VALUES
                  |WHERE|WITH|YEAR
                  |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
+                 |isTRIPLE|TRIPLE|SUBJECT|PREDICATE|OBJECT
                  |true
                  |false
                  |<<|>>
@@ -133,6 +134,7 @@ module SPARQL::Grammar
       TIMEZONE TO TZ UCASE UNDEF UNION URI USING UUID
       VALUES WHERE WITH YEAR
       isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
+      isTRIPLE TRIPLE SUBJECT PREDICATE OBJECT
       true false
     } + [
       "DELETE DATA",

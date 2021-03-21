@@ -308,7 +308,7 @@ module RDF::Queryable
   #
   # @example
   #     queryable.query([nil, RDF::DOAP.developer, nil])
-  #     queryable.query(predicate: RDF::DOAP.developer)
+  #     queryable.query({predicate: RDF::DOAP.developer})
   #
   #     op = SPARQL::Algebra::Expression.parse(%q((bgp (triple ?a doap:developer ?b))))
   #     queryable.query(op)
@@ -528,6 +528,13 @@ class RDF::Query::Variable
   # @see SPARQL::Algebra::Expression#optimize
   def optimize(**options)
     self
+  end
+
+  # Display variable as SXP
+  # @return [Array]
+  def to_sxp
+    prefix = distinguished? ? (existential? ? '$' : '?') : (existential? ? '$$' : '??')
+    unbound? ? "#{prefix}#{name}".to_sym.to_sxp : ["#{prefix}#{name}".to_sym, value].to_sxp
   end
 end # RDF::Query::Variable
 

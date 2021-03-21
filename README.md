@@ -26,7 +26,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 * Compatible with Ruby >= 2.2.2.
 * Compatible with older Ruby versions with the help of the [Backports][] gem.
 * Supports Unicode query strings both on all versions of Ruby.
-* Provisional support for [SPARQL*][].
+* Provisional support for [SPARQL-star][].
 
 ## Description
 
@@ -96,9 +96,9 @@ Then, use the function in a query:
 
 See {SPARQL::Algebra::Expression.register_extension} for details.
 
-### SPARQLStar (SPARQL*)
+### SPARQLStar (SPARQL-star)
 
-The gem supports [SPARQL*][] where patterns may include sub-patterns recursively, for a kind of Reification.
+The gem supports [SPARQL-star][] where patterns may include sub-patterns recursively, for a kind of Reification.
 
 For example, the following Turtle* file uses a statement as the subject of another statement:
 
@@ -159,7 +159,7 @@ As well as a `CONSTRUCT`:
       <<?bob foaf:age ?age>> ?b ?c .
     }
 
-Note that results can be serialized only when the format supports [RDF*][].
+Note that results can be serialized only when the format supports [RDF-star][].
 
 #### SPARQL results
 
@@ -448,8 +448,8 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [grammar]:          https://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          https://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
-[RDF*]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
-[SPARQL*]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
+[RDF-star]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
+[SPARQL-star]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
 [Backports]:        https://rubygems.org/gems/backports
 [Linked Data]:      https://rubygems.org/gems/linkeddata
 [SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames

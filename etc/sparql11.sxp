@@ -178,8 +178,7 @@
  (rule ServiceGraphPattern "59"
   (seq "SERVICE" _ServiceGraphPattern_1 VarOrIri GroupGraphPattern))
  (rule _ServiceGraphPattern_1 "59.1" (cleanup opt) (alt _empty "SILENT"))
- (rule Bind "60" (seq "BIND" "(" _Bind_1 "AS" Var ")"))
- (rule _Bind_1 "60.1" (alt Expression EmbTP))
+ (rule Bind "60" (seq "BIND" "(" Expression "AS" Var ")"))
  (rule InlineData "61" (seq "VALUES" DataBlock))
  (rule DataBlock "62" (alt InlineDataOneVar InlineDataFull))
  (rule InlineDataOneVar "63" (seq Var "{" _InlineDataOneVar_1 "}"))
@@ -203,7 +202,7 @@
   (cleanup merge)
   (seq DataBlockValue _InlineDataFull_9))
  (rule DataBlockValue "65"
-  (alt iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
+  (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
  (rule MinusGraphPattern "66" (seq "MINUS" GroupGraphPattern))
  (rule GroupOrUnionGraphPattern "67"
   (seq GroupGraphPattern _GroupOrUnionGraphPattern_1))
@@ -253,13 +252,12 @@
   (alt _empty _PropertyListNotEmpty_5))
  (rule _PropertyListNotEmpty_5 "77.5" (seq Verb ObjectList))
  (rule Verb "78" (alt VarOrIri "a"))
- (rule ObjectList "79" (seq Object _ObjectList_1 _ObjectList_2))
- (rule _ObjectList_1 "79.1" (cleanup opt) (alt _empty AnnotationPattern))
- (rule _ObjectList_2 "79.2" (cleanup star) (alt _empty _ObjectList_4))
- (rule _ObjectList_4 "79.4" (cleanup merge) (seq _ObjectList_3 _ObjectList_2))
- (rule _ObjectList_3 "79.3" (seq "," Object _ObjectList_5))
- (rule _ObjectList_5 "79.5" (cleanup opt) (alt _empty AnnotationPattern))
- (rule Object "80" (alt GraphNode EmbTP))
+ (rule ObjectList "79" (seq Object _ObjectList_1))
+ (rule _ObjectList_1 "79.1" (cleanup star) (alt _empty _ObjectList_3))
+ (rule _ObjectList_3 "79.3" (cleanup merge) (seq _ObjectList_2 _ObjectList_1))
+ (rule _ObjectList_2 "79.2" (seq "," Object))
+ (rule Object "80" (seq GraphNode _Object_1))
+ (rule _Object_1 "80.1" (cleanup opt) (alt _empty AnnotationPattern))
  (rule TriplesSameSubjectPath "81"
   (alt _TriplesSameSubjectPath_1 _TriplesSameSubjectPath_2))
  (rule _TriplesSameSubjectPath_1 "81.1"
@@ -284,15 +282,14 @@
  (rule _PropertyListPathNotEmpty_7 "83.7" (alt VerbPath VerbSimple))
  (rule VerbPath "84" (seq Path))
  (rule VerbSimple "85" (seq Var))
- (rule ObjectListPath "86" (seq ObjectPath _ObjectListPath_1 _ObjectListPath_2))
- (rule _ObjectListPath_1 "86.1" (cleanup opt) (alt _empty AnnotationPattern))
- (rule _ObjectListPath_2 "86.2" (cleanup star) (alt _empty _ObjectListPath_4))
- (rule _ObjectListPath_4 "86.4"
+ (rule ObjectListPath "86" (seq ObjectPath _ObjectListPath_1))
+ (rule _ObjectListPath_1 "86.1" (cleanup star) (alt _empty _ObjectListPath_3))
+ (rule _ObjectListPath_3 "86.3"
   (cleanup merge)
-  (seq _ObjectListPath_3 _ObjectListPath_2))
- (rule _ObjectListPath_3 "86.3" (seq "," ObjectPath _ObjectListPath_5))
- (rule _ObjectListPath_5 "86.5" (cleanup opt) (alt _empty AnnotationPattern))
- (rule ObjectPath "87" (seq GraphNodePath))
+  (seq _ObjectListPath_2 _ObjectListPath_1))
+ (rule _ObjectListPath_2 "86.2" (seq "," ObjectPath))
+ (rule ObjectPath "87" (seq GraphNodePath _ObjectPath_1))
+ (rule _ObjectPath_1 "87.1" (cleanup opt) (alt _empty AnnotationPatternPath))
  (rule Path "88" (seq PathAlternative))
  (rule PathAlternative "89" (seq PathSequence _PathAlternative_1))
  (rule _PathAlternative_1 "89.1" (cleanup star) (alt _empty _PathAlternative_3))
@@ -343,15 +340,13 @@
  (rule _CollectionPath_1 "103.1" (cleanup plus) (seq GraphNodePath _CollectionPath_2))
  (rule _CollectionPath_2 "103.2" (cleanup star) (alt _empty _CollectionPath_3))
  (rule _CollectionPath_3 "103.3" (cleanup merge) (seq GraphNodePath _CollectionPath_2))
- (rule GraphNode "104" (alt VarOrTerm TriplesNode))
+ (rule GraphNode "104" (alt VarOrTermOrEmbTP TriplesNode))
  (rule GraphNodePath "105" (alt VarOrTermOrEmbTP TriplesNodePath))
  (rule VarOrTerm "106" (alt Var GraphTerm))
  (rule VarOrIri "107" (alt Var iri))
- (rule VarOrBlankNodeOrIriOrEmbTP "107s" (alt Var BlankNode iri EmbTP))
  (rule Var "108" (alt VAR1 VAR2))
  (rule GraphTerm "109"
   (alt iri RDFLiteral NumericLiteral BooleanLiteral BlankNode NIL))
- (rule EmbTP "174" (seq "<<" EmbSubjectOrObject Verb EmbSubjectOrObject ">>"))
  (rule Expression "110" (seq ConditionalOrExpression))
  (rule ConditionalOrExpression "111"
   (seq ConditionalAndExpression _ConditionalOrExpression_1))
@@ -425,7 +420,7 @@
  (rule _UnaryExpression_3 "118.3" (seq "-" PrimaryExpression))
  (rule PrimaryExpression "119"
   (alt BrackettedExpression BuiltInCall iriOrFunction RDFLiteral NumericLiteral
-   BooleanLiteral Var ))
+   BooleanLiteral Var EmbTP ))
  (rule BrackettedExpression "120" (seq "(" Expression ")"))
  (rule BuiltInCall "121"
   (alt Aggregate _BuiltInCall_1 _BuiltInCall_2 _BuiltInCall_3 _BuiltInCall_4
@@ -440,8 +435,9 @@
    _BuiltInCall_36 _BuiltInCall_37 _BuiltInCall_38 _BuiltInCall_39
    _BuiltInCall_40 _BuiltInCall_41 _BuiltInCall_42 _BuiltInCall_43
    _BuiltInCall_44 _BuiltInCall_45 _BuiltInCall_46 _BuiltInCall_47
-   _BuiltInCall_48 _BuiltInCall_49 _BuiltInCall_50 RegexExpression ExistsFunc
-   NotExistsFunc ))
+   _BuiltInCall_48 _BuiltInCall_49 _BuiltInCall_50 _BuiltInCall_51
+   _BuiltInCall_52 _BuiltInCall_53 _BuiltInCall_54 _BuiltInCall_55
+   RegexExpression ExistsFunc NotExistsFunc ))
  (rule _BuiltInCall_1 "121.1" (seq "STR" "(" Expression ")"))
  (rule _BuiltInCall_2 "121.2" (seq "LANG" "(" Expression ")"))
  (rule _BuiltInCall_3 "121.3" (seq "LANGMATCHES" "(" Expression "," Expression ")"))
@@ -449,9 +445,9 @@
  (rule _BuiltInCall_5 "121.5" (seq "BOUND" "(" Var ")"))
  (rule _BuiltInCall_6 "121.6" (seq "IRI" "(" Expression ")"))
  (rule _BuiltInCall_7 "121.7" (seq "URI" "(" Expression ")"))
- (rule _BuiltInCall_8 "121.8" (seq "BNODE" _BuiltInCall_51))
- (rule _BuiltInCall_51 "121.51" (alt _BuiltInCall_52 NIL))
- (rule _BuiltInCall_52 "121.52" (seq "(" Expression ")"))
+ (rule _BuiltInCall_8 "121.8" (seq "BNODE" _BuiltInCall_56))
+ (rule _BuiltInCall_56 "121.56" (alt _BuiltInCall_57 NIL))
+ (rule _BuiltInCall_57 "121.57" (seq "(" Expression ")"))
  (rule _BuiltInCall_9 "121.9" (seq "RAND" NIL))
  (rule _BuiltInCall_10 "121.10" (seq "ABS" "(" Expression ")"))
  (rule _BuiltInCall_11 "121.11" (seq "CEIL" "(" Expression ")"))
@@ -495,6 +491,12 @@
  (rule _BuiltInCall_48 "121.48" (seq "isBLANK" "(" Expression ")"))
  (rule _BuiltInCall_49 "121.49" (seq "isLITERAL" "(" Expression ")"))
  (rule _BuiltInCall_50 "121.50" (seq "isNUMERIC" "(" Expression ")"))
+ (rule _BuiltInCall_51 "121.51"
+  (seq "TRIPLE" "(" Expression "," Expression "," Expression ")"))
+ (rule _BuiltInCall_52 "121.52" (seq "SUBJECT" "(" Expression ")"))
+ (rule _BuiltInCall_53 "121.53" (seq "PREDICATE" "(" Expression ")"))
+ (rule _BuiltInCall_54 "121.54" (seq "OBJECT" "(" Expression ")"))
+ (rule _BuiltInCall_55 "121.55" (seq "isTRIPLE" "(" Expression ")"))
  (rule RegexExpression "122"
   (seq "REGEX" "(" Expression "," Expression _RegexExpression_1 ")"))
  (rule _RegexExpression_1 "122.1" (cleanup opt) (alt _empty _RegexExpression_2))
@@ -554,10 +556,15 @@
  (rule iri "136" (alt IRIREF PrefixedName))
  (rule PrefixedName "137" (alt PNAME_LN PNAME_NS))
  (rule BlankNode "138" (alt BLANK_NODE_LABEL ANON))
+ (rule EmbTP "174" (seq "<<" EmbSubjectOrObject Verb EmbSubjectOrObject ">>"))
  (rule EmbSubjectOrObject "175"
   (alt Var BlankNode iri RDFLiteral NumericLiteral BooleanLiteral EmbTP))
  (rule VarOrTermOrEmbTP "176" (alt Var GraphTerm EmbTP))
  (rule AnnotationPattern "177" (seq "{|" PropertyListNotEmpty "|}"))
+ (rule AnnotationPatternPath "178" (seq "{|" PropertyListPathNotEmpty "|}"))
+ (rule EmbTD "179" (seq "<<" DataValueTerm _EmbTD_1 DataValueTerm ">>"))
+ (rule _EmbTD_1 "179.1" (alt iri "a"))
+ (rule DataValueTerm "180" (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral))
  (terminals _terminals (seq))
  (terminal IRIREF "139" (seq "<" (star (alt (range "^#x00-#x20<>\"{}|^`\\") UCHAR)) ">"))
  (terminal PNAME_NS "140" (seq (opt PN_PREFIX) ":"))

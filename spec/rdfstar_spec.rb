@@ -3,7 +3,7 @@ require 'spec_helper'
 require 'nokogiri'
 require 'equivalent-xml'
 
-describe "SPARQL*" do
+describe "SPARQL-star" do
   let(:data) do
     RDF::Graph.new do |g|
       g << RDF::NTriples::Reader.new(%(
@@ -116,80 +116,6 @@ describe "SPARQL*" do
           </sparql>)),
         csv: %(age,c\r\n23,0.9\r\n),
         tsv: %(?age\t?c\r\n23\t0.9\r\n),
-      }
-    },
-    "Bind": {
-      query: %(
-        PREFIX : <http://bigdata.com>
-        PREFIX foaf: <http://xmlns.com/foaf/0.1/>
-
-        SELECT ?a ?b ?c WHERE {
-           ?bob foaf:name "Bob" .
-           BIND( <<?bob foaf:age ?age>> AS ?a ) .
-           ?a ?b ?c .
-        }
-      ),
-      result: {
-        sxp: %(
-        (prefix
-         ((: <http://bigdata.com>) (foaf: <http://xmlns.com/foaf/0.1/>))
-         (project
-          (?a ?b ?c)
-          (join
-           (extend ((?a (triple ?bob foaf:age ?age))) (bgp (triple ?bob foaf:name "Bob")))
-           (bgp (triple ?a ?b ?c))) ))),
-        json: JSON.parse(%({
-          "head":{"vars":["a","b","c"]},
-          "results": {
-            "bindings": [
-              {
-                "a": {
-                  "type": "triple",
-                  "value": {
-                    "subject": {"type" : "uri", "value" : "http://bigdata.com/bob"},
-                    "predicate": {"type" : "uri", "value" : "http://xmlns.com/foaf/0.1/age"},
-                    "object": {"type" : "typed-literal", "datatype" : "http://www.w3.org/2001/XMLSchema#integer", "value" : "23"}
-                  }
-                },
-                "b": {"type": "uri", "value": "http://example.org/certainty"},
-                "c": {"type": "typed-literal", "datatype": "http://www.w3.org/2001/XMLSchema#decimal", "value": "0.9"}
-              }
-            ]
-          }
-        })),
-        xml: Nokogiri::XML.parse(%(<?xml version="1.0" encoding="UTF-8"?>
-          <sparql xmlns="http://www.w3.org/2005/sparql-results#">
-            <head>
-              <variable name="a"/>
-              <variable name="b"/>
-              <variable name="c"/>
-            </head>
-            <results>
-              <result>
-                <binding name="a">
-                  <triple>
-                    <subject>
-                      <uri>http://bigdata.com/bob</uri>
-                    </subject>
-                    <predicate>
-                      <uri>http://xmlns.com/foaf/0.1/age</uri>
-                    </predicate>
-                    <object>
-                      <literal datatype="http://www.w3.org/2001/XMLSchema#integer">23</literal>
-                    </object>
-                  </triple>
-                </binding>
-                <binding name="b">
-                  <uri>http://example.org/certainty</uri>
-                </binding>
-                <binding name="c">
-                  <literal datatype="http://www.w3.org/2001/XMLSchema#decimal">0.9</literal>
-                </binding>
-              </result>
-            </results>
-          </sparql>)),
-        csv: %(a,b,c\r\n"http://bigdata.com/bob,http://xmlns.com/foaf/0.1/age,23",http://example.org/certainty,0.9\r\n),
-        tsv: %(?a\t?b\t?c\r\n<http://bigdata.com/bob>\\t<http://xmlns.com/foaf/0.1/age>\\t23\t<http://example.org/certainty>\t0.9\r\n),
       }
     },
   }.each do |name, params|
