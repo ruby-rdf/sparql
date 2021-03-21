@@ -29,7 +29,7 @@ def earl_preamble(options)
   doap:revision "#{SPARQL::VERSION}";
   doap:created "#{File.mtime(File.expand_path('../../VERSION', __FILE__)).strftime('%Y-%m-%d')}"^^xsd:date;
 ] .
-<> foaf:primaryTopic <https://rubygems> ;
+<> foaf:primaryTopic <https://rubygems/gems/sparql> ;
   dc:issued "#{RUN_TIME.xmlschema}"^^xsd:dateTime ;
   foaf:maker <#{ASSERTOR}> .
 
@@ -254,23 +254,57 @@ options = {
   verbose:  false,
   logger: logger,
 }
-opts = GetoptLong.new(
-  ["--earl", GetoptLong::NO_ARGUMENT],
-  ["--debug", GetoptLong::NO_ARGUMENT],
-  ["--info", GetoptLong::NO_ARGUMENT],
-  ["--optimize", GetoptLong::NO_ARGUMENT],
-  ["--output", "-o", GetoptLong::REQUIRED_ARGUMENT],
-  ["--quiet", GetoptLong::NO_ARGUMENT],
-  ["--verbose", GetoptLong::NO_ARGUMENT],
-)
+
+OPT_ARGS = [
+  ["--debug",           GetoptLong::NO_ARGUMENT, "Debugging output"],
+  ["--earl",            GetoptLong::NO_ARGUMENT, "Generate EARL report"],
+  ["--help", "-?",      GetoptLong::NO_ARGUMENT, "print this message"],
+  ["--info",            GetoptLong::NO_ARGUMENT, "Show progress on execution"],
+  ["--optimize",        GetoptLong::NO_ARGUMENT, 'Do query optimization'],
+  ["--output", "-o",    GetoptLong::REQUIRED_ARGUMENT, "Output to specified file"],
+  ["--quiet", "-q",     GetoptLong::NO_ARGUMENT, "Minimal output"],
+  ["--rdfstar",         GetoptLong::NO_ARGUMENT, "Run RDF* tests"],
+  ["--validate",        GetoptLong::NO_ARGUMENT, "Validate input"],
+  ["--verbose", "-v",   GetoptLong::NO_ARGUMENT, "Verbose output"],
+  #["--write-manifests", GetoptLong::NO_ARGUMENT, "Write out the parsed manifests for earl reporting"],
+]
+
+def usage(**options)
+  STDERR.puts %{
+    sparql version #{SPARQL::VERSION}
+    Run SPARQL tests.
+    
+    Usage: #{$0} [options] [test-number ...]
+  }.gsub(/^    /, '')
+  width = OPT_ARGS.map do |o|
+    l = o.first.length
+    l += o[1].length + 2 if o[1].is_a?(String)
+    l
+  end.max
+  OPT_ARGS.each do |o|
+    s = "  %-*s  " % [width, (o[1].is_a?(String) ? "#{o[0,2].join(', ')}" : o[0])]
+    s += o.last
+    STDERR.puts s
+  end
+  exit(1)
+end
+
+opts = GetoptLong.new(*OPT_ARGS.map {|o| o[0..-2]})
+
 opts.each do |opt, arg|
   case opt
-  when '--earl'         then options[:quiet] = options[:earl] = true
   when '--debug'        then logger.level = Logger::DEBUG
+  when '--earl'
+    options[:quiet] = options[:earl] = true
+    logger.level = Logger::FATAL
+  when '--help'         then usage(**options)
   when '--info'         then logger.level = Logger::INFO
   when '--optimize'     then options[:optimize] = true
   when '--output'       then options[:output] = File.open(arg, "w")
-  when '--quiet'        then options[:quiet] = true
+  when '--quiet'
+    options[:quiet] = true
+    logger.level = Logger::FATAL
+  when '--rdfstar'      then options[:rdfstar] = true
   when '--validate'     then options[:validate] = true
   when '--verbose'      then options[:verbose] = true
   end
@@ -278,8 +312,12 @@ end
 
 earl_preamble(options) if options[:earl]
 
-[SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests, SPARQL::Spec.sparql_star_tests].
-  flatten.each do |path|
+manifests = if options[:rdfstar]
+  SPARQL::Spec.sparql_star_tests
+else
+  [SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests]
+end.flatten
+manifests.each do |path|
     SPARQL::Spec::Manifest.open(path) do |man|
       puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
       man.entries.each do |tc|
