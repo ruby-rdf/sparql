@@ -61,12 +61,12 @@
       <td>::=</td>
       <td>&quot;CONSTRUCT&quot;</td>
     </tr>
-    <tr id="grammar-production-">
+    <tr>
       <td colspan=2></td>
       <td></td>
       <td><code>(</code> <code>(</code> <a href="#grammar-production-ConstructTemplate">ConstructTemplate</a> <a href="#grammar-production-DatasetClause">DatasetClause</a><code>*</code>  <a href="#grammar-production-WhereClause">WhereClause</a> <a href="#grammar-production-SolutionModifier">SolutionModifier</a><code>)</code><code>(</code> <a href="#grammar-production-DatasetClause">DatasetClause</a><code>*</code>  &quot;WHERE&quot; "<code class="grammar-literal">{</code>" <a href="#grammar-production-TriplesTemplate">TriplesTemplate</a><code>?</code>  "<code class="grammar-literal">}</code>" <a href="#grammar-production-SolutionModifier">SolutionModifier</a><code>)</code> <code>)</code></td>
     </tr>
-    <tr id="grammar-production-">
+    <tr>
       <td colspan=2></td>
       <td></td>
       <td><a href="#grammar-production-ValuesClause">ValuesClause</a></td>
@@ -695,7 +695,7 @@
       <td>::=</td>
       <td><a href="#grammar-production-NumericExpression">NumericExpression</a></td>
     </tr>
-    <tr id="grammar-production-">
+    <tr>
       <td colspan=2></td>
       <td></td>
       <td><code>(</code> <code>(</code> "<code class="grammar-literal">=</code>" <a href="#grammar-production-NumericExpression">NumericExpression</a><code>)</code><code>(</code> &quot;!=&quot; <a href="#grammar-production-NumericExpression">NumericExpression</a><code>)</code>  <code>|</code> <code>(</code> "<code class="grammar-literal">&lt;</code>" <a href="#grammar-production-NumericExpression">NumericExpression</a><code>)</code>  <code>|</code> <code>(</code> "<code class="grammar-literal">&gt;</code>" <a href="#grammar-production-NumericExpression">NumericExpression</a><code>)</code>  <code>|</code> <code>(</code> &quot;&lt;=&quot; <a href="#grammar-production-NumericExpression">NumericExpression</a><code>)</code>  <code>|</code> <code>(</code> &quot;&gt;=&quot; <a href="#grammar-production-NumericExpression">NumericExpression</a><code>)</code>  <code>|</code> <code>(</code> &quot;IN&quot; <a href="#grammar-production-ExpressionList">ExpressionList</a><code>)</code>  <code>|</code> <code>(</code> &quot;NOT&quot; &quot;IN&quot; <a href="#grammar-production-ExpressionList">ExpressionList</a><code>)</code> <code>)</code> <code>?</code> </td>
@@ -712,7 +712,7 @@
       <td>::=</td>
       <td><a href="#grammar-production-MultiplicativeExpression">MultiplicativeExpression</a></td>
     </tr>
-    <tr id="grammar-production-">
+    <tr>
       <td colspan=2></td>
       <td></td>
       <td><code>(</code> <code>(</code> "<code class="grammar-literal">+</code>" <a href="#grammar-production-MultiplicativeExpression">MultiplicativeExpression</a><code>)</code><code>(</code> "<code class="grammar-literal">-</code>" <a href="#grammar-production-MultiplicativeExpression">MultiplicativeExpression</a><code>)</code>  <code>|</code> <code>(</code> <code>(</code> <a href="#grammar-production-NumericLiteralPositive">NumericLiteralPositive</a> <code>|</code> <a href="#grammar-production-NumericLiteralNegative">NumericLiteralNegative</a><code>)</code>  <code>(</code> <code>(</code> "<code class="grammar-literal">*</code>" <a href="#grammar-production-UnaryExpression">UnaryExpression</a><code>)</code>  <code>|</code> <code>(</code> "<code class="grammar-literal">/</code>" <a href="#grammar-production-UnaryExpression">UnaryExpression</a><code>)</code> <code>)</code> <code>?</code> <code>)</code> <code>)</code> <code>*</code> </td>
@@ -733,7 +733,19 @@
       <td>[119]</td>
       <td><code>PrimaryExpression</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-BrackettedExpression">BrackettedExpression</a> <code>|</code> <a href="#grammar-production-BuiltInCall">BuiltInCall</a> <code>|</code> <a href="#grammar-production-iriOrFunction">iriOrFunction</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
+      <td><a href="#grammar-production-BrackettedExpression">BrackettedExpression</a> <code>|</code> <a href="#grammar-production-BuiltInCall">BuiltInCall</a> <code>|</code> <a href="#grammar-production-iriOrFunction">iriOrFunction</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-ExprEmbTP">ExprEmbTP</a></td>
+    </tr>
+    <tr id="grammar-production-ExprEmbTP">
+      <td>[119a]</td>
+      <td><code>ExprEmbTP</code></td>
+      <td>::=</td>
+      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-ExprVarOrTerm">ExprVarOrTerm</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-ExprVarOrTerm">ExprVarOrTerm</a> &quot;&gt;&gt;&quot;</td>
+    </tr>
+    <tr id="grammar-production-ExprVarOrTerm">
+      <td>[119b]</td>
+      <td><code>ExprVarOrTerm</code></td>
+      <td>::=</td>
+      <td><a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-ExprEmbTP">ExprEmbTP</a></td>
     </tr>
     <tr id="grammar-production-BrackettedExpression">
       <td>[120]</td>
@@ -1221,7 +1233,7 @@
       <td>::=</td>
       <td><a href="#grammar-production-EmbTD">EmbTD</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a></td>
     </tr>
-    <tr id="grammar-production-">
+    <tr>
       <td colspan=2>@terminals</td>
       <td></td>
       <td><strong># Productions for terminals</strong></td>
@@ -1338,7 +1350,7 @@
       <td>[157]</td>
       <td><code>STRING_LITERAL2</code></td>
       <td>::=</td>
-      <td>'<code class="grammar-literal">&quot;</code>' <code>(</code> <code>[</code> <code class="grammar-literal">^</code><code class="grammar-char-escape"><abbr title="ascii '&quot;'">#x22</abbr></code><code class="grammar-char-escape"><abbr title="ascii '\'">#x5C</abbr></code><code class="grammar-char-escape"><abbr title="new line">#x0A</abbr></code><code class="grammar-char-escape"><abbr title="carriage return">#x0D</abbr></code><code>]</code>  <code>|</code> <a href="#grammar-production-ECHAR">ECHAR</a><code>)</code> <code>*</code>  '<code class="grammar-literal">&quot;</code>'</td>
+      <td>'<code class="grammar-literal">&quot;</code>' <code>(</code> <code>[</code> <code class="grammar-literal">^</code><code class="grammar-char-escape"><abbr title="quot">>&quot;</abbr></code><code class="grammar-char-escape"><abbr title="ascii '\'">#x5C</abbr></code><code class="grammar-char-escape"><abbr title="new line">#x0A</abbr></code><code class="grammar-char-escape"><abbr title="carriage return">#x0D</abbr></code><code>]</code>  <code>|</code> <a href="#grammar-production-ECHAR">ECHAR</a><code>)</code> <code>*</code>  '<code class="grammar-literal">&quot;</code>'</td>
     </tr>
     <tr id="grammar-production-STRING_LITERAL_LONG1">
       <td>[158]</td>
@@ -1390,62 +1402,62 @@
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="extended ascii 'À'">#xC0</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="extended ascii 'Ö'">#xD6</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="extended ascii '#xC0'">#xC0</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="extended ascii '#xD6'">#xD6</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="extended ascii 'Ø'">#xD8</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="extended ascii 'ö'">#xF6</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="extended ascii '#xD8'">#xD8</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="extended ascii '#xF6'">#xF6</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="extended ascii 'ø'">#xF8</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '˿'">#x02FF</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="extended ascii '#xF8'">#xF8</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x02FF</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Ͱ'">#x0370</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'ͽ'">#x037D</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x0370</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x037D</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Ϳ'">#x037F</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '῿'">#x1FFF</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x037F</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Reserved'">#x1FFF</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode '‌'">#x200C</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '‍'">#x200D</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Format'">#x200C</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Format'">#x200D</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode '⁰'">#x2070</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '↏'">#x218F</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x2070</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Reserved'">#x218F</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Ⰰ'">#x2C00</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '⿯'">#x2FEF</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x2C00</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Reserved'">#x2FEF</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode '、'">#x3001</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '퟿'">#xD7FF</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x3001</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Reserved'">#xD7FF</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode '豈'">#xF900</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '﷏'">#xFDCF</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#xF900</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Reserved'">#xFDCF</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'ﷰ'">#xFDF0</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '�'">#xFFFD</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#xFDF0</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#xFFFD</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode '𐀀'">#x00010000</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '󯿿'">#x000EFFFF</abbr></code><code>]</code> </td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x00010000</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Noncharacter'">#x000EFFFF</abbr></code><code>]</code> </td>
     </tr>
     <tr id="grammar-production-PN_CHARS_U">
       <td>[165]</td>
@@ -1457,13 +1469,13 @@
       <td>[166]</td>
       <td><code>VARNAME</code></td>
       <td>::=</td>
-      <td><code>(</code> <a href="#grammar-production-PN_CHARS_U">PN_CHARS_U</a> <code>|</code> <code>[</code> <code class="grammar-literal">0-9</code><code>]</code> <code>)</code>  <code>(</code> <a href="#grammar-production-PN_CHARS_U">PN_CHARS_U</a> <code>|</code> <code>[</code> <code class="grammar-literal">0-9</code><code>]</code>  <code>|</code> <code class="grammar-char-escape"><abbr title="extended ascii '·'">#xB7</abbr></code> <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode '̀'">#x0300</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'ͯ'">#x036F</abbr></code><code>]</code>  <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode '‿'">#x203F</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '⁀'">#x2040</abbr></code><code>]</code> <code>)</code> <code>*</code> </td>
+      <td><code>(</code> <a href="#grammar-production-PN_CHARS_U">PN_CHARS_U</a> <code>|</code> <code>[</code> <code class="grammar-literal">0-9</code><code>]</code> <code>)</code>  <code>(</code> <a href="#grammar-production-PN_CHARS_U">PN_CHARS_U</a> <code>|</code> <code>[</code> <code class="grammar-literal">0-9</code><code>]</code>  <code>|</code> <code class="grammar-char-escape"><abbr title="extended ascii '#xB7'">#xB7</abbr></code> <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x0300</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x036F</abbr></code><code>]</code>  <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x203F</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x2040</abbr></code><code>]</code> <code>)</code> <code>*</code> </td>
     </tr>
     <tr id="grammar-production-PN_CHARS">
       <td>[167]</td>
       <td><code>PN_CHARS</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-PN_CHARS_U">PN_CHARS_U</a> <code>|</code> "<code class="grammar-literal">-</code>" <code>|</code> <code>[</code> <code class="grammar-literal">0-9</code><code>]</code>  <code>|</code> <code class="grammar-char-escape"><abbr title="extended ascii '·'">#xB7</abbr></code> <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode '̀'">#x0300</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'ͯ'">#x036F</abbr></code><code>]</code>  <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode '‿'">#x203F</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode '⁀'">#x2040</abbr></code><code>]</code> </td>
+      <td><a href="#grammar-production-PN_CHARS_U">PN_CHARS_U</a> <code>|</code> "<code class="grammar-literal">-</code>" <code>|</code> <code>[</code> <code class="grammar-literal">0-9</code><code>]</code>  <code>|</code> <code class="grammar-char-escape"><abbr title="extended ascii '#xB7'">#xB7</abbr></code> <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x0300</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x036F</abbr></code><code>]</code>  <code>|</code> <code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x203F</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#x2040</abbr></code><code>]</code> </td>
     </tr>
     <tr id="grammar-production-PN_PREFIX">
       <td>[168]</td>
