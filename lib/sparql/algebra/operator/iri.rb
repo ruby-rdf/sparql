@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       #   a simple literal
       # @return [RDF::URI]
       # @raise  [TypeError] if the operand is not a simple literal
-      def apply(literal)
+      def apply(literal, **options)
         raise TypeError, "expected an simple literal, but got #{literal.inspect}" unless literal.literal? && literal.simple?
         base = Operator.base_uri || RDF::URI("")
         base.join(literal.to_s)

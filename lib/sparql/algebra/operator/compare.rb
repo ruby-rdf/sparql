@@ -31,7 +31,7 @@ module SPARQL; module Algebra
       #   a literal
       # @return [RDF::Literal::Integer] `-1`, `0`, or `1`
       # @raise  [TypeError] if either operand is not a literal
-      def apply(left, right)
+      def apply(left, right, **options)
         case
         # @see https://www.w3.org/TR/sparql11-query/#OperatorMapping
         # @see https://www.w3.org/TR/sparql11-query/#modOrderBy

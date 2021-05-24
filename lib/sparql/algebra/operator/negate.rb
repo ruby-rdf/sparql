@@ -20,7 +20,7 @@ module SPARQL; module Algebra
       #   a numeric literal
       # @return [RDF::Literal::Numeric]
       # @raise  [TypeError] if the operand is not a numeric literal
-      def apply(term)
+      def apply(term, **options)
         case term
           when RDF::Literal::Numeric then -term
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{term.inspect}"

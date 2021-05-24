@@ -25,7 +25,7 @@ module SPARQL; module Algebra
       #   a literal
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if either operand is not a literal
-      def apply(left, right)
+      def apply(left, right, **options)
         super
       end
     end # GreaterThanOrEqual

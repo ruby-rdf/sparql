@@ -17,7 +17,7 @@ module SPARQL; module Algebra
       # @param  [RDF::Term] object
       # @return [RDF::URI]
       # @raise  [TypeError] if the operand is not a simple literal
-      def apply(subject, predicate, object)
+      def apply(subject, predicate, object, **options)
         triple = RDF::Statement(subject, predicate, object)
         raise TypeError, "valid components, but got #{triple.inspect}" unless triple.valid?
         triple

@@ -314,8 +314,8 @@ module SPARQL; module Algebra
     # @param  [Array<RDF::Term>] operands
     # @return [RDF::Term]
     # @see    Operator#evaluate
-    def self.evaluate(*operands)
-      self.new(*operands).evaluate(RDF::Query::Solution.new)
+    def self.evaluate(*operands, **options)
+      self.new(*operands, **options).evaluate(RDF::Query::Solution.new, **options)
     end
 
     ##

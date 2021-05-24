@@ -25,7 +25,7 @@ module SPARQL; module Algebra
       #   the operand
       # @return [RDF::Literal::Integer] length of string
       # @raise  [TypeError] if the operand is not a numeric value
-      def apply(operand)
+      def apply(operand, **options)
         raise TypeError, "expected a plain RDF::Literal, but got #{operand.inspect}" unless operand.literal? && operand.plain?
         RDF::Literal(operand.to_s.length)
       end

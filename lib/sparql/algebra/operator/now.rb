@@ -23,7 +23,7 @@ module SPARQL; module Algebra
       # Returns an XSD dateTime value for the current query execution. All calls to this function in any one query execution must return the same value. The exact moment returned is not specified.
       #
       # @return [RDF::Literal::Double] random value
-      def apply
+      def apply(**options)
         RDF::Literal(DateTime.now)
       end
     end # Now

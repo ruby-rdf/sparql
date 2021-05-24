@@ -24,7 +24,7 @@ module SPARQL; module Algebra
       # Return a string that is the scheme specific part of UUID. That is, as a simple literal, the result of generating a UUID, converting to a simple literal and removing the initial urn:uuid:.
       #
       # @return [RDF::URI]
-      def apply
+      def apply(**options)
         RDF::Literal(SecureRandom.uuid)
       end
     end # StrUUID

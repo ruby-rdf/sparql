@@ -23,7 +23,7 @@ module SPARQL; module Algebra
       #   a literal or IRI
       # @return [RDF::Literal] a simple literal
       # @raise  [TypeError] if the operand is not a literal or IRI
-      def apply(term)
+      def apply(term, **options)
         case term
           when RDF::Literal then RDF::Literal(term.value)
           when RDF::URI     then RDF::Literal(term.to_s)

@@ -27,7 +27,7 @@ module SPARQL; module Algebra
       #   a typed or simple literal
       # @return [RDF::URI] the datatype IRI, or `xsd:string` for simple literals
       # @raise  [TypeError] if the operand is not a typed or simple literal
-      def apply(literal)
+      def apply(literal, **options)
         case literal
           when RDF::Literal then literal.datatype
           else raise TypeError, "expected an RDF::Literal, but got #{literal.inspect}"

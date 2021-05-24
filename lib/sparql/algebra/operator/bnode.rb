@@ -57,7 +57,7 @@ module SPARQL; module Algebra
       #   a query solution containing zero or more variable bindings
       # @return [RDF::Node] 
       # @raise  [TypeError] if the operand is not a simple literal or nil
-      def apply(literal, bindings)
+      def apply(literal, bindings, **options)
         @@bnode_base ||= "b0"
         @@bindings ||= bindings
         @@bnodes ||= {}

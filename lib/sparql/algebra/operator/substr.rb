@@ -49,7 +49,7 @@ module SPARQL; module Algebra
       #   an optional length of the substring.
       # @return [RDF::Literal]
       # @raise  [TypeError] if operands are not compatible
-      def apply(source, startingLoc, length)
+      def apply(source, startingLoc, length, **options)
         raise TypeError, "expected a plain RDF::Literal, but got #{source.inspect}" unless source.literal? && source.plain?
         text = text.to_s
 

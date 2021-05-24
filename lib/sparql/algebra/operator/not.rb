@@ -23,7 +23,7 @@ module SPARQL; module Algebra
       #   the operand
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operand could not be coerced to a boolean literal
-      def apply(operand)
+      def apply(operand, **options)
         case bool = boolean(operand)
           when RDF::Literal::Boolean
             RDF::Literal(bool.false?)

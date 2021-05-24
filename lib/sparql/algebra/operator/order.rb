@@ -40,7 +40,7 @@ module SPARQL; module Algebra
             memo = begin
               a_eval = op.evaluate(a, queryable: queryable, depth: options[:depth].to_i + 1, **options) rescue nil
               b_eval = op.evaluate(b, queryable: queryable, depth: options[:depth].to_i + 1, **options) rescue nil
-              comp = Operator::Compare.evaluate(a_eval, b_eval).to_i
+              comp = Operator::Compare.evaluate(a_eval, b_eval, order_by: true).to_i
               comp = -comp if op.is_a?(Operator::Desc)
               comp
             end if memo == 0
