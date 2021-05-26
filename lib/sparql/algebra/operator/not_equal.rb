@@ -12,6 +12,8 @@ module SPARQL; module Algebra
       # Returns `true` if the operands are not equal; returns `false`
       # otherwise.
       #
+      # Comparing unknown datatypes might have different lexical forms but be the same value.
+      #
       # @param  [RDF::Term] term1
       #   an RDF term
       # @param  [RDF::Term] term2
