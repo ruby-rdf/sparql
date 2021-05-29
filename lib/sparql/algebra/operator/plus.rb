@@ -23,7 +23,7 @@ module SPARQL; module Algebra
       #   a numeric literal
       # @return [RDF::Literal::Numeric]
       # @raise  [TypeError] if either operand is not a numeric literal
-      def apply(left, right = nil)
+      def apply(left, right = nil, **options)
         case
         when left.is_a?(RDF::Literal::Numeric) && right.is_a?(RDF::Literal::Numeric)
           left + right

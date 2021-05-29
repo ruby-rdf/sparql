@@ -44,7 +44,7 @@ module SPARQL; module Algebra
     #   Enumerable yielding evaluated operands
     # @return [RDF::Term]
     # @abstract
-    def apply(enum)
+    def apply(enum, **options)
       raise NotImplementedError, "#{self.class}#apply(#{operands.map(&:class).join(', ')})"
     end
 

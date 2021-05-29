@@ -26,7 +26,7 @@ module SPARQL; module Algebra
       #   an RDF term
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if either operand is unbound
-      def apply(term1, term2)
+      def apply(term1, term2, **options)
         RDF::Literal(term1.eql?(term2))
       end
 

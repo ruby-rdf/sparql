@@ -40,7 +40,13 @@ module SPARQL; module Algebra
             memo = begin
               a_eval = op.evaluate(a, queryable: queryable, depth: options[:depth].to_i + 1, **options) rescue nil
               b_eval = op.evaluate(b, queryable: queryable, depth: options[:depth].to_i + 1, **options) rescue nil
-              comp = Operator::Compare.evaluate(a_eval, b_eval).to_i
+              comp = begin
+                Operator::Compare.evaluate(a_eval, b_eval, order_by: true).to_s.to_i
+              rescue TypeError
+                # Type sError is effectively zero
+                debug(options) {"(order) rescue(#{$!}): #{a_eval.inspect}, #{b_eval.inspect}"}
+                RDF::Literal(0)
+              end
               comp = -comp if op.is_a?(Operator::Desc)
               comp
             end if memo == 0

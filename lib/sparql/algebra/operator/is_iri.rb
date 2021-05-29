@@ -23,7 +23,7 @@ module SPARQL; module Algebra
       #   an RDF term
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if the operand is not an RDF term
-      def apply(term)
+      def apply(term, **options)
         case term
           when RDF::URI  then RDF::Literal::TRUE
           when RDF::Term then RDF::Literal::FALSE

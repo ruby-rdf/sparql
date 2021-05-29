@@ -24,7 +24,7 @@ module SPARQL; module Algebra
       #   datatype
       # @return [RDF::Literal] a datatyped literal
       # @see https://www.w3.org/TR/sparql11-query/#func-strdt
-      def apply(value, datatypeIRI)
+      def apply(value, datatypeIRI, **options)
         raise TypeError, "Literal #{value.inspect} is not simple" unless value.simple?
         RDF::Literal.new(value.to_s, datatype: datatypeIRI)
       end

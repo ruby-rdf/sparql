@@ -26,7 +26,7 @@ module SPARQL; module Algebra
       #   the operand
       # @return [RDF::Literal]
       # @raise  [TypeError] if the operand is not a simple literal
-      def apply(operand)
+      def apply(operand, **options)
         raise TypeError, "expected an RDF::Literal::DateTime, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::DateTime)
         raise TypeError, "literal has no timezone" unless res = operand.timezone
         res

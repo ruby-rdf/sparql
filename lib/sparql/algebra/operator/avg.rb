@@ -29,7 +29,7 @@ module SPARQL; module Algebra
       # @param  [Enumerable<Array<RDF::Term>>] enum
       #   enum of evaluated operand
       # @return [RDF::Literal::Numeric] The numeric average of the terms
-      def apply(enum)
+      def apply(enum, **options)
         # FIXME: we don't actually do anything with distinct
         operands.shift if distinct = (operands.first == :distinct)
         if enum.empty?

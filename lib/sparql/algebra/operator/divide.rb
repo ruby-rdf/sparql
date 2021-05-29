@@ -21,7 +21,7 @@ module SPARQL; module Algebra
       #   a numeric literal
       # @return [RDF::Literal::Numeric]
       # @raise  [TypeError] if either operand is not a numeric literal
-      def apply(left, right)
+      def apply(left, right, **options)
         case
           when left.is_a?(RDF::Literal::Numeric) && right.is_a?(RDF::Literal::Numeric)
             # For xsd:decimal and xsd:integer operands, if the divisor is

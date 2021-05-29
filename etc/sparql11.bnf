@@ -157,7 +157,10 @@
     [119] PrimaryExpression       ::= BrackettedExpression | BuiltInCall | iriOrFunction
                                     | RDFLiteral | NumericLiteral | BooleanLiteral
                                     | Var
-                                    | EmbTP
+                                    | ExprEmbTP
+    [119a] ExprEmbTP              ::= '<<'  ExprVarOrTerm  Verb  ExprVarOrTerm  '>>'
+    [119b] ExprVarOrTerm          ::= iri  |  RDFLiteral  |  NumericLiteral  | BooleanLiteral
+                                    |  Var | ExprEmbTP
     [120] BrackettedExpression    ::= '(' Expression ')'
     [121] BuiltInCall             ::= Aggregate
                                     | 'STR' '(' Expression ')' 

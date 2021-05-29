@@ -42,7 +42,7 @@ module SPARQL; module Algebra
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if any operand is unbound
       # @raise  [TypeError] if any operand is not a simple literal
-      def apply(text, pattern, flags = RDF::Literal(''))
+      def apply(text, pattern, flags = RDF::Literal(''), **options)
         # @see https://www.w3.org/TR/xpath-functions/#regex-syntax
         raise TypeError, "expected a plain RDF::Literal, but got #{text.inspect}" unless text.is_a?(RDF::Literal) && text.plain?
         text = text.to_s

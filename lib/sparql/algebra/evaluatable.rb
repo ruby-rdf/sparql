@@ -15,16 +15,16 @@ module SPARQL; module Algebra
     # @abstract
     def evaluate(bindings, **options)
       args = operands.map { |operand| operand.evaluate(bindings, depth: options[:depth].to_i + 1, **options) }
-      options[:memoize] ? memoize(*args) : apply(*args)
+      options[:memoize] ? memoize(*args, **options) : apply(*args, **options)
     end
 
     ##
     # @param  [Array<RDF::Term>] operands
     #   evaluated operands
     # @return [RDF::Term] the memoized result
-    def memoize(*operands)
+    def memoize(*operands, **options)
       @cache ||= RDF::Util::Cache.new(options[:memoize].is_a?(Integer) ? options[:memoize] : -1)
-      @cache[operands] ||= apply(*operands)
+      @cache[operands] ||= apply(*operands, **options)
     end
 
     ##
@@ -32,7 +32,7 @@ module SPARQL; module Algebra
     #   evaluated operands
     # @return [RDF::Term]
     # @abstract
-    def apply(*operands)
+    def apply(*operands, **options)
       raise NotImplementedError, "#{self.class}#apply(#{operands.map(&:class).join(', ')})"
     end
 

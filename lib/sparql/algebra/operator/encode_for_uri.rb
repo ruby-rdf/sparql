@@ -27,7 +27,7 @@ module SPARQL; module Algebra
       #   the operand
       # @return [RDF::Literal] literal of same type
       # @raise  [TypeError] if the operand is not a literal value
-      def apply(operand)
+      def apply(operand, **options)
         case operand
           when RDF::Literal then RDF::Literal(CGI.escape(operand.to_s))
           else raise TypeError, "expected an RDF::Literal, but got #{operand.inspect}"

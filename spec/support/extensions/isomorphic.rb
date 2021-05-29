@@ -310,7 +310,7 @@ class RDF::Query
     # Blank nodes within a solution
     # @return [Array<RDF::Node>]
     def blank_nodes
-      bindings.values.select {|v| v.is_a?(RDF::Node)}.uniq
+      bindings.values.map(&:terms).select(&:node?)
     end
   end
 end

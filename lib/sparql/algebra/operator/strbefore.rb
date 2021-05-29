@@ -37,7 +37,7 @@ module SPARQL; module Algebra
       #   a literal
       # @return [RDF::Literal]
       # @raise  [TypeError] if operands are not compatible
-      def apply(left, right)
+      def apply(left, right, **options)
         case
         when !left.plain? || !right.plain?
           raise TypeError, "expected two RDF::Literal operands, but got #{left.inspect} and #{right.inspect}"

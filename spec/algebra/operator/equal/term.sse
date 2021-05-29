@@ -29,10 +29,10 @@
 
 # From open-eq-08
 (equal (= "xyz" "xyz"^^xsd:integer) TypeError)
-(equal (= "xyz" "xyz"^^<unknown>) TypeError)
+(equal (= "xyz" "xyz"^^<http://example.com/unknown>) TypeError)
 (equal (= "xyz"@en "xyz"^^xsd:string) false)
-(equal (= "xyz"@en "xyz"^^xsd:integer) false)
-(equal (= "xyz"@en "xyz"^^<unknown>) false)
+#(equal (= "xyz"@en "xyz"^^xsd:integer) false)
+(equal (= "xyz"@en "xyz"^^<http://example.com/unknown>) false)
 (equal (= "xyz"@en "xyz") false)
 (equal (= "xyz"@EN "xyz"^^xsd:string) false)
 (equal (= _:xyz "xyz"^^xsd:integer) false)

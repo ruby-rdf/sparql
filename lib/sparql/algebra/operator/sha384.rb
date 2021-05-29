@@ -26,7 +26,7 @@ module SPARQL; module Algebra
       #   the operand
       # @return [RDF::Literal]
       # @raise  [TypeError] if the operand is not a simple literal
-      def apply(operand)
+      def apply(operand, **options)
         raise TypeError, "expected an RDF::Literal, but got #{operand.inspect}" unless operand.literal?
         raise TypeError, "expected simple literal or xsd:string, but got #{operand.inspect}" unless (operand.datatype || RDF::XSD.string) == RDF::XSD.string
         RDF::Literal(Digest::SHA384.new.hexdigest(operand.to_s))

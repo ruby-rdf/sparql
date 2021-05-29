@@ -31,7 +31,7 @@ module SPARQL; module Algebra
       #   enum of evaluated operand
       # @return [RDF::Term] An arbitrary term
       # @raise  [TypeError] If enum is empty
-      def apply(enum)
+      def apply(enum, **options)
         enum.detect(lambda {raise TypeError, "Sampling an empty multiset"}) {|e| e.first}.first
       end
     end # LCase

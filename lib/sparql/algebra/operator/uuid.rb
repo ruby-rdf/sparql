@@ -24,7 +24,7 @@ module SPARQL; module Algebra
       # Return a fresh IRI from the UUID URN scheme. Each call of UUID() returns a different UUID. It must not be the "nil" UUID (all zeroes). The variant and version of the UUID is implementation dependent.
       #
       # @return [RDF::URI]
-      def apply
+      def apply(**options)
         RDF::URI("urn:uuid:#{SecureRandom.uuid}")
       end
     end # UUID

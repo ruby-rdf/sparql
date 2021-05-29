@@ -42,7 +42,7 @@ module SPARQL; module Algebra
       # @return [RDF::Literal] 
       # @raise  [TypeError] if any operand is unbound
       # @raise  [TypeError] if any operand is not a plain literal
-      def apply(text, pattern, replacement, flags = RDF::Literal(''))
+      def apply(text, pattern, replacement, flags = RDF::Literal(''), **options)
         raise TypeError, "expected a plain RDF::Literal, but got #{text.inspect}" unless text.literal? && text.plain?
         # TODO: validate text syntax
 

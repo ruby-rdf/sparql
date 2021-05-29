@@ -1306,7 +1306,7 @@ module SPARQL::Grammar
     #                                 | iriOrFunction | RDFLiteral
     #                                 | NumericLiteral | BooleanLiteral
     #                                 | Var
-    #                                 | EmbTP
+    #                                 | ExprEmbTP
     production(:PrimaryExpression) do |input, data, callback|
       if data[:Expression]
         add_prod_datum(:Expression, data[:Expression])
@@ -1326,6 +1326,21 @@ module SPARQL::Grammar
 
       # Keep track of this for parent UnaryExpression production
       add_prod_datum(:UnaryExpression, data[:UnaryExpression])
+    end
+
+    # [119a] ExprEmbTP ::= '<<' ExprVarOrTerm Verb ExprVarOrTerm '>>'
+    production(:ExprEmbTP) do |input, data, callback|
+      subject, object = data[:ExprVarOrTerm]
+      predicate = data[:Verb]
+      add_pattern(:ExprEmbTP,
+                  subject: subject,
+                  predicate: predicate,
+                  object: object)
+    end
+
+    # [119b] ExprVarOrTerm ::=	iri | RDFLiteral | NumericLiteral | BooleanLiteral | Var | ExprEmbTP
+    production(:ExprVarOrTerm) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:ExprVarOrTerm, v)}
     end
 
     # [121] BuiltInCall             ::= Aggregate
