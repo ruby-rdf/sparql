@@ -754,7 +754,7 @@ module SPARQL::Grammar
       end
     end
 
-    # [65]  DataBlockValue	        ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
+    # [65]  DataBlockValue	        ::= QuotedTriple | iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
     production(:DataBlockValue) do |input, data, callback|
       add_prod_datum :DataBlockValue, data.values.first
     end
@@ -833,7 +833,7 @@ module SPARQL::Grammar
       add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
     end
 
-    # [75]  	TriplesSameSubject	  ::=  	VarOrTermOrEmbTP PropertyListNotEmpty
+    # [75]  	TriplesSameSubject	  ::=  	VarOrTermOrQuotedTP PropertyListNotEmpty
     #                                 |	TriplesNode PropertyList
     production(:TriplesSameSubject) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
@@ -842,8 +842,8 @@ module SPARQL::Grammar
     # [77]  	PropertyListNotEmpty	  ::=  	Verb ObjectList
     #                                       ( ';' ( Verb ObjectList )? )*
     start_production(:PropertyListNotEmpty) do |input, data, callback|
-      subject = input[:VarOrTermOrEmbTP] || input[:TriplesNode] || input[:GraphNode]
-      error(nil, "Expected VarOrTermOrEmbTP or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if validate? && !subject
+      subject = input[:VarOrTermOrQuotedTP] || input[:TriplesNode] || input[:GraphNode]
+      error(nil, "Expected VarOrTermOrQuotedTP or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
     production(:PropertyListNotEmpty) do |input, data, callback|
@@ -899,7 +899,7 @@ module SPARQL::Grammar
       add_prod_datum(:pattern, data[:pattern])
     end
 
-    # [81]	TriplesSameSubjectPath	::=	VarOrTermOrEmbTP PropertyListPathNotEmpty | TriplesNode PropertyListPath
+    # [81]	TriplesSameSubjectPath	::=	VarOrTermOrQuotedTP PropertyListPathNotEmpty | TriplesNode PropertyListPath
     production(:TriplesSameSubjectPath) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
       add_prod_datum(:path, data[:path])
@@ -907,8 +907,8 @@ module SPARQL::Grammar
 
     # [83]  	PropertyListPathNotEmpty	  ::=  	( VerbPath | VerbSimple ) ObjectList ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
     start_production(:PropertyListPathNotEmpty) do |input, data, callback|
-      subject = input[:VarOrTermOrEmbTP] || input[:TriplesNode] || input[:GraphNode]
-      error(nil, "Expected VarOrTermOrEmbTP, got nothing", production: :PropertyListPathNotEmpty) if validate? && !subject
+      subject = input[:VarOrTermOrQuotedTP] || input[:TriplesNode] || input[:GraphNode]
+      error(nil, "Expected VarOrTermOrQuotedTP, got nothing", production: :PropertyListPathNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
     production(:PropertyListPathNotEmpty) do |input, data, callback|
@@ -954,7 +954,7 @@ module SPARQL::Grammar
       data[:Verb] = Array(input[:Verb]).first
     end
     production(:ObjectPath) do |input, data, callback|
-      object = data[:VarOrTermOrEmbTP] || data[:TriplesNode] || data[:GraphNode]
+      object = data[:VarOrTermOrQuotedTP] || data[:TriplesNode] || data[:GraphNode]
       if object
         if prod_data[:Verb]
           if data[:pattern] && data[:path]
@@ -1116,24 +1116,24 @@ module SPARQL::Grammar
       add_prod_datum(:path, data[:path])
     end
 
-    # [104]  	GraphNode	  ::=  	VarOrTermOrEmbTP |	TriplesNode
+    # [104]  	GraphNode	  ::=  	VarOrTermOrQuotedTP |	TriplesNode
     production(:GraphNode) do |input, data, callback|
-      term = data[:VarOrTermOrEmbTP] || data[:TriplesNode]
+      term = data[:VarOrTermOrQuotedTP] || data[:TriplesNode]
       add_prod_datum(:pattern, data[:pattern])
       add_prod_datum(:GraphNode, term)
     end
 
-    # [105]	GraphNodePath	::=	VarOrTermOrEmbTP | TriplesNodePath
+    # [105]	GraphNodePath	::=	VarOrTermOrQuotedTP | TriplesNodePath
     production(:GraphNodePath) do |input, data, callback|
-      term = data[:VarOrTermOrEmbTP] || data[:TriplesNode]
+      term = data[:VarOrTermOrQuotedTP] || data[:TriplesNode]
       add_prod_datum(:pattern, data[:pattern])
       add_prod_datum(:path, data[:path])
       add_prod_datum(:GraphNode, term)
     end
 
-    # [106s]  	VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
-    production(:VarOrTermOrEmbTP) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrTermOrEmbTP, v)}
+    # [106s]  	VarOrTermOrQuotedTP        ::= Var | GraphTerm | EmbTP
+    production(:VarOrTermOrQuotedTP) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:VarOrTermOrQuotedTP, v)}
     end
 
     # [107]  	VarOrIri	  ::=  	Var | iri
@@ -1149,22 +1149,6 @@ module SPARQL::Grammar
                       data[:literal] ||
                       data[:BlankNode] ||
                       data[:NIL])
-    end
-
-    # [174] EmbTP ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
-    production(:EmbTP) do |input, data, callback|
-      subject, object = data[:EmbSubjectOrObject]
-      predicate = data[:Verb]
-      add_pattern(:EmbTP,
-                  subject: subject,
-                  predicate: predicate,
-                  object: object)
-    end
-
-    # [175] EmbSubjectOrObject ::=	Var | BlankNode | iri | RDFLiteral
-    #                            | NumericLiteral | BooleanLiteral | EmbTP
-    production(:EmbSubjectOrObject) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:EmbSubjectOrObject, v)}
     end
 
     # [110]  	Expression	  ::=  	ConditionalOrExpression
@@ -1306,7 +1290,7 @@ module SPARQL::Grammar
     #                                 | iriOrFunction | RDFLiteral
     #                                 | NumericLiteral | BooleanLiteral
     #                                 | Var
-    #                                 | ExprEmbTP
+    #                                 | ExprQuotedTP
     production(:PrimaryExpression) do |input, data, callback|
       if data[:Expression]
         add_prod_datum(:Expression, data[:Expression])
@@ -1326,21 +1310,6 @@ module SPARQL::Grammar
 
       # Keep track of this for parent UnaryExpression production
       add_prod_datum(:UnaryExpression, data[:UnaryExpression])
-    end
-
-    # [119a] ExprEmbTP ::= '<<' ExprVarOrTerm Verb ExprVarOrTerm '>>'
-    production(:ExprEmbTP) do |input, data, callback|
-      subject, object = data[:ExprVarOrTerm]
-      predicate = data[:Verb]
-      add_pattern(:ExprEmbTP,
-                  subject: subject,
-                  predicate: predicate,
-                  object: object)
-    end
-
-    # [119b] ExprVarOrTerm ::=	iri | RDFLiteral | NumericLiteral | BooleanLiteral | Var | ExprEmbTP
-    production(:ExprVarOrTerm) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:ExprVarOrTerm, v)}
     end
 
     # [121] BuiltInCall             ::= Aggregate
@@ -1507,15 +1476,38 @@ module SPARQL::Grammar
       add_prod_datum(:UnaryExpression, data[:UnaryExpression])
     end
 
-    # [177]	AnnotationPattern	      ::=	'{|' PropertyListNotEmpty '|}'
-    #start_production(:AnnotationPattern) do |input, data, callback|
-    #  data[:TriplesNode] = prod_data[:TriplesNode].first
-    #end
-    #production(:AnnotationPattern) do |input, data, callback|
-    #  add_prod_datum(:pattern, data[:pattern])
-    #end
+    # [174] QuotedTP ::= '<<' qtSubjectOrObject Verb qtSubjectOrObject '>>'
+    production(:QuotedTP) do |input, data, callback|
+      subject, object = data[:qtSubjectOrObject]
+      predicate = data[:Verb]
+      add_pattern(:QuotedTP,
+                  subject: subject,
+                  predicate: predicate,
+                  object: object)
+    end
 
-    # [178]	AnnotationPatternPath	      ::=	'{|' PropertyListPathNotEmpty '|}'
+    # [175] QuotedTriple ::= '<<' DataValueTerm (iri | 'a') DataValueTerm '>>'
+    production(:QuotedTriple) do |input, data, callback|
+      subject, object = data[:DataValueTerm]
+      predicate = data[:iri]
+      add_pattern(:QuotedTriple,
+                  subject: subject,
+                  predicate: predicate,
+                  object: object)
+    end
+
+    # [176] qtSubjectOrObject ::=	Var | BlankNode | iri | RDFLiteral
+    #                            | NumericLiteral | BooleanLiteral | QuotedTP
+    production(:qtSubjectOrObject) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:qtSubjectOrObject, v)}
+    end
+
+    # [177] DataValueTerm           ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | QuotedTriple
+    production(:DataValueTerm) do |input, data, callback|
+      add_prod_datum :DataValueTerm, data.values.first
+    end
+
+    # [180]	AnnotationPatternPath	      ::=	'{|' PropertyListPathNotEmpty '|}'
     start_production(:AnnotationPatternPath) do |input, data, callback|
       data[:TriplesNode] = input[:TriplesNode]
     end
@@ -1529,21 +1521,21 @@ module SPARQL::Grammar
       end
     end
 
-    # [179] EmbTD                   ::= '<<' DataValueTerm ( iri | 'a' ) DataValueTerm '>>'
-    production(:EmbTD) do |input, data, callback|
-      subject, object = data[:DataValueTerm]
-      predicate = data[:iri]
-      add_pattern(:EmbTD,
+    # [181] ExprQuotedTP ::= '<<' ExprVarOrTerm Verb ExprVarOrTerm '>>'
+    production(:ExprQuotedTP) do |input, data, callback|
+      subject, object = data[:ExprVarOrTerm]
+      predicate = data[:Verb]
+      add_pattern(:ExprQuotedTP,
                   subject: subject,
                   predicate: predicate,
                   object: object)
     end
 
-    # [180] DataValueTerm           ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral
-    production(:DataValueTerm) do |input, data, callback|
-      add_prod_datum :DataValueTerm, data.values.first
+    # [182] ExprVarOrTerm ::=	iri | RDFLiteral | NumericLiteral | BooleanLiteral | Var | ExprQuotedTP
+    production(:ExprVarOrTerm) do |input, data, callback|
+      data.values.each {|v| add_prod_datum(:ExprVarOrTerm, v)}
     end
-    
+
     ##
     # Initializes a new parser instance.
     #

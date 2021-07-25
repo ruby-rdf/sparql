@@ -1098,7 +1098,7 @@
    DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
    IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "false" "true" "}" )
-  (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
+  (alt QuotedTriple iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
  (rule MinusGraphPattern "66"
   (first "MINUS")
   (follow "(" "." "<<" ANON "BIND" BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
@@ -1363,7 +1363,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 VAR1 VAR2 "false"
    "true" )
   (follow "." "GRAPH" "}")
-  (seq VarOrTermOrEmbTP PropertyListNotEmpty))
+  (seq VarOrTermOrQuotedTP PropertyListNotEmpty))
  (rule _TriplesSameSubject_2 "75.2"
   (first "(" "[")
   (follow "." "GRAPH" "}")
@@ -1464,7 +1464,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 VAR1 VAR2 "false"
    "true" )
   (follow "." "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE" "VALUES" "{" "}")
-  (seq VarOrTermOrEmbTP PropertyListPathNotEmpty))
+  (seq VarOrTermOrQuotedTP PropertyListPathNotEmpty))
  (rule _TriplesSameSubjectPath_2 "81.2"
   (first "(" "[")
   (follow "." "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE" "VALUES" "{" "}")
@@ -1908,7 +1908,7 @@
    NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2 "[" "]" "false"
    "true" "{" "{|" "|}" "}" )
-  (alt VarOrTermOrEmbTP TriplesNode))
+  (alt VarOrTermOrQuotedTP TriplesNode))
  (rule GraphNodePath "105"
   (first "(" "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
    DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER
@@ -1921,7 +1921,7 @@
    NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2 "[" "]" "false"
    "true" "{" "{|" "|}" "}" )
-  (alt VarOrTermOrEmbTP TriplesNodePath))
+  (alt VarOrTermOrQuotedTP TriplesNodePath))
  (rule VarOrTerm "106"
   (first ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE
    DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
@@ -2315,21 +2315,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
   (alt BrackettedExpression BuiltInCall iriOrFunction RDFLiteral NumericLiteral
-   BooleanLiteral Var ExprEmbTP ))
- (rule ExprEmbTP "119a"
-  (first "<<")
-  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
-   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
-   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
-   "a" "||" )
-  (seq "<<" ExprVarOrTerm Verb ExprVarOrTerm ">>"))
- (rule ExprVarOrTerm "119b"
-  (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
-   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
-   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
-   STRING_LITERAL_LONG2 VAR1 VAR2 "false" "true" )
-  (follow ">>" IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
-  (alt iri RDFLiteral NumericLiteral BooleanLiteral Var ExprEmbTP))
+   BooleanLiteral Var ExprQuotedTP ))
  (rule BrackettedExpression "120"
   (first "(")
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
@@ -4022,7 +4008,7 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2
    "[" "]" "^" "a" "false" "true" "{" "{|" "|}" "}" )
   (alt BLANK_NODE_LABEL ANON))
- (rule EmbTP "174"
+ (rule QuotedTP "174"
   (first "<<")
   (follow "!" "(" ")" "," "." ";" "<<" ">>" ANON "BIND" BLANK_NODE_LABEL
    DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
@@ -4030,15 +4016,36 @@
    IRIREF "MINUS" NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2
    "[" "]" "^" "a" "false" "true" "{" "{|" "|}" "}" )
-  (seq "<<" EmbSubjectOrObject Verb EmbSubjectOrObject ">>"))
- (rule EmbSubjectOrObject "175"
+  (seq "<<" qtSubjectOrObject Verb qtSubjectOrObject ">>"))
+ (rule QuotedTriple "175"
+  (first "<<")
+  (follow ")" "<<" ">>" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE
+   DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
+   IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
+   STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "a" "false" "true" "}" )
+  (seq "<<" DataValueTerm _QuotedTriple_1 DataValueTerm ">>"))
+ (rule _QuotedTriple_1 "175.1"
+  (first IRIREF PNAME_LN PNAME_NS "a")
+  (follow "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
+   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
+   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
+   STRING_LITERAL_LONG2 "false" "true" )
+  (alt iri "a"))
+ (rule qtSubjectOrObject "176"
   (first "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE
    DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE
    INTEGER_POSITIVE IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 VAR1 VAR2 "false" "true" )
   (follow ">>" IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
-  (alt Var BlankNode iri RDFLiteral NumericLiteral BooleanLiteral EmbTP))
- (rule VarOrTermOrEmbTP "176"
+  (alt Var BlankNode iri RDFLiteral NumericLiteral BooleanLiteral QuotedTP))
+ (rule DataValueTerm "177"
+  (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
+   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
+   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
+   STRING_LITERAL_LONG2 "false" "true" )
+  (follow ">>" IRIREF PNAME_LN PNAME_NS "a")
+  (alt iri RDFLiteral NumericLiteral BooleanLiteral QuotedTriple))
+ (rule VarOrTermOrQuotedTP "178"
   (first "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE
    DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE
    INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS STRING_LITERAL1
@@ -4050,38 +4057,31 @@
    NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2 "[" "]" "^" "a"
    "false" "true" "{" "{|" "|}" "}" )
-  (alt Var GraphTerm EmbTP))
- (rule AnnotationPattern "177"
+  (alt Var GraphTerm QuotedTP))
+ (rule AnnotationPattern "179"
   (first "{|")
   (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
    "VALUES" "]" "{" "|}" "}" )
   (seq "{|" PropertyListNotEmpty "|}"))
- (rule AnnotationPatternPath "178"
+ (rule AnnotationPatternPath "180"
   (first "{|")
   (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
    "VALUES" "]" "{" "|}" "}" )
   (seq "{|" PropertyListPathNotEmpty "|}"))
- (rule EmbTD "179"
+ (rule ExprQuotedTP "181"
   (first "<<")
-  (follow ")" "<<" ">>" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE
-   DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
-   IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
-   STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "a" "false" "true" "}" )
-  (seq "<<" DataValueTerm _EmbTD_1 DataValueTerm ">>"))
- (rule _EmbTD_1 "179.1"
-  (first IRIREF PNAME_LN PNAME_NS "a")
-  (follow "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
-   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
-   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
-   STRING_LITERAL_LONG2 "false" "true" )
-  (alt iri "a"))
- (rule DataValueTerm "180"
+  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
+   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
+   "a" "||" )
+  (seq "<<" ExprVarOrTerm Verb ExprVarOrTerm ">>"))
+ (rule ExprVarOrTerm "182"
   (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
    DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
    PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
-   STRING_LITERAL_LONG2 "false" "true" )
-  (follow ">>" IRIREF PNAME_LN PNAME_NS "a")
-  (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral))
+   STRING_LITERAL_LONG2 VAR1 VAR2 "false" "true" )
+  (follow ">>" IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
+  (alt iri RDFLiteral NumericLiteral BooleanLiteral Var ExprQuotedTP))
  (terminals _terminals (seq))
  (terminal IRIREF "139" (seq "<" (star (alt (range "^#x00-#x20<>\"{}|^`\\") UCHAR)) ">"))
  (terminal PNAME_NS "140" (seq (opt PN_PREFIX) ":"))
@@ -5460,16 +5460,6 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
    INTEGER_NEGATIVE INTEGER_POSITIVE "NOT" "||" )
   (seq PrimaryExpression))
- (rule _ExprEmbTP_1 "119a.1"
-  (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
-   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
-   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
-   STRING_LITERAL_LONG2 VAR1 VAR2 "false" "true" )
-  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
-   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
-   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
-   "a" "||" )
-  (seq ExprVarOrTerm Verb ExprVarOrTerm ">>"))
  (rule _BrackettedExpression_1 "120.1"
   (first "!" "(" "+" "-" "<<" "ABS" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE"
    "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL DECIMAL_NEGATIVE
@@ -6165,7 +6155,7 @@
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "VALUES" VAR1 VAR2 "[" "]"
    "^" "a" "false" "true" "{" "{|" "||" "|}" "}" )
   (seq _RDFLiteral_1))
- (rule _EmbTP_1 "174.1"
+ (rule _QuotedTP_1 "174.1"
   (first "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE
    DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE
    INTEGER_POSITIVE IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
@@ -6176,18 +6166,8 @@
    IRIREF "MINUS" NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2
    "[" "]" "^" "a" "false" "true" "{" "{|" "|}" "}" )
-  (seq EmbSubjectOrObject Verb EmbSubjectOrObject ">>"))
- (rule _AnnotationPattern_1 "177.1"
-  (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
-  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
-   "VALUES" "]" "{" "|}" "}" )
-  (seq PropertyListNotEmpty "|}"))
- (rule _AnnotationPatternPath_1 "178.1"
-  (first "!" "(" IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "^" "a")
-  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
-   "VALUES" "]" "{" "|}" "}" )
-  (seq PropertyListPathNotEmpty "|}"))
- (rule _EmbTD_2 "179.2"
+  (seq qtSubjectOrObject Verb qtSubjectOrObject ">>"))
+ (rule _QuotedTriple_2 "175.2"
   (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
    DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
    PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
@@ -6196,7 +6176,27 @@
    DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
    IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "a" "false" "true" "}" )
-  (seq DataValueTerm _EmbTD_1 DataValueTerm ">>"))
+  (seq DataValueTerm _QuotedTriple_1 DataValueTerm ">>"))
+ (rule _AnnotationPattern_1 "179.1"
+  (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
+  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
+   "VALUES" "]" "{" "|}" "}" )
+  (seq PropertyListNotEmpty "|}"))
+ (rule _AnnotationPatternPath_1 "180.1"
+  (first "!" "(" IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "^" "a")
+  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
+   "VALUES" "]" "{" "|}" "}" )
+  (seq PropertyListPathNotEmpty "|}"))
+ (rule _ExprQuotedTP_1 "181.1"
+  (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
+   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
+   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
+   STRING_LITERAL_LONG2 VAR1 VAR2 "false" "true" )
+  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
+   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
+   "a" "||" )
+  (seq ExprVarOrTerm Verb ExprVarOrTerm ">>"))
  (rule _SubSelect_2 "8.2"
   (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" "VALUES" _eps)
   (follow _eof "}")
@@ -6499,13 +6499,6 @@
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2 "[" "]" "^" "a"
    "false" "true" "{" "{|" "|}" "}" )
   (seq ")"))
- (rule _ExprEmbTP_2 "119a.2"
-  (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
-  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
-   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
-   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
-   "a" "||" )
-  (seq Verb ExprVarOrTerm ">>"))
  (rule _BrackettedExpression_2 "120.2"
   (first ")")
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
@@ -7201,7 +7194,7 @@
    "||" "}" )
   (seq _Aggregate_15 Expression _Aggregate_16 ")"))
  (rule _Aggregate_33 "127.33" (first "=") (follow ")") (seq "=" String))
- (rule _EmbTP_2 "174.2"
+ (rule _QuotedTP_2 "174.2"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
   (follow "!" "(" ")" "," "." ";" "<<" ">>" ANON "BIND" BLANK_NODE_LABEL
    DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
@@ -7209,24 +7202,31 @@
    IRIREF "MINUS" NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2
    "[" "]" "^" "a" "false" "true" "{" "{|" "|}" "}" )
-  (seq Verb EmbSubjectOrObject ">>"))
- (rule _AnnotationPattern_2 "177.2"
-  (first "|}")
-  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
-   "VALUES" "]" "{" "|}" "}" )
-  (seq "|}"))
- (rule _AnnotationPatternPath_2 "178.2"
-  (first "|}")
-  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
-   "VALUES" "]" "{" "|}" "}" )
-  (seq "|}"))
- (rule _EmbTD_3 "179.3"
+  (seq Verb qtSubjectOrObject ">>"))
+ (rule _QuotedTriple_3 "175.3"
   (first IRIREF PNAME_LN PNAME_NS "a")
   (follow ")" "<<" ">>" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE
    DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
    IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "a" "false" "true" "}" )
-  (seq _EmbTD_1 DataValueTerm ">>"))
+  (seq _QuotedTriple_1 DataValueTerm ">>"))
+ (rule _AnnotationPattern_2 "179.2"
+  (first "|}")
+  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
+   "VALUES" "]" "{" "|}" "}" )
+  (seq "|}"))
+ (rule _AnnotationPatternPath_2 "180.2"
+  (first "|}")
+  (follow "," "." ";" "BIND" "FILTER" "GRAPH" "MINUS" "OPTIONAL" "SERVICE"
+   "VALUES" "]" "{" "|}" "}" )
+  (seq "|}"))
+ (rule _ExprQuotedTP_2 "181.2"
+  (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
+  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
+   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
+   "a" "||" )
+  (seq Verb ExprVarOrTerm ">>"))
  (rule _ConstructQuery_17 "10.17"
   (first "GROUP" "HAVING" "LIMIT" "OFFSET" "ORDER" _eps)
   (follow "VALUES" _eof)
@@ -7286,16 +7286,6 @@
    "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _ArgList_3 ")"))
- (rule _ExprEmbTP_3 "119a.3"
-  (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
-   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
-   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
-   STRING_LITERAL_LONG2 VAR1 VAR2 "false" "true" )
-  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
-   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
-   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
-   "a" "||" )
-  (seq ExprVarOrTerm ">>"))
  (rule _BuiltInCall_91 "121.91"
   (first ",")
   (follow "!=" "&&" "(" ")" "*" "+" "," "-" "." "/" ";" "<" "<<" "<=" "=" ">"
@@ -7626,7 +7616,7 @@
   (first STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2)
   (follow ")")
   (seq String))
- (rule _EmbTP_3 "174.3"
+ (rule _QuotedTP_3 "174.3"
   (first "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE
    DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE
    INTEGER_POSITIVE IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
@@ -7637,8 +7627,8 @@
    IRIREF "MINUS" NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2
    "[" "]" "^" "a" "false" "true" "{" "{|" "|}" "}" )
-  (seq EmbSubjectOrObject ">>"))
- (rule _EmbTD_4 "179.4"
+  (seq qtSubjectOrObject ">>"))
+ (rule _QuotedTriple_4 "175.4"
   (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
    DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
    PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
@@ -7648,6 +7638,16 @@
    IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "a" "false" "true" "}" )
   (seq DataValueTerm ">>"))
+ (rule _ExprQuotedTP_3 "181.3"
+  (first "<<" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
+   DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF PNAME_LN
+   PNAME_NS STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1
+   STRING_LITERAL_LONG2 VAR1 VAR2 "false" "true" )
+  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
+   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
+   "a" "||" )
+  (seq ExprVarOrTerm ">>"))
  (rule _ConstructQuery_19 "10.19"
   (first "}")
   (follow "VALUES" _eof)
@@ -7664,13 +7664,6 @@
   (first "DEFAULT" "GRAPH" IRIREF PNAME_LN PNAME_NS)
   (follow ";" _eof)
   (seq GraphOrDefault))
- (rule _ExprEmbTP_4 "119a.4"
-  (first ">>")
-  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
-   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
-   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
-   "a" "||" )
-  (seq ">>"))
  (rule _RegexExpression_7 "122.7"
   (first "!" "(" "+" "-" "<<" "ABS" "AVG" "BNODE" "BOUND" "CEIL" "COALESCE"
    "CONCAT" "CONTAINS" "COUNT" "DATATYPE" "DAY" DECIMAL DECIMAL_NEGATIVE
@@ -7780,7 +7773,7 @@
    "isIRI" "isLITERAL" "isNUMERIC" "isTRIPLE" "isURI" "sameTerm" "true" "{"
    "||" "}" )
   (seq _Aggregate_16 ")"))
- (rule _EmbTP_4 "174.4"
+ (rule _QuotedTP_4 "174.4"
   (first ">>")
   (follow "!" "(" ")" "," "." ";" "<<" ">>" ANON "BIND" BLANK_NODE_LABEL
    DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE
@@ -7789,12 +7782,19 @@
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "VALUES" VAR1 VAR2
    "[" "]" "^" "a" "false" "true" "{" "{|" "|}" "}" )
   (seq ">>"))
- (rule _EmbTD_5 "179.5"
+ (rule _QuotedTriple_5 "175.5"
   (first ">>")
   (follow ")" "<<" ">>" DECIMAL DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE
    DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE
    IRIREF PNAME_LN PNAME_NS STRING_LITERAL1 STRING_LITERAL2
    STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "UNDEF" "a" "false" "true" "}" )
+  (seq ">>"))
+ (rule _ExprQuotedTP_4 "181.4"
+  (first ">>")
+  (follow "!=" "&&" ")" "*" "+" "," "-" "/" ";" "<" "<=" "=" ">" ">=" ">>" "AS"
+   DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE_NEGATIVE DOUBLE_POSITIVE "IN"
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF "NOT" PNAME_LN PNAME_NS VAR1 VAR2
+   "a" "||" )
   (seq ">>"))
  (rule _RegexExpression_8 "122.8"
   (first ")" ",")

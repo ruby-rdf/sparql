@@ -1896,7 +1896,7 @@ describe SPARQL::Grammar::Parser do
       include_examples "GraphTerm"
     end
 
-    describe "when matching the [106] VarOrTermOrEmbTP production rule", production: :VarOrTermOrEmbTP do
+    describe "when matching the [106] VarOrTermOrQuotedTP production rule", production: :VarOrTermOrQuotedTP do
       include_examples "Var"
       include_examples "GraphTerm"
     end

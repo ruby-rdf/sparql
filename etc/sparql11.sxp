@@ -202,7 +202,7 @@
   (cleanup merge)
   (seq DataBlockValue _InlineDataFull_9))
  (rule DataBlockValue "65"
-  (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
+  (alt QuotedTriple iri RDFLiteral NumericLiteral BooleanLiteral "UNDEF"))
  (rule MinusGraphPattern "66" (seq "MINUS" GroupGraphPattern))
  (rule GroupOrUnionGraphPattern "67"
   (seq GroupGraphPattern _GroupOrUnionGraphPattern_1))
@@ -236,7 +236,7 @@
  (rule _ConstructTriples_2 "74.2" (seq "." _ConstructTriples_3))
  (rule _ConstructTriples_3 "74.3" (cleanup opt) (alt _empty ConstructTriples))
  (rule TriplesSameSubject "75" (alt _TriplesSameSubject_1 _TriplesSameSubject_2))
- (rule _TriplesSameSubject_1 "75.1" (seq VarOrTermOrEmbTP PropertyListNotEmpty))
+ (rule _TriplesSameSubject_1 "75.1" (seq VarOrTermOrQuotedTP PropertyListNotEmpty))
  (rule _TriplesSameSubject_2 "75.2" (seq TriplesNode PropertyList))
  (rule PropertyList "76" (cleanup opt) (alt _empty PropertyListNotEmpty))
  (rule PropertyListNotEmpty "77" (seq Verb ObjectList _PropertyListNotEmpty_1))
@@ -261,7 +261,7 @@
  (rule TriplesSameSubjectPath "81"
   (alt _TriplesSameSubjectPath_1 _TriplesSameSubjectPath_2))
  (rule _TriplesSameSubjectPath_1 "81.1"
-  (seq VarOrTermOrEmbTP PropertyListPathNotEmpty))
+  (seq VarOrTermOrQuotedTP PropertyListPathNotEmpty))
  (rule _TriplesSameSubjectPath_2 "81.2" (seq TriplesNodePath PropertyListPath))
  (rule PropertyListPath "82" (cleanup opt) (alt _empty PropertyListPathNotEmpty))
  (rule PropertyListPathNotEmpty "83"
@@ -340,8 +340,8 @@
  (rule _CollectionPath_1 "103.1" (cleanup plus) (seq GraphNodePath _CollectionPath_2))
  (rule _CollectionPath_2 "103.2" (cleanup star) (alt _empty _CollectionPath_3))
  (rule _CollectionPath_3 "103.3" (cleanup merge) (seq GraphNodePath _CollectionPath_2))
- (rule GraphNode "104" (alt VarOrTermOrEmbTP TriplesNode))
- (rule GraphNodePath "105" (alt VarOrTermOrEmbTP TriplesNodePath))
+ (rule GraphNode "104" (alt VarOrTermOrQuotedTP TriplesNode))
+ (rule GraphNodePath "105" (alt VarOrTermOrQuotedTP TriplesNodePath))
  (rule VarOrTerm "106" (alt Var GraphTerm))
  (rule VarOrIri "107" (alt Var iri))
  (rule Var "108" (alt VAR1 VAR2))
@@ -420,10 +420,7 @@
  (rule _UnaryExpression_3 "118.3" (seq "-" PrimaryExpression))
  (rule PrimaryExpression "119"
   (alt BrackettedExpression BuiltInCall iriOrFunction RDFLiteral NumericLiteral
-   BooleanLiteral Var ExprEmbTP ))
- (rule ExprEmbTP "119a" (seq "<<" ExprVarOrTerm Verb ExprVarOrTerm ">>"))
- (rule ExprVarOrTerm "119b"
-  (alt iri RDFLiteral NumericLiteral BooleanLiteral Var ExprEmbTP))
+   BooleanLiteral Var ExprQuotedTP ))
  (rule BrackettedExpression "120" (seq "(" Expression ")"))
  (rule BuiltInCall "121"
   (alt Aggregate _BuiltInCall_1 _BuiltInCall_2 _BuiltInCall_3 _BuiltInCall_4
@@ -559,15 +556,20 @@
  (rule iri "136" (alt IRIREF PrefixedName))
  (rule PrefixedName "137" (alt PNAME_LN PNAME_NS))
  (rule BlankNode "138" (alt BLANK_NODE_LABEL ANON))
- (rule EmbTP "174" (seq "<<" EmbSubjectOrObject Verb EmbSubjectOrObject ">>"))
- (rule EmbSubjectOrObject "175"
-  (alt Var BlankNode iri RDFLiteral NumericLiteral BooleanLiteral EmbTP))
- (rule VarOrTermOrEmbTP "176" (alt Var GraphTerm EmbTP))
- (rule AnnotationPattern "177" (seq "{|" PropertyListNotEmpty "|}"))
- (rule AnnotationPatternPath "178" (seq "{|" PropertyListPathNotEmpty "|}"))
- (rule EmbTD "179" (seq "<<" DataValueTerm _EmbTD_1 DataValueTerm ">>"))
- (rule _EmbTD_1 "179.1" (alt iri "a"))
- (rule DataValueTerm "180" (alt EmbTD iri RDFLiteral NumericLiteral BooleanLiteral))
+ (rule QuotedTP "174" (seq "<<" qtSubjectOrObject Verb qtSubjectOrObject ">>"))
+ (rule QuotedTriple "175"
+  (seq "<<" DataValueTerm _QuotedTriple_1 DataValueTerm ">>"))
+ (rule _QuotedTriple_1 "175.1" (alt iri "a"))
+ (rule qtSubjectOrObject "176"
+  (alt Var BlankNode iri RDFLiteral NumericLiteral BooleanLiteral QuotedTP))
+ (rule DataValueTerm "177"
+  (alt iri RDFLiteral NumericLiteral BooleanLiteral QuotedTriple))
+ (rule VarOrTermOrQuotedTP "178" (alt Var GraphTerm QuotedTP))
+ (rule AnnotationPattern "179" (seq "{|" PropertyListNotEmpty "|}"))
+ (rule AnnotationPatternPath "180" (seq "{|" PropertyListPathNotEmpty "|}"))
+ (rule ExprQuotedTP "181" (seq "<<" ExprVarOrTerm Verb ExprVarOrTerm ">>"))
+ (rule ExprVarOrTerm "182"
+  (alt iri RDFLiteral NumericLiteral BooleanLiteral Var ExprQuotedTP))
  (terminals _terminals (seq))
  (terminal IRIREF "139" (seq "<" (star (alt (range "^#x00-#x20<>\"{}|^`\\") UCHAR)) ">"))
  (terminal PNAME_NS "140" (seq (opt PN_PREFIX) ":"))
