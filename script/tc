@@ -72,15 +72,25 @@ def run_tc(tc, **options)
 
   case tc.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
-     # Decimal format changed in SPARQL 1.1
+    # Decimal format changed in SPARQL 1.1
   when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
     # PNAME_LN changed in SPARQL 1.1
   when 'datatype-2 : Literals with a datatype'
-     # datatype now returns rdf:langString for language-tagged literals
+    # datatype now returns rdf:langString for language-tagged literals
   when /REDUCED/
-     # REDUCED equivalent to DISTINCT
+    # REDUCED equivalent to DISTINCT
+  when 'Strings: Distinct', 'All: Distinct'
+    # More compact representation
   when /pp11|pp31/
-     # Expects multiple equivalent property path solutions
+    # Expects multiple equivalent property path solutions
+  when /syntax-update-(26|27|28|36).ru/
+    # Whitespace in string tokens
+  when 'date-1', 'dawg-optional-filter-005-not-simplified'
+    # Different results on unapproved tests
+  when /COUNT (8|9|10|11|12)$/, /syn-bad-0[12].rq/, 'syn-bad-pname-06', /Group-[67]$/
+    # Better Error Detection
+  when /sq03/
+    # Graph variable binding differences
   else
     case tc.type
     when 'mf:QueryEvaluationTest'
@@ -324,9 +334,9 @@ manifests.each do |path|
         next unless tc.action
         name = Array(tc.name).join("") + Array(tc.entry).join("")
         next unless ARGV.empty? || ARGV.any? do |n|
-          tc.attributes['id'].match?(/#{n}/) ||
-          tc.action.is_a?(Hash) && tc.action['mq:query'].match?(/n/) ||
-          name.match(/#{n}/)
+          tc.attributes['id'].include?(n) ||
+          tc.action.is_a?(Hash) && tc.action['mq:query'].include?(n) ||
+          name.include?(n)
         end
         run_tc(tc, **options)
       end
