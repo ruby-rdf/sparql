@@ -30,9 +30,6 @@ group :development do
   gem 'ld-patch',         github: "ruby-rdf/ld-patch",            branch: "develop"
   gem 'shex',             github: "ruby-rdf/shex",                branch: "develop"
   gem "equivalent-xml",   '>= 0.6.0'
-  gem 'psych',            platforms: [:mri, :rbx]
-  gem 'simplecov',        platforms: :mri
-  gem 'coveralls',        '~> 0.8', platforms: :mri
 end
 
 group :debug do
@@ -45,4 +42,7 @@ end
 
 group :test do
   gem 'rake'
+  gem 'simplecov',        '~> 0.21',  platforms: :mri
+  gem 'simplecov-lcov',   '~> 0.8',  platforms: :mri
+  gem 'coveralls',        platforms: :mri
 end

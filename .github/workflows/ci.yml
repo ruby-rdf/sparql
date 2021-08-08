@@ -19,7 +19,6 @@ jobs:
       fail-fast: false
       matrix:
         ruby:
-          - 2.4
           - 2.5
           - 2.6
           - 2.7
@@ -37,4 +36,8 @@ jobs:
         run: bundle install --jobs 4 --retry 3
       - name: Run tests
         run: bundle exec rspec spec
- 
+      - name: Coveralls GitHub Action
+        uses: coverallsapp/github-action@v1.1.2
+        if: "matrix.ruby == '3.0'"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
