@@ -26,6 +26,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.1'
   gem.add_runtime_dependency     'ebnf',               '~> 2.1'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
+  gem.add_runtime_dependency     'logger',             '~> 1.4'
   gem.add_runtime_dependency     'sxp',                '~> 1.1'
   gem.add_runtime_dependency     'sparql-client',      '~> 3.1', '>= 3.1.2'
   gem.add_runtime_dependency     'rdf-xsd',            '~> 3.1'

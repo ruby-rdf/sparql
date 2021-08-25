@@ -79,7 +79,7 @@
     [63]  InlineDataOneVar        ::= Var '{' DataBlockValue* '}'
     [64]  InlineDataFull          ::= ( NIL | '(' Var* ')' )
                                      '{' ( '(' DataBlockValue* ')' | NIL )* '}'
-    [65]  DataBlockValue          ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
+    [65]  DataBlockValue          ::= QuotedTriple | iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF'
     [66]  MinusGraphPattern       ::= 'MINUS' GroupGraphPattern
     [67]  GroupOrUnionGraphPattern::= GroupGraphPattern ( 'UNION' GroupGraphPattern )*
     [68]  Filter                  ::= 'FILTER' Constraint
@@ -89,14 +89,14 @@
     [72]  ExpressionList          ::= NIL | '(' Expression ( ',' Expression )* ')'
     [73]  ConstructTemplate       ::= '{' ConstructTriples? '}'
     [74]  ConstructTriples        ::= TriplesSameSubject ( '.' ConstructTriples? )?
-    [75]  TriplesSameSubject      ::= VarOrTermOrEmbTP PropertyListNotEmpty
+    [75]  TriplesSameSubject      ::= VarOrTermOrQuotedTP PropertyListNotEmpty
                                     | TriplesNode PropertyList
     [76]  PropertyList            ::= PropertyListNotEmpty?
     [77]  PropertyListNotEmpty    ::= Verb ObjectList ( ';' ( Verb ObjectList )? )*
     [78]  Verb                    ::= VarOrIri | 'a'
     [79]  ObjectList              ::= Object ( ',' Object )*
     [80]  Object                  ::= GraphNode AnnotationPattern?
-    [81]  TriplesSameSubjectPath  ::= VarOrTermOrEmbTP PropertyListPathNotEmpty
+    [81]  TriplesSameSubjectPath  ::= VarOrTermOrQuotedTP PropertyListPathNotEmpty
                                     | TriplesNodePath PropertyListPath
     [82]  PropertyListPath        ::= PropertyListPathNotEmpty?
     [83]  PropertyListPathNotEmpty::= ( VerbPath | VerbSimple ) ObjectListPath
@@ -122,8 +122,8 @@
     [101] BlankNodePropertyListPath::= '[' PropertyListPathNotEmpty ']'
     [102] Collection              ::= '(' GraphNode+ ')'
     [103] CollectionPath          ::= '(' GraphNodePath+ ')'
-    [104] GraphNode               ::= VarOrTermOrEmbTP | TriplesNode
-    [105] GraphNodePath           ::= VarOrTermOrEmbTP | TriplesNodePath
+    [104] GraphNode               ::= VarOrTermOrQuotedTP | TriplesNode
+    [105] GraphNodePath           ::= VarOrTermOrQuotedTP | TriplesNodePath
     [106] VarOrTerm               ::= Var | GraphTerm
     [107] VarOrIri                ::= Var | iri
     [108] Var                     ::= VAR1 | VAR2
@@ -157,10 +157,7 @@
     [119] PrimaryExpression       ::= BrackettedExpression | BuiltInCall | iriOrFunction
                                     | RDFLiteral | NumericLiteral | BooleanLiteral
                                     | Var
-                                    | ExprEmbTP
-    [119a] ExprEmbTP              ::= '<<'  ExprVarOrTerm  Verb  ExprVarOrTerm  '>>'
-    [119b] ExprVarOrTerm          ::= iri  |  RDFLiteral  |  NumericLiteral  | BooleanLiteral
-                                    |  Var | ExprEmbTP
+                                    | ExprQuotedTP
     [120] BrackettedExpression    ::= '(' Expression ')'
     [121] BuiltInCall             ::= Aggregate
                                     | 'STR' '(' Expression ')' 
@@ -248,14 +245,17 @@
     [136] iri                     ::= IRIREF | PrefixedName
     [137] PrefixedName            ::= PNAME_LN | PNAME_NS
     [138] BlankNode               ::= BLANK_NODE_LABEL | ANON
-    [174] EmbTP                   ::= '<<' EmbSubjectOrObject Verb EmbSubjectOrObject '>>'
-    [175] EmbSubjectOrObject      ::= Var | BlankNode | iri | RDFLiteral
-                                    | NumericLiteral | BooleanLiteral | EmbTP
-    [176] VarOrTermOrEmbTP        ::= Var | GraphTerm | EmbTP
-    [177] AnnotationPattern       ::= '{|' PropertyListNotEmpty '|}'
-    [178] AnnotationPatternPath   ::= '{|' PropertyListPathNotEmpty '|}'
-    [179] EmbTD                   ::= '<<' DataValueTerm ( iri | 'a' ) DataValueTerm '>>'
-    [180] DataValueTerm           ::= EmbTD | iri | RDFLiteral | NumericLiteral | BooleanLiteral
+
+    [174] QuotedTP                ::= '<<' qtSubjectOrObject Verb qtSubjectOrObject '>>'
+    [175] QuotedTriple            ::= '<<' DataValueTerm (iri | 'a' ) DataValueTerm '>>'
+    [176] qtSubjectOrObject       ::= Var | BlankNode | iri | RDFLiteral
+                                    | NumericLiteral | BooleanLiteral | QuotedTP
+    [177] DataValueTerm           ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | QuotedTriple
+    [178] VarOrTermOrQuotedTP     ::= Var | GraphTerm | QuotedTP
+    [179] AnnotationPattern       ::= '{|' PropertyListNotEmpty '|}'
+    [180] AnnotationPatternPath   ::= '{|' PropertyListPathNotEmpty '|}'
+    [181] ExprQuotedTP            ::= '<<' ExprVarOrTerm Verb ExprVarOrTerm '>>'
+    [182] ExprVarOrTerm           ::=	iri | RDFLiteral | NumericLiteral | BooleanLiteral | Var | ExprQuotedTP
 
     @terminals
 

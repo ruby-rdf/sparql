@@ -399,7 +399,7 @@
       <td>[65]</td>
       <td><code>DataBlockValue</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-EmbTD">EmbTD</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> &quot;UNDEF&quot;</td>
+      <td><a href="#grammar-production-QuotedTriple">QuotedTriple</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> &quot;UNDEF&quot;</td>
     </tr>
     <tr id="grammar-production-MinusGraphPattern">
       <td>[66]</td>
@@ -459,7 +459,7 @@
       <td>[75]</td>
       <td><code>TriplesSameSubject</code></td>
       <td>::=</td>
-      <td><code>(</code> <a href="#grammar-production-VarOrTermOrEmbTP">VarOrTermOrEmbTP</a> <a href="#grammar-production-PropertyListNotEmpty">PropertyListNotEmpty</a><code>)</code>  <code>|</code> <code>(</code> <a href="#grammar-production-TriplesNode">TriplesNode</a> <a href="#grammar-production-PropertyList">PropertyList</a><code>)</code> </td>
+      <td><code>(</code> <a href="#grammar-production-VarOrTermOrQuotedTP">VarOrTermOrQuotedTP</a> <a href="#grammar-production-PropertyListNotEmpty">PropertyListNotEmpty</a><code>)</code>  <code>|</code> <code>(</code> <a href="#grammar-production-TriplesNode">TriplesNode</a> <a href="#grammar-production-PropertyList">PropertyList</a><code>)</code> </td>
     </tr>
     <tr id="grammar-production-PropertyList">
       <td>[76]</td>
@@ -495,7 +495,7 @@
       <td>[81]</td>
       <td><code>TriplesSameSubjectPath</code></td>
       <td>::=</td>
-      <td><code>(</code> <a href="#grammar-production-VarOrTermOrEmbTP">VarOrTermOrEmbTP</a> <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a><code>)</code>  <code>|</code> <code>(</code> <a href="#grammar-production-TriplesNodePath">TriplesNodePath</a> <a href="#grammar-production-PropertyListPath">PropertyListPath</a><code>)</code> </td>
+      <td><code>(</code> <a href="#grammar-production-VarOrTermOrQuotedTP">VarOrTermOrQuotedTP</a> <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a><code>)</code>  <code>|</code> <code>(</code> <a href="#grammar-production-TriplesNodePath">TriplesNodePath</a> <a href="#grammar-production-PropertyListPath">PropertyListPath</a><code>)</code> </td>
     </tr>
     <tr id="grammar-production-PropertyListPath">
       <td>[82]</td>
@@ -633,13 +633,13 @@
       <td>[104]</td>
       <td><code>GraphNode</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-VarOrTermOrEmbTP">VarOrTermOrEmbTP</a> <code>|</code> <a href="#grammar-production-TriplesNode">TriplesNode</a></td>
+      <td><a href="#grammar-production-VarOrTermOrQuotedTP">VarOrTermOrQuotedTP</a> <code>|</code> <a href="#grammar-production-TriplesNode">TriplesNode</a></td>
     </tr>
     <tr id="grammar-production-GraphNodePath">
       <td>[105]</td>
       <td><code>GraphNodePath</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-VarOrTermOrEmbTP">VarOrTermOrEmbTP</a> <code>|</code> <a href="#grammar-production-TriplesNodePath">TriplesNodePath</a></td>
+      <td><a href="#grammar-production-VarOrTermOrQuotedTP">VarOrTermOrQuotedTP</a> <code>|</code> <a href="#grammar-production-TriplesNodePath">TriplesNodePath</a></td>
     </tr>
     <tr id="grammar-production-VarOrTerm">
       <td>[106]</td>
@@ -733,19 +733,7 @@
       <td>[119]</td>
       <td><code>PrimaryExpression</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-BrackettedExpression">BrackettedExpression</a> <code>|</code> <a href="#grammar-production-BuiltInCall">BuiltInCall</a> <code>|</code> <a href="#grammar-production-iriOrFunction">iriOrFunction</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-ExprEmbTP">ExprEmbTP</a></td>
-    </tr>
-    <tr id="grammar-production-ExprEmbTP">
-      <td>[119a]</td>
-      <td><code>ExprEmbTP</code></td>
-      <td>::=</td>
-      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-ExprVarOrTerm">ExprVarOrTerm</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-ExprVarOrTerm">ExprVarOrTerm</a> &quot;&gt;&gt;&quot;</td>
-    </tr>
-    <tr id="grammar-production-ExprVarOrTerm">
-      <td>[119b]</td>
-      <td><code>ExprVarOrTerm</code></td>
-      <td>::=</td>
-      <td><a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-ExprEmbTP">ExprEmbTP</a></td>
+      <td><a href="#grammar-production-BrackettedExpression">BrackettedExpression</a> <code>|</code> <a href="#grammar-production-BuiltInCall">BuiltInCall</a> <code>|</code> <a href="#grammar-production-iriOrFunction">iriOrFunction</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-ExprQuotedTP">ExprQuotedTP</a></td>
     </tr>
     <tr id="grammar-production-BrackettedExpression">
       <td>[120]</td>
@@ -1191,47 +1179,59 @@
       <td>::=</td>
       <td><a href="#grammar-production-BLANK_NODE_LABEL">BLANK_NODE_LABEL</a> <code>|</code> <a href="#grammar-production-ANON">ANON</a></td>
     </tr>
-    <tr id="grammar-production-EmbTP">
+    <tr id="grammar-production-QuotedTP">
       <td>[174]</td>
-      <td><code>EmbTP</code></td>
+      <td><code>QuotedTP</code></td>
       <td>::=</td>
-      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-EmbSubjectOrObject">EmbSubjectOrObject</a> &quot;&gt;&gt;&quot;</td>
+      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-qtSubjectOrObject">qtSubjectOrObject</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-qtSubjectOrObject">qtSubjectOrObject</a> &quot;&gt;&gt;&quot;</td>
     </tr>
-    <tr id="grammar-production-EmbSubjectOrObject">
+    <tr id="grammar-production-QuotedTriple">
       <td>[175]</td>
-      <td><code>EmbSubjectOrObject</code></td>
+      <td><code>QuotedTriple</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-BlankNode">BlankNode</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
+      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-DataValueTerm">DataValueTerm</a> <code>(</code> <a href="#grammar-production-iri">iri</a> <code>|</code> "<code class="grammar-literal">a</code>"<code>)</code>  <a href="#grammar-production-DataValueTerm">DataValueTerm</a> &quot;&gt;&gt;&quot;</td>
     </tr>
-    <tr id="grammar-production-VarOrTermOrEmbTP">
+    <tr id="grammar-production-qtSubjectOrObject">
       <td>[176]</td>
-      <td><code>VarOrTermOrEmbTP</code></td>
+      <td><code>qtSubjectOrObject</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-GraphTerm">GraphTerm</a> <code>|</code> <a href="#grammar-production-EmbTP">EmbTP</a></td>
+      <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-BlankNode">BlankNode</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-QuotedTP">QuotedTP</a></td>
+    </tr>
+    <tr id="grammar-production-DataValueTerm">
+      <td>[177]</td>
+      <td><code>DataValueTerm</code></td>
+      <td>::=</td>
+      <td><a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-QuotedTriple">QuotedTriple</a></td>
+    </tr>
+    <tr id="grammar-production-VarOrTermOrQuotedTP">
+      <td>[178]</td>
+      <td><code>VarOrTermOrQuotedTP</code></td>
+      <td>::=</td>
+      <td><a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-GraphTerm">GraphTerm</a> <code>|</code> <a href="#grammar-production-QuotedTP">QuotedTP</a></td>
     </tr>
     <tr id="grammar-production-AnnotationPattern">
-      <td>[177]</td>
+      <td>[179]</td>
       <td><code>AnnotationPattern</code></td>
       <td>::=</td>
       <td>&quot;{|&quot; <a href="#grammar-production-PropertyListNotEmpty">PropertyListNotEmpty</a> &quot;|}&quot;</td>
     </tr>
     <tr id="grammar-production-AnnotationPatternPath">
-      <td>[178]</td>
+      <td>[180]</td>
       <td><code>AnnotationPatternPath</code></td>
       <td>::=</td>
       <td>&quot;{|&quot; <a href="#grammar-production-PropertyListPathNotEmpty">PropertyListPathNotEmpty</a> &quot;|}&quot;</td>
     </tr>
-    <tr id="grammar-production-EmbTD">
-      <td>[179]</td>
-      <td><code>EmbTD</code></td>
+    <tr id="grammar-production-ExprQuotedTP">
+      <td>[181]</td>
+      <td><code>ExprQuotedTP</code></td>
       <td>::=</td>
-      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-DataValueTerm">DataValueTerm</a> <code>(</code> <a href="#grammar-production-iri">iri</a> <code>|</code> "<code class="grammar-literal">a</code>"<code>)</code>  <a href="#grammar-production-DataValueTerm">DataValueTerm</a> &quot;&gt;&gt;&quot;</td>
+      <td>&quot;&lt;&lt;&quot; <a href="#grammar-production-ExprVarOrTerm">ExprVarOrTerm</a> <a href="#grammar-production-Verb">Verb</a> <a href="#grammar-production-ExprVarOrTerm">ExprVarOrTerm</a> &quot;&gt;&gt;&quot;</td>
     </tr>
-    <tr id="grammar-production-DataValueTerm">
-      <td>[180]</td>
-      <td><code>DataValueTerm</code></td>
+    <tr id="grammar-production-ExprVarOrTerm">
+      <td>[182]</td>
+      <td><code>ExprVarOrTerm</code></td>
       <td>::=</td>
-      <td><a href="#grammar-production-EmbTD">EmbTD</a> <code>|</code> <a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a></td>
+      <td><a href="#grammar-production-iri">iri</a> <code>|</code> <a href="#grammar-production-RDFLiteral">RDFLiteral</a> <code>|</code> <a href="#grammar-production-NumericLiteral">NumericLiteral</a> <code>|</code> <a href="#grammar-production-BooleanLiteral">BooleanLiteral</a> <code>|</code> <a href="#grammar-production-Var">Var</a> <code>|</code> <a href="#grammar-production-ExprQuotedTP">ExprQuotedTP</a></td>
     </tr>
     <tr>
       <td colspan=2>@terminals</td>
