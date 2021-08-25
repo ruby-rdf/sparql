@@ -1,6 +1,7 @@
 #!/usr/bin/env ruby
 require 'rubygems'
 $:.unshift("../../lib", __FILE__)
+require 'logger'
 require 'sparql'
 begin
   require 'linkeddata'
