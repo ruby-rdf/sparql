@@ -23,8 +23,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
 * Implementation Report: {file:etc/earl.html EARL}
-* Compatible with Ruby >= 2.2.2.
-* Compatible with older Ruby versions with the help of the [Backports][] gem.
+* Compatible with Ruby >= 2.6.
 * Supports Unicode query strings both on all versions of Ruby.
 * Provisional support for [SPARQL-star][].
 
@@ -368,19 +367,19 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Dependencies
 
-* [Ruby](https://ruby-lang.org/) (>= 2.2.2)
-* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.0)
-* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.0)
-* [SXP](https://rubygems.org/gems/sxp) (~> 1.0)
-* [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
-* [JSON](https://rubygems.org/gems/json) (>= 1.8.2)
-* Soft dependency on [Linked Data][] (>= 3.0)
-* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (>= 1.7)
+* [Ruby](https://ruby-lang.org/) (>= 2.6)
+* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.2)
+* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.1)
+* [SXP](https://rubygems.org/gems/sxp) (~> 1.2)
+* [Builder](https://rubygems.org/gems/builder) (~> 3.2)
+* [JSON](https://rubygems.org/gems/json) (~> 2.6)
+* Soft dependency on [Linked Data][] (>= 3.1)
+* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (~> 1.12)
   Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient
-* Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.3.0)
+* Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.6)
   Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included
-* Soft dependency on [Rack][] (>= 2.0)
-* Soft dependency on [Sinatra][] (>= 2.0)
+* Soft dependency on [Rack][] (~> 2.2)
+* Soft dependency on [Sinatra][] (~> 2.1)
 
 ## Installation
 
@@ -450,7 +449,6 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
 [RDF-star]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
 [SPARQL-star]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
-[Backports]:        https://rubygems.org/gems/backports
 [Linked Data]:      https://rubygems.org/gems/linkeddata
 [SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames
 [SPARQL XML]:       https://www.w3.org/TR/rdf-sparql-XMLres/
