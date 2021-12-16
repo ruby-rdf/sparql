@@ -217,15 +217,6 @@ end
 # Extensions for Ruby's `Hash` class.
 class Hash
   ##
-  # Returns the SXP representation of this object, defaults to `self`.
-  #
-  # @return [String]
-  def to_sxp_bin
-    to_a.to_sxp_bin
-  end
-  def to_sxp; to_sxp_bin; end
-
-  ##
   # A duplicate of this hash.
   #
   # @return [Hash] a copy of `self`
@@ -278,24 +269,10 @@ module RDF::Term
   # @see SPARQL::Algebra::Expression#optimize
   def optimize(**options)
     optimized = self.deep_dup
-    optimized.lexical = nil if optimized.respond_to?(:lexical=)
-    optimized
+    #optimized.lexical = nil if optimized.respond_to?(:lexical=)
+    #optimized
   end
 end # RDF::Term
-
-class RDF::Literal::Double
-  ##
-  # Returns the SXP representation of this object.
-  #
-  # @return [String]
-  def to_sxp
-    case
-      when nan? then 'nan.0'
-      when infinite? then (infinite? > 0 ? '+inf.0' : '-inf.0')
-      else canonicalize.to_s.downcase
-    end
-  end
-end
 
 # Override RDF::Queryable to execute against SPARQL::Algebra::Query elements as well as RDF::Query and RDF::Pattern
 module RDF::Queryable
@@ -361,9 +338,11 @@ class RDF::Statement
   ##
   # Returns an S-Expression (SXP) representation
   #
+  # @param [Hash{Symbol => RDF::URI}] prefixes(nil)
+  # @param [Hash{Symbol => RDF::URI}] prefixes(nil)
   # @return [String]
-  def to_sxp
-    to_sxp_bin.to_sxp
+  def to_sxp(prefixes: nil, base_uri: nil)
+    to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
   end
 
   ##
@@ -462,11 +441,11 @@ class RDF::Query
   def optimize!(**options)
     @patterns = @patterns.map do |pattern|
       components = pattern.to_quad.map do |term|
-        if term.respond_to?(:lexical=)
-          term.dup.instance_eval {@lexical = nil; self}
-        else
+        #if term.respond_to?(:lexical=)
+        #  term.dup.instance_eval {@lexical = nil; self}
+        #else
           term
-        end
+        #end
       end
       RDF::Query::Pattern.from(components, **pattern.options)
     end
@@ -529,13 +508,6 @@ class RDF::Query::Variable
   def optimize(**options)
     self
   end
-
-  # Display variable as SXP
-  # @return [Array]
-  def to_sxp
-    prefix = distinguished? ? (existential? ? '$' : '?') : (existential? ? '$$' : '??')
-    unbound? ? "#{prefix}#{name}".to_sym.to_sxp : ["#{prefix}#{name}".to_sym, value].to_sxp
-  end
 end # RDF::Query::Variable
 
 ##
@@ -576,5 +548,13 @@ class RDF::Query::Solution
   def to_sxp_bin
     to_a.to_sxp_bin
   end
-  def to_sxp; to_sxp_bin; end
+
+  # Transform Solution into an SXP
+  #
+  # @param [Hash{Symbol => RDF::URI}] prefixes(nil)
+  # @param [RDF::URI] base_uri(nil)
+  # @return [String]
+  def to_sxp(prefixes: nil, base_uri: nil)
+    to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
+  end
 end # RDF::Query::Solution
