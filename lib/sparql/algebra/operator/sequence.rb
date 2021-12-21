@@ -6,7 +6,15 @@ module SPARQL; module Algebra
     #
     # Sequences through each operand
     #
-    # @example
+    # [87] ObjectPath ::= GraphNodePath AnnotationPatternPath?
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT * WHERE {
+    #     ?s ?p ( [:p*/:q 123 ] [ ^:r "hello"] )
+    #   }
+    #
+    # @example SSE
     #   (sequence
     #     (bgp
     #       (triple ?s ?p ??0)

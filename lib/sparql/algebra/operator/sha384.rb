@@ -7,7 +7,15 @@ module SPARQL; module Algebra
     #
     # Returns the SHA384 checksum, as a hex digit string, calculated on the UTF-8 representation of the simple literal or lexical form of the `xsd:string`. Hex digits `SHOULD` be in lower case.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'SHA384' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT (SHA384(?l) AS ?hash) WHERE {
+    #    :s1 :str ?l
+    #   }
+    #
+    # @example SSE
     #     (prefix ((: <http://example.org/>))
     #       (project (?hash)
     #         (extend ((?hash (sha384 ?l)))

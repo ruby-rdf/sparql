@@ -5,10 +5,21 @@ module SPARQL; module Algebra
     #
     # There is a filter operator EXISTS that takes a graph pattern. EXISTS returns `true`/`false` depending on whether the pattern matches the dataset given the bindings in the current group graph pattern, the dataset and the active graph at this point in the query evaluation. No additional binding of variables occurs. The `NOT EXISTS` form translates into `fn:not(EXISTS{...})`.
     #
-    # @example
-    #    (prefix ((ex: <http://www.example.org/>))
-    #      (filter (exists (bgp (triple ?s ?p ex:o)))
-    #      (bgp (triple ?s ?p ?o))))
+    # [125] ExistsFunc              ::= 'EXISTS' GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX :    <http://example/>
+    #   SELECT *
+    #   WHERE {
+    #     ?set a :Set .
+    #     FILTER EXISTS { ?set :member 9 }
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (filter
+    #     (exists (bgp (triple ?set :member 9)))
+    #     (bgp (triple ?set a :Set))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-filter-exists
     class Exists < Operator::Unary

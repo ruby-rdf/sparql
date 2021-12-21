@@ -3,7 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `datatype` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'DATATYPE' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   PREFIX  : <http://example.org/things#>
+    #   SELECT  ?x ?v
+    #   WHERE
+    #       { ?x :p ?v . 
+    #         FILTER ( datatype(?v) = xsd:double ) .
+    #       }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
     #            (: <http://example.org/>))

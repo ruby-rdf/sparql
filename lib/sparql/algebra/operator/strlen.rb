@@ -3,8 +3,20 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `strlen` operator.
     #
-    # @example
-    #   (strlen ?x)
+    # [121] BuiltInCall ::= ... 'STRLEN' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?str (STRLEN(?str) AS ?len) WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?str ?len)
+    #     (extend ((?len (strlen ?str)))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-strlen
     # @see https://www.w3.org/TR/xpath-functions/#func-string-length

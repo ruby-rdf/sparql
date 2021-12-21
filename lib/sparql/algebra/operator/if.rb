@@ -3,7 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `if` function.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'IF' '(' Expression ',' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   BASE <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?o (IF(lang(?o) = "ja", true, false) AS ?integer)
+    #   WHERE { ?s ?p ?o }
+    #
+    # @example SSE
     #     (base <http://example.org/>
     #       (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
     #         (project (?o ?integer)

@@ -6,7 +6,12 @@ module SPARQL; module Algebra
     #
     # The DELETE operation is a form of the DELETE/INSERT operation having no INSERT section
     #
-    # @example
+    # [42]  DeleteClause            ::= 'DELETE' QuadPattern
+    #
+    # @example SPARQL Grammar
+    #   DELETE  { ?s ?p ?o }
+    #
+    # @example SSE
     #   (delete ((triple ?s ?p ?o))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#delete

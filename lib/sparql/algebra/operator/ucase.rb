@@ -3,8 +3,20 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `ucase` operator.
     #
-    # @example
-    #   (ucase ?x)
+    # [121] BuiltInCall ::= ... | 'UCASE' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s (UCASE(?str) AS ?ustr) WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?str ?ustr)
+    #     (extend ((?ustr (ucase ?str)))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-ucase
     # @see https://www.w3.org/TR/xpath-functions/#func-ucase

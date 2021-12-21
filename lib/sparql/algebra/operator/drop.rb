@@ -8,7 +8,12 @@ module SPARQL; module Algebra
     #
     # Equivalent to `clear` in this implementation
     #
-    # @example
+    # [33]  Drop                    ::= 'DROP' 'SILENT'? GraphRefAll
+    #
+    # @example SPARQL Grammar
+    #   DROP DEFAULT
+    #
+    # @example SSE
     #   (drop default)
     #
     # @see https://www.w3.org/TR/sparql11-update/#drop

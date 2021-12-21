@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `project` operator.
     #
-    # @example
+    # [9] SelectClause ::= 'SELECT' ( 'DISTINCT' | 'REDUCED' )?  ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/>
+    #   SELECT ?v  { 
+    #     ?s :p ?v . 
+    #     FILTER (?v = 2)
+    #   }
+    #
+    # @example SSE
     #   (select (?v)
     #     (project (?v)
     #       (filter (= ?v 2)

@@ -5,16 +5,30 @@ module SPARQL; module Algebra
     #
     # The BNODE function constructs a blank node that is distinct from all blank nodes in the dataset being queried and distinct from all blank nodes created by calls to this constructor for other query solutions. If the no argument form is used, every call results in a distinct blank node. If the form with a simple literal is used, every call results in distinct blank nodes for different simple literals, and the same blank node for calls with the same simple literal within expressions for one solution mapping.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>)
-    #              (xsd: <http://www.w3.org/2001/XMLSchema#>))
-    #       (project (?s1 ?s2 ?b1 ?b2)
-    #         (extend ((?b1 (bnode ?s1)) (?b2 (bnode ?s2)))
-    #           (filter (exprlist (|| (= ?a :s1) (= ?a :s3)) (|| (= ?b :s1) (= ?b :s3)))
-    #             (bgp
-    #               (triple ?a :str ?s1)
-    #               (triple ?b :str ?s2)
-    #             )))))
+    # [121] BuiltInCall ::= ... | 'BNODE' ( '(' Expression ')' | NIL ) 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s1 ?s2 (BNODE(?s1) AS ?b1) (BNODE(?s2) AS ?b2)
+    #   WHERE {
+    #     ?a :str ?s1 .
+    #     ?b :str ?s2 .
+    #     FILTER (?a = :s1 || ?a = :s3)
+    #     FILTER (?b = :s1 || ?b = :s3)
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>) (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (project (?s1 ?s2 ?b1 ?b2)
+    #     (extend
+    #      ((?b1 (bnode ?s1)) (?b2 (bnode ?s2)))
+    #      (filter
+    #       (exprlist
+    #        (|| (= ?a :s1) (= ?a :s3))
+    #        (|| (= ?b :s1) (= ?b :s3)))
+    #       (bgp (triple ?a :str ?s1) (triple ?b :str ?s2))) )) )
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-bnode
     class BNode < Operator::Unary

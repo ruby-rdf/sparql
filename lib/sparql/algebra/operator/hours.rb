@@ -3,11 +3,20 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `hours` operator.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>))
-    #       (project (?s ?x)
-    #         (extend ((?x (hours ?date)))
-    #           (bgp (triple ?s :date ?date)))))
+    # [121] BuiltInCall ::= ... | 'HOURS' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s (HOURS(?date) AS ?x) WHERE {
+    #     ?s :date ?date
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?x)
+    #     (extend ((?x (hours ?date)))
+    #      (bgp (triple ?s :date ?date)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-hours
     class Hours < Operator::Unary

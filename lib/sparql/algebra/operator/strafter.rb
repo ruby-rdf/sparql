@@ -3,8 +3,22 @@ module SPARQL; module Algebra
     ##
     # A SPARQL `strafter` operator.
     #
-    # @example
-    #   (strafter ?x ?y)
+    # [121] BuiltInCall ::= ... | 'STRAFTER' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s (STRAFTER(?str,"e") AS ?suffix) WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>)
+    #     (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (project (?s ?suffix)
+    #     (extend ((?suffix (strafter ?str "e")))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-strafter
     # @see https://www.w3.org/TR/xpath-functions/#func-substring-after

@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `isLiteral` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'isLiteral' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     :    <http://example.org/things#>
+    #   SELECT ?x ?v WHERE {
+    #     ?x :p ?v .
+    #     FILTER isLiteral(?v) .
+    #   }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)

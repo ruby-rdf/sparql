@@ -5,10 +5,14 @@ module SPARQL; module Algebra
     #
     # Generages a graph across specified terms using {RDF::Queryable}`#concise_bounded_description`.
     #
-    # @example
-    #   (prefix ((exOrg: <http://org.example.com/employees#>))
-    #     (describe (?x)
-    #       (bgp (triple ?x exOrg:employeeId "1234"))))
+    # [11]  DescribeQuery           ::= 'DESCRIBE' ( VarOrIri+ | '*' ) DatasetClause* WhereClause? SolutionModifier ValuesClause
+    #
+    # @example SPARQL Grammar
+    #   DESCRIBE <u> ?u WHERE { <x> <q> ?u . }
+    #
+    # @example SSE
+    #   (describe (<u> ?u)
+    #    (bgp (triple <x> <q> ?u)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#describe
     class Describe < Operator::Binary

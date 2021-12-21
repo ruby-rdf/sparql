@@ -7,6 +7,29 @@ module SPARQL; module Algebra
     #
     # If triple is an RDF-star triple, the function returns the subject of this triple. Passing anything other than an RDF-star triple is an error.
     #
+    # [121] BuiltInCall ::= ... | 'SUBJECT' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.com/ns#>
+    #   SELECT * {
+    #     ?t :source :g
+    #     FILTER(isTriple(?t))
+    #     FILTER(SUBJECT(?t) = :s)
+    #     FILTER(PREDICATE(?t) = :p)
+    #     FILTER(OBJECT(?t) = :o)
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.com/ns#>))
+    #    (filter
+    #     (exprlist
+    #      (isTRIPLE ?t)
+    #      (= (subject ?t) :s)
+    #      (= (predicate ?t) :p)
+    #      (= (object ?t) :o))
+    #     (bgp (triple ?t :source :g))) )
+    #
     # @see https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#subject
     class Subject < Operator::Unary
       include Evaluatable

@@ -6,8 +6,18 @@ module SPARQL; module Algebra
     #
     # The INSERT DATA operation adds some triples, given inline in the request, into the Graph Store
     #
-    # @example
-    #   (insertData ((graph <http://example.org/g1> ((triple :s :p :o)))))
+    # [38]  InsertData              ::= 'INSERT DATA' QuadData
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/ns#>
+    #   INSERT DATA { GRAPH <http://example.org/g1> { :s :p :o } }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/ns#>))
+    #    (update
+    #     (insertData (
+    #      (graph <http://example.org/g1> ((triple :s :p :o)))))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#insertData
     class InsertData < Operator::Unary

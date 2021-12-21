@@ -7,8 +7,23 @@ module SPARQL; module Algebra
     #
     #     eval(Path(X, alt(P,Q), Y)) = Union(eval(Path(X, P, Y)), eval(Path(X, Q, Y)))
     #
-    # @example
-    #   (alt a b)
+    # [89] PathAlternative ::= PathSequence ( '|' PathSequence )*
+    #
+    # @example SPARQL Grammar
+    #   PREFIX :  <http://www.example.org/>
+    #   SELECT ?t
+    #   WHERE {
+    #     :a :p1|:p2/:p3|:p4 ?t
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://www.example.org/>))
+    #    (project (?t)
+    #     (path :a
+    #      (alt
+    #       (alt :p1 (seq :p2 :p3))
+    #       :p4)
+    #      ?t)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_alternative
     class Alt < Operator::Binary

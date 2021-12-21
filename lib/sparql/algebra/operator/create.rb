@@ -8,7 +8,12 @@ module SPARQL; module Algebra
     #
     # This is a no-op for RDF.rb implementations, unless the graph exists
     #
-    # @example
+    # [34]  Create                  ::= 'CREATE' 'SILENT'? GraphRef
+    #
+    # @example SPARQL Grammar
+    #   CREATE SILENT <graph>
+    #
+    # @example SSE
     #   (create silent <graph>)
     #
     # @see https://www.w3.org/TR/sparql11-update/#create

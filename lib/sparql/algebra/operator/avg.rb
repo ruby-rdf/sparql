@@ -3,7 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `avg` set function.
     #
-    # @example
+    # [127] Aggregate::= ... | 'AVG' '(' 'DISTINCT'? Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT (AVG(?o) AS ?avg)
+    #   WHERE { ?s :dec ?o }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org/>))
     #      (project (?avg)
     #        (extend ((?avg ??.0))

@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `join` operator.
     #
-    # @example
+    # [54]	GroupGraphPatternSub	::=	TriplesBlock? (GraphPatternNotTriples "."? TriplesBlock? )*
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   SELECT * { 
+    #      ?s ?p ?o
+    #      GRAPH ?g { ?s ?q ?v }
+    #   }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
     #     (join
     #       (bgp (triple ?s ?p ?o))

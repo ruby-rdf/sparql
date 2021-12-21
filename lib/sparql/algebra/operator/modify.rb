@@ -6,11 +6,23 @@ module SPARQL; module Algebra
     #
     # Wraps delete/insert
     #
-    # @example
-    #   (modify
-    #     (bgp (triple ?a foaf:knows ?b))
-    #     (delete ((triple ?a foaf:knows ?b)))
-    #     (insert ((triple ?b foaf:knows ?a)))
+    # [41]  Modify ::= ( 'WITH' iri )? ( DeleteClause InsertClause? | InsertClause ) UsingClause* 'WHERE' GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     : <http://example.org/> 
+    #   PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+    #   DELETE  { ?a foaf:knows ?b }
+    #   INSERT { ?b foaf:knows ?a }
+    #   WHERE { ?a foaf:knows ?b }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>)
+    #            (foaf: <http://xmlns.com/foaf/0.1/>))
+    #    (update
+    #     (modify
+    #      (bgp (triple ?a foaf:knows ?b))
+    #      (delete ((triple ?a foaf:knows ?b)))
+    #      (insert ((triple ?b foaf:knows ?a)))) ))
     #
     # @see XXX
     class Modify < Operator

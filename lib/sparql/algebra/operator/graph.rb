@@ -5,6 +5,19 @@ module SPARQL; module Algebra
     #
     # This is a wrapper to add a `graph_name` to the query, or an array of statements.
     #
+    # [58]  GraphGraphPattern       ::= 'GRAPH' VarOrIri GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   SELECT * { 
+    #       GRAPH ?g { ?s ?p ?o }
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (graph ?g
+    #     (bgp (triple ?s ?p ?o))))
+    #
     # @example of a query
     #   (prefix ((: <http://example/>))
     #     (graph ?g

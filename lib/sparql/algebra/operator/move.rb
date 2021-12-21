@@ -6,7 +6,12 @@ module SPARQL; module Algebra
     #
     # The MOVE operation is a shortcut for moving all data from an input graph into a destination graph. The input graph is removed after insertion and data from the destination graph, if any, is removed before insertion.
     #
-    # @example
+    # [36]  Move                    ::= 'MOVE' 'SILENT'? GraphOrDefault 'TO' GraphOrDefault
+    #
+    # @example SPARQL Grammar
+    #   MOVE SILENT <iri> TO DEFAULT
+    #
+    # @example SSE
     #   (move silent <iri> to default)
     #
     # @see https://www.w3.org/TR/sparql11-update/#move

@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `slice` operator.
     #
-    # @example
+    # [25]  LimitOffsetClauses      ::= LimitClause OffsetClause? | OffsetClause LimitClause?
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/ns#>
+    #   SELECT ?v
+    #   WHERE { [] :num ?v }
+    #   ORDER BY ?v
+    #   LIMIT 1
+    #
+    # @example SSE
     #   (prefix ((: <http://example.org/ns#>))
     #     (slice 1 1
     #       (project (?v)

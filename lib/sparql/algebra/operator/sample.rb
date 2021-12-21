@@ -3,7 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `sample` set function.
     #
-    # @example
+    # [127] Aggregate::= ... | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   ASK {
+    #     {
+    #       SELECT (SAMPLE(?o) AS ?sample)
+    #       WHERE { ?s :dec ?o }
+    #     }
+    #     FILTER(?sample = 1.0 || ?sample = 2.2 || ?sample = 3.5)
+    #   }
+    #
+    # @example SSE
     #   (prefix ((: <http://www.example.org/>))
     #     (filter (|| (|| (= ?sample 1.0) (= ?sample 2.2)) (= ?sample 3.5))
     #       (project (?sample)

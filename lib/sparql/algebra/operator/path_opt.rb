@@ -3,8 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path?` (ZeroOrOnePath) operator.
     #
-    # @example
-    #   (path? :p)
+    # [91]  PathElt                 ::= PathPrimary PathMod?
+    # [93]  PathMod                 ::= '*' | '?' | '+'
+    
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   SELECT * WHERE {
+    #     :a (:p/:p)? ?t
+    #   } 
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (path :a (path? (seq :p :p)) ?t))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_ZeroOrOnePath
     class PathOpt < Operator::Unary

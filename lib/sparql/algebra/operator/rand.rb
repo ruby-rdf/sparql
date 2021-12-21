@@ -5,8 +5,25 @@ module SPARQL; module Algebra
     #
     # Returns a pseudo-random number between 0 (inclusive) and 1.0e0 (exclusive). Different numbers can be produced every time this function is invoked. Numbers should be produced with approximately equal probability.
     #
-    # @example
-    #   (rand)
+    # [121] BuiltInCall ::= ... | 'RAND' NIL 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   ASK {
+    #     BIND(RAND() AS ?r)
+    #     FILTER(DATATYPE(?r) = xsd:double && ?r >= 0.0 && ?r < 1.0)
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (ask
+    #     (filter
+    #      (&&
+    #       (&& (= (datatype ?r) xsd:double) (>= ?r 0.0))
+    #       (< ?r 1.0))
+    #      (extend ((?r (rand)))
+    #       (bgp)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#idp2130040
     class Rand < Operator::Nullary

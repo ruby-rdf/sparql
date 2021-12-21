@@ -3,9 +3,39 @@ module SPARQL; module Algebra
     ##
     # The SPARQL numeric binary/unary `+` operator.
     #
-    # @example
-    #   (+ ?x ?y)
-    #   (plus ?x ?y)
+    # [118] UnaryExpression ::=	... | '+' PrimaryExpression 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o .
+    #     FILTER(-?o = +3) .
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?s)
+    #     (filter (= (- ?o) +3)
+    #      (bgp (triple ?s :p ?o)))))
+    #
+    # [116] AdditiveExpression ::=	MultiplicativeExpression ( '+' MultiplicativeExpression )?
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o .
+    #     ?s2 :p ?o2 .
+    #     FILTER(?o + ?o2 = 3) .
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s)
+    #     (filter (= (+ ?o ?o2) 3)
+    #      (bgp
+    #       (triple ?s :p ?o)
+    #       (triple ?s2 :p ?o2)))))
     #
     # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-plus
     # @see https://www.w3.org/TR/xpath-functions/#func-numeric-add

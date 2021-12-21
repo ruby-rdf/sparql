@@ -3,7 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `strdt` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'STRDT' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s (STRDT(?str,xsd:string) AS ?str1) WHERE {
+    #     ?s :str ?str
+    #     FILTER(LANGMATCHES(LANG(?str), "en"))
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>) (xsd: <http://www.w3.org/2001/XMLSchema#>))
     #     (project (?s ?str1)
     #       (extend ((?str1 (strdt ?str xsd:string)))
     #         (filter (langMatches (lang ?str) "en")

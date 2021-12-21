@@ -5,8 +5,13 @@ module SPARQL; module Algebra
     #
     # Used for filters with more than one expression.
     #
-    # @example
-    #   (ask (filter (notin ?o 1 2) (bgp)))
+    # [114] RelationalExpression    ::= NumericExpression ('NOT' 'IN' ExpressionList)?
+    #
+    # @example SPARQL Grammar
+    #   ASK { FILTER(2 NOT IN ()) }
+    #
+    # @example SSE
+    #   (ask (filter (notin 2) (bgp)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-notin
     class NotIn < Operator

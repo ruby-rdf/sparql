@@ -3,8 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `abs` operator.
     #
-    # @example
-    #   (abs ?x)
+    # [121] BuiltInCall ::= ... | 'ABS' '(' Expression ')'
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT * WHERE {
+    #     ?s :num ?num
+    #     FILTER(ABS(?num) >= 2)
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>))
+    #    (filter (>= (abs ?num) 2)
+    #     (bgp (triple ?s :num ?num))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-abs
     # @see https://www.w3.org/TR/xpath-functions/#func-abs

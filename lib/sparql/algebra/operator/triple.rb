@@ -5,6 +5,20 @@ module SPARQL; module Algebra
     #
     # If the 3-tuple (term1, term2, term3) is an RDF-star triple, the function returns this triple. If the 3-tuple is not an RDF-star triple, then the function raises an error.
     #
+    # [121] BuiltInCall ::= ... | 'TRIPLE' '(' Expression ',' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.com/ns#>
+    #   SELECT * {
+    #     ?s ?p ?o .
+    #     BIND(TRIPLE(?s, ?p, ?o) AS ?t1)
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.com/ns#>))
+    #    (extend ((?t1 (triple ?s ?p ?o)))
+    #     (bgp (triple ?s ?p ?o))))
+    #
     # @see https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#triple
     class Triple < Operator::Ternary
       include Evaluatable

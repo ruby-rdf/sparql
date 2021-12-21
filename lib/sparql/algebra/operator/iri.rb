@@ -3,10 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `iri` operator.
     #
-    # @example
-    #     (base <http://example.org/> (project (?uri ?iri)
-    #       (extend ((?uri (uri "uri")) (?iri (iri "iri")))
-    #         (bgp))))
+    # [121] BuiltInCall ::= ... | 'IRI' '(' Expression ')' | 'URI' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   BASE <http://example.org/>
+    #   SELECT (URI("uri") AS ?uri) (IRI("iri") AS ?iri)
+    #   WHERE {}
+    #
+    # @example SSE
+    #   (base <http://example.org/>
+    #    (project (?uri ?iri)
+    #     (extend ((?uri (iri "uri")) (?iri (iri "iri")))
+    #      (bgp))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-iri
     class IRI < Operator::Unary

@@ -3,7 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `bound` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'BOUND' '(' Var ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  : <http://example.org/ns#>
+    #   SELECT  ?a ?c
+    #   WHERE
+    #       { ?a :b ?c . 
+    #         OPTIONAL
+    #           { ?c :d ?e } . 
+    #         FILTER (! bound(?e)) 
+    #       }
+    #
+    # @example SSE
     #   (prefix ((: <http://example.org/ns#>))
     #     (project (?a ?c)
     #       (filter (! (bound ?e))

@@ -5,11 +5,20 @@ module SPARQL; module Algebra
     #
     # Returns the minutes part of the lexical form of `arg`. The value is as given in the lexical form of the XSD dateTime.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>))
-    #       (project (?s ?x)
-    #         (extend ((?x (minutes ?date)))
-    #           (bgp (triple ?s :date ?date)))))
+    # [121] BuiltInCall ::= ... | 'MINUTES' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s (MINUTES(?date) AS ?x) WHERE {
+    #     ?s :date ?date
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?x)
+    #     (extend ((?x (minutes ?date)))
+    #      (bgp (triple ?s :date ?date)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-minutes
     class Minutes < Operator::Unary

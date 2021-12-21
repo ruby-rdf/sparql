@@ -3,11 +3,23 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `prefix` operator.
     #
-    # @example
-    #   (update
+    # [29]  Update                  ::= Prologue ( Update1 ( ';' Update )? )?
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     : <http://example.org/> 
+    #   PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+    #   DELETE  { ?a foaf:knows ?b }
+    #   INSERT { ?b foaf:knows ?a }
+    #   WHERE { ?a foaf:knows ?b }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>)
+    #            (foaf: <http://xmlns.com/foaf/0.1/>))
+    #    (update
     #     (modify
-    #       (bgp (triple ?s ?p ?o))
-    #       (insert ((triple ?s ?p "q")))))
+    #      (bgp (triple ?a foaf:knows ?b))
+    #      (delete ((triple ?a foaf:knows ?b)))
+    #      (insert ((triple ?b foaf:knows ?a)))) ))
     #
     # @see https://www.w3.org/TR/sparql11-update/#graphUpdate
     class Update < Operator

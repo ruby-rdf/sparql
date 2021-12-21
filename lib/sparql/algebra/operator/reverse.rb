@@ -3,8 +3,17 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `reverse` (NegatedPropertySet) operator.
     #
-    # @example
-    #   (reverse :p)
+    # [92]  PathEltOrInverse        ::= PathElt | '^' PathElt
+    #
+    # @example SPARQL Grammar
+    #   PREFIX ex:	<http://www.example.org/schema#>
+    #   PREFIX in:	<http://www.example.org/instance#>
+    #   ASK { in:b ^ex:p in:a }
+    #
+    # @example SSE
+    #   (prefix ((ex: <http://www.example.org/schema#>)
+    #            (in: <http://www.example.org/instance#>))
+    #    (ask (path in:b (reverse ex:p) in:a)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_inverse
     class Reverse < Operator::Unary

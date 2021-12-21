@@ -6,7 +6,12 @@ module SPARQL; module Algebra
     #
     # The CLEAR operation removes all the triples in the specified graph(s) in the Graph Store.
     #
-    # @example
+    # [32]  Clear                   ::= 'CLEAR' 'SILENT'? GraphRefAll
+    #
+    # @example SPARQL Grammar
+    #   CLEAR SILENT DEFAULT
+    #
+    # @example SSE
     #   (clear silent default)
     #
     # @see https://www.w3.org/TR/sparql11-update/#clear

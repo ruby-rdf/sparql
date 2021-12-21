@@ -3,12 +3,21 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `sameTerm` operator.
     #
-    # @example
-    #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
-    #            (: <http://example.org/things#>))
-    #     (project (?x ?v)
-    #       (filter (sameTerm ?v)
-    #         (bgp (triple ?x :p ?v)))))
+    # [121] BuiltInCall ::= ... | 'sameTerm' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     :    <http://example.org/things#>
+    #   SELECT * {
+    #     ?x1 :p ?v1 .
+    #     ?x2 :p ?v2 .
+    #     FILTER sameTerm(?v1, ?v2)
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/things#>))
+    #    (filter (sameTerm ?v1 ?v2)
+    #     (bgp (triple ?x1 :p ?v1) (triple ?x2 :p ?v2))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-sameTerm
     class SameTerm < Operator::Binary

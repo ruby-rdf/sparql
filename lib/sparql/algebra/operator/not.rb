@@ -3,9 +3,21 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `not` operator.
     #
-    # @example
-    #   (! ?x)
-    #   (not ?x)
+    # [118] UnaryExpression ::=	... | '!' PrimaryExpression 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  : <http://example.org/ns#>
+    #   SELECT  ?a
+    #   WHERE {
+    #     ?a :p ?v . 
+    #     FILTER ( ! ?v ) .
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/ns#>))
+    #    (project (?a)
+    #     (filter (! ?v)
+    #      (bgp (triple ?a :p ?v)))))
     #
     # @see https://www.w3.org/TR/xpath-functions/#func-not
     class Not < Operator::Unary

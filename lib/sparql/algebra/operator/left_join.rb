@@ -3,7 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `leftjoin` operator.
     #
-    # @example
+    # [57]  OptionalGraphPattern    ::= 'OPTIONAL' GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX :    <http://example/>
+    #   SELECT * { 
+    #     ?x :p ?v .
+    #     OPTIONAL { 
+    #       ?y :q ?w .
+    #       FILTER(?v=2)
+    #     }
+    #   }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
     #     (leftjoin
     #       (bgp (triple ?x :p ?v))

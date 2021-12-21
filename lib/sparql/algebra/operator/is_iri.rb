@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `isIRI`/`isURI` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'isIRI' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     :    <http://example.org/things#>
+    #   SELECT ?x ?v WHERE {
+    #     ?x :p ?v .
+    #     FILTER isIRI(?v) .
+    #   }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)

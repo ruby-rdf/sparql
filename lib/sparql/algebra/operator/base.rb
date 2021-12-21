@@ -3,7 +3,13 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `base` operator.
     #
-    # @example
+    # [5]   BaseDecl                ::= 'BASE' IRIREF
+    #
+    # @example SPARQL Grammar
+    #   BASE <http://example.org/>
+    #   SELECT * { <a> <b> 123.0 }
+    #
+    # @example SSE
     #   (base <http://example.org/>
     #     (bgp (triple <a> <b> 123.0)))
     #

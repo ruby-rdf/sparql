@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `filter` operator.
     #
-    # @example
+    # [68]  Filter ::= 'FILTER' Constraint
+    #
+    # @example SPARQL Grammar
+    #   SELECT ?v
+    #   { 
+    #     ?s <http://example/p> ?v
+    #     FILTER(?v = 2)
+    #   }
+    #
+    # @example SSE
     #   (select (?v)
     #     (project (?v)
     #       (filter (= ?v 2)

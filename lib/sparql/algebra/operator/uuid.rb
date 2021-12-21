@@ -5,14 +5,25 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `uuid` function.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>)
-    #              (xsd: <http://www.w3.org/2001/XMLSchema#>))
-    #       (project (?length)
-    #         (extend ((?length (strlen (str ?uuid))))
-    #           (filter (&& (isIRI ?uuid) (regex (str ?uuid) "^urn:uuid:[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$" "i"))
-    #             (extend ((?uuid (uuid)))
-    #               (bgp))))))
+    # [121] BuiltInCall ::= ... | 'UUID' NIL 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT (STRLEN(STR(?uuid)) AS ?length)
+    #   WHERE {
+    #     BIND(UUID() AS ?uuid)
+    #     FILTER(ISIRI(?uuid) && REGEX(STR(?uuid), "^urn:uuid:[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$", "i"))
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #     (project (?length)
+    #       (extend ((?length (strlen (str ?uuid))))
+    #         (filter (&& (isIRI ?uuid) (regex (str ?uuid) "^urn:uuid:[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$" "i"))
+    #           (extend ((?uuid (uuid)))
+    #             (bgp))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-uuid
     class UUID < Operator::Nullary

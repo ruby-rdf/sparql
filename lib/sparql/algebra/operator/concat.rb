@@ -5,8 +5,23 @@ module SPARQL; module Algebra
     #
     # The CONCAT function corresponds to the XPath fn:concat function. The function accepts string literals as arguments.
     #
-    # @example
-    #   (concat ?a ?b ...)
+    # [121] BuiltInCall ::= ... 'CONCAT' ExpressionList 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT (CONCAT(?str1,?str2) AS ?str) WHERE {
+    #     :s6 :str ?str1 .
+    #     :s7 :str ?str2 .
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?str)
+    #     (extend ((?str (concat ?str1 ?str2)))
+    #      (bgp
+    #       (triple :s6 :str ?str1)
+    #       (triple :s7 :str ?str2)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-concat
     # @see https://www.w3.org/TR/xpath-functions/#func-concat

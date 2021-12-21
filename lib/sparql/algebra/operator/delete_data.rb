@@ -6,8 +6,18 @@ module SPARQL; module Algebra
     #
     # The DELETE DATA operation removes some triples, given inline in the request, if the respective graphs in the Graph Store contain those
     #
-    # @example
-    #   (deleteData ((triple :a foaf:knows :c)))
+    # [39]  DeleteData              ::= 'DELETE DATA' QuadData
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     : <http://example.org/> 
+    #   PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+    #   DELETE DATA {
+    #     :a foaf:knows :b .
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>) (foaf: <http://xmlns.com/foaf/0.1/>))
+    #    (update (deleteData ((triple :a foaf:knows :b)))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#deleteData
     class DeleteData < Operator::Unary

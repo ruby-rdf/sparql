@@ -3,8 +3,20 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `lcase` operator.
     #
-    # @example
-    #   (lcase ?x)
+    # [121] BuiltInCall ::= ... | 'LCASE' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s (LCASE(?str) AS ?lstr) WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?str ?lstr)
+    #     (extend ((?lstr (lcase ?str)))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-lcase
     # @see https://www.w3.org/TR/xpath-functions/#func-lcase

@@ -5,7 +5,16 @@ module SPARQL; module Algebra
     #
     # Extends a solution
     #
-    # @example
+    # [60]  Bind ::= 'BIND' '(' Expression 'AS' Var ')'
+    #
+    # @example SPARQL Grammar
+    #   SELECT ?z
+    #   { 
+    #     ?x <http://example/p> ?o
+    #     BIND(?o+1 AS ?z)
+    #   }
+    #
+    # @example SSE
     #   (select (?z)
     #     (project (?z)
     #       (extend ((?z (+ ?o 10)))

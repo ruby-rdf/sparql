@@ -3,7 +3,12 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `and` operator.
     #
-    # @example
+    # [112] ConditionalAndExpression::= ValueLogical ( '&&' ValueLogical )*
+    #
+    # @example SPARQL Grammar
+    #   ?x && ?y
+    #
+    # @example SSE
     #   (&& ?x ?y)
     #   (and ?x ?y)
     #

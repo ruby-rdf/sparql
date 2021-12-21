@@ -5,7 +5,11 @@ module SPARQL; module Algebra
     #
     # Query with `graph_name` set to false.
     #
-    # @example
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/>
+    #   SELECT * { :s :p :o }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
     #     (bgp (triple ?s ?p ?o)))
     #

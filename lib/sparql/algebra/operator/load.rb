@@ -6,7 +6,13 @@ module SPARQL; module Algebra
     #
     # The LOAD operation reads an RDF document from a IRI and inserts its triples into the specified graph in the Graph Store. The specified destination graph should be created if required; again, implementations providing an update service over a fixed set of graphs must return with failure for a request that would create a disallowed graph. If the destination graph already exists, then no data in that graph will be removed.
     #
-    # @example
+    #
+    # [31]  Load                    ::= 'LOAD' 'SILENT'? iri ( 'INTO' GraphRef )?
+    #
+    # @example SPARQL Grammar
+    #   LOAD <remote> INTO GRAPH <g> ;
+    #
+    # @example SSE
     #   (load <remote> <g>)
     #
     # @see https://www.w3.org/TR/sparql11-update/#load

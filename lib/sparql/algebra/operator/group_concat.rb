@@ -5,7 +5,18 @@ module SPARQL; module Algebra
     #
     # GroupConcat is a set function which performs a string concatenation across the values of an expression with a group. The order of the strings is not specified. The separator character used in the concatenation may be given with the scalar argument SEPARATOR.
     #
-    # @example
+    # [127] Aggregate::= ... | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression ( ';' 'SEPARATOR' '=' String )? ')'
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   ASK {
+    #     {SELECT (GROUP_CONCAT(?o) AS ?g) WHERE {
+    #       [] :p1 ?o
+    #     }}
+    #     FILTER(?g = "1 22" || ?g = "22 1")
+    #   }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org/>))
     #      (filter (|| (= ?g "1 22") (= ?g "22 1"))
     #        (project (?g)

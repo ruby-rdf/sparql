@@ -3,7 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `str` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'STR' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   PREFIX  : <http://example.org/things#>
+    #   SELECT  ?x ?v
+    #   WHERE
+    #       { ?x :p ?v . 
+    #         FILTER ( str(?v) = "1" ) .
+    #       }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)

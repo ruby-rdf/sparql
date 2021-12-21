@@ -5,11 +5,20 @@ module SPARQL; module Algebra
     #
     # Returns the year part of `arg` as an integer.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>))
-    #       (project (?s ?x)
-    #         (extend ((?x (year ?date)))
-    #           (bgp (triple ?s :date ?date)))))
+    # [121] BuiltInCall ::= ... | 'YEAR' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s (YEAR(?date) AS ?x) WHERE {
+    #     ?s :date ?date
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?x)
+    #     (extend ((?x (year ?date)))
+    #      (bgp (triple ?s :date ?date)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-year
     class Year < Operator::Unary

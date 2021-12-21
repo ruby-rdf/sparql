@@ -3,7 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `regex` operator.
     #
-    # @example
+    # [122] RegexExpression         ::= 'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    #   PREFIX  ex: <http://example.com/#>
+    #   SELECT ?val
+    #   WHERE {
+    #     ex:foo rdf:value ?val .
+    #     FILTER regex(?val, "GHI")
+    #   }
+    #
+    # @example SSE
     #   (prefix ((ex: <http://example.com/#>)
     #            (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
     #     (project (?val)

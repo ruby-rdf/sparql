@@ -3,12 +3,22 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `replace` operator.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>)
-    #              (xsd: <http://www.w3.org/2001/XMLSchema#>))
-    #       (project (?s ?new)
-    #         (extend ((?new (replace ?str "[^a-z0-9]" "-")))
-    #           (bgp (triple ?s :str ?str)))))
+    # [124] StrReplaceExpression ::= 'REPLACE' '(' Expression ',' Expression ',' Expression ( ',' Expression )? ')'
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s (REPLACE(?str,"[^a-z0-9]", "-") AS ?new)
+    #   WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #     (project (?s ?new)
+    #       (extend ((?new (replace ?str "[^a-z0-9]" "-")))
+    #         (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#funcex-replace
     # @see https://www.w3.org/TR/xpath-functions/#func-replace

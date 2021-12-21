@@ -3,12 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `union` operator.
     #
-    # @example
-    #   (prefix ((: <http://example/>))
-    #     (union
-    #       (bgp (triple ?s ?p ?o))
-    #       (graph ?g
-    #         (bgp (triple ?s ?p ?o)))))
+    # [67]  GroupOrUnionGraphPattern::= GroupGraphPattern ( 'UNION' GroupGraphPattern )*
+    #
+    # @example SPARQL Grammar
+    #   SELECT * {
+    #     { ?s ?p ?o }
+    #     UNION
+    #     { GRAPH ?g { ?s ?p ?o } }}
+    #
+    # @example SSE
+    #   (union
+    #    (bgp (triple ?s ?p ?o))
+    #    (graph ?g
+    #     (bgp (triple ?s ?p ?o))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Union < Operator::Binary

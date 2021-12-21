@@ -6,7 +6,12 @@ module SPARQL; module Algebra
     #
     # The ADD operation is a shortcut for inserting all data from an input graph into a destination graph. Data from the input graph is not affected, and initial data from the destination graph, if any, is kept intact.
     #
-    # @example
+    # [35]	Add	::=	"ADD" "SILENT"? GraphOrDefault "TO" GraphOrDefault
+    #
+    # @example SPARQL Grammar
+    #   ADD DEFAULT TO :a
+    #
+    # @example SSE
     #   (add default <a>)
     #
     # @see https://www.w3.org/TR/sparql11-update/#add

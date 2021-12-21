@@ -6,7 +6,14 @@ module SPARQL; module Algebra
     #
     # The WITH clause provides a convenience for when an operation primarily refers to a single graph.
     #
-    # @example
+    # [41]  Modify ::= ( 'WITH' iri )? ( DeleteClause InsertClause? | InsertClause ) UsingClause* 'WHERE' GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   WITH :g1
+    #   INSERT { ?s ?p "z" }
+    #   WHERE { ?s ?p ?o }
+    #
+    # @example SSE
     #   (with :g1
     #     (bgp (triple ?s ?p ?o))
     #     (insert ((triple ?s ?p "z"))))

@@ -3,8 +3,20 @@ module SPARQL; module Algebra
     ##
     # A SPARQL `substr` operator.
     #
-    # @example
-    #   (substr ?x ?y)
+    # [123] SubstringExpression ::= 'SUBSTR' '(' Expression ',' Expression ( ',' Expression )? ')'
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s ?str (SUBSTR(?str,1,1) AS ?substr)
+    #   WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?s ?str ?substr)
+    #     (extend ((?substr (substr ?str 1 1)))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-substr
     # @see https://www.w3.org/TR/xpath-functions/#func-substring

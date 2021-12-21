@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `isBlank` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'isBlank' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     :    <http://example.org/things#>
+    #   SELECT ?x ?v WHERE {
+    #     ?x :p ?v .
+    #     FILTER isBlank(?v) .
+    #   }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)

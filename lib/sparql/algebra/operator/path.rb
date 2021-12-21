@@ -3,8 +3,23 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path` operator.
     #
-    # @example
-    #   (path :a (path+ :p) ?z)
+    # [88]  Path ::= PathAlternative
+    #
+    # @example SPARQL Grammar
+    #   PREFIX :  <http://www.example.org/>
+    #   SELECT ?t
+    #   WHERE {
+    #     :a :p1|:p2/:p3|:p4 ?t
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://www.example.org/>))
+    #    (project (?t)
+    #     (path :a
+    #      (alt
+    #       (alt :p1 (seq :p2 :p3))
+    #       :p4)
+    #      ?t)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlTranslatePathExpressions
     class Path < Operator::Ternary

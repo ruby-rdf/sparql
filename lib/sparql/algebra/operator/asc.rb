@@ -3,7 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL ascending sort operator.
     #
-    # @example
+    # [24]  OrderCondition          ::= ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )
+    #
+    # @example SPARQL Grammar
+    #   PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
+    #   SELECT ?name
+    #   WHERE { ?x foaf:name ?name }
+    #   ORDER BY ASC(?name)
+    #
+    # @example SSE
     #   (prefix ((foaf: <http://xmlns.com/foaf/0.1/>))
     #     (project (?name)
     #       (order ((asc ?name))

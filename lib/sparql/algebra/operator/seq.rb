@@ -3,8 +3,17 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `sequence` (SequencePath) operator.
     #
-    # @example
-    #   (seq :a :b)
+    # # [90] PathSequence ::= PathEltOrInverse ( '/' PathEltOrInverse )*
+    #
+    # @example SPARQL Grammar
+    #   PREFIX ex:	<http://www.example.org/schema#>
+    #   PREFIX in:	<http://www.example.org/instance#>
+    #   SELECT * WHERE {  in:a ex:p1/ex:p2 ?x }
+    #
+    # @example SSE
+    #   (prefix ((ex: <http://www.example.org/schema#>)
+    #            (in: <http://www.example.org/instance#>))
+    #    (path in:a (seq ex:p1 ex:p2) ?x))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_sequence
     class Seq < Operator::Binary

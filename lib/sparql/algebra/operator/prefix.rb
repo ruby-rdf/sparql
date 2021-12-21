@@ -3,10 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `prefix` operator.
     #
-    # @example
+    # [6]   PrefixDecl              ::= 'PREFIX' PNAME_NS IRIREF
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/>
+    #   SELECT * { :s :p :o }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
-    #     (graph ?g
-    #       (bgp (triple ?s ?p ?o))))
+    #    (bgp (triple :s :p :o)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#QSynIRI
     class Prefix < Binary

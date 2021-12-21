@@ -5,8 +5,21 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `abs` operator.
     #
-    # @example
-    #   (encode_for_uri ?x)
+    # [121] BuiltInCall ::= ... | 'ENCODE_FOR_URI' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s ?str (ENCODE_FOR_URI(?str) AS ?encoded) WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?str ?encoded)
+    #     (extend ((?encoded (encode_for_uri ?str)))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-encode
     # @see https://www.w3.org/TR/xpath-functions/#func-abs

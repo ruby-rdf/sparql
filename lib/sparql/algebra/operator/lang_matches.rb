@@ -3,7 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `langMatches` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'LANGMATCHES' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/#>
+    #   
+    #   SELECT *
+    #   { :x ?p ?v . FILTER langMatches(lang(?v), "en-GB") . }
+    #
+    # @example SSE
     #   (prefix ((: <http://example.org/#>))
     #     (filter (langMatches (lang ?v) "en-GB")
     #       (bgp (triple :x ?p ?v))))

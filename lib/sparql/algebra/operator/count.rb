@@ -3,7 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `count` set function.
     #
-    # @example
+    # [127] Aggregate::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')' ...
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT (COUNT(?O) AS ?C)
+    #   WHERE { ?S ?P ?O }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org>))
     #      (project (?C)
     #        (extend ((?C ??.0))

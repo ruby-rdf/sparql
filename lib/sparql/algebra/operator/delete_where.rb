@@ -6,8 +6,19 @@ module SPARQL; module Algebra
     #
     # The DELETE WHERE operation is a shortcut form for the DELETE/INSERT operation where bindings matched by the WHERE clause are used to define the triples in a graph that will be deleted.
     #
-    # @example
-    #   (deleteWhere ((triple :a foaf:knows ?b))
+    # [40]  DeleteWhere             ::= 'DELETE WHERE' QuadPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     : <http://example.org/> 
+    #   PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+    #   DELETE WHERE { :a foaf:knows ?b }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>)
+    #     (foaf: <http://xmlns.com/foaf/0.1/>))
+    #    (update
+    #     (deleteWhere ((triple :a foaf:knows ?b)))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#deleteWhere
     class DeleteWhere < Operator::Unary

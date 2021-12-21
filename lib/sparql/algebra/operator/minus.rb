@@ -3,13 +3,26 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `minus` operator.
     #
-    # @example
-    #    (prefix ((ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#>))
-    #      (project (?animal)
-    #        (minus
-    #          (bgp (triple ?animal <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ex:Animal))
-    #          (filter (|| (= ?type ex:Reptile) (= ?type ex:Insect))
-    #            (bgp (triple ?animal <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> ?type))))))
+    # [57]  OptionalGraphPattern    ::= 'OPTIONAL' GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#>
+    #   SELECT ?animal { 
+    #     ?animal a ex:Animal MINUS { 
+    #       ?animal a ?type 
+    #       FILTER(?type = ex:Reptile || ?type = ex:Insect) 
+    #     } 
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#>))
+    #    (project (?animal)
+    #     (minus
+    #      (bgp (triple ?animal a ex:Animal))
+    #      (filter
+    #       (|| (= ?type ex:Reptile) (= ?type ex:Insect))
+    #       (bgp (triple ?animal a ?type))))))
     #
     # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra

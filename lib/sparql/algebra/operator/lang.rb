@@ -3,6 +3,22 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `lang` operator.
     #
+    # [121] BuiltInCall ::= ... | 'LANG' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   
+    #   SELECT ?x
+    #   { ?x :p ?v . 
+    #     FILTER ( lang(?v) != '@NotALangTag@' )
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (project (?x)
+    #     (filter (!= (lang ?v) "@NotALangTag@")
+    #      (bgp (triple ?x :p ?v)))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#func-lang
     class Lang < Operator::Unary
       include Evaluatable

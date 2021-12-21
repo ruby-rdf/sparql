@@ -8,14 +8,22 @@ module SPARQL; module Algebra
     # query to be grouped. If three operands are provided,
     # the second is an array of temporary bindings.
     #
-    # @example
-    #     (prefix ((: <http://example/>))
-    #       (project (?w ?S)
-    #         (extend ((?S ??.0))
-    #           (group (?w) ((??.0 (sample ?v)))
-    #             (leftjoin
-    #               (bgp (triple ?s :p ?v))
-    #               (bgp (triple ?s :q ?w)))))))
+    # [19]  GroupClause             ::= 'GROUP' 'BY' GroupCondition+
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org>
+    #   
+    #   SELECT ?P (COUNT(?O) AS ?C)
+    #   WHERE { ?S ?P ?O }
+    #   GROUP BY ?P
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://www.example.org>))
+    #    (project (?P ?C)
+    #     (extend ((?C ??.0))
+    #      (group (?P) ((??.0 (count ?O)))
+    #       (bgp (triple ?S ?P ?O))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Group < Operator

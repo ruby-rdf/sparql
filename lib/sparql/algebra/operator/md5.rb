@@ -7,11 +7,19 @@ module SPARQL; module Algebra
     #
     # Returns the MD5 checksum, as a hex digit string, calculated on the UTF-8 representation of the simple literal or lexical form of the `xsd:string`. Hex digits `SHOULD` be in lower case.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>))
-    #       (project (?hash)
-    #         (extend ((?hash (md5 ?l)))
-    #           (bgp (triple :s1 :str ?l)))))
+    # [121] BuiltInCall ::= ... | 'MD5' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT (MD5(?l) AS ?hash) WHERE {
+    #    :s1 :str ?l
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>))
+    #     (project (?hash)
+    #       (extend ((?hash (md5 ?l)))
+    #         (bgp (triple :s1 :str ?l)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-md5
     class MD5 < Operator::Unary

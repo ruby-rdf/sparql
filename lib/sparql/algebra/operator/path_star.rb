@@ -3,8 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path*` (ZeroOrMorePath) operator.
     #
-    # @example
-    #   (path* :p)
+    # [91]  PathElt                 ::= PathPrimary PathMod?
+    # [93]  PathMod                 ::= '*' | '?' | '+'
+    
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   SELECT * WHERE {
+    #     :a :p* ?z
+    #   } 
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (path :a (path* :p) ?z))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_ZeroOrMorePath
     class PathStar < Operator::Unary

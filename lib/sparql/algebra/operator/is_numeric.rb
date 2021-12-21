@@ -3,9 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `isNumeric` operator.
     #
-    # Note numeric denotes typed literals with datatypes xsd:integer, xsd:decimal, xsd:float, and xsd:double, not derived types.
+    # Note numeric denotes typed literals with datatypes `xsd:integer`, `xsd:decimal`, `xsd:float`, and `xsd:double`, not derived types.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'isNumeric' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     :    <http://example.org/things#>
+    #   SELECT ?x ?v WHERE {
+    #     ?x :p ?v .
+    #     FILTER isNumeric(?v) .
+    #   }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)
