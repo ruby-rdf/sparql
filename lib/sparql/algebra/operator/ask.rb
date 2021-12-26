@@ -7,7 +7,7 @@ module SPARQL; module Algebra
     #
     # [12]  AskQuery                ::= 'ASK' DatasetClause* WhereClause ValuesClause
     #
-    # @example SPARQL Grammar
+    # @example SPARQL Query
     #   PREFIX :    <http://example/>
     #   ASK  { :x :p  ?x }
     #
@@ -46,6 +46,16 @@ module SPARQL; module Algebra
       # @return [Boolean]
       def query_yields_boolean?
         true
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "ASK\n" +
+        operands.first.to_sparql(top_level: true, project: nil, **options)
       end
     end # Ask
   end # Operator

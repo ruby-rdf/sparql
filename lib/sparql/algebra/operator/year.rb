@@ -37,6 +37,15 @@ module SPARQL; module Algebra
         raise TypeError, "expected an RDF::Literal::DateTime, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::DateTime)
         RDF::Literal(operand.object.year)
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "YEAR(#{operands.last.to_sparql(**options)})"
+      end
     end # Year
   end # Operator
 end; end # SPARQL::Algebra

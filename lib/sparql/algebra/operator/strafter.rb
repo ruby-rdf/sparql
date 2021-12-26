@@ -66,6 +66,15 @@ module SPARQL; module Algebra
           RDF::Literal(parts.last, datatype: left.datatype, language: left.language)
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRAFTER(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+      end
     end # StrAfter
   end # Operator
 end; end # SPARQL::Algebra

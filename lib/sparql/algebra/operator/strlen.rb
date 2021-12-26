@@ -41,6 +41,15 @@ module SPARQL; module Algebra
         raise TypeError, "expected a plain RDF::Literal, but got #{operand.inspect}" unless operand.literal? && operand.plain?
         RDF::Literal(operand.to_s.length)
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRLEN(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+      end
     end # StrLen
   end # Operator
 end; end # SPARQL::Algebra

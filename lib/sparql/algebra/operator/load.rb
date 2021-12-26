@@ -10,10 +10,10 @@ module SPARQL; module Algebra
     # [31]  Load                    ::= 'LOAD' 'SILENT'? iri ( 'INTO' GraphRef )?
     #
     # @example SPARQL Grammar
-    #   LOAD <remote> INTO GRAPH <g> ;
+    #   LOAD <http://example.org/remote> INTO GRAPH <http://example.org/g> ;
     #
     # @example SSE
-    #   (load <remote> <g>)
+    #   (update (load <http://example.org/remote> <http://example.org/g>))
     #
     # @see https://www.w3.org/TR/sparql11-update/#load
     class Load < Operator
@@ -48,6 +48,23 @@ module SPARQL; module Algebra
         raise unless silent
       ensure
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        silent = operands.first == :silent
+        ops = silent ? operands[1..-1] : operands
+        location, name = ops
+
+        str = "LOAD "
+        str << "SILENT " if silent
+        str << location.to_sparql(**options)
+        str << " INTO GRAPH " + name.to_sparql(**options) if name
+        str
       end
     end # Load
   end # Operator

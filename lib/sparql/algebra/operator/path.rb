@@ -60,6 +60,18 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = operands.to_sparql(top_level: false, **options) + " ."
+        top_level ? Operator.to_sparql(str, **options) : str
+      end
     end # Path
   end # Operator
 end; end # SPARQL::Algebra

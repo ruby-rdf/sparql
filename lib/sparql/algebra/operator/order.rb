@@ -3,7 +3,7 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `order` operator.
     #
-    # [111] ConditionalOrExpression ::= ConditionalAndExpression ( '||' ConditionalAndExpression )*
+    # [23]  OrderClause             ::= 'ORDER' 'BY' OrderCondition+
     #
     # @example SPARQL Grammar
     #   PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
@@ -63,6 +63,17 @@ module SPARQL; module Algebra
         end
         @solutions.each(&block) if block_given?
         @solutions
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # Provides order to descendant query.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        operands.last.to_sparql(order_ops: operands.first, **options)
       end
     end # Order
   end # Operator

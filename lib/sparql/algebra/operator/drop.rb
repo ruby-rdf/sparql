@@ -14,7 +14,8 @@ module SPARQL; module Algebra
     #   DROP DEFAULT
     #
     # @example SSE
-    #   (drop default)
+    #   (update
+    #    (drop default))
     #
     # @see https://www.w3.org/TR/sparql11-update/#drop
     class Drop < Operator
@@ -65,6 +66,15 @@ module SPARQL; module Algebra
         end
 
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "DROP " + operands.to_sparql(**options)
       end
     end # Drop
   end # Operator

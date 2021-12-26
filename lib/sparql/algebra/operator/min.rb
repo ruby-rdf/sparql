@@ -49,6 +49,15 @@ module SPARQL; module Algebra
           raise TypeError, "Minumuim of non-literals: #{enum.flatten}"
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "MIN(" + operands.to_sparql(**options) + ")"
+      end
     end # Min
   end # Operator
 end; end # SPARQL::Algebra

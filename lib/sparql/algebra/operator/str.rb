@@ -41,6 +41,15 @@ module SPARQL; module Algebra
           else raise TypeError, "expected an RDF::Literal or RDF::URI, but got #{term.inspect}"
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "str(" + operands.first.to_sparql(**options) + ")"
+      end
     end # Str
   end # Operator
 end; end # SPARQL::Algebra

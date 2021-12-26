@@ -46,6 +46,15 @@ module SPARQL; module Algebra
       def apply(enum, **options)
         enum.detect(lambda {raise TypeError, "Sampling an empty multiset"}) {|e| e.first}.first
       end
-    end # LCase
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "SAMPLE(#{operands.to_sparql(**options)})"
+      end
+    end # Sample
   end # Operator
 end; end # SPARQL::Algebra

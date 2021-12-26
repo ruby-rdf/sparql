@@ -247,7 +247,9 @@ shared_examples "RegexExpression" do |**options|
   context "RegexExpression" do
     {
       %q(REGEX ("foo"))        => EBNF::LL1::Parser::Error,
-      %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar" "")),
+      %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar")),
+      %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar")),
+      %q(REGEX ("foo", "bar", "i")) => %q((regex "foo" "bar" "i")),
     }.each do |input, output|
       it input do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true).merge(options))

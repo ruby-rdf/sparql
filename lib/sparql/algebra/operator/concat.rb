@@ -63,6 +63,15 @@ module SPARQL; module Algebra
           end
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "CONCAT(#{operands.to_sparql(delimiter: ', ', **options)})"
+      end
     end # Concat
   end # Operator
 end; end # SPARQL::Algebra

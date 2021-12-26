@@ -15,10 +15,9 @@ module SPARQL; module Algebra
     #   }
     #
     # @example SSE
-    #   (select (?z)
-    #     (project (?z)
-    #       (extend ((?z (+ ?o 10)))
-    #         (bgp (triple ?s <http://example/p> ?o)))))
+    #   (project (?z)
+    #     (extend ((?z (+ ?o 10)))
+    #       (bgp (triple ?s <http://example/p> ?o))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Extend < Operator::Binary
@@ -82,6 +81,23 @@ module SPARQL; module Algebra
         end
         super
       end
-    end # Filter
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # Extracts bindings.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        extensions = operands.first.inject({}) do |memo, (as, expression)|
+          memo.merge(as => expression)
+        end
+
+        # Merge any inherited extensions from options
+        extensions = options.delete(:extensions).merge(extensions) if options.key?(:extensions)
+        operands.last.to_sparql(extensions: extensions, **options)
+      end
+    end # Extend
   end # Operator
 end; end # SPARQL::Algebra

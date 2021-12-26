@@ -25,7 +25,7 @@ module SPARQL; module Algebra
     class IsNumeric < Operator::Unary
       include Evaluatable
 
-      NAME = :isnumeric
+      NAME = :isNumeric
 
       ##
       # Returns `true` if the operand is an `RDF::Literal::Numeric`, `false`
@@ -44,6 +44,15 @@ module SPARQL; module Algebra
           when RDF::Term    then RDF::Literal::FALSE
           else raise TypeError, "expected an RDF::Term, but got #{term.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "isNumeric(" + operands.first.to_sparql(**options) + ")"
       end
     end # IsNumeric
   end # Operator

@@ -47,6 +47,14 @@ module SPARQL; module Algebra
         query = PathOpt.new(PathPlus.new(*operands))
         query.execute(queryable, depth: options[:depth].to_i + 1, **options, &block)
       end
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(#{operands.first.to_sparql(**options)})*"
+      end
     end # PathStar
   end # Operator
 end; end # SPARQL::Algebra

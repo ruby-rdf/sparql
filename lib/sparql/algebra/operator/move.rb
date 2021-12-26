@@ -9,10 +9,11 @@ module SPARQL; module Algebra
     # [36]  Move                    ::= 'MOVE' 'SILENT'? GraphOrDefault 'TO' GraphOrDefault
     #
     # @example SPARQL Grammar
-    #   MOVE SILENT <iri> TO DEFAULT
+    #   MOVE SILENT GRAPH <http://www.example.com/g1> TO DEFAULT
     #
     # @example SSE
-    #   (move silent <iri> to default)
+    #   (update
+    #    (move silent <http://www.example.com/g1> default))
     #
     # @see https://www.w3.org/TR/sparql11-update/#move
     class Move < Operator
@@ -66,6 +67,18 @@ module SPARQL; module Algebra
           src.clear!
         end
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        *args, last = operands.dup
+        args += [:TO, last]
+        
+        "MOVE " + args.to_sparql(**options)
       end
     end # Move
   end # Operator

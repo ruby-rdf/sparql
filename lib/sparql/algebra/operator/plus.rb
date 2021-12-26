@@ -62,6 +62,15 @@ module SPARQL; module Algebra
         else raise TypeError, "expected two RDF::Literal::Numeric operands, but got #{left.inspect} and #{right.inspect}"
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "#{operands.first.to_sparql(**options)} + #{operands.last.to_sparql(**options)}"
+      end
     end # Plus
   end # Operator
 end; end # SPARQL::Algebra

@@ -40,6 +40,15 @@ module SPARQL; module Algebra
         raise TypeError, "literal has no timezone" unless res = operand.timezone
         res
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "TIMEZONE(" + operands.to_sparql(**options) + ")"
+      end
     end # Timezone
   end # Operator
 end; end # SPARQL::Algebra

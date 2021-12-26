@@ -58,6 +58,15 @@ module SPARQL; module Algebra
         ), &block)
 
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "^" + operands.first.to_sparql(**options)
+      end
     end # Reverse
   end # Operator
 end; end # SPARQL::Algebra

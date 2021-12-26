@@ -8,11 +8,13 @@ module SPARQL; module Algebra
     # [11]  DescribeQuery           ::= 'DESCRIBE' ( VarOrIri+ | '*' ) DatasetClause* WhereClause? SolutionModifier ValuesClause
     #
     # @example SPARQL Grammar
+    #   BASE <http://example.org/>
     #   DESCRIBE <u> ?u WHERE { <x> <q> ?u . }
     #
     # @example SSE
-    #   (describe (<u> ?u)
-    #    (bgp (triple <x> <q> ?u)))
+    #   (base <http://example.org/>
+    #    (describe (<u> ?u)
+    #     (bgp (triple <x> <q> ?u))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#describe
     class Describe < Operator::Binary
@@ -69,6 +71,23 @@ module SPARQL; module Algebra
       # @return [Boolean]
       def query_yields_statements?
         true
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "DESCRIBE "
+        str << if operands[0].empty?
+          "*"
+        else
+          operands[0].map { |e| e.to_sparql(**options) }.join(" ")
+        end
+
+        str << "\n"
+        str << operands[1].to_sparql(top_level: true, project: nil, **options)
       end
     end # Construct
   end # Operator

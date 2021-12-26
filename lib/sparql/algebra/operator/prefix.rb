@@ -70,6 +70,22 @@ module SPARQL; module Algebra
       def query_yields_statements?
         operands.last.query_yields_statements?
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        prefixes = {}
+        str = operands.first.map do |(pfx, sfx)|
+          pfx = pfx.to_s.chomp(':').to_sym
+          prefixes[pfx] = sfx
+          "PREFIX #{pfx}: #{sfx.to_sparql}\n"
+        end.join("")
+
+        str << operands.last.to_sparql(prefixes: prefixes, **options)
+      end
     end # Prefix
   end # Operator
 end; end # SPARQL::Algebra

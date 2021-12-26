@@ -60,6 +60,30 @@ module SPARQL; module Algebra
         end
         queryable
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        if operands.first.is_a?(With)
+          operands.first.to_sparql(**options)
+        else
+          # The content of the WHERE clause, may be USING
+          content = operands.first.to_sparql(top_level: false, **options)
+
+          # DELETE | INSERT | DELETE INSERT
+          str = operands[1..-1].to_sparql(top_level: false, delimiter: "\n", **options) + "\n"
+
+          # Append the WHERE or USING clause
+          str << if operands.first.is_a?(Using)
+            content
+          else
+            Operator.to_sparql(content, project: nil, **options)
+          end
+        end
+      end
     end # Modify
   end # Operator
 end; end # SPARQL::Algebra

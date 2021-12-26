@@ -49,6 +49,15 @@ module SPARQL; module Algebra
           raise TypeError, "Maximum of non-literals: #{enum.flatten}"
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "MAX(" + operands.to_sparql(**options) + ")"
+      end
     end # Max
   end # Operator
 end; end # SPARQL::Algebra

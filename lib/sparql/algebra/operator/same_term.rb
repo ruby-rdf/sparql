@@ -53,6 +53,15 @@ module SPARQL; module Algebra
           super # @see Operator#optimize!
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "sameTerm(#{operands.to_sparql(delimiter: ', ', **options)})"
+      end
     end # SameTerm
   end # Operator
 end; end # SPARQL::Algebra

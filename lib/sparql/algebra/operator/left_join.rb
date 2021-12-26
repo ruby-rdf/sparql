@@ -124,6 +124,22 @@ module SPARQL; module Algebra
           expr ? LeftJoin.new(ops[0], ops[1], expr) : LeftJoin.new(ops[0], ops[1])
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = operands[0].to_sparql(top_level: false, **options) +
+          "\nOPTIONAL { \n" +
+          operands[1].to_sparql(top_level: false, **options) + "\n"
+        str << 'FILTER (' + operands[2].to_sparql(**options) + ") \n" if operands[2]
+        str << '}'
+        top_level ? Operator.to_sparql(str, **options) : str
+      end
     end # LeftJoin
   end # Operator
 end; end # SPARQL::Algebra

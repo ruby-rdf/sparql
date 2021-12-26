@@ -45,9 +45,18 @@ module SPARQL; module Algebra
         operand(0).evaluate(bindings, depth: options[:depth].to_i + 1, **options) == RDF::Literal::TRUE ?
           operand(1).evaluate(bindings, depth: options[:depth].to_i + 1, **options) :
           operand(2).evaluate(bindings, depth: options[:depth].to_i + 1, **options)
-        rescue
-          raise TypeError
+      rescue
+        raise TypeError
       end
     end # If
-  end # Operator
+
+    ##
+    #
+    # Returns a partial SPARQL grammar for this operator.
+    #
+    # @return [String]
+    def to_sparql(**options)
+      "IF(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+    end
+  end # If
 end; end # SPARQL::Algebra

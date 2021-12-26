@@ -39,6 +39,15 @@ module SPARQL; module Algebra
         raise TypeError, "expected simple literal or xsd:string, but got #{operand.inspect}" unless (operand.datatype || RDF::XSD.string) == RDF::XSD.string
         RDF::Literal(Digest::MD5.new.hexdigest(operand.to_s))
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "MD5(" + operands.to_sparql(**options) + ")"
+      end
     end # MD5
   end # Operator
 end; end # SPARQL::Algebra

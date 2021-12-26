@@ -38,6 +38,18 @@ module SPARQL; module Algebra
       def apply(**options)
         RDF::Literal::Double.new(Random.rand)
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # Extracts projections
+      #
+      # @param [Boolean] distinct (false)
+      # @return [String]
+      def to_sparql(**options)
+        "RAND()"
+      end
     end # Rand
   end # Operator
 end; end # SPARQL::Algebra

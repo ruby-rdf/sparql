@@ -9,10 +9,10 @@ module SPARQL; module Algebra
     # [37]  Copy                    ::= 'COPY' 'SILENT'? GraphOrDefault 'TO' GraphOrDefault
     #
     # @example SPARQL Grammar
-    #   COPY SILENT <iri> TO DEFAULT
+    #   COPY SILENT GRAPH <http://www.example.com/g1> TO DEFAULT
     #
     # @example SSE
-    #   (copy silent <iri> to default)
+    #   (update (copy silent <http://www.example.com/g1> default))
     #
     # @see https://www.w3.org/TR/sparql11-update/#copy
     class Copy < Operator
@@ -63,6 +63,18 @@ module SPARQL; module Algebra
           end
         end
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        *args, last = operands.dup
+        args += [:TO, last]
+        
+        "COPY " + args.to_sparql(**options)
       end
     end # Copy
   end # Operator

@@ -13,10 +13,10 @@ module SPARQL; module Algebra
     #   }
     #
     # @example SSE
-    #   (select (?v)
-    #     (project (?v)
-    #       (filter (= ?v 2)
-    #         (bgp (triple ?s <http://example/p> ?v)))))
+    #   (prefix ((: <http://example/>))
+    #    (project (?v)
+    #     (filter (= ?v 2)
+    #      (bgp (triple ?s :p ?v)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#modProjection
     class Project < Operator::Binary
@@ -44,6 +44,19 @@ module SPARQL; module Algebra
         @solutions = @solutions.project(*(operands.first))
         @solutions.each(&block) if block_given?
         @solutions
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # Extracts projections
+      #
+      # @param [Boolean] distinct (false)
+      # @return [String]
+      def to_sparql(**options)
+        vars = operands[0].empty? ? [:*] : operands[0]
+        operands.last.to_sparql(project: vars, **options)
       end
     end # Project
   end # Operator

@@ -40,6 +40,15 @@ module SPARQL; module Algebra
         raise TypeError, "Literal #{value.inspect} is not simple" unless value.simple?
         RDF::Literal.new(value.to_s, datatype: datatypeIRI)
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRDT(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+      end
     end # StrDT
   end # Operator
 end; end # SPARQL::Algebra

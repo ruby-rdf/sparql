@@ -17,8 +17,7 @@ module SPARQL; module Algebra
     #   }
     #
     # @example SSE
-    #   (prefix
-    #    ((: <http://example.org/>))
+    #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
     #    (ask
     #     (filter (= (datatype ?n) xsd:dateTime)
     #      (extend ((?n (now)))
@@ -36,6 +35,15 @@ module SPARQL; module Algebra
       # @return [RDF::Literal::Double] random value
       def apply(**options)
         RDF::Literal(DateTime.now)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "NOW()"
       end
     end # Now
   end # Operator

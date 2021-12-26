@@ -5,7 +5,7 @@ module SPARQL; module Algebra
     #
     # [121] BuiltInCall ::= ... | 'ABS' '(' Expression ')'
     #
-    # @example SPARQL Grammar
+    # @example SPARQL Query
     #   PREFIX : <http://example.org/>
     #   SELECT * WHERE {
     #     ?s :num ?num
@@ -36,6 +36,15 @@ module SPARQL; module Algebra
           when RDF::Literal::Numeric then operand.abs
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{operand.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "ABS(#{operands.first.to_sparql(**options)})"
       end
     end # Abs
   end # Operator

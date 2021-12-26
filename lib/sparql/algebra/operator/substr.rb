@@ -87,6 +87,15 @@ module SPARQL; module Algebra
       def to_sxp_bin
         [NAME] + operands.reject {|o| o.to_s == ""}
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "SUBSTR(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+      end
     end # SubStr
   end # Operator
 end; end # SPARQL::Algebra

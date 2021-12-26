@@ -48,6 +48,15 @@ module SPARQL; module Algebra
           else raise TypeError, "expected an RDF::Term, but got #{term.inspect}"
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "isTRIPLE(" + operands.first.to_sparql(**options) + ")"
+      end
     end # IsTriple
   end # Operator
 end; end # SPARQL::Algebra

@@ -16,11 +16,10 @@ module SPARQL; module Algebra
     #
     # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
-    #            (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
-    #            (: <http://example.org/>))
-    #     (project (?s)
-    #       (filter (= (datatype (xsd:double ?v)) xsd:double)
-    #         (bgp (triple ?s :p ?v)))))
+    #            (: <http://example.org/things#>))
+    #    (project (?x ?v)
+    #     (filter (= (datatype ?v) xsd:double)
+    #      (bgp (triple ?x :p ?v)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-datatype
     class Datatype < Operator::Unary
@@ -43,6 +42,15 @@ module SPARQL; module Algebra
           when RDF::Literal then literal.datatype
           else raise TypeError, "expected an RDF::Literal, but got #{literal.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "DATATYPE(#{operands.last.to_sparql(**options)})"
       end
     end # Datatype
   end # Operator

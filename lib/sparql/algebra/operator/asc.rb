@@ -5,7 +5,7 @@ module SPARQL; module Algebra
     #
     # [24]  OrderCondition          ::= ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )
     #
-    # @example SPARQL Grammar
+    # @example SPARQL Query
     #   PREFIX foaf:    <http://xmlns.com/foaf/0.1/>
     #   SELECT ?name
     #   WHERE { ?x foaf:name ?name }
@@ -34,6 +34,17 @@ module SPARQL; module Algebra
       # @return [RDF::Term]
       def evaluate(bindings, **options)
         operand(0).evaluate(bindings, depth: options[:depth].to_i + 1, **options)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # Provides order to descendant query.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "ASC(#{operands.last.to_sparql(**options)})"
       end
     end # Asc
   end # Operator

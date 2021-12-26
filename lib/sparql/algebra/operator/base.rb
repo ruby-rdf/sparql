@@ -62,6 +62,17 @@ module SPARQL; module Algebra
       def query_yields_statements?
         operands.last.query_yields_statements?
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "BASE #{operands.first.to_sparql}\n"
+
+        str << operands.last.to_sparql(base_uri: operands.first, **options)
+      end
     end # Base
   end # Operator
 end; end # SPARQL::Algebra

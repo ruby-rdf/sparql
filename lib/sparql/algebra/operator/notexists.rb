@@ -45,6 +45,19 @@ module SPARQL; module Algebra
         queryable = options[:queryable]
         operand(0).execute(queryable, solutions: solutions, **options).empty?
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        "NOT EXISTS {\n" +
+          operands.last.to_sparql(top_level: false, **options) +
+          "\n}"
+      end
     end # NotExists
   end # Operator
 end; end # SPARQL::Algebra

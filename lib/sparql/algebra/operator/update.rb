@@ -51,6 +51,15 @@ module SPARQL; module Algebra
         end
         queryable
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = operands.map { |e| e.to_sparql(**options) }.join("\n")
+      end
     end # Update
   end # Operator
 end; end # SPARQL::Algebra

@@ -62,6 +62,15 @@ module SPARQL; module Algebra
         end
         queryable
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "INSERT {\n" + operands.first.to_sparql(**options) + "\n}"
+      end
     end # Insert
   end # Operator
 end; end # SPARQL::Algebra

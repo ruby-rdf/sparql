@@ -43,6 +43,15 @@ module SPARQL; module Algebra
         base.join(literal.to_s)
       end
 
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "IRI(" + operands.last.to_sparql(**options) + ")"
+      end
+
       Operator::URI = IRI
     end # IRI
   end # Operator

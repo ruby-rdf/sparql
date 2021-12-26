@@ -59,6 +59,18 @@ module SPARQL; module Algebra
         else RDF::Literal::FALSE
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(" + operands.first.to_sparql(**options) +
+        " IN (" +
+        operands[1..-1].map {|e| e.to_sparql(**options)}.join(", ") +
+        "))"
+      end
     end # In
   end # Operator
 end; end # SPARQL::Algebra

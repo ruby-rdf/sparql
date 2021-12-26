@@ -3,26 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `minus` operator.
     #
-    # [57]  OptionalGraphPattern    ::= 'OPTIONAL' GroupGraphPattern
+    # [66]  MinusGraphPattern       ::= 'MINUS' GroupGraphPattern
     #
     # @example SPARQL Grammar
-    #   PREFIX ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#>
-    #   SELECT ?animal { 
-    #     ?animal a ex:Animal MINUS { 
-    #       ?animal a ?type 
-    #       FILTER(?type = ex:Reptile || ?type = ex:Insect) 
-    #     } 
-    #   }
+    #   SELECT * { ?s ?p ?o MINUS { ?s ?q ?v } }
     #
     # @example SSE
-    #   (prefix
-    #    ((ex: <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/negation#>))
-    #    (project (?animal)
-    #     (minus
-    #      (bgp (triple ?animal a ex:Animal))
-    #      (filter
-    #       (|| (= ?type ex:Reptile) (= ?type ex:Insect))
-    #       (bgp (triple ?animal a ?type))))))
+    #   (minus
+    #    (bgp
+    #     (triple ?s ?p ?o))
+    #    (bgp (triple ?s ?q ?v)))
     #
     # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
@@ -78,6 +68,21 @@ module SPARQL; module Algebra
         ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = operands.first.to_sparql(top_level: false, **options) + "\n"
+        str << "MINUS {\n"
+        str << operands.last.to_sparql(top_level: false, **options)
+        str << "\n}"
+        top_level ? Operator.to_sparql(str, **options) : str
       end
     end # Minus
   end # Operator

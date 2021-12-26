@@ -54,6 +54,15 @@ module SPARQL; module Algebra
         else RDF::Literal::FALSE
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRENDS(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+      end
     end # StrEnds
   end # Operator
 end; end # SPARQL::Algebra

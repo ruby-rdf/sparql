@@ -56,6 +56,19 @@ module SPARQL; module Algebra
             RDF::Literal(language_tag.start_with?(language_range + '-'))
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "langMatches(" +
+          operands.first.to_sparql(**options) +
+          ", " +
+          operands.last.to_sparql(**options) +
+          ")"
+      end
     end # LangMatches
   end # Operator
 end; end # SPARQL::Algebra

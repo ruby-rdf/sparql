@@ -9,14 +9,18 @@ module SPARQL; module Algebra
     # [41]  Modify ::= ( 'WITH' iri )? ( DeleteClause InsertClause? | InsertClause ) UsingClause* 'WHERE' GroupGraphPattern
     #
     # @example SPARQL Grammar
-    #   WITH :g1
-    #   INSERT { ?s ?p "z" }
+    #   PREFIX  :     <http://example/>
+    #   WITH :g
+    #   DELETE { <base:s> ?p ?o . }
     #   WHERE { ?s ?p ?o }
     #
     # @example SSE
-    #   (with :g1
-    #     (bgp (triple ?s ?p ?o))
-    #     (insert ((triple ?s ?p "z"))))
+    #   (prefix ((: <http://example/>))
+    #    (update
+    #     (modify
+    #      (with :g
+    #       (bgp (triple ?s ?p ?o))
+    #       (delete ((triple <base:s> ?p ?o)))))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#deleteInsert
     class With < Operator
@@ -72,6 +76,29 @@ module SPARQL; module Algebra
           operands.each do |op|
             op.execute(queryable, solutions: solution, depth: options[:depth].to_i + 1, **options)
           end
+        end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        with, where, ops = operands
+        str = "WITH #{with.to_sparql(**options)}\n"
+
+        # The content of the WHERE clause, may be USING
+        content = where.to_sparql(top_level: false, **options)
+
+        # DELETE | INSERT | DELETE INSERT
+        str << ops.to_sparql(top_level: false, delimiter: "\n", **options) + "\n"
+
+        # Append the WHERE or USING clause
+        str << if where.is_a?(Using)
+          content
+        else
+          Operator.to_sparql(content, project: nil, **options)
         end
       end
     end # With

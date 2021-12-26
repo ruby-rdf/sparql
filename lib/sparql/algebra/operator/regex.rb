@@ -17,29 +17,16 @@ module SPARQL; module Algebra
     # @example SSE
     #   (prefix ((ex: <http://example.com/#>)
     #            (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
-    #     (project (?val)
-    #       (filter (regex ?val "GHI")
-    #         (bgp (triple ex:foo rdf:value ?val)))))
+    #    (project (?val)
+    #     (filter (regex ?val "GHI")
+    #      (bgp (triple ex:foo rdf:value ?val)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#funcex-regex
     # @see https://www.w3.org/TR/xpath-functions/#func-matches
-    class Regex < Operator::Ternary
+    class Regex < Operator
       include Evaluatable
 
       NAME = :regex
-
-      ##
-      # Initializes a new operator instance.
-      #
-      # @param  [RDF::Term] text
-      # @param  [RDF::Term] pattern
-      # @param  [RDF::Term] flags
-      # @param  [Hash{Symbol => Object}] options
-      #   any additional options (see {Operator#initialize})
-      # @raise  [TypeError] if any operand is invalid
-      def initialize(text, pattern, flags = RDF::Literal(''), **options)
-        super
-      end
 
       ##
       # Matches `text` against a regular expression `pattern`.
@@ -75,6 +62,16 @@ module SPARQL; module Algebra
         options |= Regexp::IGNORECASE if flags.include?(?i)
         options |= Regexp::EXTENDED   if flags.include?(?x)
         RDF::Literal(Regexp.new(pattern, options) === text)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        ops = operands.last.to_s.empty? ? operands[0..-2] : operands
+        "regex(" + ops.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # Regex
   end # Operator

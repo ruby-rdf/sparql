@@ -39,6 +39,16 @@ module SPARQL; module Algebra
         raise TypeError, "expected simple literal or xsd:string, but got #{operand.inspect}" unless (operand.datatype || RDF::XSD.string) == RDF::XSD.string
         RDF::Literal(Digest::SHA384.new.hexdigest(operand.to_s))
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        require 'byebug'; byebug
+        "SHA384(" + operands.to_sparql(**options) + ")"
+      end
     end # SHA384
   end # Operator
 end; end # SPARQL::Algebra

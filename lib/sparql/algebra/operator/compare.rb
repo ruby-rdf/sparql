@@ -35,6 +35,15 @@ module SPARQL; module Algebra
         RDF::Literal(spaceship(left, right, **options))
       end
 
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(#{operands.first.to_sparql(**options)} #{self.class.const_get(:NAME)} #{operands.last.to_sparql(**options)})"
+      end
+
     private
       # Define <=> as private for recursive statements
       def spaceship(left, right, **options)

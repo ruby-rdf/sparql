@@ -43,6 +43,19 @@ module SPARQL; module Algebra
                                        depth: options[:depth].to_i + 1,
                                        **options).empty?
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        "EXISTS {\n" +
+          operands.last.to_sparql(top_level: false, **options) +
+          "\n}"
+      end
     end # Exists
   end # Operator
 end; end # SPARQL::Algebra

@@ -63,6 +63,15 @@ module SPARQL; module Algebra
         end
         queryable
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "DELETE WHERE {\n" + operands.first.to_sparql(top_level: false, delimiter: "\n", **options) + "\n}"
+      end
     end # DeleteWhere
   end # Operator
 end; end # SPARQL::Algebra

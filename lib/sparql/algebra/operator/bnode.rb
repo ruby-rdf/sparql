@@ -100,6 +100,15 @@ module SPARQL; module Algebra
       def to_sxp_bin
         [NAME] + operands.reject {|o| o == false}
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "BNODE(#{operands.last.to_sparql(**options)})"
+      end
     end # BNode
   end # Operator
 end; end # SPARQL::Algebra

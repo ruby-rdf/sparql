@@ -91,6 +91,19 @@ module SPARQL; module Algebra
       def query_yields_statements?
         true
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "CONSTRUCT {\n" +
+        operands[0].map { |e| e.to_sparql(top_level: false, **options) }.join("\n") +
+        "\n}\n"
+
+        str << operands[1].to_sparql(top_level: true, project: nil, **options)
+      end
     end # Construct
   end # Operator
 end; end # SPARQL::Algebra

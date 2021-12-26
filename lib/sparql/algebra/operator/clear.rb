@@ -12,7 +12,7 @@ module SPARQL; module Algebra
     #   CLEAR SILENT DEFAULT
     #
     # @example SSE
-    #   (clear silent default)
+    #   (update (clear silent default))
     #
     # @see https://www.w3.org/TR/sparql11-update/#clear
     class Clear < Operator
@@ -62,6 +62,15 @@ module SPARQL; module Algebra
         end
 
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "CLEAR " + operands.to_sparql(**options)
       end
     end # Clear
   end # Operator

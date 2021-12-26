@@ -9,7 +9,7 @@ module SPARQL; module Algebra
     #
     # [89] PathAlternative ::= PathSequence ( '|' PathSequence )*
     #
-    # @example SPARQL Grammar
+    # @example SPARQL Query
     #   PREFIX :  <http://www.example.org/>
     #   SELECT ?t
     #   WHERE {
@@ -71,6 +71,15 @@ module SPARQL; module Algebra
 
         query = Union.new(qa, qb)
         queryable.query(query, depth: options[:depth].to_i + 1, **options, &block)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "#{operands.first.to_sparql(**options)}|#{operands.last.to_sparql(**options)}"
       end
     end # Alt
   end # Operator

@@ -45,6 +45,15 @@ module SPARQL; module Algebra
         raise TypeError, "expected an RDF::Statement, but got #{operand.inspect}" unless operand.is_a?(RDF::Statement)
         operand.predicate
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "PREDICATE(" + operands.last.to_sparql(**options) + ")"
+      end
     end # Predicate
   end # Operator
 end; end # SPARQL::Algebra

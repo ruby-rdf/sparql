@@ -5,7 +5,7 @@ module SPARQL; module Algebra
     #
     # [127] Aggregate::= ... | 'AVG' '(' 'DISTINCT'? Expression ')' 
     #
-    # @example SPARQL Grammar
+    # @example SPARQL Query
     #   PREFIX : <http://www.example.org/>
     #   SELECT (AVG(?o) AS ?avg)
     #   WHERE { ?s :dec ?o }

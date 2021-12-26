@@ -54,6 +54,17 @@ module SPARQL; module Algebra
         debug(options) {"Using"}
         Dataset.new(*operands).execute(queryable, depth: options[:depth].to_i + 1, **options, &block)
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "USING #{operands.first.to_sparql(**options)}\n"
+        content = operands.last.to_sparql(top_level: false, **options)
+        str << Operator.to_sparql(content, project: nil, **options)
+      end
     end # Using
   end # Operator
 end; end # SPARQL::Algebra

@@ -73,6 +73,22 @@ module SPARQL; module Algebra
         @operands = ops
         self
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = "{\n"
+        str << operands[0].to_sparql(top_level: false, **options)
+        str << "\n} UNION {\n"
+        str << operands[1].to_sparql(top_level: false, **options)
+        str << "\n}"
+        top_level ? Operator.to_sparql(str, **options) : str
+      end
     end # Union
   end # Operator
 end; end # SPARQL::Algebra

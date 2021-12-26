@@ -43,5 +43,14 @@ module SPARQL; module Algebra
         end
       end
     end # Round
+
+    ##
+    #
+    # Returns a partial SPARQL grammar for this operator.
+    #
+    # @return [String]
+    def to_sparql(**options)
+      "ROUND(#{operands.to_sparql(**options)})"
+    end
   end # Operator
 end; end # SPARQL::Algebra

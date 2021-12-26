@@ -62,6 +62,27 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "VALUES (#{operands.first[1..-1].map { |e| e.to_sparql(**options) }.join(' ')}) {\n"
+        operands[1..-1].each do |row|
+          line = '('
+          row[1..-1].each do |col|
+            line << "#{col[1].to_sparql(**options)} "
+          end
+          line = line.chop
+          line << ")\n"
+
+          str << line
+        end
+
+        str << "}\n"
+        str
+      end
     end # Table
   end # Operator
 end; end # SPARQL::Algebra

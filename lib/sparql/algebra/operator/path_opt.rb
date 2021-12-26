@@ -117,6 +117,15 @@ module SPARQL; module Algebra
         solutions.each(&block) if block_given?
         solutions
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(#{operands.first.to_sparql(**options)})?"
+      end
     end # PathOpt
   end # Operator
 end; end # SPARQL::Algebra
