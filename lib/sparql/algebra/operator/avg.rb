@@ -47,6 +47,15 @@ module SPARQL; module Algebra
           raise TypeError, "Averaging non-numeric types: #{enum.flatten}"
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "AVG(#{operands.to_sparql(**options)})"
+      end
     end # Avg
   end # Operator
 end; end # SPARQL::Algebra

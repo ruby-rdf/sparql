@@ -63,6 +63,15 @@ module SPARQL; module Algebra
         end
         raise TypeError, "None of the operands evaluated"
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "COALESCE(#{operands.to_sparql(delimiter: ', ', **options)})"
+      end
     end # Coalesce
   end # Operator
 end; end # SPARQL::Algebra

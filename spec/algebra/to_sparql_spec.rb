@@ -36,10 +36,7 @@ describe SPARQL::Algebra::Operator do
         examples.each do |sxp|
           it(sxp) do
             pending "not implemented yet" if %w(
-              avg ceil coalesce count floor group
-              group_concat max min sample sum
-
-              sequence triple
+              
             ).include?(op)
             sse = SPARQL::Algebra.parse(sxp)
             sparql_result = sse.to_sparql

@@ -32,6 +32,15 @@ module SPARQL; module Algebra
       def apply(enum, **options)
         RDF::Literal(enum.length)
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "COUNT(#{operands.to_sparql(**options)})"
+      end
     end # Count
   end # Operator
 end; end # SPARQL::Algebra

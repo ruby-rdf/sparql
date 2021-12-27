@@ -339,13 +339,14 @@ module SPARQL; module Algebra
     # @param [Hash{Symbol => Operator}] extensions
     #   Variable bindings
     # @param [Operator] distinct (false)
-    # @param [Operator] filter_ops ([])
+    # @param [Array<Operator>] filter_ops ([])
     #   Filter Operations
-    # @param [Integer] offset (nil)
     # @param [Integer] limit (nil)
-    # @param [Operator] order_ops ([])
+    # @param [Array<Operator>] group_ops ([])
+    # @param [Integer] offset (nil)
+    # @param [Array<Operator>] order_ops ([])
     #   Order Operations
-    # @param [Array] project (%i(*))
+    # @param [Array<Symbol,Operator>] project (%i(*))
     #   Terms to project
     # @param [Operator] reduced (false)
     # @param [Hash{Symbol => Object}] options
@@ -354,6 +355,7 @@ module SPARQL; module Algebra
                        distinct: false,
                        extensions: {},
                        filter_ops: [],
+                       group_ops: [],
                        limit: nil,
                        offset: nil,
                        order_ops: [],
@@ -390,6 +392,17 @@ module SPARQL; module Algebra
 
       # Where clause
       str << "WHERE {\n#{content}\n}\n"
+
+      # Group
+      unless group_ops.empty?
+        ops = group_ops.map do |o|
+          # Replace projected variables with their extension, if any
+          o.is_a?(Array) ? 
+            "(" + [o.last, :AS, o.first].to_sparql(**options) + ")" :
+            o.to_sparql(**options)
+        end
+        str << "GROUP BY #{ops.join(' ')}\n"
+      end
 
       # Order
       unless order_ops.empty?

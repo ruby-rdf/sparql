@@ -8,21 +8,13 @@ module SPARQL; module Algebra
     # [127] Aggregate::= ... | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression ( ';' 'SEPARATOR' '=' String )? ')'
     #
     # @example SPARQL Grammar
-    #   PREFIX : <http://www.example.org/>
-    #   ASK {
-    #     {SELECT (GROUP_CONCAT(?o) AS ?g) WHERE {
-    #       [] :p1 ?o
-    #     }}
-    #     FILTER(?g = "1 22" || ?g = "22 1")
-    #   }
+    #   SELECT (GROUP_CONCAT(?x) AS ?y) {}
     #
     # @example SSE
-    #    (prefix ((: <http://www.example.org/>))
-    #      (filter (|| (= ?g "1 22") (= ?g "22 1"))
-    #        (project (?g)
-    #          (extend ((?g ??.0))
-    #            (group () ((??.0 (group_concat ?o)))
-    #              (bgp (triple ??.0 :p1 ?o)))))))
+    #   (project (?y)
+    #    (extend ((?y ??.0))
+    #     (group () ((??.0 (group_concat ?x)))
+    #      (bgp))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
     class GroupConcat < Operator
@@ -63,6 +55,15 @@ module SPARQL; module Algebra
       # @raise  [TypeError] If enum is empty
       def apply(enum, separator, **options)
         RDF::Literal(enum.flatten.map(&:to_s).join(separator.to_s))
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "GROUP_CONCAT(#{operands.to_sparql(delimiter: ', ', **options)})"
       end
     end # GroupConcat
   end # Operator

@@ -6,22 +6,23 @@ module SPARQL; module Algebra
     # [127] Aggregate::= ... | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
     #
     # @example SPARQL Grammar
-    #   PREFIX : <http://www.example.org/>
-    #   ASK {
-    #     {
-    #       SELECT (SAMPLE(?o) AS ?sample)
-    #       WHERE { ?s :dec ?o }
-    #     }
-    #     FILTER(?sample = 1.0 || ?sample = 2.2 || ?sample = 3.5)
+    #   PREFIX : <http://example/>
+    #   
+    #   SELECT ?w (SAMPLE(?v) AS ?S)
+    #   {
+    #     ?s :p ?v .
+    #     OPTIONAL { ?s :q ?w }
     #   }
+    #   GROUP BY ?w
     #
     # @example SSE
-    #   (prefix ((: <http://www.example.org/>))
-    #     (filter (|| (|| (= ?sample 1.0) (= ?sample 2.2)) (= ?sample 3.5))
-    #       (project (?sample)
-    #         (extend ((?sample ??.0))
-    #           (group () ((??.0 (sample ?o)))
-    #             (bgp (triple ?s :dec ?o)))))))
+    #   (prefix ((: <http://example/>))
+    #    (project (?w ?S)
+    #     (extend ((?S ??.0))
+    #      (group (?w) ((??.0 (sample ?v)))
+    #       (leftjoin
+    #        (bgp (triple ?s :p ?v))
+    #         (bgp (triple ?s :q ?w))))) ))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggSample
     class Sample < Operator

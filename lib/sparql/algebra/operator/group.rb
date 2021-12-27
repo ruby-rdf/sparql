@@ -130,6 +130,24 @@ module SPARQL; module Algebra
         end
         super
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Hash{Symbol => Operator}] extensions
+      #   Variable bindings
+      # @return [String]
+      def to_sparql(extensions: {}, **options)
+        if operands.length > 2
+          # Replace extensions from temporary bindings
+          operands[1].each do |var, op|
+            ext_var = extensions.invert.fetch(var)
+            extensions[ext_var] = op
+          end
+        end
+        operands.last.to_sparql(extensions: extensions, group_ops: operands.first, **options)
+      end
     end # Group
   end # Operator
 end; end # SPARQL::Algebra

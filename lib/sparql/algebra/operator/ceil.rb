@@ -40,6 +40,15 @@ module SPARQL; module Algebra
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{operand.inspect}"
         end
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "CEIL(#{operands.to_sparql(**options)})"
+      end
     end # Ceil
   end # Operator
 end; end # SPARQL::Algebra
