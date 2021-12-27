@@ -99,7 +99,7 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         str = "CONSTRUCT {\n" +
-        operands[0].map { |e| e.to_sparql(top_level: false, **options) }.join("\n") +
+        operands[0].map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join("\n") +
         "\n}\n"
 
         str << operands[1].to_sparql(top_level: true, project: nil, **options)

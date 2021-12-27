@@ -62,6 +62,7 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
+
       ##
       #
       # Returns a partial SPARQL grammar for this operator.
