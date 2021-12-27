@@ -247,27 +247,27 @@ a full set of RDF formats.
 ### Querying a repository with a SPARQL query
 
     queryable = RDF::Repository.load("etc/doap.ttl")
-    sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    queryable.query(sse) do |result|
+    query = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
+    queryable.query(query) do |result|
       result.inspect
     end
 
 ### Executing a SPARQL query against a repository
 
     queryable = RDF::Repository.load("etc/doap.ttl")
-    sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    sse.execute(queryable) do |result|
+    query = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
+    query.execute(queryable) do |result|
       result.inspect
     end
 
 ### Updating a repository
 
     queryable = RDF::Repository.load("etc/doap.ttl")
-    sse = SPARQL.parse(%(
+    update = SPARQL.parse(%(
       PREFIX doap: <http://usefulinc.com/ns/doap#>
       INSERT DATA { <https://rubygems> doap:implements <http://www.w3.org/TR/sparql11-update/>}
     ), update: true)
-    sse.execute(queryable)
+    update.execute(queryable)
 
 ### Rendering solutions as JSON, XML, CSV, TSV or HTML
     queryable = RDF::Repository.load("etc/doap.ttl")
@@ -276,8 +276,13 @@ a full set of RDF formats.
 
 ### Parsing a SPARQL query string to SSE
 
-    sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    sse.to_sxp #=> (bgp (triple ?s ?p ?o))
+    query = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
+    query.to_sxp #=> (bgp (triple ?s ?p ?o))
+
+### Parsing a SSE to SPARQL query or update string to SPARQL
+
+    query = SPARQL::Algebra.parse(%{(bgp (triple ?s ?p ?o))})
+    sparql = query.to_sparql #=> "SELECT * WHERE { ?s ?p ?o }"
 
 ### Command line processing
 
@@ -287,6 +292,10 @@ a full set of RDF formats.
     # Generate SPARQL Algebra Expression (SSE) format
     sparql parse etc/input.rq
     sparql parse -e "SELECT * WHERE { ?s ?p ?o }"
+
+    # Generate SPARQL Query from SSE
+    sparql parse --sse etc/input.sse --format sparql
+    sparql parse --sse --format sparql -e "(dataset (<http://usefulinc.com/ns/doap>) (bgp (triple ?s ?p ?o))))"
 
     # Run query using SSE input
     sparql execute --dataset etc/doap.ttl --sse etc/input.sse
