@@ -5,6 +5,8 @@ module SPARQL; module Algebra
     #
     # [9] SelectClause ::= 'SELECT' ( 'DISTINCT' | 'REDUCED' )?  ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
     #
+    # ## Basic Projection
+    #
     # @example SPARQL Grammar
     #   PREFIX : <http://example/>
     #   SELECT ?v  { 
@@ -17,6 +19,20 @@ module SPARQL; module Algebra
     #    (project (?v)
     #     (filter (= ?v 2)
     #      (bgp (triple ?s :p ?v)))))
+    #
+    # ## Sub select
+    #
+    # @example SPARQL Grammar
+    #   SELECT (1 AS ?X ) {
+    #     SELECT (2 AS ?Y ) {}
+    #   }
+    #
+    # @example SSE
+    #   (project (?X)
+    #    (extend ((?X 1))
+    #     (project (?Y)
+    #      (extend ((?Y 2))
+    #       (bgp)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#modProjection
     class Project < Operator::Binary
@@ -52,11 +68,19 @@ module SPARQL; module Algebra
       #
       # Extracts projections
       #
-      # @param [Boolean] distinct (false)
+      # If there are already extensions or filters, then this is a sub-select.
+      #
       # @return [String]
       def to_sparql(**options)
         vars = operands[0].empty? ? [:*] : operands[0]
-        operands.last.to_sparql(project: vars, **options)
+        if options[:extensions] || options[:filter_ops] || options[:project]
+          # Any of these options indicates we're in a sub-select
+          opts = options.dup.delete_if {|k,v| %I{extensions filter_ops project}.include?(k)}
+          content = operands.last.to_sparql(project: vars, **opts)
+          Operator.to_sparql(content, **options)
+        else
+          operands.last.to_sparql(project: vars, **options)
+        end
       end
     end # Project
   end # Operator
