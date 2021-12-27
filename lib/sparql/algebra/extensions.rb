@@ -577,6 +577,17 @@ class RDF::Query::Variable
   def optimize(**options)
     self
   end
+
+  ##
+  #
+  # Returns a partial SPARQL grammar for this term.
+  #
+  # The Non-distinguished form (`??xxx`) is not part of the grammar, so replace with a blank-node
+  #
+  # @return [String]
+  def to_sparql(**options)
+    self.distinguished? ? super : "_:_nd#{self.name}"
+  end
 end # RDF::Query::Variable
 
 ##
