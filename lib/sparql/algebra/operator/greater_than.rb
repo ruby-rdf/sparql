@@ -35,7 +35,6 @@ module SPARQL; module Algebra
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if either operand is not a literal
       def apply(left, right, **options)
-        #require 'byebug'; byebug if super == RDF::Literal(1)
         RDF::Literal(super == RDF::Literal(1))
       end
     end # GreaterThan

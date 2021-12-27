@@ -46,7 +46,6 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        require 'byebug'; byebug
         "SHA384(" + operands.to_sparql(**options) + ")"
       end
     end # SHA384
