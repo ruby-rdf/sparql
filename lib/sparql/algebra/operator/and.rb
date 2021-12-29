@@ -3,9 +3,22 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `and` operator.
     #
-    # @example
-    #   (&& ?x ?y)
-    #   (and ?x ?y)
+    # [112] ConditionalAndExpression::= ValueLogical ( '&&' ValueLogical )*
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   PREFIX  : <http://example.org/ns#>
+    #   SELECT  ?a
+    #   WHERE { ?a :p ?v . 
+    #     FILTER ("true"^^xsd:boolean && ?v) .
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((xsd: <http://www.w3.org/2001/XMLSchema#>) (: <http://example.org/ns#>))
+    #    (project (?a)
+    #     (filter (&& true ?v)
+    #      (bgp (triple ?a :p ?v)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-logical-and
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
@@ -59,6 +72,15 @@ module SPARQL; module Algebra
         when right.nil?              then left  ? raise(TypeError) : RDF::Literal::FALSE
         else                              RDF::Literal(left && right)
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(#{operands.first.to_sparql(**options)} && #{operands.last.to_sparql(**options)})"
       end
     end # And
   end # Operator

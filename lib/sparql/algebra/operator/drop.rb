@@ -8,8 +8,14 @@ module SPARQL; module Algebra
     #
     # Equivalent to `clear` in this implementation
     #
-    # @example
-    #   (drop default)
+    # [33]  Drop                    ::= 'DROP' 'SILENT'? GraphRefAll
+    #
+    # @example SPARQL Grammar
+    #   DROP DEFAULT
+    #
+    # @example SSE
+    #   (update
+    #    (drop default))
     #
     # @see https://www.w3.org/TR/sparql11-update/#drop
     class Drop < Operator
@@ -60,6 +66,15 @@ module SPARQL; module Algebra
         end
 
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "DROP " + operands.to_sparql(**options)
       end
     end # Drop
   end # Operator

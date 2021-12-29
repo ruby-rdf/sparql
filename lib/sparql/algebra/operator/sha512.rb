@@ -7,7 +7,15 @@ module SPARQL; module Algebra
     #
     # Returns the SHA512 checksum, as a hex digit string, calculated on the UTF-8 representation of the simple literal or lexical form of the `xsd:string`. Hex digits `SHOULD` be in lower case.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'SHA512' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT (SHA512(?l) AS ?hash) WHERE {
+    #    :s1 :str ?l
+    #   }
+    #
+    # @example SSE
     #     (prefix ((: <http://example.org/>))
     #       (project (?hash)
     #         (extend ((?hash (sha512 ?l)))
@@ -30,6 +38,15 @@ module SPARQL; module Algebra
         raise TypeError, "expected an RDF::Literal, but got #{operand.inspect}" unless operand.literal?
         raise TypeError, "expected simple literal or xsd:string, but got #{operand.inspect}" unless (operand.datatype || RDF::XSD.string) == RDF::XSD.string
         RDF::Literal(Digest::SHA512.new.hexdigest(operand.to_s))
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "SHA512(" + operands.to_sparql(**options) + ")"
       end
     end # SHA512
   end # Operator

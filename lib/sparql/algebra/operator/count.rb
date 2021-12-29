@@ -3,7 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `count` set function.
     #
-    # @example
+    # [127] Aggregate::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')' ...
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT (COUNT(?O) AS ?C)
+    #   WHERE { ?S ?P ?O }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org>))
     #      (project (?C)
     #        (extend ((?C ??.0))
@@ -24,6 +31,15 @@ module SPARQL; module Algebra
       # @return [RDF::Literal::Integer] The number of non-error terms in the multiset
       def apply(enum, **options)
         RDF::Literal(enum.length)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "COUNT(#{operands.to_sparql(**options)})"
       end
     end # Count
   end # Operator

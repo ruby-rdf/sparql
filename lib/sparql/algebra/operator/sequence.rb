@@ -6,16 +6,6 @@ module SPARQL; module Algebra
     #
     # Sequences through each operand
     #
-    # @example
-    #   (sequence
-    #     (bgp
-    #       (triple ?s ?p ??0)
-    #       (triple ??0 rdf:first ??1)
-    #       (triple ??0 rdf:rest ??2)
-    #       (triple ??2 rdf:first ??3)
-    #       (triple ??2 rdf:rest rdf:nil))
-    #     (path ??1 (seq (path* :p) :q) 123)
-    #     (path ??3 (reverse :r) "hello"))
     class Sequence < Operator
       include SPARQL::Algebra::Update
 

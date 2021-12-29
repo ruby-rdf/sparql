@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `join` operator.
     #
-    # @example
+    # [54]	GroupGraphPatternSub	::=	TriplesBlock? (GraphPatternNotTriples "."? TriplesBlock? )*
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   SELECT * { 
+    #      ?s ?p ?o
+    #      GRAPH ?g { ?s ?q ?v }
+    #   }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
     #     (join
     #       (bgp (triple ?s ?p ?o))
@@ -81,6 +90,18 @@ module SPARQL; module Algebra
         ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = operands.to_sparql(top_level: false, delimiter: "\n", **options)
+        top_level ? Operator.to_sparql(str, **options) : str
       end
     end # Join
   end # Operator

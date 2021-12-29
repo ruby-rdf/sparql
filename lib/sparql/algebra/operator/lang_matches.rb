@@ -3,7 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `langMatches` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'LANGMATCHES' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/#>
+    #   
+    #   SELECT *
+    #   { :x ?p ?v . FILTER langMatches(lang(?v), "en-GB") . }
+    #
+    # @example SSE
     #   (prefix ((: <http://example.org/#>))
     #     (filter (langMatches (lang ?v) "en-GB")
     #       (bgp (triple :x ?p ?v))))
@@ -47,6 +55,19 @@ module SPARQL; module Algebra
           else
             RDF::Literal(language_tag.start_with?(language_range + '-'))
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "langMatches(" +
+          operands.first.to_sparql(**options) +
+          ", " +
+          operands.last.to_sparql(**options) +
+          ")"
       end
     end # LangMatches
   end # Operator

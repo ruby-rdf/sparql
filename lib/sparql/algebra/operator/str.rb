@@ -3,7 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `str` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'STR' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   PREFIX  : <http://example.org/things#>
+    #   SELECT  ?x ?v
+    #   WHERE
+    #       { ?x :p ?v . 
+    #         FILTER ( str(?v) = "1" ) .
+    #       }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)
@@ -29,6 +40,15 @@ module SPARQL; module Algebra
           when RDF::URI     then RDF::Literal(term.to_s)
           else raise TypeError, "expected an RDF::Literal or RDF::URI, but got #{term.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "str(" + operands.first.to_sparql(**options) + ")"
       end
     end # Str
   end # Operator

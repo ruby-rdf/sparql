@@ -6,11 +6,23 @@ module SPARQL; module Algebra
     #
     # Wraps delete/insert
     #
-    # @example
-    #   (modify
-    #     (bgp (triple ?a foaf:knows ?b))
-    #     (delete ((triple ?a foaf:knows ?b)))
-    #     (insert ((triple ?b foaf:knows ?a)))
+    # [41]  Modify ::= ( 'WITH' iri )? ( DeleteClause InsertClause? | InsertClause ) UsingClause* 'WHERE' GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     : <http://example.org/> 
+    #   PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+    #   DELETE  { ?a foaf:knows ?b }
+    #   INSERT { ?b foaf:knows ?a }
+    #   WHERE { ?a foaf:knows ?b }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>)
+    #            (foaf: <http://xmlns.com/foaf/0.1/>))
+    #    (update
+    #     (modify
+    #      (bgp (triple ?a foaf:knows ?b))
+    #      (delete ((triple ?a foaf:knows ?b)))
+    #      (insert ((triple ?b foaf:knows ?a)))) ))
     #
     # @see XXX
     class Modify < Operator
@@ -47,6 +59,30 @@ module SPARQL; module Algebra
           end
         end
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        if operands.first.is_a?(With)
+          operands.first.to_sparql(**options)
+        else
+          # The content of the WHERE clause, may be USING
+          content = operands.first.to_sparql(top_level: false, **options)
+
+          # DELETE | INSERT | DELETE INSERT
+          str = operands[1..-1].to_sparql(top_level: false, delimiter: "\n", **options) + "\n"
+
+          # Append the WHERE or USING clause
+          str << if operands.first.is_a?(Using)
+            content
+          else
+            Operator.to_sparql(content, project: nil, **options)
+          end
+        end
       end
     end # Modify
   end # Operator

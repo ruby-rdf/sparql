@@ -3,17 +3,30 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `coalesce` function.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>)
-    #              (xsd: <http://www.w3.org/2001/XMLSchema#>))
-    #       (project (?cx ?div ?def ?err)
-    #         (extend ((?cx (coalesce ?x -1))
-    #                  (?div (coalesce (/ ?o ?x) -2))
-    #                  (?def (coalesce ?z -3))
-    #                  (?err (coalesce ?z)))
-    #           (leftjoin
-    #             (bgp (triple ?s :p ?o))
-    #             (bgp (triple ?s :q ?x))))))
+    # [121] BuiltInCall ::= ... | 'COALESCE' ExpressionList 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX :        <http://example/>
+    #   PREFIX xsd:     <http://www.w3.org/2001/XMLSchema#>
+    #   
+    #   SELECT ?X (SAMPLE(?v) AS ?S)
+    #   {
+    #     ?s :p ?v .
+    #     OPTIONAL { ?s :q ?w }
+    #   }
+    #   GROUP BY (COALESCE(?w, "1605-11-05"^^xsd:date) AS ?X) 
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example/>) (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (project (?X ?S)
+    #     (extend ((?S ??.0))
+    #      (group
+    #       ((?X (coalesce ?w "1605-11-05"^^xsd:date)))
+    #       ((??.0 (sample ?v)))
+    #       (leftjoin
+    #        (bgp (triple ?s :p ?v))
+    #        (bgp (triple ?s :q ?w)))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-coalesce
     class Coalesce < Operator
@@ -49,6 +62,15 @@ module SPARQL; module Algebra
           end
         end
         raise TypeError, "None of the operands evaluated"
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "COALESCE(#{operands.to_sparql(delimiter: ', ', **options)})"
       end
     end # Coalesce
   end # Operator

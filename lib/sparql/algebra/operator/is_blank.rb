@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `isBlank` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'isBlank' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     :    <http://example.org/things#>
+    #   SELECT ?x ?v WHERE {
+    #     ?x :p ?v .
+    #     FILTER isBlank(?v) .
+    #   }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)
@@ -29,6 +38,15 @@ module SPARQL; module Algebra
           when RDF::Term then RDF::Literal::FALSE
           else raise TypeError, "expected an RDF::Term, but got #{term.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "isBlank(" + operands.first.to_sparql(**options) + ")"
       end
     end # IsBlank
   end # Operator

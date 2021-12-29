@@ -3,8 +3,22 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `floor` operator.
     #
-    # @example
-    #   (floor ?x)
+    # [121] BuiltInCall ::= ... 'FLOOR' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s ?num (FLOOR(?num) AS ?floor) WHERE {
+    #    ?s :num ?num
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>)
+    #     (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (project (?s ?num ?floor)
+    #     (extend ((?floor (floor ?num)))
+    #      (bgp (triple ?s :num ?num)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-floor
     # @see https://www.w3.org/TR/xpath-functions/#func-floor
@@ -29,6 +43,15 @@ module SPARQL; module Algebra
           when RDF::Literal::Numeric then operand.floor
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{operand.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "FLOOR(#{operands.to_sparql(**options)})"
       end
     end # Floor
   end # Operator

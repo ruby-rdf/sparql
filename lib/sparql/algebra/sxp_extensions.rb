@@ -5,7 +5,7 @@ class NilClass
   # Returns the SXP representation of this object.
   #
   # @return [String]
-  def to_sxp
+  def to_sxp(**options)
     RDF.nil.to_s
   end
 end
@@ -17,7 +17,7 @@ class FalseClass
   # Returns the SXP representation of this object.
   #
   # @return [String]
-  def to_sxp
+  def to_sxp(**options)
     'false'
   end
 end
@@ -29,7 +29,7 @@ class TrueClass
   # Returns the SXP representation of this object.
   #
   # @return [String]
-  def to_sxp
+  def to_sxp(**options)
     'true'
   end
 end

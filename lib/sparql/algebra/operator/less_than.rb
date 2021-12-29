@@ -3,8 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL relational `<` (less than) comparison operator.
     #
-    # @example
-    #   (< ?x ?y)
+    # [114] RelationalExpression    ::= NumericExpression ('<' NumericExpression)?
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   PREFIX  : <http://example.org/things#>
+    #   SELECT  ?x
+    #   WHERE { ?x :p ?v . FILTER ( ?v < 1 ) }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((xsd: <http://www.w3.org/2001/XMLSchema#>) (: <http://example.org/things#>))
+    #    (project (?x) (filter (< ?v 1) (bgp (triple ?x :p ?v)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#OperatorMapping
     # @see https://www.w3.org/TR/xpath-functions/#func-compare
@@ -25,7 +35,6 @@ module SPARQL; module Algebra
       # @return [RDF::Literal::Boolean] `true` or `false`
       # @raise  [TypeError] if either operand is not a literal
       def apply(left, right, **options)
-        #require 'byebug'; byebug if super == RDF::Literal(-1)
         RDF::Literal(super == RDF::Literal(-1))
       end
     end # LessThan

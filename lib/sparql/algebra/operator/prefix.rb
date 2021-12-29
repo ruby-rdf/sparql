@@ -3,10 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `prefix` operator.
     #
-    # @example
+    # [6]   PrefixDecl              ::= 'PREFIX' PNAME_NS IRIREF
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/>
+    #   SELECT * { :s :p :o }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
-    #     (graph ?g
-    #       (bgp (triple ?s ?p ?o))))
+    #    (bgp (triple :s :p :o)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#QSynIRI
     class Prefix < Binary
@@ -64,6 +69,22 @@ module SPARQL; module Algebra
       # @return [Boolean]
       def query_yields_statements?
         operands.last.query_yields_statements?
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        prefixes = {}
+        str = operands.first.map do |(pfx, sfx)|
+          pfx = pfx.to_s.chomp(':').to_sym
+          prefixes[pfx] = sfx
+          "PREFIX #{pfx}: #{sfx.to_sparql}\n"
+        end.join("")
+
+        str << operands.last.to_sparql(prefixes: prefixes, **options)
       end
     end # Prefix
   end # Operator

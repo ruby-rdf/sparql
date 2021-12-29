@@ -23,8 +23,7 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
 * Implementation Report: {file:etc/earl.html EARL}
-* Compatible with Ruby >= 2.2.2.
-* Compatible with older Ruby versions with the help of the [Backports][] gem.
+* Compatible with Ruby >= 2.6.
 * Supports Unicode query strings both on all versions of Ruby.
 * Provisional support for [SPARQL-star][].
 
@@ -248,27 +247,27 @@ a full set of RDF formats.
 ### Querying a repository with a SPARQL query
 
     queryable = RDF::Repository.load("etc/doap.ttl")
-    sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    queryable.query(sse) do |result|
+    query = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
+    queryable.query(query) do |result|
       result.inspect
     end
 
 ### Executing a SPARQL query against a repository
 
     queryable = RDF::Repository.load("etc/doap.ttl")
-    sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    sse.execute(queryable) do |result|
+    query = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
+    query.execute(queryable) do |result|
       result.inspect
     end
 
 ### Updating a repository
 
     queryable = RDF::Repository.load("etc/doap.ttl")
-    sse = SPARQL.parse(%(
+    update = SPARQL.parse(%(
       PREFIX doap: <http://usefulinc.com/ns/doap#>
       INSERT DATA { <https://rubygems> doap:implements <http://www.w3.org/TR/sparql11-update/>}
     ), update: true)
-    sse.execute(queryable)
+    update.execute(queryable)
 
 ### Rendering solutions as JSON, XML, CSV, TSV or HTML
     queryable = RDF::Repository.load("etc/doap.ttl")
@@ -277,8 +276,13 @@ a full set of RDF formats.
 
 ### Parsing a SPARQL query string to SSE
 
-    sse = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
-    sse.to_sxp #=> (bgp (triple ?s ?p ?o))
+    query = SPARQL.parse("SELECT * WHERE { ?s ?p ?o }")
+    query.to_sxp #=> (bgp (triple ?s ?p ?o))
+
+### Parsing a SSE to SPARQL query or update string to SPARQL
+
+    query = SPARQL::Algebra.parse(%{(bgp (triple ?s ?p ?o))})
+    sparql = query.to_sparql #=> "SELECT * WHERE { ?s ?p ?o }"
 
 ### Command line processing
 
@@ -288,6 +292,10 @@ a full set of RDF formats.
     # Generate SPARQL Algebra Expression (SSE) format
     sparql parse etc/input.rq
     sparql parse -e "SELECT * WHERE { ?s ?p ?o }"
+
+    # Generate SPARQL Query from SSE
+    sparql parse --sse etc/input.sse --format sparql
+    sparql parse --sse --format sparql -e "(dataset (<http://usefulinc.com/ns/doap>) (bgp (triple ?s ?p ?o))))"
 
     # Run query using SSE input
     sparql execute --dataset etc/doap.ttl --sse etc/input.sse
@@ -368,19 +376,19 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Dependencies
 
-* [Ruby](https://ruby-lang.org/) (>= 2.2.2)
-* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.0)
-* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.0)
-* [SXP](https://rubygems.org/gems/sxp) (~> 1.0)
-* [Builder](https://rubygems.org/gems/builder) (>= 3.0.0)
-* [JSON](https://rubygems.org/gems/json) (>= 1.8.2)
-* Soft dependency on [Linked Data][] (>= 3.0)
-* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (>= 1.7)
+* [Ruby](https://ruby-lang.org/) (>= 2.6)
+* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.2)
+* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.1)
+* [SXP](https://rubygems.org/gems/sxp) (~> 1.2)
+* [Builder](https://rubygems.org/gems/builder) (~> 3.2)
+* [JSON](https://rubygems.org/gems/json) (~> 2.6)
+* Soft dependency on [Linked Data][] (>= 3.1)
+* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (~> 1.12)
   Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient
-* Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.3.0)
+* Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.6)
   Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included
-* Soft dependency on [Rack][] (>= 2.0)
-* Soft dependency on [Sinatra][] (>= 2.0)
+* Soft dependency on [Rack][] (~> 2.2)
+* Soft dependency on [Sinatra][] (~> 2.1)
 
 ## Installation
 
@@ -450,7 +458,6 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
 [RDF-star]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
 [SPARQL-star]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
-[Backports]:        https://rubygems.org/gems/backports
 [Linked Data]:      https://rubygems.org/gems/linkeddata
 [SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames
 [SPARQL XML]:       https://www.w3.org/TR/rdf-sparql-XMLres/

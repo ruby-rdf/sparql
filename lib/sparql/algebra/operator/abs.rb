@@ -3,8 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `abs` operator.
     #
-    # @example
-    #   (abs ?x)
+    # [121] BuiltInCall ::= ... | 'ABS' '(' Expression ')'
+    #
+    # @example SPARQL Query
+    #   PREFIX : <http://example.org/>
+    #   SELECT * WHERE {
+    #     ?s :num ?num
+    #     FILTER(ABS(?num) >= 2)
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>))
+    #    (filter (>= (abs ?num) 2)
+    #     (bgp (triple ?s :num ?num))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-abs
     # @see https://www.w3.org/TR/xpath-functions/#func-abs
@@ -25,6 +36,15 @@ module SPARQL; module Algebra
           when RDF::Literal::Numeric then operand.abs
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{operand.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "ABS(#{operands.first.to_sparql(**options)})"
       end
     end # Abs
   end # Operator

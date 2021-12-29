@@ -6,8 +6,19 @@ module SPARQL; module Algebra
     #
     # The INSERT operation is a form of the DELETE/INSERT operation having no DELETE section
     #
-    # @example
-    #   (insert ((triple ?s ?p "q")))
+    # [43]  InsertClause            ::= 'INSERT' QuadPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/> 
+    #   INSERT { ?s ?p "q" }
+    #   WHERE { ?s ?p ?o }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (update
+    #     (modify (bgp (triple ?s ?p ?o))
+    #      (insert ((triple ?s ?p "q"))))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#insert
     class Insert < Operator::Unary
@@ -50,6 +61,15 @@ module SPARQL; module Algebra
           queryable.insert(RDF::Statement.from(pattern)) if pattern.bound? || pattern.constant?
         end
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "INSERT {\n" + operands.first.to_sparql(as_statement: true, **options) + "\n}"
       end
     end # Insert
   end # Operator

@@ -158,6 +158,23 @@ module SPARQL; module Algebra
         aggregate.default(*default_datasets.select {|name| queryable.has_graph?(name)})
         aggregate.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        operands[0].each_with_object('') do |graph, str|
+          str << if graph.is_a?(Array)
+            "FROM #{graph[0].upcase} #{graph[1].to_sparql(**options)}\n"
+          else
+            "FROM #{graph.to_sparql(**options)}\n"
+          end
+        end.tap do |str|
+          str << operands[1].to_sparql(**options)
+        end
+      end
     end # Dataset
   end # Operator
 end; end # SPARQL::Algebra

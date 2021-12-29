@@ -3,8 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path+` (OneOrMorePath) operator.
     #
-    # @example
-    #   (path+ :p)
+    # [91]  PathElt                 ::= PathPrimary PathMod?
+    # [93]  PathMod                 ::= '*' | '?' | '+'
+    
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   SELECT * WHERE {
+    #     :a :p+ ?z
+    #   } 
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (path :a (path+ :p) ?z))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_OneOrMorePath
     class PathPlus < Operator::Unary
@@ -93,6 +103,15 @@ module SPARQL; module Algebra
         solutions = (immediate_solutions + recursive_solutions).uniq
         solutions.each(&block) if block_given? # Only at top-level
         solutions
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(#{operands.first.to_sparql(**options)})+"
       end
     end # PathPlus
   end # Operator

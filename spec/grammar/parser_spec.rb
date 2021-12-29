@@ -247,7 +247,8 @@ shared_examples "RegexExpression" do |**options|
   context "RegexExpression" do
     {
       %q(REGEX ("foo"))        => EBNF::LL1::Parser::Error,
-      %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar" "")),
+      %q(REGEX ("foo", "bar")) => %q((regex "foo" "bar")),
+      %q(REGEX ("foo", "bar", "i")) => %q((regex "foo" "bar" "i")),
     }.each do |input, output|
       it input do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true).merge(options))
@@ -1179,12 +1180,12 @@ describe SPARQL::Grammar::Parser do
         "<foo>('bar')", %q((GroupCondition (<foo> "bar")))
       ],
       "Expression" => [
-        %q((COALESCE(?w, "1605-11-05"^^xsd:date))),
-        %q((GroupCondition (coalesce ?w "1605-11-05"^^xsd:date)))
+        %q((COALESCE(?w, "1605-11-05"^^<date>))),
+        %q((GroupCondition (coalesce ?w "1605-11-05"^^<date>)))
       ],
       "Expression+VAR" => [
-        %q((COALESCE(?w, "1605-11-05"^^xsd:date) AS ?X)),
-        %q((GroupCondition (?X (coalesce ?w "1605-11-05"^^xsd:date))))
+        %q((COALESCE(?w, "1605-11-05"^^<date>) AS ?X)),
+        %q((GroupCondition (?X (coalesce ?w "1605-11-05"^^<date>))))
       ],
       "Var" => [
         "?s", %q((GroupCondition ?s))
@@ -1429,16 +1430,16 @@ describe SPARQL::Grammar::Parser do
         %q((insertData ()))
       ],
       "insert triple" => [
-        %q(INSERT DATA {:a foaf:knows :b .}),
-        %q((insertData ((triple :a foaf:knows :b))))
+        %q(INSERT DATA {<a> <knows> <b> .}),
+        %q((insertData ((triple <a> <knows> <b>))))
       ],
       "insert graph" => [
-        %q(INSERT DATA {GRAPH <http://example.org/g1> {:a foaf:knows :b .}}),
-        %q((insertData ((graph <http://example.org/g1> ((triple :a foaf:knows :b))))))
+        %q(INSERT DATA {GRAPH <http://example.org/g1> {<a> <knows> <b> .}}),
+        %q((insertData ((graph <http://example.org/g1> ((triple <a> <knows> <b>))))))
       ],
       #"insert triple newline" => [
-      #  %(INSERT\nDATA {:a foaf:knows :b .}),
-      #  %q((insertData ((triple :a foaf:knows :b))))
+      #  %(INSERT\nDATA {<a> <knows> <b> .}),
+      #  %q((insertData ((triple <a> <knows> <b>))))
       #],
     }.each do |title, (input, output)|
       it title do |example|
@@ -1454,22 +1455,22 @@ describe SPARQL::Grammar::Parser do
         %q((deleteData ()))
       ],
       "delete triple" => [
-        %q(DELETE DATA {:a foaf:knows :b .}),
-        %q((deleteData ((triple :a foaf:knows :b))))
+        %q(DELETE DATA {<a> <knows> <b> .}),
+        %q((deleteData ((triple <a> <knows> <b>))))
       ],
       "delete graph" => [
-        %q(DELETE DATA {GRAPH <http://example.org/g1> {:a foaf:knows :b .}}),
-        %q((deleteData ((graph <http://example.org/g1> ((triple :a foaf:knows :b))))))
+        %q(DELETE DATA {GRAPH <http://example.org/g1> {<a> <knows> <b> .}}),
+        %q((deleteData ((graph <http://example.org/g1> ((triple <a> <knows> <b>))))))
       ],
       "delete triple and graph" => [
         %q(DELETE DATA {
-          :A foaf:knows :B .
-          GRAPH <http://example.org/g1> {:a foaf:knows :b .}
-          :c foaf:knows :d .
+          <a> <knows> <b> .
+          GRAPH <http://example.org/g1> {<a> <knows> <b> .}
+          <c> <knows> <d> .
         }),
-        %q((deleteData ((triple :A foaf:knows :B)
-                        (graph <http://example.org/g1> ((triple :a foaf:knows :b)))
-                        (triple :c foaf:knows :d))))
+        %q((deleteData ((triple <a> <knows> <b>)
+                        (graph <http://example.org/g1> ((triple <a> <knows> <b>)))
+                        (triple <c> <knows> <d>))))
       ],
     }.each do |title, (input, output)|
       it title do |example|
@@ -1651,12 +1652,12 @@ describe SPARQL::Grammar::Parser do
         "OPTIONAL {<d><e><f>}", %q((leftjoin (bgp (triple <d> <e> <f>)))).to_sym,
       ],
       "optional filter (1)" => [
-        "OPTIONAL {?book :price ?price . FILTER (?price < 15)}",
-        %q((leftjoin (bgp (triple ?book :price ?price)) (< ?price 15))).to_sym,
+        "OPTIONAL {?book <price> ?price . FILTER (?price < 15)}",
+        %q((leftjoin (bgp (triple ?book <price> ?price)) (< ?price 15))).to_sym,
       ],
       "optional filter (2)" => [
-        %q(OPTIONAL {?y :q ?w . FILTER(?v=2) FILTER(?w=3)}),
-        %q((leftjoin (bgp (triple ?y :q ?w)) (exprlist (= ?v 2) (= ?w 3)))).to_sym,
+        %q(OPTIONAL {?y <q> ?w . FILTER(?v=2) FILTER(?w=3)}),
+        %q((leftjoin (bgp (triple ?y <q> ?w)) (exprlist (= ?v 2) (= ?w 3)))).to_sym,
       ],
     }.each do |title, (input, output)|
       it title do |example|
@@ -1869,19 +1870,19 @@ describe SPARQL::Grammar::Parser do
   # Property paths
   describe "Property Paths [88] Path production rule", production: :Path do
     {
-      %(:p?) => %((path? :p)),
-      %(:p*) => %((path* :p)),
-      %(:p+) => %((path+ :p)),
-      %((:p+)) => %((path+ :p)),
-      %(^:p) => %((reverse :p)),
-      %(!^:p) => %((notoneof (reverse :p))),
-      %(:p1/:p2) => %((seq :p1 :p2)),
-      %(:p1|:p2) => %((alt :p1 :p2)),
-      %(:p1/:p2/:p3) => %((seq (seq :p1 :p2) :p3)),
-      %(:p1|:p2|:p3) => %((alt (alt :p1 :p2) :p3)),
-      %((!:p)+/foaf:name) => %((seq (path+ (notoneof :p)) foaf:name)),
-      %(:p1|(:p2+/:p3+)) => %((alt :p1 (seq (path+ :p2) (path+ :p3)))),
-      %((((:p)*)*)*) => %((path* (path* (path* :p))))
+      %(<p>?) => %((path? <p>)),
+      %(<p>*) => %((path* <p>)),
+      %(<p>+) => %((path+ <p>)),
+      %((<p>+)) => %((path+ <p>)),
+      %(^<p>) => %((reverse <p>)),
+      %(!^<p>) => %((notoneof (reverse <p>))),
+      %(<p1>/<p2>) => %((seq <p1> <p2>)),
+      %(<p1>|<p2>) => %((alt <p1> <p2>)),
+      %(<p1>/<p2>/<p3>) => %((seq (seq <p1> <p2>) <p3>)),
+      %(<p1>|<p2>|<p3>) => %((alt (alt <p1> <p2>) <p3>)),
+      %((!<p>)+/<name>) => %((seq (path+ (notoneof <p>)) <name>)),
+      %(<p1>|(<p2>+/<p3>+)) => %((alt <p1> (seq (path+ <p2>) (path+ <p3>)))),
+      %((((<p>)*)*)*) => %((path* (path* (path* <p>))))
     }.each do |input, output|
       it input do |example|
         expect(input).to generate(output, example.metadata.merge(resolve_iris: false, last: true))

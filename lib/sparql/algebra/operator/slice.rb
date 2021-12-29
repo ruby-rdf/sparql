@@ -3,12 +3,23 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `slice` operator.
     #
-    # @example
+    # [25]  LimitOffsetClauses      ::= LimitClause OffsetClause? | OffsetClause LimitClause?
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/ns#>
+    #   
+    #   SELECT ?v
+    #   WHERE { :a ?p ?v }
+    #   ORDER BY ?v
+    #   OFFSET 100
+    #   LIMIT 1
+    #
+    # @example SSE
     #   (prefix ((: <http://example.org/ns#>))
-    #     (slice 1 1
-    #       (project (?v)
-    #         (order (?v)
-    #           (bgp (triple ??0 :num ?v))))))
+    #    (slice 100 1
+    #     (project (?v)
+    #      (order (?v)
+    #       (bgp (triple :a ?p ?v))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Slice < Operator::Ternary
@@ -51,6 +62,17 @@ module SPARQL; module Algebra
         @solutions.limit(operands[1]) unless operands[1] == :_
         @solutions.each(&block) if block_given?
         @solutions
+      end
+
+      ##
+      #
+      # Extracts OFFSET and LIMIT.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        offset = operands[0].to_i unless operands[0] == :_
+        limit = operands[1].to_i unless operands[1] == :_
+        operands.last.to_sparql(offset: offset, limit: limit, **options)
       end
     end # Slice
   end # Operator

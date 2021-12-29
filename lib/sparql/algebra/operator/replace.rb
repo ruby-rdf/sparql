@@ -3,12 +3,22 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `replace` operator.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>)
-    #              (xsd: <http://www.w3.org/2001/XMLSchema#>))
-    #       (project (?s ?new)
-    #         (extend ((?new (replace ?str "[^a-z0-9]" "-")))
-    #           (bgp (triple ?s :str ?str)))))
+    # [124] StrReplaceExpression ::= 'REPLACE' '(' Expression ',' Expression ',' Expression ( ',' Expression )? ')'
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s (REPLACE(?str,"[^a-z0-9]", "-") AS ?new)
+    #   WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #     (project (?s ?new)
+    #       (extend ((?new (replace ?str "[^a-z0-9]" "-")))
+    #         (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#funcex-replace
     # @see https://www.w3.org/TR/xpath-functions/#func-replace
@@ -75,6 +85,16 @@ module SPARQL; module Algebra
       # @see    https://openjena.org/wiki/SSE
       def to_sxp_bin
         [NAME] + operands.reject {|o| o.to_s == ""}
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        ops = operands.last.to_s.empty? ? operands[0..-2] : operands
+        "REPLACE(" + ops.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # Replace
   end # Operator

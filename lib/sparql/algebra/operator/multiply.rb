@@ -3,9 +3,23 @@ module SPARQL; module Algebra
     ##
     # The SPARQL numeric `multiply` operator.
     #
-    # @example
-    #   (* ?x ?y)
-    #   (multiply ?x ?y)
+    # [117] MultiplicativeExpression::= UnaryExpression ( '*' UnaryExpression | '/' UnaryExpression )*
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o .
+    #     ?s2 :p ?o2 .
+    #     FILTER(?o * ?o2 = 4) .
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?s)
+    #     (filter (= (* ?o ?o2) 4)
+    #      (bgp
+    #       (triple ?s :p ?o)
+    #       (triple ?s2 :p ?o2)))))
     #
     # @see https://www.w3.org/TR/xpath-functions/#func-numeric-multiply
     class Multiply < Operator::Binary
@@ -28,6 +42,15 @@ module SPARQL; module Algebra
             left * right
           else raise TypeError, "expected two RDF::Literal::Numeric operands, but got #{left.inspect} and #{right.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "#{operands.first.to_sparql(**options)} * #{operands.last.to_sparql(**options)}"
       end
     end # Multiply
   end # Operator

@@ -3,11 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `filter` operator.
     #
-    # @example
-    #   (select (?v)
-    #     (project (?v)
-    #       (filter (= ?v 2)
-    #         (bgp (triple ?s <http://example/p> ?v)))))
+    # [68]  Filter ::= 'FILTER' Constraint
+    #
+    # @example SPARQL Grammar
+    #   SELECT ?v
+    #   { 
+    #     ?s <http://example/p> ?v
+    #     FILTER(?v = 2)
+    #   }
+    #
+    # @example SSE
+    #    (project (?v)
+    #      (filter (= ?v 2)
+    #        (bgp (triple ?s <http://example/p> ?v))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Filter < Operator::Binary
@@ -68,6 +76,20 @@ module SPARQL; module Algebra
           operands.last.validate!
         end
         self
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # Provides filters to descendant query.
+      #
+      # If filter operation is an Exprlist, then separate into multiple filter ops.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        filter_ops = operands.first.is_a?(Operator::Exprlist) ? operands.first.operands : [operands.first]
+        operands.last.to_sparql(filter_ops: filter_ops, **options)
       end
     end # Filter
   end # Operator

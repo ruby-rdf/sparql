@@ -3,9 +3,23 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `or` operator.
     #
-    # @example
-    #   (|| ?x ?y)
-    #   (or ?x ?y)
+    # [111] ConditionalOrExpression ::= ConditionalAndExpression ( '||' ConditionalAndExpression )*
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   PREFIX  : <http://example.org/ns#>
+    #   SELECT  ?a
+    #   WHERE {
+    #     ?a :p ?v . 
+    #     FILTER ("false"^^xsd:boolean || ?v) .
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
+    #            (: <http://example.org/ns#>))
+    #    (project (?a)
+    #     (filter (|| false ?v)
+    #      (bgp (triple ?a :p ?v)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-logical-or
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
@@ -62,6 +76,15 @@ module SPARQL; module Algebra
         when right.nil?              then left ? RDF::Literal::TRUE : raise(TypeError)
         else                              RDF::Literal(left || right)
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(#{operands.first.to_sparql(**options)} || #{operands.last.to_sparql(**options)})"
       end
     end # Or
   end # Operator

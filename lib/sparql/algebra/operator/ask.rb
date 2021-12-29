@@ -5,7 +5,13 @@ module SPARQL; module Algebra
     #
     # Applications can use the ASK form to test whether or not a query pattern has a solution. No information is returned about the possible query solutions, just whether or not a solution exists.
     #
-    # @example
+    # [12]  AskQuery                ::= 'ASK' DatasetClause* WhereClause ValuesClause
+    #
+    # @example SPARQL Query
+    #   PREFIX :    <http://example/>
+    #   ASK  { :x :p  ?x }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
     #     (ask
     #       (bgp (triple :x :p ?x))))
@@ -40,6 +46,16 @@ module SPARQL; module Algebra
       # @return [Boolean]
       def query_yields_boolean?
         true
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "ASK\n" +
+        operands.first.to_sparql(top_level: true, project: nil, **options)
       end
     end # Ask
   end # Operator

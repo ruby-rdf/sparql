@@ -3,7 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `if` function.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'IF' '(' Expression ',' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   BASE <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?o (IF(lang(?o) = "ja", true, false) AS ?integer)
+    #   WHERE { ?s ?p ?o }
+    #
+    # @example SSE
     #     (base <http://example.org/>
     #       (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>))
     #         (project (?o ?integer)
@@ -37,9 +45,18 @@ module SPARQL; module Algebra
         operand(0).evaluate(bindings, depth: options[:depth].to_i + 1, **options) == RDF::Literal::TRUE ?
           operand(1).evaluate(bindings, depth: options[:depth].to_i + 1, **options) :
           operand(2).evaluate(bindings, depth: options[:depth].to_i + 1, **options)
-        rescue
-          raise TypeError
+      rescue
+        raise TypeError
       end
     end # If
-  end # Operator
+
+    ##
+    #
+    # Returns a partial SPARQL grammar for this operator.
+    #
+    # @return [String]
+    def to_sparql(**options)
+      "IF(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+    end
+  end # If
 end; end # SPARQL::Algebra

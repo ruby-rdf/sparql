@@ -3,7 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `leftjoin` operator.
     #
-    # @example
+    # [57]  OptionalGraphPattern    ::= 'OPTIONAL' GroupGraphPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX :    <http://example/>
+    #   SELECT * { 
+    #     ?x :p ?v .
+    #     OPTIONAL { 
+    #       ?y :q ?w .
+    #       FILTER(?v=2)
+    #     }
+    #   }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
     #     (leftjoin
     #       (bgp (triple ?x :p ?v))
@@ -111,6 +123,22 @@ module SPARQL; module Algebra
         else
           expr ? LeftJoin.new(ops[0], ops[1], expr) : LeftJoin.new(ops[0], ops[1])
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = operands[0].to_sparql(top_level: false, **options) +
+          "\nOPTIONAL { \n" +
+          operands[1].to_sparql(top_level: false, **options) + "\n"
+        str << 'FILTER (' + operands[2].to_sparql(**options) + ") \n" if operands[2]
+        str << '}'
+        top_level ? Operator.to_sparql(str, **options) : str
       end
     end # LeftJoin
   end # Operator

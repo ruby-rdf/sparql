@@ -3,8 +3,23 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path` operator.
     #
-    # @example
-    #   (path :a (path+ :p) ?z)
+    # [88]  Path ::= PathAlternative
+    #
+    # @example SPARQL Grammar
+    #   PREFIX :  <http://www.example.org/>
+    #   SELECT ?t
+    #   WHERE {
+    #     :a :p1|:p2/:p3|:p4 ?t
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://www.example.org/>))
+    #    (project (?t)
+    #     (path :a
+    #      (alt
+    #       (alt :p1 (seq :p2 :p3))
+    #       :p4)
+    #      ?t)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlTranslatePathExpressions
     class Path < Operator::Ternary
@@ -44,6 +59,18 @@ module SPARQL; module Algebra
         @solutions.uniq!
         @solutions.each(&block) if block_given?
         @solutions
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = operands.to_sparql(top_level: false, **options) + " ."
+        top_level ? Operator.to_sparql(str, **options) : str
       end
     end # Path
   end # Operator

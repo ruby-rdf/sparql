@@ -3,8 +3,20 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `strlen` operator.
     #
-    # @example
-    #   (strlen ?x)
+    # [121] BuiltInCall ::= ... 'STRLEN' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?str (STRLEN(?str) AS ?len) WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?str ?len)
+    #     (extend ((?len (strlen ?str)))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-strlen
     # @see https://www.w3.org/TR/xpath-functions/#func-string-length
@@ -28,6 +40,15 @@ module SPARQL; module Algebra
       def apply(operand, **options)
         raise TypeError, "expected a plain RDF::Literal, but got #{operand.inspect}" unless operand.literal? && operand.plain?
         RDF::Literal(operand.to_s.length)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRLEN(" + operands.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # StrLen
   end # Operator

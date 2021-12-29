@@ -5,7 +5,18 @@ module SPARQL; module Algebra
     #
     # Used for filters with more than one expression.
     #
-    # @example
+    # [72]  ExpressionList ::= NIL | '(' Expression ( ',' Expression )* ')'
+    #
+    # @example SPARQL Grammar
+    #   SELECT ?v ?w
+    #   { 
+    #     FILTER (?v = 2)
+    #     FILTER (?w = 3)
+    #     ?s :p ?v . 
+    #     ?s :q ?w .
+    #   }
+    #
+    # @example SSE
     #   (prefix ((: <http://example/>))
     #     (project (?v ?w)
     #       (filter (exprlist (= ?v 2) (= ?w 3))

@@ -6,8 +6,27 @@ module SPARQL; module Algebra
     #
     # The USING and USING NAMED clauses affect the RDF Dataset used while evaluating the WHERE clause. This describes a dataset in the same way as FROM and FROM NAMED clauses describe RDF Datasets in the SPARQL 1.1 Query Language
     #
-    # @example
-    #   (using (:g1) (bgp (triple ?s ?p ?o)))
+    # [44]  UsingClause             ::= 'USING' ( iri | 'NAMED' iri )
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     : <http://example.org/> 
+    #   PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+    #   
+    #   DELETE { ?s ?p ?o }
+    #   USING <http://example.org/g2>
+    #   WHERE {
+    #     :a foaf:knows ?s .
+    #     ?s ?p ?o 
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>) (foaf: <http://xmlns.com/foaf/0.1/>))
+    #    (update
+    #     (modify
+    #      (using (:g2)
+    #       (bgp (triple :a foaf:knows ?s) (triple ?s ?p ?o)))
+    #      (delete ((triple ?s ?p ?o)))) ))
     #
     # @see https://www.w3.org/TR/sparql11-update/#add
     class Using < Operator
@@ -34,6 +53,17 @@ module SPARQL; module Algebra
       def execute(queryable, **options, &block)
         debug(options) {"Using"}
         Dataset.new(*operands).execute(queryable, depth: options[:depth].to_i + 1, **options, &block)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "USING #{operands.first.to_sparql(**options)}\n"
+        content = operands.last.to_sparql(top_level: false, **options)
+        str << Operator.to_sparql(content, project: nil, **options)
       end
     end # Using
   end # Operator

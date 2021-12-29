@@ -5,14 +5,24 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `uuid` function.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>)
-    #              (xsd: <http://www.w3.org/2001/XMLSchema#>))
-    #       (project (?length)
-    #         (extend ((?length (strlen (str ?uuid))))
-    #           (filter (&& (isIRI ?uuid) (regex (str ?uuid) "^urn:uuid:[0-9A-F]{8}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{4}-[0-9A-F]{12}$" "i"))
-    #             (extend ((?uuid (uuid)))
-    #               (bgp))))))
+    # [121] BuiltInCall ::= ... | 'UUID' NIL 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   ASK {
+    #     BIND(UUID() AS ?u1)
+    #     BIND(UUID() AS ?u2)
+    #     FILTER(?u1 != ?u2)
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>) (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (ask
+    #     (filter (!= ?u1 ?u2)
+    #      (extend ((?u1 (uuid)) (?u2 (uuid)))
+    #       (bgp)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-uuid
     class UUID < Operator::Nullary
@@ -26,6 +36,15 @@ module SPARQL; module Algebra
       # @return [RDF::URI]
       def apply(**options)
         RDF::URI("urn:uuid:#{SecureRandom.uuid}")
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "UUID(" + operands.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # UUID
   end # Operator

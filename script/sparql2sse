@@ -23,6 +23,8 @@ def run(input, parser_options)
     print "."
   elsif $dump
     puts res.inspect
+  elsif $to_sparql
+    puts res.to_sparql
   else
     puts res.to_sse
   end
@@ -68,6 +70,7 @@ opts = GetoptLong.new(
   ["--quiet", GetoptLong::NO_ARGUMENT],
   ["--resolve-uris", GetoptLong::NO_ARGUMENT],
   ["--standard-prefixes", GetoptLong::NO_ARGUMENT],
+  ["--to-sparql", GetoptLong::NO_ARGUMENT],
   ["--uri", GetoptLong::REQUIRED_ARGUMENT],
   ["--validate", GetoptLong::NO_ARGUMENT]
 )
@@ -88,6 +91,7 @@ opts.each do |opt, arg|
       prefix = v.__name__.to_s.split('::').last.downcase.to_sym
       parser_options[:prefixes][prefix] = v.to_uri
     end
+  when '--to-sparql' then $to_sparql = true
   when '--uri' then parser_options[:base_uri] = arg
   when '--validate' then parser_options[:validate] = true
   when "--help"
@@ -101,6 +105,7 @@ opts.each do |opt, arg|
     puts "      --quiet:              Output '.' when parsing files, except on error"
     puts "      --resolve-uris:       Resolve URIs and QNames in output rather than generating (base ...) or (prefix ...)"
     puts "      --standard-prefixes:  Apply standard prefixes to parser (for non-standard productions)"
+    puts "      --to-sparql:          Convert back to SPARQL Grammar"
     puts "      --uri:                Use argument as default BASE (for non-standard productions)"
     puts "      --validate:           Run in validation mode"
     puts "      --help,-?:            This message"

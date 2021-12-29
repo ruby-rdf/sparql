@@ -8,8 +8,13 @@ module SPARQL; module Algebra
     #
     # This is a no-op for RDF.rb implementations, unless the graph exists
     #
-    # @example
-    #   (create silent <graph>)
+    # [34]  Create                  ::= 'CREATE' 'SILENT'? GraphRef
+    #
+    # @example SPARQL Grammar
+    #   CREATE SILENT GRAPH <http://example.org/g1>
+    #
+    # @example SSE
+    #   (update (create silent <http://example.org/g1>))
     #
     # @see https://www.w3.org/TR/sparql11-update/#create
     class Create < Operator
@@ -42,6 +47,18 @@ module SPARQL; module Algebra
           raise IOError, "create operation graph #{iri.to_ntriples} exists" unless silent
         end
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        *args, last = operands.dup
+        args += [:GRAPH, last]
+
+        "CREATE " + args.to_sparql(**options)
       end
     end # Create
   end # Operator

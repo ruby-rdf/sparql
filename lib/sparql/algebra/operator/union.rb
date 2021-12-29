@@ -3,12 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `union` operator.
     #
-    # @example
-    #   (prefix ((: <http://example/>))
-    #     (union
-    #       (bgp (triple ?s ?p ?o))
-    #       (graph ?g
-    #         (bgp (triple ?s ?p ?o)))))
+    # [67]  GroupOrUnionGraphPattern::= GroupGraphPattern ( 'UNION' GroupGraphPattern )*
+    #
+    # @example SPARQL Grammar
+    #   SELECT * {
+    #     { ?s ?p ?o }
+    #     UNION
+    #     { GRAPH ?g { ?s ?p ?o } }}
+    #
+    # @example SSE
+    #   (union
+    #    (bgp (triple ?s ?p ?o))
+    #    (graph ?g
+    #     (bgp (triple ?s ?p ?o))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Union < Operator::Binary
@@ -65,6 +72,22 @@ module SPARQL; module Algebra
         ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
         @operands = ops
         self
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @return [String]
+      def to_sparql(top_level: true, **options)
+        str = "{\n"
+        str << operands[0].to_sparql(top_level: false, **options)
+        str << "\n} UNION {\n"
+        str << operands[1].to_sparql(top_level: false, **options)
+        str << "\n}"
+        top_level ? Operator.to_sparql(str, **options) : str
       end
     end # Union
   end # Operator

@@ -6,8 +6,24 @@ module SPARQL; module Algebra
     #
     # The DELETE operation is a form of the DELETE/INSERT operation having no INSERT section
     #
-    # @example
-    #   (delete ((triple ?s ?p ?o))))
+    # [42]  DeleteClause            ::= 'DELETE' QuadPattern
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     : <http://example.org/> 
+    #   PREFIX foaf: <http://xmlns.com/foaf/0.1/> 
+    #   
+    #   DELETE { ?s ?p ?o }
+    #   WHERE  { :a foaf:knows ?s . ?s ?p ?o }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>)
+    #            (foaf: <http://xmlns.com/foaf/0.1/>))
+    #    (update
+    #     (modify
+    #      (bgp
+    #       (triple :a foaf:knows ?s)
+    #       (triple ?s ?p ?o))
+    #      (delete ((triple ?s ?p ?o))))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#delete
     class Delete < Operator::Unary
@@ -51,6 +67,15 @@ module SPARQL; module Algebra
           queryable.delete(RDF::Statement.from(pattern)) if pattern.bound? || pattern.constant?
         end
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "DELETE {\n" + operands.first.to_sparql(as_statement: true, **options) + "\n}"
       end
     end # Delete
   end # Operator

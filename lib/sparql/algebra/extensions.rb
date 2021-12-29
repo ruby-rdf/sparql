@@ -43,6 +43,15 @@ class Object
   def deep_dup
     dup
   end
+
+  ##
+  #
+  # Returns a partial SPARQL grammar for this term.
+  #
+  # @return [String]
+  def to_sparql(**options)
+    to_sxp(**options)
+  end
 end
 
 ##
@@ -54,6 +63,16 @@ class Array
   # @return [String]
   def to_sxp_bin
     map {|x| x.to_sxp_bin}
+  end
+
+  ##
+  #
+  # Returns a partial SPARQL grammar for this array.
+  #
+  # @param [String] delimiter (" ")
+  # @return [String]
+  def to_sparql(delimiter: " ", **options)
+    map {|e| e.to_sparql(**options)}.join(delimiter)
   end
 
   ##
@@ -217,15 +236,6 @@ end
 # Extensions for Ruby's `Hash` class.
 class Hash
   ##
-  # Returns the SXP representation of this object, defaults to `self`.
-  #
-  # @return [String]
-  def to_sxp_bin
-    to_a.to_sxp_bin
-  end
-  def to_sxp; to_sxp_bin; end
-
-  ##
   # A duplicate of this hash.
   #
   # @return [Hash] a copy of `self`
@@ -278,24 +288,20 @@ module RDF::Term
   # @see SPARQL::Algebra::Expression#optimize
   def optimize(**options)
     optimized = self.deep_dup
-    optimized.lexical = nil if optimized.respond_to?(:lexical=)
-    optimized
+    #optimized.lexical = nil if optimized.respond_to?(:lexical=)
+    #optimized
+  end
+
+  ##
+  #
+  # Returns a partial SPARQL grammar for this term.
+  #
+  # @return [String]
+  def to_sparql(**options)
+    to_sxp(**options)
   end
 end # RDF::Term
 
-class RDF::Literal::Double
-  ##
-  # Returns the SXP representation of this object.
-  #
-  # @return [String]
-  def to_sxp
-    case
-      when nan? then 'nan.0'
-      when infinite? then (infinite? > 0 ? '+inf.0' : '-inf.0')
-      else canonicalize.to_s.downcase
-    end
-  end
-end
 
 # Override RDF::Queryable to execute against SPARQL::Algebra::Query elements as well as RDF::Query and RDF::Pattern
 module RDF::Queryable
@@ -343,6 +349,15 @@ module RDF::Queryable
       query_without_sparql(pattern, **options, &block)
     end
   end
+
+  ##
+  #
+  # Returns a partial SPARQL grammar for this term.
+  #
+  # @return [String]
+  def to_sparql(**options)
+    raise NotImplementedError, "SPARQL::Algebra '#{first}' operator not implemented"
+  end
 end
 
 class RDF::Statement
@@ -361,9 +376,29 @@ class RDF::Statement
   ##
   # Returns an S-Expression (SXP) representation
   #
+  # @param [Hash{Symbol => RDF::URI}] prefixes (nil)
+  # @param [RDF::URI] base_uri (nil)
   # @return [String]
-  def to_sxp
-    to_sxp_bin.to_sxp
+  def to_sxp(prefixes: nil, base_uri: nil)
+    to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
+  end
+
+  ##
+  #
+  # Returns a partial SPARQL grammar for this term.
+  #
+  # @param [Boolean] as_statement (false) serialize as < ... >, otherwise TRIPLE(...)
+  # @return [String]
+  def to_sparql(as_statement: false, **options)
+    return "TRIPLE(#{to_triple.to_sparql(as_statement: true, **options)})" unless as_statement
+
+    to_triple.map do |term|
+      if term.is_a?(::RDF::Statement)
+        "<<" + term.to_sparql(**options) + ">>"
+      else
+        term.to_sparql(**options)
+      end
+    end.join(" ") + " ."
   end
 
   ##
@@ -409,6 +444,19 @@ class RDF::Query
       res = [:bgp] + patterns.map(&:to_sxp_bin)
       (graph_name ? [:graph, graph_name, res] : res)
     end
+  end
+
+  ##
+  #
+  # Returns a partial SPARQL grammar for this term.
+  #
+  # @param [Boolean] top_level (true)
+  #   Treat this as a top-level, generating SELECT ... WHERE {}
+  # @return [String]
+  def to_sparql(top_level: true, **options)
+    str = @patterns.map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join("\n")
+    str = "GRAPH #{graph_name.to_sparql(**options)} {\n#{str}\n}\n" if graph_name
+    top_level ? SPARQL::Algebra::Operator.to_sparql(str, **options) : str
   end
 
   ##
@@ -462,11 +510,11 @@ class RDF::Query
   def optimize!(**options)
     @patterns = @patterns.map do |pattern|
       components = pattern.to_quad.map do |term|
-        if term.respond_to?(:lexical=)
-          term.dup.instance_eval {@lexical = nil; self}
-        else
+        #if term.respond_to?(:lexical=)
+        #  term.dup.instance_eval {@lexical = nil; self}
+        #else
           term
-        end
+        #end
       end
       RDF::Query::Pattern.from(components, **pattern.options)
     end
@@ -530,11 +578,15 @@ class RDF::Query::Variable
     self
   end
 
-  # Display variable as SXP
-  # @return [Array]
-  def to_sxp
-    prefix = distinguished? ? (existential? ? '$' : '?') : (existential? ? '$$' : '??')
-    unbound? ? "#{prefix}#{name}".to_sym.to_sxp : ["#{prefix}#{name}".to_sym, value].to_sxp
+  ##
+  #
+  # Returns a partial SPARQL grammar for this term.
+  #
+  # The Non-distinguished form (`??xxx`) is not part of the grammar, so replace with a blank-node
+  #
+  # @return [String]
+  def to_sparql(**options)
+    self.distinguished? ? super : "_:_nd#{self.name}"
   end
 end # RDF::Query::Variable
 
@@ -576,5 +628,13 @@ class RDF::Query::Solution
   def to_sxp_bin
     to_a.to_sxp_bin
   end
-  def to_sxp; to_sxp_bin; end
+
+  # Transform Solution into an SXP
+  #
+  # @param [Hash{Symbol => RDF::URI}] prefixes (nil)
+  # @param [RDF::URI] base_uri (nil)
+  # @return [String]
+  def to_sxp(prefixes: nil, base_uri: nil)
+    to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
+  end
 end # RDF::Query::Solution

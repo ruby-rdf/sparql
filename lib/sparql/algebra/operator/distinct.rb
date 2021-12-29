@@ -3,7 +3,15 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `distinct` operator.
     #
-    # @example
+    # [9] SelectClause ::= 'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT DISTINCT ?v
+    #   WHERE { ?x ?p ?v }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example/>))
     #     (distinct
@@ -35,6 +43,15 @@ module SPARQL; module Algebra
         @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options).distinct
         @solutions.each(&block) if block_given?
         @solutions
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        operands.first.to_sparql(distinct: true, **options)
       end
     end # Distinct
   end # Operator

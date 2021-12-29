@@ -3,8 +3,21 @@ module SPARQL; module Algebra
     ##
     # A SPARQL `contains` operator.
     #
-    # @example
-    #   (contains ?x ?y)
+    # [121] BuiltInCall ::= ... | 'CONTAINS' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s ?str WHERE {
+    #     ?s :str ?str
+    #     FILTER CONTAINS(?str, "a")
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?str)
+    #     (filter (contains ?str "a")
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-contains
     # @see https://www.w3.org/TR/xpath-functions/#func-contains
@@ -38,6 +51,15 @@ module SPARQL; module Algebra
         when left.to_s.include?(right.to_s) then RDF::Literal::TRUE
         else RDF::Literal::FALSE
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "contains(" + operands.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # Contains
   end # Operator

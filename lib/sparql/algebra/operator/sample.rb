@@ -3,13 +3,26 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `sample` set function.
     #
-    # @example
-    #   (prefix ((: <http://www.example.org/>))
-    #     (filter (|| (|| (= ?sample 1.0) (= ?sample 2.2)) (= ?sample 3.5))
-    #       (project (?sample)
-    #         (extend ((?sample ??.0))
-    #           (group () ((??.0 (sample ?o)))
-    #             (bgp (triple ?s :dec ?o)))))))
+    # [127] Aggregate::= ... | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/>
+    #   
+    #   SELECT ?w (SAMPLE(?v) AS ?S)
+    #   {
+    #     ?s :p ?v .
+    #     OPTIONAL { ?s :q ?w }
+    #   }
+    #   GROUP BY ?w
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (project (?w ?S)
+    #     (extend ((?S ??.0))
+    #      (group (?w) ((??.0 (sample ?v)))
+    #       (leftjoin
+    #        (bgp (triple ?s :p ?v))
+    #         (bgp (triple ?s :q ?w))))) ))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggSample
     class Sample < Operator
@@ -34,6 +47,15 @@ module SPARQL; module Algebra
       def apply(enum, **options)
         enum.detect(lambda {raise TypeError, "Sampling an empty multiset"}) {|e| e.first}.first
       end
-    end # LCase
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "SAMPLE(#{operands.to_sparql(**options)})"
+      end
+    end # Sample
   end # Operator
 end; end # SPARQL::Algebra

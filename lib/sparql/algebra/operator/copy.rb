@@ -6,8 +6,13 @@ module SPARQL; module Algebra
     #
     # The COPY operation is a shortcut for inserting all data from an input graph into a destination graph. Data from the input graph is not affected, but data from the destination graph, if any, is removed before insertion.
     #
-    # @example
-    #   (copy silent <iri> to default)
+    # [37]  Copy                    ::= 'COPY' 'SILENT'? GraphOrDefault 'TO' GraphOrDefault
+    #
+    # @example SPARQL Grammar
+    #   COPY SILENT GRAPH <http://www.example.com/g1> TO DEFAULT
+    #
+    # @example SSE
+    #   (update (copy silent <http://www.example.com/g1> default))
     #
     # @see https://www.w3.org/TR/sparql11-update/#copy
     class Copy < Operator
@@ -58,6 +63,18 @@ module SPARQL; module Algebra
           end
         end
         queryable
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        *args, last = operands.dup
+        args += [:TO, last]
+        
+        "COPY " + args.to_sparql(**options)
       end
     end # Copy
   end # Operator

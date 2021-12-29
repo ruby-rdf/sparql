@@ -3,8 +3,22 @@ module SPARQL; module Algebra
     ##
     # The SPARQL logical `ceil` operator.
     #
-    # @example
-    #   (ceil ?x)
+    # [121] BuiltInCall ::= ... 'CEIL' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s ?num (CEIL(?num) AS ?ceil) WHERE {
+    #    ?s :num ?num
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>)
+    #     (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (project (?s ?num ?ceil)
+    #     (extend ((?ceil (ceil ?num)))
+    #      (bgp (triple ?s :num ?num)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-ceil
     # @see https://www.w3.org/TR/xpath-functions/#func-ceil
@@ -25,6 +39,15 @@ module SPARQL; module Algebra
           when RDF::Literal::Numeric then operand.ceil
           else raise TypeError, "expected an RDF::Literal::Numeric, but got #{operand.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "CEIL(#{operands.to_sparql(**options)})"
       end
     end # Ceil
   end # Operator

@@ -3,7 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `bound` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'BOUND' '(' Var ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX  : <http://example.org/ns#>
+    #   SELECT  ?a ?c
+    #   WHERE
+    #       { ?a :b ?c . 
+    #         OPTIONAL
+    #           { ?c :d ?e } . 
+    #         FILTER (! bound(?e)) 
+    #       }
+    #
+    # @example SSE
     #   (prefix ((: <http://example.org/ns#>))
     #     (project (?a ?c)
     #       (filter (! (bound ?e))
@@ -45,6 +57,15 @@ module SPARQL; module Algebra
               RDF::Literal::TRUE : RDF::Literal::FALSE
           else raise TypeError, "expected an RDF::Query::Variable, but got #{var.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "bound(" + operands.first.to_sparql(**options) + ")"
       end
     end # Bound
   end # Operator

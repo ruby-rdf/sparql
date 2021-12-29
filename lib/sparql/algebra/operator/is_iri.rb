@@ -3,7 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `isIRI`/`isURI` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'isIRI' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX     :    <http://example.org/things#>
+    #   SELECT ?x ?v WHERE {
+    #     ?x :p ?v .
+    #     FILTER isIRI(?v) .
+    #   }
+    #
+    # @example SSE
     #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
     #            (: <http://example.org/things#>))
     #     (project (?x ?v)
@@ -32,6 +41,15 @@ module SPARQL; module Algebra
       end
 
       Operator::IsURI = IsIRI
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "isIRI(" + operands.first.to_sparql(**options) + ")"
+      end
     end # IsIRI
   end # Operator
 end; end # SPARQL::Algebra

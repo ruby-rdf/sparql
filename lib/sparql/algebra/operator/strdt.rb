@@ -3,7 +3,19 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `strdt` operator.
     #
-    # @example
+    # [121] BuiltInCall ::= ... | 'STRDT' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s (STRDT(?str,xsd:string) AS ?str1) WHERE {
+    #     ?s :str ?str
+    #     FILTER(LANGMATCHES(LANG(?str), "en"))
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>) (xsd: <http://www.w3.org/2001/XMLSchema#>))
     #     (project (?s ?str1)
     #       (extend ((?str1 (strdt ?str xsd:string)))
     #         (filter (langMatches (lang ?str) "en")
@@ -27,6 +39,15 @@ module SPARQL; module Algebra
       def apply(value, datatypeIRI, **options)
         raise TypeError, "Literal #{value.inspect} is not simple" unless value.simple?
         RDF::Literal.new(value.to_s, datatype: datatypeIRI)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRDT(" + operands.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # StrDT
   end # Operator

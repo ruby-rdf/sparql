@@ -45,9 +45,18 @@ def run(input, **options)
     SPARQL::Grammar.parse(input, **options)
   end
 
-  puts ("\nSSE:\n" + query.to_sse) if options[:debug] || options[:to_sse]
+  puts ("\nSSE:\n" + query.to_sse) if options[:debug]
 
-  unless options[:to_sse]
+  if options[:parse_only]
+    case options[:format]
+    when :sparql
+      puts ("\nSPARQL:\n" + query.to_sparql)
+    when nil, :sse
+      puts ("\nSSE:\n" + query.to_sse)
+    else
+      $stderr.puts "Unknown output format for parsing: #{options[:format]}. Use 'sse' or 'sparql'"
+    end
+  else
     res = query.execute(options[:dataset], logger: options[:logger])
     display_results(res, **options)
   end
@@ -98,7 +107,7 @@ def usage
   puts "      --dataset:            File containing RDF graph or dataset"
   puts "      --debug:              Display detailed debug output"
   puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
-  puts "      --format:             Output format for results"
+  puts "      --format:             Output format for results (json, xml, csv, tsv, html, sparql, sse, or another RDF format)"
   puts "      --port,-p             Port on which to run server; defaults to 9292"
   puts "      --sse:                Query input is in SSE format"
   puts "      --update:             Process query as a SPARQL Update"
@@ -151,7 +160,7 @@ end
 
 case cmd
 when 'execute', 'parse'
-  options[:to_sse] = true if cmd == 'parse'
+  options[:parse_only] = true if cmd == 'parse'
   input ||= ARGV.empty? ? $stdin.read : RDF::Util::File.open_file(ARGV.first).read
   run(input, **options)
 when 'query'

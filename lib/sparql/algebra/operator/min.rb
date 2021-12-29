@@ -3,9 +3,16 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `min` set function.
     #
-    # @example
+    # [127] Aggregate::= ... | 'MIN' '(' 'DISTINCT'? Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT (MIN(?o) AS ?min)
+    #   WHERE { ?s :dec ?o }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org/>))
-    #      (project (?max)
+    #      (project (?min)
     #        (extend ((?min ??.0))
     #          (group () ((??.0 (min ?o)))
     #            (bgp (triple ?s ?p ?o))))))
@@ -41,6 +48,15 @@ module SPARQL; module Algebra
         else
           raise TypeError, "Minumuim of non-literals: #{enum.flatten}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "MIN(" + operands.to_sparql(**options) + ")"
       end
     end # Min
   end # Operator

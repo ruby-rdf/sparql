@@ -3,6 +3,22 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `lang` operator.
     #
+    # [121] BuiltInCall ::= ... | 'LANG' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   
+    #   SELECT ?x
+    #   { ?x :p ?v . 
+    #     FILTER ( lang(?v) != '@NotALangTag@' )
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (project (?x)
+    #     (filter (!= (lang ?v) "@NotALangTag@")
+    #      (bgp (triple ?x :p ?v)))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#func-lang
     class Lang < Operator::Unary
       include Evaluatable
@@ -23,6 +39,15 @@ module SPARQL; module Algebra
           when RDF::Literal then RDF::Literal(literal.language.to_s)
           else raise TypeError, "expected an RDF::Literal, but got #{literal.inspect}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "lang(" + operands.first.to_sparql(**options) + ")"
       end
     end # Lang
   end # Operator

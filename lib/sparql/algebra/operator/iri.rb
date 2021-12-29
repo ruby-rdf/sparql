@@ -3,10 +3,18 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `iri` operator.
     #
-    # @example
-    #     (base <http://example.org/> (project (?uri ?iri)
-    #       (extend ((?uri (uri "uri")) (?iri (iri "iri")))
-    #         (bgp))))
+    # [121] BuiltInCall ::= ... | 'IRI' '(' Expression ')' | 'URI' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   BASE <http://example.org/>
+    #   SELECT (URI("uri") AS ?uri) (IRI("iri") AS ?iri)
+    #   WHERE {}
+    #
+    # @example SSE
+    #   (base <http://example.org/>
+    #    (project (?uri ?iri)
+    #     (extend ((?uri (iri "uri")) (?iri (iri "iri")))
+    #      (bgp))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-iri
     class IRI < Operator::Unary
@@ -33,6 +41,15 @@ module SPARQL; module Algebra
         raise TypeError, "expected an simple literal, but got #{literal.inspect}" unless literal.literal? && literal.simple?
         base = Operator.base_uri || RDF::URI("")
         base.join(literal.to_s)
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "IRI(" + operands.last.to_sparql(**options) + ")"
       end
 
       Operator::URI = IRI

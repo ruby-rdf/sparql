@@ -3,7 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `sum` set function.
     #
-    # @example
+    # [127] Aggregate::= ... | 'SUM' '(' 'DISTINCT'? Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT (SUM(?O) AS ?sum)
+    #   WHERE { ?s :dec ?o }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org/>))
     #      (project (?sum)
     #        (extend ((?sum ??.0))
@@ -32,6 +39,15 @@ module SPARQL; module Algebra
         else
           raise TypeError, "Averaging non-numeric types: #{enum.flatten}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "SUM(" + operands.to_sparql(**options) + ")"
       end
     end # Sum
   end # Operator

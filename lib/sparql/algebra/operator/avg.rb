@@ -3,7 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `avg` set function.
     #
-    # @example
+    # [127] Aggregate::= ... | 'AVG' '(' 'DISTINCT'? Expression ')' 
+    #
+    # @example SPARQL Query
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT (AVG(?o) AS ?avg)
+    #   WHERE { ?s :dec ?o }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org/>))
     #      (project (?avg)
     #        (extend ((?avg ??.0))
@@ -39,6 +46,15 @@ module SPARQL; module Algebra
         else
           raise TypeError, "Averaging non-numeric types: #{enum.flatten}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "AVG(#{operands.to_sparql(**options)})"
       end
     end # Avg
   end # Operator

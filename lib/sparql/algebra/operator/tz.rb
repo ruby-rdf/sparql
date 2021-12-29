@@ -5,11 +5,20 @@ module SPARQL; module Algebra
     #
     # Returns the timezone part of `arg` as a simple literal. Returns the empty string if there is no timezone.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>))
-    #       (project (?s ?x)
-    #         (extend ((?x (tz ?date)))
-    #           (bgp (triple ?s :date ?date)))))
+    # [121] BuiltInCall ::= ... | 'TZ' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s (TZ(?date) AS ?x) WHERE {
+    #     ?s :date ?date
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?x)
+    #     (extend ((?x (tz ?date)))
+    #      (bgp (triple ?s :date ?date)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-tz
     class TZ < Operator::Unary
@@ -27,6 +36,14 @@ module SPARQL; module Algebra
       def apply(operand, **options)
         raise TypeError, "expected an RDF::Literal::DateTime, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::DateTime)
         operand.tz
+      end
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "TZ(" + operands.to_sparql(**options) + ")"
       end
     end # TZ
   end # Operator

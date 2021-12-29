@@ -3,7 +3,14 @@ module SPARQL; module Algebra
     ##
     # The SPARQL `max` set function.
     #
-    # @example
+    # [127] Aggregate::= ... | 'MAX' '(' 'DISTINCT'? Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT (MAX(?o) AS ?max)
+    #   WHERE { ?s ?p ?o }
+    #
+    # @example SSE
     #    (prefix ((: <http://www.example.org/>))
     #      (project (?max)
     #        (extend ((?max ??.0))
@@ -41,6 +48,15 @@ module SPARQL; module Algebra
         else
           raise TypeError, "Maximum of non-literals: #{enum.flatten}"
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "MAX(" + operands.to_sparql(**options) + ")"
       end
     end # Max
   end # Operator

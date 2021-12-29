@@ -3,8 +3,22 @@ module SPARQL; module Algebra
     ##
     # A SPARQL `strstarts` operator.
     #
-    # @example
-    #   (strstarts ?x ?y)
+    # [121] BuiltInCall ::= ... | 'STRSTARTS' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+
+    #   SELECT ?s ?str WHERE {
+    #     ?s :str ?str
+    #     FILTER STRSTARTS(?str, "a")
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?str)
+    #     (filter (strstarts ?str "a")
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-strstarts
     # @see https://www.w3.org/TR/xpath-functions/#func-starts-with
@@ -40,6 +54,15 @@ module SPARQL; module Algebra
         when left.to_s.start_with?(right.to_s) then RDF::Literal::TRUE
         else RDF::Literal::FALSE
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRSTARTS(" + operands.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # StrStarts
   end # Operator

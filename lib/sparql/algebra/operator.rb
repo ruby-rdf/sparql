@@ -49,6 +49,7 @@ module SPARQL; module Algebra
     autoload :Sum,                'sparql/algebra/operator/sum'
     autoload :SHA1,               'sparql/algebra/operator/sha1'
     autoload :SHA256,             'sparql/algebra/operator/sha256'
+    autoload :SHA384,             'sparql/algebra/operator/sha384'
     autoload :SHA512,             'sparql/algebra/operator/sha512'
     autoload :Str,                'sparql/algebra/operator/str'
     autoload :Timezone,           'sparql/algebra/operator/timezone'
@@ -171,7 +172,6 @@ module SPARQL; module Algebra
         when :>               then GreaterThan
         when :>=              then GreaterThanOrEqual
         when :abs             then Abs
-        when :add             then Add
         when :alt             then Alt
         when :and, :'&&'      then And
         when :avg             then Avg
@@ -204,7 +204,6 @@ module SPARQL; module Algebra
         when :md5             then MD5
         when :max             then Max
         when :min             then Min
-        when :minus           then Minus
         when :minutes         then Minutes
         when :month           then Month
         when :multiply        then Multiply
@@ -231,6 +230,7 @@ module SPARQL; module Algebra
         when :sequence        then Sequence
         when :sha1            then SHA1
         when :sha256          then SHA256
+        when :sha384          then SHA384
         when :sha512          then SHA512
         when :str             then Str
         when :strafter        then StrAfter
@@ -278,7 +278,6 @@ module SPARQL; module Algebra
         when :reduced         then Reduced
         when :slice           then Slice
         when :table           then Table
-        when :triple          then RDF::Query::Pattern
         when :union           then Union
 
         # Update forms
@@ -301,7 +300,7 @@ module SPARQL; module Algebra
 
         # RDF-star
         when :istriple        then IsTriple
-        when :triple          then Triple
+        when :triple          then RDF::Query::Pattern
         when :subject         then Subject
         when :predicate       then Predicate
         when :object          then Object
@@ -331,6 +330,89 @@ module SPARQL; module Algebra
     # @return [Integer] an integer in the range `(-1..3)`
     def self.arity
       self.const_get(:ARITY)
+    end
+
+    ##
+    # Generate a top-level Grammar, using collected options
+    #
+    # @param [String] content
+    # @param [Hash{Symbol => Operator}] extensions
+    #   Variable bindings
+    # @param [Operator] distinct (false)
+    # @param [Array<Operator>] filter_ops ([])
+    #   Filter Operations
+    # @param [Integer] limit (nil)
+    # @param [Array<Operator>] group_ops ([])
+    # @param [Integer] offset (nil)
+    # @param [Array<Operator>] order_ops ([])
+    #   Order Operations
+    # @param [Array<Symbol,Operator>] project (%i(*))
+    #   Terms to project
+    # @param [Operator] reduced (false)
+    # @param [Hash{Symbol => Object}] options
+    # @return [String]
+    def self.to_sparql(content,
+                       distinct: false,
+                       extensions: {},
+                       filter_ops: [],
+                       group_ops: [],
+                       limit: nil,
+                       offset: nil,
+                       order_ops: [],
+                       project: %i(*),
+                       reduced: false,
+                       **options)
+      str = ""
+
+      # Projections
+      if project
+        str << "SELECT "
+        str << "DISTINCT " if distinct
+        str << "REDUCED " if reduced
+
+        str << project.map do |p|
+          if expr = extensions.delete(p)
+            # Replace projected variables with their extension, if any
+            "(" + [expr, :AS, p].to_sparql(**options) + ")"
+          else
+            p.to_sparql(**options)
+          end
+        end.join(" ") + "\n"
+      end
+
+      # Extensions
+      extensions.each do |as, expression|
+        content << "\nBIND (#{expression.to_sparql(**options)} AS #{as.to_sparql(**options)}) ."
+      end
+
+      # Filters
+      filter_ops.each do |f|
+        content << "\nFILTER #{f.to_sparql(**options)} ."
+      end
+
+      # Where clause
+      str << "WHERE {\n#{content}\n}\n"
+
+      # Group
+      unless group_ops.empty?
+        ops = group_ops.map do |o|
+          # Replace projected variables with their extension, if any
+          o.is_a?(Array) ? 
+            "(" + [o.last, :AS, o.first].to_sparql(**options) + ")" :
+            o.to_sparql(**options)
+        end
+        str << "GROUP BY #{ops.join(' ')}\n"
+      end
+
+      # Order
+      unless order_ops.empty?
+        str << "ORDER BY #{order_ops.to_sparql(**options)}\n"
+      end
+
+      # Offset and Limmit
+      str << "OFFSET #{offset}\n" unless offset.nil?
+      str << "LIMIT #{limit}\n" unless limit.nil?
+      str
     end
 
     ARITY = -1 # variable arity
@@ -581,9 +663,20 @@ module SPARQL; module Algebra
     ##
     # Returns an S-Expression (SXP) representation of this operator
     #
+    # @param [Hash{Symbol => RDF::URI}] prefixes (nil)
+    # @param [RDF::URI] base_uri (nil)
     # @return [String]
-    def to_sxp
-      to_sxp_bin.to_sxp
+    def to_sxp(prefixes: nil, base_uri: nil)
+      to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
+    end
+
+    ##
+    #
+    # Returns a partial SPARQL grammar for the operator.
+    #
+    # @return [String]
+    def to_sparql(**options)
+      raise NotImplementedError, "#{self.class}#to_sparql(#{operands.map(&:class).join(', ')})"
     end
 
     ##

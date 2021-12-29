@@ -5,11 +5,20 @@ module SPARQL; module Algebra
     #
     # Returns the timezone part of `arg` as an xsd:dayTimeDuration. Raises an error if there is no timezone.
     #
-    # @example
-    #     (prefix ((: <http://example.org/>))
-    #       (project (?s ?x)
-    #         (extend ((?x (timezone ?date)))
-    #           (bgp (triple ?s :date ?date)))))
+    # [121] BuiltInCall ::= ... | 'TIMEZONE' '(' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s (TIMEZONE(?date) AS ?x) WHERE {
+    #     ?s :date ?date
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?x)
+    #     (extend ((?x (timezone ?date)))
+    #      (bgp (triple ?s :date ?date)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-timezone
     class Timezone < Operator::Unary
@@ -30,6 +39,15 @@ module SPARQL; module Algebra
         raise TypeError, "expected an RDF::Literal::DateTime, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::DateTime)
         raise TypeError, "literal has no timezone" unless res = operand.timezone
         res
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "TIMEZONE(" + operands.to_sparql(**options) + ")"
       end
     end # Timezone
   end # Operator

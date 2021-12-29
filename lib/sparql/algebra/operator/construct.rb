@@ -5,12 +5,22 @@ module SPARQL; module Algebra
     #
     # The CONSTRUCT query form returns a single RDF graph specified by a graph template. The result is an RDF graph formed by taking each query solution in the solution sequence, substituting for the variables in the graph template, and combining the triples into a single RDF graph by set union.
     #
-    # @example
-    #   (prefix ((rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
-    #            (foaf: <http://xmlns.com/foaf/0.1/>))
-    #     (construct ((triple ?s ?p ?o))
-    #       (project (?s ?p ?o)
-    #         (bgp (triple ?s ?p ?o)))))
+    # [10]  ConstructQuery          ::= 'CONSTRUCT' ( ConstructTemplate DatasetClause* WhereClause SolutionModifier | DatasetClause* 'WHERE' '{' TriplesTemplate? '}' SolutionModifier ) ValuesClause
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example/> 
+    #   CONSTRUCT { ?x :p2 ?v }
+    #   WHERE {
+    #     ?x :p ?o .
+    #     OPTIONAL {?o :q ?v }
+    #   }
+    #
+    # @example SSE
+    #   (prefix ((: <http://example/>))
+    #    (construct ((triple ?x :p2 ?v))
+    #     (leftjoin
+    #      (bgp (triple ?x :p ?o))
+    #      (bgp (triple ?o :q ?v)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#construct
     class Construct < Operator::Binary
@@ -80,6 +90,19 @@ module SPARQL; module Algebra
       # @return [Boolean]
       def query_yields_statements?
         true
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this term.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "CONSTRUCT {\n" +
+        operands[0].map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join("\n") +
+        "\n}\n"
+
+        str << operands[1].to_sparql(top_level: true, project: nil, **options)
       end
     end # Construct
   end # Operator

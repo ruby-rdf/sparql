@@ -3,7 +3,12 @@ module SPARQL; module Algebra
     ##
     # The SPARQL GraphPattern `in` operator.
     #
-    # @example
+    # [114] RelationalExpression    ::= NumericExpression ('IN' ExpressionList)?
+    #
+    # @example SPARQL Grammar
+    #   ASK { FILTER(2 IN (1, 2, 3)) }
+    #
+    # @example SSE
     #   (ask (filter (in 2 1 2 3) (bgp)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-in
@@ -53,6 +58,18 @@ module SPARQL; module Algebra
         when error_found then raise TypeError
         else RDF::Literal::FALSE
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "(" + operands.first.to_sparql(**options) +
+        " IN (" +
+        operands[1..-1].map {|e| e.to_sparql(**options)}.join(", ") +
+        "))"
       end
     end # In
   end # Operator

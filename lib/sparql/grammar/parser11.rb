@@ -1812,8 +1812,8 @@ module SPARQL::Grammar
       value = RDF::URI(value)
       if base_uri && value.relative?
         u = base_uri.join(value)
-        u.lexical = "<#{value}>" unless resolve_iris?
-        u
+        #u.lexical = "<#{value}>" unless resolve_iris?
+        #u
       else
         value
       end
@@ -1825,8 +1825,8 @@ module SPARQL::Grammar
       debug {"ns(#{prefix.inspect}): base: '#{base}', suffix: '#{suffix}'"}
       iri = iri(base + suffix.to_s)
       # Cause URI to be serialized as a lexical
-      iri.lexical = "#{prefix}:#{suffix}" unless resolve_iris?
-      iri
+      #iri.lexical = "#{prefix}:#{suffix}" unless resolve_iris?
+      #iri
     end
 
     # Create a literal

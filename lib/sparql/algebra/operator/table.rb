@@ -6,10 +6,26 @@ module SPARQL; module Algebra
     # This is used to provide inline values. Each row becomes
     # a solution.
     #
-    # @example
-    #    (table (vars ?book ?title)
-    #      (row (?title "SPARQL Tutorial"))
-    #      (row (?book :book2)))
+    # [28]  ValuesClause            ::= ( 'VALUES' DataBlock )?
+    #
+    # @example SPARQL Grammar
+    #   PREFIX dc:   <http://purl.org/dc/elements/1.1/> 
+    #   PREFIX :     <http://example.org/book/> 
+    #   PREFIX ns:   <http://example.org/ns#> 
+    #   SELECT ?book ?title ?price {
+    #      ?book dc:title ?title ;
+    #            ns:price ?price .
+    #   }
+    #   VALUES ?book { :book1 }
+    #
+    # @example SSE
+    #   (prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+    #            (: <http://example.org/book/>)
+    #            (ns: <http://example.org/ns#>))
+    #    (project (?book ?title ?price)
+    #     (join
+    #      (bgp (triple ?book dc:title ?title) (triple ?book ns:price ?price))
+    #      (table (vars ?book) (row (?book :book1)))) ))
     #
     # @example empty table
     #     (table unit)
@@ -45,6 +61,28 @@ module SPARQL; module Algebra
         end
         @solutions.each(&block) if block_given?
         @solutions
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "VALUES (#{operands.first[1..-1].map { |e| e.to_sparql(**options) }.join(' ')}) {\n"
+        operands[1..-1].each do |row|
+          line = '('
+          row[1..-1].each do |col|
+            line << "#{col[1].to_sparql(**options)} "
+          end
+          line = line.chop
+          line << ")\n"
+
+          str << line
+        end
+
+        str << "}\n"
+        str
       end
     end # Table
   end # Operator

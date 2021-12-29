@@ -3,8 +3,22 @@ module SPARQL; module Algebra
     ##
     # A SPARQL `strbefore` operator.
     #
-    # @example
-    #   (strbefore ?x ?y)
+    # [121] BuiltInCall ::= ... | 'STRBEFORE' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?s (STRBEFORE(?str,"s") AS ?prefix) WHERE {
+    #     ?s :str ?str
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>)
+    #     (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (project (?s ?prefix)
+    #     (extend ((?prefix (strbefore ?str "s")))
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-strbefore
     # @see https://www.w3.org/TR/xpath-functions/#func-substring-before
@@ -53,6 +67,15 @@ module SPARQL; module Algebra
           parts = left.to_s.split(right.to_s)
           RDF::Literal(parts.first, language: left.language, datatype: left.datatype)
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRBEFORE(" + operands.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # StrBefore
   end # Operator

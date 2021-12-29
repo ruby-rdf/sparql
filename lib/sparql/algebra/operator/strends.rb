@@ -1,10 +1,23 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # A SPARQL `contains` operator.
+    # A SPARQL `strends` operator.
     #
-    # @example
-    #   (strends ?x ?y)
+    # [121] BuiltInCall ::= ... | 'STRENDS' '(' Expression ',' Expression ')' 
+    #
+    # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s ?str WHERE {
+    #     ?s :str ?str
+    #     FILTER STRENDS(?str, "a")
+    #   }
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s ?str)
+    #     (filter (strends ?str "a")
+    #      (bgp (triple ?s :str ?str)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#func-strends
     # @see https://wwww.w3.org/TR/xpath-functions/#func-ends-with
@@ -40,6 +53,15 @@ module SPARQL; module Algebra
         when left.to_s.end_with?(right.to_s) then RDF::Literal::TRUE
         else RDF::Literal::FALSE
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "STRENDS(" + operands.to_sparql(delimiter: ', ', **options) + ")"
       end
     end # StrEnds
   end # Operator
