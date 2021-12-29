@@ -45,7 +45,6 @@ module SPARQL; module Algebra
       #
       # Extracts projections
       #
-      # @param [Boolean] distinct (false)
       # @return [String]
       def to_sparql(**options)
         "RAND()"

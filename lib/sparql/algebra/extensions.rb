@@ -376,8 +376,8 @@ class RDF::Statement
   ##
   # Returns an S-Expression (SXP) representation
   #
-  # @param [Hash{Symbol => RDF::URI}] prefixes(nil)
-  # @param [RDF::URI] base_uri(nil)
+  # @param [Hash{Symbol => RDF::URI}] prefixes (nil)
+  # @param [RDF::URI] base_uri (nil)
   # @return [String]
   def to_sxp(prefixes: nil, base_uri: nil)
     to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
@@ -631,8 +631,8 @@ class RDF::Query::Solution
 
   # Transform Solution into an SXP
   #
-  # @param [Hash{Symbol => RDF::URI}] prefixes(nil)
-  # @param [RDF::URI] base_uri(nil)
+  # @param [Hash{Symbol => RDF::URI}] prefixes (nil)
+  # @param [RDF::URI] base_uri (nil)
   # @return [String]
   def to_sxp(prefixes: nil, base_uri: nil)
     to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
