@@ -8,6 +8,8 @@ module SPARQL; module Algebra
     # [72]  ExpressionList ::= NIL | '(' Expression ( ',' Expression )* ')'
     #
     # @example SPARQL Grammar
+    #   PREFIX : <http://example.org/>
+    #
     #   SELECT ?v ?w
     #   { 
     #     FILTER (?v = 2)
@@ -17,7 +19,7 @@ module SPARQL; module Algebra
     #   }
     #
     # @example SSE
-    #   (prefix ((: <http://example/>))
+    #   (prefix ((: <http://example.org/>))
     #     (project (?v ?w)
     #       (filter (exprlist (= ?v 2) (= ?w 3))
     #         (bgp

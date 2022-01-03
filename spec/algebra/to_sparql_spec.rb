@@ -35,9 +35,6 @@ describe SPARQL::Algebra::Operator do
       describe "Operator #{op}:" do
         examples.each do |sxp|
           it(sxp) do
-            pending "not implemented yet" if %w(
-              
-            ).include?(op)
             sse = SPARQL::Algebra.parse(sxp)
             sparql_result = sse.to_sparql
             production = sparql_result.match?(/ASK|SELECT|CONSTRUCT|DESCRIBE/) ? :QueryUnit : :UpdateUnit

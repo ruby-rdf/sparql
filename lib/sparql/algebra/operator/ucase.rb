@@ -14,7 +14,7 @@ module SPARQL; module Algebra
     # @example SSE
     #   (prefix
     #    ((: <http://example.org/>))
-    #    (project (?str ?ustr)
+    #    (project (?s ?ustr)
     #     (extend ((?ustr (ucase ?str)))
     #      (bgp (triple ?s :str ?str)))))
     #

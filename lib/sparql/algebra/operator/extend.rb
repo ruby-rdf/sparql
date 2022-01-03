@@ -10,14 +10,14 @@ module SPARQL; module Algebra
     # @example SPARQL Grammar
     #   SELECT ?z
     #   { 
-    #     ?x <http://example/p> ?o
-    #     BIND(?o+1 AS ?z)
+    #     ?x <http://example.org/p> ?o
+    #     BIND(?o+10 AS ?z)
     #   }
     #
     # @example SSE
     #   (project (?z)
     #     (extend ((?z (+ ?o 10)))
-    #       (bgp (triple ?s <http://example/p> ?o))))
+    #       (bgp (triple ?x <http://example.org/p> ?o))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Extend < Operator::Binary

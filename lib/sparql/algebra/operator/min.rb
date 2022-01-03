@@ -15,7 +15,7 @@ module SPARQL; module Algebra
     #      (project (?min)
     #        (extend ((?min ??.0))
     #          (group () ((??.0 (min ?o)))
-    #            (bgp (triple ?s ?p ?o))))))
+    #            (bgp (triple ?s :dec ?o))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggMin
     class Min < Operator

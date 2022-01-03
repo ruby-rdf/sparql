@@ -15,8 +15,7 @@ module SPARQL; module Algebra
     #   }
     #
     # @example SSE
-    #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
-    #            (: <http://example.org/things#>))
+    #   (prefix ((: <http://example.org/things#>))
     #     (project (?x ?v)
     #       (filter (isNumeric ?v)
     #         (bgp (triple ?x :p ?v)))))

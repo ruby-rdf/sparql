@@ -7,15 +7,15 @@ module SPARQL; module Algebra
     #
     # @example SPARQL Grammar
     #   PREFIX : <http://www.example.org/>
-    #   SELECT (SUM(?O) AS ?sum)
+    #   SELECT (SUM(?o) AS ?sum)
     #   WHERE { ?s :dec ?o }
     #
     # @example SSE
-    #    (prefix ((: <http://www.example.org/>))
-    #      (project (?sum)
-    #        (extend ((?sum ??.0))
-    #          (group () ((??.0 (sum ?o)))
-    #            (bgp (triple ?s :dec ?o))))))
+    #   (prefix ((: <http://www.example.org/>))
+    #     (project (?sum)
+    #       (extend ((?sum ??.0))
+    #         (group () ((??.0 (sum ?o)))
+    #           (bgp (triple ?s :dec ?o))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggSum
     class Sum < Operator

@@ -7,7 +7,7 @@ module SPARQL; module Algebra
     #
     # @example SPARQL Grammar
     #   PREFIX : <http://example/>
-    #   SELECT * { :s :p :o }
+    #   SELECT * { ?s ?p ?o }
     #
     # @example SSE
     #   (prefix ((: <http://example/>))

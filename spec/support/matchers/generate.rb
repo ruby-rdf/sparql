@@ -57,20 +57,20 @@ RSpec::Matchers.define :generate do |expected, options|
   end
   
   failure_message do |input|
-    "Input        : #{@input}\n" +
+    "Input:\n#{@input}\n" +
     case expected
     when String
-      "Expected     : #{expected}\n"
+      "Expected:\n#{expected}\n"
     else
-      "Expected     : #{expected.ai}\n" +
-      "Expected(sse): #{expected.to_sxp}\n"
+      "Expected:\n#{expected.ai}\n" +
+      "Expected(sse):\n#{expected.to_sxp}\n"
     end +
     case input
     when String
-      "Actual       : #{actual}\n"
+      "Actual:\n#{actual}\n"
     else
-      "Actual       : #{actual.ai}\n" +
-      "Actual(sse)  : #{actual.to_sxp}\n"
+      "Actual:\n#{actual.ai}\n" +
+      "Actual(sse):\n#{actual.to_sxp}\n"
     end +
     (@exception ? "Exception: #{@exception}" : "") +
     "Processing results:\n#{@debug.is_a?(Array) ? @debug.join("\n") : ''}"

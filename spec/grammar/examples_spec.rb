@@ -39,5 +39,37 @@ describe SPARQL::Grammar do
       parser = SPARQL::Grammar::Parser.new(query)
       parser.parse(options[:update] ? :UpdateUnit: :QueryUnit)
     end
+
+    context "Operator Examples" do
+      def self.read_operator_examples
+        examples = {}
+        Dir.glob(File.expand_path("../../../lib/sparql/algebra/operator/*.rb", __FILE__)).each do |rb|
+          op = File.basename(rb, ".rb")
+          scanner = StringScanner.new(File.read(rb))
+          while scanner.skip_until(/# @example SPARQL Grammar/)
+            current = {}
+            current[:sparql] = scanner.scan_until(/# @example SSE/)[0..-14].gsub(/^\s*#/, '')
+            current[:sxp]    = scanner.scan_until(/^\s+#\s*$/).gsub(/^\s*#/, '')
+            current[:prod]   = current[:sxp].include?('(update') ? :UpdateUnit : :QueryUnit
+            (examples[op] ||= []) << current
+          end
+        end
+        examples
+      end
+
+      read_operator_examples.each do |op, examples|
+        describe "Operator #{op}:" do
+          examples.each do |example|
+            sxp, sparql, production = example[:sxp], example[:sparql], example[:prod]
+            it(sparql) do
+              pending "not implemented yet" if %w(
+              
+              ).include?(op)
+              expect(sparql).to generate(sxp, resolve_iris: false, production: production, validate: true)
+            end
+          end
+        end
+      end
+    end
   end
 end
