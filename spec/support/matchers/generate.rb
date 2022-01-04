@@ -73,6 +73,6 @@ RSpec::Matchers.define :generate do |expected, options|
       "Actual(sse):\n#{actual.to_sxp}\n"
     end +
     (@exception ? "Exception: #{@exception}" : "") +
-    "Processing results:\n#{@debug.is_a?(Array) ? @debug.join("\n") : ''}"
+    "Processing results:\n#{options[:logger].to_s}"
   end
 end

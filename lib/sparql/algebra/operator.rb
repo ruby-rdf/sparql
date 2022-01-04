@@ -382,12 +382,16 @@ module SPARQL; module Algebra
 
       # Extensions
       extensions.each do |as, expression|
-        content << "\nBIND (#{expression.to_sparql(**options)} AS #{as.to_sparql(**options)}) ."
+        content << "\nBIND (" <<
+          expression.to_sparql(parse_extensions: true, **options) <<
+          " AS " <<
+          as.to_sparql(**options) <<
+          ") ."
       end
 
       # Filters
       filter_ops.each do |f|
-        content << "\nFILTER #{f.to_sparql(**options)} ."
+        content << "\nFILTER (#{f.to_sparql(parse_extensions: true, **options)}) ."
       end
 
       # Where clause

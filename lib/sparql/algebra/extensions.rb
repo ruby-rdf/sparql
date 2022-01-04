@@ -70,16 +70,27 @@ class Array
   # Returns a partial SPARQL grammar for this array.
   #
   # @param [String] delimiter (" ")
+  # @param [Boolean] parse_extensions (false)
+  #   If the first element is an IRI, treat it as an extension function
   # @return [String]
-  def to_sparql(delimiter: " ", **options)
-    map {|e| e.to_sparql(**options)}.join(delimiter)
+  def to_sparql(delimiter: " ", parse_extensions: false, **options)
+    if parse_extensions && first.is_a?(RDF::URI)
+      extension, *args = self
+      extension.to_sparql(**options) +
+        '(' +
+        args.to_sparql(delimiter: ', ', **options) +
+        ')'
+    else
+      map {|e| e.to_sparql(**options)}.join(delimiter)
+    end
   end
 
   ##
   # Evaluates the array using the given variable `bindings`.
   #
-  # In this case, the Array has two elements, the first of which is
-  # an XSD datatype, and the second is the expression to be evaluated.
+  # In this case, the Array has two or more elements, the first of which is
+  # an IRI identifying a built-in function, and the remainder are exaluated
+  # as aruments to that function.
   # The result is cast as a literal of the appropriate type
   #
   # @param  [RDF::Query::Solution] bindings
