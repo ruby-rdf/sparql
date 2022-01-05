@@ -29,7 +29,11 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "DESC(#{operands.last.to_sparql(**options)})"
+        expression = operands.last.is_a?(Array) ?
+          SerializerHelper::FunctionCall.new(*operands.last) :
+          operands.last
+        
+        "DESC(#{expression.to_sparql(**options)})"
       end
     end # Desc
   end # Operator

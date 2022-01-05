@@ -70,19 +70,10 @@ class Array
   # Returns a partial SPARQL grammar for this array.
   #
   # @param [String] delimiter (" ")
-  # @param [Boolean] parse_extensions (false)
   #   If the first element is an IRI, treat it as an extension function
   # @return [String]
-  def to_sparql(delimiter: " ", parse_extensions: false, **options)
-    if parse_extensions && first.is_a?(RDF::URI)
-      extension, *args = self
-      extension.to_sparql(**options) +
-        '(' +
-        args.to_sparql(delimiter: ', ', **options) +
-        ')'
-    else
-      map {|e| e.to_sparql(**options)}.join(delimiter)
-    end
+  def to_sparql(delimiter: " ",  **options)
+    map {|e| e.to_sparql(**options)}.join(delimiter)
   end
 
   ##

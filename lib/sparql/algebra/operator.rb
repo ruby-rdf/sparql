@@ -383,7 +383,7 @@ module SPARQL; module Algebra
       # Extensions
       extensions.each do |as, expression|
         content << "\nBIND (" <<
-          expression.to_sparql(parse_extensions: true, **options) <<
+          expression.to_sparql(**options) <<
           " AS " <<
           as.to_sparql(**options) <<
           ") ."
@@ -391,7 +391,7 @@ module SPARQL; module Algebra
 
       # Filters
       filter_ops.each do |f|
-        content << "\nFILTER (#{f.to_sparql(parse_extensions: true, **options)}) ."
+        content << "\nFILTER (#{f.to_sparql(**options)}) ."
       end
 
       # Where clause
@@ -675,7 +675,6 @@ module SPARQL; module Algebra
     end
 
     ##
-    #
     # Returns a partial SPARQL grammar for the operator.
     #
     # @return [String]

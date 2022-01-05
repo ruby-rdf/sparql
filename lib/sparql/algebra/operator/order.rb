@@ -17,6 +17,53 @@ module SPARQL; module Algebra
     #       (order ((asc ?name))
     #         (bgp (triple ?x foaf:name ?name)))))
     #
+    # @example SPARQL Grammar (with builtin)
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o .
+    #   }
+    #   ORDER BY str(?o)
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?s)
+    #     (order ((str ?o))
+    #      (bgp (triple ?s :p ?o)))))
+    #
+    # @example SPARQL Grammar (with bracketed expression)
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o1 ; :q ?o2 .
+    #   } ORDER BY (?o1 + ?o2)
+    #
+    # @example SSE
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s)
+    #     (order ((+ ?o1 ?o2))
+    #      (bgp
+    #       (triple ?s :p ?o1)
+    #       (triple ?s :q ?o2)))))
+    #
+    # @example SPARQL Grammar (with function call)
+    #   PREFIX :      <http://example.org/ns#> 
+    #   SELECT *
+    #   { ?s ?p ?o }
+    #   ORDER BY 
+    #     DESC(?o+57) :func2(?o) ASC(?s)
+    #   
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o1 ; :q ?o2 .
+    #   } ORDER BY (?o1 + ?o2)
+    #
+    # @example SSE
+    #   (prefix ((: <http://example.org/ns#>))
+    #    (order ((desc (+ ?o 57))
+    #            (:func2 ?o)
+    #            (asc ?s))
+    #     (bgp (triple ?s ?p ?o))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#modOrderBy
     class Order < Operator::Binary
       include Query
@@ -73,7 +120,11 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        operands.last.to_sparql(order_ops: operands.first, **options)
+        # Individual entries may be function calls
+        order_ops = operands.first.map do |op|
+          op.is_a?(Array) ? SerializerHelper::FunctionCall.new(*op) : op
+        end
+        operands.last.to_sparql(order_ops: order_ops, **options)
       end
     end # Order
   end # Operator

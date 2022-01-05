@@ -46,7 +46,7 @@ describe SPARQL::Grammar do
         Dir.glob(File.expand_path("../../../lib/sparql/algebra/operator/*.rb", __FILE__)).each do |rb|
           op = File.basename(rb, ".rb")
           scanner = StringScanner.new(File.read(rb))
-          while scanner.skip_until(/# @example SPARQL Grammar/)
+          while scanner.skip_until(/# @example SPARQL Grammar(.*)$/)
             current = {}
             current[:sparql] = scanner.scan_until(/# @example SSE/)[0..-14].gsub(/^\s*#/, '')
             current[:sxp]    = scanner.scan_until(/^\s+#\s*$/).gsub(/^\s*#/, '')
