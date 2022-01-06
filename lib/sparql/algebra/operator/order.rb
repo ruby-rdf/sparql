@@ -51,11 +51,6 @@ module SPARQL; module Algebra
     #   { ?s ?p ?o }
     #   ORDER BY 
     #     DESC(?o+57) :func2(?o) ASC(?s)
-    #   
-    #   PREFIX : <http://example.org/>
-    #   SELECT ?s WHERE {
-    #     ?s :p ?o1 ; :q ?o2 .
-    #   } ORDER BY (?o1 + ?o2)
     #
     # @example SSE
     #   (prefix ((: <http://example.org/ns#>))

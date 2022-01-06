@@ -5,7 +5,7 @@ require 'strscan'
 
 include SPARQL::Algebra
 
-shared_examples "to_sparql" do |name, sxp|
+shared_examples "SXP to SPARQL" do |name, sxp|
   it(name) do
     sse = SPARQL::Algebra.parse(sxp)
     sparql_result = sse.to_sparql
@@ -15,7 +15,7 @@ shared_examples "to_sparql" do |name, sxp|
 end
 
 describe SPARQL::Algebra::Operator do
-  it_behaves_like "to_sparql", "simple query",
+  it_behaves_like "SXP to SPARQL", "simple query",
     %{(prefix ((: <http://example/>))
           (bgp (triple :s :p :o)))}
 
@@ -39,14 +39,14 @@ describe SPARQL::Algebra::Operator do
     read_examples.each do |op, examples|
       describe "Operator #{op}:" do
         examples.each do |sxp|
-          it_behaves_like "to_sparql", sxp, sxp
+          it_behaves_like "SXP to SPARQL", sxp, sxp
         end
       end
     end
   end
 
   context "Issues" do
-    it_behaves_like "to_sparql", "#39",
+    it_behaves_like "SXP to SPARQL", "#39",
       SPARQL.parse(%(
         PREFIX obo: <http://purl.obolibrary.org/obo/>
 
@@ -59,7 +59,7 @@ describe SPARQL::Algebra::Operator do
         LIMIT 10
         )).to_sxp
 
-    it_behaves_like "to_sparql", "#40",
+    it_behaves_like "SXP to SPARQL", "#40",
       SPARQL.parse(%(
         PREFIX obo: <http://purl.obolibrary.org/obo/>
         PREFIX taxon: <http://identifiers.org/taxonomy/>
@@ -84,6 +84,8 @@ describe SPARQL::Algebra::Operator do
               "X" "Y" "MT"
           }
         }
-        )).to_sxp
+        )).to_sxp do
+      before {pending}
+    end
   end
 end

@@ -338,6 +338,7 @@ module SPARQL; module Algebra
     # @param [String] content
     # @param [Hash{Symbol => Operator}] extensions
     #   Variable bindings
+    # @param [Operator] datasets ([])
     # @param [Operator] distinct (false)
     # @param [Array<Operator>] filter_ops ([])
     #   Filter Operations
@@ -352,6 +353,7 @@ module SPARQL; module Algebra
     # @param [Hash{Symbol => Object}] options
     # @return [String]
     def self.to_sparql(content,
+                       datasets: [],
                        distinct: false,
                        extensions: {},
                        filter_ops: [],
@@ -392,6 +394,11 @@ module SPARQL; module Algebra
       # Filters
       filter_ops.each do |f|
         content << "\nFILTER (#{f.to_sparql(**options)}) ."
+      end
+
+      # Datasets
+      datasets.each do |ds|
+        str << "FROM #{ds.to_sparql(**options)}\n"
       end
 
       # Where clause
