@@ -440,7 +440,16 @@ class RDF::Query
   def to_sparql(top_level: true, **options)
     str = @patterns.map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join("\n")
     str = "GRAPH #{graph_name.to_sparql(**options)} {\n#{str}\n}\n" if graph_name
-    top_level ? SPARQL::Algebra::Operator.to_sparql(str, **options) : str
+    if top_level
+      SPARQL::Algebra::Operator.to_sparql(str, **options)
+    else
+      filter_ops = options.delete(:filter_ops) || []
+      filter_ops.each do |op|
+        str << "\nFILTER (#{op.to_sparql(**options)}) ."
+      end
+      str = "{#{str}}" unless filter_ops.empty?
+      str
+    end
   end
 
   ##

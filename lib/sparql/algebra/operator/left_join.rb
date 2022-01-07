@@ -131,14 +131,25 @@ module SPARQL; module Algebra
       #
       # @param [Boolean] top_level (true)
       #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @param [Array<Operator>] filter_ops ([])
+      #   Filter Operations
       # @return [String]
-      def to_sparql(top_level: true, **options)
-        str = operands[0].to_sparql(top_level: false, **options) +
-          "\nOPTIONAL { \n" +
-          operands[1].to_sparql(top_level: false, **options) + "\n"
-        str << 'FILTER (' + operands[2].to_sparql(**options) + ") \n" if operands[2]
-        str << '}'
-        top_level ? Operator.to_sparql(str, **options) : str
+      def to_sparql(top_level: true, filter_ops: [], **options)
+        str = "{\n" + operands[0].to_sparql(top_level: false, **options)
+        str << 
+          "\nOPTIONAL {\n" +
+          operands[1].to_sparql(top_level: false, **options)
+        case operands[2]
+        when SPARQL::Algebra::Operator::Exprlist
+          operands[2].operands.each do |op|
+            str << "\nFILTER (" + op.to_sparql(**options) + ")"
+          end
+        when nil
+        else
+          str << "\nFILTER (" + operands[2].to_sparql(**options) + ")"
+        end
+        str << "\n}}"
+        top_level ? Operator.to_sparql(str, filter_ops: filter_ops, **options) : str
       end
     end # LeftJoin
   end # Operator

@@ -26,7 +26,7 @@ module SPARQL; module Algebra
     #   SELECT ?a ?v (xsd:boolean(?v) AS ?boolean)
     #   WHERE { ?a :p ?v . }
     #
-    # @example SSE
+    # @example SSE (cast as boolean)
     #   (prefix ((: <http://example.org/>)
     #            (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
     #            (xsd: <http://www.w3.org/2001/XMLSchema#>))

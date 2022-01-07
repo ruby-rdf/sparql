@@ -8,7 +8,7 @@ module SPARQL; module Algebra
     #
     # [28]  ValuesClause            ::= ( 'VALUES' DataBlock )?
     #
-    # @example SPARQL Grammar
+    # @example SPARQL Grammar (ValuesClause)
     #   PREFIX dc:   <http://purl.org/dc/elements/1.1/> 
     #   PREFIX :     <http://example.org/book/> 
     #   PREFIX ns:   <http://example.org/ns#> 
@@ -18,7 +18,7 @@ module SPARQL; module Algebra
     #   }
     #   VALUES ?book { :book1 }
     #
-    # @example SSE
+    # @example SSE (ValuesClause)
     #   (prefix ((dc: <http://purl.org/dc/elements/1.1/>)
     #            (: <http://example.org/book/>)
     #            (ns: <http://example.org/ns#>))
@@ -27,8 +27,32 @@ module SPARQL; module Algebra
     #      (bgp (triple ?book dc:title ?title) (triple ?book ns:price ?price))
     #      (table (vars ?book) (row (?book :book1)))) ))
     #
+    # [61]  InlineData              ::= 'VALUES' DataBlock
+    #
+    # @example SPARQL Grammar (InlineData)
+    #   PREFIX dc:   <http://purl.org/dc/elements/1.1/> 
+    #   PREFIX :     <http://example.org/book/> 
+    #   PREFIX ns:   <http://example.org/ns#> 
+    #   
+    #   SELECT ?book ?title ?price
+    #   {
+    #      VALUES ?book { :book1 }
+    #      ?book dc:title ?title ;
+    #            ns:price ?price .
+    #   }
+    #
+    # @example SSE (InlineData)
+    #   (prefix ((dc: <http://purl.org/dc/elements/1.1/>)
+    #            (: <http://example.org/book/>)
+    #            (ns: <http://example.org/ns#>))
+    #    (project (?book ?title ?price)
+    #     (join
+    #      (table (vars ?book) (row (?book :book1)))
+    #      (bgp (triple ?book dc:title ?title) (triple ?book ns:price ?price))) ))
+    #
     # @example empty table
     #     (table unit)
+    #
     # @see https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data
     class Table < Operator
       include Query

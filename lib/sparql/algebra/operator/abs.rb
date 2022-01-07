@@ -5,7 +5,7 @@ module SPARQL; module Algebra
     #
     # [121] BuiltInCall ::= ... | 'ABS' '(' Expression ')'
     #
-    # @example SPARQL Query
+    # @example SPARQL Grammar
     #   PREFIX : <http://example.org/>
     #   SELECT * WHERE {
     #     ?s :num ?num

@@ -352,6 +352,8 @@ module SPARQL; module Algebra
     # @param [Array<Symbol,Operator>] project (%i(*))
     #   Terms to project
     # @param [Operator] reduced (false)
+    # @param [Operator] where_clause (true)
+    #   Emit 'WHERE' before GroupGraphPattern
     # @param [Hash{Symbol => Object}] options
     # @return [String]
     def self.to_sparql(content,
@@ -365,6 +367,7 @@ module SPARQL; module Algebra
                        order_ops: [],
                        project: %i(*),
                        reduced: false,
+                       where_clause: true,
                        **options)
       str = ""
 
@@ -384,7 +387,12 @@ module SPARQL; module Algebra
         end.join(" ") + "\n"
       end
 
-      # Extensions
+      # DatasetClause
+      datasets.each do |ds|
+        str << "FROM #{ds.to_sparql(**options)}\n"
+      end
+
+      # Bind
       extensions.each do |as, expression|
         content << "\nBIND (" <<
           expression.to_sparql(**options) <<
@@ -393,20 +401,18 @@ module SPARQL; module Algebra
           ") ."
       end
 
-      # Filters
+      # Filter
       filter_ops.each do |f|
         content << "\nFILTER (#{f.to_sparql(**options)}) ."
       end
 
-      # Datasets
-      datasets.each do |ds|
-        str << "FROM #{ds.to_sparql(**options)}\n"
-      end
+      # WhereClause / GroupGraphPattern
+      str << (where_clause ? "WHERE {\n#{content}\n}\n" : "{\n#{content}\n}\n")
 
-      # Where clause
-      str << "WHERE {\n#{content}\n}\n"
-
-      # Group
+      ##
+      # SolutionModifier
+      #
+      # GroupClause
       unless group_ops.empty?
         ops = group_ops.map do |o|
           # Replace projected variables with their extension, if any
@@ -417,12 +423,14 @@ module SPARQL; module Algebra
         str << "GROUP BY #{ops.join(' ')}\n"
       end
 
-      # Order
+      # HavingClause
+
+      # OrderClause
       unless order_ops.empty?
         str << "ORDER BY #{order_ops.to_sparql(**options)}\n"
       end
 
-      # Offset and Limmit
+      # LimitOffsetClauses
       str << "OFFSET #{offset}\n" unless offset.nil?
       str << "LIMIT #{limit}\n" unless limit.nil?
       str

@@ -25,7 +25,7 @@ describe SPARQL::Algebra::Operator do
       Dir.glob(File.expand_path("../../../lib/sparql/algebra/operator/*.rb", __FILE__)).each do |rb|
         op = File.basename(rb, ".rb")
         scanner = StringScanner.new(File.read(rb))
-        while scanner.skip_until(/# @example SSE/)
+        while scanner.skip_until(/# @example SSE.*$/)
           ex = scanner.scan_until(/^\s+#\s*$/)
 
           # Trim off comment prefix

@@ -24,7 +24,7 @@ module SPARQL; module Algebra
     #   }
     #   ORDER BY str(?o)
     #
-    # @example SSE
+    # @example SSE (with builtin)
     #   (prefix ((: <http://example.org/>))
     #    (project (?s)
     #     (order ((str ?o))
@@ -36,7 +36,7 @@ module SPARQL; module Algebra
     #     ?s :p ?o1 ; :q ?o2 .
     #   } ORDER BY (?o1 + ?o2)
     #
-    # @example SSE
+    # @example SSE (with bracketed expression)
     #   (prefix
     #    ((: <http://example.org/>))
     #    (project (?s)
@@ -53,7 +53,7 @@ module SPARQL; module Algebra
     #   ORDER BY 
     #     DESC(?o+57) xsd:string(?o) ASC(?s)
     #
-    # @example SSE
+    # @example SSE (with function call)
     #   (prefix ((: <http://example.org/ns#>)
     #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
     #    (order ((desc (+ ?o 57))

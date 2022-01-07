@@ -48,7 +48,7 @@ describe SPARQL::Grammar do
           scanner = StringScanner.new(File.read(rb))
           while scanner.skip_until(/# @example SPARQL Grammar(.*)$/)
             current = {}
-            current[:sparql] = scanner.scan_until(/# @example SSE/)[0..-14].gsub(/^\s*#/, '')
+            current[:sparql] = scanner.scan_until(/# @example SSE.*$/).gsub(/^\s*#/, '').sub(/@example SSE.*$/, '')
             current[:sxp]    = scanner.scan_until(/^\s+#\s*$/).gsub(/^\s*#/, '')
             current[:prod]   = current[:sxp].include?('(update') ? :UpdateUnit : :QueryUnit
             (examples[op] ||= []) << current
