@@ -77,24 +77,6 @@ class Array
   end
 
   ##
-  # Evaluates the array using the given variable `bindings`.
-  #
-  # In this case, the Array has two or more elements, the first of which is
-  # an IRI identifying a built-in function, and the remainder are exaluated
-  # as aruments to that function.
-  # The result is cast as a literal of the appropriate type
-  #
-  # @param  [RDF::Query::Solution] bindings
-  #   a query solution containing zero or more variable bindings
-  # @param [Hash{Symbol => Object}] options ({})
-  #   options passed from query
-  # @return [RDF::Term]
-  # @see SPARQL::Algebra::Expression.evaluate
-  def evaluate(bindings, **options)
-    SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings, **options)})
-  end
-
-  ##
   # If `#execute` is invoked, it implies that a non-implemented Algebra operator
   # is being invoked
   #
