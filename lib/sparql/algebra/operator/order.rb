@@ -46,16 +46,18 @@ module SPARQL; module Algebra
     #       (triple ?s :q ?o2)))))
     #
     # @example SPARQL Grammar (with function call)
-    #   PREFIX :      <http://example.org/ns#> 
+    #   PREFIX :      <http://example.org/ns#>
+    #   PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
     #   SELECT *
     #   { ?s ?p ?o }
     #   ORDER BY 
-    #     DESC(?o+57) :func2(?o) ASC(?s)
+    #     DESC(?o+57) xsd:string(?o) ASC(?s)
     #
     # @example SSE
-    #   (prefix ((: <http://example.org/ns#>))
+    #   (prefix ((: <http://example.org/ns#>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
     #    (order ((desc (+ ?o 57))
-    #            (:func2 ?o)
+    #            (xsd:string ?o)
     #            (asc ?s))
     #     (bgp (triple ?s ?p ?o))))
     #
@@ -115,11 +117,7 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        # Individual entries may be function calls
-        order_ops = operands.first.map do |op|
-          op.is_a?(Array) ? SerializerHelper::FunctionCall.new(*op) : op
-        end
-        operands.last.to_sparql(order_ops: order_ops, **options)
+        operands.last.to_sparql(order_ops: operands.first, **options)
       end
     end # Order
   end # Operator

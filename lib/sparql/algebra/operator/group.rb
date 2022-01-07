@@ -143,8 +143,6 @@ module SPARQL; module Algebra
           # Replace extensions from temporary bindings
           operands[1].each do |var, op|
             ext_var = extensions.invert.fetch(var)
-            # Individual ops may be function calls
-            op = SerializerHelper::FunctionCall.new(*op) if op.is_a?(Array)
             extensions[ext_var] = op
           end
         end

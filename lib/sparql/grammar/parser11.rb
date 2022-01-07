@@ -806,7 +806,7 @@ module SPARQL::Grammar
 
     # [70]  	FunctionCall	  ::=  	iri ArgList
     production(:FunctionCall) do |input, data, callback|
-      add_prod_data(:Function, Array(data[:iri]) + data[:ArgList])
+      add_prod_data(:Function, SPARQL::Algebra::Operator::FunctionCall.new(data[:iri], *data[:ArgList]))
     end
 
     # [71]  	ArgList	  ::=  	NIL
@@ -1437,7 +1437,7 @@ module SPARQL::Grammar
     production(:iriOrFunction) do |input, data, callback|
       if data.has_key?(:ArgList)
         # Function is (func arg1 arg2 ...)
-        add_prod_data(:Function, Array(data[:iri]) + data[:ArgList])
+        add_prod_data(:Function, SPARQL::Algebra::Operator::FunctionCall.new(data[:iri], *data[:ArgList]))
       else
         input[:iri] = data[:iri]
       end

@@ -13,10 +13,10 @@ shared_examples "FunctionCall" do
   context "FunctionCall nonterminal" do
     {
       "<foo>('bar')" => [
-        %q(<foo>("bar")), [RDF::URI("foo"), RDF::Literal("bar")]
+        %q(<foo>("bar")), SPARQL::Algebra::Expression[:function_call, RDF::URI("foo"), RDF::Literal("bar")]
       ],
       "<foo>()" => [
-        %q(<foo>()), [RDF::URI("foo"), RDF["nil"]]
+        %q(<foo>()), SPARQL::Algebra::Expression[:function_call, RDF::URI("foo"), RDF["nil"]]
       ]
     }.each do |title, (input, output)|
       it title do |example|
@@ -1750,7 +1750,7 @@ describe SPARQL::Grammar::Parser do
         %(FILTER REGEX ("foo", "bar")), [:filter, SPARQL::Algebra::Expression[:regex, RDF::Literal("foo"), RDF::Literal("bar")]]
       ],
       "<fun>" => [
-        %(FILTER <fun> ("arg")), [:filter, [RDF::URI("fun"), RDF::Literal("arg")]]
+        %(FILTER <fun> ("arg")), [:filter, SPARQL::Algebra::Expression[:function_call, RDF::URI("fun"), RDF::Literal("arg")]]
       ],
       "bound" => [
         %(FILTER BOUND (?e)), [:filter, SPARQL::Algebra::Expression[:bound, RDF::Query::Variable.new("e")]]

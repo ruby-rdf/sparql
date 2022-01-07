@@ -17,17 +17,6 @@ module SPARQL; module Algebra
     #      (filter (= ?v 2)
     #        (bgp (triple ?s <http://example/p> ?v))))
     #
-    # @example SPARQL Grammar (Using a Function Call)
-    #   PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
-    #   SELECT *
-    #   WHERE { ?s ?p ?o . FILTER xsd:integer(?o) }
-    #
-    # @example SSE
-    #   (prefix
-    #    ((xsd: <http://www.w3.org/2001/XMLSchema#>))
-    #    (filter (xsd:integer ?o)
-    #     (bgp (triple ?s ?p ?o))))
-    #
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Filter < Operator::Binary
       include Query
@@ -100,10 +89,6 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         filter_ops = operands.first.is_a?(Operator::Exprlist) ? operands.first.operands : [operands.first]
-        # Individual entries may be function calls
-        filter_ops = filter_ops.map do |op|
-          op.is_a?(Array) ? SerializerHelper::FunctionCall.new(*op) : op
-        end
         operands.last.to_sparql(filter_ops: filter_ops, **options)
       end
     end # Filter

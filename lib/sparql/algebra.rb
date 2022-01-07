@@ -262,6 +262,7 @@ module SPARQL
   #     * {SPARQL::Algebra::Operator::Extend}
   #     * {SPARQL::Algebra::Operator::Filter}
   #     * {SPARQL::Algebra::Operator::Floor}
+  #     * {SPARQL::Algebra::Operator::FunctionCall}
   #     * {SPARQL::Algebra::Operator::Graph}
   #     * {SPARQL::Algebra::Operator::GreaterThan}
   #     * {SPARQL::Algebra::Operator::GreaterThanOrEqual}
@@ -426,41 +427,6 @@ module SPARQL
     module_function :Variable
 
     Variable = RDF::Query::Variable
-
-    ##
-    # The serializer helper is used to help manage transformations from SSE back to the SPARQL Grammar
-    module SerializerHelper
-
-      # Reserialize an Array used as a Function Call
-      class FunctionCall
-        # The name of the function
-        # @return [RDF::URI]
-        attr_accessor :iri
-
-        # The arguments to the function
-        # @return [Array<Operator, RDF::Term>]
-        attr_reader :args
-
-        ##
-        # @param [RDF::URI] iri
-        # @param [Array<Operator, RDF::Term>] args
-        def initialize(iri, *args)
-          args.pop if RDF.nil == args.last
-          @iri, @args = iri, args
-        end
-
-        ##
-        # Returns a partial SPARQL grammar for the function call.
-        #
-        # @return [String]
-        def to_sparql(**options)
-          iri.to_sparql(**options) +
-            '(' +
-            args.to_sparql(delimiter: ', ', **options) +
-            ')'
-        end
-      end
-    end # SerializerHelper
   end # Algebra
 end # SPARQL
 

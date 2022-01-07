@@ -107,8 +107,6 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         extensions = operands.first.inject({}) do |memo, (as, expression)|
-          # Individual entries may be function calls
-          expression = SerializerHelper::FunctionCall.new(*expression) if expression.is_a?(Array)
           memo.merge(as => expression)
         end
 

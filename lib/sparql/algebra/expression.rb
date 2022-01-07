@@ -86,6 +86,13 @@ module SPARQL; module Algebra
       raise ArgumentError, "invalid SPARQL::Algebra::Expression form: #{sse.inspect}" unless sse.is_a?(Array)
 
       operator = Operator.for(sse.first, sse.length - 1)
+
+      # If we don't find an operator, and sse.first is an extension IRI, use a function call
+      if !operator && sse.first.is_a?(RDF::URI) && self.extension?(sse.first)
+        operator = Operator.for(:function_call, sse.length)
+        sse.unshift(:function_call)
+      end
+
       unless operator
         return case sse.first
         when Array
@@ -161,6 +168,17 @@ module SPARQL; module Algebra
     # @return [Hash{RDF:URI: Proc}]
     def self.extensions
       @extensions ||= {}
+    end
+
+    ##
+    # Is an extension function available?
+    #
+    # It's either a registered extension, or an XSD casting function
+    #
+    # @param [RDF::URI] function
+    # @return [Boolean]
+    def self.extension?(function)
+      function.to_s.start_with?(RDF::XSD.to_s) || self.extensions[function]
     end
 
     ##
@@ -322,22 +340,6 @@ module SPARQL; module Algebra
     # @return [self]
     # @see    RDF::Query#optimize!
     def optimize!(**options)
-      self
-    end
-
-    ##
-    # Evaluates this expression using the given variable `bindings`.
-    #
-    # This is the default implementation, which simply returns `self`.
-    # Subclasses can override this method in order to implement something
-    # more useful.
-    #
-    # @param  [RDF::Query::Solution] bindings
-    #   a query solution containing zero or more variable bindings
-    # @param [Hash{Symbol => Object}] options ({})
-    #   options passed from query
-    # @return [Expression] `self`
-    def evaluate(bindings, **options)
       self
     end
 

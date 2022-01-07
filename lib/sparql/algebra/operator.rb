@@ -106,6 +106,7 @@ module SPARQL; module Algebra
     autoload :Coalesce,           'sparql/algebra/operator/coalesce'
     autoload :Desc,               'sparql/algebra/operator/desc'
     autoload :Exprlist,           'sparql/algebra/operator/exprlist'
+    autoload :FunctionCall,       'sparql/algebra/operator/function_call'
     autoload :GroupConcat,        'sparql/algebra/operator/group_concat'
     autoload :In,                 'sparql/algebra/operator/in'
     autoload :NotIn,              'sparql/algebra/operator/notin'
@@ -254,6 +255,7 @@ module SPARQL; module Algebra
         when :asc             then Asc
         when :desc            then Desc
         when :exprlist        then Exprlist
+        when :function_call   then FunctionCall
 
         # Datasets
         when :dataset         then Dataset
