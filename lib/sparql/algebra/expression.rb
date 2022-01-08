@@ -66,9 +66,11 @@ module SPARQL; module Algebra
     #
     # @param  [Array] sse
     #   a SPARQL S-Expression (SSE) form
+    # @param  [Hash{Symbol => Object}] options
+    #   any additional options (see {Operator#initialize})
     # @return [Expression]
-    def self.for(*sse)
-      self.new(sse)
+    def self.for(*sse, **options)
+      self.new(sse, **options)
     end
     class << self; alias_method :[], :for; end
 
@@ -122,11 +124,16 @@ module SPARQL; module Algebra
       end
 
       debug(options) {"#{operator.inspect}(#{operands.map(&:inspect).join(',')})"}
+      logger = options[:logger]
       options.delete_if {|k, v| [:debug, :logger, :depth, :prefixes, :base_uri, :update, :validate].include?(k) }
       begin
         operator.new(*operands, **options)
       rescue ArgumentError => e
-        error(options) {"Operator=#{operator.inspect}: #{e}"}
+        if logger
+          logger.error("Operator=#{operator.inspect}: #{e}")
+        else
+          raise "Operator=#{operator.inspect}: #{e}"
+        end
       end
     end
 
