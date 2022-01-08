@@ -165,11 +165,11 @@ shared_examples "to_sparql" do |id, label, comment, tests|
           t.logger.debug "Source:\n#{t.action.query_string}\n"
           sse = SPARQL.parse(t.action.query_string,
                              base_uri: t.base_uri,
-                             production: :UpdateUnit)
+                             update: true)
           sparql = sse.to_sparql(base_uri: t.base_uri)
           expect(sparql).to generate(sse, resolve_iris: false, production: :UpdateUnit, logger: t.logger)
         end
-      when 'mf:NegativeSyntaxTest'
+      when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
         # Do nothing.
       else
         it "??? #{t.entry} - #{t.name}" do

@@ -114,20 +114,22 @@ module SPARQL; module Algebra
       #
       # @param [Boolean] top_level (true)
       #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @param [Hash{Symbol => Operator}] extensions
+      #   Variable bindings
       # @param [Array<Operator>] filter_ops ([])
       #   Filter Operations
       # @return [String]
-      def to_sparql(top_level: true, filter_ops: [], **options)
-        str = "{\n" + operands.first.to_sparql(top_level: false, **options)
+      def to_sparql(top_level: true, filter_ops: [], extensions: {}, **options)
+        str = "{\n" + operands.first.to_sparql(top_level: false, extensions: {}, **options)
 
         # Any accrued filters go here.
         filter_ops.each do |op|
           str << "\nFILTER (#{op.to_sparql(**options)}) ."
         end
 
-        str << "\n" + operands.last.to_sparql(top_level: false, **options) + "\n}"
+        str << "\n" + operands.last.to_sparql(top_level: false, extensions: {}, **options) + "\n}"
 
-        top_level ? Operator.to_sparql(str, **options) : str
+        top_level ? Operator.to_sparql(str, extensions: extensions, **options) : str
       end
     end # Join
   end # Operator

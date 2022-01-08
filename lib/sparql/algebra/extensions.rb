@@ -432,7 +432,7 @@ class RDF::Query
 
   ##
   #
-  # Returns a partial SPARQL grammar for this term.
+  # Returns a partial SPARQL grammar for this query.
   #
   # @param [Boolean] top_level (true)
   #   Treat this as a top-level, generating SELECT ... WHERE {}
@@ -443,11 +443,22 @@ class RDF::Query
     if top_level
       SPARQL::Algebra::Operator.to_sparql(str, **options)
     else
-      filter_ops = options.delete(:filter_ops) || []
+      # Filters
+      filter_ops = options.fetch(:filter_ops, [])
       filter_ops.each do |op|
         str << "\nFILTER (#{op.to_sparql(**options)}) ."
       end
-      str = "{#{str}}" unless filter_ops.empty?
+
+      # Extensons
+      extensions = options.fetch(:extensions, [])
+      extensions.each do |as, expression|
+        str << "\nBIND (" <<
+          expression.to_sparql(**options) <<
+          " AS " <<
+          as.to_sparql(**options) <<
+          ") ."
+      end
+      str = "{#{str}}" unless filter_ops.empty? && extensions.empty?
       str
     end
   end

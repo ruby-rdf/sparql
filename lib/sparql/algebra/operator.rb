@@ -338,10 +338,10 @@ module SPARQL; module Algebra
     # Generate a top-level Grammar, using collected options
     #
     # @param [String] content
-    # @param [Hash{Symbol => Operator}] extensions
-    #   Variable bindings
     # @param [Operator] datasets ([])
     # @param [Operator] distinct (false)
+    # @param [Hash{Symbol => Operator}] extensions
+    #   Variable bindings
     # @param [Array<Operator>] filter_ops ([])
     #   Filter Operations
     # @param [Integer] limit (nil)

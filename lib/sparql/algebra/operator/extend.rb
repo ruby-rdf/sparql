@@ -33,7 +33,24 @@ module SPARQL; module Algebra
     #    (project (?a ?v ?boolean)
     #     (extend ((?boolean (xsd:boolean ?v)))
     #      (bgp (triple ?a :p ?v)))))
+    #
+    # @example SPARQL Grammar (inner bind)
+    #   PREFIX : <http://example.org/> 
     #   
+    #   SELECT ?z ?s1
+    #   {
+    #     ?s ?p ?o .
+    #     BIND(?o+1 AS ?z)
+    #     ?s1 ?p1 ?z
+    #   }
+    #
+    # @example SSE (inner bind)
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?z ?s1)
+    #     (join
+    #      (extend ((?z (+ ?o 1)))
+    #       (bgp (triple ?s ?p ?o)))
+    #     (bgp (triple ?s1 ?p1 ?z)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Extend < Operator::Binary
