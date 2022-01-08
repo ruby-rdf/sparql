@@ -131,12 +131,63 @@ shared_examples "SUITE" do |id, label, comment, tests|
   end
 end
 
+shared_examples "to_sparql" do |id, label, comment, tests|
+  man_name = id.to_s.split("/")[-2]
+  describe [man_name, label, comment].compact.join(" - ") do
+    tests.each do |t|
+      next unless t.action
+      case t.type
+      when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
+        it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
+          case t.name
+          when 'syntax-expr-05.rq', 'syntax-order-05.rq', 'syntax-function-04.rq'
+            pending("Unregistered function calls")
+          when 'Basic - Term 7', 'syntax-lit-08.rq'
+            skip "Decimal format changed in SPARQL 1.1"
+          when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
+            skip "PNAME_LN changed in SPARQL 1.1"
+          end
+          t.logger = RDF::Spec.logger
+          t.logger.debug "Source:\n#{t.action.query_string}"
+          sse = SPARQL.parse(t.action.query_string,
+                             base_uri: t.base_uri,
+                             production: :QueryUnit)
+          sparql = sse.to_sparql(base_uri: t.base_uri)
+          expect(sparql).to generate(sse,
+                                     base_uri: t.base_uri,
+                                     resolve_iris: false,
+                                     production: :QueryUnit,
+                                     logger: t.logger)
+        end
+      when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest', 'mf:PositiveUpdateSyntaxTest11'
+        it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
+          t.logger = RDF::Spec.logger
+          t.logger.debug "Source:\n#{t.action.query_string}\n"
+          sse = SPARQL.parse(t.action.query_string,
+                             base_uri: t.base_uri,
+                             production: :UpdateUnit)
+          sparql = sse.to_sparql(base_uri: t.base_uri)
+          expect(sparql).to generate(sse, resolve_iris: false, production: :UpdateUnit, logger: t.logger)
+        end
+      when 'mf:NegativeSyntaxTest'
+        # Do nothing.
+      else
+        it "??? #{t.entry} - #{t.name}" do
+          puts t.inspect
+          fail "Unknown test type #{t.type}"
+        end
+      end
+    end
+  end
+end
+
 describe SPARQL do
   BASE = "http://w3c.github.io/rdf-tests/sparql11/"
   describe "w3c dawg SPARQL 1.0 syntax tests" do
     SPARQL::Spec.sparql1_0_syntax_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -145,6 +196,7 @@ describe SPARQL do
     SPARQL::Spec.sparql1_0_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -153,6 +205,7 @@ describe SPARQL do
     SPARQL::Spec.sparql1_1_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        #it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -161,6 +214,7 @@ describe SPARQL do
     SPARQL::Spec.sparql_star_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        #it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
