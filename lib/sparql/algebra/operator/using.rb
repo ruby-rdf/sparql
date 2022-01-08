@@ -28,6 +28,21 @@ module SPARQL; module Algebra
     #       (bgp (triple :a foaf:knows ?s) (triple ?s ?p ?o)))
     #      (delete ((triple ?s ?p ?o)))) ))
     #
+    # @example SPARQL Grammar (multiple clauses)
+    #   PREFIX     : <http://example.org/> 
+    #   
+    #   INSERT { ?s ?p "q" }
+    #   USING :g1
+    #   USING :g2
+    #   WHERE { ?s ?p ?o }
+    #
+    # @example SSE (multiple clauses)
+    #   (prefix ((: <http://example.org/>))
+    #    (update
+    #     (modify (using (:g1 :g2)
+    #      (bgp (triple ?s ?p ?o)))
+    #      (insert ((triple ?s ?p "q"))))))
+    #
     # @see https://www.w3.org/TR/sparql11-update/#add
     class Using < Operator
       include SPARQL::Algebra::Query
@@ -61,7 +76,9 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        str = "USING #{operands.first.to_sparql(**options)}\n"
+        str = "\n" + operands.first.map do |op|
+          "USING #{op.to_sparql(**options)}\n"
+        end.join("")
         content = operands.last.to_sparql(top_level: false, **options)
         str << Operator.to_sparql(content, project: nil, **options)
       end
