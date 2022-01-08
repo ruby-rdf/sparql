@@ -48,15 +48,15 @@ module SPARQL; module Algebra
       rescue
         raise TypeError
       end
-    end # If
 
-    ##
-    #
-    # Returns a partial SPARQL grammar for this operator.
-    #
-    # @return [String]
-    def to_sparql(**options)
-      "IF(" + operands.to_sparql(delimiter: ', ', **options) + ")"
-    end
-  end # If
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "IF(" + operands.to_sparql(delimiter: ', ', **options) + ")"
+      end
+    end # If
+  end # Operator
 end; end # SPARQL::Algebra
