@@ -436,15 +436,16 @@ class RDF::Query
   #
   # @param [Boolean] top_level (true)
   #   Treat this as a top-level, generating SELECT ... WHERE {}
+  # @param [Array<Operator>] filter_ops ([])
+  #   Filter Operations
   # @return [String]
-  def to_sparql(top_level: true, **options)
+  def to_sparql(top_level: true, filter_ops: [], **options)
     str = @patterns.map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join("\n")
     str = "GRAPH #{graph_name.to_sparql(**options)} {\n#{str}\n}\n" if graph_name
     if top_level
-      SPARQL::Algebra::Operator.to_sparql(str, **options)
+      SPARQL::Algebra::Operator.to_sparql(str, filter_ops: filter_ops, **options)
     else
       # Filters
-      filter_ops = options.fetch(:filter_ops, [])
       filter_ops.each do |op|
         str << "\nFILTER (#{op.to_sparql(**options)}) ."
       end

@@ -144,8 +144,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "PNAME_LN changed in SPARQL 1.1"
           when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq'
             skip "Equivalent form"
-          when 'subset-01.rq', 'subset-02.rq', 'set-equals-1.rq', 'subset-03.rq'
-            pending("TODO Minus")
           when 'exists03.rq', 'exists04.rq', 'exists05.rq'
             skip('TODO Exists')
           when 'syntax-aggregate-02.rq', 'syntax-aggregate-14.rq', 'syntax-aggregate-15.rq'
