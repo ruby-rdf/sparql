@@ -76,8 +76,11 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "CLEAR #{'GRAPH ' if operands.last.is_a?(RDF::URI)}" +
-          operands.to_sparql(**options)
+        silent = operands.first == :silent
+        str = "CLEAR "
+        str << "SILENT " if operands.first == :silent
+        str << "GRAPH " if operands.last.is_a?(RDF::URI)
+        str << operands.last.to_sparql(**options)
       end
     end # Clear
   end # Operator

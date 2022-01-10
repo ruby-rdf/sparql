@@ -46,7 +46,6 @@ module SPARQL; module Algebra
       def execute(queryable, **options)
         debug(options) {"Drop"}
         silent = operands.first == :silent
-        silent = operands.first == :silent
         operands.shift if silent
 
         raise ArgumentError, "drop expected operand to be 'default', 'named', 'all', or an IRI" unless operands.length == 1
@@ -80,8 +79,11 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "DROP #{'GRAPH ' if operands.last.is_a?(RDF::URI)}" +
-          operands.to_sparql(**options)
+        silent = operands.first == :silent
+        str = "DROP "
+        str << "SILENT " if operands.first == :silent
+        str << "GRAPH " if operands.last.is_a?(RDF::URI)
+        str << operands.last.to_sparql(**options)
       end
     end # Drop
   end # Operator

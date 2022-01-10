@@ -55,10 +55,11 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        *args, last = operands.dup
-        args += [:GRAPH, last]
-
-        "CREATE " + args.to_sparql(**options)
+        silent = operands.first == :silent
+        str = "CREATE "
+        str << "SILENT " if operands.first == :silent
+        str << "GRAPH " if operands.last.is_a?(RDF::URI)
+        str << operands.last.to_sparql(**options)
       end
     end # Create
   end # Operator
