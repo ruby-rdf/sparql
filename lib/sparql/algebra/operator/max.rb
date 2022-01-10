@@ -56,7 +56,9 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "MAX(" + operands.to_sparql(**options) + ")"
+        distinct = operands.first == :distinct
+        args = distinct ? operands[1..-1] : operands
+        "MAX(#{'DISTINCT ' if distinct}#{args.to_sparql(**options)})"
       end
     end # Max
   end # Operator

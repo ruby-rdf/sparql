@@ -56,7 +56,9 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "MIN(" + operands.to_sparql(**options) + ")"
+        distinct = operands.first == :distinct
+        args = distinct ? operands[1..-1] : operands
+        "MIN(#{'DISTINCT ' if distinct}#{args.to_sparql(**options)})"
       end
     end # Min
   end # Operator

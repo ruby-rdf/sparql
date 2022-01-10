@@ -31,6 +31,20 @@ module SPARQL; module Algebra
     #      (group () ((??.0 (count)))
     #       (bgp (triple ?S ?P ?O))))))
     #
+    # @example SPARQL Grammar (count(distinct *))
+    #   PREFIX : <http://www.example.org>
+    #   
+    #   SELECT (COUNT(DISTINCT *) AS ?C)
+    #   WHERE { ?S ?P ?O }
+    #
+    # @example SSE (count(distinct *))
+    #   (prefix
+    #    ((: <http://www.example.org>))
+    #    (project (?C)
+    #     (extend ((?C ??.0))
+    #      (group () ((??.0 (count distinct)))
+    #       (bgp (triple ?S ?P ?O))))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggCount
     class Count < Operator
       include Aggregate
@@ -53,7 +67,9 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "COUNT(#{operands.empty? ? '*' : operands.to_sparql(**options)})"
+        distinct = operands.first == :distinct
+        args = distinct ? operands[1..-1] : operands
+        "COUNT(#{'DISTINCT ' if distinct}#{args.empty? ? '*' : args.to_sparql(**options)})"
       end
     end # Count
   end # Operator

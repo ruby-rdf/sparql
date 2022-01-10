@@ -47,7 +47,9 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "SUM(" + operands.to_sparql(**options) + ")"
+        distinct = operands.first == :distinct
+        args = distinct ? operands[1..-1] : operands
+        "SUM(#{'DISTINCT ' if distinct}#{args.to_sparql(**options)})"
       end
     end # Sum
   end # Operator

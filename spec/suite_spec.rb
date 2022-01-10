@@ -146,8 +146,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "Equivalent form"
           when 'exists03.rq', 'exists04.rq', 'exists05.rq'
             skip('TODO Exists')
-          when 'syntax-aggregate-02.rq', 'syntax-aggregate-14.rq', 'syntax-aggregate-15.rq'
-            pending("TODO Aggregates")
           when 'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq', 'agg-groupconcat-3.rq',
               'agg-sample-01.rq', 'sq03.rq', 'sq08.rq', 'sq09.rq', 'sq11.rq', 'sq12.rq',
               'sq13.rq', 'sq14.rq', 'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
