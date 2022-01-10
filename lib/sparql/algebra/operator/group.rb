@@ -40,6 +40,22 @@ module SPARQL; module Algebra
     #       (group (?s) ((??.0 (avg ?o)))
     #        (bgp (triple ?s ?p ?o)))))) )
     #
+    # @example SPARQL Grammar (non-triveal filters)
+    #   PREFIX : <http://example.com/data/#>
+    #   SELECT ?g (AVG(?p) AS ?avg) ((MIN(?p) + MAX(?p)) / 2 AS ?c)
+    #   WHERE { ?g :p ?p . }
+    #   GROUP BY ?g
+    #
+    # @example SSE (non-triveal filters)
+    #   (prefix ((: <http://example.com/data/#>))
+    #    (project (?g ?avg ?c)
+    #     (extend ((?avg ??.0) (?c (/ (+ ??.1 ??.2) 2)))
+    #      (group (?g)
+    #             ((??.0 (avg ?p))
+    #              (??.1 (min ?p))
+    #              (??.2 (max ?p)))
+    #       (bgp (triple ?g :p ?p)))) ))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Group < Operator
       include Query
@@ -161,8 +177,25 @@ module SPARQL; module Algebra
           temp_bindings = operands[1].inject({}) {|memo, (var, op)| memo.merge(var => op)}
           # Replace extensions from temporary bindings
           temp_bindings.each do |var, op|
-            ext_var = extensions.invert.fetch(var)
-            extensions[ext_var] = op
+            # Update extensions using a temporarily bound variable with its binding
+            extensions = extensions.inject({}) do |memo, (ext_var, ext_op)|
+              if ext_op.is_a?(Operator)
+                # Try to recursivley replace variable within operator
+                new_op = ext_op.deep_dup.rewrite do |operand|
+                  if operand.is_a?(Variable) && operand.to_sym == var.to_sym
+                    op.dup
+                  else
+                    operand
+                  end
+                end
+                memo.merge(ext_var => new_op)
+              elsif ext_op.is_a?(Variable) && ext_op.to_sym == var.to_sym
+                memo.merge(ext_var => op)
+              else
+                # Doesn't match this variable, so don't change
+                memo.merge(ext_var => ext_op)
+              end
+            end
 
             # Filter ops using temporary bindinds are used for HAVING clauses
             filter_ops.each do |fop|

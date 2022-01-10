@@ -150,8 +150,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
               'agg-sample-01.rq', 'sq03.rq', 'sq08.rq', 'sq09.rq', 'sq11.rq', 'sq12.rq',
               'sq13.rq', 'sq14.rq', 'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
             pending("TODO SubSelect")
-          when 'agg-err-01.rq'
-            pending "TODO key not found"
           when 'pp06.rq', 'path-ng-01.rq', 'path-ng-02.rq'
             pending "TODO graph name on property path"
           when 'pp09.rq', 'pp10.rq', 'path-p2.rq', 'path-p4.rq'
