@@ -11,21 +11,21 @@ shared_examples "SUITE" do |id, label, comment, tests|
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
-          case t.name
-          when 'Basic - Term 6', 'Basic - Term 7'
+          case t.entry
+          when 'term-6.rq', 'term-7.rq'
             skip "Decimal format changed in SPARQL 1.1"
-          when 'datatype-2 : Literals with a datatype'
-            skip "datatype now returns rdf:langString for language-tagged literals"
-          when /REDUCED/
+          when 'reduced-1.rq', 'reduced-2.rq'
             skip "REDUCED equivalent to DISTINCT"
-          when 'Strings: Distinct', 'All: Distinct'
+          when 'distinct-1.rq'
             skip "More compact representation"
+          when 'q-datatype-2.rq'
+            skip "datatype now returns rdf:langString for language-tagged literals"
           when /sq03/
             pending "Graph variable binding differences"
-          when /pp11|pp31/
+          when 'pp11.rq', 'path-p2.rq'
             pending "Expects multiple equivalent property path solutions"
-          when 'date-1', /dawg-optional-filter-005-not-simplified/
-            pending "Different results on unapproved tests" unless t.approved?
+          when 'date-1.rq', 'expr-5.rq'
+            pending "Different results on unapproved tests" unless t.name.include?('dawg-optional-filter-005-simplified')
           end
 
           t.logger = RDF::Spec.logger
@@ -65,15 +65,11 @@ shared_examples "SUITE" do |id, label, comment, tests|
         end
       when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
         it "positive syntax for #{t.entry} - #{t.name} - #{t.comment}" do
-          skip "Spurrious error on Ruby < 2.0" if t.name == 'syntax-bind-02.rq'
-          case t.name
-          when 'Basic - Term 7', 'syntax-lit-08.rq'
+          case t.entry
+          when 'term-7.rq', 'syntax-lit-08.rq'
             skip "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             skip "PNAME_LN changed in SPARQL 1.1"
-          when 'dawg-optional-filter-005-simplified', 'dawg-optional-filter-005-not-simplified',
-               'dataset-10'
-            pending 'New problem with different manifest processing?'
           end
           expect do
             SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true, logger: t.logger)
@@ -81,11 +77,11 @@ shared_examples "SUITE" do |id, label, comment, tests|
         end
       when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
-          skip("Better Error Detection") if %w(
+          pending("Better Error Detection") if %w(
             agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
             syn-bad-pname-06.rq group06.rq group07.rq
           ).include?(t.entry)
-          skip("Better Error Detection") if %w(
+          pending("Better Error Detection") if %w(
             syn-bad-01.rq syn-bad-02.rq
           ).include?(t.entry) && man_name == 'syntax-query'
           expect do
@@ -139,19 +135,29 @@ shared_examples "to_sparql" do |id, label, comment, tests|
       case t.type
       when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
-          case t.name
+          case t.entry
           when 'syntax-expr-05.rq', 'syntax-order-05.rq', 'syntax-function-04.rq'
             pending("Unregistered function calls")
-          when 'Basic - Term 7', 'syntax-lit-08.rq'
+          when 'term-7.rq', 'syntax-lit-08.rq'
             skip "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             skip "PNAME_LN changed in SPARQL 1.1"
+          when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq'
+            skip "Equivalent form"
+          when 'subset-01.rq', 'subset-02.rq', 'set-equals-1.rq', 'subset-03.rq'
+            pending("TODO Minus")
+          when 'exists03.rq', 'exists04.rq', 'exists05.rq'
+            skip('TODO Exists')
+          when 'syntax-aggregate-02.rq', 'syntax-aggregate-14.rq', 'syntax-aggregate-15.rq'
+            pending("TODO Aggregates")
+          when 'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq', 'agg-groupconcat-3.rq',
+              'agg-sample-01.rq', 'sq03.rq', 'sq08.rq', 'sq09.rq', 'sq11.rq', 'sq12.rq',
+              'sq13.rq', 'sq14.rq', 'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
+            pending("TODO SubSelect")
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
-          sse = SPARQL.parse(t.action.query_string,
-                             base_uri: t.base_uri,
-                             production: :QueryUnit)
+          sse = SPARQL.parse(t.action.query_string, base_uri: t.base_uri)
           sparql = sse.to_sparql(base_uri: t.base_uri)
           expect(sparql).to generate(sse,
                                      base_uri: t.base_uri,
@@ -161,6 +167,12 @@ shared_examples "to_sparql" do |id, label, comment, tests|
         end
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest', 'mf:PositiveUpdateSyntaxTest11'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
+          case t.entry
+          when 'insert-05a.ru', 'insert-data-same-bnode.ru',
+              'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru',
+              'delete-insert-04.ru'
+            pending("SubSelect")
+          end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}\n"
           sse = SPARQL.parse(t.action.query_string,

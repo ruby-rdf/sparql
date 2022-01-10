@@ -126,8 +126,6 @@ describe SPARQL::Algebra::Operator do
               (row (?chromosome "X"))
               (row (?chromosome "Y"))
               (row (?chromosome "MT")))))))))
-    } do
-      #before {pending}
-    end
+    }
   end
 end

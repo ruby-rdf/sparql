@@ -346,6 +346,7 @@ module SPARQL; module Algebra
     #   Filter Operations
     # @param [Integer] limit (nil)
     # @param [Array<Operator>] group_ops ([])
+    # @param [Array<Operator>] having_ops ([])
     # @param [Integer] offset (nil)
     # @param [Array<Operator>] order_ops ([])
     #   Order Operations
@@ -362,6 +363,7 @@ module SPARQL; module Algebra
                        extensions: {},
                        filter_ops: [],
                        group_ops: [],
+                       having_ops: [],
                        limit: nil,
                        offset: nil,
                        order_ops: [],
@@ -424,6 +426,9 @@ module SPARQL; module Algebra
       end
 
       # HavingClause
+      unless having_ops.empty?
+        str << "HAVING #{having_ops.to_sparql(**options)}"
+      end
 
       # OrderClause
       unless order_ops.empty?
@@ -661,12 +666,8 @@ module SPARQL; module Algebra
     # @return [SPARQL::Algebra::Expression] `self`
     def rewrite(&block)
       @operands = @operands.map do |op|
-        # Rewrite the operand
-        unless new_op = block.call(op)
-          # Not re-written, rewrite
-          new_op = op.respond_to?(:rewrite) ? op.rewrite(&block) : op
-        end
-        new_op
+        new_op = block.call(op)
+        new_op.respond_to?(:rewrite) ? new_op.rewrite(&block) : new_op
       end
       self
     end

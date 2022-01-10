@@ -25,6 +25,21 @@ module SPARQL; module Algebra
     #      (group (?P) ((??.0 (count ?O)))
     #       (bgp (triple ?S ?P ?O))))))
     #
+    # @example SPARQL Grammar (HAVING aggregate)
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT ?s (AVG(?o) AS ?avg)
+    #   WHERE { ?s ?p ?o }
+    #   GROUP BY ?s
+    #   HAVING (AVG(?o) <= 2.0)
+    #
+    # @example SSE (HAVING aggregate)
+    #   (prefix ((: <http://www.example.org/>))
+    #    (project (?s ?avg)
+    #     (filter (<= ??.0 2.0)
+    #      (extend ((?avg ??.0))
+    #       (group (?s) ((??.0 (avg ?o)))
+    #        (bgp (triple ?s ?p ?o)))))) )
+    #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Group < Operator
       include Query
@@ -137,16 +152,39 @@ module SPARQL; module Algebra
       #
       # @param [Hash{Symbol => Operator}] extensions
       #   Variable bindings
+      # @param [Array<Operator>] filter_ops ([])
+      #   Filter Operations
       # @return [String]
-      def to_sparql(extensions: {}, **options)
+      def to_sparql(extensions: {}, filter_ops: [], **options)
+        having_ops = []
         if operands.length > 2
+          temp_bindings = operands[1].inject({}) {|memo, (var, op)| memo.merge(var => op)}
           # Replace extensions from temporary bindings
-          operands[1].each do |var, op|
+          temp_bindings.each do |var, op|
             ext_var = extensions.invert.fetch(var)
             extensions[ext_var] = op
+
+            # Filter ops using temporary bindinds are used for HAVING clauses
+            filter_ops.each do |fop|
+              having_ops << fop if fop.descendants.include?(var) && !having_ops.include?(fop)
+            end
+          end
+
+          # If used in a HAVING clause, it's not also a filter
+          filter_ops -= having_ops
+
+          # Replace each operand in having using var with it's corresponding operation
+          having_ops = having_ops.map do |op|
+            op.dup.rewrite do |operand|
+              # Rewrite based on temporary bindings
+              temp_bindings.fetch(operand, operand)
+            end
           end
         end
-        operands.last.to_sparql(extensions: extensions, group_ops: operands.first, **options)
+        operands.last.to_sparql(extensions: extensions,
+                                group_ops: operands.first,
+                                having_ops: having_ops,
+                                **options)
       end
     end # Group
   end # Operator
