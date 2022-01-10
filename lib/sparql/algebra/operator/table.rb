@@ -93,7 +93,7 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        str = "VALUES (#{operands.first[1..-1].map { |e| e.to_sparql(**options) }.join(' ')}) {\n"
+        str = "VALUES (#{Array(operands.first)[1..-1].map { |e| e.to_sparql(**options) }.join(' ')}) {\n"
         operands[1..-1].each do |row|
           line = '('
           row[1..-1].each do |col|
