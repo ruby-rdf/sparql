@@ -37,6 +37,7 @@ module SPARQL; module Algebra
     #     :x :p :z
     #     GRAPH ?g { :x :b ?a . GRAPH ?g2 { :x :p ?x } }
     #   }
+    #
     # @example SSE (syntax-graph-05.rq)
     #   (prefix ((: <http://example.org/>))
     #    (join
@@ -46,6 +47,21 @@ module SPARQL; module Algebra
     #       (bgp (triple :x :b ?a))
     #       (graph ?g2
     #        (bgp (triple :x :p ?x)))))))
+    #
+    # @example SPARQL Grammar (pp06.rq)
+    #   prefix ex:	<http://www.example.org/schema#>
+    #   prefix in:	<http://www.example.org/instance#>
+    #   
+    #   select ?x where {
+    #     graph ?g {in:a ex:p1/ex:p2 ?x}
+    #   }
+    #
+    # @example SSE (syntax-graph-05.rq)
+    #   (prefix ((ex: <http://www.example.org/schema#>)
+    #            (in: <http://www.example.org/instance#>))
+    #    (project (?x)
+    #     (graph ?g
+    #      (path in:a (seq ex:p1 ex:p2) ?x))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Graph < Operator::Binary
@@ -117,8 +133,10 @@ module SPARQL; module Algebra
       #   Treat this as a top-level, generating SELECT ... WHERE {}
       # @return [String]
       def to_sparql(top_level: true, **options)
-        str = "GRAPH #{operands.first.to_sparql(**options)} " +
-          operands.last.to_sparql(top_level: false, **options)
+        query = operands.last.to_sparql(top_level: false, **options)
+        # Paths don't automatically get braces.
+        query = "{\n#{query}\n}" unless query.start_with?('{')
+        str = "GRAPH #{operands.first.to_sparql(**options)} " + query
         top_level ? Operator.to_sparql(str, **options) : str
       end
     end # Graph

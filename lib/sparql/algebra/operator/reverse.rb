@@ -15,6 +15,17 @@ module SPARQL; module Algebra
     #            (in: <http://www.example.org/instance#>))
     #    (ask (path in:b (reverse ex:p) in:a)))
     #
+    # @example SPARQL Grammar
+    #   prefix ex:	<http://www.example.org/schema#>
+    #   prefix in:	<http://www.example.org/instance#>
+    #   
+    #   select  * where { in:c ^(ex:p1/ex:p2) ?x }
+    #
+    # @example SSE
+    #   (prefix ((ex: <http://www.example.org/schema#>)
+    #            (in: <http://www.example.org/instance#>))
+    #    (path in:c (reverse (seq ex:p1 ex:p2)) ?x))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#defn_evalPP_inverse
     class Reverse < Operator::Unary
       include Query
@@ -65,7 +76,7 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "^" + operands.first.to_sparql(**options)
+        "^(" + operands.first.to_sparql(**options) + ')'
       end
     end # Reverse
   end # Operator

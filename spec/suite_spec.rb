@@ -142,27 +142,19 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             skip "PNAME_LN changed in SPARQL 1.1"
+          when 'syn-pp-in-collection.rq'
+            pending "CollectionPath"
           when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq'
             skip "Equivalent form"
-          when 'exists03.rq', 'exists04.rq', 'exists05.rq'
-            skip('TODO Exists')
           when 'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq', 'agg-groupconcat-3.rq',
-              'agg-sample-01.rq', 'sq03.rq', 'sq08.rq', 'sq09.rq', 'sq11.rq', 'sq12.rq',
+              'agg-sample-01.rq', 'sq08.rq', 'sq09.rq', 'sq11.rq', 'sq12.rq',
               'sq13.rq', 'sq14.rq', 'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
             pending("TODO SubSelect")
-          when 'pp06.rq', 'path-ng-01.rq', 'path-ng-02.rq'
-            pending "TODO graph name on property path"
-          when 'pp09.rq', 'pp10.rq', 'path-p2.rq', 'path-p4.rq'
-            pending "TODO property path grouping"
           when 'syntax-bindings-02a.rq', 'syntax-bindings-03a.rq', 'syntax-bindings-05a.rq'
             pending "TODO top-level values"
           when 'syn-pname-05.rq', 'syn-pname-06.rq', 'syn-pname-07.rq', 'syn-codepoint-escape-01.rq',
                '1val1STRING_LITERAL1_with_UTF8_boundaries.rq', '1val1STRING_LITERAL1_with_UTF8_boundaries_escaped.rq'
             pending "TODO escaping"
-          when 'syn-pp-in-collection.rq'
-            pending "TODO runtime error and list representation"
-          when 'strafter02.rq '
-            pending "TODO odd project multple bindings"
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"

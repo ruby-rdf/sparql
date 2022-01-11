@@ -8,13 +8,13 @@ module SPARQL; module Algebra
     # @example SPARQL Grammar
     #   PREFIX ex:	<http://www.example.org/schema#>
     #   PREFIX in:	<http://www.example.org/instance#>
-    #   ASK { in:b ^ex:p in:a }
+    #   ASK { in:a !(ex:p1|ex:p2) ?x }
     #
     # @example SSE
     #   (prefix ((ex: <http://www.example.org/schema#>)
-    #            (in: <http://www.example.org/instance#>))
+    #           (in: <http://www.example.org/instance#>))
     #    (ask
-    #     (path in:b (reverse ex:p) in:a)))
+    #     (path in:a (notoneof ex:p1 ex:p2) ?x)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#eval_negatedPropertySet
     class NotOneOf < Operator
@@ -55,6 +55,15 @@ module SPARQL; module Algebra
           debug(options) {"(solution)-> #{solution.to_h.to_sse}"}
           block.call(solution)
         end
+      end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        "!(" + operands.to_sparql(delimiter: ' | ', **options) + ')'
       end
     end # NotOneOf
   end # Operator

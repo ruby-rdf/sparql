@@ -4,8 +4,11 @@ module SPARQL; module Algebra
     ##
     # The SPARQL UPDATE `sequence` operator.
     #
-    # Sequences through each operand
+    # Sequences through each operand.
     #
+    # [103] CollectionPath          ::= '(' GraphNodePath+ ')'
+    #
+    # @see https://www.w3.org/TR/sparql11-query/#collections
     class Sequence < Operator
       include SPARQL::Algebra::Update
 
