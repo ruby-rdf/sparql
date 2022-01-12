@@ -144,11 +144,11 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "PNAME_LN changed in SPARQL 1.1"
           when 'syn-pp-in-collection.rq'
             pending "CollectionPath"
-          when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq'
+          when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq',
+               'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq', 'sq08.rq'
             skip "Equivalent form"
-          when 'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq', 'agg-groupconcat-3.rq',
-              'agg-sample-01.rq', 'sq08.rq', 'sq09.rq', 'sq11.rq', 'sq12.rq',
-              'sq13.rq', 'sq14.rq', 'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
+          when 'sq09.rq', 'sq11.rq', 'sq12.rq', 'sq13.rq', 'sq14.rq',
+               'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
             pending("TODO SubSelect")
           when 'syntax-bindings-02a.rq', 'syntax-bindings-03a.rq', 'syntax-bindings-05a.rq'
             pending "TODO top-level values"

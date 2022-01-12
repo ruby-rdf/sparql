@@ -20,19 +20,36 @@ module SPARQL; module Algebra
     #     (filter (= ?v 2)
     #      (bgp (triple ?s :p ?v)))))
     #
-    # ## Sub select
-    #
-    # @example SPARQL Grammar
+    # @example SPARQL Grammar (Sub select)
     #   SELECT (1 AS ?X ) {
     #     SELECT (2 AS ?Y ) {}
     #   }
     #
-    # @example SSE
+    # @example SSE (Sub select)
     #   (project (?X)
     #    (extend ((?X 1))
     #     (project (?Y)
     #      (extend ((?Y 2))
     #       (bgp)))))
+    #
+    # @example SPARQL Grammar (filter projection)
+    #   PREFIX : <http://www.example.org/>
+    #   ASK {
+    #     {SELECT (GROUP_CONCAT(?o) AS ?g) WHERE {
+    #      :a :p1 ?o
+    #     }}
+    #     FILTER(?g = "1 22" || ?g = "22 1")
+    #   }
+    #
+    # @example SSE (filter projection)
+    #   (prefix ((: <http://www.example.org/>))
+    #    (ask
+    #     (filter
+    #      (|| (= ?g "1 22") (= ?g "22 1"))
+    #      (project (?g)
+    #       (extend ((?g ??.0))
+    #        (group () ((??.0 (group_concat ?o)))
+    #         (bgp (triple :a :p1 ?o)))))) ))
     #
     # @see https://www.w3.org/TR/sparql11-query/#modProjection
     class Project < Operator::Binary
@@ -77,6 +94,7 @@ module SPARQL; module Algebra
           # Any of these options indicates we're in a sub-select
           opts = options.dup.delete_if {|k,v| %I{extensions filter_ops project}.include?(k)}
           content = operands.last.to_sparql(project: vars, **opts)
+          content = "{#{content}}" unless content.start_with?('{') && content.end_with?('}')
           Operator.to_sparql(content, **options)
         else
           operands.last.to_sparql(project: vars, **options)

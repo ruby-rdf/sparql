@@ -5,12 +5,12 @@ require 'strscan'
 
 include SPARQL::Algebra
 
-shared_examples "SXP to SPARQL" do |name, sxp|
+shared_examples "SXP to SPARQL" do |name, sxp, **options|
   it(name) do
     sse = SPARQL::Algebra.parse(sxp)
     sparql_result = sse.to_sparql
     production = sparql_result.match?(/ASK|SELECT|CONSTRUCT|DESCRIBE/) ? :QueryUnit : :UpdateUnit
-    expect(sparql_result).to generate(sxp, resolve_iris: false, production: production, validate: true)
+    expect(sparql_result).to generate(sxp, resolve_iris: false, production: production, validate: true, **options)
   end
 end
 
@@ -25,12 +25,13 @@ describe SPARQL::Algebra::Operator do
       Dir.glob(File.expand_path("../../../lib/sparql/algebra/operator/*.rb", __FILE__)).each do |rb|
         op = File.basename(rb, ".rb")
         scanner = StringScanner.new(File.read(rb))
-        while scanner.skip_until(/# @example SSE.*$/)
-          ex = scanner.scan_until(/^\s+#\s*$/)
-
-          # Trim off comment prefix
-          ex = ex.gsub(/^\s*#/, '')
-          (examples[op] ||= []) << ex
+        while scanner.skip_until(/# @example SPARQL Grammar(.*)$/)
+          ctx = scanner.matched.sub(/.*Grammar\s*/, '')
+          current = {}
+          current[:sparql] = scanner.scan_until(/# @example SSE.*$/).gsub(/^\s*#/, '').sub(/@example SSE.*$/, '')
+          current[:sxp]    = scanner.scan_until(/^\s+#\s*$/).gsub(/^\s*#/, '')
+          current[:ctx]    = ctx unless ctx.empty?
+          (examples[op] ||= []) << current
         end
       end
       examples
@@ -38,8 +39,9 @@ describe SPARQL::Algebra::Operator do
 
     read_examples.each do |op, examples|
       describe "Operator #{op}:" do
-        examples.each do |sxp|
-          it_behaves_like "SXP to SPARQL", sxp, sxp
+        examples.each do |example|
+          sxp, sparql, ctx = example[:sxp], example[:sparql], example[:ctx]
+          it_behaves_like "SXP to SPARQL", (ctx || ('sxp: ' + sxp)), sxp, logger: "Source:\n#{sparql}"
         end
       end
     end
