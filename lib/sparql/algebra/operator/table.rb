@@ -27,6 +27,12 @@ module SPARQL; module Algebra
     #      (bgp (triple ?book dc:title ?title) (triple ?book ns:price ?price))
     #      (table (vars ?book) (row (?book :book1)))) ))
     #
+    # @example SPARQL Grammar (empty query no values)
+    #    SELECT * { } VALUES () { }
+    #
+    # @example SSE (empty query no values)
+    #    (join (bgp) (table empty))
+    #
     # [61]  InlineData              ::= 'VALUES' DataBlock
     #
     # @example SPARQL Grammar (InlineData)
@@ -99,7 +105,7 @@ module SPARQL; module Algebra
           row[1..-1].each do |col|
             line << "#{col[1].to_sparql(**options)} "
           end
-          line = line.chop
+          #line = line.chop
           line << ")\n"
 
           str << line

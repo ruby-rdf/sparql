@@ -120,6 +120,7 @@ module SPARQL; module Algebra
       #   Filter Operations
       # @return [String]
       def to_sparql(top_level: true, filter_ops: [], extensions: {}, **options)
+        # If this is top-level, and the last operand is a Table (values), put the values at the outer-level
         str = "{\n" + operands.first.to_sparql(top_level: false, extensions: {}, **options)
 
         # Any accrued filters go here.
@@ -127,7 +128,12 @@ module SPARQL; module Algebra
           str << "\nFILTER (#{op.to_sparql(**options)}) ."
         end
 
-        str << "\n" + operands.last.to_sparql(top_level: false, extensions: {}, **options) + "\n}"
+        if top_level && operands.last.is_a?(Table)
+          str << "\n}"
+          options = options.merge(values_clause: operands.last)
+        else
+          str << "\n" + operands.last.to_sparql(top_level: false, extensions: {}, **options) + "\n}"
+        end
 
         top_level ? Operator.to_sparql(str, extensions: extensions, **options) : str
       end

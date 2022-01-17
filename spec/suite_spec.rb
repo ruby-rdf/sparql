@@ -150,8 +150,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
           when 'sq09.rq', 'sq11.rq', 'sq12.rq', 'sq13.rq', 'sq14.rq',
                'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
             pending("TODO SubSelect")
-          when 'syntax-bindings-02a.rq', 'syntax-bindings-03a.rq', 'syntax-bindings-05a.rq'
-            pending "TODO top-level values"
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
@@ -166,21 +164,20 @@ shared_examples "to_sparql" do |id, label, comment, tests|
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest', 'mf:PositiveUpdateSyntaxTest11'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
           case t.entry
-          when 'insert-05a.ru', 'insert-data-same-bnode.ru',
-              'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru',
-              'delete-insert-04.ru'
-            pending("SubSelect")
-          when 'delete-insert-04b.ru', 'delete-insert-05b.ru', 'delete-insert-05b.ru'
-            pending "TODO sub-joins"
           when 'syntax-update-38.ru'
             pending "empty query"
           when 'large-request-01.ru'
             skip "large request"
+          when 'syntax-update-26.ru', 'syntax-update-27.ru', 'syntax-update-28.ru',
+               'syntax-update-36.ru'
+            pending("Whitespace in string tokens")
+          when 'insert-05a.ru', 'insert-data-same-bnode.ru',
+              'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru',
+              'delete-insert-04.ru'
+            pending("TODO SubSelect")
+          when 'delete-insert-04b.ru', 'delete-insert-05b.ru', 'delete-insert-05b.ru'
+            pending "TODO sub-joins"
           end
-          pending("Whitespace in string tokens") if %w(
-            syntax-update-26.ru syntax-update-27.ru syntax-update-28.ru
-            syntax-update-36.ru
-          ).include?(t.entry)
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}\n"
           sse = SPARQL.parse(t.action.query_string,

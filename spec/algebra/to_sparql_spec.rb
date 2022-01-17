@@ -78,11 +78,11 @@ describe SPARQL::Algebra::Operator do
     #           rdfs:label ?child_label .
     #     FILTER(CONTAINS(STR(?parent), "terms/ensembl/"))
     #     BIND(STRBEFORE(STRAFTER(STR(?ensg_location), "GRCh38/"), ":") AS ?chromosome)
-    #     VALUES ?chromosome {
-    #         "1" "2" "3" "4" "5" "6" "7" "8" "9" "10"
-    #         "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "21" "22"
-    #         "X" "Y" "MT"
-    #     }
+    #   }
+    #   VALUES ?chromosome {
+    #       "1" "2" "3" "4" "5" "6" "7" "8" "9" "10"
+    #       "11" "12" "13" "14" "15" "16" "17" "18" "19" "20" "21" "22"
+    #       "X" "Y" "MT"
     #   }
     it_behaves_like "SXP to SPARQL", "#40", %{
       (prefix ((obo: <http://purl.obolibrary.org/obo/>)
@@ -93,41 +93,42 @@ describe SPARQL::Algebra::Operator do
        (dataset (<http://rdf.integbio.jp/dataset/togosite/ensembl>)
         (distinct
          (project (?parent ?child ?child_label)
-          (filter (contains (str ?parent) "terms/ensembl/")
-           (join
-             (extend ((?chromosome (strbefore (strafter (str ?ensg_location) "GRCh38/") ":")))
-              (bgp (triple ?enst obo:SO_transcribed_from ?ensg)
-               (triple ?ensg a ?parent)
-                (triple ?ensg obo:RO_0002162 taxon:9606)
-                 (triple ?ensg faldo:location ?ensg_location)
-                  (triple ?ensg dc:identifier ?child)
-                   (triple ?ensg rdfs:label ?child_label)))
-             (table (vars ?chromosome)
-              (row (?chromosome "1"))
-              (row (?chromosome "2"))
-              (row (?chromosome "3"))
-              (row (?chromosome "4"))
-              (row (?chromosome "5"))
-              (row (?chromosome "6"))
-              (row (?chromosome "7"))
-              (row (?chromosome "8"))
-              (row (?chromosome "9"))
-              (row (?chromosome "10"))
-              (row (?chromosome "11"))
-              (row (?chromosome "12"))
-              (row (?chromosome "13"))
-              (row (?chromosome "14"))
-              (row (?chromosome "15"))
-              (row (?chromosome "16"))
-              (row (?chromosome "17"))
-              (row (?chromosome "18"))
-              (row (?chromosome "19"))
-              (row (?chromosome "20"))
-              (row (?chromosome "21"))
-              (row (?chromosome "22"))
-              (row (?chromosome "X"))
-              (row (?chromosome "Y"))
-              (row (?chromosome "MT")))))))))
+          (join
+           (filter (contains (str ?parent) "terms/ensembl/")
+            (extend ((?chromosome (strbefore (strafter (str ?ensg_location) "GRCh38/") ":")))
+             (bgp
+              (triple ?enst obo:SO_transcribed_from ?ensg)
+              (triple ?ensg a ?parent)
+              (triple ?ensg obo:RO_0002162 taxon:9606)
+              (triple ?ensg faldo:location ?ensg_location)
+              (triple ?ensg dc:identifier ?child)
+              (triple ?ensg rdfs:label ?child_label))))
+           (table (vars ?chromosome)
+            (row (?chromosome "1"))
+            (row (?chromosome "2"))
+            (row (?chromosome "3"))
+            (row (?chromosome "4"))
+            (row (?chromosome "5"))
+            (row (?chromosome "6"))
+            (row (?chromosome "7"))
+            (row (?chromosome "8"))
+            (row (?chromosome "9"))
+            (row (?chromosome "10"))
+            (row (?chromosome "11"))
+            (row (?chromosome "12"))
+            (row (?chromosome "13"))
+            (row (?chromosome "14"))
+            (row (?chromosome "15"))
+            (row (?chromosome "16"))
+            (row (?chromosome "17"))
+            (row (?chromosome "18"))
+            (row (?chromosome "19"))
+            (row (?chromosome "20"))
+            (row (?chromosome "21"))
+            (row (?chromosome "22"))
+            (row (?chromosome "X"))
+            (row (?chromosome "Y"))
+            (row (?chromosome "MT"))))))))
     }
   end
 end

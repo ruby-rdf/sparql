@@ -353,6 +353,8 @@ module SPARQL; module Algebra
     # @param [Array<Symbol,Operator>] project (%i(*))
     #   Terms to project
     # @param [Operator] reduced (false)
+    # @param [Operator] values_clause (nil)
+    #   Top-level Values clause
     # @param [Operator] where_clause (true)
     #   Emit 'WHERE' before GroupGraphPattern
     # @param [Hash{Symbol => Object}] options
@@ -369,6 +371,7 @@ module SPARQL; module Algebra
                        order_ops: [],
                        project: %i(*),
                        reduced: false,
+                       values_clause: nil,
                        where_clause: true,
                        **options)
       str = ""
@@ -438,6 +441,9 @@ module SPARQL; module Algebra
       # LimitOffsetClauses
       str << "OFFSET #{offset}\n" unless offset.nil?
       str << "LIMIT #{limit}\n" unless limit.nil?
+
+      # Values Clause
+      str << values_clause.to_sparql(**options) if values_clause
       str
     end
 
