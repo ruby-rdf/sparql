@@ -286,7 +286,6 @@ module RDF::Term
   end
 end # RDF::Term
 
-
 # Override RDF::Queryable to execute against SPARQL::Algebra::Query elements as well as RDF::Query and RDF::Pattern
 module RDF::Queryable
   alias_method :query_without_sparql, :query

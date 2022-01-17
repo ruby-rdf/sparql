@@ -152,9 +152,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             pending("TODO SubSelect")
           when 'syntax-bindings-02a.rq', 'syntax-bindings-03a.rq', 'syntax-bindings-05a.rq'
             pending "TODO top-level values"
-          when 'syn-pname-05.rq', 'syn-pname-06.rq', 'syn-pname-07.rq', 'syn-codepoint-escape-01.rq',
-               '1val1STRING_LITERAL1_with_UTF8_boundaries.rq', '1val1STRING_LITERAL1_with_UTF8_boundaries_escaped.rq'
-            pending "TODO escaping"
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
