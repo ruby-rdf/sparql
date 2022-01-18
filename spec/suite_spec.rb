@@ -145,11 +145,12 @@ shared_examples "to_sparql" do |id, label, comment, tests|
           when 'syn-pp-in-collection.rq'
             pending "CollectionPath"
           when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq',
-               'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq', 'sq08.rq'
-            skip "Equivalent form"
-          when 'sq09.rq', 'sq11.rq', 'sq12.rq', 'sq13.rq', 'sq14.rq',
+               'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq',
+               'sq08.rq', 'sq12.rq', 'sq13.rq',
                'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
-            pending("TODO SubSelect")
+            skip "Equivalent form"
+          when 'sq09.rq', 'sq14.rq'
+            pending("SubSelect")
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
@@ -171,12 +172,11 @@ shared_examples "to_sparql" do |id, label, comment, tests|
           when 'syntax-update-26.ru', 'syntax-update-27.ru', 'syntax-update-28.ru',
                'syntax-update-36.ru'
             pending("Whitespace in string tokens")
-          when 'insert-05a.ru', 'insert-data-same-bnode.ru',
-              'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru',
-              'delete-insert-04.ru'
-            pending("TODO SubSelect")
-          when 'delete-insert-04b.ru', 'delete-insert-05b.ru', 'delete-insert-05b.ru'
-            pending "TODO sub-joins"
+          when 'insert-05a.ru', 'insert-data-same-bnode.ru', 
+               'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru'
+            skip "Equivalent form"
+          when 'delete-insert-04.ru'
+            pending("SubSelect")
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}\n"

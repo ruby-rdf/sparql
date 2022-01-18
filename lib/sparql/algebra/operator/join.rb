@@ -132,7 +132,7 @@ module SPARQL; module Algebra
           str << "\n}"
           options = options.merge(values_clause: operands.last)
         else
-          str << "\n" + operands.last.to_sparql(top_level: false, extensions: {}, **options) + "\n}"
+          str << "\n{\n" + operands.last.to_sparql(top_level: false, extensions: {}, **options) + "\n}\n}"
         end
 
         top_level ? Operator.to_sparql(str, extensions: extensions, **options) : str
