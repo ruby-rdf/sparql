@@ -373,15 +373,17 @@ class RDF::Statement
   # @param [Boolean] as_statement (false) serialize as < ... >, otherwise TRIPLE(...)
   # @return [String]
   def to_sparql(as_statement: false, **options)
-    return "TRIPLE(#{to_triple.to_sparql(as_statement: true, **options)})" unless as_statement
-
-    to_triple.map do |term|
-      if term.is_a?(::RDF::Statement)
-        "<<" + term.to_sparql(**options) + ">>"
-      else
-        term.to_sparql(**options)
-      end
-    end.join(" ") + " ."
+    if as_statement
+      to_triple.map do |term|
+        if term.is_a?(::RDF::Statement)
+          "<<" + term.to_sparql(as_statement: true, **options) + ">>"
+        else
+          term.to_sparql(**options)
+        end
+      end.join(" ")
+    else
+      "TRIPLE(#{to_triple.to_sparql(as_statement: true, **options)})"
+    end
   end
 
   ##
@@ -439,7 +441,7 @@ class RDF::Query
   #   Filter Operations
   # @return [String]
   def to_sparql(top_level: true, filter_ops: [], **options)
-    str = @patterns.map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join("\n")
+    str = @patterns.map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join(". \n")
     str = "GRAPH #{graph_name.to_sparql(**options)} {\n#{str}\n}\n" if graph_name
     if top_level
       SPARQL::Algebra::Operator.to_sparql(str, filter_ops: filter_ops, **options)
@@ -452,11 +454,9 @@ class RDF::Query
       # Extensons
       extensions = options.fetch(:extensions, [])
       extensions.each do |as, expression|
-        str << "\nBIND (" <<
-          expression.to_sparql(**options) <<
-          " AS " <<
-          as.to_sparql(**options) <<
-          ") ."
+        v = expression.to_sparql(as_statement: true, **options)
+        v = "<< #{v} >>" if expression.is_a?(RDF::Statement)
+        str << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
       end
       str = "{#{str}}" unless filter_ops.empty? && extensions.empty?
       str

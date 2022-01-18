@@ -384,8 +384,11 @@ module SPARQL; module Algebra
 
         str << project.map do |p|
           if expr = extensions.delete(p)
+            v = expr.to_sparql(as_statement: true, **options)
+            v = "<< #{v} >>" if expr.is_a?(RDF::Statement)
+            pp = p.to_sparql(**options)
             # Replace projected variables with their extension, if any
-            "(" + [expr, :AS, p].to_sparql(**options) + ")"
+            '(' + v + ' AS ' + pp + ')'
           else
             p.to_sparql(**options)
           end
@@ -399,11 +402,9 @@ module SPARQL; module Algebra
 
       # Bind
       extensions.each do |as, expression|
-        content << "\nBIND (" <<
-          expression.to_sparql(**options) <<
-          " AS " <<
-          as.to_sparql(**options) <<
-          ") ."
+        v = expression.to_sparql(as_statement: true, **options)
+        v = "<< #{v} >>" if expression.is_a?(RDF::Statement)
+        content << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
       end
 
       # Filter

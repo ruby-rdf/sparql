@@ -151,6 +151,10 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "Equivalent form"
           when 'sq09.rq', 'sq14.rq'
             pending("SubSelect")
+          when 'sparql-star-expr-02.rq'
+            pending("TODO SPARQL-star values no select")
+          when 'sparql-star-order-by.rq'
+            pending("TODO SPARQL-star union reversals")
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
@@ -235,7 +239,7 @@ describe SPARQL do
     SPARQL::Spec.sparql_star_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
-        #it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
