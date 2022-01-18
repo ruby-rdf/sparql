@@ -197,7 +197,7 @@ module SPARQL::Grammar
     # [2]  	Query	  ::=  	Prologue
     #                     ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
     production(:Query) do |input, data, callback|
-      query = data[:query].first
+      query = data[:query].first if data[:query]
 
       # Add prefix
       if data[:PrefixDecl]
