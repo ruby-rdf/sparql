@@ -351,6 +351,22 @@ module SPARQL; module Algebra
     end
 
     ##
+    # Evaluates this expression using the given variable `bindings`.
+    #
+    # This is the default implementation, which simply returns `self`.
+    # Subclasses can override this method in order to implement something
+    # more useful.
+    #
+    # @param  [RDF::Query::Solution] bindings
+    #   a query solution containing zero or more variable bindings
+    # @param [Hash{Symbol => Object}] options ({})
+    #   options passed from query
+    # @return [Expression] `self`
+    def evaluate(bindings, **options)
+      self
+    end
+
+    ##
     # Returns the SPARQL S-Expression (SSE) representation of this expression.
     #
     # This is the default implementation, which simply returns `self`.
