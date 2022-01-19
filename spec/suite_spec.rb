@@ -152,7 +152,7 @@ shared_examples "to_sparql" do |id, label, comment, tests|
           when 'sq09.rq', 'sq14.rq'
             pending("SubSelect")
           when 'sparql-star-order-by.rq'
-            pending("TODO SPARQL-star union reversals")
+            pending("OFFSET/LIMIT in sub-select")
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
