@@ -17,6 +17,50 @@ module SPARQL; module Algebra
     #       (order ((asc ?name))
     #         (bgp (triple ?x foaf:name ?name)))))
     #
+    # @example SPARQL Grammar (with builtin)
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o .
+    #   }
+    #   ORDER BY str(?o)
+    #
+    # @example SSE (with builtin)
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?s)
+    #     (order ((str ?o))
+    #      (bgp (triple ?s :p ?o)))))
+    #
+    # @example SPARQL Grammar (with bracketed expression)
+    #   PREFIX : <http://example.org/>
+    #   SELECT ?s WHERE {
+    #     ?s :p ?o1 ; :q ?o2 .
+    #   } ORDER BY (?o1 + ?o2)
+    #
+    # @example SSE (with bracketed expression)
+    #   (prefix
+    #    ((: <http://example.org/>))
+    #    (project (?s)
+    #     (order ((+ ?o1 ?o2))
+    #      (bgp
+    #       (triple ?s :p ?o1)
+    #       (triple ?s :q ?o2)))))
+    #
+    # @example SPARQL Grammar (with function call)
+    #   PREFIX :      <http://example.org/ns#>
+    #   PREFIX xsd:   <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT *
+    #   { ?s ?p ?o }
+    #   ORDER BY 
+    #     DESC(?o+57) xsd:string(?o) ASC(?s)
+    #
+    # @example SSE (with function call)
+    #   (prefix ((: <http://example.org/ns#>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (order ((desc (+ ?o 57))
+    #            (xsd:string ?o)
+    #            (asc ?s))
+    #     (bgp (triple ?s ?p ?o))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#modOrderBy
     class Order < Operator::Binary
       include Query

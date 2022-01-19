@@ -281,6 +281,8 @@ a full set of RDF formats.
 
 ### Parsing a SSE to SPARQL query or update string to SPARQL
 
+    # Note: if the SSE uses extension functions, they either must be XSD casting functions, or custom functions which are registered extensions. (See [SPARQL Extension Functions](#sparql-extension-functions))
+
     query = SPARQL::Algebra.parse(%{(bgp (triple ?s ?p ?o))})
     sparql = query.to_sparql #=> "SELECT * WHERE { ?s ?p ?o }"
 

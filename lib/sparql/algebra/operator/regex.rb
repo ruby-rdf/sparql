@@ -6,8 +6,8 @@ module SPARQL; module Algebra
     # [122] RegexExpression         ::= 'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
     #
     # @example SPARQL Grammar
-    #   PREFIX  rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     #   PREFIX  ex: <http://example.com/#>
+    #   PREFIX  rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
     #   SELECT ?val
     #   WHERE {
     #     ex:foo rdf:value ?val .

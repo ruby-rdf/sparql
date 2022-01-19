@@ -8,11 +8,17 @@ module SPARQL; module Algebra
     #
     # [32]  Clear                   ::= 'CLEAR' 'SILENT'? GraphRefAll
     #
-    # @example SPARQL Grammar
+    # @example SPARQL Grammar (SILENT DEFAULT)
     #   CLEAR SILENT DEFAULT
     #
-    # @example SSE
+    # @example SSE (SILENT DEFAULT)
     #   (update (clear silent default))
+    #
+    # @example SPARQL Grammar (IRI)
+    #   CLEAR GRAPH <http://example.com/>
+    #
+    # @example SSE (IRI)
+    #   (update (clear <http://example.com/>))
     #
     # @see https://www.w3.org/TR/sparql11-update/#clear
     class Clear < Operator
@@ -70,7 +76,11 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "CLEAR " + operands.to_sparql(**options)
+        silent = operands.first == :silent
+        str = "CLEAR "
+        str << "SILENT " if operands.first == :silent
+        str << "GRAPH " if operands.last.is_a?(RDF::URI)
+        str << operands.last.to_sparql(**options)
       end
     end # Clear
   end # Operator

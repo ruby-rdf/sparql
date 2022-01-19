@@ -54,7 +54,7 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         "INSERT DATA {\n" +
-          operands.first.to_sparql(as_statement: true, top_level: false, delimiter: "\n", **options) +
+          operands.first.to_sparql(as_statement: true, top_level: false, delimiter: ". \n", **options) +
           "\n}"
       end
     end # InsertData

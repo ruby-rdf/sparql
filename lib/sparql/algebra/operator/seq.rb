@@ -83,7 +83,7 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        operands.to_sparql(delimiter: '/', **options)
+        '(' + operands.to_sparql(delimiter: '/', **options) + ')'
       end
     end # Seq
   end # Operator

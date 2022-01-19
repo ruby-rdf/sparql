@@ -10,12 +10,18 @@ module SPARQL; module Algebra
     #
     # [33]  Drop                    ::= 'DROP' 'SILENT'? GraphRefAll
     #
-    # @example SPARQL Grammar
-    #   DROP DEFAULT
+    # @example SPARQL Grammar (SILENT DEFAULT)
+    #   DROP SILENT DEFAULT
     #
-    # @example SSE
+    # @example SSE (SILENT DEFAULT)
     #   (update
-    #    (drop default))
+    #    (drop silent default))
+    #
+    # @example SPARQL Grammar (IRI)
+    #   DROP GRAPH <http://example.com/>
+    #
+    # @example SSE (IRI)
+    #   (update (drop <http://example.com/>))
     #
     # @see https://www.w3.org/TR/sparql11-update/#drop
     class Drop < Operator
@@ -39,7 +45,6 @@ module SPARQL; module Algebra
       # @see    https://www.w3.org/TR/sparql11-update/
       def execute(queryable, **options)
         debug(options) {"Drop"}
-        silent = operands.first == :silent
         silent = operands.first == :silent
         operands.shift if silent
 
@@ -74,7 +79,11 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "DROP " + operands.to_sparql(**options)
+        silent = operands.first == :silent
+        str = "DROP "
+        str << "SILENT " if operands.first == :silent
+        str << "GRAPH " if operands.last.is_a?(RDF::URI)
+        str << operands.last.to_sparql(**options)
       end
     end # Drop
   end # Operator

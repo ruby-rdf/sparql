@@ -73,7 +73,7 @@ module SPARQL; module Algebra
     # @example Dataset with two default data sources
     #
     #     (prefix ((: <http://example/>))
-    #       (dataset (<data-g1.ttl> <data-g1.ttl)
+    #       (dataset (<data-g1.ttl> <data-g2.ttl)
     #         (bgp (triple ?s ?p ?o))))
     #
     #     is effectively re-written to the following:
@@ -101,7 +101,21 @@ module SPARQL; module Algebra
     #       (filter ((= ?g <data-g1.ttl>) || (= ?g <data-g2.ttl>))
     #         (graph ?g (bgp (triple ?s ?p ?o))))))
     #
-    # @example Dataset with multiple named graphs
+    #
+    # @example SPARQL Grammar
+    #   BASE     <http://example.org/>
+    #   PREFIX : <http://example.com/>
+    #   
+    #   SELECT * 
+    #   FROM <data-g1.ttl>
+    #   { ?s ?p ?o }
+    #
+    # @example SSE
+    #   (base <http://example.org/>
+    #    (prefix ((: <http://example.com/>))
+    #     (dataset (<data-g1.ttl>)
+    #      (bgp (triple ?s ?p ?o)))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#specifyingDataset
     class Dataset < Binary
       include Query
@@ -163,17 +177,11 @@ module SPARQL; module Algebra
       #
       # Returns a partial SPARQL grammar for this operator.
       #
+      # Extracts datasets
+      #
       # @return [String]
       def to_sparql(**options)
-        operands[0].each_with_object('') do |graph, str|
-          str << if graph.is_a?(Array)
-            "FROM #{graph[0].upcase} #{graph[1].to_sparql(**options)}\n"
-          else
-            "FROM #{graph.to_sparql(**options)}\n"
-          end
-        end.tap do |str|
-          str << operands[1].to_sparql(**options)
-        end
+        operands.last.to_sparql(datasets: operands.first, **options)
       end
     end # Dataset
   end # Operator

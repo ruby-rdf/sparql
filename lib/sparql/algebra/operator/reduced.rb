@@ -8,12 +8,12 @@ module SPARQL; module Algebra
     # @example SPARQL Grammar
     #   PREFIX : <http://example.org/>
     #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
-    #   SELECT DISTINCT ?v
+    #   SELECT REDUCED ?v
     #   WHERE { ?x ?p ?v }
     #
     # @example SSE
-    #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
-    #            (: <http://example/>))
+    #   (prefix ((: <http://example.org/>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
     #     (reduced
     #       (project (?v)
     #         (bgp (triple ?x ?p ?v)))))

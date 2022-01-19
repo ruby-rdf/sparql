@@ -25,6 +25,37 @@ module SPARQL; module Algebra
     #      (group (?P) ((??.0 (count ?O)))
     #       (bgp (triple ?S ?P ?O))))))
     #
+    # @example SPARQL Grammar (HAVING aggregate)
+    #   PREFIX : <http://www.example.org/>
+    #   SELECT ?s (AVG(?o) AS ?avg)
+    #   WHERE { ?s ?p ?o }
+    #   GROUP BY ?s
+    #   HAVING (AVG(?o) <= 2.0)
+    #
+    # @example SSE (HAVING aggregate)
+    #   (prefix ((: <http://www.example.org/>))
+    #    (project (?s ?avg)
+    #     (filter (<= ??.0 2.0)
+    #      (extend ((?avg ??.0))
+    #       (group (?s) ((??.0 (avg ?o)))
+    #        (bgp (triple ?s ?p ?o)))))) )
+    #
+    # @example SPARQL Grammar (non-triveal filters)
+    #   PREFIX : <http://example.com/data/#>
+    #   SELECT ?g (AVG(?p) AS ?avg) ((MIN(?p) + MAX(?p)) / 2 AS ?c)
+    #   WHERE { ?g :p ?p . }
+    #   GROUP BY ?g
+    #
+    # @example SSE (non-triveal filters)
+    #   (prefix ((: <http://example.com/data/#>))
+    #    (project (?g ?avg ?c)
+    #     (extend ((?avg ??.0) (?c (/ (+ ??.1 ??.2) 2)))
+    #      (group (?g)
+    #             ((??.0 (avg ?p))
+    #              (??.1 (min ?p))
+    #              (??.2 (max ?p)))
+    #       (bgp (triple ?g :p ?p)))) ))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Group < Operator
       include Query
@@ -137,16 +168,56 @@ module SPARQL; module Algebra
       #
       # @param [Hash{Symbol => Operator}] extensions
       #   Variable bindings
+      # @param [Array<Operator>] filter_ops ([])
+      #   Filter Operations
       # @return [String]
-      def to_sparql(extensions: {}, **options)
+      def to_sparql(extensions: {}, filter_ops: [], **options)
+        having_ops = []
         if operands.length > 2
+          temp_bindings = operands[1].inject({}) {|memo, (var, op)| memo.merge(var => op)}
           # Replace extensions from temporary bindings
-          operands[1].each do |var, op|
-            ext_var = extensions.invert.fetch(var)
-            extensions[ext_var] = op
+          temp_bindings.each do |var, op|
+            # Update extensions using a temporarily bound variable with its binding
+            extensions = extensions.inject({}) do |memo, (ext_var, ext_op)|
+              if ext_op.is_a?(Operator)
+                # Try to recursivley replace variable within operator
+                new_op = ext_op.deep_dup.rewrite do |operand|
+                  if operand.is_a?(Variable) && operand.to_sym == var.to_sym
+                    op.dup
+                  else
+                    operand
+                  end
+                end
+                memo.merge(ext_var => new_op)
+              elsif ext_op.is_a?(Variable) && ext_op.to_sym == var.to_sym
+                memo.merge(ext_var => op)
+              else
+                # Doesn't match this variable, so don't change
+                memo.merge(ext_var => ext_op)
+              end
+            end
+
+            # Filter ops using temporary bindinds are used for HAVING clauses
+            filter_ops.each do |fop|
+              having_ops << fop if fop.descendants.include?(var) && !having_ops.include?(fop)
+            end
+          end
+
+          # If used in a HAVING clause, it's not also a filter
+          filter_ops -= having_ops
+
+          # Replace each operand in having using var with it's corresponding operation
+          having_ops = having_ops.map do |op|
+            op.dup.rewrite do |operand|
+              # Rewrite based on temporary bindings
+              temp_bindings.fetch(operand, operand)
+            end
           end
         end
-        operands.last.to_sparql(extensions: extensions, group_ops: operands.first, **options)
+        operands.last.to_sparql(extensions: extensions,
+                                group_ops: operands.first,
+                                having_ops: having_ops,
+                                **options)
       end
     end # Group
   end # Operator

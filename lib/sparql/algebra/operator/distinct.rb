@@ -12,8 +12,8 @@ module SPARQL; module Algebra
     #   WHERE { ?x ?p ?v }
     #
     # @example SSE
-    #   (prefix ((xsd: <http://www.w3.org/2001/XMLSchema#>)
-    #            (: <http://example/>))
+    #   (prefix ((: <http://example.org/>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
     #     (distinct
     #       (project (?v)
     #         (bgp (triple ?x ?p ?v)))))

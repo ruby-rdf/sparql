@@ -11,21 +11,21 @@ shared_examples "SUITE" do |id, label, comment, tests|
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
-          case t.name
-          when 'Basic - Term 6', 'Basic - Term 7'
+          case t.entry
+          when 'term-6.rq', 'term-7.rq'
             skip "Decimal format changed in SPARQL 1.1"
-          when 'datatype-2 : Literals with a datatype'
-            skip "datatype now returns rdf:langString for language-tagged literals"
-          when /REDUCED/
+          when 'reduced-1.rq', 'reduced-2.rq'
             skip "REDUCED equivalent to DISTINCT"
-          when 'Strings: Distinct', 'All: Distinct'
+          when 'distinct-1.rq'
             skip "More compact representation"
+          when 'q-datatype-2.rq'
+            skip "datatype now returns rdf:langString for language-tagged literals"
           when /sq03/
             pending "Graph variable binding differences"
-          when /pp11|pp31/
+          when 'pp11.rq', 'path-p2.rq'
             pending "Expects multiple equivalent property path solutions"
-          when 'date-1', /dawg-optional-filter-005-not-simplified/
-            pending "Different results on unapproved tests" unless t.approved?
+          when 'date-1.rq', 'expr-5.rq'
+            pending "Different results on unapproved tests" unless t.name.include?('dawg-optional-filter-005-simplified')
           end
 
           t.logger = RDF::Spec.logger
@@ -65,15 +65,11 @@ shared_examples "SUITE" do |id, label, comment, tests|
         end
       when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
         it "positive syntax for #{t.entry} - #{t.name} - #{t.comment}" do
-          skip "Spurrious error on Ruby < 2.0" if t.name == 'syntax-bind-02.rq'
-          case t.name
-          when 'Basic - Term 7', 'syntax-lit-08.rq'
+          case t.entry
+          when 'term-7.rq', 'syntax-lit-08.rq'
             skip "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             skip "PNAME_LN changed in SPARQL 1.1"
-          when 'dawg-optional-filter-005-simplified', 'dawg-optional-filter-005-not-simplified',
-               'dataset-10'
-            pending 'New problem with different manifest processing?'
           end
           expect do
             SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true, logger: t.logger)
@@ -81,11 +77,11 @@ shared_examples "SUITE" do |id, label, comment, tests|
         end
       when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
-          skip("Better Error Detection") if %w(
+          pending("Better Error Detection") if %w(
             agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
             syn-bad-pname-06.rq group06.rq group07.rq
           ).include?(t.entry)
-          skip("Better Error Detection") if %w(
+          pending("Better Error Detection") if %w(
             syn-bad-01.rq syn-bad-02.rq
           ).include?(t.entry) && man_name == 'syntax-query'
           expect do
@@ -131,12 +127,90 @@ shared_examples "SUITE" do |id, label, comment, tests|
   end
 end
 
+shared_examples "to_sparql" do |id, label, comment, tests|
+  man_name = id.to_s.split("/")[-2]
+  describe [man_name, label, comment].compact.join(" - ") do
+    tests.each do |t|
+      next unless t.action
+      case t.type
+      when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
+        it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
+          case t.entry
+          when 'syntax-expr-05.rq', 'syntax-order-05.rq', 'syntax-function-04.rq'
+            pending("Unregistered function calls")
+          when 'term-7.rq', 'syntax-lit-08.rq'
+            skip "Decimal format changed in SPARQL 1.1"
+          when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
+            skip "PNAME_LN changed in SPARQL 1.1"
+          when 'syn-pp-in-collection.rq'
+            pending "CollectionPath"
+          when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq',
+               'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq',
+               'sq08.rq', 'sq12.rq', 'sq13.rq',
+               'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
+            skip "Equivalent form"
+          when 'sq09.rq', 'sq14.rq'
+            pending("SubSelect")
+          when 'sparql-star-order-by.rq'
+            pending("OFFSET/LIMIT in sub-select")
+          end
+          t.logger = RDF::Spec.logger
+          t.logger.debug "Source:\n#{t.action.query_string}"
+          sse = SPARQL.parse(t.action.query_string, base_uri: t.base_uri)
+          sparql = sse.to_sparql(base_uri: t.base_uri)
+          expect(sparql).to generate(sse,
+                                     base_uri: t.base_uri,
+                                     resolve_iris: false,
+                                     production: :QueryUnit,
+                                     logger: t.logger)
+        end
+      when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest', 'mf:PositiveUpdateSyntaxTest11'
+        it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
+          case t.entry
+          when 'syntax-update-38.ru'
+            pending "empty query"
+          when 'large-request-01.ru'
+            skip "large request"
+          when 'syntax-update-26.ru', 'syntax-update-27.ru', 'syntax-update-28.ru',
+               'syntax-update-36.ru'
+            pending("Whitespace in string tokens")
+          when 'insert-05a.ru', 'insert-data-same-bnode.ru', 
+               'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru'
+            skip "Equivalent form"
+          when 'delete-insert-04.ru'
+            pending("SubSelect")
+          end
+          t.logger = RDF::Spec.logger
+          t.logger.debug "Source:\n#{t.action.query_string}\n"
+          sse = SPARQL.parse(t.action.query_string,
+                             base_uri: t.base_uri,
+                             update: true)
+          sparql = sse.to_sparql(base_uri: t.base_uri)
+          expect(sparql).to generate(sse,
+                                     base_uri: t.base_uri,
+                                     resolve_iris: false,
+                                     production: :UpdateUnit,
+                                     logger: t.logger)
+        end
+      when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11', 'mf:NegativeUpdateSyntaxTest11'
+        # Do nothing.
+      else
+        it "??? #{t.entry} - #{t.name}" do
+          puts t.inspect
+          fail "Unknown test type #{t.type}"
+        end
+      end
+    end
+  end
+end
+
 describe SPARQL do
   BASE = "http://w3c.github.io/rdf-tests/sparql11/"
   describe "w3c dawg SPARQL 1.0 syntax tests" do
     SPARQL::Spec.sparql1_0_syntax_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -145,6 +219,7 @@ describe SPARQL do
     SPARQL::Spec.sparql1_0_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -153,6 +228,7 @@ describe SPARQL do
     SPARQL::Spec.sparql1_1_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end
@@ -161,6 +237,7 @@ describe SPARQL do
     SPARQL::Spec.sparql_star_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
   end

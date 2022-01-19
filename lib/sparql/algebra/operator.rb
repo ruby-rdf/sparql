@@ -106,6 +106,7 @@ module SPARQL; module Algebra
     autoload :Coalesce,           'sparql/algebra/operator/coalesce'
     autoload :Desc,               'sparql/algebra/operator/desc'
     autoload :Exprlist,           'sparql/algebra/operator/exprlist'
+    autoload :FunctionCall,       'sparql/algebra/operator/function_call'
     autoload :GroupConcat,        'sparql/algebra/operator/group_concat'
     autoload :In,                 'sparql/algebra/operator/in'
     autoload :NotIn,              'sparql/algebra/operator/notin'
@@ -254,6 +255,7 @@ module SPARQL; module Algebra
         when :asc             then Asc
         when :desc            then Desc
         when :exprlist        then Exprlist
+        when :function_call   then FunctionCall
 
         # Datasets
         when :dataset         then Dataset
@@ -336,31 +338,41 @@ module SPARQL; module Algebra
     # Generate a top-level Grammar, using collected options
     #
     # @param [String] content
+    # @param [Operator] datasets ([])
+    # @param [Operator] distinct (false)
     # @param [Hash{Symbol => Operator}] extensions
     #   Variable bindings
-    # @param [Operator] distinct (false)
     # @param [Array<Operator>] filter_ops ([])
     #   Filter Operations
     # @param [Integer] limit (nil)
     # @param [Array<Operator>] group_ops ([])
+    # @param [Array<Operator>] having_ops ([])
     # @param [Integer] offset (nil)
     # @param [Array<Operator>] order_ops ([])
     #   Order Operations
     # @param [Array<Symbol,Operator>] project (%i(*))
     #   Terms to project
     # @param [Operator] reduced (false)
+    # @param [Operator] values_clause (nil)
+    #   Top-level Values clause
+    # @param [Operator] where_clause (true)
+    #   Emit 'WHERE' before GroupGraphPattern
     # @param [Hash{Symbol => Object}] options
     # @return [String]
     def self.to_sparql(content,
+                       datasets: [],
                        distinct: false,
                        extensions: {},
                        filter_ops: [],
                        group_ops: [],
+                       having_ops: [],
                        limit: nil,
                        offset: nil,
                        order_ops: [],
                        project: %i(*),
                        reduced: false,
+                       values_clause: nil,
+                       where_clause: true,
                        **options)
       str = ""
 
@@ -372,28 +384,41 @@ module SPARQL; module Algebra
 
         str << project.map do |p|
           if expr = extensions.delete(p)
+            v = expr.to_sparql(as_statement: true, **options)
+            v = "<< #{v} >>" if expr.is_a?(RDF::Statement)
+            pp = p.to_sparql(**options)
             # Replace projected variables with their extension, if any
-            "(" + [expr, :AS, p].to_sparql(**options) + ")"
+            '(' + v + ' AS ' + pp + ')'
           else
             p.to_sparql(**options)
           end
         end.join(" ") + "\n"
       end
 
-      # Extensions
+      # DatasetClause
+      datasets.each do |ds|
+        str << "FROM #{ds.to_sparql(**options)}\n"
+      end
+
+      # Bind
       extensions.each do |as, expression|
-        content << "\nBIND (#{expression.to_sparql(**options)} AS #{as.to_sparql(**options)}) ."
+        v = expression.to_sparql(as_statement: true, **options)
+        v = "<< #{v} >>" if expression.is_a?(RDF::Statement)
+        content << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
       end
 
-      # Filters
+      # Filter
       filter_ops.each do |f|
-        content << "\nFILTER #{f.to_sparql(**options)} ."
+        content << "\nFILTER (#{f.to_sparql(**options)}) ."
       end
 
-      # Where clause
-      str << "WHERE {\n#{content}\n}\n"
+      # WhereClause / GroupGraphPattern
+      str << (where_clause ? "WHERE {\n#{content}\n}\n" : "{\n#{content}\n}\n")
 
-      # Group
+      ##
+      # SolutionModifier
+      #
+      # GroupClause
       unless group_ops.empty?
         ops = group_ops.map do |o|
           # Replace projected variables with their extension, if any
@@ -404,14 +429,22 @@ module SPARQL; module Algebra
         str << "GROUP BY #{ops.join(' ')}\n"
       end
 
-      # Order
+      # HavingClause
+      unless having_ops.empty?
+        str << "HAVING #{having_ops.to_sparql(**options)}"
+      end
+
+      # OrderClause
       unless order_ops.empty?
         str << "ORDER BY #{order_ops.to_sparql(**options)}\n"
       end
 
-      # Offset and Limmit
+      # LimitOffsetClauses
       str << "OFFSET #{offset}\n" unless offset.nil?
       str << "LIMIT #{limit}\n" unless limit.nil?
+
+      # Values Clause
+      str << values_clause.to_sparql(top_level: false, **options) if values_clause
       str
     end
 
@@ -640,12 +673,8 @@ module SPARQL; module Algebra
     # @return [SPARQL::Algebra::Expression] `self`
     def rewrite(&block)
       @operands = @operands.map do |op|
-        # Rewrite the operand
-        unless new_op = block.call(op)
-          # Not re-written, rewrite
-          new_op = op.respond_to?(:rewrite) ? op.rewrite(&block) : op
-        end
-        new_op
+        new_op = block.call(op)
+        new_op.respond_to?(:rewrite) ? new_op.rewrite(&block) : new_op
       end
       self
     end
@@ -671,7 +700,6 @@ module SPARQL; module Algebra
     end
 
     ##
-    #
     # Returns a partial SPARQL grammar for the operator.
     #
     # @return [String]

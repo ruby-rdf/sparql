@@ -89,7 +89,7 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         filter_ops = operands.first.is_a?(Operator::Exprlist) ? operands.first.operands : [operands.first]
-        operands.last.to_sparql(filter_ops: filter_ops, **options)
+        str = operands.last.to_sparql(filter_ops: filter_ops, **options)
       end
     end # Filter
   end # Operator

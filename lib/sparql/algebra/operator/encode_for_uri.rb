@@ -9,15 +9,13 @@ module SPARQL; module Algebra
     #
     # @example SPARQL Grammar
     #   PREFIX : <http://example.org/>
-    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
     #   SELECT ?s ?str (ENCODE_FOR_URI(?str) AS ?encoded) WHERE {
     #     ?s :str ?str
     #   }
     #
     # @example SSE
-    #   (prefix
-    #    ((: <http://example.org/>))
-    #    (project (?str ?encoded)
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?s ?str ?encoded)
     #     (extend ((?encoded (encode_for_uri ?str)))
     #      (bgp (triple ?s :str ?str)))))
     #

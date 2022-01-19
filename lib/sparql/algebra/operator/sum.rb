@@ -7,15 +7,15 @@ module SPARQL; module Algebra
     #
     # @example SPARQL Grammar
     #   PREFIX : <http://www.example.org/>
-    #   SELECT (SUM(?O) AS ?sum)
+    #   SELECT (SUM(?o) AS ?sum)
     #   WHERE { ?s :dec ?o }
     #
     # @example SSE
-    #    (prefix ((: <http://www.example.org/>))
-    #      (project (?sum)
-    #        (extend ((?sum ??.0))
-    #          (group () ((??.0 (sum ?o)))
-    #            (bgp (triple ?s :dec ?o))))))
+    #   (prefix ((: <http://www.example.org/>))
+    #     (project (?sum)
+    #       (extend ((?sum ??.0))
+    #         (group () ((??.0 (sum ?o)))
+    #           (bgp (triple ?s :dec ?o))))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggSum
     class Sum < Operator
@@ -47,7 +47,9 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "SUM(" + operands.to_sparql(**options) + ")"
+        distinct = operands.first == :distinct
+        args = distinct ? operands[1..-1] : operands
+        "SUM(#{'DISTINCT ' if distinct}#{args.to_sparql(**options)})"
       end
     end # Sum
   end # Operator

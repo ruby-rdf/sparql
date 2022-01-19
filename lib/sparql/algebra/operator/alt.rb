@@ -79,7 +79,7 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "#{operands.first.to_sparql(**options)}|#{operands.last.to_sparql(**options)}"
+        "(#{operands.first.to_sparql(**options)}|#{operands.last.to_sparql(**options)})"
       end
     end # Alt
   end # Operator

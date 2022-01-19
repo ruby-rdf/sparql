@@ -10,14 +10,47 @@ module SPARQL; module Algebra
     # @example SPARQL Grammar
     #   SELECT ?z
     #   { 
-    #     ?x <http://example/p> ?o
-    #     BIND(?o+1 AS ?z)
+    #     ?x <http://example.org/p> ?o
+    #     BIND(?o+10 AS ?z)
     #   }
     #
     # @example SSE
     #   (project (?z)
     #     (extend ((?z (+ ?o 10)))
-    #       (bgp (triple ?s <http://example/p> ?o))))
+    #       (bgp (triple ?x <http://example.org/p> ?o))))
+    #
+    # @example SPARQL Grammar (cast as boolean)
+    #   PREFIX : <http://example.org/>
+    #   PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+    #   PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+    #   SELECT ?a ?v (xsd:boolean(?v) AS ?boolean)
+    #   WHERE { ?a :p ?v . }
+    #
+    # @example SSE (cast as boolean)
+    #   (prefix ((: <http://example.org/>)
+    #            (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>)
+    #            (xsd: <http://www.w3.org/2001/XMLSchema#>))
+    #    (project (?a ?v ?boolean)
+    #     (extend ((?boolean (xsd:boolean ?v)))
+    #      (bgp (triple ?a :p ?v)))))
+    #
+    # @example SPARQL Grammar (inner bind)
+    #   PREFIX : <http://example.org/> 
+    #   
+    #   SELECT ?z ?s1
+    #   {
+    #     ?s ?p ?o .
+    #     BIND(?o+1 AS ?z)
+    #     ?s1 ?p1 ?z
+    #   }
+    #
+    # @example SSE (inner bind)
+    #   (prefix ((: <http://example.org/>))
+    #    (project (?z ?s1)
+    #     (join
+    #      (extend ((?z (+ ?o 1)))
+    #       (bgp (triple ?s ?p ?o)))
+    #     (bgp (triple ?s1 ?p1 ?z)))))
     #
     # @see https://www.w3.org/TR/sparql11-query/#evaluation
     class Extend < Operator::Binary

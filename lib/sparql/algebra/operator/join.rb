@@ -19,6 +19,22 @@ module SPARQL; module Algebra
     #       (graph ?g
     #         (bgp (triple ?s ?q ?v)))))
     #
+    # @example SPARQL Grammar (inline filter)
+    #   PREFIX : <http://xmlns.com/foaf/0.1/>
+    #   ASK {
+    #     :who :homepage ?homepage 
+    #     FILTER REGEX(?homepage, "^http://example.org/") 
+    #     :who :schoolHomepage ?schoolPage
+    #   }
+    # 
+    # @example SSE (inline filter)
+    #   (prefix ((: <http://xmlns.com/foaf/0.1/>))
+    #    (ask
+    #     (filter (regex ?homepage "^http://example.org/")
+    #      (join
+    #       (bgp (triple :who :homepage ?homepage))
+    #       (bgp (triple :who :schoolHomepage ?schoolPage))))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Join < Operator::Binary
       include Query
@@ -98,10 +114,28 @@ module SPARQL; module Algebra
       #
       # @param [Boolean] top_level (true)
       #   Treat this as a top-level, generating SELECT ... WHERE {}
+      # @param [Hash{Symbol => Operator}] extensions
+      #   Variable bindings
+      # @param [Array<Operator>] filter_ops ([])
+      #   Filter Operations
       # @return [String]
-      def to_sparql(top_level: true, **options)
-        str = operands.to_sparql(top_level: false, delimiter: "\n", **options)
-        top_level ? Operator.to_sparql(str, **options) : str
+      def to_sparql(top_level: true, filter_ops: [], extensions: {}, **options)
+        # If this is top-level, and the last operand is a Table (values), put the values at the outer-level
+        str = "{\n" + operands.first.to_sparql(top_level: false, extensions: {}, **options)
+
+        # Any accrued filters go here.
+        filter_ops.each do |op|
+          str << "\nFILTER (#{op.to_sparql(**options)}) ."
+        end
+
+        if top_level && operands.last.is_a?(Table)
+          str << "\n}"
+          options = options.merge(values_clause: operands.last)
+        else
+          str << "\n{\n" + operands.last.to_sparql(top_level: false, extensions: {}, **options) + "\n}\n}"
+        end
+
+        top_level ? Operator.to_sparql(str, extensions: extensions, **options) : str
       end
     end # Join
   end # Operator

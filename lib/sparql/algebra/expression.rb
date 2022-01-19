@@ -66,9 +66,11 @@ module SPARQL; module Algebra
     #
     # @param  [Array] sse
     #   a SPARQL S-Expression (SSE) form
+    # @param  [Hash{Symbol => Object}] options
+    #   any additional options (see {Operator#initialize})
     # @return [Expression]
-    def self.for(*sse)
-      self.new(sse)
+    def self.for(*sse, **options)
+      self.new(sse, **options)
     end
     class << self; alias_method :[], :for; end
 
@@ -86,6 +88,13 @@ module SPARQL; module Algebra
       raise ArgumentError, "invalid SPARQL::Algebra::Expression form: #{sse.inspect}" unless sse.is_a?(Array)
 
       operator = Operator.for(sse.first, sse.length - 1)
+
+      # If we don't find an operator, and sse.first is an extension IRI, use a function call
+      if !operator && sse.first.is_a?(RDF::URI) && self.extension?(sse.first)
+        operator = Operator.for(:function_call, sse.length)
+        sse.unshift(:function_call)
+      end
+
       unless operator
         return case sse.first
         when Array
@@ -115,11 +124,16 @@ module SPARQL; module Algebra
       end
 
       debug(options) {"#{operator.inspect}(#{operands.map(&:inspect).join(',')})"}
+      logger = options[:logger]
       options.delete_if {|k, v| [:debug, :logger, :depth, :prefixes, :base_uri, :update, :validate].include?(k) }
       begin
         operator.new(*operands, **options)
       rescue ArgumentError => e
-        error(options) {"Operator=#{operator.inspect}: #{e}"}
+        if logger
+          logger.error("Operator=#{operator.inspect}: #{e}")
+        else
+          raise "Operator=#{operator.inspect}: #{e}"
+        end
       end
     end
 
@@ -161,6 +175,17 @@ module SPARQL; module Algebra
     # @return [Hash{RDF:URI: Proc}]
     def self.extensions
       @extensions ||= {}
+    end
+
+    ##
+    # Is an extension function available?
+    #
+    # It's either a registered extension, or an XSD casting function
+    #
+    # @param [RDF::URI] function
+    # @return [Boolean]
+    def self.extension?(function)
+      function.to_s.start_with?(RDF::XSD.to_s) || self.extensions[function]
     end
 
     ##

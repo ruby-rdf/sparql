@@ -16,6 +16,24 @@ module SPARQL; module Algebra
     #     (group () ((??.0 (group_concat ?x)))
     #      (bgp))))
     #
+    # @example SPARQL Grammar (DISTINCT)
+    #   SELECT (GROUP_CONCAT(DISTINCT ?x) AS ?y) {}
+    #
+    # @example SSE (DISTINCT)
+    #   (project (?y)
+    #    (extend ((?y ??.0))
+    #     (group () ((??.0 (group_concat distinct ?x)))
+    #      (bgp))))
+    #
+    # @example SPARQL Grammar (SEPARATOR)
+    #   SELECT (GROUP_CONCAT(?x; SEPARATOR=';') AS ?y) {}
+    #
+    # @example SSE (SEPARATOR)
+    #   (project (?y)
+    #    (extend ((?y ??.0))
+    #     (group () ((??.0 (group_concat (separator ";") ?x)))
+    #      (bgp))))
+    #
     # @see https://www.w3.org/TR/sparql11-query/#defn_aggGroupConcat
     class GroupConcat < Operator
       include Aggregate
@@ -63,7 +81,13 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        "GROUP_CONCAT(#{operands.to_sparql(delimiter: ', ', **options)})"
+        distinct = operands.first == :distinct
+        args = distinct ? operands[1..-1] : operands
+        separator = args.first.last if args.first.is_a?(Array) && args.first.first == :separator
+        args = args[1..-1] if separator
+        str = "GROUP_CONCAT(#{'DISTINCT ' if distinct}#{args.to_sparql(delimiter: ', ', **options)}"
+        str << "; SEPARATOR=#{separator.to_sparql}" if separator
+        str << ")"
       end
     end # GroupConcat
   end # Operator

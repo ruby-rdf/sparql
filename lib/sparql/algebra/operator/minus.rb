@@ -14,6 +14,32 @@ module SPARQL; module Algebra
     #     (triple ?s ?p ?o))
     #    (bgp (triple ?s ?q ?v)))
     #
+    # @example SPARQL Grammar (inline filter)
+    #   PREFIX :    <http://example/>
+    #   SELECT (?s1 AS ?subset) (?s2 AS ?superset)
+    #   WHERE {
+    #       ?s2 a :Set .
+    #       ?s1 a :Set .
+    #       FILTER(?s1 != ?s2)
+    #       MINUS {
+    #           ?s1 a :Set .
+    #           ?s2 a :Set .
+    #           FILTER(?s1 != ?s2)
+    #       }
+    #   }
+    # 
+    # @example SSE (inline filter)
+    #   (prefix ((: <http://example/>))
+    #    (project (?subset ?superset)
+    #     (extend ((?subset ?s1) (?superset ?s2))
+    #      (filter (!= ?s1 ?s2)
+    #       (minus
+    #        (bgp (triple ?s2 a :Set) (triple ?s1 a :Set))
+    #        (filter (!= ?s1 ?s2)
+    #         (bgp
+    #          (triple ?s1 a :Set)
+    #          (triple ?s2 a :Set))))))))
+    #
     # @see https://www.w3.org/TR/xpath-functions/#func-numeric-unary-minus
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class Minus < Operator::Binary
@@ -74,15 +100,29 @@ module SPARQL; module Algebra
       #
       # Returns a partial SPARQL grammar for this operator.
       #
+      # @param [Hash{Symbol => Operator}] extensions
+      #   Variable bindings
+      # @param [Array<Operator>] filter_ops ([])
+      #   Filter Operations
       # @param [Boolean] top_level (true)
       #   Treat this as a top-level, generating SELECT ... WHERE {}
       # @return [String]
-      def to_sparql(top_level: true, **options)
-        str = operands.first.to_sparql(top_level: false, **options) + "\n"
-        str << "MINUS {\n"
-        str << operands.last.to_sparql(top_level: false, **options)
-        str << "\n}"
-        top_level ? Operator.to_sparql(str, **options) : str
+      def to_sparql(top_level: true, filter_ops: [], extensions: {}, **options)
+        lhs, *rhs = operands
+        str = "{\n" + lhs.to_sparql(top_level: false, extensions: {}, **options)
+
+        # Any accrued filters go here.
+        filter_ops.each do |op|
+          str << "\nFILTER (#{op.to_sparql(**options)}) ."
+        end
+
+        rhs.each do |minus|
+          str << "\nMINUS {\n"
+          str << minus.to_sparql(top_level: false, extensions: {}, **options)
+          str << "\n}"
+        end
+        str << "}"
+        top_level ? Operator.to_sparql(str, extensions: extensions, **options) : str
       end
     end # Minus
   end # Operator

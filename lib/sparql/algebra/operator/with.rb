@@ -85,7 +85,7 @@ module SPARQL; module Algebra
       #
       # @return [String]
       def to_sparql(**options)
-        with, where, ops = operands
+        with, where, *ops = operands
         str = "WITH #{with.to_sparql(**options)}\n"
 
         # The content of the WHERE clause, may be USING

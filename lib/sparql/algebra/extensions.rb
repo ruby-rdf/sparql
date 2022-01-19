@@ -70,26 +70,10 @@ class Array
   # Returns a partial SPARQL grammar for this array.
   #
   # @param [String] delimiter (" ")
+  #   If the first element is an IRI, treat it as an extension function
   # @return [String]
-  def to_sparql(delimiter: " ", **options)
+  def to_sparql(delimiter: " ",  **options)
     map {|e| e.to_sparql(**options)}.join(delimiter)
-  end
-
-  ##
-  # Evaluates the array using the given variable `bindings`.
-  #
-  # In this case, the Array has two elements, the first of which is
-  # an XSD datatype, and the second is the expression to be evaluated.
-  # The result is cast as a literal of the appropriate type
-  #
-  # @param  [RDF::Query::Solution] bindings
-  #   a query solution containing zero or more variable bindings
-  # @param [Hash{Symbol => Object}] options ({})
-  #   options passed from query
-  # @return [RDF::Term]
-  # @see SPARQL::Algebra::Expression.evaluate
-  def evaluate(bindings, **options)
-    SPARQL::Algebra::Expression.extension(*self.map {|o| o.evaluate(bindings, **options)})
   end
 
   ##
@@ -302,7 +286,6 @@ module RDF::Term
   end
 end # RDF::Term
 
-
 # Override RDF::Queryable to execute against SPARQL::Algebra::Query elements as well as RDF::Query and RDF::Pattern
 module RDF::Queryable
   alias_method :query_without_sparql, :query
@@ -390,15 +373,17 @@ class RDF::Statement
   # @param [Boolean] as_statement (false) serialize as < ... >, otherwise TRIPLE(...)
   # @return [String]
   def to_sparql(as_statement: false, **options)
-    return "TRIPLE(#{to_triple.to_sparql(as_statement: true, **options)})" unless as_statement
-
-    to_triple.map do |term|
-      if term.is_a?(::RDF::Statement)
-        "<<" + term.to_sparql(**options) + ">>"
-      else
-        term.to_sparql(**options)
-      end
-    end.join(" ") + " ."
+    if as_statement
+      to_triple.map do |term|
+        if term.is_a?(::RDF::Statement)
+          "<<" + term.to_sparql(as_statement: true, **options) + ">>"
+        else
+          term.to_sparql(**options)
+        end
+      end.join(" ")
+    else
+      "TRIPLE(#{to_triple.to_sparql(as_statement: true, **options)})"
+    end
   end
 
   ##
@@ -448,15 +433,34 @@ class RDF::Query
 
   ##
   #
-  # Returns a partial SPARQL grammar for this term.
+  # Returns a partial SPARQL grammar for this query.
   #
   # @param [Boolean] top_level (true)
   #   Treat this as a top-level, generating SELECT ... WHERE {}
+  # @param [Array<Operator>] filter_ops ([])
+  #   Filter Operations
   # @return [String]
-  def to_sparql(top_level: true, **options)
-    str = @patterns.map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join("\n")
+  def to_sparql(top_level: true, filter_ops: [], **options)
+    str = @patterns.map { |e| e.to_sparql(as_statement: true, top_level: false, **options) }.join(". \n")
     str = "GRAPH #{graph_name.to_sparql(**options)} {\n#{str}\n}\n" if graph_name
-    top_level ? SPARQL::Algebra::Operator.to_sparql(str, **options) : str
+    if top_level
+      SPARQL::Algebra::Operator.to_sparql(str, filter_ops: filter_ops, **options)
+    else
+      # Filters
+      filter_ops.each do |op|
+        str << "\nFILTER (#{op.to_sparql(**options)}) ."
+      end
+
+      # Extensons
+      extensions = options.fetch(:extensions, [])
+      extensions.each do |as, expression|
+        v = expression.to_sparql(as_statement: true, **options)
+        v = "<< #{v} >>" if expression.is_a?(RDF::Statement)
+        str << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
+      end
+      str = "{#{str}}" unless filter_ops.empty? && extensions.empty?
+      str
+    end
   end
 
   ##

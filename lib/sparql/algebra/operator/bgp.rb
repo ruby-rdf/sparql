@@ -7,11 +7,19 @@ module SPARQL; module Algebra
     #
     # @example SPARQL Grammar
     #   PREFIX : <http://example/>
-    #   SELECT * { :s :p :o }
+    #   SELECT * { ?s ?p ?o }
     #
     # @example SSE
     #   (prefix ((: <http://example/>))
     #     (bgp (triple ?s ?p ?o)))
+    #
+    # @example SPARQL Grammar (sparql-star)
+    #   PREFIX : <http://example.com/ns#>
+    #   SELECT * {<< :a :b :c >> :p1 :o1.}
+    #
+    # @example SSE (sparql-star)
+    #   (prefix ((: <http://example.com/ns#>))
+    #    (bgp (triple (triple :a :b :c) :p1 :o1)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class BGP < Operator
