@@ -444,7 +444,7 @@ module SPARQL; module Algebra
       str << "LIMIT #{limit}\n" unless limit.nil?
 
       # Values Clause
-      str << values_clause.to_sparql(**options) if values_clause
+      str << values_clause.to_sparql(top_level: false, **options) if values_clause
       str
     end
 

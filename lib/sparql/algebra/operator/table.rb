@@ -97,8 +97,10 @@ module SPARQL; module Algebra
       #
       # Returns a partial SPARQL grammar for this operator.
       #
+      # @param [Boolean] top_level (true)
+      #   Treat this as a top-level, generating SELECT ... WHERE {}
       # @return [String]
-      def to_sparql(**options)
+      def to_sparql(top_level: true, **options)
         str = "VALUES (#{Array(operands.first)[1..-1].map { |e| e.to_sparql(**options) }.join(' ')}) {\n"
         operands[1..-1].each do |row|
           line = '('
@@ -114,7 +116,7 @@ module SPARQL; module Algebra
         end
 
         str << "}\n"
-        str
+        top_level ? Operator.to_sparql(str, **options) : str
       end
     end # Table
   end # Operator

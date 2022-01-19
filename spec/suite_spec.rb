@@ -151,8 +151,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "Equivalent form"
           when 'sq09.rq', 'sq14.rq'
             pending("SubSelect")
-          when 'sparql-star-expr-02.rq'
-            pending("TODO SPARQL-star values no select")
           when 'sparql-star-order-by.rq'
             pending("TODO SPARQL-star union reversals")
           end
