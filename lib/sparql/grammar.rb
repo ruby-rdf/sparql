@@ -184,7 +184,7 @@ module SPARQL
   #       (?age ?src)
   #       (bgp
   #        (triple ?bob foaf:name "Bob")
-  #        (triple (triple ?bob foaf:age ?age) dct:source ?src)) ))
+  #        (triple (qtriple ?bob foaf:age ?age) dct:source ?src)) ))
   #
   # SPARQL:
   #
@@ -212,11 +212,11 @@ module SPARQL
   #      (construct
   #       (
   #        (triple ?bob foaf:name "Bob")
-  #        (triple (triple ?bob foaf:age ?age) dct:creator <http://example.com/crawlers#c1>)
-  #        (triple (triple ?bob foaf:age ?age) dct:source ?src))
+  #        (triple (qtriple ?bob foaf:age ?age) dct:creator <http://example.com/crawlers#c1>)
+  #        (triple (qtriple ?bob foaf:age ?age) dct:source ?src))
   #       (bgp
   #        (triple ?bob foaf:name "Bob")
-  #        (triple (triple ?bob foaf:age ?age) dct:source ?src)) ))
+  #        (triple (qtriple ?bob foaf:age ?age) dct:source ?src)) ))
   
 
   # ## Implementation Notes

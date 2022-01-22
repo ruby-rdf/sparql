@@ -890,7 +890,7 @@ module SPARQL::Grammar
       end
     end
     start_production(:_Object_1) do |input, data, callback|
-      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first)
+      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, quoted: true)
       error("ObjectPath", "Expected Verb",
         production: :_Object_1) unless input[:Verb]
       data[:TriplesNode] = [pattern]
@@ -954,37 +954,43 @@ module SPARQL::Grammar
       data[:Verb] = Array(input[:Verb]).first
     end
     production(:ObjectPath) do |input, data, callback|
-      object = data[:VarOrTermOrQuotedTP] || data[:TriplesNode] || data[:GraphNode]
+      subject = data[:Subject]
+      verb = data[:Verb]
+      object = Array(data[:VarOrTermOrQuotedTP] || data[:TriplesNode] || data[:GraphNode]).first
       if object
-        if prod_data[:Verb]
+        if verb
           if data[:pattern] && data[:path]
             # Generate a sequence (for collection of paths)
-            data[:pattern].unshift(RDF::Query::Pattern.new(prod_data[:Subject].first, prod_data[:Verb], object.first))
+            data[:pattern].unshift(RDF::Query::Pattern.new(subject, verb, object))
             bgp = SPARQL::Algebra::Expression[:bgp, data[:pattern]]
             add_prod_datum(:path, SPARQL::Algebra::Expression[:sequence, bgp, *data[:path]])
           elsif data[:path]
             # AnnotationPatternPath case
+            if subject && verb && object
+              add_pattern(:ObjectPath, subject: subject, predicate: verb, object: object)
+            end
             add_prod_datum(:path, data[:path])
           else
-            add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
+            add_pattern(:ObjectPath, subject: subject, predicate: verb, object: object)
             add_prod_datum(:pattern, data[:pattern])
           end
         else
           add_prod_datum(:path,
             SPARQL::Algebra::Expression(:path,
-                                        Array(prod_data[:Subject]).first,
+                                        subject,
                                         prod_data[:VerbPath],
-                                        object.first))
+                                        object))
         end
       end
     end
     start_production(:_ObjectPath_1) do |input, data, callback|
-      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first)
+      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, quoted: true)
       error("ObjectPath", "Expected Verb",
         production: :_ObjectPath_1) unless input[:Verb]
       data[:TriplesNode] = [pattern]
     end
     production(:_ObjectPath_1) do |input, data, callback|
+      add_prod_datum(:path, data[:path])
       add_prod_datum(:pattern, data[:pattern])
     end
 
@@ -1483,7 +1489,8 @@ module SPARQL::Grammar
       add_pattern(:QuotedTP,
                   subject: subject,
                   predicate: predicate,
-                  object: object)
+                  object: object,
+                  quoted: true)
     end
 
     # [175] QuotedTriple ::= '<<' DataValueTerm (iri | 'a') DataValueTerm '>>'
@@ -1493,7 +1500,8 @@ module SPARQL::Grammar
       add_pattern(:QuotedTriple,
                   subject: subject,
                   predicate: predicate,
-                  object: object)
+                  object: object,
+                  quoted: true)
     end
 
     # [176] qtSubjectOrObject ::=	Var | BlankNode | iri | RDFLiteral
@@ -1528,7 +1536,8 @@ module SPARQL::Grammar
       add_pattern(:ExprQuotedTP,
                   subject: subject,
                   predicate: predicate,
-                  object: object)
+                  object: object,
+                  quoted: true)
     end
 
     # [182] ExprVarOrTerm ::=	iri | RDFLiteral | NumericLiteral | BooleanLiteral | Var | ExprQuotedTP
@@ -1869,10 +1878,12 @@ module SPARQL::Grammar
     # add a pattern
     #
     # @param [String] production Production generating pattern
+    # @param [Boolean] quoted For quoted triple
     # @param [Hash{Symbol => Object}] options
-    def add_pattern(production, **options)
+    def add_pattern(production, quoted: false, **options)
       progress(production, "[:pattern, #{options[:subject]}, #{options[:predicate]}, #{options[:object]}]")
       triple = {}
+      triple[:quoted] = true if quoted
       options.each_pair do |r, v|
         if v.is_a?(Array) && v.flatten.length == 1
           v = v.flatten.first

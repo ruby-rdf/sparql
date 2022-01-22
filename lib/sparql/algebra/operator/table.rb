@@ -106,7 +106,6 @@ module SPARQL; module Algebra
           line = '('
           row[1..-1].each do |col|
             v = col[1].to_sparql(as_statement: true, **options)
-            v = "<< #{v} >>" if col[1].is_a?(RDF::Statement)
             line << v + ' '
           end
           line = line.chomp(' ')

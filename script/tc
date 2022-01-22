@@ -12,6 +12,7 @@ require_relative "../spec/suite_helper"
 require_relative "../spec/support/extensions/comparitors"
 require_relative "../spec/support/extensions/isomorphic"
 require 'getoptlong'
+require 'amazing_print'
 
 # Extend RDF::Enumerables with these functions.
 class RDF::Repository 

@@ -35,7 +35,7 @@ describe "SPARQL-star" do
            (?age ?c)
            (bgp
             (triple ?bob foaf:name "Bob")
-            (triple (triple ?bob foaf:age ?age) ex:certainty ?c)) ))),
+            (triple (qtriple ?bob foaf:age ?age) ex:certainty ?c)) ))),
         json: JSON.parse(%({
           "head": {"vars": ["age", "c"]},
           "results": {
@@ -87,7 +87,7 @@ describe "SPARQL-star" do
            (bgp
             (triple ?bob foaf:name "Bob")
             (triple ?bob foaf:age ?age)
-            (triple (triple ?bob foaf:age ?age) ex:certainty ?c)) ))),
+            (triple (qtriple ?bob foaf:age ?age) ex:certainty ?c)) ))),
         json: JSON.parse(%({
           "head": {"vars": ["age", "c"]},
           "results": {
@@ -118,16 +118,125 @@ describe "SPARQL-star" do
         tsv: %(?age\t?c\r\n23\t0.9\r\n),
       }
     },
+    "sparql-star-annotation-06": {
+      query: %(
+        PREFIX : <http://example.com/ns#>
+
+        SELECT * {
+          ?s ?p ?o {| :r/:q 'ABC' |} .
+        }
+      ),
+      result: {
+        sxp: %{
+          (prefix ((: <http://example.com/ns#>))
+           (join
+            (bgp (triple ?s ?p ?o))
+            (path ((qtriple ?s ?p ?o)) (seq :r :q) "ABC")))
+        }
+      }
+    },
+    "sparql-star-annotation-08": {
+      query: %(
+        PREFIX : <http://example.com/ns#>
+
+        CONSTRUCT { ?s ?p ?o {| :source ?g |} }
+        WHERE { GRAPH ?g { ?s ?p ?o } }
+      ),
+      result: {
+        sxp: %{
+          (prefix ((: <http://example.com/ns#>))
+           (construct
+            ((triple (qtriple ?s ?p ?o) :source ?g)
+             (triple ?s ?p ?o))
+            (graph ?g (bgp (triple ?s ?p ?o)))) )
+        }
+      }
+    },
+    "sparql-star-syntax-expr-04": {
+      query: %(
+        PREFIX : <http://example.com/ns#>
+
+        SELECT * {
+          ?s ?p ?o .
+          BIND(TRIPLE(?s, ?p, str(?o)) AS ?t2)
+        }
+      ),
+      result: {
+        sxp: %{
+          (prefix ((: <http://example.com/ns#>))
+           (extend
+            ((?t2 (triple ?s ?p (str ?o))))
+            (bgp (triple ?s ?p ?o))))
+        }
+      }
+    },
+    "sparql-star-syntax-update-2": {
+      query: %(
+        PREFIX : <http://example.com/ns#>
+
+        INSERT DATA { :s :p :o {| :y :z |} }
+      ),
+      update: true,
+      result: {
+        sxp: %{
+          (prefix ((: <http://example.com/ns#>))
+           (update
+            (insertData
+             ((triple (qtriple :s :p :o) :y :z)
+             (triple :s :p :o)))))
+        }
+      }
+    },
+    "sparql-star-syntax-update-4": {
+      query: %(
+        PREFIX : <http://example.com/ns#>
+
+        INSERT {
+            << :a :b :c >> ?P :o2  {| ?Y <<:s1 :p1 ?Z>> |}
+        } WHERE {
+           << :a :b :c >> ?P :o1 {| ?Y <<:s1 :p1 ?Z>> |}
+        }
+      ),
+      update: true,
+      result: {
+        sxp: %{
+          (prefix ((: <http://example.com/ns#>))
+           (update
+            (modify
+             (bgp
+              (triple (qtriple :a :b :c) ?P :o1)
+              (triple (qtriple (qtriple :a :b :c) ?P :o1) ?Y (qtriple :s1 :p1 ?Z)))
+             (insert
+              (
+               (triple (qtriple (qtriple :a :b :c) ?P :o2) ?Y (qtriple :s1 :p1 ?Z))
+               (triple (qtriple :a :b :c) ?P :o2))))))
+        }
+      }
+    }
   }.each do |name, params|
     context name do
-      let(:query) {SPARQL.parse(params[:query])}
-      let(:result) do
-        data.query(query)
-      end
+      let(:query) { SPARQL.parse(params[:query], update: params[:update]) }
+      let(:result) { data.query(query) }
       subject {result}
 
-      it "parses to SXP" do
-        expect(query).to produce(SPARQL::Algebra.parse(params[:result][:sxp]), [])
+      describe "parses to SXP" do
+        it "has the same number of triples" do
+          q_sxp = query.to_sxp
+          unquoted_count = q_sxp.split('(triple').length - 1
+          result_count = params[:result][:sxp].split('(triple').length - 1
+          expect(unquoted_count).to produce(result_count, [q_sxp])
+        end
+
+        it "has the same number of qtriples" do
+          q_sxp = query.to_sxp
+          quoted_count = q_sxp.split('(qtriple').length - 1
+          result_count = params[:result][:sxp].split('(qtriple').length - 1
+          expect(quoted_count).to produce(result_count, [q_sxp])
+        end
+
+        it "produces equivalent SXP" do
+          expect(query).to produce(SPARQL::Algebra.parse(params[:result][:sxp]), [])
+        end
       end
 
       it "generates JSON results" do

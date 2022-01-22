@@ -114,7 +114,12 @@ module SPARQL; module Algebra
         debug(options) {"Operator=#{operator.inspect}, Operand=#{operand.inspect}"}
         case operand
           when Array
-            self.new(operand, depth: options[:depth].to_i + 1, **options)
+            if operator == RDF::Query::Pattern
+              quoted = operand.first == :qtriple
+              self.new(operand, quoted: quoted, depth: options[:depth].to_i + 1, **options)
+            else
+              self.new(operand, depth: options[:depth].to_i + 1, **options)
+            end
           when Operator, Variable, RDF::Term, RDF::Query, Symbol
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time

@@ -147,7 +147,8 @@ shared_examples "to_sparql" do |id, label, comment, tests|
           when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq',
                'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq',
                'sq08.rq', 'sq12.rq', 'sq13.rq',
-               'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
+               'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq',
+               'sparql-star-annotation-06.rq'
             skip "Equivalent form"
           when 'sq09.rq', 'sq14.rq'
             pending("SubSelect")
@@ -175,7 +176,8 @@ shared_examples "to_sparql" do |id, label, comment, tests|
                'syntax-update-36.ru'
             pending("Whitespace in string tokens")
           when 'insert-05a.ru', 'insert-data-same-bnode.ru', 
-               'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru'
+               'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru',
+               'sparql-star-syntax-update-7.ru'
             skip "Equivalent form"
           when 'delete-insert-04.ru'
             pending("SubSelect")

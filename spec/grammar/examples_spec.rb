@@ -61,11 +61,25 @@ describe SPARQL::Grammar do
         describe "Operator #{op}:" do
           examples.each do |example|
             sxp, sparql, production = example[:sxp], example[:sparql], example[:prod]
-            it(sparql) do
-              pending "not implemented yet" if %w(
-              
-              ).include?(op)
-              expect(sparql).to generate(sxp, resolve_iris: false, production: production, validate: true)
+            describe(sparql) do
+              let(:query) {parse(sparql, update: production == :UpdateUnit)}
+              it "has the same number of triples" do
+                q_sxp = query.to_sxp
+                unquoted_count = q_sxp.split('(triple').length - 1
+                result_count = sxp.split('(triple').length - 1
+                expect(unquoted_count).to produce(result_count, [q_sxp])
+              end
+
+              it "has the same number of qtriples" do
+                q_sxp = query.to_sxp
+                quoted_count = q_sxp.split('(qtriple').length - 1
+                result_count = sxp.split('(qtriple').length - 1
+                expect(quoted_count).to produce(result_count, [q_sxp])
+              end
+
+              it "produces equivalent SXP" do
+                expect(query).to generate(sxp, resolve_iris: false, production: production, validate: true)
+              end
             end
           end
         end

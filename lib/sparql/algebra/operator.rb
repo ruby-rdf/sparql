@@ -303,6 +303,8 @@ module SPARQL; module Algebra
         # RDF-star
         when :istriple        then IsTriple
         when :triple          then RDF::Query::Pattern
+        when :qtriple         then RDF::Query::Pattern
+        when :quad            then RDF::Query::Pattern
         when :subject         then Subject
         when :predicate       then Predicate
         when :object          then Object
@@ -384,8 +386,7 @@ module SPARQL; module Algebra
 
         str << project.map do |p|
           if expr = extensions.delete(p)
-            v = expr.to_sparql(as_statement: true, **options)
-            v = "<< #{v} >>" if expr.is_a?(RDF::Statement)
+            v = expr.to_sparql(**options)
             pp = p.to_sparql(**options)
             # Replace projected variables with their extension, if any
             '(' + v + ' AS ' + pp + ')'
@@ -402,8 +403,7 @@ module SPARQL; module Algebra
 
       # Bind
       extensions.each do |as, expression|
-        v = expression.to_sparql(as_statement: true, **options)
-        v = "<< #{v} >>" if expression.is_a?(RDF::Statement)
+        v = expression.to_sparql(**options)
         content << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
       end
 

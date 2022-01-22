@@ -6,6 +6,7 @@ require 'logger'
 require 'sparql'
 require 'getoptlong'
 require 'open-uri'
+require 'amazing_print'
 
 def run(input, parser_options)
   start = Time.new
