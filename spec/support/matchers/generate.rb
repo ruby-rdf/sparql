@@ -22,38 +22,32 @@ RSpec::Matchers.define :generate do |expected, options|
 
   match do |input|
     @input = input
-    begin
-      case
-      when expected == EBNF::LL1::Parser::Error
-        expect {parser(**options).call(input)}.to raise_error(expected)
-      when options[:last]
-        # Only look at end of production
-        @actual = parser(**options).call(input).last
-        if expected.is_a?(String)
-          expect(normalize(@actual.to_sxp)).to eq normalize(expected)
-        else
-          expect(@actual).to eq expected
-        end
-      when options[:shift]
-        @actual = parser(**options).call(input)[1..-1]
-        expect(@actual).to eq expected
-      when expected.nil?
-        @actual = parser(**options).call(input)
-        expect(@actual).to be_nil
-      when expected.is_a?(String)
-        @actual = parser(**options).call(input).to_sxp
-        expect(normalize(@actual)).to eq normalize(expected)
-      when expected.is_a?(Symbol)
-        @actual = parser(**options).call(input)
-        expect(@actual.to_sxp).to eq expected.to_s
+    @actual = input.is_a?(String) ? parser(**options).call(input) : input
+    case
+    when options[:last]
+      # Only look at end of production
+      @actual = @actual.last
+      if expected.is_a?(String)
+        normalize(@actual.to_sxp) == normalize(expected)
       else
-        @actual = parser(**options).call(input)
-        expect(@actual).to eq expected
+        @actual == expected
       end
-    rescue
-      @exception = $!
-      false
+    when options[:shift]
+      @actual = @actual[1..-1]
+      @actual == expected
+    when expected.nil?
+      @actual.nil?
+    when expected.is_a?(String)
+      @actual = @actual.to_sxp
+      normalize(@actual) == normalize(expected)
+    when expected.is_a?(Symbol)
+      @actual.to_sxp == expected.to_s
+    else
+      @actual == expected
     end
+  rescue
+    @exception = $!
+    expected == EBNF::LL1::Parser::Error
   end
   
   failure_message do |input|
