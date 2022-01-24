@@ -373,12 +373,8 @@ class RDF::Statement
   # @param [Boolean] as_statement (false) serialize as < ... >, otherwise TRIPLE(...)
   # @return [String]
   def to_sparql(as_statement: false, **options)
-    if as_statement || quoted?
-      str = to_triple.map {|term| term.to_sparql(as_statement: true, **options)}.join(" ")
-      quoted? ? '<<' + str ++ '>>' : str
-    else
-      "TRIPLE(#{to_triple.to_sparql(as_statement: true, delimiter: ', ', **options)})"
-    end
+    str = to_triple.map {|term| term.to_sparql(as_statement: true, **options)}.join(" ")
+    quoted? ? '<<' + str ++ '>>' : str
   end
 
   ##

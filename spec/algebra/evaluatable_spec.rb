@@ -579,12 +579,9 @@ describe SPARQL::Algebra do
           RDF::Query.new {pattern [RDF::URI("a"), RDF::URI("b"), RDF::Literal.new(123.0)]}),
 
 
-      # @see http://www.w3.org/TR/sparql11-query/#sparqlTriplePatterns
-      %q((triple <a> <b> <c>)) => RDF::Query::Pattern.new(RDF::URI("a"), RDF::URI("b"), RDF::URI("c")),
-      %q((triple ?a _:b "c")) => RDF::Query::Pattern.new(RDF::Query::Variable.new("a"), RDF::Node.new("b"), RDF::Literal.new("c")),
-
       # @see http://www.w3.org/TR/sparql11-query/#sparqlBasicGraphPatterns
       %q((bgp (triple <a> <b> <c>))) => RDF::Query.new { pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]},
+      %q((bgp (triple ?a _:b "c"))) => RDF::Query.new { pattern [RDF::Query::Variable.new("a"), RDF::Node.new("b"), RDF::Literal.new("c")]},
 
       # @see http://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       %q((union

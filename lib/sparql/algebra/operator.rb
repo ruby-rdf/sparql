@@ -55,6 +55,7 @@ module SPARQL; module Algebra
     autoload :Timezone,           'sparql/algebra/operator/timezone'
     autoload :TZ,                 'sparql/algebra/operator/tz'
     autoload :Year,               'sparql/algebra/operator/year'
+    autoload :Triple,             'sparql/algebra/operator/triple'
     autoload :IsTriple,           'sparql/algebra/operator/is_triple'
     autoload :Subject,            'sparql/algebra/operator/subject'
     autoload :Predicate,          'sparql/algebra/operator/predicate'
@@ -302,7 +303,7 @@ module SPARQL; module Algebra
 
         # RDF-star
         when :istriple        then IsTriple
-        when :triple          then RDF::Query::Pattern
+        when :triple          then Triple
         when :qtriple         then RDF::Query::Pattern
         when :quad            then RDF::Query::Pattern
         when :subject         then Subject
