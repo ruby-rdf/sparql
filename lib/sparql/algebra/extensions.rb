@@ -373,7 +373,7 @@ class RDF::Statement
   # @return [String]
   def to_sparql(**options)
     str = to_triple.map {|term| term.to_sparql(**options)}.join(" ")
-    quoted? ? '<<' + str ++ '>>' : str
+    quoted? ? ('<<' + str + '>>') : str
   end
 
   ##
