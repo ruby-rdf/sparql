@@ -114,7 +114,7 @@ module SPARQL; module Algebra
       #
       # @param [Boolean] top_level (true)
       #   Treat this as a top-level, generating SELECT ... WHERE {}
-      # @param [Hash{Symbol => Operator}] extensions
+      # @param [Hash{String => Operator}] extensions
       #   Variable bindings
       # @param [Array<Operator>] filter_ops ([])
       #   Filter Operations

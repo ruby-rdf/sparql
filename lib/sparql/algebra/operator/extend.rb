@@ -124,7 +124,8 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         extensions = operands.first.inject({}) do |memo, (as, expression)|
-          memo.merge(as => expression)
+          # Use string/name of variable "as" to aid in later matching
+          memo.merge(as.to_s => expression)
         end
 
         # Merge any inherited extensions from options

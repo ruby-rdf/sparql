@@ -343,7 +343,7 @@ module SPARQL; module Algebra
     # @param [String] content
     # @param [Operator] datasets ([])
     # @param [Operator] distinct (false)
-    # @param [Hash{Symbol => Operator}] extensions
+    # @param [Hash{String => Operator}] extensions
     #   Variable bindings
     # @param [Array<Operator>] filter_ops ([])
     #   Filter Operations
@@ -386,9 +386,9 @@ module SPARQL; module Algebra
         str << "REDUCED " if reduced
 
         str << project.map do |p|
-          if expr = extensions.delete(p)
+          if expr = extensions.delete(p.to_s)
             v = expr.to_sparql(**options)
-            pp = p.to_sparql(**options)
+            pp = RDF::Query::Variable.new(p).to_sparql(**options)
             # Replace projected variables with their extension, if any
             '(' + v + ' AS ' + pp + ')'
           else
@@ -405,7 +405,8 @@ module SPARQL; module Algebra
       # Bind
       extensions.each do |as, expression|
         v = expression.to_sparql(**options)
-        content << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
+        pp = RDF::Query::Variable.new(as).to_sparql(**options)
+        content << "\nBIND (" << v << " AS " << pp << ") ."
       end
 
       # Filter

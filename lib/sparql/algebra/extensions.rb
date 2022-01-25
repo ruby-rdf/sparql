@@ -447,7 +447,8 @@ class RDF::Query
       extensions = options.fetch(:extensions, [])
       extensions.each do |as, expression|
         v = expression.to_sparql(**options)
-        str << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
+        pp = RDF::Query::Variable.new(as).to_sparql(**options)
+        str << "\nBIND (" << v << " AS " << pp << ") ."
       end
       str = "{#{str}}" unless filter_ops.empty? && extensions.empty?
       str

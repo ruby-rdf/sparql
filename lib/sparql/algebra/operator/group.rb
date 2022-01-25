@@ -166,7 +166,7 @@ module SPARQL; module Algebra
       #
       # Returns a partial SPARQL grammar for this operator.
       #
-      # @param [Hash{Symbol => Operator}] extensions
+      # @param [Hash{String => Operator}] extensions
       #   Variable bindings
       # @param [Array<Operator>] filter_ops ([])
       #   Filter Operations
@@ -188,12 +188,12 @@ module SPARQL; module Algebra
                     operand
                   end
                 end
-                memo.merge(ext_var => new_op)
+                memo.merge(ext_var.to_s => new_op)
               elsif ext_op.is_a?(Variable) && ext_op.to_sym == var.to_sym
-                memo.merge(ext_var => op)
+                memo.merge(ext_var.to_s => op)
               else
                 # Doesn't match this variable, so don't change
-                memo.merge(ext_var => ext_op)
+                memo.merge(ext_var.to_s => ext_op)
               end
             end
 
