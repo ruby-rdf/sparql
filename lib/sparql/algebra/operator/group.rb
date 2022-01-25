@@ -40,13 +40,13 @@ module SPARQL; module Algebra
     #       (group (?s) ((??.0 (avg ?o)))
     #        (bgp (triple ?s ?p ?o)))))) )
     #
-    # @example SPARQL Grammar (non-triveal filters)
+    # @example SPARQL Grammar (non-trivial filters)
     #   PREFIX : <http://example.com/data/#>
     #   SELECT ?g (AVG(?p) AS ?avg) ((MIN(?p) + MAX(?p)) / 2 AS ?c)
     #   WHERE { ?g :p ?p . }
     #   GROUP BY ?g
     #
-    # @example SSE (non-triveal filters)
+    # @example SSE (non-trivial filters)
     #   (prefix ((: <http://example.com/data/#>))
     #    (project (?g ?avg ?c)
     #     (extend ((?avg ??.0) (?c (/ (+ ??.1 ??.2) 2)))

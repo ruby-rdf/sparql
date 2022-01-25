@@ -105,7 +105,7 @@ module SPARQL; module Algebra
         operands[1..-1].each do |row|
           line = '('
           row[1..-1].each do |col|
-            v = col[1].to_sparql(as_statement: true, **options)
+            v = col[1].to_sparql(**options)
             line << v + ' '
           end
           line = line.chomp(' ')

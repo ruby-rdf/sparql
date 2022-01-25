@@ -76,7 +76,7 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         "DELETE {\n" +
-          operands.first.to_sparql(as_statement: true, delimiter: " .\n", **options) +
+          operands.first.to_sparql(delimiter: " .\n", **options) +
           "\n}"
       end
     end # Delete

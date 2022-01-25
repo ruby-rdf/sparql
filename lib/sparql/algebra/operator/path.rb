@@ -70,7 +70,7 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(top_level: true, **options)
         str = operands.to_sparql(top_level: false, **options) + " ."
-        top_level ? Operator.to_sparql(str, as_statement: true, **options) : str
+        top_level ? Operator.to_sparql(str, **options) : str
       end
     end # Path
   end # Operator

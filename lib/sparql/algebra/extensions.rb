@@ -370,10 +370,9 @@ class RDF::Statement
   #
   # Returns a partial SPARQL grammar for this term.
   #
-  # @param [Boolean] as_statement (false) serialize as < ... >, otherwise TRIPLE(...)
   # @return [String]
-  def to_sparql(as_statement: false, **options)
-    str = to_triple.map {|term| term.to_sparql(as_statement: true, **options)}.join(" ")
+  def to_sparql(**options)
+    str = to_triple.map {|term| term.to_sparql(**options)}.join(" ")
     quoted? ? '<<' + str ++ '>>' : str
   end
 
@@ -433,7 +432,7 @@ class RDF::Query
   # @return [String]
   def to_sparql(top_level: true, filter_ops: [], **options)
     str = @patterns.map do |e|
-      e.to_sparql(as_statement: true, top_level: false, **options) + " . \n"
+      e.to_sparql(top_level: false, **options) + " . \n"
     end.join("")
     str = "GRAPH #{graph_name.to_sparql(**options)} {\n#{str}\n}\n" if graph_name
     if top_level
@@ -447,7 +446,7 @@ class RDF::Query
       # Extensons
       extensions = options.fetch(:extensions, [])
       extensions.each do |as, expression|
-        v = expression.to_sparql(as_statement: true, **options)
+        v = expression.to_sparql(**options)
         str << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
       end
       str = "{#{str}}" unless filter_ops.empty? && extensions.empty?
