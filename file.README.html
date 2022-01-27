@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  File: README
+  
+    &mdash; SPARQL - SPARQL for RDF.rb
+  
+</title>
+
+  <link rel="stylesheet" href="css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "README";
+  relpath = '';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="file_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="_index.html">Index</a> &raquo; 
+    <span class="title">File: README</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><div id='filecontents'>
+<h1 id="label-SPARQL+for+RDF.rb">SPARQL for RDF.rb</h1>
+
+<p>This is a <a href="https://ruby-lang.org/">Ruby</a> implementation of <a href="https://en.wikipedia.org/wiki/SPARQL">SPARQL</a> for <a href="https://ruby-rdf.github.io/rdf">RDF.rb</a>.</p>
+
+<p><a href="https://badge.fury.io/rb/sparql"><img src="https://badge.fury.io/rb/sparql.png"></a> <a href="https://github.com/ruby-rdf/sparql/actions?query=workflow%3ACI"><img src="https://github.com/ruby-rdf/sparql/workflows/CI/badge.svg?branch=develop"></a> <a href="https://coveralls.io/r/ruby-rdf/sparql?branch=develop"><img src="https://coveralls.io/repos/ruby-rdf/sparql/badge.svg?branch=develop"></a> <a href="https://gitter.im/ruby-rdf/rdf"><img src="https://badges.gitter.im/ruby-rdf/rdf.png"></a></p>
+
+<h2 id="label-Features">Features</h2>
+<ul><li>
+<p>100% free and unencumbered <a href="https://unlicense.org/">public domain</a> software.</p>
+</li><li>
+<p>Complete <a href="https://www.w3.org/TR/sparql11-query/">SPARQL 1.1 Query</a> parsing and execution</p>
+</li><li>
+<p>SPARQL results as <a href="https://www.w3.org/TR/rdf-sparql-XMLres/">XML</a>, <a href="https://www.w3.org/TR/rdf-sparql-json-res/">JSON</a>,  <a href="https://www.w3.org/TR/sparql11-results-csv-tsv/">CSV</a>,  <a href="https://www.w3.org/TR/sparql11-results-csv-tsv/">TSV</a>  or HTML.</p>
+</li><li>
+<p>SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type  using available RDF Writers (see <a href="https://rubygems.org/gems/linkeddata">Linked Data</a>)</p>
+</li><li>
+<p>SPARQL Client for accessing remote SPARQL endpoints.</p>
+</li><li>
+<p>SPARQL Update</p>
+</li><li>
+<p><a href="https://rack.github.io">Rack</a> and <a href="https://www.sinatrarb.com/">Sinatra</a> middleware to perform <a href="https://en.wikipedia.org/wiki/Content_negotiation">HTTP content negotiation</a> for result formats</p>
+</li><li>
+<p>Compatible with any <a href="https://rack.github.io">Rack</a> or <a href="https://www.sinatrarb.com/">Sinatra</a> application and any Rack-based framework.</p>
+</li><li>
+<p>Helper method for describing <a href="https://www.w3.org/TR/sparql11-service-description/">SPARQL Service Description</a></p>
+</li><li>
+<p>Implementation Report: <a href="file.earl.html" title="EARL">EARL</a></p>
+</li><li>
+<p>Compatible with Ruby &gt;= 2.6.</p>
+</li><li>
+<p>Supports Unicode query strings both on all versions of Ruby.</p>
+</li><li>
+<p>Provisional support for <a href="https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language">SPARQL-star</a>.</p>
+</li></ul>
+
+<h2 id="label-Description">Description</h2>
+
+<p>The <a href="https://www.w3.org/TR/sparql11-query/">SPARQL} gem implements <span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">1.1 Query</a>, and <a href="https://www.w3.org/TR/sparql11-update/">SPARQL 1.1 Update</a>, and provides <a href="https://rack.github.io">Rack</a> and <a href="https://www.sinatrarb.com/">Sinatra</a> middleware to provide results using <a href="https://en.wikipedia.org/wiki/Content_negotiation">HTTP Content Negotiation</a>.</p> <ul><li> <p><a href="https://www.w3.org/TR/sparql11-query/">SPARQL::Grammar</a></span> implements a <span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">1.1 Query</a> and <a href="https://www.w3.org/TR/sparql11-update/">SPARQL 1.1 Update</a> parser generating <a href="https://jena.apache.org/documentation/notes/sse.html">SPARQL S-Expressions (SSE)</a>.</p> </li><li> <p>{SPARQL::Algebra</a></span> executes SSE against Any <code>RDF::Graph</code> or <code>RDF::Repository</code>, including compliant RDF.rb[https://ruby-rdf.github.io/rdf] repository adaptors such as <a href="https://rubygems.org/gems/rdf-do">RDF::DO</a> and <a href="https://rubygems.org/gems/rdf-mongo">RDF::Mongo</a>.</p>
+</li><li>
+<p><a href="https://en.wikipedia.org/wiki/Content_negotiation">Rack::SPARQL} and <span class='object_link'><a href="Sinatra/SPARQL.html" title="Sinatra::SPARQL (module)">Sinatra::SPARQL</a></span> provide middleware components to format results using an appropriate format based on content negotiation</a>.</p>
+</li></ul>
+
+<h3 id="label-SPARQL+1.1+Query+Extensions+and+Limitations"><a href="https://www.w3.org/TR/sparql11-query/">SPARQL 1.1 Query</a> Extensions and Limitations</h3>
+
+<p>The <a href="https://www.w3.org/TR/sparql11-query/">SPARQL gem uses the <span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">1.1 Query</a> <a href="https://www.w3.org/TR/sparql11-query/">file:etc/sparql11.html EBNF grammar</a></span>, which provides much more capability than {SPARQL 1.0</a>, but has a few limitations:</p>
+<ul><li>
+<p>The format for decimal datatypes has changed in <a href="https://www.w3.org/TR/rdf11-concepts">RDF 1.1</a>; they may no  longer have a trailing “.”, although they do not need a leading digit.</p>
+</li><li>
+<p>BNodes may now include extended characters, including “.”.</p>
+</li></ul>
+
+<p>The SPARQL gem now implements the following <a href="https://www.w3.org/TR/sparql11-query/">SPARQL 1.1 Query</a> operations:</p>
+<ul><li>
+<p><a href="https://www.w3.org/TR/sparql11-query/#SparqlOps">Functions</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/sparql11-query/#bind">BIND</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/sparql11-query/#groupby">GROUP BY</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/sparql11-query/#aggregates">Aggregates</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/sparql11-query/#subqueries">Subqueries</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data">Inline Data</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#inline-data">Inline Data</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#func-filter-exists">Exists</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#negation">Negation</a></p>
+</li><li>
+<p><a href="https://www.w3.org/TR/2013/REC-sparql11-query-20130321/#propertypaths">Property Paths</a></p>
+</li></ul>
+
+<p>The gem also includes the following <a href="https://www.w3.org/TR/sparql11-update/">SPARQL 1.1 Update</a> operations: * <a href="https://www.w3.org/TR/sparql11-update/#graphUpdate">Graph Update</a> * <a href="https://www.w3.org/TR/sparql11-update/#graphManagement">Graph Management</a></p>
+
+<p>Not supported:</p>
+<ul><li>
+<p><a href="https://www.w3.org/TR/sparql11-federated-query/">Federated Query</a>,</p>
+</li><li>
+<p><a href="https://www.w3.org/TR/sparql11-entailment/">Entailment Regimes</a>,</p>
+</li><li>
+<p><a href="https://www.w3.org/TR/sparql11-protocol/">Protocol</a>, and</p>
+</li><li>
+<p><a href="https://www.w3.org/TR/sparql11-http-rdf-update/">Graph Store HTTP Protocol</a></p>
+</li></ul>
+
+<p>either in this, or related gems.</p>
+
+<h3 id="label-Updates+for+RDF+1.1">Updates for RDF 1.1</h3>
+
+<p>Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the <a href="https://ruby-rdf.github.io/rdf">RDF.rb</a>, which adheres to <a href="https://www.w3.org/TR/rdf11-concepts/">RDF 1.1 Concepts</a> rather than <a href="https://www.w3.org/TR/rdf-concepts/">RDF 1.0</a>. The main difference is that there is now no difference between a <em>Simple Literal</em> (a literal with no datatype or language) and a Literal with datatype <em>xsd:string</em>; this causes some minor differences in the way in which queries are understood, and when expecting different results.</p>
+
+<p>Additionally, queries now take a block, or return an <code>Enumerator</code>; this is in keeping with much of the behavior of <a href="https://ruby-rdf.github.io/rdf">RDF.rb</a> methods, including <code>Queryable#query</code>, and with version 1.1 or <a href="https://ruby-rdf.github.io/rdf">RDF.rb</a>, Query#execute. As a consequence, all queries which used to be of the form <code>query.execute(repository)</code> may equally be called as <code>repository.query(query)</code>. Previously, results were returned as a concrete class implementing <code>RDF::Queryable</code> or <code>RDF::Query::Solutions</code>, these are now <code>Enumerators</code>.</p>
+
+<h3 id="label-SPARQL+Extension+Functions">SPARQL Extension Functions</h3>
+
+<p>Extension functions may be defined, which will be invoked during query evaluation. For example:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Register a function using the IRI &lt;https://rubygems#crypt&gt;
+</span><span class='id identifier rubyid_crypt_iri'>crypt_iri</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>URI</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://rubygems#crypt</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SPARQL/Algebra.html" title="SPARQL::Algebra (module)">Algebra</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SPARQL/Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_register_extension'><span class='object_link'><a href="SPARQL/Algebra/Expression.html#register_extension-class_method" title="SPARQL::Algebra::Expression.register_extension (method)">register_extension</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_crypt_iri'>crypt_iri</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_literal'>literal</span><span class='op'>|</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>TypeError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>argument must be a literal</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>unless</span> <span class='id identifier rubyid_literal'>literal</span><span class='period'>.</span><span class='id identifier rubyid_literal?'>literal?</span>
+  <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='id identifier rubyid_literal'>literal</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_crypt'>crypt</span><span class='rparen'>)</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Then, use the function in a query:</p>
+
+<pre class="code ruby"><code class="ruby">PREFIX rsp: &lt;https://rubygems#&gt;
+PREFIX schema: &lt;http://schema.org/&gt;
+SELECT ?crypted
+{
+  [ schema:email ?email]
+  BIND(rsp:crypt(?email) AS ?crypted)
+}
+</code></pre>
+
+<p>See <span class='object_link'><a href="SPARQL/Algebra/Expression.html#register_extension-class_method" title="SPARQL::Algebra::Expression.register_extension (method)">SPARQL::Algebra::Expression.register_extension</a></span> for details.</p>
+
+<h3 id="label-SPARQLStar+-28SPARQL-star-29">SPARQLStar (SPARQL-star)</h3>
+
+<p>The gem supports <a href="https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language">SPARQL-star</a> where patterns may include sub-patterns recursively, for a kind of Reification.</p>
+
+<p>For example, the following Turtle* file uses a statement as the subject of another statement:</p>
+
+<pre class="code ruby"><code class="ruby">@prefix : &lt;http://bigdata.com/&gt; .
+@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt; .
+@prefix ex:  &lt;http://example.org/&gt; .
+
+:bob foaf:name &quot;Bob&quot; .
+&lt;&lt;:bob foaf:age 23&gt;&gt; ex:certainty 0.9 .
+</code></pre>
+
+<p>This can be queried using the following query:</p>
+
+<pre class="code ruby"><code class="ruby">PREFIX : &lt;http://bigdata.com/&gt;
+PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX ex:  &lt;http://example.org/&gt;
+
+SELECT ?age ?c WHERE {
+   ?bob foaf:name &quot;Bob&quot; .
+   &lt;&lt;?bob foaf:age ?age&gt;&gt; ex:certainty ?c .
+}
+</code></pre>
+
+<p>This treats <code>&lt;&lt;:bob foaf:age 23&gt;&gt;</code> as a subject resource, and the pattern <code>&lt;&lt;?bob foaf:age ?age&gt;&gt;</code> to match that resource and bind the associated variables.</p>
+
+<p><strong>Note: This feature is subject to change or elimination as the standards process progresses.</strong></p>
+
+<h4 id="label-BIND">BIND</h4>
+
+<p>There is an alternate syntax using the <code>BIND</code> operator:</p>
+
+<pre class="code ruby"><code class="ruby">PREFIX : &lt;http://bigdata.com&gt;
+PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX dct:  &lt;http://purl.org/dc/elements/1.1/&gt;
+
+SELECT ?a ?b ?c WHERE {
+   ?bob foaf:name &quot;Bob&quot; .
+   BIND( &lt;&lt;?bob foaf:age ?age&gt;&gt; AS ?a ) .
+   ?t ?b ?c .
+}
+</code></pre>
+
+<p>When binding, the triple can be either in Property Graph (<code>:PG</code>) or Separate Assertions (<code>:SA</code>) mode, as the query matches based on the pattern matching as a subject (or object) and does not need to be specifically asserted in the graph. When parsing in Property Graph mode, such triples will also be added to the enclosing graph. Thus, querying for <code>&lt;&lt;?bob foaf:age ?age&gt;&gt;</code> and <code>?bob foaf:age ?age</code> may not represent the same results.</p>
+
+<p>When binding an embedded triple to a variable, it is the matched triples which are bound, not the pattern. Thus, the example above with <code>SELECT ?a ?b ?c</code> would end up binding <code>?a</code> to <code>:bob foaf:name 23</code>.</p>
+
+<h4 id="label-Construct">Construct</h4>
+
+<p>As well as a <code>CONSTRUCT</code>:</p>
+
+<pre class="code ruby"><code class="ruby">PREFIX : &lt;http://bigdata.com&gt;
+PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+PREFIX dct:  &lt;http://purl.org/dc/elements/1.1/&gt;
+
+CONSTRUCT {
+  ?bob foaf:name &quot;Bob&quot; .
+  &lt;&lt;?bob foaf:age ?age&gt;&gt; ?b ?c .
+}
+WHERE {
+  ?bob foaf:name &quot;Bob&quot; .
+  &lt;&lt;?bob foaf:age ?age&gt;&gt; ?b ?c .
+}
+</code></pre>
+
+<p>Note that results can be serialized only when the format supports <a href="https://w3c.github.io/rdf-star/rdf-star-cg-spec.html">RDF-star</a>.</p>
+
+<h4 id="label-SPARQL+results">SPARQL results</h4>
+
+<p>The SPARQL results formats are extended to serialize embedded triples as described for <a href="https://rdf4j.org/documentation/programming/rdfstar/">RDF4J</a>:</p>
+
+<pre class="code ruby"><code class="ruby">{
+  &quot;head&quot; : {
+    &quot;vars&quot; : [
+      &quot;a&quot;,
+      &quot;b&quot;,
+      &quot;c&quot;
+    ]
+  },
+  &quot;results&quot; : {
+    &quot;bindings&quot;: [
+      { &quot;a&quot; : {
+          &quot;type&quot; : &quot;triple&quot;,
+          &quot;value&quot; : {
+            &quot;s&quot; : {
+              &quot;type&quot; : &quot;uri&quot;,
+              &quot;value&quot; : &quot;http://example.org/bob&quot;
+            },
+            &quot;p&quot; : {
+              &quot;type&quot; : &quot;uri&quot;,
+              &quot;value&quot; : &quot;http://xmlns.com/foaf/0.1/name&quot;
+            },
+            &quot;o&quot; : {
+              &quot;datatype&quot; : &quot;http://www.w3.org/2001/XMLSchema#integer&quot;,
+              &quot;type&quot; : &quot;literal&quot;,
+              &quot;value&quot; : &quot;23&quot;
+            }
+          }
+        },
+        &quot;b&quot;: { 
+          &quot;type&quot;: &quot;uri&quot;,
+          &quot;value&quot;: &quot;http://example.org/certainty&quot;
+        },
+        &quot;c&quot; : {
+          &quot;datatype&quot; : &quot;http://www.w3.org/2001/XMLSchema#decimal&quot;,
+          &quot;type&quot; : &quot;literal&quot;,
+          &quot;value&quot; : &quot;0.9&quot;
+        }
+      }
+    ]
+  }
+}
+</code></pre>
+
+<h3 id="label-Middleware">Middleware</h3>
+
+<p><a href="https://rubygems.org/gems/rack-linkeddata">Rack::SPARQL} is a superset of to allow content negotiated results to be returned any <code>RDF::Enumerable</code> or an enumerator extended with <code>RDF::Query::Solutions</code> compatible results. You would typically return an instance of <code>RDF::Graph</code>, <code>RDF::Repository</code> or an enumerator extended with <code>RDF::Query::Solutions</code> from your Rack application, and let the <code>Rack::SPARQL::ContentNegotiation</code> middleware take care of serializing your response into whatever format the HTTP client requested and understands.</p>
+
+<p><a href="https://www.w3.org/TR/sparql11-service-description/">Sinatra::SPARQL is a thin Sinatra-specific wrapper around the <span class='object_link'><a href="Rack/SPARQL.html" title="Rack::SPARQL (module)">Rack::SPARQL</a></span> middleware, which implements SPARQL  content negotiation for Rack applications. <span class='object_link'><a href="Sinatra/SPARQL.html" title="Sinatra::SPARQL (module)">Sinatra::SPARQL</a></span> also supports  <span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">1.1 Service Description</a>.</p>  <p>The middleware queries <a href="https://ruby-rdf.github.io/rdf">RDF.rb</a> for the MIME content types of known RDF serialization formats, so it will work with whatever serialization extensions that are currently available for RDF.rb. (At present, this includes support for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.)</p>  <h3 id="label-Remote+datasets">Remote datasets</h3>  <p>A SPARQL query containing <code>FROM</code> or <code>FROM NAMED</code> (also <code>UPDATE</code> or <code>UPDATE NAMED</code>) will load the referenced IRI unless the repository already contains a graph with that same IRI. This is performed using <a href="https://ruby-rdf.github.io/rdf">RDF.rb</a> <code>RDF::Util::File.open_file</code> passing HTTP Accept headers for various available RDF formats. For best results, require <a href="https://rubygems.org/gems/linkeddata">Linked Data</a> to enable a full set of RDF formats in the <code>GET</code> request. Also, consider overriding <code>RDF::Util::File.open_file</code> with an implementation with support for HTTP Get headers (such as <code>Net::HTTP</code>).</p>  <p>Queries using datasets are re-written to use the identified graphs for <code>FROM</code> and <code>FROM NAMED</code> by filtering the results, allowing the use of a repository that contains many graphs without confusing information.</p>  <h3 id="label-Result+formats">Result formats</h3>  <p><code>SPARQL.serialize_results</code> may be used on it’s own, or in conjunction with {Rack::SPARQL</a></span> or <span class='object_link'><a href="Sinatra/SPARQL.html" title="Sinatra::SPARQL (module)">Sinatra::SPARQL</a></span> to provide content-negotiated query results. For basic <code>SELECT</code> and <code>ASK</code> this includes HTML, XML, CSV, TSV and JSON formats. <code>DESCRIBE</code> and <code>CONSTRUCT</code> create an <code>RDF::Graph</code>, which can be serialized through Content Negotiation[https://en.wikipedia.org/wiki/Content_negotiation] using available RDF writers. For best results, require <a href="https://rubygems.org/gems/linkeddata">Linked Data</a> to enable a full set of RDF formats.</p>
+
+<h2 id="label-Examples">Examples</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rubygems</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sparql</span><span class='tstring_end'>&#39;</span></span>
+</code></pre>
+
+<h3 id="label-Querying+a+repository+with+a+SPARQL+query">Querying a repository with a SPARQL query</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_queryable'>queryable</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>etc/doap.ttl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL.html#parse-class_method" title="SPARQL.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * WHERE { ?s ?p ?o }</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_queryable'>queryable</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_result'>result</span><span class='op'>|</span>
+  <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Executing+a+SPARQL+query+against+a+repository">Executing a SPARQL query against a repository</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_queryable'>queryable</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>etc/doap.ttl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL.html#parse-class_method" title="SPARQL.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * WHERE { ?s ?p ?o }</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_queryable'>queryable</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_result'>result</span><span class='op'>|</span>
+  <span class='id identifier rubyid_result'>result</span><span class='period'>.</span><span class='id identifier rubyid_inspect'>inspect</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Updating+a+repository">Updating a repository</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_queryable'>queryable</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>etc/doap.ttl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_update'>update</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL.html#parse-class_method" title="SPARQL.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>
+  PREFIX doap: &lt;http://usefulinc.com/ns/doap#&gt;
+  INSERT DATA { &lt;https://rubygems&gt; doap:implements &lt;http://www.w3.org/TR/sparql11-update/&gt;}
+</span><span class='tstring_end'>)</span></span><span class='comma'>,</span> <span class='label'>update:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_update'>update</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_queryable'>queryable</span><span class='rparen'>)</span>
+</code></pre>
+
+<h3 id="label-Rendering+solutions+as+JSON-2C+XML-2C+CSV-2C+TSV+or+HTML">Rendering solutions as JSON, XML, CSV, TSV or HTML</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_queryable'>queryable</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>etc/doap.ttl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_solutions'>solutions</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_execute'><span class='object_link'><a href="SPARQL.html#execute-class_method" title="SPARQL.execute (method)">execute</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * WHERE { ?s ?p ?o }</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_queryable'>queryable</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_solutions'>solutions</span><span class='period'>.</span><span class='id identifier rubyid_to_json'>to_json</span> <span class='comment'>#to_xml #to_csv #to_tsv #to_html
+</span></code></pre>
+
+<h3 id="label-Parsing+a+SPARQL+query+string+to+SSE">Parsing a SPARQL query string to SSE</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL.html#parse-class_method" title="SPARQL.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * WHERE { ?s ?p ?o }</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span> <span class='comment'>#=&gt; (bgp (triple ?s ?p ?o))
+</span></code></pre>
+
+<h3 id="label-Parsing+a+SSE+to+SPARQL+query+or+update+string+to+SPARQL">Parsing a SSE to SPARQL query or update string to SPARQL</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Note: if the SSE uses extension functions, they either must be XSD casting functions, or custom functions which are registered extensions. (See [SPARQL Extension Functions](#sparql-extension-functions))
+</span>
+<span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SPARQL/Algebra.html" title="SPARQL::Algebra (module)">Algebra</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL/Algebra.html#parse-class_method" title="SPARQL::Algebra.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>%{</span><span class='tstring_content'>(bgp (triple ?s ?p ?o))</span><span class='tstring_end'>}</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_sparql'>sparql</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_to_sparql'>to_sparql</span> <span class='comment'>#=&gt; &quot;SELECT * WHERE { ?s ?p ?o }&quot;
+</span></code></pre>
+
+<h3 id="label-Command+line+processing">Command line processing</h3>
+
+<pre class="code ruby"><code class="ruby">sparql execute --dataset etc/doap.ttl etc/from_default.rq
+sparql execute -e &quot;SELECT * FROM &lt;etc/doap.ttl&gt; WHERE { ?s ?p ?o }&quot;
+
+# Generate SPARQL Algebra Expression (SSE) format
+sparql parse etc/input.rq
+sparql parse -e &quot;SELECT * WHERE { ?s ?p ?o }&quot;
+
+# Generate SPARQL Query from SSE
+sparql parse --sse etc/input.sse --format sparql
+sparql parse --sse --format sparql -e &quot;(dataset (&lt;http://usefulinc.com/ns/doap&gt;) (bgp (triple ?s ?p ?o))))&quot;
+
+# Run query using SSE input
+sparql execute --dataset etc/doap.ttl --sse etc/input.sse
+sparql execute --sse -e &quot;(dataset (&lt;etc/doap.ttl&gt;) (bgp (triple ?s ?p ?o))))&quot;
+
+# Run a local SPARQL server using a dataset
+sparql server etc/doap.ttl
+</code></pre>
+
+<h3 id="label-Adding+SPARQL+content+negotiation+to+a+Rails+3.x+application">Adding SPARQL content negotiation to a Rails 3.x application</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># config/application.rb
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rack/sparql</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='kw'>class</span> <span class='const'>Application</span> <span class='op'>&lt;</span> <span class='const'>Rails</span><span class='op'>::</span><span class='const'>Application</span>
+  <span class='id identifier rubyid_config'>config</span><span class='period'>.</span><span class='id identifier rubyid_middleware'>middleware</span><span class='period'>.</span><span class='id identifier rubyid_use'>use</span> <span class='const'><span class='object_link'><a href="Rack.html" title="Rack (module)">Rack</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Rack/SPARQL.html" title="Rack::SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Rack/SPARQL/ContentNegotiation.html" title="Rack::SPARQL::ContentNegotiation (class)">ContentNegotiation</a></span></span>
+<span class='kw'>end</span>
+</code></pre>
+
+<h3 id="label-Adding+SPARQL+content+negotiation+to+a+Rackup+application">Adding SPARQL content negotiation to a Rackup application</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'>#!/usr/bin/env rackup
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>rack/sparql</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_repository'>repository</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_graph'>graph</span><span class='op'>|</span>
+  <span class='id identifier rubyid_graph'>graph</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Vocab</span><span class='op'>::</span><span class='const'>DC</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello, world!</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+<span class='kw'>end</span>
+<span class='id identifier rubyid_results'>results</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_execute'><span class='object_link'><a href="SPARQL.html#execute-class_method" title="SPARQL.execute (method)">execute</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * WHERE { ?s ?p ?o }</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span> <span class='id identifier rubyid_repository'>repository</span><span class='rparen'>)</span>
+
+<span class='id identifier rubyid_use'>use</span> <span class='const'><span class='object_link'><a href="Rack.html" title="Rack (module)">Rack</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Rack/SPARQL.html" title="Rack::SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Rack/SPARQL/ContentNegotiation.html" title="Rack::SPARQL::ContentNegotiation (class)">ContentNegotiation</a></span></span>
+<span class='id identifier rubyid_run'>run</span> <span class='id identifier rubyid_lambda'>lambda</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_env'>env</span><span class='op'>|</span> <span class='lbracket'>[</span><span class='int'>200</span><span class='comma'>,</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='id identifier rubyid_results'>results</span><span class='rbracket'>]</span> <span class='rbrace'>}</span>
+</code></pre>
+
+<h3 id="label-Adding+SPARQL+content+negotiation+to+a+classic+Sinatra+application">Adding SPARQL content negotiation to a classic Sinatra application</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Sinatra example
+</span><span class='comment'>#
+</span><span class='comment'># Call as http://localhost:4567/sparql?query=uri,
+</span><span class='comment'># where `uri` is the URI of a SPARQL query, or
+</span><span class='comment'># a URI-escaped SPARQL query, for example:
+</span><span class='comment'>#   http://localhost:4567/?query=SELECT%20?s%20?p%20?o%20WHERE%20%7B?s%20?p%20?o%7D
+</span><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sinatra</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sinatra/sparql</span><span class='tstring_end'>&#39;</span></span>
+<span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>uri</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+  <span class='id identifier rubyid_settings'>settings</span><span class='period'>.</span><span class='id identifier rubyid_sparql_options'>sparql_options</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='label'>standard_prefixes:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_repository'>repository</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_graph'>graph</span><span class='op'>|</span>
+    <span class='id identifier rubyid_graph'>graph</span> <span class='op'>&lt;&lt;</span> <span class='lbracket'>[</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Node</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Vocab</span><span class='op'>::</span><span class='const'>DC</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Hello, world!</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+  <span class='kw'>end</span>
+  <span class='kw'>if</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>query</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span>
+    <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>query</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='period'>.</span><span class='id identifier rubyid_match'>match</span><span class='lparen'>(</span><span class='tstring'><span class='regexp_beg'>/</span><span class='tstring_content'>^http:</span><span class='regexp_end'>/</span></span><span class='rparen'>)</span> <span class='op'>?</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Util</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open_file'>open_file</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>query</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='op'>::</span><span class='const'>URI</span><span class='period'>.</span><span class='id identifier rubyid_decode'>decode</span><span class='lparen'>(</span><span class='id identifier rubyid_params'>params</span><span class='lbracket'>[</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>query</span><span class='tstring_end'>&quot;</span></span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_s'>to_s</span><span class='rparen'>)</span>
+    <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_execute'><span class='object_link'><a href="SPARQL.html#execute-class_method" title="SPARQL.execute (method)">execute</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_repository'>repository</span><span class='rparen'>)</span>
+  <span class='kw'>else</span>
+    <span class='id identifier rubyid_settings'>settings</span><span class='period'>.</span><span class='id identifier rubyid_sparql_options'>sparql_options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>prefixes:</span> <span class='lbrace'>{</span>
+      <span class='label'>ssd:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://www.w3.org/ns/sparql-service-description#</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+      <span class='label'>void:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://rdfs.org/ns/void#</span><span class='tstring_end'>&quot;</span></span>
+    <span class='rbrace'>}</span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_service_description'>service_description</span><span class='lparen'>(</span><span class='label'>repo:</span> <span class='id identifier rubyid_repository'>repository</span><span class='rparen'>)</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span>
+</code></pre>
+
+<p>Find more examples in <span class='object_link'><a href="SPARQL/Grammar.html" title="SPARQL::Grammar (module)">SPARQL::Grammar</a></span> and <span class='object_link'><a href="SPARQL/Algebra.html" title="SPARQL::Algebra (module)">SPARQL::Algebra</a></span>.</p>
+
+<h2 id="label-Documentation">Documentation</h2>
+
+<p>Full documentation available on <a href="https://ruby-rdf.github.io/sparql/frames">Rubydoc.info</a></p>
+
+<h3 id="label-Principle+Classes">Principle Classes</h3>
+<ul><li>
+<p><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="SPARQL/Algebra.html" title="SPARQL::Algebra (module)">SPARQL::Algebra</a></span></p>
+<ul><li>
+<p><span class='object_link'><a href="SPARQL/Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">SPARQL::Algebra::Expression</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="SPARQL/Algebra/Query.html" title="SPARQL::Algebra::Query (module)">SPARQL::Algebra::Query</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="SPARQL/Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">SPARQL::Algebra::Operator</a></span></p>
+</li></ul>
+</li><li>
+<p><span class='object_link'><a href="SPARQL/Grammar.html" title="SPARQL::Grammar (module)">SPARQL::Grammar</a></span></p>
+<ul><li>
+<p><span class='object_link'><a href="SPARQL/Grammar/Parser.html" title="SPARQL::Grammar::Parser (class)">SPARQL::Grammar::Parser</a></span></p>
+</li></ul>
+</li><li>
+<p><span class='object_link'><a href="Sinatra/SPARQL.html" title="Sinatra::SPARQL (module)">Sinatra::SPARQL</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Rack/SPARQL.html" title="Rack::SPARQL (module)">Rack::SPARQL</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Rack/SPARQL/ContentNegotiation.html" title="Rack::SPARQL::ContentNegotiation (class)">Rack::SPARQL::ContentNegotiation</a></span></p>
+</li></ul>
+
+<h2 id="label-Dependencies">Dependencies</h2>
+<ul><li>
+<p><a href="https://ruby-lang.org/">Ruby</a> (&gt;= 2.6)</p>
+</li><li>
+<p><a href="https://rubygems.org/gems/rdf">RDF.rb</a> (~&gt; 3.2)</p>
+</li><li>
+<p><a href="https://rubygems.org/gems/sparql-client">SPARQL::Client</a> (~&gt; 3.1)</p>
+</li><li>
+<p><a href="https://rubygems.org/gems/sxp">SXP</a> (~&gt; 1.2)</p>
+</li><li>
+<p><a href="https://rubygems.org/gems/builder">Builder</a> (~&gt; 3.2)</p>
+</li><li>
+<p><a href="https://rubygems.org/gems/json">JSON</a> (~&gt; 2.6)</p>
+</li><li>
+<p>Soft dependency on <a href="https://rubygems.org/gems/linkeddata">Linked Data</a> (&gt;= 3.1)</p>
+</li><li>
+<p>Soft dependency on <a href="https://rubygems.org/gems/nokogiri">Nokogiri</a> (~&gt; 1.12)  Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient</p>
+</li><li>
+<p>Soft dependency on <a href="https://rubygems.org/gems/equivalent-xml">Equivalent XML</a> (&gt;= 0.6)  Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included</p>
+</li><li>
+<p>Soft dependency on <a href="https://rack.github.io">Rack</a> (~&gt; 2.2)</p>
+</li><li>
+<p>Soft dependency on <a href="https://www.sinatrarb.com/">Sinatra</a> (~&gt; 2.1)</p>
+</li></ul>
+
+<h2 id="label-Installation">Installation</h2>
+
+<p>The recommended installation method is via <a href="https://rubygems.org/">RubyGems</a>. To install the latest official release of the <code>SPARQL</code> gem, do:</p>
+
+<pre class="code ruby"><code class="ruby">% [sudo] gem install sparql
+</code></pre>
+
+<h2 id="label-Download">Download</h2>
+
+<p>To get a local working copy of the development repository, do:</p>
+
+<pre class="code ruby"><code class="ruby">% git clone git://github.com/ruby-rdf/sparql.git
+</code></pre>
+
+<h2 id="label-Mailing+List">Mailing List</h2>
+<ul><li>
+<p><a href="https://lists.w3.org/Archives/Public/public-rdf-ruby">lists.w3.org/Archives/Public/public-rdf-ruby</a>/</p>
+</li></ul>
+
+<h2 id="label-Authors">Authors</h2>
+<ul><li>
+<p><a href="https://github.com/gkellogg">Gregg Kellogg</a> - <a href="https://greggkellogg.net">greggkellogg.net</a>/</p>
+</li><li>
+<p><a href="https://github.com/artob">Arto Bendiken</a> - <a href="https://ar.to">ar.to</a>/</p>
+</li><li>
+<p><a href="https://github.com/pius">Pius Uzamere</a> - <a href="https://pius.me">pius.me</a>/</p>
+</li></ul>
+
+<h2 id="label-Contributing">Contributing</h2>
+
+<p>This repository uses <a href="https://github.com/nvie/gitflow">Git Flow</a> to mange development and release activity. All submissions <em>must</em> be on a feature branch based on the <em>develop</em> branch to ease staging and integration.</p>
+<ul><li>
+<p>Do your best to adhere to the existing coding conventions and idioms.</p>
+</li><li>
+<p>Don’t use hard tabs, and don’t leave trailing whitespace on any line.</p>
+</li><li>
+<p>Do document every method you add using <a href="https://yardoc.org/">YARD</a> annotations. Read the  <a href="https://rubydoc.info/docs/yard/file/docs/GettingStarted.md">tutorial</a> or just look at the existing code for examples.</p>
+</li><li>
+<p>Don’t touch the <code>.gemspec</code>, <code>VERSION</code> or <code>AUTHORS</code> files. If you need to  change them, do so on your private branch only.</p>
+</li><li>
+<p>Do feel free to add yourself to the <code>CREDITS</code> file and the corresponding  list in the the <code>README</code>. Alphabetical order applies.</p>
+</li><li>
+<p>Do note that in order for us to merge any non-trivial changes (as a rule  of thumb, additions larger than about 15 lines of code), we need an  explicit <a href="https://unlicense.org/#unlicensing-contributions">public domain dedication</a> on record from you,  which you will be asked to agree to on the first commit to a repo within the organization.  Note that the agreement applies to all repos in the <a href="https://github.com/ruby-rdf/">Ruby RDF</a> organization.</p>
+</li></ul>
+
+<h2 id="label-License">License</h2>
+
+<p>This is free and unencumbered public domain software. For more information, see <a href="https://unlicense.org">unlicense.org</a>/ or the accompanying <a href="file.UNLICENSE.html" title="UNLICENSE">UNLICENSE</a> file.</p>
+
+<p>A copy of the <a href="https://www.w3.org/TR/sparql11-query/#sparqlGrammar">SPARQL EBNF</a> and derived parser files are included in the repository, which are not covered under the UNLICENSE. These files are covered via the <a href="https://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231">W3C Document License</a>.</p>
+
+<p>A copy of the <a href="https://www.w3.org/2001/sw/DataAccess/tests/">SPARQL 1.0 tests</a> and <a href="https://www.w3.org/2009/sparql/docs/tests/">SPARQL 1.1 tests</a> are also included in the repository, which are not covered under the UNLICENSE; see the references for test copyright information.</p>
+</div></div>
+
+      <div id="footer">
+  Generated on Thu Jan 27 23:58:18 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.27 (ruby-3.1.0).
+</div>
+
+    </div>
+  </body>
+</html>

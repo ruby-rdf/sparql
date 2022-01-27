@@ -1,0 +1,1289 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: SPARQL::Algebra
+  
+    &mdash; SPARQL - SPARQL for RDF.rb
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "SPARQL::Algebra";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (A)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span>
+     &raquo; 
+    <span class="title">Algebra</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: SPARQL::Algebra
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  <dl>
+      <dt>Includes:</dt>
+      <dd>RDF</dd>
+  </dl>
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/sparql/algebra.rb<span class="defines">,<br />
+  lib/sparql/algebra/query.rb,<br /> lib/sparql/algebra/update.rb,<br /> lib/sparql/algebra/version.rb,<br /> lib/sparql/algebra/operator.rb,<br /> lib/sparql/algebra/aggregate.rb,<br /> lib/sparql/algebra/expression.rb,<br /> lib/sparql/algebra/evaluatable.rb,<br /> lib/sparql/algebra/operator/if.rb,<br /> lib/sparql/algebra/operator/in.rb,<br /> lib/sparql/algebra/operator/or.rb,<br /> lib/sparql/algebra/operator/tz.rb,<br /> lib/sparql/algebra/operator/abs.rb,<br /> lib/sparql/algebra/operator/add.rb,<br /> lib/sparql/algebra/operator/alt.rb,<br /> lib/sparql/algebra/operator/and.rb,<br /> lib/sparql/algebra/operator/asc.rb,<br /> lib/sparql/algebra/operator/ask.rb,<br /> lib/sparql/algebra/operator/avg.rb,<br /> lib/sparql/algebra/operator/bgp.rb,<br /> lib/sparql/algebra/operator/day.rb,<br /> lib/sparql/algebra/operator/iri.rb,<br /> lib/sparql/algebra/operator/max.rb,<br /> lib/sparql/algebra/operator/md5.rb,<br /> lib/sparql/algebra/operator/min.rb,<br /> lib/sparql/algebra/operator/not.rb,<br /> lib/sparql/algebra/operator/now.rb,<br /> lib/sparql/algebra/operator/seq.rb,<br /> lib/sparql/algebra/operator/str.rb,<br /> lib/sparql/algebra/operator/sum.rb,<br /> lib/sparql/algebra/operator/base.rb,<br /> lib/sparql/algebra/operator/ceil.rb,<br /> lib/sparql/algebra/operator/copy.rb,<br /> lib/sparql/algebra/operator/desc.rb,<br /> lib/sparql/algebra/operator/drop.rb,<br /> lib/sparql/algebra/operator/join.rb,<br /> lib/sparql/algebra/operator/lang.rb,<br /> lib/sparql/algebra/operator/load.rb,<br /> lib/sparql/algebra/operator/move.rb,<br /> lib/sparql/algebra/operator/path.rb,<br /> lib/sparql/algebra/operator/plus.rb,<br /> lib/sparql/algebra/operator/rand.rb,<br /> lib/sparql/algebra/operator/sha1.rb,<br /> lib/sparql/algebra/operator/uuid.rb,<br /> lib/sparql/algebra/operator/with.rb,<br /> lib/sparql/algebra/operator/year.rb,<br /> lib/sparql/algebra/operator/bnode.rb,<br /> lib/sparql/algebra/operator/bound.rb,<br /> lib/sparql/algebra/operator/clear.rb,<br /> lib/sparql/algebra/operator/count.rb,<br /> lib/sparql/algebra/operator/equal.rb,<br /> lib/sparql/algebra/operator/floor.rb,<br /> lib/sparql/algebra/operator/graph.rb,<br /> lib/sparql/algebra/operator/group.rb,<br /> lib/sparql/algebra/operator/hours.rb,<br /> lib/sparql/algebra/operator/lcase.rb,<br /> lib/sparql/algebra/operator/minus.rb,<br /> lib/sparql/algebra/operator/month.rb,<br /> lib/sparql/algebra/operator/notin.rb,<br /> lib/sparql/algebra/operator/order.rb,<br /> lib/sparql/algebra/operator/regex.rb,<br /> lib/sparql/algebra/operator/round.rb,<br /> lib/sparql/algebra/operator/slice.rb,<br /> lib/sparql/algebra/operator/strdt.rb,<br /> lib/sparql/algebra/operator/table.rb,<br /> lib/sparql/algebra/operator/ucase.rb,<br /> lib/sparql/algebra/operator/union.rb,<br /> lib/sparql/algebra/operator/using.rb,<br /> lib/sparql/algebra/operator/concat.rb,<br /> lib/sparql/algebra/operator/create.rb,<br /> lib/sparql/algebra/operator/delete.rb,<br /> lib/sparql/algebra/operator/divide.rb,<br /> lib/sparql/algebra/operator/exists.rb,<br /> lib/sparql/algebra/operator/extend.rb,<br /> lib/sparql/algebra/operator/filter.rb,<br /> lib/sparql/algebra/operator/insert.rb,<br /> lib/sparql/algebra/operator/is_iri.rb,<br /> lib/sparql/algebra/operator/modify.rb,<br /> lib/sparql/algebra/operator/negate.rb,<br /> lib/sparql/algebra/operator/object.rb,<br /> lib/sparql/algebra/operator/prefix.rb,<br /> lib/sparql/algebra/operator/sample.rb,<br /> lib/sparql/algebra/operator/sha256.rb,<br /> lib/sparql/algebra/operator/sha384.rb,<br /> lib/sparql/algebra/operator/sha512.rb,<br /> lib/sparql/algebra/operator/strlen.rb,<br /> lib/sparql/algebra/operator/substr.rb,<br /> lib/sparql/algebra/operator/triple.rb,<br /> lib/sparql/algebra/operator/update.rb,<br /> lib/sparql/algebra/operator/compare.rb,<br /> lib/sparql/algebra/operator/dataset.rb,<br /> lib/sparql/algebra/operator/minutes.rb,<br /> lib/sparql/algebra/operator/project.rb,<br /> lib/sparql/algebra/operator/reduced.rb,<br /> lib/sparql/algebra/operator/replace.rb,<br /> lib/sparql/algebra/operator/reverse.rb,<br /> lib/sparql/algebra/operator/seconds.rb,<br /> lib/sparql/algebra/operator/strends.rb,<br /> lib/sparql/algebra/operator/strlang.rb,<br /> lib/sparql/algebra/operator/struuid.rb,<br /> lib/sparql/algebra/operator/subject.rb,<br /> lib/sparql/algebra/operator/coalesce.rb,<br /> lib/sparql/algebra/operator/contains.rb,<br /> lib/sparql/algebra/operator/datatype.rb,<br /> lib/sparql/algebra/operator/describe.rb,<br /> lib/sparql/algebra/operator/distinct.rb,<br /> lib/sparql/algebra/operator/exprlist.rb,<br /> lib/sparql/algebra/operator/is_blank.rb,<br /> lib/sparql/algebra/operator/multiply.rb,<br /> lib/sparql/algebra/operator/notoneof.rb,<br /> lib/sparql/algebra/operator/path_opt.rb,<br /> lib/sparql/algebra/operator/sequence.rb,<br /> lib/sparql/algebra/operator/strafter.rb,<br /> lib/sparql/algebra/operator/subtract.rb,<br /> lib/sparql/algebra/operator/timezone.rb,<br /> lib/sparql/algebra/operator/construct.rb,<br /> lib/sparql/algebra/operator/is_triple.rb,<br /> lib/sparql/algebra/operator/left_join.rb,<br /> lib/sparql/algebra/operator/less_than.rb,<br /> lib/sparql/algebra/operator/not_equal.rb,<br /> lib/sparql/algebra/operator/notexists.rb,<br /> lib/sparql/algebra/operator/path_plus.rb,<br /> lib/sparql/algebra/operator/path_star.rb,<br /> lib/sparql/algebra/operator/predicate.rb,<br /> lib/sparql/algebra/operator/same_term.rb,<br /> lib/sparql/algebra/operator/strbefore.rb,<br /> lib/sparql/algebra/operator/strstarts.rb,<br /> lib/sparql/algebra/operator/is_literal.rb,<br /> lib/sparql/algebra/operator/is_numeric.rb,<br /> lib/sparql/algebra/operator/delete_data.rb,<br /> lib/sparql/algebra/operator/insert_data.rb,<br /> lib/sparql/algebra/operator/delete_where.rb,<br /> lib/sparql/algebra/operator/greater_than.rb,<br /> lib/sparql/algebra/operator/group_concat.rb,<br /> lib/sparql/algebra/operator/lang_matches.rb,<br /> lib/sparql/algebra/operator/function_call.rb,<br /> lib/sparql/algebra/operator/encode_for_uri.rb,<br /> lib/sparql/algebra/operator/less_than_or_equal.rb,<br /> lib/sparql/algebra/operator/greater_than_or_equal.rb</span>
+</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    
+<p>A SPARQL algebra for RDF.rb.</p>
+
+<p>Parses Sparql S-Expressions (SSE) into SPARQL Algebra operators.</p>
+
+<p>Operators implementing <span class='object_link'><a href="Algebra/Query.html#execute-instance_method" title="SPARQL::Algebra::Query#execute (method)">Query#execute</a></span> may directly execute an object implementing <span class='object_link'><a href="../RDF/Queryable.html" title="RDF::Queryable (module)">RDF::Queryable</a></span>, and so may be treated equivalently to <span class='object_link'><a href="../RDF/Query.html" title="RDF::Query (class)">RDF::Query</a></span>.</p>
+
+<p>Operators implementing <span class='object_link'><a href="Algebra/Expression.html#evaluate-instance_method" title="SPARQL::Algebra::Expression#evaluate (method)">Expression#evaluate</a></span> may be evaluated with RDF::Query::Solution bindings to yield an appropriate result.</p>
+
+<p>An entire SSE expression is parsed into a recursive set of <span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span> instances, with each operand representing an additional operator.</p>
+
+<p><span class='object_link'><a href="../RDF/Query.html" title="RDF::Query (class)">RDF::Query</a></span> and <span class='object_link'><a href="../RDF/Query/Pattern.html" title="RDF::Query::Pattern (class)">RDF::Query::Pattern</a></span> are used as primitives for <code>bgp</code> and <code>triple</code> expressions.</p>
+
+<h1 id="label-Background">Background</h1>
+
+<p>The SPARQL Algebra, and the S-Expressions used to represent it, are based on those of <a href="https://jena.apache.org/documentation/notes/sse.html">Jena</a>. Generally, an S-Expression generated by this Gem can be used as an SSE input to Jena, or an SSE output from Jena can also be used as input to this Gem.</p>
+
+<p>S-Expressions generally follow a standardized nesting resulting from parsing the original SPARQL Grammar. The individual operators map to SPARQL Grammar productions, and in most cases, the SPARQL Grammar can be reproduced by turning the S-Expression back into SPARQL (see <span class='object_link'><a href="Algebra/Operator.html#to_sparql-instance_method" title="SPARQL::Algebra::Operator#to_sparql (method)">Operator#to_sparql</a></span>). The order of operations will typically be as follows:</p>
+<ul><li>
+<p><span class='object_link'><a href="Algebra/Operator/Base.html" title="SPARQL::Algebra::Operator::Base (class)">Operator::Base</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Prefix.html" title="SPARQL::Algebra::Operator::Prefix (class)">Operator::Prefix</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Slice.html" title="SPARQL::Algebra::Operator::Slice (class)">Operator::Slice</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Distinct.html" title="SPARQL::Algebra::Operator::Distinct (class)">Operator::Distinct</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Reduced.html" title="SPARQL::Algebra::Operator::Reduced (class)">Operator::Reduced</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Project.html" title="SPARQL::Algebra::Operator::Project (class)">Operator::Project</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Order.html" title="SPARQL::Algebra::Operator::Order (class)">Operator::Order</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Filter.html" title="SPARQL::Algebra::Operator::Filter (class)">Operator::Filter</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Extend.html" title="SPARQL::Algebra::Operator::Extend (class)">Operator::Extend</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Group.html" title="SPARQL::Algebra::Operator::Group (class)">Operator::Group</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Query.html" title="SPARQL::Algebra::Query (module)">Query</a></span> (many classes implement Query)</p>
+</li></ul>
+
+<h1 id="label-Queries">Queries</h1>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_require'>require</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>sparql/algebra</span><span class='tstring_end'>&#39;</span></span>
+
+<span class='id identifier rubyid_include'>include</span> <span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span>
+</code></pre>
+
+<h2 id="label-Basic+Query">Basic Query</h2>
+
+<pre class="code ruby"><code class="ruby">BASE &lt;http://example.org/x/&gt; 
+PREFIX : &lt;&gt;
+
+SELECT * WHERE { :x ?p ?v }
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre class="code ruby"><code class="ruby">(base &lt;http://example.org/x/&gt;
+  (prefix ((: &lt;&gt;))
+    (bgp (triple :x ?p ?v))))
+</code></pre>
+
+<h2 id="label-Prefixes">Prefixes</h2>
+
+<pre class="code ruby"><code class="ruby">PREFIX ns: &lt;http://example.org/ns#&gt;
+PREFIX x:  &lt;http://example.org/x/&gt;
+
+SELECT * WHERE { x:x ns:p ?v }
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre class="code ruby"><code class="ruby">(prefix ((ns: &lt;http://example.org/ns#&gt;)
+         (x: &lt;http://example.org/x/&gt;))
+  (bgp (triple x:x ns:p ?v)))
+</code></pre>
+
+<h2 id="label-Ask">Ask</h2>
+
+<pre class="code ruby"><code class="ruby">PREFIX :  &lt;http://example/&gt;
+
+ASK WHERE { :x :p ?x }
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre class="code ruby"><code class="ruby">(prefix ((: &lt;http://example/&gt;))
+  (ask
+    (bgp (triple :x :p ?x))))
+</code></pre>
+
+<h2 id="label-Datasets">Datasets</h2>
+
+<pre class="code ruby"><code class="ruby">PREFIX : &lt;http://example/&gt; 
+
+SELECT * 
+FROM &lt;data-g1.ttl&gt;
+FROM NAMED &lt;data-g2.ttl&gt;
+{ ?s ?p ?o }
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre class="code ruby"><code class="ruby">(prefix ((: &lt;http://example/&gt;))
+  (dataset (&lt;data-g1.ttl&gt; (named &lt;data-g2.ttl&gt;))
+    (bgp (triple ?s ?p ?o))))
+</code></pre>
+
+<h2 id="label-Join">Join</h2>
+
+<pre class="code ruby"><code class="ruby">PREFIX : &lt;http://example/&gt; 
+
+SELECT * 
+{ 
+   ?s ?p ?o
+   GRAPH ?g { ?s ?q ?v }
+}
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre class="code ruby"><code class="ruby">(prefix ((: &lt;http://example/&gt;))
+  (join
+    (bgp (triple ?s ?p ?o))
+    (graph ?g
+      (bgp (triple ?s ?q ?v)))))
+</code></pre>
+
+<h2 id="label-Union">Union</h2>
+
+<pre class="code ruby"><code class="ruby">PREFIX : &lt;http://example/&gt; 
+
+SELECT * 
+{ 
+   { ?s ?p ?o }
+  UNION
+   { GRAPH ?g { ?s ?p ?o } }
+}
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre class="code ruby"><code class="ruby">(prefix ((: &lt;http://example/&gt;))
+  (union
+    (bgp (triple ?s ?p ?o))
+    (graph ?g
+      (bgp (triple ?s ?p ?o)))))
+</code></pre>
+
+<h2 id="label-LeftJoin">LeftJoin</h2>
+
+<pre class="code ruby"><code class="ruby">PREFIX :    &lt;http://example/&gt;
+
+SELECT *
+{ 
+  ?x :p ?v .
+  OPTIONAL
+  { 
+    ?y :q ?w .
+    FILTER(?v=2)
+  }
+}
+</code></pre>
+
+<p>is equivalent to</p>
+
+<pre class="code ruby"><code class="ruby">(prefix ((: &lt;http://example/&gt;))
+  (leftjoin
+    (bgp (triple ?x :p ?v))
+    (bgp (triple ?y :q ?w))
+    (= ?v 2)))
+</code></pre>
+
+<h1 id="label-Expressions">Expressions</h1>
+
+<h2 id="label-Constructing+operator+expressions+manually">Constructing operator expressions manually</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isBlank</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Algebra/Expression.html#new-class_method" title="SPARQL::Algebra::Expression.new (method)">new</a></span></span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Node</span><span class='lparen'>(</span><span class='symbol'>:foobar</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>                        <span class='comment'>#=&gt; &quot;(isBlank _:foobar)&quot;
+</span><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isIRI</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Algebra/Expression.html#new-class_method" title="SPARQL::Algebra::Expression.new (method)">new</a></span></span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>URI</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rubygems.org/gems/rdf/</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>       <span class='comment'>#=&gt; &quot;(isIRI &lt;https://rubygems.org/gems/rdf/&gt;)&quot;
+</span><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isLiteral</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Algebra/Expression.html#new-class_method" title="SPARQL::Algebra::Expression.new (method)">new</a></span></span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='float'>3.1415</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>                    <span class='comment'>#=&gt; &quot;(isLiteral 3.1415e0)&quot;
+</span><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:str</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Algebra/Expression.html#new-class_method" title="SPARQL::Algebra::Expression.new (method)">new</a></span></span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:datatype</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Algebra/Expression.html#new-class_method" title="SPARQL::Algebra::Expression.new (method)">new</a></span></span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='float'>3.1415</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span> <span class='comment'>#=&gt; &quot;(str (datatype 3.1415e0))&quot;
+</span></code></pre>
+
+<h2 id="label-Constructing+operator+expressions+using+SSE+forms">Constructing operator expressions using SSE forms</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lbracket'>[</span><span class='symbol'>:isBlank</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Node</span><span class='lparen'>(</span><span class='symbol'>:foobar</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>                          <span class='comment'>#=&gt; &quot;(isBlank _:foobar)&quot;
+</span><span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lbracket'>[</span><span class='symbol'>:isIRI</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>URI</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>https://rubygems.org/gems/rdf/</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>         <span class='comment'>#=&gt; &quot;(isIRI &lt;https://rubygems.org/gems/rdf/&gt;)&quot;
+</span><span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lbracket'>[</span><span class='symbol'>:isLiteral</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='float'>3.1415</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>                      <span class='comment'>#=&gt; &quot;(isLiteral 3.1415e0)&quot;
+</span><span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lbracket'>[</span><span class='symbol'>:str</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:datatype</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='float'>3.1415</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>               <span class='comment'>#=&gt; &quot;(str (datatype 3.1415e0))&quot;
+</span></code></pre>
+
+<h2 id="label-Constructing+operator+expressions+using+SSE+strings">Constructing operator expressions using SSE strings</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(isBlank _:foobar)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(isIRI &lt;https://rubygems.org/gems/rdf/&gt;)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(isLiteral 3.1415)</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(str (datatype 3.1415))</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+</code></pre>
+
+<h2 id="label-Evaluating+operators+standalone">Evaluating operators standalone</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isBlank</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'><span class='object_link'><a href="Algebra/Operator.html#evaluate-class_method" title="SPARQL::Algebra::Operator.evaluate (method)">evaluate</a></span></span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Node</span><span class='lparen'>(</span><span class='symbol'>:foobar</span><span class='rparen'>)</span><span class='rparen'>)</span>                          <span class='comment'>#=&gt; RDF::Literal::TRUE
+</span><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isIRI</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'><span class='object_link'><a href="Algebra/Operator.html#evaluate-class_method" title="SPARQL::Algebra::Operator.evaluate (method)">evaluate</a></span></span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Vocab</span><span class='op'>::</span><span class='const'>DC</span><span class='period'>.</span><span class='id identifier rubyid_title'>title</span><span class='rparen'>)</span>                                 <span class='comment'>#=&gt; RDF::Literal::TRUE
+</span><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isLiteral</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'><span class='object_link'><a href="Algebra/Operator.html#evaluate-class_method" title="SPARQL::Algebra::Operator.evaluate (method)">evaluate</a></span></span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='float'>3.1415</span><span class='rparen'>)</span><span class='rparen'>)</span>                      <span class='comment'>#=&gt; RDF::Literal::TRUE
+</span></code></pre>
+
+<h2 id="label-Evaluating+expressions+on+a+solution+sequence">Evaluating expressions on a solution sequence</h2>
+
+<pre class="code ruby"><code class="ruby"><span class='comment'># Find all people and their names &amp; e-mail addresses:
+</span><span class='id identifier rubyid_solutions'>solutions</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Query</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Graph</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>etc/doap.ttl</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_query'>query</span><span class='op'>|</span>
+  <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_pattern'>pattern</span> <span class='lbracket'>[</span><span class='symbol'>:person</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='period'>.</span><span class='id identifier rubyid_type'>type</span><span class='comma'>,</span>  <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Vocab</span><span class='op'>::</span><span class='const'>FOAF</span><span class='period'>.</span><span class='const'>Person</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_pattern'>pattern</span> <span class='lbracket'>[</span><span class='symbol'>:person</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Vocab</span><span class='op'>::</span><span class='const'>FOAF</span><span class='period'>.</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='symbol'>:name</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_pattern'>pattern</span> <span class='lbracket'>[</span><span class='symbol'>:person</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Vocab</span><span class='op'>::</span><span class='const'>FOAF</span><span class='period'>.</span><span class='id identifier rubyid_mbox'>mbox</span><span class='comma'>,</span> <span class='symbol'>:email</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='label'>optional:</span> <span class='kw'>true</span>
+<span class='kw'>end</span>
+
+<span class='comment'># Find people who have a name but don&#39;t have a known e-mail address:
+</span><span class='id identifier rubyid_expression'>expression</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lbracket'>[</span><span class='symbol'>:not</span><span class='comma'>,</span> <span class='lbracket'>[</span><span class='symbol'>:bound</span><span class='comma'>,</span> <span class='const'><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></span><span class='lparen'>(</span><span class='symbol'>:email</span><span class='rparen'>)</span><span class='rbracket'>]</span><span class='rbracket'>]</span>    <span class='comment'># ...or just...
+</span><span class='id identifier rubyid_expression'>expression</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>(not (bound ?email))</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_solutions'>solutions</span><span class='period'>.</span><span class='id identifier rubyid_filter!'>filter!</span><span class='lparen'>(</span><span class='id identifier rubyid_expression'>expression</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>Some very simple optimizations are currently implemented for <code>FILTER</code> expressions. Use the following to obtain optimized SSE forms:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_optimize'><span class='object_link'><a href="Algebra/Expression.html#optimize-instance_method" title="SPARQL::Algebra::Expression#optimize (method)">optimize</a></span></span><span class='period'>.</span><span class='id identifier rubyid_to_sxp_bin'><span class='object_link'><a href="Algebra/Expression.html#to_sxp_bin-instance_method" title="SPARQL::Algebra::Expression#to_sxp_bin (method)">to_sxp_bin</a></span></span>
+</code></pre>
+
+<h2 id="label-Constant+comparison+folding">Constant comparison folding</h2>
+
+<pre class="code ruby"><code class="ruby">(sameTerm ?x ?x)   #=&gt; true
+</code></pre>
+
+<h2 id="label-Constant+arithmetic+folding">Constant arithmetic folding</h2>
+
+<pre class="code ruby"><code class="ruby">(!= ?x (+ 123))    #=&gt; (!= ?x 123)
+(!= ?x (- -1.0))   #=&gt; (!= ?x 1.0)
+(!= ?x (+ 1 2))    #=&gt; (!= ?x 3)
+(!= ?x (- 4 5))    #=&gt; (!= ?x -1)
+(!= ?x (* 6 7))    #=&gt; (!= ?x 42)
+(!= ?x (/ 0 0.0))  #=&gt; (!= ?x NaN)
+</code></pre>
+
+<h2 id="label-Memoization">Memoization</h2>
+
+<p>Expressions can optionally be <a href="http://en.wikipedia.org/wiki/Memoization">memoized</a>, which can speed up repeatedly executing the expression on a solution sequence:</p>
+
+<pre class="code ruby"><code class="ruby"><span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'>Algebra</span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='label'>memoize:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+<span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Algebra/Expression.html#new-class_method" title="SPARQL::Algebra::Expression.new (method)">new</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_operands'>operands</span><span class='comma'>,</span> <span class='label'>memoize:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+</code></pre>
+
+<p>Memoization is implemented using RDF.rb’s <a href="https://ruby-rdf.github.io/rdf/RDF/Util/Cache">RDF::Util::Cache</a> utility library, a weak-reference cache that allows values contained in the cache to be garbage collected. This allows the cache to dynamically adjust to changing memory conditions, caching more objects when memory is plentiful, but evicting most objects if memory pressure increases to the point of scarcity.</p>
+
+<h2 id="label-Documentation">Documentation</h2>
+<ul><li>
+<p><span class='object_link'><a href="" title="SPARQL::Algebra (module)">Algebra</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Aggregate.html" title="SPARQL::Algebra::Aggregate (module)">Aggregate</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Evaluatable.html" title="SPARQL::Algebra::Evaluatable (module)">Evaluatable</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Query.html" title="SPARQL::Algebra::Query (module)">Query</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Update.html" title="SPARQL::Algebra::Update (module)">Update</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></p>
+<ul><li>
+<p><span class='object_link'><a href="Algebra/Operator/Abs.html" title="SPARQL::Algebra::Operator::Abs (class)">Operator::Abs</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Add.html" title="SPARQL::Algebra::Operator::Add (class)">Operator::Add</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/And.html" title="SPARQL::Algebra::Operator::And (class)">Operator::And</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Asc.html" title="SPARQL::Algebra::Operator::Asc (class)">Operator::Asc</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Ask.html" title="SPARQL::Algebra::Operator::Ask (class)">Operator::Ask</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Avg.html" title="SPARQL::Algebra::Operator::Avg (class)">Operator::Avg</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Base.html" title="SPARQL::Algebra::Operator::Base (class)">Operator::Base</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/BGP.html" title="SPARQL::Algebra::Operator::BGP (class)">Operator::BGP</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Bound.html" title="SPARQL::Algebra::Operator::Bound (class)">Operator::Bound</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Ceil.html" title="SPARQL::Algebra::Operator::Ceil (class)">Operator::Ceil</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Clear.html" title="SPARQL::Algebra::Operator::Clear (class)">Operator::Clear</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Coalesce.html" title="SPARQL::Algebra::Operator::Coalesce (class)">Operator::Coalesce</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Compare.html" title="SPARQL::Algebra::Operator::Compare (class)">Operator::Compare</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Concat.html" title="SPARQL::Algebra::Operator::Concat (class)">Operator::Concat</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Construct.html" title="SPARQL::Algebra::Operator::Construct (class)">Operator::Construct</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Contains.html" title="SPARQL::Algebra::Operator::Contains (class)">Operator::Contains</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Copy.html" title="SPARQL::Algebra::Operator::Copy (class)">Operator::Copy</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Count.html" title="SPARQL::Algebra::Operator::Count (class)">Operator::Count</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Create.html" title="SPARQL::Algebra::Operator::Create (class)">Operator::Create</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Dataset.html" title="SPARQL::Algebra::Operator::Dataset (class)">Operator::Dataset</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Datatype.html" title="SPARQL::Algebra::Operator::Datatype (class)">Operator::Datatype</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Day.html" title="SPARQL::Algebra::Operator::Day (class)">Operator::Day</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Delete.html" title="SPARQL::Algebra::Operator::Delete (class)">Operator::Delete</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/DeleteData.html" title="SPARQL::Algebra::Operator::DeleteData (class)">Operator::DeleteData</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/DeleteWhere.html" title="SPARQL::Algebra::Operator::DeleteWhere (class)">Operator::DeleteWhere</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Desc.html" title="SPARQL::Algebra::Operator::Desc (class)">Operator::Desc</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Describe.html" title="SPARQL::Algebra::Operator::Describe (class)">Operator::Describe</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Distinct.html" title="SPARQL::Algebra::Operator::Distinct (class)">Operator::Distinct</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Divide.html" title="SPARQL::Algebra::Operator::Divide (class)">Operator::Divide</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Drop.html" title="SPARQL::Algebra::Operator::Drop (class)">Operator::Drop</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/EncodeForURI.html" title="SPARQL::Algebra::Operator::EncodeForURI (class)">Operator::EncodeForURI</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Equal.html" title="SPARQL::Algebra::Operator::Equal (class)">Operator::Equal</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Exprlist.html" title="SPARQL::Algebra::Operator::Exprlist (class)">Operator::Exprlist</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Extend.html" title="SPARQL::Algebra::Operator::Extend (class)">Operator::Extend</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Filter.html" title="SPARQL::Algebra::Operator::Filter (class)">Operator::Filter</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Floor.html" title="SPARQL::Algebra::Operator::Floor (class)">Operator::Floor</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/FunctionCall.html" title="SPARQL::Algebra::Operator::FunctionCall (class)">Operator::FunctionCall</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Graph.html" title="SPARQL::Algebra::Operator::Graph (class)">Operator::Graph</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/GreaterThan.html" title="SPARQL::Algebra::Operator::GreaterThan (class)">Operator::GreaterThan</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/GreaterThanOrEqual.html" title="SPARQL::Algebra::Operator::GreaterThanOrEqual (class)">Operator::GreaterThanOrEqual</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Group.html" title="SPARQL::Algebra::Operator::Group (class)">Operator::Group</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/GroupConcat.html" title="SPARQL::Algebra::Operator::GroupConcat (class)">Operator::GroupConcat</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Hours.html" title="SPARQL::Algebra::Operator::Hours (class)">Operator::Hours</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/If.html" title="SPARQL::Algebra::Operator::If (class)">Operator::If</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/In.html" title="SPARQL::Algebra::Operator::In (class)">Operator::In</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Insert.html" title="SPARQL::Algebra::Operator::Insert (class)">Operator::Insert</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/InsertData.html" title="SPARQL::Algebra::Operator::InsertData (class)">Operator::InsertData</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/IRI.html" title="SPARQL::Algebra::Operator::IRI (class)">Operator::IRI</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/IsBlank.html" title="SPARQL::Algebra::Operator::IsBlank (class)">Operator::IsBlank</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/IsIRI.html" title="SPARQL::Algebra::Operator::IsIRI (class)">Operator::IsIRI</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/IsLiteral.html" title="SPARQL::Algebra::Operator::IsLiteral (class)">Operator::IsLiteral</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/IsNumeric.html" title="SPARQL::Algebra::Operator::IsNumeric (class)">Operator::IsNumeric</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Join.html" title="SPARQL::Algebra::Operator::Join (class)">Operator::Join</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Lang.html" title="SPARQL::Algebra::Operator::Lang (class)">Operator::Lang</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/LangMatches.html" title="SPARQL::Algebra::Operator::LangMatches (class)">Operator::LangMatches</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/LeftJoin.html" title="SPARQL::Algebra::Operator::LeftJoin (class)">Operator::LeftJoin</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/LessThan.html" title="SPARQL::Algebra::Operator::LessThan (class)">Operator::LessThan</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/LessThanOrEqual.html" title="SPARQL::Algebra::Operator::LessThanOrEqual (class)">Operator::LessThanOrEqual</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Max.html" title="SPARQL::Algebra::Operator::Max (class)">Operator::Max</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/MD5.html" title="SPARQL::Algebra::Operator::MD5 (class)">Operator::MD5</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Min.html" title="SPARQL::Algebra::Operator::Min (class)">Operator::Min</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Minus.html" title="SPARQL::Algebra::Operator::Minus (class)">Operator::Minus</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Minutes.html" title="SPARQL::Algebra::Operator::Minutes (class)">Operator::Minutes</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Modify.html" title="SPARQL::Algebra::Operator::Modify (class)">Operator::Modify</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Month.html" title="SPARQL::Algebra::Operator::Month (class)">Operator::Month</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Move.html" title="SPARQL::Algebra::Operator::Move (class)">Operator::Move</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Multiply.html" title="SPARQL::Algebra::Operator::Multiply (class)">Operator::Multiply</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Negate.html" title="SPARQL::Algebra::Operator::Negate (class)">Operator::Negate</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Not.html" title="SPARQL::Algebra::Operator::Not (class)">Operator::Not</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/NotEqual.html" title="SPARQL::Algebra::Operator::NotEqual (class)">Operator::NotEqual</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/NotExists.html" title="SPARQL::Algebra::Operator::NotExists (class)">Operator::NotExists</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/NotIn.html" title="SPARQL::Algebra::Operator::NotIn (class)">Operator::NotIn</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Now.html" title="SPARQL::Algebra::Operator::Now (class)">Operator::Now</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Or.html" title="SPARQL::Algebra::Operator::Or (class)">Operator::Or</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Order.html" title="SPARQL::Algebra::Operator::Order (class)">Operator::Order</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Plus.html" title="SPARQL::Algebra::Operator::Plus (class)">Operator::Plus</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Prefix.html" title="SPARQL::Algebra::Operator::Prefix (class)">Operator::Prefix</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Project.html" title="SPARQL::Algebra::Operator::Project (class)">Operator::Project</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Rand.html" title="SPARQL::Algebra::Operator::Rand (class)">Operator::Rand</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Reduced.html" title="SPARQL::Algebra::Operator::Reduced (class)">Operator::Reduced</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Regex.html" title="SPARQL::Algebra::Operator::Regex (class)">Operator::Regex</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Replace.html" title="SPARQL::Algebra::Operator::Replace (class)">Operator::Replace</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Round.html" title="SPARQL::Algebra::Operator::Round (class)">Operator::Round</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/SameTerm.html" title="SPARQL::Algebra::Operator::SameTerm (class)">Operator::SameTerm</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Sample.html" title="SPARQL::Algebra::Operator::Sample (class)">Operator::Sample</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Seconds.html" title="SPARQL::Algebra::Operator::Seconds (class)">Operator::Seconds</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/SHA1.html" title="SPARQL::Algebra::Operator::SHA1 (class)">Operator::SHA1</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/SHA256.html" title="SPARQL::Algebra::Operator::SHA256 (class)">Operator::SHA256</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/SHA384.html" title="SPARQL::Algebra::Operator::SHA384 (class)">Operator::SHA384</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/SHA512.html" title="SPARQL::Algebra::Operator::SHA512 (class)">Operator::SHA512</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Slice.html" title="SPARQL::Algebra::Operator::Slice (class)">Operator::Slice</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Str.html" title="SPARQL::Algebra::Operator::Str (class)">Operator::Str</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrAfter.html" title="SPARQL::Algebra::Operator::StrAfter (class)">Operator::StrAfter</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrBefore.html" title="SPARQL::Algebra::Operator::StrBefore (class)">Operator::StrBefore</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrDT.html" title="SPARQL::Algebra::Operator::StrDT (class)">Operator::StrDT</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrEnds.html" title="SPARQL::Algebra::Operator::StrEnds (class)">Operator::StrEnds</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrLang.html" title="SPARQL::Algebra::Operator::StrLang (class)">Operator::StrLang</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrLen.html" title="SPARQL::Algebra::Operator::StrLen (class)">Operator::StrLen</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrStarts.html" title="SPARQL::Algebra::Operator::StrStarts (class)">Operator::StrStarts</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/StrUUID.html" title="SPARQL::Algebra::Operator::StrUUID (class)">Operator::StrUUID</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/SubStr.html" title="SPARQL::Algebra::Operator::SubStr (class)">Operator::SubStr</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Subtract.html" title="SPARQL::Algebra::Operator::Subtract (class)">Operator::Subtract</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Sum.html" title="SPARQL::Algebra::Operator::Sum (class)">Operator::Sum</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Table.html" title="SPARQL::Algebra::Operator::Table (class)">Operator::Table</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Timezone.html" title="SPARQL::Algebra::Operator::Timezone (class)">Operator::Timezone</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/TZ.html" title="SPARQL::Algebra::Operator::TZ (class)">Operator::TZ</a></span></p>
+</li><li>
+<p>Operator::Ucase</p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Union.html" title="SPARQL::Algebra::Operator::Union (class)">Operator::Union</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Update.html" title="SPARQL::Algebra::Operator::Update (class)">Operator::Update</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Using.html" title="SPARQL::Algebra::Operator::Using (class)">Operator::Using</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/UUID.html" title="SPARQL::Algebra::Operator::UUID (class)">Operator::UUID</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/With.html" title="SPARQL::Algebra::Operator::With (class)">Operator::With</a></span></p>
+</li><li>
+<p><span class='object_link'><a href="Algebra/Operator/Year.html" title="SPARQL::Algebra::Operator::Year (class)">Operator::Year</a></span></p>
+</li></ul>
+</li></ul>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+        <p class="example_title"><div class='inline'>
+<p>Optimizations</p>
+</div></p>
+      
+      <pre class="example code"><code></code></pre>
+    
+  </div>
+
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="http://www.w3.org/TR/sparql11-query/#sparqlAlgebra" target="_parent" title="http://www.w3.org/TR/sparql11-query/#sparqlAlgebra">http://www.w3.org/TR/sparql11-query/#sparqlAlgebra</a></li>
+    
+      <li><a href="https://jena.apache.org/documentation/notes/sse.html" target="_parent" title="https://jena.apache.org/documentation/notes/sse.html">https://jena.apache.org/documentation/notes/sse.html</a></li>
+    
+  </ul>
+
+</div><h2>Defined Under Namespace</h2>
+<p class="children">
+  
+    
+      <strong class="modules">Modules:</strong> <span class='object_link'><a href="Algebra/Aggregate.html" title="SPARQL::Algebra::Aggregate (module)">Aggregate</a></span>, <span class='object_link'><a href="Algebra/Evaluatable.html" title="SPARQL::Algebra::Evaluatable (module)">Evaluatable</a></span>, <span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span>, <span class='object_link'><a href="Algebra/Query.html" title="SPARQL::Algebra::Query (module)">Query</a></span>, <span class='object_link'><a href="Algebra/Update.html" title="SPARQL::Algebra::Update (module)">Update</a></span>, <span class='object_link'><a href="Algebra/VERSION.html" title="SPARQL::Algebra::VERSION (module)">VERSION</a></span>
+    
+  
+    
+      <strong class="classes">Classes:</strong> <span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span>
+    
+  
+</p>
+
+  
+    <h2>
+      Constant Summary
+      <small><a href="#" class="constants_summary_toggle">collapse</a></small>
+    </h2>
+
+    <dl class="constants">
+      
+        <dt id="Variable-constant" class="">Variable =
+          
+        </dt>
+        <dd><pre class="code"><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Query</span><span class='op'>::</span><span class='const'>Variable</span></pre></dd>
+      
+    </dl>
+  
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#Expression-class_method" title="Expression (class method)">.<strong>Expression</strong>(*sse)  &#x21d2; SPARQL::Algebra::Expression </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#open-class_method" title="open (class method)">.<strong>open</strong>(sse, **options) {|expression| ... } &#x21d2; Expression </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Parses input from the given file name or URL.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#Operator-class_method" title="Operator (class method)">.<strong>Operator</strong>(name, arity = nil)  &#x21d2; Class </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#parse-class_method" title="parse (class method)">.<strong>parse</strong>(sse, **options)  &#x21d2; SPARQL::Algebra::Operator </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#Variable-class_method" title="Variable (class method)">.<strong>Variable</strong>(name)  &#x21d2; Variable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+  
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="Expression-class_method">
+  
+    .<strong>Expression</strong>(*sse)  &#x21d2; <tt><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">SPARQL::Algebra::Expression</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lparen'>(</span><span class='symbol'>:isLiteral</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='float'>3.1415</span><span class='rparen'>)</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>sse</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a SPARQL S-Expression (SSE) form</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">SPARQL::Algebra::Expression</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+417
+418
+419</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 417</span>
+
+<span class='kw'>def</span> <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sse'>sse</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_for'><span class='object_link'><a href="Algebra/Expression.html#for-class_method" title="SPARQL::Algebra::Expression.for (method)">for</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sse'>sse</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="open-class_method">
+  
+    .<strong>open</strong>(sse, **options) {|expression| ... } &#x21d2; <tt><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Parses input from the given file name or URL.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>sse</span>
+      
+      
+        <span class='type'>(<tt>String</tt>, <tt>#to_s</tt>)</span>
+      
+      
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>any additional options (see <span class='object_link'><a href="Algebra/Operator.html#initialize-instance_method" title="SPARQL::Algebra::Operator#initialize (method)">SPARQL::Algebra::Operator#initialize</a></span>)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+  
+    
+    
+    
+    
+    <p class="tag_title">Options Hash (<tt>**options</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:base_uri</span>
+          <span class="type">(<tt>RDF::URI</tt>, <tt>#to_s</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Base URI used for loading relative URIs.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>expression</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>expression</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">SPARQL::Algebra::Expression</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>void</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>ignored</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+405
+406
+407</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 405</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_open'><span class='object_link'><a href="Algebra/Expression.html#open-class_method" title="SPARQL::Algebra::Expression.open (method)">open</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="Operator-class_method">
+  
+    .<strong>Operator</strong>(name, arity = nil)  &#x21d2; <tt>Class</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isLiteral</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Class</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+428
+429
+430</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 428</span>
+
+<span class='kw'>def</span> <span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_arity'>arity</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_for'><span class='object_link'><a href="Algebra/Operator.html#for-class_method" title="SPARQL::Algebra::Operator.for (method)">for</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_arity'>arity</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="parse-class_method">
+  
+    .<strong>parse</strong>(sse, **options)  &#x21d2; <tt><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">SPARQL::Algebra::Operator</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code>sse = (prefix ((foaf: &lt;http://xmlns.com/foaf/0.1/&gt;))
+        (project (?name ?mbox)
+          (join
+            (bgp (triple ?x foaf:name ?name))
+            (bgp (triple ?x foaf:mbox ?mbox)))))
+}</code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>sse</span>
+      
+      
+        <span class='type'>(<tt>String</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a SPARQL S-Expression (SSE) string</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>any additional options (see <span class='object_link'><a href="Algebra/Operator.html#initialize-instance_method" title="SPARQL::Algebra::Operator#initialize (method)">SPARQL::Algebra::Operator#initialize</a></span>)</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">SPARQL::Algebra::Operator</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+387
+388
+389</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 387</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="Variable-class_method">
+  
+    .<strong>Variable</strong>(name)  &#x21d2; <tt><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+
+  </div>
+</div>
+<div class="tags">
+  
+  <div class="examples">
+    <p class="tag_title">Examples:</p>
+    
+      
+      <pre class="example code"><code><span class='const'><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></span><span class='lparen'>(</span><span class='symbol'>:foobar</span><span class='rparen'>)</span></code></pre>
+    
+  </div>
+<p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>name</span>
+      
+      
+        <span class='type'>(<tt>Symbol</tt>, <tt>#to_sym</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+  <p class="tag_title">See Also:</p>
+  <ul class="see">
+    
+      <li><a href="https://ruby-rdf.github.io/rdf/RDF/Query/Variable" target="_parent" title="https://ruby-rdf.github.io/rdf/RDF/Query/Variable">https://ruby-rdf.github.io/rdf/RDF/Query/Variable</a></li>
+    
+  </ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+440
+441
+442</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 440</span>
+
+<span class='kw'>def</span> <span class='const'><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 27 23:58:19 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.27 (ruby-3.1.0).
+</div>
+
+    </div>
+  </body>
+</html>

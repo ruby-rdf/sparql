@@ -1,0 +1,776 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: SPARQL::Algebra::Evaluatable
+  
+    &mdash; SPARQL - SPARQL for RDF.rb
+  
+</title>
+
+  <link rel="stylesheet" href="../../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "SPARQL::Algebra::Evaluatable";
+  relpath = '../../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../../_index.html">Index (E)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span> &raquo; <span class='title'><span class='object_link'><a href="../Algebra.html" title="SPARQL::Algebra (module)">Algebra</a></span></span>
+     &raquo; 
+    <span class="title">Evaluatable</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: SPARQL::Algebra::Evaluatable
+  <span class="abstract note title">Abstract</span>
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+  <dl>
+    <dt>Included in:</dt>
+    <dd><span class='object_link'><a href="Operator/Abs.html" title="SPARQL::Algebra::Operator::Abs (class)">Operator::Abs</a></span>, <span class='object_link'><a href="Operator/And.html" title="SPARQL::Algebra::Operator::And (class)">Operator::And</a></span>, <span class='object_link'><a href="Operator/Asc.html" title="SPARQL::Algebra::Operator::Asc (class)">Operator::Asc</a></span>, <span class='object_link'><a href="Operator/BNode.html" title="SPARQL::Algebra::Operator::BNode (class)">Operator::BNode</a></span>, <span class='object_link'><a href="Operator/Bound.html" title="SPARQL::Algebra::Operator::Bound (class)">Operator::Bound</a></span>, <span class='object_link'><a href="Operator/Ceil.html" title="SPARQL::Algebra::Operator::Ceil (class)">Operator::Ceil</a></span>, <span class='object_link'><a href="Operator/Coalesce.html" title="SPARQL::Algebra::Operator::Coalesce (class)">Operator::Coalesce</a></span>, <span class='object_link'><a href="Operator/Compare.html" title="SPARQL::Algebra::Operator::Compare (class)">Operator::Compare</a></span>, <span class='object_link'><a href="Operator/Concat.html" title="SPARQL::Algebra::Operator::Concat (class)">Operator::Concat</a></span>, <span class='object_link'><a href="Operator/Contains.html" title="SPARQL::Algebra::Operator::Contains (class)">Operator::Contains</a></span>, <span class='object_link'><a href="Operator/Datatype.html" title="SPARQL::Algebra::Operator::Datatype (class)">Operator::Datatype</a></span>, <span class='object_link'><a href="Operator/Day.html" title="SPARQL::Algebra::Operator::Day (class)">Operator::Day</a></span>, <span class='object_link'><a href="Operator/Divide.html" title="SPARQL::Algebra::Operator::Divide (class)">Operator::Divide</a></span>, <span class='object_link'><a href="Operator/EncodeForURI.html" title="SPARQL::Algebra::Operator::EncodeForURI (class)">Operator::EncodeForURI</a></span>, <span class='object_link'><a href="Operator/Exists.html" title="SPARQL::Algebra::Operator::Exists (class)">Operator::Exists</a></span>, <span class='object_link'><a href="Operator/Exprlist.html" title="SPARQL::Algebra::Operator::Exprlist (class)">Operator::Exprlist</a></span>, <span class='object_link'><a href="Operator/Floor.html" title="SPARQL::Algebra::Operator::Floor (class)">Operator::Floor</a></span>, <span class='object_link'><a href="Operator/FunctionCall.html" title="SPARQL::Algebra::Operator::FunctionCall (class)">Operator::FunctionCall</a></span>, <span class='object_link'><a href="Operator/Hours.html" title="SPARQL::Algebra::Operator::Hours (class)">Operator::Hours</a></span>, <span class='object_link'><a href="Operator/IRI.html" title="SPARQL::Algebra::Operator::IRI (class)">Operator::IRI</a></span>, <span class='object_link'><a href="Operator/If.html" title="SPARQL::Algebra::Operator::If (class)">Operator::If</a></span>, <span class='object_link'><a href="Operator/In.html" title="SPARQL::Algebra::Operator::In (class)">Operator::In</a></span>, <span class='object_link'><a href="Operator/IsBlank.html" title="SPARQL::Algebra::Operator::IsBlank (class)">Operator::IsBlank</a></span>, <span class='object_link'><a href="Operator/IsIRI.html" title="SPARQL::Algebra::Operator::IsIRI (class)">Operator::IsIRI</a></span>, <span class='object_link'><a href="Operator/IsLiteral.html" title="SPARQL::Algebra::Operator::IsLiteral (class)">Operator::IsLiteral</a></span>, <span class='object_link'><a href="Operator/IsNumeric.html" title="SPARQL::Algebra::Operator::IsNumeric (class)">Operator::IsNumeric</a></span>, <span class='object_link'><a href="Operator/IsTriple.html" title="SPARQL::Algebra::Operator::IsTriple (class)">Operator::IsTriple</a></span>, <span class='object_link'><a href="Operator/LCase.html" title="SPARQL::Algebra::Operator::LCase (class)">Operator::LCase</a></span>, <span class='object_link'><a href="Operator/Lang.html" title="SPARQL::Algebra::Operator::Lang (class)">Operator::Lang</a></span>, <span class='object_link'><a href="Operator/LangMatches.html" title="SPARQL::Algebra::Operator::LangMatches (class)">Operator::LangMatches</a></span>, <span class='object_link'><a href="Operator/MD5.html" title="SPARQL::Algebra::Operator::MD5 (class)">Operator::MD5</a></span>, <span class='object_link'><a href="Operator/Minutes.html" title="SPARQL::Algebra::Operator::Minutes (class)">Operator::Minutes</a></span>, <span class='object_link'><a href="Operator/Month.html" title="SPARQL::Algebra::Operator::Month (class)">Operator::Month</a></span>, <span class='object_link'><a href="Operator/Multiply.html" title="SPARQL::Algebra::Operator::Multiply (class)">Operator::Multiply</a></span>, <span class='object_link'><a href="Operator/Negate.html" title="SPARQL::Algebra::Operator::Negate (class)">Operator::Negate</a></span>, <span class='object_link'><a href="Operator/Not.html" title="SPARQL::Algebra::Operator::Not (class)">Operator::Not</a></span>, <span class='object_link'><a href="Operator/NotExists.html" title="SPARQL::Algebra::Operator::NotExists (class)">Operator::NotExists</a></span>, <span class='object_link'><a href="Operator/NotIn.html" title="SPARQL::Algebra::Operator::NotIn (class)">Operator::NotIn</a></span>, <span class='object_link'><a href="Operator/Now.html" title="SPARQL::Algebra::Operator::Now (class)">Operator::Now</a></span>, <span class='object_link'><a href="Operator/Object.html" title="SPARQL::Algebra::Operator::Object (class)">Operator::Object</a></span>, <span class='object_link'><a href="Operator/Or.html" title="SPARQL::Algebra::Operator::Or (class)">Operator::Or</a></span>, <span class='object_link'><a href="Operator/Plus.html" title="SPARQL::Algebra::Operator::Plus (class)">Operator::Plus</a></span>, <span class='object_link'><a href="Operator/Predicate.html" title="SPARQL::Algebra::Operator::Predicate (class)">Operator::Predicate</a></span>, <span class='object_link'><a href="Operator/Rand.html" title="SPARQL::Algebra::Operator::Rand (class)">Operator::Rand</a></span>, <span class='object_link'><a href="Operator/Regex.html" title="SPARQL::Algebra::Operator::Regex (class)">Operator::Regex</a></span>, <span class='object_link'><a href="Operator/Replace.html" title="SPARQL::Algebra::Operator::Replace (class)">Operator::Replace</a></span>, <span class='object_link'><a href="Operator/Round.html" title="SPARQL::Algebra::Operator::Round (class)">Operator::Round</a></span>, <span class='object_link'><a href="Operator/SHA1.html" title="SPARQL::Algebra::Operator::SHA1 (class)">Operator::SHA1</a></span>, <span class='object_link'><a href="Operator/SHA256.html" title="SPARQL::Algebra::Operator::SHA256 (class)">Operator::SHA256</a></span>, <span class='object_link'><a href="Operator/SHA384.html" title="SPARQL::Algebra::Operator::SHA384 (class)">Operator::SHA384</a></span>, <span class='object_link'><a href="Operator/SHA512.html" title="SPARQL::Algebra::Operator::SHA512 (class)">Operator::SHA512</a></span>, <span class='object_link'><a href="Operator/SameTerm.html" title="SPARQL::Algebra::Operator::SameTerm (class)">Operator::SameTerm</a></span>, <span class='object_link'><a href="Operator/Seconds.html" title="SPARQL::Algebra::Operator::Seconds (class)">Operator::Seconds</a></span>, <span class='object_link'><a href="Operator/Str.html" title="SPARQL::Algebra::Operator::Str (class)">Operator::Str</a></span>, <span class='object_link'><a href="Operator/StrAfter.html" title="SPARQL::Algebra::Operator::StrAfter (class)">Operator::StrAfter</a></span>, <span class='object_link'><a href="Operator/StrBefore.html" title="SPARQL::Algebra::Operator::StrBefore (class)">Operator::StrBefore</a></span>, <span class='object_link'><a href="Operator/StrDT.html" title="SPARQL::Algebra::Operator::StrDT (class)">Operator::StrDT</a></span>, <span class='object_link'><a href="Operator/StrEnds.html" title="SPARQL::Algebra::Operator::StrEnds (class)">Operator::StrEnds</a></span>, <span class='object_link'><a href="Operator/StrLang.html" title="SPARQL::Algebra::Operator::StrLang (class)">Operator::StrLang</a></span>, <span class='object_link'><a href="Operator/StrLen.html" title="SPARQL::Algebra::Operator::StrLen (class)">Operator::StrLen</a></span>, <span class='object_link'><a href="Operator/StrStarts.html" title="SPARQL::Algebra::Operator::StrStarts (class)">Operator::StrStarts</a></span>, <span class='object_link'><a href="Operator/StrUUID.html" title="SPARQL::Algebra::Operator::StrUUID (class)">Operator::StrUUID</a></span>, <span class='object_link'><a href="Operator/SubStr.html" title="SPARQL::Algebra::Operator::SubStr (class)">Operator::SubStr</a></span>, <span class='object_link'><a href="Operator/Subject.html" title="SPARQL::Algebra::Operator::Subject (class)">Operator::Subject</a></span>, <span class='object_link'><a href="Operator/Subtract.html" title="SPARQL::Algebra::Operator::Subtract (class)">Operator::Subtract</a></span>, <span class='object_link'><a href="Operator/TZ.html" title="SPARQL::Algebra::Operator::TZ (class)">Operator::TZ</a></span>, <span class='object_link'><a href="Operator/Timezone.html" title="SPARQL::Algebra::Operator::Timezone (class)">Operator::Timezone</a></span>, <span class='object_link'><a href="Operator/Triple.html" title="SPARQL::Algebra::Operator::Triple (class)">Operator::Triple</a></span>, <span class='object_link'><a href="Operator/UCase.html" title="SPARQL::Algebra::Operator::UCase (class)">Operator::UCase</a></span>, <span class='object_link'><a href="Operator/UUID.html" title="SPARQL::Algebra::Operator::UUID (class)">Operator::UUID</a></span>, <span class='object_link'><a href="Operator/Year.html" title="SPARQL::Algebra::Operator::Year (class)">Operator::Year</a></span></dd>
+  </dl>
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/sparql/algebra/evaluatable.rb</dd>
+  </dl>
+  
+</div>
+
+<h2>Overview</h2><div class="docstring">
+  <div class="discussion">
+    <div class="note abstract">
+  <strong>This module is abstract.</strong>
+  <div class='inline'></div>
+</div>
+
+<p>Mixin for Algebra::Operator sub-classes that evaluate bindings to return a result</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+
+</div>
+
+
+
+
+
+
+  
+    <h2>
+      Instance Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#apply-instance_method" title="#apply (instance method)">#<strong>apply</strong>(*operands, **options)  &#x21d2; RDF::Term </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  <span class="abstract note title">abstract</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'></div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#evaluate-instance_method" title="#evaluate (instance method)">#<strong>evaluate</strong>(bindings, **options)  &#x21d2; RDF::Term </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  <span class="abstract note title">abstract</span>
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Evaluates this operator using the given variable <code>bindings</code>.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#memoize-instance_method" title="#memoize (instance method)">#<strong>memoize</strong>(*operands, **options)  &#x21d2; RDF::Term </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The memoized result.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#replace_aggregate!-instance_method" title="#replace_aggregate! (instance method)">#<strong>replace_aggregate!</strong> {|agg| ... } &#x21d2; SPARQL::Algebra::Evaluatable, RDF::Query::Variable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Recursively re-map operators to replace aggregates with temporary variables returned from the block.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#replace_vars!-instance_method" title="#replace_vars! (instance method)">#<strong>replace_vars!</strong> {|var| ... } &#x21d2; SPARQL::Algebra::Evaluatable </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>Replace operators which are variables with the result of the block descending into operators which are also evaluatable.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="instance_method_details" class="method_details_list">
+    <h2>Instance Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="apply-instance_method">
+  
+    #<strong>apply</strong>(*operands, **options)  &#x21d2; <tt><span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note abstract">
+  <strong>This method is abstract.</strong>
+  <div class='inline'></div>
+</div>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>operands</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>evaluated operands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Raises:</p>
+<ul class="raise">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>NotImplementedError</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+35
+36
+37</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/evaluatable.rb', line 35</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_operands'>operands</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_raise'>raise</span> <span class='const'>NotImplementedError</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='embexpr_beg'>#{</span><span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_class'>class</span><span class='embexpr_end'>}</span><span class='tstring_content'>#apply(</span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:class</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>, </span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span><span class='embexpr_end'>}</span><span class='tstring_content'>)</span><span class='tstring_end'>&quot;</span></span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="evaluate-instance_method">
+  
+    #<strong>evaluate</strong>(bindings, **options)  &#x21d2; <tt><span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    <div class="note abstract">
+  <strong>This method is abstract.</strong>
+  <div class='inline'></div>
+</div>
+
+<p>Evaluates this operator using the given variable <code>bindings</code>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>bindings</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Query/Solution.html" title="RDF::Query::Solution (class)">RDF::Query::Solution</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>a query solution containing zero or more variable bindings</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../../Object.html" title="Object (class)">Object</a></span>}</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>({}) options passed from query</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+16
+17
+18
+19</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/evaluatable.rb', line 16</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_bindings'>bindings</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_args'>args</span> <span class='op'>=</span> <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span> <span class='op'>|</span><span class='id identifier rubyid_operand'>operand</span><span class='op'>|</span> <span class='id identifier rubyid_operand'>operand</span><span class='period'>.</span><span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_bindings'>bindings</span><span class='comma'>,</span> <span class='label'>depth:</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:depth</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_to_i'>to_i</span> <span class='op'>+</span> <span class='int'>1</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='rbrace'>}</span>
+  <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:memoize</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='id identifier rubyid_memoize'>memoize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_args'>args</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="memoize-instance_method">
+  
+    #<strong>memoize</strong>(*operands, **options)  &#x21d2; <tt><span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Returns the memoized result.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>operands</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span>&gt;</tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>evaluated operands</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Term.html" title="RDF::Term (module)">RDF::Term</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>the memoized result</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+25
+26
+27
+28</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/evaluatable.rb', line 25</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_memoize'>memoize</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_operands'>operands</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='ivar'>@cache</span> <span class='op'>||=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Util</span><span class='op'>::</span><span class='const'>Cache</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:memoize</span><span class='rbracket'>]</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>Integer</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:memoize</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='op'>-</span><span class='int'>1</span><span class='rparen'>)</span>
+  <span class='ivar'>@cache</span><span class='lbracket'>[</span><span class='id identifier rubyid_operands'>operands</span><span class='rbracket'>]</span> <span class='op'>||=</span> <span class='id identifier rubyid_apply'>apply</span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_operands'>operands</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="replace_aggregate!-instance_method">
+  
+    #<strong>replace_aggregate!</strong> {|agg| ... } &#x21d2; <tt><span class='object_link'><a href="" title="SPARQL::Algebra::Evaluatable (module)">SPARQL::Algebra::Evaluatable</a></span></tt>, <tt><span class='object_link'><a href="../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Recursively re-map operators to replace aggregates with temporary variables returned from the block</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p>agg</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>agg</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Aggregate.html" title="SPARQL::Algebra::Aggregate (module)">SPARQL::Algebra::Aggregate</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="SPARQL::Algebra::Evaluatable (module)">SPARQL::Algebra::Evaluatable</a></span></tt>, <tt><span class='object_link'><a href="../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/evaluatable.rb', line 68</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_replace_aggregate!'>replace_aggregate!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@operands</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
+    <span class='kw'>case</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_aggregate?'>aggregate?</span>
+      <span class='kw'>yield</span> <span class='id identifier rubyid_op'>op</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:replace_aggregate!</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_replace_aggregate!'>replace_aggregate!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> 
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_op'>op</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="replace_vars!-instance_method">
+  
+    #<strong>replace_vars!</strong> {|var| ... } &#x21d2; <tt><span class='object_link'><a href="" title="SPARQL::Algebra::Evaluatable (module)">SPARQL::Algebra::Evaluatable</a></span></tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>Replace operators which are variables with the result of the block descending into operators which are also evaluatable</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Yields:</p>
+<ul class="yield">
+  
+    <li>
+      
+      
+        <span class='type'></span>
+      
+      
+      
+        
+        <div class='inline'>
+<p>var</p>
+</div>
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Parameters:</p>
+<ul class="yieldparam">
+  
+    <li>
+      
+        <span class='name'>var</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Yield Returns:</p>
+<ul class="yieldreturn">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span></tt>, <tt><span class='object_link'><a href="" title="SPARQL::Algebra::Evaluatable (module)">SPARQL::Algebra::Evaluatable</a></span></tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="" title="SPARQL::Algebra::Evaluatable (module)">SPARQL::Algebra::Evaluatable</a></span></tt>)</span>
+      
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>self</p>
+</div>
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/evaluatable.rb', line 47</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_replace_vars!'>replace_vars!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
+  <span class='ivar'>@operands</span><span class='period'>.</span><span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
+    <span class='kw'>case</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Query</span><span class='op'>::</span><span class='const'>Variable</span><span class='rparen'>)</span>
+      <span class='kw'>yield</span> <span class='id identifier rubyid_op'>op</span>
+    <span class='kw'>when</span> <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:replace_vars!</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_op'>op</span><span class='period'>.</span><span class='id identifier rubyid_replace_vars!'>replace_vars!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span> 
+    <span class='kw'>else</span>
+      <span class='id identifier rubyid_op'>op</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+  <span class='kw'>self</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Jan 27 23:58:24 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.27 (ruby-3.1.0).
+</div>
+
+    </div>
+  </body>
+</html>
