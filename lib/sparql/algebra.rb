@@ -233,7 +233,7 @@ module SPARQL
   # scarcity.
   # 
   # [memoization]:      http://en.wikipedia.org/wiki/Memoization
-  # [RDF::Util::Cache]: http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Util/Cache
+  # [RDF::Util::Cache]: https://ruby-rdf.github.io/rdf/RDF/Util/Cache
   # 
   # ## Documentation
   # 
@@ -436,7 +436,7 @@ module SPARQL
     #
     # @param  [Symbol, #to_sym] name
     # @return [Variable]
-    # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Variable
+    # @see    https://ruby-rdf.github.io/rdf/RDF/Query/Variable
     def Variable(name)
       Variable.new(name)
     end

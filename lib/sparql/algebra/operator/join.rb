@@ -57,8 +57,8 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
-      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
+      # @see    https://ruby-rdf.github.io/rdf/RDF/Query/Solution#merge-instance_method
+      # @see    https://ruby-rdf.github.io/rdf/RDF/Query/Solution#compatible%3F-instance_method
       def execute(queryable, **options, &block)
         # Join(Ω1, Ω2) = { merge(μ1, μ2) | μ1 in Ω1 and μ2 in Ω2, and μ1 and μ2 are compatible }
         # eval(D(G), Join(P1, P2)) = Join(eval(D(G), P1), eval(D(G), P2))

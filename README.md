@@ -454,14 +454,14 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [SPARQL 1.0 tests]:https://www.w3.org/2001/sw/DataAccess/tests/
 [SPARQL 1.1 tests]: https://www.w3.org/2009/sparql/docs/tests/
 [SSE]:              https://jena.apache.org/documentation/notes/sse.html
-[SXP]:              https://www.rubydoc.info/github/dryruby/sxp
+[SXP]:              https://dryruby.github.io/sxp
 [grammar]:          https://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          https://www.w3.org/TR/rdf11-concepts
-[RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
+[RDF.rb]:           https://ruby-rdf.github.io/rdf
 [RDF-star]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
 [SPARQL-star]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
 [Linked Data]:      https://rubygems.org/gems/linkeddata
-[SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames
+[SPARQL doc]:       https://ruby-rdf.github.io/sparql/frames
 [SPARQL XML]:       https://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      https://www.w3.org/TR/rdf-sparql-json-res/
 [SPARQL EBNF]:      https://www.w3.org/TR/sparql11-query/#sparqlGrammar
