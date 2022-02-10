@@ -119,7 +119,7 @@ module SPARQL::Grammar
       input[:literal] = literal(token.value, datatype: RDF::XSD.integer)
     end
     terminal(:LANGTAG,              LANGTAG) do |prod, token, input|
-      add_prod_datum(:language, token.value[1..-1])
+      input[:language] = token.value[1..-1]
     end
     terminal(:PNAME_LN,             PNAME_LN, unescape: true) do |prod, token, input|
       prefix, suffix = token.value.split(":", 2)
@@ -642,7 +642,6 @@ module SPARQL::Grammar
     #
     # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
     start_production(:DeleteClause) do |input, data, callback|
-      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
       self.gen_bnodes
     end
 
@@ -659,7 +658,6 @@ module SPARQL::Grammar
     #
     # Generate BNodes instead of non-distinguished variables.
     start_production(:InsertClause) do |input, data, callback|
-      # Generate BNodes instead of non-distinguished variables.
       self.gen_bnodes
     end
 
@@ -1082,11 +1080,11 @@ module SPARQL::Grammar
     # [79] ObjectList ::= Object ( ',' Object )*
     start_production(:ObjectList) do |input, data, callback|
       # Called after Verb. The prod_data stack should have Subject and Verb elements
-      data[:Subject] = prod_data[:Subject]
-      error(nil, "Expected Subject", production: :ObjectList) if !prod_data[:Subject] && validate?
-      error(nil, "Expected Verb", production: :ObjectList) if !(prod_data[:Verb] || prod_data[:VerbPath]) && validate?
-      data[:Verb] = prod_data[:Verb] if prod_data[:Verb]
-      data[:VerbPath] = prod_data[:VerbPath] if prod_data[:VerbPath]
+      data[:Subject] = input[:Subject]
+      error(nil, "Expected Subject", production: :ObjectList) if !input[:Subject] && validate?
+      error(nil, "Expected Verb", production: :ObjectList) if !(input[:Verb] || input[:VerbPath]) && validate?
+      data[:Verb] = input[:Verb] if input[:Verb]
+      data[:VerbPath] = input[:VerbPath] if input[:VerbPath]
     end
 
     #
@@ -1110,13 +1108,13 @@ module SPARQL::Grammar
       object = data[:GraphNode]
       add_prod_datum(:pattern, data[:pattern])
       if object
-        if prod_data[:Verb]
-          add_pattern(:Object, subject: prod_data[:Subject], predicate: prod_data[:Verb], object: object)
-        elsif prod_data[:VerbPath]
+        if input[:Verb]
+          add_pattern(:Object, subject: input[:Subject], predicate: input[:Verb], object: object)
+        elsif input[:VerbPath]
           add_prod_datum(:path,
             SPARQL::Algebra::Expression(:path,
-                                        prod_data[:Subject].first,
-                                        prod_data[:VerbPath],
+                                        input[:Subject].first,
+                                        input[:VerbPath],
                                         object.first))
         end
       end
@@ -1151,6 +1149,10 @@ module SPARQL::Grammar
       error(nil, "Expected VarOrTermOrQuotedTP, got nothing", production: :PropertyListPathNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
+
+    #
+    # Input from `data` is TODO.
+    # Output to prod_data is TODO.
     production(:PropertyListPathNotEmpty) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
       add_prod_datum(:path, data[:path])
@@ -1180,13 +1182,13 @@ module SPARQL::Grammar
     # [86] ObjectListPath ::= ObjectPath ("," ObjectPath)*
     start_production(:ObjectListPath) do |input, data, callback|
       # Called after Verb. The prod_data stack should have Subject and Verb elements
-      data[:Subject] = prod_data[:Subject]
-      error(nil, "Expected Subject", production: :ObjectListPath) if !prod_data[:Subject] && validate?
-      error(nil, "Expected Verb", production: :ObjectListPath) if !(prod_data[:Verb] || prod_data[:VerbPath]) && validate?
-      if prod_data[:Verb]
-        data[:Verb] = Array(prod_data[:Verb]).last
+      data[:Subject] = input[:Subject]
+      error(nil, "Expected Subject", production: :ObjectListPath) if !input[:Subject] && validate?
+      error(nil, "Expected Verb", production: :ObjectListPath) if !(input[:Verb] || input[:VerbPath]) && validate?
+      if input[:Verb]
+        data[:Verb] = Array(input[:Verb]).last
       else
-        data[:VerbPath] = prod_data[:VerbPath]
+        data[:VerbPath] = input[:VerbPath]
       end
     end
 
@@ -1417,7 +1419,7 @@ module SPARQL::Grammar
     # [103] CollectionPath ::= "(" GraphNodePath+ ")"
     start_production(:CollectionPath) do |input, data, callback|
       # Tells the TriplesNode production to collect and not generate statements
-      data[:Collection] = prod_data[:TriplesNode]
+      data[:Collection] = input[:TriplesNode]
     end
 
     #
@@ -1852,7 +1854,7 @@ module SPARQL::Grammar
         lit = data.dup
         str = lit.delete(:string)
         lit[:datatype] = lit.delete(:iri) if lit[:iri]
-        lit[:language] = lit.delete(:language).last.downcase if lit[:language]
+        lit[:language] = lit.delete(:language).downcase if lit[:language]
         input[:literal] = RDF::Literal.new(str, **lit) if str
       end
     end
@@ -2326,6 +2328,7 @@ module SPARQL::Grammar
       [expr, query]
     end
 
+    ##
     # Merge query modifiers, datasets, and projections
     #
     # This includes tranforming aggregates if also used with a GROUP BY
