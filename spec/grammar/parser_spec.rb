@@ -594,13 +594,15 @@ shared_examples "BGP Patterns" do |wrapper|
       end,
     }.each do |input, output|
       it input do |example|
-        expect(wrapper % input).to generate(output, example.metadata.merge(
+        expect(wrapper % input).to generate(output,
+          logger: RDF::Spec.logger.tap {|l| l.level = Logger::DEBUG},
           prefixes: {
             nil => "http://example.com/",
             rdf: RDF.to_uri.to_s
           },
           base_uri: RDF::URI("http://example.org/"),
-          anon_base: "b0"))
+          anon_base: "b0",
+          **example.metadata)
       end
     end
   end
@@ -765,7 +767,7 @@ describe SPARQL::Grammar::Parser do
       ]
     }.each do |title, (input, output)|
       it title do |example|
-        expect(input).to generate(output, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(output, logger: RDF::Spec.logger, **example.metadata.merge(resolve_iris: false))
       end
     end
 
@@ -2155,7 +2157,7 @@ describe SPARQL::Grammar::Parser do
           (prefix
            ((ns: <http://ns.com>))
            (construct ((triple ?item ns:link ?target))
-            (join
+            (sequence
              (join
               (bgp (triple ?item ?link ?wrapper))
               (bgp (triple ?item ?p ?wrapper)))
@@ -2183,7 +2185,7 @@ describe SPARQL::Grammar::Parser do
   end
 
   def parser(production = nil, **options)
-    @logger = options.fetch(:logger, false)
+    @logger = options.fetch(:logger, RDF::Spec.logger)
     Proc.new do |query|
       parser = described_class.new(query, logger: @logger, resolve_iris: true, **options)
       production ? parser.parse(production) : parser

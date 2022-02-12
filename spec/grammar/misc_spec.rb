@@ -3,6 +3,8 @@ require 'spec_helper'
 
 # Misclaneous test cases, based on observed or reported problems
 describe SPARQL::Grammar do
+  let(:logger) {RDF::Spec.logger.tap {|l| l.level = Logger::INFO}}
+
   describe "misclaneous" do
     {
       "rdfa 0085" => {
@@ -24,8 +26,8 @@ describe SPARQL::Grammar do
       }
     }.each do |test, options|
       it "returns true for #{test}" do
-        result = sparql_query(repository: "sparql-spec", form: :ask, to_hash: false, **options)
-        expect(result).to eq RDF::Literal::TRUE
+        result = sparql_query(repository: "sparql-spec", form: :ask, to_hash: false, logger: logger, **options)
+        expect(result).to produce(RDF::Literal::TRUE, logger: logger)
       end
     end
 
@@ -48,16 +50,16 @@ describe SPARQL::Grammar do
             (extend ((?keys ??.0))
               (group (?class ?key)
                 ((??.0 (group_concat (separator ",") distinct ?item)))
-                (join
-                  (bgp (triple ?class <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class>))
-                  (join
-                    (bgp (triple ?class <http://www.w3.org/2002/07/owl#hasKey> ?key))
-                    (path ?key
-                      (seq
-                        (path* <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>)
-                        <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
-                      )
-                      ?item))))))
+                (sequence
+                  (bgp
+                   (triple ?class <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class>)
+                   (triple ?class <http://www.w3.org/2002/07/owl#hasKey> ?key))
+                  (path ?key
+                    (seq
+                      (path* <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>)
+                      <http://www.w3.org/1999/02/22-rdf-syntax-ns#first>
+                    )
+                    ?item)))))
         }
       },
       "issue 27" => {
@@ -71,7 +73,7 @@ describe SPARQL::Grammar do
           }
         ),
         sse: %{(project (?r ?f)
-         (join
+         (sequence
           (path <http://www.ifi.uio.no/INF3580/simpson-collection#Collection>
            (path* <http://www.w3.org/1999/02/22-rdf-syntax-ns#rest>)
            ?r)
@@ -82,25 +84,45 @@ describe SPARQL::Grammar do
       "issue 33" => {
         query: %(
           CONSTRUCT {
-              ?uri <http://prop3> ?anotherURI .
+            ?uri <http://prop3> ?anotherURI .
           }
           WHERE
           {
-              ?uri a ?type ;
-                <http://prop1> / <http://prop2> ?anotherURI
+            ?uri a ?type ;
+              <http://prop1> / <http://prop2> ?anotherURI
           }
         ),
         sse: %{(construct
-          ((triple ?uri <http://prop3> ?anotherURI)) 
-          (join
+          ((triple ?uri <http://prop3> ?anotherURI))
+          (sequence
            (bgp (triple ?uri a ?type)) 
            (path ?uri (seq <http://prop1> <http://prop2>) ?anotherURI)
           )
         )}
-      }
+      },
+      "pp bgp sequence" => {
+        query: %(
+          PREFIX : <http://example/>
+          SELECT * {?a :b/:b _:o . _:o :c :d .}
+        ),
+        sse: %{(sequence
+           (path ?a (seq <http://example/b> <http://example/b>) ??o)
+           (bgp (triple ??o <http://example/c> <http://example/d>))
+        )}
+      },
+      "issue 42" => {
+        query: %(
+          PREFIX : <http://example/>
+          SELECT * {?a :b/:b [ :c :d] .}
+        ),
+        sse: %{(sequence
+           (path ?a (seq <http://example/b> <http://example/b>) ??0)
+           (bgp (triple ??0 <http://example/c> <http://example/d>))
+        )}
+      },
     }.each do |test, options|
       it "parses #{test}" do
-        expect(options[:query]).to generate(options[:sse], {})
+        expect(options[:query]).to generate(options[:sse], logger: logger)
       end
     end
   end

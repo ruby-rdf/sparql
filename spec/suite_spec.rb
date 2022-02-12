@@ -142,8 +142,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             skip "PNAME_LN changed in SPARQL 1.1"
-          when 'syn-pp-in-collection.rq'
-            pending "CollectionPath"
           when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq',
                'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq',
                'sq08.rq', 'sq12.rq', 'sq13.rq',

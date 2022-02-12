@@ -1257,7 +1257,6 @@ describe SPARQL::Algebra::Query do
 
 
       # @see http://www.w3.org/TR/sparql11-query/#sparqlTriplePatterns
-      %q((bgp (triple <a> <b> <c>))) => RDF::Query.new { pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]},
       %q((bgp (triple ?a _:b "c"))) => RDF::Query.new { pattern [RDF::Query::Variable.new("a"), RDF::Node.new("b"), RDF::Literal.new("c")]},
 
       # @see http://www.w3.org/TR/sparql11-query/#sparqlBasicGraphPatterns

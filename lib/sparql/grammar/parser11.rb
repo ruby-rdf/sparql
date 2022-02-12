@@ -764,34 +764,69 @@ module SPARQL::Grammar
     # [55] TriplesBlock ::= TriplesSameSubjectPath
     #                       ( '.' TriplesBlock? )?
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:pattern` and `:query`.
+    # Patterns are segmented into RDF::Query::Pattern and Operator::Path
+    # Output to prod_data is `:query`.
     production(:TriplesBlock) do |input, data, callback|
-      if !Array(data[:pattern]).empty?
-        query = SPARQL::Algebra::Operator::BGP.new
-        Array(data[:pattern]).each {|p| query << p}
+      raise "TriplesBlock without pattern" if Array(data[:pattern]).empty?
 
-        # Append triples from ('.' TriplesBlock? )?
-        Array(data[:query]).each do |q|
-          if q.respond_to?(:patterns)
-            query += q
-          else
-            query = SPARQL::Algebra::Operator::Join.new(query, q)
-          end
+      lhs = Array(input.delete(:query)).first
+
+      # Sequence is existing patterns, plus new patterns, plus patterns from TriplesBlock?
+      sequence = []
+      unless lhs.nil? || lhs.empty?
+        if lhs.is_a?(SPARQL::Algebra::Operator::Sequence)
+          sequence += lhs.operands
+        else
+          sequence << lhs
         end
-        if (lhs = (input.delete(:query) || []).first) && !lhs.empty?
-          query = SPARQL::Algebra::Operator::Join.new(lhs, query)
-        end
-        if data[:path]
-          query = SPARQL::Algebra::Operator::Join.new(query, Array(data[:path]).first)
-        end
-        add_prod_datum(:query, query)
-      elsif !Array(data[:query]).empty?
-        # Join query and path
-        add_prod_datum(:query, SPARQL::Algebra::Operator::Join.new(data[:path].first, data[:query].first))
-      elsif data[:path]
-        add_prod_datum(:query, data[:path])
       end
+
+      sequence += data[:pattern]
+
+      # Append triples from ('.' TriplesBlock? )?
+      Array(data[:query]).each do |q|
+        if q.is_a?(SPARQL::Algebra::Operator::Sequence)
+          q.operands.each do |op|
+            sequence += op.respond_to?(:patterns) ? op.patterns : [op]
+          end
+        elsif q.respond_to?(:patterns)
+          sequence += q.patterns
+        else
+          sequence << q
+        end
+      end
+
+      # Merge runs of patterns into BGPs
+      patterns = []
+      new_seq = []
+      sequence.each do |element|
+        case element
+        when RDF::Query::Pattern
+          patterns << element
+        when RDF::Queryable
+          patterns += element.patterns
+        else
+          new_seq << SPARQL::Algebra::Expression.for(:bgp, *patterns) unless patterns.empty?
+          patterns = []
+          new_seq << element
+        end
+      end
+      new_seq << SPARQL::Algebra::Expression.for(:bgp, *patterns) unless patterns.empty?
+
+      # Optionally create a sequence, if there are enough gathered.
+      # FIXME: Join?
+      query = if new_seq.length > 1
+        if new_seq.any? {|e| e.is_a?(SPARQL::Algebra::Operator::Path)}
+          SPARQL::Algebra::Expression.for(:sequence, *new_seq)
+        else
+          SPARQL::Algebra::Expression.for(:join, *new_seq)
+        end
+      else
+        new_seq.first
+      end
+
+      add_prod_datum(:query, query)
     end
 
     # [56] GraphPatternNotTriples ::= GroupOrUnionGraphPattern
@@ -1092,7 +1127,6 @@ module SPARQL::Grammar
     # Output to prod_data is TODO.
     production(:ObjectList) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:path, data[:path])
     end
 
     # [80] Object ::= GraphNode AnnotationPattern?
@@ -1111,7 +1145,7 @@ module SPARQL::Grammar
         if input[:Verb]
           add_pattern(:Object, subject: input[:Subject], predicate: input[:Verb], object: object)
         elsif input[:VerbPath]
-          add_prod_datum(:path,
+          add_prod_datum(:pattern,
             SPARQL::Algebra::Expression(:path,
                                         input[:Subject].first,
                                         input[:VerbPath],
@@ -1140,7 +1174,6 @@ module SPARQL::Grammar
     # Output to prod_data is TODO.
     production(:TriplesSameSubjectPath) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:path, data[:path])
     end
 
     # [83] PropertyListPathNotEmpty ::= ( VerbPath | VerbSimple ) ObjectList ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
@@ -1155,7 +1188,6 @@ module SPARQL::Grammar
     # Output to prod_data is TODO.
     production(:PropertyListPathNotEmpty) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:path, data[:path])
     end
 
     # [84] VerbPath ::= Path
@@ -1197,7 +1229,6 @@ module SPARQL::Grammar
     # Output to prod_data is TODO.
     production(:ObjectListPath) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:path, data[:path])
     end
 
     # [87] ObjectPath ::= GraphNodePath AnnotationPatternPath?
@@ -1208,51 +1239,39 @@ module SPARQL::Grammar
       data[:Verb] = Array(input[:Verb]).first
     end
 
-    # Input from `data` `:Subject` abd `:Verb` from the production start.
+    # Input from `data` `:Subject` and `:Verb` from the production start.
     # `:GraphNode` from GraphNodePath is used as the object.
     # Output to prod_data is TODO.
     production(:ObjectPath) do |input, data, callback|
       subject = data[:Subject]
       verb = data[:Verb]
-      object = Array(data[:VarOrTermOrQuotedTP] || data[:TriplesNode] || data[:GraphNode]).first
-      if object
-        if verb
-          if data[:pattern] && data[:path]
-            # Generate a sequence (for collection of paths)
-            data[:pattern].unshift(RDF::Query::Pattern.new(subject, verb, object))
-            bgp = SPARQL::Algebra::Expression[:bgp, data[:pattern]]
-            add_prod_datum(:path, SPARQL::Algebra::Expression[:sequence, bgp, *data[:path]])
-          elsif data[:path]
-            # AnnotationPatternPath case
-            if subject && verb && object
-              add_pattern(:ObjectPath, subject: subject, predicate: verb, object: object)
-            end
-            add_prod_datum(:path, data[:path])
-          else
-            add_pattern(:ObjectPath, subject: subject, predicate: verb, object: object)
-            add_prod_datum(:pattern, data[:pattern])
-          end
-        else
-          add_prod_datum(:path,
+      object = Array(data[:GraphNode]).first
+      if verb
+        add_prod_datum(:pattern, Array(data[:pattern]).unshift(RDF::Query::Pattern.new(subject, verb, object)))
+      else
+        add_prod_datum(:pattern,
+          Array(data[:pattern]).unshift(
             SPARQL::Algebra::Expression(:path,
                                         subject,
-                                        prod_data[:VerbPath],
-                                        object))
-        end
+                                        input[:VerbPath],
+                                        object)))
       end
     end
+
+    # AnnotationPatternPath?
+    #
+    # Create `:TriplesNode` in data used as the subject of annotations
     start_production(:_ObjectPath_1) do |input, data, callback|
-      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, quoted: true)
       error("ObjectPath", "Expected Verb",
         production: :_ObjectPath_1) unless input[:Verb]
+      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, quoted: true)
       data[:TriplesNode] = [pattern]
     end
 
     #
     # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Output to prod_data is `:pattern`.
     production(:_ObjectPath_1) do |input, data, callback|
-      add_prod_datum(:path, data[:path])
       add_prod_datum(:pattern, data[:pattern])
     end
 
@@ -1399,7 +1418,6 @@ module SPARQL::Grammar
     # Output to prod_data is TODO.
     production(:TriplesNodePath) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:path, data[:path])
       add_prod_datum(:TriplesNode, data[:TriplesNode])
     end
 
@@ -1427,7 +1445,6 @@ module SPARQL::Grammar
     # Output to prod_data is TODO.
     production(:CollectionPath) do |input, data, callback|
       expand_collection(data)
-      add_prod_datum(:path, data[:path])
     end
 
     # [104] GraphNode ::= VarOrTermOrQuotedTP | TriplesNode
@@ -1442,16 +1459,16 @@ module SPARQL::Grammar
 
     # [105] GraphNodePath ::= VarOrTermOrQuotedTP | TriplesNodePath
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is either `:VarOrTermOrQUotedTP` or `:TriplesNode`.
+    # Additionally, `:pattern`. Also, `:pattern` and `:path`.
+    # Output to prod_data is `:GraphNode`, along with any `:path` and `:pattern`.
     production(:GraphNodePath) do |input, data, callback|
       term = data[:VarOrTermOrQuotedTP] || data[:TriplesNode]
       add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:path, data[:path])
       add_prod_datum(:GraphNode, term)
     end
 
-    # [106s] VarOrTermOrQuotedTP ::= Var | GraphTerm | EmbTP
+    # [106s] VarOrTermOrQuotedTP ::= Var | GraphTerm | QuotedTP
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
@@ -1470,8 +1487,8 @@ module SPARQL::Grammar
     # [109] GraphTerm ::= iri | RDFLiteral | NumericLiteral
     #                         | BooleanLiteral | BlankNode | NIL
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is one of `:iri`, `:literal`, `:BlankNode`, or `:NIL`.
+    # Output to prod_data is `:GraphTerm` created from the data.
     production(:GraphTerm) do |input, data, callback|
       add_prod_datum(:GraphTerm,
                       data[:iri] ||
@@ -1889,8 +1906,8 @@ module SPARQL::Grammar
 
     # [174] QuotedTP ::= '<<' qtSubjectOrObject Verb qtSubjectOrObject '>>'
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:qtSubjectOrObject` from which subject and object are extracted and `:Verb` from which predicate is extracted.
+    # Output to prod_data is `:QuotedTP` containing subject, predicate, and object.
     production(:QuotedTP) do |input, data, callback|
       subject, object = data[:qtSubjectOrObject]
       predicate = data[:Verb]
@@ -1936,14 +1953,13 @@ module SPARQL::Grammar
     start_production(:AnnotationPatternPath) do |input, data, callback|
       data[:TriplesNode] = input[:TriplesNode]
     end
+
+    #
+    # Add `:TriplesNode` as subject of collected patterns
+    # Input from `data` is `:pattern`.
+    # Output to prod_data is `:pattern`.
     production(:AnnotationPatternPath) do |input, data, callback|
-      if data[:pattern]
-        add_prod_datum(:pattern, data[:pattern])
-      elsif data[:path]
-        # Replace the subject in the path with the node being annotated.
-        data[:path].first.operands[0] = data[:TriplesNode]
-        add_prod_datum(:path, data[:path])
-      end
+      add_prod_datum(:pattern, data[:pattern])
     end
 
     # [181] ExprQuotedTP ::= '<<' ExprVarOrTerm Verb ExprVarOrTerm '>>'
@@ -2243,9 +2259,7 @@ module SPARQL::Grammar
       # If we have a base URI, use that when constructing a new URI
       value = RDF::URI(value)
       if base_uri && value.relative?
-        u = base_uri.join(value)
-        #u.lexical = "<#{value}>" unless resolve_iris?
-        #u
+        base_uri.join(value)
       else
         value
       end
@@ -2255,10 +2269,7 @@ module SPARQL::Grammar
       base = prefix(prefix).to_s
       suffix = suffix.to_s.sub(/^\#/, "") if base.index("#")
       debug {"ns(#{prefix.inspect}): base: '#{base}', suffix: '#{suffix}'"}
-      iri = iri(base + suffix.to_s)
-      # Cause URI to be serialized as a lexical
-      #iri.lexical = "#{prefix}:#{suffix}" unless resolve_iris?
-      #iri
+      iri(base + suffix.to_s)
     end
 
     # Create a literal

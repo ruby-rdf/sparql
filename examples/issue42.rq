@@ -1,0 +1,20 @@
+PREFIX p14: <http://ddbj.nig.ac.jp/ontologies/taxonomy/>
+PREFIX up: <http://purl.uniprot.org/core/>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+SELECT DISTINCT ?taxonomy ?node_43 ?gene ?node_37 ?structured_name ?node_27 ?journal_citation ?catalytic_activity_annotation ?function ?node_0
+WHERE {
+  ?node_0 rdfs:seeAlso ?taxonomy .
+  ?node_0 rdfs:seeAlso/rdfs:seeAlso [
+     up:recommendedName ?structured_name ;
+     up:mnemonic ?node_27 ;
+     up:encodedBy ?gene ;
+     up:citation ?journal_citation ;
+     up:annotation ?catalytic_activity_annotation ;
+     up:annotation ?function
+    ] .
+  ?gene rdf:type up:Gene .
+  ?gene up:orfName ?node_37 .
+  ?taxonomy p14:genbankCommonName ?node_43 .
+}
+LIMIT 100

@@ -129,9 +129,9 @@ describe "SPARQL-star" do
       result: {
         sxp: %{
           (prefix ((: <http://example.com/ns#>))
-           (join
+           (sequence
             (bgp (triple ?s ?p ?o))
-            (path ((qtriple ?s ?p ?o)) (seq :r :q) "ABC")))
+            (path (qtriple ?s ?p ?o) (seq :r :q) "ABC")))
         }
       }
     },
