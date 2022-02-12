@@ -764,9 +764,9 @@ module SPARQL::Grammar
     # [55] TriplesBlock ::= TriplesSameSubjectPath
     #                       ( '.' TriplesBlock? )?
     #
-    # Input from `data` is `:pattern` and `:query`.
-    # Patterns are segmented into RDF::Query::Pattern and Operator::Path
-    # Output to prod_data is `:query`.
+    # Input from `data` is `:pattern` and `:query`. Input from input is also `:pattern`
+    # Patterns are sequenced and segmented into RDF::Query::Pattern and Operator::Path.
+    # Output to prod_data is `:query` either a BGP, a Join, a Sequence, or a combination of any of these. Any path element results in a Sequence.
     production(:TriplesBlock) do |input, data, callback|
       raise "TriplesBlock without pattern" if Array(data[:pattern]).empty?
 
@@ -1082,9 +1082,6 @@ module SPARQL::Grammar
 
     # [75] TriplesSameSubject ::= VarOrTermOrQuotedTP PropertyListNotEmpty
     #                                 | TriplesNode PropertyList
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:TriplesSameSubject) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
     end
@@ -1096,23 +1093,20 @@ module SPARQL::Grammar
       error(nil, "Expected VarOrTermOrQuotedTP or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:PropertyListNotEmpty) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
     end
 
     # [78] Verb ::= VarOrIri | 'a'
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Output to input is `:Verb`.
     production(:Verb) do |input, data, callback|
       input[:Verb] = data.values.first
     end
 
     # [79] ObjectList ::= Object ( ',' Object )*
+    #
+    # Adds `:Subject`, `:Verb`, and `:VerbPath` from input to data with error checking.
     start_production(:ObjectList) do |input, data, callback|
       # Called after Verb. The prod_data stack should have Subject and Verb elements
       data[:Subject] = input[:Subject]
@@ -1121,23 +1115,21 @@ module SPARQL::Grammar
       data[:Verb] = input[:Verb] if input[:Verb]
       data[:VerbPath] = input[:VerbPath] if input[:VerbPath]
     end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:ObjectList) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
     end
 
     # [80] Object ::= GraphNode AnnotationPattern?
+    #
+    # Sets `:Subject` and `:Verb` in data from input.
     start_production(:Object) do |input, data, callback|
       data[:Subject] = Array(input[:Subject]).first
       data[:Verb] = Array(input[:Verb]).first
     end
 
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:Subject`, `:Verb` or `:VerbPath`, and `GraphNode`.
+    # Output to prod_data is `:pattern`, either from `:Subject`, `:Verb`, and `GraphNode` or a new path if `VerbPath` is present instead of `Verb`.
     production(:Object) do |input, data, callback|
       object = data[:GraphNode]
       add_prod_datum(:pattern, data[:pattern])
@@ -1154,46 +1146,42 @@ module SPARQL::Grammar
       end
     end
 
+    # AnnotationPattern?
     start_production(:_Object_1) do |input, data, callback|
       pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, quoted: true)
       error("ObjectPath", "Expected Verb",
         production: :_Object_1) unless input[:Verb]
       data[:TriplesNode] = [pattern]
     end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:_Object_1) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
     end
 
     # [81] TriplesSameSubjectPath ::= VarOrTermOrQuotedTP PropertyListPathNotEmpty | TriplesNode PropertyListPath
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:TriplesSameSubjectPath) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
     end
 
-    # [83] PropertyListPathNotEmpty ::= ( VerbPath | VerbSimple ) ObjectList ( ';' ( ( VerbPath | VerbSimple ) ObjectList )? )*
+    # [83] PropertyListPathNotEmpty ::= ( VerbPath | VerbSimple ) ObjectList
+    #                                   ( ';' ( ( VerbPath | VerbSimple )
+    #                                           ObjectList )? )*
+    #
+    # Sets `:Subject` in data from either `:VarOrTermOrQuotedTP`,
+    # `:TriplesNode`, or `:GraphNode` in input with error checking.
     start_production(:PropertyListPathNotEmpty) do |input, data, callback|
       subject = input[:VarOrTermOrQuotedTP] || input[:TriplesNode] || input[:GraphNode]
       error(nil, "Expected VarOrTermOrQuotedTP, got nothing", production: :PropertyListPathNotEmpty) if validate? && !subject
       data[:Subject] = subject
     end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:PropertyListPathNotEmpty) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
     end
 
     # [84] VerbPath ::= Path
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:Path` or `:iri`.
+    # Output to prod_data is either `:VerbPath` or `:Verb`.
+    # If `:VerbPath` is added, then any existing `:Verb` is removed.
     production(:VerbPath) do |input, data, callback|
       if data[:Path]
         input.delete(:Verb)
@@ -1204,14 +1192,14 @@ module SPARQL::Grammar
     end
 
     # [85] VerbSimple ::= Var
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:VerbSimple) do |input, data, callback|
       input[:Verb] = data.values.flatten.first
     end
 
     # [86] ObjectListPath ::= ObjectPath ("," ObjectPath)*
+    #
+    # Addes `:Subject` from input to data with error checking.
+    # Also adds either `:Verb` or `:VerbPath`
     start_production(:ObjectListPath) do |input, data, callback|
       # Called after Verb. The prod_data stack should have Subject and Verb elements
       data[:Subject] = input[:Subject]
@@ -1239,23 +1227,21 @@ module SPARQL::Grammar
       data[:Verb] = Array(input[:Verb]).first
     end
 
-    # Input from `data` `:Subject` and `:Verb` from the production start.
-    # `:GraphNode` from GraphNodePath is used as the object.
-    # Output to prod_data is TODO.
+    # Input from `data` `:Subject`, either `:Verb` or `:VerbPath`, `:GraphNode` from GraphNodePath is used as the object, and `:pattern`.
+    # Output to prod_data is either a pattern including `:Subject`, `:Verb` and `:GraphNode`, or an `Object::Path` using `:VerbPath` instead of `:Verb`. Also, any `:pattern` from data is sent to prod_ddata
     production(:ObjectPath) do |input, data, callback|
       subject = data[:Subject]
       verb = data[:Verb]
       object = Array(data[:GraphNode]).first
       if verb
-        add_prod_datum(:pattern, Array(data[:pattern]).unshift(RDF::Query::Pattern.new(subject, verb, object)))
+        add_prod_datum(:pattern, RDF::Query::Pattern.new(subject, verb, object))
       else
-        add_prod_datum(:pattern,
-          Array(data[:pattern]).unshift(
-            SPARQL::Algebra::Expression(:path,
+        add_prod_datum(:pattern, SPARQL::Algebra::Expression(:path,
                                         subject,
                                         input[:VerbPath],
-                                        object)))
+                                        object))
       end
+      add_prod_datum(:pattern, data[:pattern])
     end
 
     # AnnotationPatternPath?
@@ -1269,14 +1255,16 @@ module SPARQL::Grammar
     end
 
     #
-    # Input from `data` is TODO.
+    # Input from `data` is `:pattern`.
     # Output to prod_data is `:pattern`.
     production(:_ObjectPath_1) do |input, data, callback|
       add_prod_datum(:pattern, data[:pattern])
     end
 
     # [88] Path ::= PathAlternative
-    # output is a :Path or :iri
+    #
+    # Input from data is `:Path`
+    # Output to input is either `:iri` or `:Path`, depending on if `:Path` is an IRI or not.
     production(:Path) do |input, data, callback|
       if data[:Path].is_a?(RDF::URI)
         input[:iri] = data[:Path]
@@ -1287,8 +1275,8 @@ module SPARQL::Grammar
 
     # [89] PathAlternative ::= PathSequence ( '|' PathSequence )*
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:PathSequence` containing one or more path objects.
+    # Output to prod_data is `:Path`, containing a nested sequence of `Algebra::Alt` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
     production(:PathAlternative) do |input, data, callback|
       lhs = Array(data[:PathSequence]).shift
       while data[:PathSequence] && !data[:PathSequence].empty?
@@ -1300,16 +1288,16 @@ module SPARQL::Grammar
 
     # ( '|' PathSequence )*
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:PathSequence`.
+    # Output to prod_data is `:PathSequence` which is accumulated.
     production(:_PathAlternative_1) do |input, data, callback|
       input[:PathSequence] += data[:PathSequence]
     end
 
     # [90] PathSequence ::= PathEltOrInverse ( '/' PathEltOrInverse )*
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:PathSequence` containing one or more path objects.
+    # Output to prod_data is `:Path`, containing a nested sequence of `Algebra::Seq` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
     production(:PathSequence) do |input, data, callback|
       lhs = data[:PathEltOrInverse].shift
       while data[:PathEltOrInverse] && !data[:PathEltOrInverse].empty?
@@ -1321,16 +1309,16 @@ module SPARQL::Grammar
 
     # ( '/' PathEltOrInverse )*
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:PathSequence`.
+    # Output to prod_data is `:PathSequence` which is accumulated.
     production(:_PathSequence_1) do |input, data, callback|
       input[:PathEltOrInverse] += data[:PathEltOrInverse]
     end
 
     # [91] PathElt ::= PathPrimary PathMod?
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:PathMod` and `:PathPrimary`.
+    # Output to prod_data is `:Path` a possibly modified `:PathPrimary`.
     production(:PathElt) do |input, data, callback|
       path_mod = data.delete(:PathMod) if data.has_key?(:PathMod)
       path_mod ||= data.delete(:MultiplicativeExpression) if data.has_key?(:MultiplicativeExpression)
@@ -1343,8 +1331,8 @@ module SPARQL::Grammar
 
     # [92] PathEltOrInverse ::= PathElt | '^' PathElt
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is `:reverse` and `:Path`.
+    # Output to prod_data is `:Path` a possibly reversed `:Path`.
     production(:PathEltOrInverse) do |input, data, callback|
       res = if data[:reverse]
         SPARQL::Algebra::Expression(:reverse, data[:Path])
@@ -1356,8 +1344,8 @@ module SPARQL::Grammar
 
     # [94] PathPrimary ::= iri | 'a' | '!' PathNegatedPropertySet | '(' Path ')'
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # Input from `data` is one of `:Verb`, `:iri`, `:PathNegatedPropertySet`, or `:Path`.
+    # Output to prod_data is `:PathPrimary`.
     production(:PathPrimary) do |input, data, callback|
       input[:PathPrimary] = case
       when data[:Verb]                   then data[:Verb]
