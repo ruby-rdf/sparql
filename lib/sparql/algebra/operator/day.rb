@@ -29,10 +29,10 @@ module SPARQL; module Algebra
       #
       # @param  [RDF::Literal] operand
       #   the operand
-      # @return [RDF::Literal]
+      # @return [RDF::Literal::Temporal]
       # @raise  [TypeError] if the operand is not a simple literal
       def apply(operand, **options)
-        raise TypeError, "expected an RDF::Literal::DateTime, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::DateTime)
+        raise TypeError, "expected an RDF::Literal::Temporal, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::Temporal)
         RDF::Literal(operand.object.day)
       end
 

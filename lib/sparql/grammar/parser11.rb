@@ -15,7 +15,7 @@ module SPARQL::Grammar
 
     # Builtin functions
     BUILTINS = %w{
-      ABS  BNODE CEIL COALESCE CONCAT
+      ABS ADJUST BNODE CEIL COALESCE CONCAT
       CONTAINS DATATYPE DAY ENCODE_FOR_URI
       FLOOR HOURS IF IRI LANGMATCHES LANG LCASE
       MD5 MINUTES MONTH NOW RAND ROUND SECONDS
@@ -177,7 +177,7 @@ module SPARQL::Grammar
       when /ASC|DESC/      then input[:OrderDirection] = token.value.downcase.to_sym
       when /DISTINCT|REDUCED/  then input[:DISTINCT_REDUCED] = token.value.downcase.to_sym
       when %r{
-          ABS|ALL|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
+          ABS|ADJUST|ALL|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
          |CONTAINS|COUNT|DATATYPE|DAY|DEFAULT|ENCODE_FOR_URI|EXISTS
          |FLOOR|HOURS|IF|GRAPH|GROUP_CONCAT|IRI|LANGMATCHES|LANG|LCASE
          |MAX|MD5|MINUTES|MIN|MONTH|NAMED|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
@@ -849,14 +849,14 @@ module SPARQL::Grammar
     #                               | Filter | Bind
     start_production(:GraphPatternNotTriples) do |input, data, callback|
       # Modifies previous graph
-      data[:input_query] = input.delete(:query) || [SPARQL::Algebra::Operator::BGP.new]
+      data[:input_query] = input.delete(:query)
     end
 
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
     production(:GraphPatternNotTriples) do |input, data, callback|
-      lhs = Array(data[:input_query]).first
+      lhs = Array(data[:input_query]).first || SPARQL::Algebra::Operator::BGP.new
 
       # Filter trickls up to GroupGraphPatternSub
       add_prod_datum(:filter, data[:filter])
@@ -931,7 +931,7 @@ module SPARQL::Grammar
     production(:InlineData) do |input, data, callback|
       debug("InlineData") {"vars: #{data[:Var].inspect}, row: #{data[:row].inspect}"}
       add_prod_datum :query, SPARQL::Algebra::Expression.for(:table,
-        data[:Var].unshift(:vars),
+        Array(data[:Var]).unshift(:vars),
         *data[:row]
       )
     end

@@ -62,6 +62,7 @@ module SPARQL; module Algebra
     autoload :Object,             'sparql/algebra/operator/object'
 
     # Binary operators
+    autoload :Adjust,             'sparql/algebra/operator/adjust'
     autoload :And,                'sparql/algebra/operator/and'
     autoload :Compare,            'sparql/algebra/operator/compare'
     autoload :Concat,             'sparql/algebra/operator/concat'
@@ -174,6 +175,7 @@ module SPARQL; module Algebra
         when :>               then GreaterThan
         when :>=              then GreaterThanOrEqual
         when :abs             then Abs
+        when :adjust          then Adjust
         when :alt             then Alt
         when :and, :'&&'      then And
         when :avg             then Avg

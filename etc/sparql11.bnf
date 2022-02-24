@@ -150,9 +150,9 @@
                                       | ( NumericLiteralPositive | NumericLiteralNegative )
                                         ( ( '*' UnaryExpression ) | ( '/' UnaryExpression ) )? )*
     [117] MultiplicativeExpression::= UnaryExpression ( '*' UnaryExpression | '/' UnaryExpression )*
-    [118] UnaryExpression         ::= '!' PrimaryExpression 
-                                    | '+' PrimaryExpression 
-                                    | '-' PrimaryExpression 
+    [118] UnaryExpression         ::= '!' PrimaryExpression
+                                    | '+' PrimaryExpression
+                                    | '-' PrimaryExpression
                                     | PrimaryExpression
     [119] PrimaryExpression       ::= BrackettedExpression | BuiltInCall | iriOrFunction
                                     | RDFLiteral | NumericLiteral | BooleanLiteral
@@ -160,77 +160,78 @@
                                     | ExprQuotedTP
     [120] BrackettedExpression    ::= '(' Expression ')'
     [121] BuiltInCall             ::= Aggregate
-                                    | 'STR' '(' Expression ')' 
-                                    | 'LANG' '(' Expression ')' 
-                                    | 'LANGMATCHES' '(' Expression ',' Expression ')' 
-                                    | 'DATATYPE' '(' Expression ')' 
-                                    | 'BOUND' '(' Var ')' 
-                                    | 'IRI' '(' Expression ')' 
-                                    | 'URI' '(' Expression ')' 
-                                    | 'BNODE' ( '(' Expression ')' | NIL ) 
-                                    | 'RAND' NIL 
-                                    | 'ABS' '(' Expression ')' 
-                                    | 'CEIL' '(' Expression ')' 
-                                    | 'FLOOR' '(' Expression ')' 
-                                    | 'ROUND' '(' Expression ')' 
-                                    | 'CONCAT' ExpressionList 
-                                    | SubstringExpression 
-                                    | 'STRLEN' '(' Expression ')' 
-                                    | StrReplaceExpression 
-                                    | 'UCASE' '(' Expression ')' 
-                                    | 'LCASE' '(' Expression ')' 
-                                    | 'ENCODE_FOR_URI' '(' Expression ')' 
-                                    | 'CONTAINS' '(' Expression ',' Expression ')' 
-                                    | 'STRSTARTS' '(' Expression ',' Expression ')' 
-                                    | 'STRENDS' '(' Expression ',' Expression ')' 
-                                    | 'STRBEFORE' '(' Expression ',' Expression ')' 
-                                    | 'STRAFTER' '(' Expression ',' Expression ')' 
-                                    | 'YEAR' '(' Expression ')' 
-                                    | 'MONTH' '(' Expression ')' 
-                                    | 'DAY' '(' Expression ')' 
-                                    | 'HOURS' '(' Expression ')' 
-                                    | 'MINUTES' '(' Expression ')' 
-                                    | 'SECONDS' '(' Expression ')' 
-                                    | 'TIMEZONE' '(' Expression ')' 
-                                    | 'TZ' '(' Expression ')' 
-                                    | 'NOW' NIL 
+                                    | 'STR' '(' Expression ')'
+                                    | 'LANG' '(' Expression ')'
+                                    | 'LANGMATCHES' '(' Expression ',' Expression ')'
+                                    | 'DATATYPE' '(' Expression ')'
+                                    | 'BOUND' '(' Var ')'
+                                    | 'IRI' '(' Expression ')'
+                                    | 'URI' '(' Expression ')'
+                                    | 'BNODE' ( '(' Expression ')' | NIL )
+                                    | 'RAND' NIL
+                                    | 'ABS' '(' Expression ')'
+                                    | 'CEIL' '(' Expression ')'
+                                    | 'FLOOR' '(' Expression ')'
+                                    | 'ROUND' '(' Expression ')'
+                                    | 'CONCAT' ExpressionList
+                                    | SubstringExpression
+                                    | 'STRLEN' '(' Expression ')'
+                                    | StrReplaceExpression
+                                    | 'UCASE' '(' Expression ')'
+                                    | 'LCASE' '(' Expression ')'
+                                    | 'ENCODE_FOR_URI' '(' Expression ')'
+                                    | 'CONTAINS' '(' Expression ',' Expression ')'
+                                    | 'STRSTARTS' '(' Expression ',' Expression ')'
+                                    | 'STRENDS' '(' Expression ',' Expression ')'
+                                    | 'STRBEFORE' '(' Expression ',' Expression ')'
+                                    | 'STRAFTER' '(' Expression ',' Expression ')'
+                                    | 'YEAR' '(' Expression ')'
+                                    | 'MONTH' '(' Expression ')'
+                                    | 'DAY' '(' Expression ')'
+                                    | 'HOURS' '(' Expression ')'
+                                    | 'MINUTES' '(' Expression ')'
+                                    | 'SECONDS' '(' Expression ')'
+                                    | 'TIMEZONE' '(' Expression ')'
+                                    | 'TZ' '(' Expression ')'
+                                    | 'NOW' NIL
                                     | 'UUID' NIL
                                     | 'STRUUID' NIL
-                                    | 'MD5' '(' Expression ')' 
-                                    | 'SHA1' '(' Expression ')' 
-                                    | 'SHA224' '(' Expression ')' 
-                                    | 'SHA256' '(' Expression ')' 
-                                    | 'SHA384' '(' Expression ')' 
-                                    | 'SHA512' '(' Expression ')' 
-                                    | 'COALESCE' ExpressionList 
-                                    | 'IF' '(' Expression ',' Expression ',' Expression ')' 
-                                    | 'STRLANG' '(' Expression ',' Expression ')' 
-                                    | 'STRDT' '(' Expression ',' Expression ')' 
-                                    | 'sameTerm' '(' Expression ',' Expression ')' 
-                                    | 'isIRI' '(' Expression ')' 
-                                    | 'isURI' '(' Expression ')' 
-                                    | 'isBLANK' '(' Expression ')' 
-                                    | 'isLITERAL' '(' Expression ')' 
-                                    | 'isNUMERIC' '(' Expression ')' 
-                                    | 'TRIPLE' '(' Expression ',' Expression ',' Expression ')' 
-                                    | 'SUBJECT' '(' Expression ')' 
-                                    | 'PREDICATE' '(' Expression ')' 
-                                    | 'OBJECT' '(' Expression ')' 
-                                    | 'isTRIPLE' '(' Expression ')' 
-                                    | RegexExpression 
-                                    | ExistsFunc 
+                                    | 'MD5' '(' Expression ')'
+                                    | 'SHA1' '(' Expression ')'
+                                    | 'SHA224' '(' Expression ')'
+                                    | 'SHA256' '(' Expression ')'
+                                    | 'SHA384' '(' Expression ')'
+                                    | 'SHA512' '(' Expression ')'
+                                    | 'COALESCE' ExpressionList
+                                    | 'IF' '(' Expression ',' Expression ',' Expression ')'
+                                    | 'STRLANG' '(' Expression ',' Expression ')'
+                                    | 'STRDT' '(' Expression ',' Expression ')'
+                                    | 'sameTerm' '(' Expression ',' Expression ')'
+                                    | 'isIRI' '(' Expression ')'
+                                    | 'isURI' '(' Expression ')'
+                                    | 'isBLANK' '(' Expression ')'
+                                    | 'isLITERAL' '(' Expression ')'
+                                    | 'isNUMERIC' '(' Expression ')'
+                                    | 'TRIPLE' '(' Expression ',' Expression ',' Expression ')'
+                                    | 'SUBJECT' '(' Expression ')'
+                                    | 'PREDICATE' '(' Expression ')'
+                                    | 'OBJECT' '(' Expression ')'
+                                    | 'isTRIPLE' '(' Expression ')'
+                                    | 'ADJUST' '(' Expression ',' Expression ')'
+                                    | RegexExpression
+                                    | ExistsFunc
                                     | NotExistsFunc
     [122] RegexExpression         ::= 'REGEX' '(' Expression ',' Expression ( ',' Expression )? ')'
     [123] SubstringExpression     ::= 'SUBSTR' '(' Expression ',' Expression ( ',' Expression )? ')'
     [124] StrReplaceExpression    ::= 'REPLACE' '(' Expression ',' Expression ',' Expression ( ',' Expression )? ')'
     [125] ExistsFunc              ::= 'EXISTS' GroupGraphPattern
     [126] NotExistsFunc           ::= 'NOT' 'EXISTS' GroupGraphPattern
-    [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')' 
-                                    | 'SUM' '(' 'DISTINCT'? Expression ')' 
-                                    | 'MIN' '(' 'DISTINCT'? Expression ')' 
-                                    | 'MAX' '(' 'DISTINCT'? Expression ')' 
-                                    | 'AVG' '(' 'DISTINCT'? Expression ')' 
-                                    | 'SAMPLE' '(' 'DISTINCT'? Expression ')' 
+    [127] Aggregate               ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')'
+                                    | 'SUM' '(' 'DISTINCT'? Expression ')'
+                                    | 'MIN' '(' 'DISTINCT'? Expression ')'
+                                    | 'MAX' '(' 'DISTINCT'? Expression ')'
+                                    | 'AVG' '(' 'DISTINCT'? Expression ')'
+                                    | 'SAMPLE' '(' 'DISTINCT'? Expression ')'
                                     | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression
                                       ( ';' 'SEPARATOR' '=' String )? ')'
     [128] iriOrFunction           ::= iri ArgList?

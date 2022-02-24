@@ -234,7 +234,7 @@ module SPARQL; module Algebra
     #
     # @param [RDF::URI] datatype
     #   Datatype to evaluate, one of:
-    #   xsd:integer, xsd:decimal xsd:float, xsd:double, xsd:string, xsd:boolean, or xsd:dateTime
+    #   xsd:integer, xsd:decimal xsd:float, xsd:double, xsd:string, xsd:boolean, xsd:dateTime, xsd:duration, xsd:dayTimeDuration, xsd:yearMonthDuration
     # @param [RDF::Term] value
     #   Value, which should be a typed literal, where the type must be that specified
     # @raise [TypeError] if datatype is not a URI or value cannot be cast to datatype
@@ -242,7 +242,7 @@ module SPARQL; module Algebra
     # @see https://www.w3.org/TR/sparql11-query/#FunctionMapping
     def self.cast(datatype, value)
       case datatype
-      when RDF::XSD.dateTime
+      when RDF::XSD.date, RDF::XSD.time, RDF::XSD.dateTime
         case value
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time
           RDF::Literal.new(value, datatype: datatype)
@@ -250,6 +250,15 @@ module SPARQL; module Algebra
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
           RDF::Literal.new(value.value, datatype: datatype, validate: true)
+        end
+      when RDF::XSD.duration, RDF::XSD.dayTimeDuration, RDF::XSD.yearMonthDuration
+        case value
+        when RDF::Literal::Duration, RDF::Literal::DayTimeDuration, RDF::Literal::YearMonthDuration
+          RDF::Literal.new(value, datatype: datatype, validate: true, canonicalize: true)
+        when RDF::Literal::Numeric, RDF::Literal::Boolean, RDF::URI, RDF::Node
+          raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
+        else
+          RDF::Literal.new(value.value, datatype: datatype, validate: true, canonicalize: true)
         end
       when RDF::XSD.float, RDF::XSD.double
         case value
