@@ -28,11 +28,11 @@ shared_examples "SUITE" do |id, label, comment, tests|
             pending "Different results on unapproved tests" unless t.name.include?('dawg-optional-filter-005-simplified')
           end
 
-          t.logger = RDF::Spec.logger
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
                                 optimize: true,
+                                all_vars: true,
                                 form: t.form,
                                 logger: t.logger)
 
@@ -41,7 +41,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
             expect(result).to be_a(RDF::Query::Solutions)
             if id.to_s =~ /sort/
               skip "JRuby sorting issue" if RUBY_ENGINE == 'jruby'
-              expect(result).to describe_ordered_solutions(t.solutions)
+              expect(result).to describe_ordered_solutions(t.solutions, t)
             else
               expect(result).to describe_solutions(t.solutions, t)
             end
@@ -58,6 +58,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
                                 form: t.form,
+                                all_vars: true,
                                 logger: t.logger)
 
           expect(result).to describe_csv_solutions(t.solutions)
@@ -72,7 +73,11 @@ shared_examples "SUITE" do |id, label, comment, tests|
             skip "PNAME_LN changed in SPARQL 1.1"
           end
           expect do
-            SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true, logger: t.logger)
+            SPARQL.parse(t.action.query_string,
+                         base_uri: t.base_uri,
+                         all_vars: true,
+                         validate: true,
+                         logger: t.logger)
           end.not_to raise_error(StandardError)
         end
       when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
@@ -93,6 +98,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
           result = sparql_query(graphs: t.action.graphs,
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
+                                all_vars: true,
                                 form: t.form,
                                 logger: t.logger)
 
@@ -105,7 +111,12 @@ shared_examples "SUITE" do |id, label, comment, tests|
             syntax-update-36.ru
           ).include?(t.entry)
           expect do
-            SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true, logger: t.logger)
+            SPARQL.parse(t.action.query_string,
+                         base_uri: t.base_uri,
+                         all_vars: true,
+                         update: true,
+                         validate: true,
+                         logger: t.logger)
           end.not_to raise_error(StandardError)
         end
       when 'mf:NegativeUpdateSyntaxTest11'

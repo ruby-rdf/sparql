@@ -25,13 +25,14 @@ module SPARQL
   # @param  [Hash{Symbol => Object}] options
   # @option options [Boolean] :update (false)
   #   Parse starting with UpdateUnit production, QueryUnit otherwise.
-  # @return [SPARQL::Query]
+  # @option options (see SPARQL::Grammar::Parser#initialize)
+  # @return [RDF::Queryable]
   #   The resulting query may be executed against
   #   a `queryable` object such as an RDF::Graph
   #   or RDF::Repository. 
   # @raise  [Parser::Error] on invalid input
   def self.parse(query, **options)
-    query = Grammar::Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+    Grammar::Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
   end
 
   ##
@@ -63,11 +64,12 @@ module SPARQL
   #   One or more URIs used to initialize a new instance of `queryable` in the default graph. One or more URIs used to initialize a new instance of `queryable` in the default graph.
   # @option options [RDF::URI, String, Array<RDF::URI, String>] :named_graph_uri
   #   One or more URIs used to initialize the `queryable` as a named graph.
+  # @option options (see parse)
   # @yield  [solution]
   #   each matching solution, statement or boolean
   # @yieldparam  [RDF::Statement, RDF::Query::Solution, Boolean] solution
   # @yieldreturn [void] ignored
-  # @return [RDF::Graph, Boolean, RDF::Query::Solutions::Enumerator]
+  # @return [RDF::Graph, Boolean, RDF::Query::Solutions]
   #   Note, results may be used with {SPARQL.serialize_results} to obtain appropriate output encoding.
   # @raise  [SPARQL::MalformedQuery] on invalid input
   def self.execute(query, queryable, **options, &block)

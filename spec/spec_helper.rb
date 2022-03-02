@@ -131,6 +131,7 @@ def sparql_query(opts)
   query_opts = {logger: opts.fetch(:logger, RDF::Spec.logger)}
   query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
+  query_opts[:all_vars] = opts[:all_vars]
 
   query = if opts[:sse]
     SPARQL::Algebra.parse(query_str, **query_opts)

@@ -946,7 +946,7 @@ describe SPARQL::Grammar::Parser do
         "SELECT ?a ?b", %q((Var ?a ?b))
       ],
       "*" => [
-        "SELECT *", %q((MultiplicativeExpression "*"))
+        "SELECT *", %q((Var *))
       ],
       "Expression" => [
         "SELECT (?o+10 AS ?z)", %q((extend (?z (+ ?o 10))))
@@ -2177,9 +2177,30 @@ describe SPARQL::Grammar::Parser do
             (table (vars ?s)))
         }
       ],
-    }.each do |title, (input, result)|
+      issue43: [
+        %q{
+          SELECT * { 
+              :x1 :p ?v .
+              OPTIONAL
+              {
+                :x3 :q ?w .
+                OPTIONAL { :x2 :p ?v }
+              }
+          }
+        },
+        %q{
+          (project ()
+           (leftjoin
+            (bgp (triple <x1> <p> ?v))
+            (leftjoin
+             (bgp (triple <x3> <q> ?w))
+             (bgp (triple <x2> <p> ?v)))))
+        },
+        {all_vars: true}
+      ],
+    }.each do |title, (input, result, options)|
       it title do |example|
-        expect(input).to generate(result, example.metadata.merge(resolve_iris: false))
+        expect(input).to generate(result, example.metadata.merge(resolve_iris: false).merge(options || {}))
       end
     end
   end

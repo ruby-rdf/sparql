@@ -26,7 +26,11 @@ describe SPARQL::Grammar do
       }
     }.each do |test, options|
       it "returns true for #{test}" do
-        result = sparql_query(repository: "sparql-spec", form: :ask, to_hash: false, logger: logger, **options)
+        result = sparql_query(repository: "sparql-spec",
+                              form: :ask,
+                              all_vars: true,
+                              to_hash: false,
+                              logger: logger, **options)
         expect(result).to produce(RDF::Literal::TRUE, logger: logger)
       end
     end

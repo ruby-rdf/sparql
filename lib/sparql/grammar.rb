@@ -248,6 +248,7 @@ module SPARQL
     #   Query may be an array of lexed tokens, a lexer, or a
     #   string or open file.
     # @param  [Hash{Symbol => Object}] options
+    # @option options (see SPARQL::Grammar::Parser#initialize)
     # @return [Parser]
     # @raise  [Parser::Error] on invalid input
     def self.parse(query, **options, &block)
@@ -261,6 +262,7 @@ module SPARQL
     # @param  [Hash{Symbol => Object}] options
     #   any additional options (see `RDF::Reader#initialize` and `RDF::Format.for`)
     # @option options [Symbol] :format (:ntriples)
+    # @option options (see parse)
     # @yield  [reader]
     # @yieldparam  [RDF::Reader] reader
     # @yieldreturn [void] ignored

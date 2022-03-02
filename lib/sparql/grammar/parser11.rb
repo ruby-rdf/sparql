@@ -271,6 +271,18 @@ module SPARQL::Grammar
     end
 
     # [9] SelectClause ::= 'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
+    # [9.2] _SelectClause_2 ::= ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
+    #
+    # Inputs from `data` are `:Expression` and `:Var`.
+    # Output to prod_data is `:Var`.
+    production(:_SelectClause_2) do |input, data, callback|
+      if data[:MultiplicativeExpression]
+        add_prod_datum :Var, %i(*)
+      else
+        add_prod_datum :extend, data[:extend]
+        add_prod_datum :Var, data[:Var]
+      end
+    end
     # [9.8] _SelectClause_8 ::= ( '(' Expression 'AS' Var ')' )
     #
     # Inputs from `data` are `:Expression` and `:Var`.
@@ -1977,20 +1989,23 @@ module SPARQL::Grammar
     #
     # @param  [String, IO, StringIO, #to_s]          input
     # @param  [Hash{Symbol => Object}] options
-    # @option options [Hash]     :prefixes     (Hash.new)
-    #   the prefix mappings to use (for acessing intermediate parser productions)
-    # @option options [#to_s]    :base_uri     (nil)
-    #   the base URI to use when resolving relative URIs (for acessing intermediate parser productions)
+    # @option options [Boolean]  :all_vars (false)
+    #   If `true`, emits on empty `project` operator when parsing `SELECT *`, which will emit all in-scope variables, rather than just those used in solutions.
+    #   In the next minor release, the default for this option will change to `true`.
     # @option options [#to_s]    :anon_base     ("b0")
     #   Basis for generating anonymous Nodes
+    # @option options [#to_s]    :base_uri     (nil)
+    #   the base URI to use when resolving relative URIs (for acessing intermediate parser productions)
+    # @option options [Logger, #write, #<<] :logger
+    #   Record error/info/debug output
+    # @option options [Hash]     :prefixes     (Hash.new)
+    #   the prefix mappings to use (for acessing intermediate parser productions)
     # @option options [Boolean] :resolve_iris (false)
     #   Resolve prefix and relative IRIs, otherwise, when serializing the parsed SSE
     #   as S-Expressions, use the original prefixed and relative URIs along with `base` and `prefix`
     #   definitions.
     # @option options [Boolean]  :validate     (false)
     #   whether to validate the parsed statements and values
-    # @option options [Logger, #write, #<<] :logger
-    #   Record error/info/debug output
     # @yield  [parser] `self`
     # @yieldparam  [SPARQL::Grammar::Parser] parser
     # @yieldreturn [void] ignored
@@ -2051,7 +2066,7 @@ module SPARQL::Grammar
     #
     # @param [Symbol, #to_s] prod The starting production for the parser.
     #   It may be a URI from the grammar, or a symbol representing the local_name portion of the grammar URI.
-    # @return [Array]
+    # @return [RDF::Queryable]
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     # @see https://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
     def parse(prod = START)
@@ -2422,7 +2437,14 @@ module SPARQL::Grammar
 
       query = SPARQL::Algebra::Expression[:order, data[:order].first, query] unless order.empty?
 
-      query = SPARQL::Algebra::Expression[:project, vars, query] unless vars.empty?
+      # If SELECT * was used, emit a projection with empty variables, vs no projection at all. Only if :all_vars is true
+      query = if vars == %i(*)
+        options[:all_vars] ? SPARQL::Algebra::Expression[:project, [], query] : query
+      elsif !vars.empty?
+        SPARQL::Algebra::Expression[:project, vars, query]
+      else
+        query
+      end
 
       query = SPARQL::Algebra::Expression[data[:DISTINCT_REDUCED], query] if data[:DISTINCT_REDUCED]
 
