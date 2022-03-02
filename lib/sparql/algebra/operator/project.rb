@@ -76,15 +76,22 @@ module SPARQL; module Algebra
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options)
-        if operands.first.empty?
-          # SELECT * case
-          @solutions.variable_names = operands.last.variables.keys
-        else
-          @solutions.variable_names = operands.first
-          @solutions = @solutions.project(*(operands.first))
-        end
+        @solutions.variable_names = self.variables.keys
+        @solutions = @solutions.project(*(operands.first)) unless operands.first.empty?
         @solutions.each(&block) if block_given?
         @solutions
+      end
+    
+      ##
+      # In-scope variables for a select are limited to those projected.
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        in_scope = operands.first.empty? ?
+          operands.last.variables.values :
+          operands.first
+
+        in_scope.inject({}) {|memo, v| memo.merge(v.variables)}
       end
 
       ##
