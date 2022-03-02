@@ -61,6 +61,8 @@ module SPARQL; module Algebra
       # Executes this query on the given `queryable` graph or repository.
       # Reduces the result set to the variables listed in the first operand
       #
+      # If the first operand is empty, this indicates a `SPARQL *`, and all in-scope variables are projected.
+      #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
@@ -74,7 +76,13 @@ module SPARQL; module Algebra
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options)
-        @solutions = @solutions.project(*(operands.first))
+        if operands.first.empty?
+          # SELECT * case
+          @solutions.variable_names = operands.last.variables.keys
+        else
+          @solutions.variable_names = operands.first
+          @solutions = @solutions.project(*(operands.first))
+        end
         @solutions.each(&block) if block_given?
         @solutions
       end

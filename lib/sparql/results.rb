@@ -10,7 +10,7 @@ module SPARQL
       csv: 'text/csv',
       tsv: 'text/tab-separated-values'
     }
-    
+
     ##
     # Generate Solutions as JSON
     # @return [String]

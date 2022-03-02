@@ -320,6 +320,9 @@ module SPARQL; module Spec
             RDF::Query::Solution.new(row)
           end
           @solutions = RDF::Query::Solutions.new(solutions)
+          # Add variable names
+          @solutions.variable_names = Array(framed['resultVariable'])
+          @solutions
         end
       end
       @solutions

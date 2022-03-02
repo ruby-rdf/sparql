@@ -114,6 +114,18 @@ module SPARQL; module Algebra
         end
         super
       end
+    
+      ##
+      # The variables used in the extension.
+      # Includes extended variables.
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        operands.first.
+          map(&:first).
+          map(&:variables).
+          inject(super) {|memo, h| memo.merge(h)}
+      end
 
       ##
       #

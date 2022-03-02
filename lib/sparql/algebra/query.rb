@@ -16,13 +16,13 @@ module SPARQL; module Algebra
       @operands.unshift(query)
       self
     end
-    
+
     ##
     # The variables used in this query.
     #
     # @return [Hash{Symbol => RDF::Query::Variable}]
     def variables
-      operands.inject({}) {|hash, o| o.executable? ? hash.merge(o.variables) : hash}
+      operands.inject({}) {|hash, o| o.respond_to?(:variables) ? hash.merge(o.variables) : hash}
     end
 
     ##

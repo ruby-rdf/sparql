@@ -15,7 +15,6 @@ class RDF::Query
   # @see https://rubygems.org/gems/rdf
   # @see https://rubygems.org/gems/rdf-isomorphic
   class Solutions
-
     # Returns `true` if this RDF::Solutions is isomorphic with another.
     #
     # Takes a canonicalize: true argument.  If true, RDF::Literals will be
@@ -29,6 +28,7 @@ class RDF::Query
     # @example
     #     solutions_a.isomorphic_with solutions_b #=> true
     def isomorphic_with?(other, opts = {})
+      (other.is_a?(RDF::Query::Solutions) ? variable_names.sort == other.variable_names.sort : true) &&
       !(bijection_to(other, **opts).nil?)
     end
 
