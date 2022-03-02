@@ -448,7 +448,7 @@ shared_examples "NIL" do
 end
 
 shared_examples "BGP Patterns" do |wrapper|
-  context "BGP Patterns" do
+  context "BGP Patterns", all_vars: false do
     {
       # From sytax-sparql1/syntax-basic-03.rq
       %q(?x ?y ?z) => RDF::Query.new do
@@ -630,12 +630,12 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [1] QueryUnit production rule", production: :QueryUnit do
+  describe "when matching the [1] QueryUnit production rule", production: :QueryUnit, all_vars: true do
     {
       empty: ["", nil],
       select: [
         %q(SELECT * FROM <a> WHERE {?a ?b ?c}),
-        %q((dataset (<a>) (bgp (triple ?a ?b ?c))))
+        %q((dataset (<a>) (project () (bgp (triple ?a ?b ?c)))))
       ],
       construct: [
         %q(CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}),
@@ -656,47 +656,47 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [2] Query production rule", production: :Query do
+  describe "when matching the [2] Query production rule", production: :Query, all_vars: true do
     {
       "base" => [
         "BASE <foo/> SELECT * WHERE { <a> <b> <c> }",
-        %q((base <foo/> (bgp (triple <a> <b> <c>))))
+        %q((base <foo/> (project () (bgp (triple <a> <b> <c>)))))
       ],
       "prefix(1)" => [
         "PREFIX : <http://example.com/> SELECT * WHERE { :a :b :c }",
-        %q((prefix ((: <http://example.com/>)) (bgp (triple :a :b :c))))
+        %q((prefix ((: <http://example.com/>)) (project () (bgp (triple :a :b :c)))))
       ],
       "prefix(2)" => [
         "PREFIX : <foo#> PREFIX bar: <bar#> SELECT * WHERE { :a :b bar:c }",
-          %q((prefix ((: <foo#>) (bar: <bar#>)) (bgp (triple :a :b bar:c))))
+          %q((prefix ((: <foo#>) (bar: <bar#>)) (project () (bgp (triple :a :b bar:c)))))
       ],
       "base+prefix" => [
         "BASE <http://baz/> PREFIX : <http://foo#> PREFIX bar: <http://bar#> SELECT * WHERE { <a> :b bar:c }",
-        %q((base <http://baz/> (prefix ((: <http://foo#>) (bar: <http://bar#>)) (bgp (triple <a> :b bar:c)))))
+        %q((base <http://baz/> (prefix ((: <http://foo#>) (bar: <http://bar#>)) (project () (bgp (triple <a> :b bar:c))))))
       ],
       "from" => [
         "SELECT * FROM <a> WHERE {?a ?b ?c}",
-        %q((dataset (<a>) (bgp (triple ?a ?b ?c))))
+        %q((dataset (<a>) (project () (bgp (triple ?a ?b ?c)))))
       ],
       "from named" => [
         "SELECT * FROM NAMED <a> WHERE {?a ?b ?c}",
-        %q((dataset ((named <a>)) (bgp (triple ?a ?b ?c))))
+        %q((dataset ((named <a>)) (project () (bgp (triple ?a ?b ?c)))))
       ],
       "graph" => [
         "SELECT * WHERE {GRAPH <a> {?a ?b ?c}}",
-        %q((graph <a> (bgp (triple ?a ?b ?c))))
+        %q((project () (graph <a> (bgp (triple ?a ?b ?c)))))
       ],
       "optional" => [
         "SELECT * WHERE {?a ?b ?c OPTIONAL {?d ?e ?f}}",
-        %q((leftjoin (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))
+        %q((project () (leftjoin (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "join" => [
         "SELECT * WHERE {?a ?b ?c {?d ?e ?f}}",
-        %q((join (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))
+        %q((project () (join (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "union" => [
         "SELECT * WHERE {{?a ?b ?c} UNION {?d ?e ?f}}",
-        %q((union (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))
+        %q((project () (union (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "Var+" => [
         "SELECT ?a ?b WHERE {?a ?b ?c}",
@@ -704,7 +704,7 @@ describe SPARQL::Grammar::Parser do
       ],
       "distinct(1)" => [
         "SELECT DISTINCT * WHERE {?a ?b ?c}",
-        %q((distinct (bgp (triple ?a ?b ?c))))
+        %q((distinct (project () (bgp (triple ?a ?b ?c)))))
       ],
       "distinct(2)" => [
         "SELECT DISTINCT ?a ?b WHERE {?a ?b ?c}",
@@ -712,41 +712,51 @@ describe SPARQL::Grammar::Parser do
       ],
       "reduced(1)" => [
         "SELECT REDUCED * WHERE {?a ?b ?c}",
-        %q((reduced (bgp (triple ?a ?b ?c))))
+        %q((reduced (project () (bgp (triple ?a ?b ?c)))))
       ],
       "reduced(2)" => [
         "SELECT REDUCED ?a ?b WHERE {?a ?b ?c}",
         %q((reduced (project (?a ?b) (bgp (triple ?a ?b ?c)))))
       ],
       "filter(1)" => [
-        "SELECT * WHERE {?a ?b ?c FILTER (?a)}", %q((filter ?a (bgp (triple ?a ?b ?c))))
+        "SELECT * WHERE {?a ?b ?c FILTER (?a)}",
+        %q((project () (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
       "filter(2)" => [
-        "SELECT * WHERE {FILTER (?a) ?a ?b ?c}", %q((filter ?a (bgp (triple ?a ?b ?c))))
+        "SELECT * WHERE {FILTER (?a) ?a ?b ?c}",
+        %q((project () (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
       "filter(3)" => [
-        "SELECT * WHERE { FILTER (?o>5) . ?s ?p ?o }", %q((filter (> ?o 5) (bgp (triple ?s ?p ?o))))
+        "SELECT * WHERE { FILTER (?o>5) . ?s ?p ?o }",
+        %q((project () (filter (> ?o 5) (bgp (triple ?s ?p ?o)))))
       ],
       "construct from" => [
-        "CONSTRUCT {?a ?b ?c} FROM <a> WHERE {?a ?b ?c}", %q((construct ((triple ?a ?b ?c)) (dataset (<a>) (bgp (triple ?a ?b ?c)))))
+        "CONSTRUCT {?a ?b ?c} FROM <a> WHERE {?a ?b ?c}",
+        %q((construct ((triple ?a ?b ?c)) (dataset (<a>) (bgp (triple ?a ?b ?c)))))
       ],
       "construct from named" => [
-        "CONSTRUCT {?a ?b ?c} FROM NAMED <a> WHERE {?a ?b ?c}", %q((construct ((triple ?a ?b ?c)) (dataset ((named <a>)) (bgp (triple ?a ?b ?c)))))
+        "CONSTRUCT {?a ?b ?c} FROM NAMED <a> WHERE {?a ?b ?c}",
+        %q((construct ((triple ?a ?b ?c)) (dataset ((named <a>)) (bgp (triple ?a ?b ?c)))))
       ],
       "construct graph" => [
-        "CONSTRUCT {?a ?b ?c} WHERE {GRAPH <a> {?a ?b ?c}}", %q((construct ((triple ?a ?b ?c)) (graph <a> (bgp (triple ?a ?b ?c)))))
+        "CONSTRUCT {?a ?b ?c} WHERE {GRAPH <a> {?a ?b ?c}}",
+        %q((construct ((triple ?a ?b ?c)) (graph <a> (bgp (triple ?a ?b ?c)))))
       ],
       "construct optional" => [
-        "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c OPTIONAL {?d ?e ?f}}", %q((construct ((triple ?a ?b ?c)) (leftjoin (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
+        "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c OPTIONAL {?d ?e ?f}}",
+        %q((construct ((triple ?a ?b ?c)) (leftjoin (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "construct join" => [
-        "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c {?d ?e ?f}}", %q((construct ((triple ?a ?b ?c)) (join (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
+        "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c {?d ?e ?f}}",
+        %q((construct ((triple ?a ?b ?c)) (join (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "construct union" => [
-        "CONSTRUCT {?a ?b ?c} WHERE {{?a ?b ?c} UNION {?d ?e ?f}}", %q((construct ((triple ?a ?b ?c)) (union (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
+        "CONSTRUCT {?a ?b ?c} WHERE {{?a ?b ?c} UNION {?d ?e ?f}}",
+        %q((construct ((triple ?a ?b ?c)) (union (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "construct filter" => [
-        "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}", %q((construct ((triple ?a ?b ?c)) (filter ?a (bgp (triple ?a ?b ?c)))))
+        "CONSTRUCT {?a ?b ?c} WHERE {?a ?b ?c FILTER (?a)}",
+        %q((construct ((triple ?a ?b ?c)) (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
       "describe" => [
         "DESCRIBE * FROM <a> WHERE {?a ?b ?c}", %q((describe () (dataset (<a>) (bgp (triple ?a ?b ?c)))))
@@ -822,43 +832,44 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [7] SelectQuery production rule", production: :SelectQuery do
+  describe "when matching the [7] SelectQuery production rule", production: :SelectQuery, all_vars: true do
     {
       "from" => [
         "SELECT * FROM <a> WHERE {?a ?b ?c}",
-        %q((dataset (<a>) (bgp (triple ?a ?b ?c))))
+        %q((dataset (<a>) (project () (bgp (triple ?a ?b ?c)))))
       ],
       "from (lc)" => [
         "select * from <a> where {?a ?b ?c}",
-        %q((dataset (<a>) (bgp (triple ?a ?b ?c))))
+        %q((dataset (<a>) (project () (bgp (triple ?a ?b ?c)))))
       ],
       "from named" => [
         "SELECT * FROM NAMED <a> WHERE {?a ?b ?c}",
-        %q((dataset ((named <a>)) (bgp (triple ?a ?b ?c))))
+        %q((dataset ((named <a>)) (project () (bgp (triple ?a ?b ?c)))))
       ],
       "graph" => [
         "SELECT * WHERE {GRAPH <a> {?a ?b ?c}}",
-        %q((graph <a> (bgp (triple ?a ?b ?c))))
+        %q((project () (graph <a> (bgp (triple ?a ?b ?c)))))
       ],
       "graph (var)" => [
         "SELECT * {GRAPH ?g { :x :b ?a . GRAPH ?g2 { :x :p ?x } }}",
-        %q((graph ?g
-            (join
-              (bgp (triple <x> <b> ?a))
-              (graph ?g2
-                (bgp (triple <x> <p> ?x))))))
+        %q((project ()
+             (graph ?g
+               (join
+                 (bgp (triple <x> <b> ?a))
+                 (graph ?g2
+                   (bgp (triple <x> <p> ?x)))))))
       ],
       "optional" => [
         "SELECT * WHERE {?a ?b ?c OPTIONAL {?d ?e ?f}}",
-        %q((leftjoin (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))
+        %q((project () (leftjoin (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "join" => [
         "SELECT * WHERE {?a ?b ?c {?d ?e ?f}}",
-        %q((join (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))
+        %q((project () (join (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "union" => [
         "SELECT * WHERE {{?a ?b ?c} UNION {?d ?e ?f}}",
-        %q((union (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f))))
+        %q((project () (union (bgp (triple ?a ?b ?c)) (bgp (triple ?d ?e ?f)))))
       ],
       "Var+" => [
         "SELECT ?a ?b WHERE {?a ?b ?c}",
@@ -870,7 +881,7 @@ describe SPARQL::Grammar::Parser do
       ],
       "distinct(1)" => [
         "SELECT DISTINCT * WHERE {?a ?b ?c}",
-        %q((distinct (bgp (triple ?a ?b ?c))))
+        %q((distinct (project () (bgp (triple ?a ?b ?c)))))
       ],
       "distinct(2)" => [
         "SELECT DISTINCT ?a ?b WHERE {?a ?b ?c}",
@@ -878,20 +889,23 @@ describe SPARQL::Grammar::Parser do
       ],
       "reduced(1)" => [
         "SELECT REDUCED * WHERE {?a ?b ?c}",
-        %q((reduced (bgp (triple ?a ?b ?c))))
+        %q((reduced (project () (bgp (triple ?a ?b ?c)))))
       ],
       "reduced(2)" => [
         "SELECT REDUCED ?a ?b WHERE {?a ?b ?c}",
         %q((reduced (project (?a ?b) (bgp (triple ?a ?b ?c)))))
       ],
       "filter(1)" => [
-        "SELECT * WHERE {?a ?b ?c FILTER (?a)}", %q((filter ?a (bgp (triple ?a ?b ?c))))
+        "SELECT * WHERE {?a ?b ?c FILTER (?a)}",
+        %q((project () (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
       "filter(2)" => [
-        "SELECT * WHERE {FILTER (?a) ?a ?b ?c}", %q((filter ?a (bgp (triple ?a ?b ?c))))
+        "SELECT * WHERE {FILTER (?a) ?a ?b ?c}",
+        %q((project () (filter ?a (bgp (triple ?a ?b ?c)))))
       ],
       "filter(3)" => [
-        "SELECT * WHERE { FILTER (?o>5) . ?s ?p ?o }", %q((filter (> ?o 5) (bgp (triple ?s ?p ?o))))
+        "SELECT * WHERE { FILTER (?o>5) . ?s ?p ?o }",
+        %q((project () (filter (> ?o 5) (bgp (triple ?s ?p ?o)))))
       ],
       "bind(1)" => [
         "SELECT ?z {?s ?p ?o . BIND(?o+10 AS ?z)}",
@@ -2208,7 +2222,7 @@ describe SPARQL::Grammar::Parser do
   def parser(production = nil, **options)
     @logger = options.fetch(:logger, RDF::Spec.logger)
     Proc.new do |query|
-      parser = described_class.new(query, logger: @logger, resolve_iris: true, **options)
+      parser = described_class.new(query, all_vars: true, logger: @logger, resolve_iris: true, **options)
       production ? parser.parse(production) : parser
     end
   end
