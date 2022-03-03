@@ -153,57 +153,57 @@ describe "SEP-002" do
     "time-01": {
       query: %(PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         SELECT ?id ?eq ?lt ?gt WHERE {
-        	VALUES (?id ?l ?r) {
-        		(1 "00:00:00"^^xsd:time "00:00:00"^^xsd:time)
-        		(2 "00:00:00"^^xsd:time "00:00:01"^^xsd:time)
-        		(3 "00:00:02"^^xsd:time "00:00:01"^^xsd:time)
-        		(4 "10:00:00"^^xsd:time "00:59:01"^^xsd:time)
-        		(5 "00:00:00"^^xsd:time "24:00:00"^^xsd:time)
-        	}
-        	BIND(?l < ?r AS ?lt)
-        	BIND(?l > ?r AS ?gt)
-        	BIND(?l = ?r AS ?eq)
+          VALUES (?id ?l ?r) {
+            (1 "00:00:00"^^xsd:time "00:00:00"^^xsd:time)
+            (2 "00:00:00"^^xsd:time "00:00:01"^^xsd:time)
+            (3 "00:00:02"^^xsd:time "00:00:01"^^xsd:time)
+            (4 "10:00:00"^^xsd:time "00:59:01"^^xsd:time)
+            (5 "00:00:00"^^xsd:time "24:00:00"^^xsd:time)
+          }
+          BIND(?l < ?r AS ?lt)
+          BIND(?l > ?r AS ?gt)
+          BIND(?l = ?r AS ?eq)
         }),
       result: {
         xml: Nokogiri::XML.parse(%(<?xml version="1.0" encoding="utf-8"?>
           <sparql xmlns="http://www.w3.org/2005/sparql-results#">
           <head>
-          	<variable name="id"/>
-          	<variable name="eq"/>
-          	<variable name="lt"/>
-          	<variable name="gt"/>
+            <variable name="id"/>
+            <variable name="eq"/>
+            <variable name="lt"/>
+            <variable name="gt"/>
           </head>
           <results>
-          		<result>
-          			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-          			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-          			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          		</result>
-          		<result>
-          			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-          			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-          			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          		</result>
-          		<result>
-          			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
-          			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-          		</result>
-          		<result>
-          			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
-          			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-          		</result>
-          		<result>
-          			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
-          			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-          			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-          		</result>
+              <result>
+                <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+                <binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+                <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+              </result>
+              <result>
+                <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+                <binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+                <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+              </result>
+              <result>
+                <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+                <binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+              </result>
+              <result>
+                <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+                <binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+              </result>
+              <result>
+                <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+                <binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+                <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+              </result>
           </results>
           </sparql>
           ))
@@ -212,50 +212,50 @@ describe "SEP-002" do
         query: %(
           PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
           SELECT ?id ?lt ?gt WHERE {
-          	VALUES (?id ?l ?r) {
-          		(1 "P1Y"^^xsd:yearMonthDuration "P1Y"^^xsd:yearMonthDuration)
-          		(2 "P1Y"^^xsd:yearMonthDuration "P12M"^^xsd:yearMonthDuration)
-          		(3 "P1Y1M"^^xsd:yearMonthDuration "P12M"^^xsd:yearMonthDuration)
-          		(4 "P1M"^^xsd:yearMonthDuration "-P2M"^^xsd:yearMonthDuration)
-          		(5 "-P1Y"^^xsd:yearMonthDuration "P13M"^^xsd:yearMonthDuration)
-          	}
-          	BIND(?l < ?r AS ?lt)
-          	BIND(?l > ?r AS ?gt)
+            VALUES (?id ?l ?r) {
+              (1 "P1Y"^^xsd:yearMonthDuration "P1Y"^^xsd:yearMonthDuration)
+              (2 "P1Y"^^xsd:yearMonthDuration "P12M"^^xsd:yearMonthDuration)
+              (3 "P1Y1M"^^xsd:yearMonthDuration "P12M"^^xsd:yearMonthDuration)
+              (4 "P1M"^^xsd:yearMonthDuration "-P2M"^^xsd:yearMonthDuration)
+              (5 "-P1Y"^^xsd:yearMonthDuration "P13M"^^xsd:yearMonthDuration)
+            }
+            BIND(?l < ?r AS ?lt)
+            BIND(?l > ?r AS ?gt)
           }),
         result: {
           xml: Nokogiri::XML.parse(%(<?xml version="1.0" encoding="utf-8"?>
             <sparql xmlns="http://www.w3.org/2005/sparql-results#">
             <head>
-            	<variable name="id"/>
-            	<variable name="lt"/>
-            	<variable name="gt"/>
+              <variable name="id"/>
+              <variable name="lt"/>
+              <variable name="gt"/>
             </head>
             <results>
-            		<result>
-            			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
-            			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-            			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-            		</result>
-            		<result>
-            			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
-            			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-            			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-            		</result>
-            		<result>
-            			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
-            			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-            			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-            		</result>
-            		<result>
-            			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
-            			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-            			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-            		</result>
-            		<result>
-            			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
-            			<binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
-            			<binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
-            		</result>
+                <result>
+                  <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+                  <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                  <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                </result>
+                <result>
+                  <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+                  <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                  <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                </result>
+                <result>
+                  <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+                  <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                  <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+                </result>
+                <result>
+                  <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+                  <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                  <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+                </result>
+                <result>
+                  <binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+                  <binding name="lt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+                  <binding name="gt"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+                </result>
             </results>
             </sparql>
             ))
@@ -266,21 +266,21 @@ describe "SEP-002" do
       query: %(
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         SELECT (xsd:date(?literal) AS ?date) WHERE {
-        	VALUES ?literal {
-        		"2000-11-02"
-        	}
+          VALUES ?literal {
+            "2000-11-02"
+          }
         }
       ),
       result: {
         xml: Nokogiri::XML.parse(%(<?xml version="1.0" encoding="utf-8"?>
         <sparql xmlns="http://www.w3.org/2005/sparql-results#">
         <head>
-        	<variable name="date"/>
+          <variable name="date"/>
         </head>
         <results>
-        		<result>
-        			<binding name="date"><literal datatype="http://www.w3.org/2001/XMLSchema#date">2000-11-02</literal></binding>
-        		</result>
+            <result>
+              <binding name="date"><literal datatype="http://www.w3.org/2001/XMLSchema#date">2000-11-02</literal></binding>
+            </result>
         </results>
         </sparql>
         ))
@@ -290,31 +290,31 @@ describe "SEP-002" do
       query: %(
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         SELECT (xsd:duration(?literal) AS ?duration) WHERE {
-        	VALUES ?literal {
-        		"P"
-        		"-P"
-        		"PT"
-        		"-PT"
-        		"PS"
-        		""
-        		"T1S"
-        	}
+          VALUES ?literal {
+            "P"
+            "-P"
+            "PT"
+            "-PT"
+            "PS"
+            ""
+            "T1S"
+          }
         }
       ),
       result: {
         xml: Nokogiri::XML.parse(%(<?xml version="1.0" encoding="utf-8"?>
         <sparql xmlns="http://www.w3.org/2005/sparql-results#">
         <head>
-        	<!-- FIXME <variable name="duration"/> -->
+          <variable name="duration"/>
         </head>
         <results>
-        		<result></result>
-        		<result></result>
-        		<result></result>
-        		<result></result>
-        		<result></result>
-        		<result></result>
-        		<result></result>
+            <result></result>
+            <result></result>
+            <result></result>
+            <result></result>
+            <result></result>
+            <result></result>
+            <result></result>
         </results>
         </sparql>
         ))
@@ -324,33 +324,33 @@ describe "SEP-002" do
       query: %(
         PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
         SELECT (xsd:time(?literal) AS ?time) WHERE {
-        	VALUES ?literal {
-        		"00:00:00"
-        		"24:00:00"
-        		"01:02:03"
-        		"23:59:60"
-        	}
+          VALUES ?literal {
+            "00:00:00"
+            "24:00:00"
+            "01:02:03"
+            "23:59:60"
+          }
         }
       ),
       result: {
         xml: Nokogiri::XML.parse(%(<?xml version="1.0" encoding="utf-8"?>
           <sparql xmlns="http://www.w3.org/2005/sparql-results#">
           <head>
-          	<variable name="time"/>
+            <variable name="time"/>
           </head>
           <results>
-          		<result>
-          			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">00:00:00</literal></binding>
-          		</result>
-          		<result>
-          			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">00:00:00</literal></binding>
-          		</result>
-          		<result>
-          			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">01:02:03</literal></binding>
-          		</result>
-          		<result>
-          			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">23:59:60</literal></binding>
-          		</result>
+              <result>
+                <binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">00:00:00</literal></binding>
+              </result>
+              <result>
+                <binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">00:00:00</literal></binding>
+              </result>
+              <result>
+                <binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">01:02:03</literal></binding>
+              </result>
+              <result>
+                <binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">23:59:60</literal></binding>
+              </result>
           </results>
           </sparql>
         ))
