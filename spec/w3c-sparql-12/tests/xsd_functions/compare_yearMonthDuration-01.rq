@@ -1,0 +1,12 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?id ?lt ?gt WHERE {
+	VALUES (?id ?l ?r) {
+		(1 "P1Y"^^xsd:yearMonthDuration "P1Y"^^xsd:yearMonthDuration)
+		(2 "P1Y"^^xsd:yearMonthDuration "P12M"^^xsd:yearMonthDuration)
+		(3 "P1Y1M"^^xsd:yearMonthDuration "P12M"^^xsd:yearMonthDuration)
+		(4 "P1M"^^xsd:yearMonthDuration "-P2M"^^xsd:yearMonthDuration)
+		(5 "-P1Y"^^xsd:yearMonthDuration "P13M"^^xsd:yearMonthDuration)
+	}
+	BIND(?l < ?r AS ?lt)
+	BIND(?l > ?r AS ?gt)
+}

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+<head>
+	<variable name="duration"/>
+</head>
+<results>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">PT0S</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">PT0S</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">P1Y</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">-P1Y</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">P1M</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">P1D</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">PT1H</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">PT1M</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">PT1S</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">P3Y1DT2H7S</literal></binding>
+		</result>
+		<result>
+			<binding name="duration"><literal datatype="http://www.w3.org/2001/XMLSchema#duration">P3YT2H</literal></binding>
+		</result>
+</results>
+</sparql>

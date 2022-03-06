@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+<head>
+	<variable name="id"/>
+	<variable name="eq"/>
+</head>
+<results>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">1</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">3</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">4</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">5</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">6</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">7</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">8</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">9</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">false</literal></binding>
+		</result>
+		<result>
+			<binding name="id"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">10</literal></binding>
+			<binding name="eq"><literal datatype="http://www.w3.org/2001/XMLSchema#boolean">true</literal></binding>
+		</result>
+</results>
+</sparql>

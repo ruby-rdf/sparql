@@ -1,0 +1,250 @@
+@prefix rdf:    <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix :       <http://www.w3.org/2009/sparql/docs/tests/data-sparql11/functions/manifest#> .
+@prefix rdfs:   <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix mf:     <http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#> .
+@prefix qt:     <http://www.w3.org/2001/sw/DataAccess/tests/test-query#> .
+@prefix dawgt:  <http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#> .
+@prefix sparql: <http://www.w3.org/ns/sparql#> .
+
+<>	a mf:Manifest ;
+	rdfs:label "XSD Functions and Operators" ;
+	mf:entries (
+		# 8.2 Comparison operators on durations
+		:compare_duration01
+		:compare_yearMonthDuration01
+		:compare_dayTimeDuration01
+		
+		# 9.4 Comparison operators on duration, date and time values
+		:compare_time01
+		
+		# 9.5 Component extraction functions on dates and times
+		:extract_date01
+		:extract_time01
+		
+		# 9.6 Timezone adjustment functions on dates and time values
+		:adjust_dateTime01
+		:adjust_date01
+		:adjust_time01
+		
+		# 9.7 Arithmetic operators on durations, dates and times
+		:dateTime_subtract01
+		:duration_yearMonth_add01
+		:duration_dayTime_add01
+		:duration_yearMonth_subtract01
+		:duration_dayTime_subtract01
+		
+		# 9.9 Parsing dates and times
+		:constructor_date01
+		:constructor_date02
+		:constructor_time01
+		:constructor_time02
+		:constructor_duration01
+		:constructor_duration02
+	) .
+
+:compare_duration01 a mf:QueryEvaluationTest ;
+	mf:name "compare xsd:duration values 01" ;
+	rdfs:comment "This tests the equality operator on xsd:duration values" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#func-duration-equal> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <compare_duration-01.rq> ] ;
+	mf:result  <compare_duration-01.srx> ;
+	.
+
+:compare_yearMonthDuration01 a mf:QueryEvaluationTest ;
+	mf:name "compare xsd:yearMonthDuration values 01" ;
+	rdfs:comment "This tests comparison operators on xsd:yearMonthDuration values" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#comp.duration> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <compare_yearMonthDuration-01.rq> ] ;
+	mf:result  <compare_yearMonthDuration-01.srx> ;
+	.
+
+:compare_dayTimeDuration01 a mf:QueryEvaluationTest ;
+	mf:name "compare xsd:dayTimeDuration values 01" ;
+	rdfs:comment "This tests comparison operators on xsd:dayTimeDuration values" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#comp.duration> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <compare_dayTimeDuration-01.rq> ] ;
+	mf:result  <compare_dayTimeDuration-01.srx> ;
+	.
+
+:compare_time01 a mf:QueryEvaluationTest ;
+	mf:name "compare xsd:date values 01" ;
+	rdfs:comment "This tests comparison operators on xsd:time values" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#comp.datetime> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <compare_time-01.rq> ] ;
+	mf:result  <compare_time-01.srx> ;
+	.
+
+:extract_date01 a mf:QueryEvaluationTest ;
+	mf:name "extract xsd:date components 01" ;
+	rdfs:comment "This tests functions to extract compoents from xsd:date values" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#component-extraction-dateTime> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <extract_date-01.rq> ] ;
+	mf:result  <extract_date-01.srx> ;
+	.
+
+:extract_time01 a mf:QueryEvaluationTest ;
+	mf:name "extract xsd:time components 01" ;
+	rdfs:comment "This tests functions to extract compoents from xsd:time values" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#component-extraction-dateTime> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <extract_time-01.rq> ] ;
+	mf:result  <extract_time-01.srx> ;
+	.
+
+:adjust_dateTime01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:dateTime timezone adjustment 01" ;
+	rdfs:comment "This tests ability to change the timezone of an xsd:dateTime value" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#func-adjust-dateTime-to-timezone> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <adjust_dateTime-01.rq> ] ;
+	mf:result  <adjust_dateTime-01.srx> ;
+	.
+
+:adjust_date01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:date timezone adjustment 01" ;
+	rdfs:comment "This tests ability to change the timezone of an xsd:date value" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#func-adjust-date-to-timezone> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <adjust_date-01.rq> ] ;
+	mf:result  <adjust_date-01.srx> ;
+	.
+
+:adjust_time01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:time timezone adjustment 01" ;
+	rdfs:comment "This tests ability to change the timezone of an xsd:time value" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#func-adjust-time-to-timezone> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <adjust_time-01.rq> ] ;
+	mf:result  <adjust_time-01.srx> ;
+	.
+
+:dateTime_subtract01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:dateTime, xsd:date, xsd:time subtraction 01" ;
+	rdfs:comment "This tests the expected values of the XSD operators: op:subtract-dateTimes, op:subtract-dates, op:subtract-times" ;
+	rdfs:comment "Subtract like-typed values: dateTime-dateTime, date-date, time-time" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#dateTime-arithmetic> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <dateTime_subtract-01.rq> ] ;
+	mf:result  <dateTime_subtract-01.srx> ;
+	.
+
+:duration_yearMonth_add01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:yearMonthDuration addition 01" ;
+	rdfs:comment "This tests the expected values of the XSD operators: op:add-yearMonthDuration-to-date, op:add-yearMonthDuration-to-dateTime" ;
+	rdfs:comment "Add a xsd:yearMonthDuration to each type: dateTime, date" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#dateTime-arithmetic> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <duration_yearMonthDuration_add-01.rq> ] ;
+	mf:result  <duration_yearMonthDuration_add-01.srx> ;
+	.
+
+:duration_dayTime_add01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:dayTimeDuration addition 01" ;
+	rdfs:comment "This tests the expected values of the XSD operators: op:add-dayTimeDuration-to-time, op:add-dayTimeDuration-to-date, op:add-dayTimeDuration-to-dateTime" ;
+	rdfs:comment "Add a xsd:dayTimeDuration to each type: dateTime, date, time" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#dateTime-arithmetic> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <duration_dayTimeDuration_add-01.rq> ] ;
+	mf:result  <duration_dayTimeDuration_add-01.srx> ;
+	.
+
+:duration_yearMonth_subtract01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:yearMonthDuration subtraction 01" ;
+	rdfs:comment "This tests the expected values of the XSD operators: op:subtract-yearMonthDuration-from-date, op:subtract-yearMonthDuration-from-dateTime" ;
+	rdfs:comment "Subtract a xsd:yearMonthDuration from each type: dateTime, date" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#dateTime-arithmetic> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <duration_yearMonthDuration_subtract-01.rq> ] ;
+	mf:result  <duration_yearMonthDuration_subtract-01.srx> ;
+	.
+
+:duration_dayTime_subtract01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:dayTimeDuration subtraction 01" ;
+	rdfs:comment "This tests the expected values of the XSD operators: op:subtract-dayTimeDuration-from-time, op:subtract-dayTimeDuration-from-date, op:subtract-dayTimeDuration-from-dateTime" ;
+	rdfs:comment "Subtract a xsd:dayTimeDuration from each type: dateTime, date, time" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#dateTime-arithmetic> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <duration_dayTimeDuration_subtract-01.rq> ] ;
+	mf:result  <duration_dayTimeDuration_subtract-01.srx> ;
+	.
+
+:constructor_date01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:date construction 01" ;
+	rdfs:comment "This tests the expected result of parsing xsd:date values from string literals" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#parsing-dates-and-times> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <construct_date-01.rq> ] ;
+	mf:result  <construct_date-01.srx> ;
+	.
+
+:constructor_date02 a mf:QueryEvaluationTest ;
+	mf:name "xsd:date construction 02" ;
+	rdfs:comment "This tests error cases when parsing xsd:date values from string literals" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#parsing-dates-and-times> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <construct_date-02.rq> ] ;
+	mf:result  <construct_date-02.srx> ;
+	.
+
+:constructor_time01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:time construction 01" ;
+	rdfs:comment "This tests the expected result of parsing xsd:time values from string literals" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#parsing-dates-and-times> ;
+	mf:requires mf:XSDValueCanonicalization ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <construct_time-01.rq> ] ;
+	mf:result  <construct_time-01.srx> ;
+	.
+
+:constructor_time02 a mf:QueryEvaluationTest ;
+	mf:name "xsd:time construction 02" ;
+	rdfs:comment "This tests error cases when parsing xsd:time values from string literals" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#parsing-dates-and-times> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <construct_time-02.rq> ] ;
+	mf:result  <construct_time-02.srx> ;
+	.
+
+:constructor_duration01 a mf:QueryEvaluationTest ;
+	mf:name "xsd:duration construction 01" ;
+	rdfs:comment "This tests the expected result of parsing xsd:duration values from string literals" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#parsing-dates-and-times> ;
+	mf:requires mf:XSDValueCanonicalization ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <construct_duration-01.rq> ] ;
+	mf:result  <construct_duration-01.srx> ;
+	.
+
+:constructor_duration02 a mf:QueryEvaluationTest ;
+	mf:name "xsd:duration construction 02" ;
+	rdfs:comment "This tests error cases when parsing xsd:duration values from string literals" ;
+	rdfs:seeAlso <https://www.w3.org/TR/xpath-functions/#parsing-dates-and-times> ;
+	dawgt:approval dawgt:Proposed ;
+	mf:action
+		[ qt:query <construct_duration-02.rq> ] ;
+	mf:result  <construct_duration-02.srx> ;
+	.

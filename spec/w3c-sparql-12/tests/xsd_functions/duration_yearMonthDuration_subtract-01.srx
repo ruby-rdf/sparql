@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+<head>
+	<variable name="year_ago"/>
+</head>
+<results>
+		<result>
+			<binding name="year_ago"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2018-05-28T12:14:45Z</literal></binding>
+		</result>
+		<result>
+			<binding name="year_ago"><literal datatype="http://www.w3.org/2001/XMLSchema#date">2018-05-28</literal></binding>
+		</result>
+</results>
+</sparql>

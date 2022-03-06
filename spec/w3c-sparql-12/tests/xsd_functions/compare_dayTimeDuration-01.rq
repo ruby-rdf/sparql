@@ -1,0 +1,11 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?id ?lt ?gt WHERE {
+	VALUES (?id ?l ?r) {
+		(1 "PT1H"^^xsd:dayTimeDuration "PT63M"^^xsd:dayTimeDuration)
+		(2 "PT3S"^^xsd:dayTimeDuration "PT2M"^^xsd:dayTimeDuration)
+		(3 "-PT1H1M"^^xsd:dayTimeDuration "-PT62M"^^xsd:dayTimeDuration)
+		(4 "PT0S"^^xsd:dayTimeDuration "-PT0.1S"^^xsd:dayTimeDuration)
+	}
+	BIND(?l < ?r AS ?lt)
+	BIND(?l > ?r AS ?gt)
+}

@@ -1,0 +1,13 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?id ?eq ?lt ?gt WHERE {
+	VALUES (?id ?l ?r) {
+		(1 "00:00:00"^^xsd:time "00:00:00"^^xsd:time)
+		(2 "00:00:00"^^xsd:time "00:00:01"^^xsd:time)
+		(3 "00:00:02"^^xsd:time "00:00:01"^^xsd:time)
+		(4 "10:00:00"^^xsd:time "00:59:01"^^xsd:time)
+		(5 "00:00:00"^^xsd:time "24:00:00"^^xsd:time)
+	}
+	BIND(?l < ?r AS ?lt)
+	BIND(?l > ?r AS ?gt)
+	BIND(?l = ?r AS ?eq)
+}
