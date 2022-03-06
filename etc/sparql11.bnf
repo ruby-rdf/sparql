@@ -110,7 +110,7 @@
     [90]  PathSequence            ::= PathEltOrInverse ( '/' PathEltOrInverse )*
     [91]  PathElt                 ::= PathPrimary PathMod?
     [92]  PathEltOrInverse        ::= PathElt | '^' PathElt
-    [93]  PathMod                 ::= '*' | '?' | '+'
+    [93]  PathMod                 ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
     [94]  PathPrimary             ::= iri | 'a' | '!' PathNegatedPropertySet | '(' Path ')'
     [95]  PathNegatedPropertySet  ::= PathOneInPropertySet
                                     | '(' ( PathOneInPropertySet ( '|' PathOneInPropertySet )* )? ')'

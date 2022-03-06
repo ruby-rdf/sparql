@@ -3,8 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path*` (ZeroOrMorePath) operator.
     #
-    # [91]  PathElt                 ::= PathPrimary PathMod?
-    # [93]  PathMod                 ::= '*' | '?' | '+'
+    # [91]  PathElt ::= PathPrimary PathMod?
+    # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
     
     # @example SPARQL Grammar
     #   PREFIX : <http://example/> 
@@ -23,10 +23,13 @@ module SPARQL; module Algebra
       NAME = :"path*"
 
       ##
-      # Path including zero length:
+      # Path including at zero length:
       #
       #    (path :a (path* :p) :b)
-      #    => (path :a (path? (path+ :p)) :b)
+      #
+      # into
+      #
+      #    (path :a (path? (path+ :p)) :b)
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query

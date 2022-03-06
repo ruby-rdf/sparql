@@ -3,8 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path+` (OneOrMorePath) operator.
     #
-    # [91]  PathElt                 ::= PathPrimary PathMod?
-    # [93]  PathMod                 ::= '*' | '?' | '+'
+    # [91]  PathElt ::= PathPrimary PathMod?
+    # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
     
     # @example SPARQL Grammar
     #   PREFIX : <http://example/> 
@@ -24,6 +24,16 @@ module SPARQL; module Algebra
 
       ##
       # Match on simple relation of subject to object, and then recurse on solutions
+      #
+      # Path including at least one:
+      #
+      #    (path :a (path+ :p) :b)
+      #
+      # into
+      #
+      #    (union
+      #     (bgp (triple :a :p :b))
+      #     (path :a (path* :p) :b))
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query

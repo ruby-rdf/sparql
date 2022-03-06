@@ -97,6 +97,7 @@ module SPARQL; module Algebra
     autoload :NotOneOf,           'sparql/algebra/operator/notoneof'
     autoload :PathOpt,            'sparql/algebra/operator/path_opt'
     autoload :PathPlus,           'sparql/algebra/operator/path_plus'
+    autoload :PathRange,          'sparql/algebra/operator/path_range'
     autoload :PathStar,           'sparql/algebra/operator/path_star'
     autoload :Path,               'sparql/algebra/operator/path'
     autoload :Reverse,            'sparql/algebra/operator/reverse'
@@ -219,8 +220,9 @@ module SPARQL; module Algebra
         when :or, :'||'       then Or
         when :path            then Path
         when :path?           then PathOpt
-        when :"path*"         then PathStar
         when :"path+"         then PathPlus
+        when :"path*"         then PathStar
+        when :pathrange       then PathRange
         when :plus            then Plus
         when :rand            then Rand
         when :regex           then Regex

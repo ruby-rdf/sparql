@@ -1671,7 +1671,7 @@
    VAR1 VAR2 "[" "false" "true" "|" )
   (seq PathPrimary _PathElt_1))
  (rule _PathElt_1 "91.1"
-  (first "*" "+" "?" _eps)
+  (first "*" "+" "?" _eps "{")
   (follow "(" ")" "/" "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
    DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER
    INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
@@ -1696,20 +1696,44 @@
    VAR1 VAR2 "[" "false" "true" "|" )
   (seq "^" PathElt))
  (rule PathMod "93"
-  (first "*" "+" "?")
+  (first "*" "+" "?" "{")
   (follow "(" ")" "/" "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
    DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER
    INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    VAR1 VAR2 "[" "false" "true" "|" )
-  (alt "*" "?" "+"))
+  (alt "*" "?" "+" _PathMod_1))
+ (rule _PathMod_1 "93.1"
+  (first "{")
+  (follow "(" ")" "/" "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
+   DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
+   STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
+   VAR1 VAR2 "[" "false" "true" "|" )
+  (seq "{" _PathMod_2 _PathMod_3 "}"))
+ (rule _PathMod_2 "93.2"
+  (first INTEGER _eps)
+  (follow "," "}")
+  (cleanup opt)
+  (alt _empty INTEGER))
+ (rule _PathMod_3 "93.3"
+  (first "," _eps)
+  (follow "}")
+  (cleanup opt)
+  (alt _empty _PathMod_4))
+ (rule _PathMod_4 "93.4" (first ",") (follow "}") (seq "," _PathMod_5))
+ (rule _PathMod_5 "93.5"
+  (first INTEGER _eps)
+  (follow "}")
+  (cleanup opt)
+  (alt _empty INTEGER))
  (rule PathPrimary "94"
   (first "!" "(" IRIREF PNAME_LN PNAME_NS "a")
   (follow "(" ")" "*" "+" "/" "<<" "?" ANON BLANK_NODE_LABEL DECIMAL
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (alt iri "a" _PathPrimary_1 _PathPrimary_2))
  (rule _PathPrimary_1 "94.1"
   (first "!")
@@ -1717,7 +1741,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq "!" PathNegatedPropertySet))
  (rule _PathPrimary_2 "94.2"
   (first "(")
@@ -1725,7 +1749,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq "(" Path ")"))
  (rule PathNegatedPropertySet "95"
   (first "(" IRIREF PNAME_LN PNAME_NS "^" "a")
@@ -1733,7 +1757,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (alt PathOneInPropertySet _PathNegatedPropertySet_1))
  (rule _PathNegatedPropertySet_1 "95.1"
   (first "(")
@@ -1741,7 +1765,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq "(" _PathNegatedPropertySet_2 ")"))
  (rule _PathNegatedPropertySet_2 "95.2"
   (first IRIREF PNAME_LN PNAME_NS "^" _eps "a")
@@ -1772,7 +1796,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (alt iri "a" _PathOneInPropertySet_1))
  (rule _PathOneInPropertySet_1 "96.1"
   (first "^")
@@ -1780,7 +1804,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq "^" _PathOneInPropertySet_2))
  (rule _PathOneInPropertySet_2 "96.2"
   (first IRIREF PNAME_LN PNAME_NS "a")
@@ -1788,7 +1812,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (alt iri "a"))
  (rule Integer "97"
   (first INTEGER)
@@ -5048,7 +5072,7 @@
    VAR1 VAR2 "[" "false" "true" "|" )
   (seq PathEltOrInverse))
  (rule _PathElt_2 "91.2"
-  (first "*" "+" "?" _eps)
+  (first "*" "+" "?" _eps "{")
   (follow "(" ")" "/" "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
    DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER
    INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
@@ -5063,13 +5087,22 @@
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
    VAR1 VAR2 "[" "false" "true" "|" )
   (seq PathElt))
+ (rule _PathMod_6 "93.6"
+  (first "," INTEGER "}")
+  (follow "(" ")" "/" "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
+   DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
+   STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
+   VAR1 VAR2 "[" "false" "true" "|" )
+  (seq _PathMod_2 _PathMod_3 "}"))
+ (rule _PathMod_7 "93.7" (first INTEGER _eps) (follow "}") (seq _PathMod_5))
  (rule _PathPrimary_3 "94.3"
   (first "(" IRIREF PNAME_LN PNAME_NS "^" "a")
   (follow "(" ")" "*" "+" "/" "<<" "?" ANON BLANK_NODE_LABEL DECIMAL
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq PathNegatedPropertySet))
  (rule _PathPrimary_4 "94.4"
   (first "!" "(" IRIREF PNAME_LN PNAME_NS "^" "a")
@@ -5077,7 +5110,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq Path ")"))
  (rule _PathNegatedPropertySet_7 "95.7"
   (first ")" IRIREF PNAME_LN PNAME_NS "^" "a")
@@ -5085,7 +5118,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq _PathNegatedPropertySet_2 ")"))
  (rule _PathNegatedPropertySet_8 "95.8"
   (first _eps "|")
@@ -5105,7 +5138,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq _PathOneInPropertySet_2))
  (rule _BlankNodePropertyList_1 "99.1"
   (first IRIREF PNAME_LN PNAME_NS VAR1 VAR2 "a")
@@ -6392,12 +6425,12 @@
   (seq _Modify_3 "WHERE" GroupGraphPattern))
  (rule _QuadPattern_2 "48.2"
   (first "}")
-  (follow "(" "." ";" "<<" ANON "BIND" BLANK_NODE_LABEL DECIMAL
+  (follow "(" ")" "." "/" ";" "<<" ANON "BIND" BLANK_NODE_LABEL DECIMAL
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    "FILTER" "GRAPH" "INSERT" INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF
    "MINUS" NIL "OPTIONAL" PNAME_LN PNAME_NS "SERVICE" STRING_LITERAL1
    STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2 "USING" "VALUES"
-   VAR1 VAR2 "WHERE" "[" _eof "false" "true" "{" "}" )
+   VAR1 VAR2 "WHERE" "[" _eof "false" "true" "{" "|" "}" )
   (seq "}"))
  (rule _QuadData_2 "49.2" (first "}") (follow ";" _eof) (seq "}"))
  (rule _Quads_10 "50.10"
@@ -6535,13 +6568,21 @@
    "||" "}" )
   (seq _ExpressionList_2 ")"))
  (rule _ConstructTemplate_3 "73.3" (first "}") (follow "FROM" "WHERE" "{") (seq "}"))
+ (rule _PathMod_8 "93.8"
+  (first "," "}")
+  (follow "(" ")" "/" "<<" ANON BLANK_NODE_LABEL DECIMAL DECIMAL_NEGATIVE
+   DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE INTEGER
+   INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
+   STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
+   VAR1 VAR2 "[" "false" "true" "|" )
+  (seq _PathMod_3 "}"))
  (rule _PathPrimary_5 "94.5"
   (first ")")
   (follow "(" ")" "*" "+" "/" "<<" "?" ANON BLANK_NODE_LABEL DECIMAL
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq ")"))
  (rule _PathNegatedPropertySet_11 "95.11"
   (first ")")
@@ -6549,7 +6590,7 @@
    DECIMAL_NEGATIVE DECIMAL_POSITIVE DOUBLE DOUBLE_NEGATIVE DOUBLE_POSITIVE
    INTEGER INTEGER_NEGATIVE INTEGER_POSITIVE IRIREF NIL PNAME_LN PNAME_NS
    STRING_LITERAL1 STRING_LITERAL2 STRING_LITERAL_LONG1 STRING_LITERAL_LONG2
-   VAR1 VAR2 "[" "false" "true" "|" )
+   VAR1 VAR2 "[" "false" "true" "{" "|" )
   (seq ")"))
  (rule _BlankNodePropertyList_2 "99.2"
   (first "]")

@@ -130,4 +130,27 @@ describe SPARQL::Grammar do
       end
     end
   end
+
+  describe "property path errors" do
+    {
+      "{}" => {
+        query: %(SELECT * WHERE {:a :b{,} :c}),
+        exception: /expect property range to have integral elements/
+      },
+      "{,}" => {
+        query: %(SELECT * WHERE {:a :b{,} :c}),
+        exception: /expect property range to have integral elements/
+      },
+      "{2,1}" => {
+        query: %(SELECT * WHERE {:a :b{2,1} :c}),
+        exception: /expect min <= max/
+      },
+    }.each do |test, options|
+      it "#{test}" do
+        expect {
+          sparql_query(logger: logger, **options)
+        }.to raise_error(options[:exception])
+      end
+    end
+  end
 end

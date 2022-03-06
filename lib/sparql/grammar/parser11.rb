@@ -1336,8 +1336,16 @@ module SPARQL::Grammar
       path_mod ||= data.delete(:MultiplicativeExpression) if data.has_key?(:MultiplicativeExpression)
       path_mod = path_mod.first if path_mod
 
-      res = data[:PathPrimary]
-      res = SPARQL::Algebra::Expression("path#{path_mod}", res) if path_mod
+      res = case path_mod
+      when SPARQL::Algebra::Expression
+        # Path range :p{m,n}
+        path_mod.operands[2] = data[:PathPrimary]
+        path_mod
+      when nil
+        data[:PathPrimary]
+      else
+        SPARQL::Algebra::Expression("path#{path_mod}", data[:PathPrimary])
+      end
       input[:Path] = res
     end
 
@@ -1352,6 +1360,40 @@ module SPARQL::Grammar
         data[:Path]
       end
       input[:PathEltOrInverse] = [res]
+    end
+
+    # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
+    # '{' INTEGER? (',' INTEGER?)? '}'
+    start_production(:_PathMod_1) do |input, data, callback|
+      data[:pathRange] = [nil]
+    end
+    production(:_PathMod_1) do |input, data, callback|
+      raise Error, "expect property range to have integral elements" if data[:pathRange].all?(&:nil?)
+      min, max = data[:pathRange]
+      min ||= 0
+      max = min if data[:pathRange].length == 1
+      max ||= :*
+
+      # Last operand added in :PathElt
+      add_prod_data(:PathMod, SPARQL::Algebra::Expression(:pathRange, min, max, RDF.nil))
+    end
+
+    # INTEGER?
+    production(:_PathMod_2) do |input, data, callback|
+      input[:pathRange][0] = data[:literal].object
+    end
+
+    # (',' INTEGER?)
+    start_production(:_PathMod_4) do |input, data, callback|
+      data[:pathRange] = [nil, nil]
+    end
+    production(:_PathMod_4) do |input, data, callback|
+      input[:pathRange][1] ||= data.fetch(:pathRange, [0, nil])[1]
+    end
+
+    # INTEGER?
+    production(:_PathMod_5) do |input, data, callback|
+      input[:pathRange][1] = data[:literal].object
     end
 
     # [94] PathPrimary ::= iri | 'a' | '!' PathNegatedPropertySet | '(' Path ')'

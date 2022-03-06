@@ -3,8 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path?` (ZeroOrOnePath) operator.
     #
-    # [91]  PathElt                 ::= PathPrimary PathMod?
-    # [93]  PathMod                 ::= '*' | '?' | '+'
+    # [91]  PathElt ::= PathPrimary PathMod?
+    # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
     
     # @example SPARQL Grammar
     #   PREFIX : <http://example/> 
@@ -23,10 +23,10 @@ module SPARQL; module Algebra
       NAME = :path?
 
       ##
-      # Equivalent to:
+      # Optional path:
       #
       #    (path x (path? :p) y)
-      #     => (union (bgp ((x :p y))) (filter (x = x) (solution x y)))
+      #     => (union (bgp ((x :p y))) (filter (x = y) (solution x y)))
       #        
       #
       # @param  [RDF::Queryable] queryable
@@ -45,12 +45,10 @@ module SPARQL; module Algebra
         debug(options) {"Path? #{[subject, operands, object].to_sse}"}
 
         solutions = RDF::Query::Solutions.new
-        # Solutions where subject == object with no predicate
+        # The zero-length case implies subject == object.
         case
         when subject.variable? && object.variable?
           # Nodes is the set of all subjects and objects in queryable
-          # FIXME: should this be Queryable#enum_nodes?
-          # All subjects which are `object`
           query = RDF::Query.new {|q| q.pattern({subject: subject})}
           queryable.query(query, **options) do |solution|
             solution.merge!(object.to_sym => solution[subject])
@@ -90,7 +88,7 @@ module SPARQL; module Algebra
             solutions << solution
           end if query.valid?
 
-          # All objects which are `subject
+          # All objects which are `subject`
           query = RDF::Query.new {|q| q.pattern({object: subject})}
           queryable.query(query, **options) do |solution|
             solution.merge!(object.to_sym => subject)
@@ -107,13 +105,12 @@ module SPARQL; module Algebra
           RDF::Query.new do |q|
             q.pattern [subject, operand, object]
           end
-        else
+        else # path
           operand
         end
 
         # Recurse into query
-        solutions += 
-        queryable.query(query, depth: options[:depth].to_i + 1, **options)
+        solutions += queryable.query(query, depth: options[:depth].to_i + 1, **options)
         solutions.each(&block) if block_given?
         solutions
       end
