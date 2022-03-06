@@ -29,6 +29,8 @@ group :development do
   gem 'rdf-vocab',        github: "ruby-rdf/rdf-vocab",           branch: "develop"
   gem 'ld-patch',         github: "ruby-rdf/ld-patch",            branch: "develop"
   gem 'shex',             github: "ruby-rdf/shex",                branch: "develop"
+  gem 'erubis',           '>= 2.7.0'
+  gem 'htmlentities',     '>= 4.3.4'
   gem "equivalent-xml",   '>= 0.6.0'
 end
 
