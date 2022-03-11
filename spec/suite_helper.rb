@@ -225,14 +225,14 @@ module SPARQL::Spec
   end
 
   def self.sparql_star_tests
-    ["syntax/manifest", "eval/manifest"].map do |man|
+    %w(syntax/manifest eval/manifest).map do |man|
       "https://w3c.github.io/rdf-star/tests/sparql/#{man}.jsonld"
     end
   end
 
   def self.sparql_12_tests
-    ["xsd_functions/manifest"].map do |man|
-      "https://w3c.github.io/sparql-12/tests/#{man}.ttl"
+    %w(xsd_functions property-path-min-max).map do |partial|
+      "https://w3c.github.io/sparql-12/tests/#{partial}/manifest.ttl"
     end
   end
 end

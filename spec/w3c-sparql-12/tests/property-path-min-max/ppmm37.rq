@@ -1,0 +1,3 @@
+prefix : <http://example.org/>
+select ?X where { :A0 ((:P){0,}){0,} ?X }
+order by ?X
