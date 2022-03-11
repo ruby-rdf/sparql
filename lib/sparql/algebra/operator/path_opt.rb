@@ -27,7 +27,6 @@ module SPARQL; module Algebra
       #
       #    (path x (path? :p) y)
       #     => (union (bgp ((x :p y))) (filter (x = y) (solution x y)))
-      #        
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -44,61 +43,8 @@ module SPARQL; module Algebra
         subject, object = options[:subject], options[:object]
         debug(options) {"Path? #{[subject, operands, object].to_sse}"}
 
-        solutions = RDF::Query::Solutions.new
-        # The zero-length case implies subject == object.
-        case
-        when subject.variable? && object.variable?
-          # Nodes is the set of all subjects and objects in queryable
-          query = RDF::Query.new {|q| q.pattern({subject: subject})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(object.to_sym => solution[subject])
-            debug(options) {"(solution-s0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-
-          # All objects which are `object`
-          query = RDF::Query.new {|q| q.pattern({object: object})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(subject.to_sym => solution[object])
-            debug(options) {"(solution-o0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-        when subject.variable?
-          # All subjects which are `object`
-          query = RDF::Query.new {|q| q.pattern({subject: object})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(subject.to_sym => object)
-            debug(options) {"(solution-s0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-
-          # All objects which are `object`
-          query = RDF::Query.new {|q| q.pattern({object: object})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(subject.to_sym => object)
-            debug(options) {"(solution-o0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-        when object.variable?
-          # All subjects which are `subject`
-          query = RDF::Query.new {|q| q.pattern({subject: subject})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(object.to_sym => subject)
-            debug(options) {"(solution-s0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-
-          # All objects which are `subject`
-          query = RDF::Query.new {|q| q.pattern({object: subject})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(object.to_sym => subject)
-            debug(options) {"(solution-o0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-        else
-          # Otherwise, if subject == object, an empty solution
-          solutions << RDF::Query::Solution.new if subject == object
-        end
+        query = PathZero.new(operand)
+        solutions = query.execute(queryable, **options)
 
         # Solutions where predicate exists
         query = if operand.is_a?(RDF::Term)
@@ -110,7 +56,7 @@ module SPARQL; module Algebra
         end
 
         # Recurse into query
-        solutions += queryable.query(query, depth: options[:depth].to_i + 1, **options)
+        solutions += query.execute(queryable, depth: options[:depth].to_i + 1, **options)
         solutions.each(&block) if block_given?
         solutions
       end

@@ -99,6 +99,7 @@ module SPARQL; module Algebra
     autoload :PathPlus,           'sparql/algebra/operator/path_plus'
     autoload :PathRange,          'sparql/algebra/operator/path_range'
     autoload :PathStar,           'sparql/algebra/operator/path_star'
+    autoload :PathZero,            'sparql/algebra/operator/path_zero'
     autoload :Path,               'sparql/algebra/operator/path'
     autoload :Reverse,            'sparql/algebra/operator/reverse'
     autoload :Seq,                'sparql/algebra/operator/seq'
@@ -219,6 +220,7 @@ module SPARQL; module Algebra
         when :now             then Now
         when :or, :'||'       then Or
         when :path            then Path
+        when :path0           then PathZero
         when :path?           then PathOpt
         when :"path+"         then PathPlus
         when :"path*"         then PathStar

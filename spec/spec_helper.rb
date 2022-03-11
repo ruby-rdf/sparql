@@ -128,15 +128,18 @@ def sparql_query(opts)
   end
 
   query_str = opts[:query]
+  parser_opts = {
+    update: opts[:form] == :update,
+    base_uri: opts[:base_uri],
+    all_vars: opts[:all_vars]
+  }
   query_opts = {logger: opts.fetch(:logger, RDF::Spec.logger)}
-  query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
-  query_opts[:all_vars] = opts[:all_vars]
 
   query = if opts[:sse]
-    SPARQL::Algebra.parse(query_str, **query_opts)
+    SPARQL::Algebra.parse(query_str, **parser_opts)
   else
-    SPARQL.parse(query_str, **query_opts)
+    SPARQL.parse(query_str, **parser_opts)
   end
 
   query = query.optimize if opts[:optimize]
