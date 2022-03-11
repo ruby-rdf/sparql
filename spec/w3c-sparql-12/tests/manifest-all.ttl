@@ -7,4 +7,5 @@
 	rdfs:label "SPARQL 1.2 tests" ;
 	mf:include (
 		<xsd_functions/manifest.ttl>
+		<property-path-min-max/manifest.ttl>
 	) .
