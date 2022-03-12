@@ -1,16 +1,19 @@
 prefix : <http://example/> 
 prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
 
-:a rdf:first :a0; rdf:rest rdf:nil .
+:a rdf:first :a0, :b0, :c0, :d0;
+   rdf:rest (:b1), (:c1 :c2), (:d1 :d2 :d3) .
 
-:a rdf:first :b0; rdf:rest :lb1 .
-:lb1 rdf:first :b1; rdf:rest rdf:nil .
-
-:a rdf:first :c0; rdf:rest :lc1 .
-:lc1 rdf:first :c1; rdf:rest :lc2 .
-:lc2 rdf:first :c2; rdf:rest rdf:nil .
-
-:a rdf:first :d0; rdf:rest :ld1 .
-:ld1 rdf:first :d1; rdf:rest :ld2 .
-:ld2 rdf:first :d2; rdf:rest :ld3 .
-:ld3 rdf:first :d3; rdf:rest rdf:nil .
+#:a rdf:first :a0; rdf:rest rdf:nil .
+#
+#:a rdf:first :b0; rdf:rest :lb1 .
+#:lb1 rdf:first :b1; rdf:rest rdf:nil .
+#
+#:a rdf:first :c0; rdf:rest :lc1 .
+#:lc1 rdf:first :c1; rdf:rest :lc2 .
+#:lc2 rdf:first :c2; rdf:rest rdf:nil .
+#
+#:a rdf:first :d0; rdf:rest :ld1 .
+#:ld1 rdf:first :d1; rdf:rest :ld2 .
+#:ld2 rdf:first :d2; rdf:rest :ld3 .
+#:ld3 rdf:first :d3; rdf:rest rdf:nil .
