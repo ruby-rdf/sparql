@@ -44,7 +44,7 @@ module SPARQL; module Algebra
         debug(options) {"Path? #{[subject, operands, object].to_sse}"}
 
         query = PathZero.new(operand)
-        solutions = query.execute(queryable, **options)
+        solutions = query.execute(queryable, **options.merge(depth: options[:depth].to_i + 1))
 
         # Solutions where predicate exists
         query = if operand.is_a?(RDF::Term)
@@ -56,7 +56,8 @@ module SPARQL; module Algebra
         end
 
         # Recurse into query
-        solutions += query.execute(queryable, depth: options[:depth].to_i + 1, **options)
+        solutions += query.execute(queryable, **options.merge(depth: options[:depth].to_i + 1))
+        debug(options) {"(path?)=> #{solutions.to_sxp}"}
         solutions.each(&block) if block_given?
         solutions
       end

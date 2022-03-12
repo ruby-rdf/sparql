@@ -1,7 +1,15 @@
 module SPARQL; module Algebra
   class Operator
     ##
-    # The SPARQL Property Path `pathRange` (CountingPath) operator.
+    # The SPARQL Property Path `pathRange` (NonCountingPath) operator.
+    #
+    # Property path ranges allow specific path lenghts to be queried. The minimum range describes the minimum path length that will yield solutions, and the maximum range the maximum path that will be returned. A minumum of zero is similar to the `path?` operator. The maximum range of `*` is similar to the `path*` or `path+` operators.
+    #
+    # For example, the two queries are functionally equivalent:
+    #
+    #   SELECT * WHERE {:a :p{1,2} :b}
+    #
+    #   SELECT * WHERE {:a (:p/:p?) :b}
     #
     # [91]  PathElt ::= PathPrimary PathMod?
     # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
@@ -80,7 +88,6 @@ module SPARQL; module Algebra
       #   the graph or repository to query
       # @param [RDF::Query::Solutions] accumulator (RDF::Query::Solutions.new)
       #   For previous solutions to avoid duplicates.
-      # @param [RDF::Literal::Integer] index (0)
       # @param  [Hash{Symbol => Object}] options
       #   any additional keyword options
       # @option options [RDF::Term, RDF::Variable] :subject
@@ -95,94 +102,58 @@ module SPARQL; module Algebra
                   index: RDF::Literal(0),
                   **options,
                   &block)
-        subject, object = options[:subject], options[:object]
+
         min, max, op = *operands
-        debug(options) {"Path{#{min},#{max}}[#{index}] #{[subject, op, object].to_sxp}"}
-        #require 'byebug'; byebug if index == RDF::Literal(2)
+        subject, object = options[:subject], options[:object]
+        debug(options) {"Path{#{min},#{max}} #{[subject, op, object].to_sse}"}
 
-        # All subjects and objects
-        solutions = if index.zero? && min.zero?
-          PathZero.new(operand).execute(queryable, **options)
+        path_mm = if min.zero? && max.is_a?(RDF::Literal::Integer) && max.zero?
+          PathZero.new(op, **options)
         else
-          RDF::Query::Solutions.new
-        end
-
-        # This should only happen in the min == max == 0 use case.
-        if index == max && max.zero?
-          solutions.each(&block) if block_given? # Only at top-level
-          return solutions
-        end
-
-        # Move to 1-based index
-        if index.zero?
-          index += 1
-          debug(options) {"Path{#{min},#{max}}[#{index}] #{[subject, op, object].to_sxp}"}
-        end
-
-        # Solutions where predicate exists
-        query = if op.is_a?(RDF::Term)
-          RDF::Query.new do |q|
-            q.pattern [subject, op, object]
+          # Build up a sequence
+          path_opt = nil
+          seq_len = min.to_i
+          if max.is_a?(RDF::Literal::Integer)
+            # min to max is a sequence of optional sequences
+            opt_len = (max - min).to_i
+            while opt_len > 0 do
+              path_opt = PathOpt.new(path_opt ? Seq.new(op, path_opt, **options) : op, **options)
+              opt_len -= 1
+            end
+          elsif seq_len > 0
+            path_opt = PathPlus.new(op, **options)
+            seq_len -= 1
+          else
+            path_opt = PathStar.new(op, **options)
           end
-        else
-          op
-        end
 
-        # Recurse into query
-        immediate_solutions = 
-          query.execute(queryable, depth: options[:depth].to_i + 1, **options)
-
-        # If there are no immediate solutions, return any zero-solutions (only when min==index==0)
-        return solutions if immediate_solutions.empty?
-
-        immediate_solutions += solutions
-
-        recursive_solutions = RDF::Query::Solutions.new
-
-        immediate_solutions.reject {|s| accumulator.include?(s)}.each do |solution|
-          debug(options) {"(immediate solution)-> #{solution.to_sxp}"}
-
-          # Recurse on subject, if is a variable
-          case
-          when subject.variable? && object.variable?
-            # Query starting with bound object as subject, but replace result with subject
-            rs = self.execute(queryable, **options.merge(
-              subject: solution[object],
-              accumulator: (accumulator + immediate_solutions),
-              index: index + 1,
-              depth: options[:depth].to_i + 1)).map {|s| s.merge(subject.to_sym => solution[subject])}
-            # Query starting with bound subject as object, but replace result with subject
-            ro = self.execute(queryable, **options.merge(
-              object: solution[subject],
-              accumulator: (accumulator + immediate_solutions),
-              index: index + 1,
-              depth: options[:depth].to_i + 1)).map {|s| s.merge(object.to_sym => solution[object])}
-            recursive_solutions += (rs + ro).uniq
-          when subject.variable?
-            recursive_solutions += self.execute(queryable, **options.merge(
-              object: solution[subject],
-              accumulator: (accumulator + immediate_solutions),
-              index: index + 1,
-              depth: options[:depth].to_i + 1)).uniq
-          when object.variable?
-            recursive_solutions += self.execute(queryable, **options.merge(
-              subject: solution[object],
-              accumulator: (accumulator + immediate_solutions),
-              index: index + 1,
-              depth: options[:depth].to_i + 1)).uniq
+          # sequence ending in op, op+, op*, or path_opt
+          path_seq = nil
+          while seq_len > 0 do
+            path_seq = if path_opt
+              opt, path_opt = path_opt, nil
+              Seq.new(op, opt, **options)
+            elsif path_seq
+              Seq.new(op, path_seq, **options)
+            else
+              op
+            end
+            seq_len -= 1
           end
-        end unless index == max
-        debug(options) {"(recursive solutions)-> #{recursive_solutions.to_sxp}"}
-
-        # If min > index and there are no recursive solutions, then there are no solutions.
-        solutions = if min > index && recursive_solutions.empty?
-          recursive_solutions
-        else
-          (immediate_solutions + recursive_solutions).uniq
+          path_seq || path_opt || op
         end
-        debug(options) {"(solutions)-> #{solutions.to_sxp}"}
+        debug(options) {"=> #{path_mm.to_sse}"}
 
-        solutions.each(&block) if block_given? # Only at top-level
+        # After this, path_mm may just be the original op, which can be a term, not an operator.
+        if path_mm.is_a?(RDF::Term)
+          path_mm = RDF::Query.new do |q|
+            q.pattern [subject, path_mm, object]
+          end
+        end
+
+        solutions = path_mm.execute(queryable, **options.merge(depth: options[:depth].to_i + 1)).uniq
+        debug(options) {"(path{#{min},#{max}})=> #{solutions.to_sxp}"}
+        solutions.each(&block) if block_given?
         solutions
       end
 

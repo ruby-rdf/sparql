@@ -72,7 +72,7 @@ module SPARQL; module Algebra
           solution.bindings.delete(v.to_sym)
           solution
         end
-        debug(options) {"(seq)=> #{@solutions.map(&:to_h).to_sse}"}
+        debug(options) {"(seq)=> #{@solutions.to_sxp}"}
         @solutions.each(&block) if block_given?
         @solutions
       end

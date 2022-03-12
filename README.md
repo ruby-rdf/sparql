@@ -73,6 +73,14 @@ Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb]
 
 Additionally, queries now take a block, or return an `Enumerator`; this is in keeping with much of the behavior of [RDF.rb][] methods, including `Queryable#query`, and with version 1.1 or [RDF.rb][], Query#execute. As a consequence, all queries which used to be of the form `query.execute(repository)` may equally be called as `repository.query(query)`. Previously, results were returned as a concrete class implementing `RDF::Queryable` or `RDF::Query::Solutions`, these are now `Enumerators`.
 
+### SPARQL 1.2
+The gem supports some of the extensions proposed by the [SPARQL 1.2 Community Group](https://github.com/w3c/sparql-12). In particular, the following extensions are now implemented:
+
+* [SEP-0002: better support for Durations, Dates, and Times](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0002/sep-0002.md)
+  * This includes full support for `xsd:date`, `xsd:time`, `xsd:duration`, `xsd:dayTimeDuration`, and `xsd:yearMonthDuration` along with associated XPath/XQuery functions including a new `ADJUST` builtin.
+* [SEP-0003: Property paths with a min/max hop](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0003/sep-0003.md)
+  * This includes support for non-counting path forms such as `rdf:rest{1,3}` to match the union of paths `rdf:rest`, `rdf:rest/rdf:rest`, and `rdf:rest/rdf:rest/rdf:rest`.
+
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:
 
