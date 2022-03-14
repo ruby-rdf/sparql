@@ -9,6 +9,7 @@ Gem::Specification.new do |gem|
   gem.homepage           = "https://github.com/ruby-rdf/sparql"
   gem.license            = 'Unlicense'
   gem.summary            = "SPARQL Query and Update library for Ruby."
+  gem.description        = %(SPARQL Implements SPARQL 1.1 Query, Update and result formats for the Ruby RDF.rb library suite.)
   gem.metadata           = {
     "documentation_uri" => "https://ruby-rdf.github.io/sparql",
     "bug_tracker_uri"   => "https://github.com/ruby-rdf/sparql/issues",
@@ -25,16 +26,15 @@ Gem::Specification.new do |gem|
   gem.bindir             = %q(bin)
   gem.executables        = %w(sparql)
   gem.require_paths      = %w(lib)
-  gem.description        = %(SPARQL Implements SPARQL 1.1 Query, Update and result formats for the Ruby RDF.rb library suite.)
 
   gem.required_ruby_version      = '>= 2.6'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',                '~> 3.2', '>= 3.2.3'
+  gem.add_runtime_dependency     'rdf',                '~> 3.2', '>= 3.2.6'
   gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.2'
   gem.add_runtime_dependency     'ebnf',               '~> 2.2'
   gem.add_runtime_dependency     'builder',            '~> 3.2'
   gem.add_runtime_dependency     'logger',             '~> 1.4'
-  gem.add_runtime_dependency     'sxp',                '~> 1.2', '>= 1.2.1'
+  gem.add_runtime_dependency     'sxp',                '~> 1.2', '>= 1.2.2'
   gem.add_runtime_dependency     'sparql-client',      '~> 3.2'
   gem.add_runtime_dependency     'rdf-xsd',            '~> 3.2'
 

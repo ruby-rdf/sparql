@@ -77,9 +77,9 @@ Additionally, queries now take a block, or return an `Enumerator`; this is in ke
 The gem supports some of the extensions proposed by the [SPARQL 1.2 Community Group](https://github.com/w3c/sparql-12). In particular, the following extensions are now implemented:
 
 * [SEP-0002: better support for Durations, Dates, and Times](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0002/sep-0002.md)
-  * This includes full support for `xsd:date`, `xsd:time`, `xsd:duration`, `xsd:dayTimeDuration`, and `xsd:yearMonthDuration` along with associated XPath/XQuery functions including a new `ADJUST` builtin.
+  * This includes full support for `xsd:date`, `xsd:time`, `xsd:duration`, `xsd:dayTimeDuration`, and `xsd:yearMonthDuration` along with associated XPath/XQuery functions including a new `ADJUST` builtin. (**Note: This feature is subject to change or elimination as the standards process progresses.**)
 * [SEP-0003: Property paths with a min/max hop](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0003/sep-0003.md)
-  * This includes support for non-counting path forms such as `rdf:rest{1,3}` to match the union of paths `rdf:rest`, `rdf:rest/rdf:rest`, and `rdf:rest/rdf:rest/rdf:rest`.
+  * This includes support for non-counting path forms such as `rdf:rest{1,3}` to match the union of paths `rdf:rest`, `rdf:rest/rdf:rest`, and `rdf:rest/rdf:rest/rdf:rest`.  (**Note: This feature is subject to change or elimination as the standards process progresses.**)
 
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:
@@ -170,44 +170,31 @@ Note that results can be serialized only when the format supports [RDF-star][].
 
 #### SPARQL results
 
-The SPARQL results formats are extended to serialize embedded triples as described for [RDF4J](https://rdf4j.org/documentation/programming/rdfstar/):
+The SPARQL results formats are extended to serialize quoted triples as described for [RDF4J](https://rdf4j.org/documentation/programming/rdfstar/):
 
     {
       "head" : {
-        "vars" : [
-          "a",
-          "b",
-          "c"
-        ]
+        "vars" : ["a", "b", "c"]
       },
       "results" : {
         "bindings": [
           { "a" : {
               "type" : "triple",
               "value" : {
-                "s" : {
-                  "type" : "uri",
-                  "value" : "http://example.org/bob"
-                },
-                "p" : {
-                  "type" : "uri",
-                  "value" : "http://xmlns.com/foaf/0.1/name"
-                },
+                "s" : {"value" : "http://example.org/bob", "type": "uri"},
+                "p" : {"value" : "http://xmlns.com/foaf/0.1/name", "type": "uri"},
                 "o" : {
-                  "datatype" : "http://www.w3.org/2001/XMLSchema#integer",
+                  "value" : "23",
                   "type" : "literal",
-                  "value" : "23"
+                  "datatype" : "http://www.w3.org/2001/XMLSchema#integer"
                 }
               }
             },
-            "b": { 
-              "type": "uri",
-              "value": "http://example.org/certainty"
-            },
+            "b": {"value": "http://example.org/certainty", "type": "uri"},
             "c" : {
-              "datatype" : "http://www.w3.org/2001/XMLSchema#decimal",
+              "value" : "0.9",
               "type" : "literal",
-              "value" : "0.9"
+              "datatype" : "http://www.w3.org/2001/XMLSchema#decimal"
             }
           }
         ]

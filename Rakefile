@@ -54,12 +54,18 @@ end
 desc "Create concatenated test manifests"
 file "etc/manifest-cache.nt" do
   require 'rdf'
-  require 'json/ld'
+  require 'rdf/turtle'
   require 'rdf/ntriples'
   graph = RDF::Graph.new do |g|
-    Dir.glob("spec/dawg/**/manifest.jsonld").each do |man|
-      puts "load #{man}"
-      g.load(man, unique_bnodes: true)
+    {
+      "http://w3c.github.io/rdf-tests/sparql11/" => "../w3c-rdf-tests/sparql11/",
+      "https://w3c.github.io/rdf-star/tests/sparql/" => "../w3c-rdf-star/tests/sparql/",
+      "https://w3c.github.io/sparql-12/tests/" => "spec/w3c-sparql-12/tests/"
+    }.each do |base, path|
+      Dir.glob("#{path}**/manifest.ttl").each do |man|
+        puts "load #{man}"
+        g.load(man, unique_bnodes: true, base_uri: man.sub(path, base))
+      end
     end
   end
   puts "write"

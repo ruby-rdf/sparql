@@ -288,6 +288,7 @@ OPT_ARGS = [
   ["--output", "-o",    GetoptLong::REQUIRED_ARGUMENT, "Output to specified file"],
   ["--quiet", "-q",     GetoptLong::NO_ARGUMENT, "Minimal output"],
   ["--rdfstar",         GetoptLong::NO_ARGUMENT, "Run RDF* tests"],
+  ["--sparql11",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.1 tests"],
   ["--sparql12",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.2 tests"],
   ["--validate",        GetoptLong::NO_ARGUMENT, "Validate input"],
   ["--verbose", "-v",   GetoptLong::NO_ARGUMENT, "Verbose output"],
@@ -340,10 +341,18 @@ earl_preamble(options) if options[:earl]
 
 manifests = if options[:rdfstar]
   SPARQL::Spec.sparql_star_tests
+elsif options[:sparql11]
+  [SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests]
 elsif options[:sparql12]
   SPARQL::Spec.sparql_12_tests
 else
-  [SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests]
+  [
+    SPARQL::Spec.sparql1_0_syntax_tests,
+    SPARQL::Spec.sparql1_0_tests,
+    SPARQL::Spec.sparql1_1_tests,
+    SPARQL::Spec.sparql_12_tests,
+    SPARQL::Spec.sparql_star_tests,
+  ]
 end.flatten
 manifests.each do |path|
     SPARQL::Spec::Manifest.open(path) do |man|
