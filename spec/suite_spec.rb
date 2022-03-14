@@ -26,6 +26,8 @@ shared_examples "SUITE" do |id, label, comment, tests|
             pending "Expects multiple equivalent property path solutions"
           when 'date-1.rq', 'expr-5.rq'
             pending "Different results on unapproved tests" unless t.name.include?('dawg-optional-filter-005-simplified')
+          when 'csvtsv02.rq'
+            pending "empty values are the same as missing values"
           end
 
           result = sparql_query(graphs: t.graphs,
@@ -144,7 +146,7 @@ shared_examples "to_sparql" do |id, label, comment, tests|
     tests.each do |t|
       next unless t.action
       case t.type
-      when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
+      when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11', 'mf:CSVResultFormatTest'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
           case t.entry
           when 'syntax-expr-05.rq', 'syntax-order-05.rq', 'syntax-function-04.rq'

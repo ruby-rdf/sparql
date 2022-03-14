@@ -68,7 +68,7 @@ def run_tc(tc, **options)
       tc.expected.dump(:trig, standard_prefixes: true) :
     (tc.solutions.is_a?(RDF::Enumerable) ?
       tc.solutions.dump(:trig, standard_prefixes: true) :
-      "Vars: #{tc.solutions.variable_names}\n" + tc.solutions.to_sse))
+      (tc.solutions ? "Vars: #{tc.solutions.variable_names}\n" + tc.solutions.to_sse : '')))
   end
 
   case tc.name

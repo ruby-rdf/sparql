@@ -185,11 +185,9 @@ module SPARQL::Spec
   def self.sparql1_1_tests
     # Skips the following:
     # * entailment
-    # * csv-tsv-res
     # * http-rdf-dupdate
     # * protocol
     # * service
-    # * syntax-fed
     %w(
       add
       aggregates
@@ -200,10 +198,11 @@ module SPARQL::Spec
       clear
       construct
       copy
+      csv-tsv-res
+      delete
       delete-data
       delete-insert
       delete-where
-      delete
       drop
       exists
       functions
@@ -213,12 +212,13 @@ module SPARQL::Spec
       negation
       project-expression
       property-path
+      service-description
       subquery
+      syntax-fed
       syntax-query
       syntax-update-1
       syntax-update-2
       update-silent
-      service-description
     ).map do |partial|
       "#{BASE}data-sparql11/#{partial}/manifest.ttl"
     end
