@@ -46,6 +46,7 @@
       td.passed-most {color: darkorange;}
       td.passed-some {color: red;}
       td.passed-none {color: gray;}
+      td > span.info {font-style: italic; color: gray;}
       em.rfc2119 { 
         text-transform: lowercase;
         font-variant:   small-caps;
@@ -158,7 +159,10 @@
               - test['title'] = Array(test['title']).first
               %tr{rel: "mf:entries", typeof: test['@type'].join(" "), resource: test['@id'], inlist: true}
                 %td
-                  = "Test #{test['@id'].split("#").last}: #{CGI.escapeHTML test['title'].to_s}"
+                  - name = "Test #{test['@id'].split("#").last}: #{CGI.escapeHTML test['title'].to_s}"
+                  - info = Array(test['assertions']).first['result']['info']
+                  - name += %{ (<span class="info">#{CGI.escapeHTML info.to_s}</span>)} if info
+                  = name
                 - test['assertions'].each_with_index do |assertion, ndx|
                   - next if skip_subject[assertion['subject']]
                   - pass_fail = assertion['result']['outcome'].split(':').last.upcase.sub(/(PASS|FAIL)ED$/, '\1')

@@ -43,6 +43,7 @@ def run_tc(tc, **options)
   options[:msg] ||= {}
   options[:tests] ||= 0
   options[:tests] += 1
+  info = nil
 
   id = tc.attributes['id'].sub('http://www.w3.org/2001/sw/DataAccess/tests/', '')
   STDERR.write "run #{id}" unless options[:quiet]
@@ -73,26 +74,31 @@ def run_tc(tc, **options)
 
   case tc.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
-    # Decimal format changed in SPARQL 1.1
+    info = "Decimal format changed in SPARQL 1.1"
   when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
-    # PNAME_LN changed in SPARQL 1.1
+    info = "PNAME_LN changed in SPARQL 1.1"
   when 'datatype-2 : Literals with a datatype'
-    # datatype now returns rdf:langString for language-tagged literals
+    info = "datatype now returns rdf:langString for language-tagged literals"
   when /REDUCED/
-    # REDUCED equivalent to DISTINCT
+    info = "REDUCED equivalent to DISTINCT"
   when 'Strings: Distinct', 'All: Distinct'
-    # More compact representation
-  when /pp11|pp31/
-    # Expects multiple equivalent property path solutions
+    info = "More compact representation"
   when /syntax-update-(26|27|28|36).ru/
-    # Whitespace in string tokens
-  when 'date-1', 'dawg-optional-filter-005-not-simplified'
-    # Different results on unapproved tests
-  when /COUNT (8|9|10|11|12)$/, /syn-bad-0[12].rq/, 'syn-bad-pname-06', /Group-[67]$/
-    # Better Error Detection
-  when /sq03/
-    # Graph variable binding differences
+    info = "Whitespace in string tokens"
   else
+    case tc.name
+    when 'date-1', 'dawg-optional-filter-005-not-simplified'
+      info = "Different results on unapproved tests"
+    when /pp11|pp31/
+      info = "Expects multiple equivalent property path solutions"
+    when /COUNT (8|9|10|11|12)$/, /syn-bad-0[12].rq/, 'syn-bad-pname-06', /Group-[67]$/
+      info = "Better Error Detection"
+    when /sq03/
+      info = "Graph variable binding differences"
+    when /tvs02/
+      info = "Empty vs. Unbound"
+    end
+
     case tc.type
     when 'mf:QueryEvaluationTest'
       actual = sparql_query(graphs: tc.graphs, query: query_string,
@@ -253,8 +259,8 @@ ensure
   earl:test <#{tc.attributes['id']}>;
   earl:result [
     a earl:TestResult;
-    earl:outcome earl:#{result};
-    dc:name """#{tc.name}""";
+    earl:outcome earl:#{result};#{info ? "\n    earl:info " + info.inspect + ";" : ""}
+    dc:name #{RDF::Literal(tc.name).to_base};
     dc:date "#{RUN_TIME.xmlschema}"^^xsd:dateTime];
   earl:mode earl:automatic ] .
 }
@@ -263,7 +269,7 @@ ensure
   if options[:quiet]
     STDERR.write(result == 'passed' ? '.' : result[0,1])
   else
-    puts " #{result}"
+    puts " #{result} #{info}"
   end
 end
 
