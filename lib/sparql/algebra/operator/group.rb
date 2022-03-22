@@ -163,6 +163,34 @@ module SPARQL; module Algebra
       end
 
       ##
+      # The variables used in the extension.
+      # Includes grouped variables and temporary, but not those in the query, itself
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        group_vars = operands.first
+
+        aggregate_vars = (operands.length == 3 ? operand(1) : [])
+
+        # Extract first element of each and merge it's variables
+        (group_vars + aggregate_vars).
+          map do  |o|
+            v = Array(o).first
+            v if v.is_a?(RDF::Query::Variable)
+          end.compact.
+          map(&:variables).
+          inject({}) {|memo, h| memo.merge(h)}
+      end
+
+      ##
+      # The variables used within the query
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def internal_variables
+        operands.last.variables
+      end
+
+      ##
       #
       # Returns a partial SPARQL grammar for this operator.
       #

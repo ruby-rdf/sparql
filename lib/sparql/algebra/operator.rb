@@ -801,6 +801,15 @@ module SPARQL; module Algebra
       operands.each {|op| op.validate! if op.respond_to?(:validate!)}
       self
     end
+
+    ##
+    # The variables used in this query.
+    #
+    # @return [Hash{Symbol => RDF::Query::Variable}]
+    def variables
+      operands.inject({}) {|hash, o| o.respond_to?(:variables) ? hash.merge(o.variables) : hash}
+    end
+
   protected
 
     ##

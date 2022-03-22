@@ -125,6 +125,14 @@ class Array
   def constant?; !(variable?); end
 
   ##
+  # The variables used in this array.
+  #
+  # @return [Hash{Symbol => RDF::Query::Variable}]
+  def variables
+    self.inject({}) {|hash, o| o.respond_to?(:variables) ? hash.merge(o.variables) : hash}
+  end
+
+  ##
   # Does this contain any nodes?
   #
   # @return [Boolean]

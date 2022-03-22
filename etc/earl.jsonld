@@ -135,7 +135,7 @@
       "name": "earl-report-0.8.0",
       "doap:created": {
         "@type": "http://www.w3.org/2001/XMLSchema#date",
-        "@value": "2021-12-18"
+        "@value": "2022-03-15"
       },
       "revision": "0.8.0"
     },
@@ -13554,8 +13554,7 @@
               "result": {
                 "@id": "_:b1250",
                 "@type": "TestResult",
-                "outcome": "earl:passed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -13586,8 +13585,7 @@
               "result": {
                 "@id": "_:b1252",
                 "@type": "TestResult",
-                "outcome": "earl:passed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -17704,8 +17702,7 @@
               "result": {
                 "@id": "_:b1884",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -17784,8 +17781,7 @@
               "result": {
                 "@id": "_:b1888",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -17820,8 +17816,7 @@
               "result": {
                 "@id": "_:b1890",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -17856,8 +17851,7 @@
               "result": {
                 "@id": "_:b1892",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -17892,8 +17886,7 @@
               "result": {
                 "@id": "_:b1894",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -32084,8 +32077,7 @@
               "result": {
                 "@id": "_:b2310",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -32117,8 +32109,7 @@
               "result": {
                 "@id": "_:b2312",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -36727,8 +36718,7 @@
               "result": {
                 "@id": "_:b2532",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -36759,8 +36749,7 @@
               "result": {
                 "@id": "_:b2534",
                 "@type": "TestResult",
-                "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "outcome": "earl:passed"
               }
             }
           ]
@@ -37877,7 +37866,7 @@
                 "@id": "_:b2606",
                 "@type": "TestResult",
                 "outcome": "earl:failed",
-                "info": "Better Error Detection"
+                "info": "Raw PNAME validation"
               }
             }
           ]

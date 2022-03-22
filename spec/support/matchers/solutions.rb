@@ -13,8 +13,8 @@ RSpec::Matchers.define :describe_solutions do |expected_solutions, info|
     res = actual_solutions.is_a?(RDF::Enumerable) ? actual_solutions.dump(:trig, standard_prefixes: true) : actual_solutions.to_sse
     msg = "expected solutions to be isomorphic\n" +
     (initial ? "initial:\n#{initial}" : "\n") +
-    "expected:\nvars:#{expected_solutions.variable_names.inspect}\n#{exp}" +
-    "\nactual:\nvars:#{actual_solutions.variable_names.inspect}\n#{res}"
+    "expected:\nvars:#{expected_solutions.variable_names.inspect rescue nil}\n#{exp}" +
+    "\nactual:\nvars:#{actual_solutions.variable_names.inspect rescue nil}\n#{res}"
     missing = (expected_solutions - actual_solutions) rescue []
     extra = (actual_solutions - expected_solutions) rescue []
     msg += "\ninfo:\n#{info.ai}"

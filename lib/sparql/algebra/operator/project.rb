@@ -58,6 +58,32 @@ module SPARQL; module Algebra
       NAME = [:project]
 
       ##
+      # Can only project in-scope variables.
+      #
+      # @return (see Algebra::Operator#initialize)
+      def validate!
+        if (group = descendants.detect {|o| o.is_a?(Group)})
+          raise ArgumentError, "project * on group is illegal" if operands.first.empty?
+          query_vars = operands.last.variables
+          variables.keys.each do |v|
+            raise ArgumentError,
+              "projecting #{v.to_sse} not projected from group" unless
+              query_vars.key?(v.to_sym)
+          end
+        end
+
+        super
+      end
+
+      ##
+      # The projected variables.
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        operands(1).inject({}) {|hash, o| hash.merge(o.variables)}
+      end
+
+      ##
       # Executes this query on the given `queryable` graph or repository.
       # Reduces the result set to the variables listed in the first operand
       #

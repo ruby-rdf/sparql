@@ -7,9 +7,9 @@ module SPARQL; module Algebra
     #
     # For example, the two queries are functionally equivalent:
     #
-    #   SELECT * WHERE {:a :p{1,2} :b}
+    #     SELECT * WHERE {:a :p{1,2} :b}
     #
-    #   SELECT * WHERE {:a (:p/:p?) :b}
+    #     SELECT * WHERE {:a (:p/:p?) :b}
     #
     # [91]  PathElt ::= PathPrimary PathMod?
     # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'

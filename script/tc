@@ -45,7 +45,11 @@ def run_tc(tc, **options)
   options[:tests] += 1
   info = nil
 
-  id = tc.attributes['id'].sub('http://www.w3.org/2001/sw/DataAccess/tests/', '')
+  id = tc.attributes['id'].
+    sub('http://www.w3.org/2001/sw/DataAccess/tests/', '').
+    sub('http://www.w3.org/2009/sparql/docs/tests/', '').
+    sub('https://w3c.github.io/rdf-star/tests/', '').
+    sub('https://w3c.github.io/sparql-12/tests/', '')
   STDERR.write "run #{id}" unless options[:quiet]
 
   result = "untested"
@@ -91,8 +95,8 @@ def run_tc(tc, **options)
       info = "Different results on unapproved tests"
     when /pp11|pp31/
       info = "Expects multiple equivalent property path solutions"
-    when /COUNT (8|9|10|11|12)$/, /syn-bad-0[12].rq/, 'syn-bad-pname-06', /Group-[67]$/
-      info = "Better Error Detection"
+    when 'syn-bad-pname-06'
+      info = "Raw PNAME validation"
     when /sq03/
       info = "Graph variable binding differences"
     when /tvs02/
@@ -209,7 +213,11 @@ def run_tc(tc, **options)
       result = "passed"
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
       begin
-        SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, logger: options[:logger])
+        SPARQL.parse(query_string,
+                     base_uri: tc.base_uri,
+                     all_vars: true,
+                     validate: true,
+                     logger: options[:logger])
       rescue Exception => e
         result = "passed"
       end
