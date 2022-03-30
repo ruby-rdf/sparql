@@ -48,6 +48,7 @@ module Rack; module SPARQL
       env['ORDERED_CONTENT_TYPES'] = parse_accept_header(env['HTTP_ACCEPT']) if env.has_key?('HTTP_ACCEPT')
       response = app.call(env)
       body = response[2].respond_to?(:body) ? response[2].body : response[2]
+      body = body.first if body.is_a?(Array) && body.length == 1 && body.first.is_a?(RDF::Literal::Boolean)
       case body
       when RDF::Enumerable, RDF::Query::Solutions, RDF::Literal::Boolean
         response[2] = body  # Put it back in the response, it might have been a proxy

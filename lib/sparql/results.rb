@@ -234,12 +234,13 @@ module SPARQL
       case format
       when :json
         require 'json' unless defined?(::JSON)
-        {boolean: solutions}.to_json
+        {head: {}, boolean: solutions}.to_json
       when :xml
         require 'builder' unless defined?(::Builder)
         xml = ::Builder::XmlMarkup.new(indent: 2)
         xml.instruct!
         xml.sparql(xmlns: "http://www.w3.org/2005/sparql-results#") do
+          xml.head
           xml.boolean(solutions.to_s)
         end
       when :html

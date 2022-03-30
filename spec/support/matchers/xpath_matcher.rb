@@ -16,7 +16,7 @@ RSpec::Matchers.define :have_xpath do |xpath, value|
     when true
       expect(@doc.root.at_xpath(xpath, @namespaces)).not_to be_nil
     when Array
-      expect(@doc.root.at_xpath(xpath, @namespaces).to_s.split(" ")).to include(*value)
+      expect(@doc.root.xpath(xpath, @namespaces).map(&:to_s)).to include(*value)
     when Regexp
       expect(@doc.root.at_xpath(xpath, @namespaces).to_s).to match value
     else

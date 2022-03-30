@@ -13,6 +13,7 @@ describe SPARQL::Results do
                          csv: %(a\r\na\r\n),
                          tsv: %(?a\n<a>\n),
                          :xml      => [
+                           ["/sr:sparql/sr:head/sr:variable/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:uri/text()", "a"],
                          ],
@@ -29,6 +30,7 @@ describe SPARQL::Results do
                          csv: %(a\r\n_:a\r\n),
                          tsv: %(?a\n_:a\n),
                          :xml      => [
+                           ["/sr:sparql/sr:head/sr:variable/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:bnode/text()", "a"],
                          ],
@@ -45,6 +47,7 @@ describe SPARQL::Results do
                          csv: %(a\r\na\r\n),
                          tsv: %(?a\n"a"\n),
                          :xml      => [
+                           ["/sr:sparql/sr:head/sr:variable/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:literal/text()", "a"],
                          ],
@@ -61,6 +64,7 @@ describe SPARQL::Results do
                          csv: %(a\r\na\r\n),
                          tsv: %(?a\n"a"@en\n),
                          :xml      => [
+                           ["/sr:sparql/sr:head/sr:variable/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:literal[@xml:lang='en']/text()", "a"],
                           ],
@@ -77,6 +81,7 @@ describe SPARQL::Results do
                          csv: %(a\r\n1\r\n),
                          tsv: %(?a\n1\n),
                          :xml      => [
+                           ["/sr:sparql/sr:head/sr:variable/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding/@name", "a"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='a']/sr:literal[@datatype='#{RDF::XSD.integer}']/text()", "1"],
                          ],
@@ -100,6 +105,7 @@ describe SPARQL::Results do
                          tsv: %(?integer\t?decimal\t?double\t?token\n) +
                                  %(1\t1.1\t1.1E0\t"tok"^^<http://www.w3.org/2001/XMLSchema#token>\n),
                          :xml      => [
+                           ["/sr:sparql/sr:head/sr:variable/@name", %w(integer decimal double token)],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='integer']/sr:literal[@datatype='#{RDF::XSD.integer}']/text()", "1"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='decimal']/sr:literal[@datatype='#{RDF::XSD.decimal}']/text()", "1.1"],
                            ["/sr:sparql/sr:results/sr:result/sr:binding[@name='double']/sr:literal[@datatype='#{RDF::XSD.double}']/text()", "1.1"],
@@ -134,6 +140,7 @@ describe SPARQL::Results do
                                  %(<http://localhost/people/1>\t"blah"\n) +
                                  %(<http://localhost/people/2>\t\n),
                          :xml      => [
+                           ["/sr:sparql/sr:head/sr:variable/@name", %w(entity middle_name)],
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='entity']/sr:uri/text()", "http://localhost/people/1"],
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='middle_name']/sr:literal/text()", "blah"],
                            ["/sr:sparql/sr:results/sr:result[2]/sr:binding[@name='entity']/sr:uri/text()", "http://localhost/people/2"],
@@ -175,6 +182,7 @@ describe SPARQL::Results do
                                  %(_:a\t<http://purl.org/dc/terms/title>\t"Hello, world!"\n) +
                                  %(_:b\t<http://purl.org/dc/terms/title>\t"Foo bar"\n),
                          xml: [
+                           ["/sr:sparql/sr:head/sr:variable/@name", %w(x y z)],
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='x']/sr:bnode/text()", "a"],
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='y']/sr:uri/text()", "http://purl.org/dc/terms/title"],
                            ["/sr:sparql/sr:results/sr:result[1]/sr:binding[@name='z']/sr:literal/text()", "Hello, world!"],
@@ -228,8 +236,9 @@ describe SPARQL::Results do
     context "boolean" do
       BOOLEAN = {
         :true          => { :value    => true,
-                           :json     => {boolean: true},
+                           :json     => {head: {}, boolean: true},
                            :xml      => [
+                             ["/sr:sparql/sr:head", true],
                              ["/sr:sparql/sr:boolean/text()", "true"],
                            ],
                            :html     => [
@@ -237,8 +246,9 @@ describe SPARQL::Results do
                            ],
                           },
         :false         => { :value    => false,
-                           :json     => {boolean: false},
+                           :json     => {head: {}, boolean: false},
                            :xml      => [
+                             ["/sr:sparql/sr:head", true],
                              ["/sr:sparql/sr:boolean/text()", "false"],
                            ],
                            :html     => [
@@ -246,8 +256,9 @@ describe SPARQL::Results do
                            ],
                           },
         :rdf_true      => { :value    => RDF::Literal::TRUE,
-                           :json     => {boolean: true},
+                           :json     => {head: {}, boolean: true},
                            :xml      => [
+                             ["/sr:sparql/sr:head", true],
                              ["/sr:sparql/sr:boolean/text()", "true"],
                            ],
                            :html     => [
@@ -255,8 +266,9 @@ describe SPARQL::Results do
                            ],
                           },
         :rdf_false     => { :value    => RDF::Literal::FALSE,
-                           :json     => {boolean: false},
+                           :json     => {head: {}, boolean: false},
                            :xml      => [
+                             ["/sr:sparql/sr:head", true],
                              ["/sr:sparql/sr:boolean/text()", "false"],
                            ],
                            :html     => [
