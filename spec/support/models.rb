@@ -6,25 +6,33 @@ module SPARQL; module Spec
   class Manifest < JSON::LD::Resource
     FRAME = JSON.parse(%q({
       "@context": {
-        "xsd": "http://www.w3.org/2001/XMLSchema#",
-        "rdfs": "http://www.w3.org/2000/01/rdf-schema#",
-        "mf": "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
-        "mq": "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
-        "ut": "http://www.w3.org/2009/sparql/tests/test-update#",
         "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
-        "id": "@id",
-        "type": "@type",
+        "ent":   "http://www.w3.org/ns/entailment/",
+        "mf":    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
+        "mq":    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
+        "pr":    "http://www.w3.org/ns/owl-profile/",
+        "rdfs":  "http://www.w3.org/2000/01/rdf-schema#",
+        "sd":    "http://www.w3.org/ns/sparql-service-description#",
+        "ut":    "http://www.w3.org/2009/sparql/tests/test-update#",
+        "xsd":   "http://www.w3.org/2001/XMLSchema#",
+        "id":    "@id",
+        "type":  "@type",
     
+        "action": {"@id": "mf:action", "@type": "@id"},
+        "approval": {"@id": "dawgt:approval", "@type": "@id"},
+        "approvedBy": {"@id": "dawgt:approvedBy", "@type": "@id"},
         "comment": "rdfs:comment",
         "entries": {"@id": "mf:entries", "@type": "@id", "@container": "@list"},
+        "feature": {"@id": "mf:feature", "@type": "@id", "@container": "@set"},
         "include": {"@id": "mf:include", "@type": "@id", "@container": "@list"},
         "name": "mf:name",
-        "action": {"@id": "mf:action", "@type": "@id"},
         "result": {"@id": "mf:result", "@type": "@id"},
-        "approval": {"@id": "dawgt:approval", "@type": "@id"},
         "mq:data": {"@type": "@id"},
+        "mq:endpoint": {"@type": "@id"},
         "mq:graphData": {"@type": "@id"},
         "mq:query": {"@type": "@id"},
+        "sd:EntailmentProfile": {"@type": "@id", "@container": "@list"},
+        "sd:entailmentRegime": {"@type": "@id", "@container": "@list"},
         "ut:data": {"@type": "@id"},
         "ut:graph": {"@type": "@id"},
         "ut:graphData": {"@type": "@id", "@container": "@set"},
@@ -55,7 +63,7 @@ module SPARQL; module Spec
 
     def entries
       # Map entries to resources
-      Array(attributes['entries']).map do |e|
+      Array(attributes['entries']).select {|e| e.is_a?(Hash)}.map do |e|
         case e['type']
         when "mf:QueryEvaluationTest", "mf:CSVResultFormatTest"
           QueryTest.new(e)
@@ -65,6 +73,8 @@ module SPARQL; module Spec
              "mf:PositiveSyntaxTest11", "mf:NegativeSyntaxTest11",
              "mf:PositiveUpdateSyntaxTest11", "mf:NegativeUpdateSyntaxTest11"
           SyntaxTest.new(e)
+        when 'mf:ProtocolTest', 'mf:GraphStoreProtocolTest'
+          ProtocolTest.new(e)
         else
           SPARQLTest.new(e)
         end
@@ -92,6 +102,11 @@ module SPARQL; module Spec
       approval.to_s.include? "Approved"
     end
 
+    def entailment?
+      action.attributes.key?('sd:entailmentRegime') ||
+      action.attributes.key?('http://www.w3.org/ns/sparql-service-description#entailmentRegime')
+    end
+
     def form
       query_data = begin action.query_string rescue nil end
       if query_data =~ /(ASK|CONSTRUCT|DESCRIBE|SELECT|ADD|MOVE|CLEAR|COPY|CREATE|DELETE|DROP|INSERT|LOAD)/i
@@ -104,6 +119,14 @@ module SPARQL; module Spec
       else
         raise "Couldn't determine query type for #{File.basename(subject)} (reading #{action.query_file})"
       end
+    end
+
+    def inspect
+      "<#{self.class.name.split('::').last}" +
+      attributes.map do |k, v|
+        "\n  #{k}: #{k.to_sym == :action ? action.inspect.gsub(/^/, ' ') : v.inspect}"
+      end.join(" ") +
+      ">"
     end
   end
 
@@ -178,7 +201,7 @@ module SPARQL; module Spec
           {
             data: RDF::Util::File.open_file(g.graph.to_s, &:read),
             format: RDF::Format.for(g.graph.to_s).to_sym,
-            base_uri: g.basename
+            base_uri: g.graph_name
           }
         end
       end
@@ -208,7 +231,7 @@ module SPARQL; module Spec
 
   class UpdateGraphData < JSON::LD::Resource
     def graph; attributes["ut:graph"]; end
-    def basename; attributes["rdfs:label"]; end
+    def graph_name; attributes["rdfs:label"]; end
 
     def data_file
       graph
@@ -340,6 +363,33 @@ module SPARQL; module Spec
 
     def query_string
       RDF::Util::File.open_file(property('action'), &:read)
+    end
+  end
+
+  class ProtocolTest < SPARQLTest
+    def query_string; ""; end
+    def query_file; false; end
+
+    def base_uri; nil; end
+
+    def entry; 'no entry'; end
+
+    def approved?
+      approval.to_s.include? "Approved"
+    end
+
+    def entailment?; false; end
+
+    def form
+      raise "Couldn't determine query type for #{File.basename(subject)} (reading #{action.query_file})"
+    end
+
+    def inspect
+      "<#{self.class.name.split('::').last}" +
+      attributes.map do |k, v|
+        "\n  #{k}: #{v.inspect}"
+      end.join(" ") +
+      ">"
     end
   end
 

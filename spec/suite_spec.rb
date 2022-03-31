@@ -7,7 +7,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
-      next unless t.action
+      next unless t.action || %w(mf:ProtocolTest).include?(t.type)
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
@@ -29,6 +29,9 @@ shared_examples "SUITE" do |id, label, comment, tests|
           when 'csvtsv02.rq'
             pending "empty values are the same as missing values"
           end
+
+          skip 'Entailment Regimes' if t.entailment?
+          skip "Federated Query" if Array(t.feature).include?('sd:BasicFederatedQuery')
 
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
@@ -125,9 +128,10 @@ shared_examples "SUITE" do |id, label, comment, tests|
             SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true, logger: t.logger)
           end.to raise_error(StandardError)
         end
-      when 'mf:ServiceDescriptionTest', 'mf:ProtocolTest',
-           'mf:GraphStoreProtocolTest'
-        # Skip Other
+      when 'mf:ProtocolTest', 'mf:GraphStoreProtocolTest'
+        it "#{t.type} #{t.entry} - #{t.name}" do
+          skip t.type
+        end
       else
         it "??? #{t.entry} - #{t.name}" do
           puts t.inspect

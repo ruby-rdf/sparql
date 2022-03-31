@@ -11,7 +11,7 @@ class Sinatra::Response
 
     # Rack::Response#finish sometimes returns self as response body. We don't want that.
     status, headers, result = super
-    result = body if result == self
+    result = body if self == result
     [status, headers, result]
   end
 end

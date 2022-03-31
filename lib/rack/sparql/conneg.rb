@@ -39,13 +39,31 @@ module Rack; module SPARQL
     # If result is `RDF::Literal::Boolean`, `RDF::Query::Results`, or `RDF::Enumerable`
     # The result is serialized using {SPARQL::Results}
     #
-    # Inserts ordered content types into the environment as `ORDERED_CONTENT_TYPES` if an Accept header is present
+    # Inserts ordered content types into the environment as `ORDERED_CONTENT_TYPES` if an Accept header is present.
+    #
+    # Normalizes `application/x-www-form-urlencoded` to either `application/sparql-query` or `application/sparql-update` forms.
     #
     # @param  [Hash{String => String}] env
     # @return [Array(Integer, Hash, #each)]
     # @see    https://www.rubydoc.info/github/rack/rack/Rack/Runtime#call-instance_method
     def call(env)
       env['ORDERED_CONTENT_TYPES'] = parse_accept_header(env['HTTP_ACCEPT']) if env.has_key?('HTTP_ACCEPT')
+      # Normalize application/x-www-form-urlencoded to application/sparql-query or application/sparql-update
+      if env['REQUEST_METHOD'] == 'POST' && env.fetch('CONTENT_TYPE', 'application/x-www-form-urlencoded').to_s.start_with?('application/x-www-form-urlencoded')
+        content = env['rack.input'].read
+        params = Rack::Utils.parse_query(content)
+        if query = params.delete('query')
+          env['rack.input'] = StringIO.new(query)
+          env['CONTENT_TYPE'] = 'application/sparql-query'
+          env['QUERY_STRING'] = Rack::Utils.build_query(params)
+        elsif update = params.delete('update')
+          env['rack.input'] = StringIO.new(update)
+          env['CONTENT_TYPE'] = 'application/sparql-update'
+          env['QUERY_STRING'] = Rack::Utils.build_query(params)
+        else
+          env['rack.input'].rewind # never mind
+        end
+      end
       response = app.call(env)
       body = response[2].respond_to?(:body) ? response[2].body : response[2]
       body = body.first if body.is_a?(Array) && body.length == 1 && body.first.is_a?(RDF::Literal::Boolean)

@@ -39,8 +39,8 @@ module SPARQL; module Algebra
     # @example SSE (multiple clauses)
     #   (prefix ((: <http://example.org/>))
     #    (update
-    #     (modify (using (:g1 :g2)
-    #      (bgp (triple ?s ?p ?o)))
+    #     (modify
+    #      (using (:g1 :g2) (bgp (triple ?s ?p ?o)))
     #      (insert ((triple ?s ?p "q"))))))
     #
     # @see https://www.w3.org/TR/sparql11-update/#add

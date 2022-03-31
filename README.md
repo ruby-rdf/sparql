@@ -209,16 +209,22 @@ You would typically return an instance of `RDF::Graph`, `RDF::Repository` or an 
 from your Rack application, and let the `Rack::SPARQL::ContentNegotiation` middleware
 take care of serializing your response into whatever format the HTTP
 client requested and understands.
+Content negotiation also transforms `application/x-www-form-urlencoded` to either `application/sparql-query`
+or `application/sparql-update` as appropriate for [SPARQL 1.1 Protocol][].
 
 {Sinatra::SPARQL} is a thin Sinatra-specific wrapper around the
 {Rack::SPARQL} middleware, which implements SPARQL
  content negotiation for Rack applications. {Sinatra::SPARQL} also supports
- [SPARQL 1.1 Service Description][].
+ [SPARQL 1.1 Service Description][] (via {Sinatra::SPARQL::Helpers.service_description} and protocol-based dataset mangement via {Sinatra::SPARQL::Helpers.dataset} for `default-graph-uri` and `named-graph-uri` The `using-graph-uri` and `using-named-graph-uri` query parameters are managed through {SPARQL::Algebra::Operator::Modify#execute}.
 
 The middleware queries [RDF.rb][] for the MIME content types of known RDF
 serialization formats, so it will work with whatever serialization extensions
 that are currently available for RDF.rb. (At present, this includes support
 for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.)
+
+### Server
+
+A simple [Sinatra][]-based server is implemented in {SPARQL::Server.application} using {Rack::SPARQL} and {Sinatra::SPARQL} completes the implementation of [SPARQL 1.1 Protocol][] and can be used to compose a server including other capabilities.
 
 ### Remote datasets
 

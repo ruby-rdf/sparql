@@ -91,17 +91,15 @@ def repr(term)
   end
 end
 
-def sparql_query(opts)
-  raise "A query is required to be run" if opts[:query].nil?
-
+def load_repo(opts)
   # Load default and named graphs into repository
-  repo = case opts[:graphs]
+  case opts[:graphs]
   when RDF::Queryable
     opts[:graphs]
   when Array
     RDF::Repository.new do |r|
       opts[:graphs].each do |info|
-        data, format, default = info[:data], info[:format]
+        data, format = info[:data], info[:format]
         if data
           RDF::Reader.for(format).new(data, rdfstar: true, **info).each_statement do |st|
             st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
@@ -114,7 +112,7 @@ def sparql_query(opts)
     RDF::Repository.new do |r|
       opts[:graphs].each do |key, info|
         next if key == :result
-        data, format, default = info[:data], info[:format], info[:default]
+        data, format = info[:data], info[:format]
         if data
           RDF::Reader.for(format).new(data, rdfstar: true, **info).each_statement do |st|
             st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
@@ -126,6 +124,12 @@ def sparql_query(opts)
   else
     RDF::Repository.new
   end
+end
+
+def sparql_query(opts)
+  raise "A query is required to be run" if opts[:query].nil?
+
+  repo = load_repo(opts)
 
   query_str = opts[:query]
   parser_opts = {

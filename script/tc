@@ -53,6 +53,7 @@ def run_tc(tc, **options)
   STDERR.write "run #{id}" unless options[:quiet]
 
   result = "untested"
+
   query_string = tc.query_string || tc.action.query_string
   query = SPARQL.parse(query_string,
                       update: tc.type.include?('Update'),
@@ -102,6 +103,9 @@ def run_tc(tc, **options)
     when /tvs02/
       info = "Empty vs. Unbound"
     end
+
+    info = "Entailment" if tc.entailment?
+    info = "Federated Query" if Array(tc.feature).include?('sd:BasicFederatedQuery')
 
     case tc.type
     when 'mf:QueryEvaluationTest'
@@ -237,6 +241,10 @@ def run_tc(tc, **options)
       unless result == "passed"
         result = "failed"
       end
+    when 'mf:ProtocolTest'
+      info = "Protocol Test"
+    when 'mf:GraphStoreProtocolTest'
+      info = "Graph Store Protocol Test"
     else
       STDERR.puts "unknown test type #{tc.type}"
     end
@@ -372,7 +380,7 @@ manifests.each do |path|
     SPARQL::Spec::Manifest.open(path) do |man|
       puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
       man.entries.each do |tc|
-        next unless tc.action
+        next unless tc.action || %w(mf:ProtocolTest mf:GraphStoreProtocolTest).include?(tc.type)
         name = Array(tc.name).join("") + Array(tc.entry).join("")
         next unless ARGV.empty? || ARGV.any? do |n|
           tc.attributes['id'].include?(n) ||

@@ -6,6 +6,11 @@ module SPARQL; module Algebra
     #
     # Wraps delete/insert
     #
+    # If `options` contains any of the Protocol attributes, it is treated as if there is a USING or USING NAMED clause inserted.
+    #
+    # * `using-graph-uri`
+    # * `using-named-graph-uri`
+    #
     # [41]  Modify ::= ( 'WITH' iri )? ( DeleteClause InsertClause? | InsertClause ) UsingClause* 'WHERE' GroupGraphPattern
     #
     # @example SPARQL Grammar
@@ -35,6 +40,8 @@ module SPARQL; module Algebra
       #
       # Execute the first operand to get solutions, and apply those solutions to the subsequent operators.
       #
+      # If `options` contains any of the Protocol attributes, any `using` clause is removed and a new `using` clause is added with entries taken from the `using-graph-uri` and `using-named-graph-uri`.
+      #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
       # @param  [Hash{Symbol => Object}] options
@@ -49,6 +56,15 @@ module SPARQL; module Algebra
       def execute(queryable, **options)
         debug(options) {"Modify"}
         query = operands.shift
+
+        if %w(using-graph-uri using-named-graph-uri).any? {|k| options.key?(k)}
+          debug("=> Insert USING clause", options)
+          query = query.operands.last if query.is_a?(Operator::Using)
+          defaults = Array(options.delete('using-graph-uri')).map {|uri| RDF::URI(uri)}
+          named = Array(options.delete('using-named-graph-uri')).map {|uri| [:named, RDF::URI(uri)]}
+          
+          query = Operator::Using.new((defaults + named), query, **options)
+        end
 
         queryable.query(query, depth: options[:depth].to_i + 1, **options) do |solution|
           debug(options) {"(solution)=>#{solution.inspect}"}

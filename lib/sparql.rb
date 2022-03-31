@@ -10,6 +10,7 @@ module SPARQL
   autoload :Algebra, 'sparql/algebra'
   autoload :Grammar, 'sparql/grammar'
   autoload :Results, 'sparql/results'
+  autoload :Server,  'sparql/server'
   autoload :VERSION, 'sparql/version'
 
   # @see https://rubygems-client
@@ -30,7 +31,7 @@ module SPARQL
   #   The resulting query may be executed against
   #   a `queryable` object such as an RDF::Graph
   #   or RDF::Repository. 
-  # @raise  [Parser::Error] on invalid input
+  # @raise  [SPARQL::Grammar::Parser::Error] on invalid input
   def self.parse(query, **options)
     Grammar::Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
   end
@@ -90,7 +91,7 @@ module SPARQL
         queryable.load(uri, graph_name: uri)
       end
     end
-    query.execute(queryable, &block)
+    query.execute(queryable, **options, &block)
   rescue SPARQL::Grammar::Parser::Error => e
     raise MalformedQuery, e.message
   rescue TypeError => e
