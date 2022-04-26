@@ -53,10 +53,12 @@ module Rack; module SPARQL
         content = env['rack.input'].read
         params = Rack::Utils.parse_query(content)
         if query = params.delete('query')
+          return [406, {"Content-Type" => "text/plain"}, ["Multiple query parameters"]] unless query.is_a?(String)
           env['rack.input'] = StringIO.new(query)
           env['CONTENT_TYPE'] = 'application/sparql-query'
           env['QUERY_STRING'] = Rack::Utils.build_query(params)
         elsif update = params.delete('update')
+          return [406, {"Content-Type" => "text/plain"}, ["Multiple update parameters"]] unless update.is_a?(String)
           env['rack.input'] = StringIO.new(update)
           env['CONTENT_TYPE'] = 'application/sparql-update'
           env['QUERY_STRING'] = Rack::Utils.build_query(params)
