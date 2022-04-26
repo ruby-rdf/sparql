@@ -7,6 +7,7 @@ require 'rdf/spec'
 require 'rdf/isomorphic'
 require 'rdf/turtle'
 require 'rdf/vocab'
+require 'strscan'
 
 begin
   require 'simplecov'
@@ -149,3 +150,4 @@ def sparql_query(opts)
   query = query.optimize if opts[:optimize]
   repo.query(query, logger: opts.fetch(:logger, RDF::Spec.logger))
 end
+

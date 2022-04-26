@@ -242,7 +242,8 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:ProtocolTest'
-      info = "Protocol Test"
+      tc.logger = options[:logger] if options[:verbose]
+      result = tc.execute ? "passed" : "failed"
     when 'mf:GraphStoreProtocolTest'
       info = "Graph Store Protocol Test"
     else
@@ -380,11 +381,11 @@ manifests.each do |path|
     SPARQL::Spec::Manifest.open(path) do |man|
       puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
       man.entries.each do |tc|
-        next unless tc.action || %w(mf:ProtocolTest mf:GraphStoreProtocolTest).include?(tc.type)
+        next unless tc.action || %w(mf:GraphStoreProtocolTest).include?(tc.type)
         name = Array(tc.name).join("") + Array(tc.entry).join("")
         next unless ARGV.empty? || ARGV.any? do |n|
           tc.attributes['id'].include?(n) ||
-          tc.action.is_a?(Hash) && tc.action['mq:query'].include?(n) ||
+          tc.action.is_a?(Hash) && tc.action['mq:query'].to_s.include?(n) ||
           name.include?(n)
         end
         run_tc(tc, **options)

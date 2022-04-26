@@ -6,6 +6,11 @@ RSpec::Matchers.define :produce do |expected, info|
   end
   
   failure_message do |actual|
+    log = case info
+    when Hash then  info[:logger].to_s
+    when Array then info.join("\n")
+    else            info.to_s
+    end
     case expected
     when String
       "Expected     : #{expected.inspect}\n"
@@ -20,6 +25,6 @@ RSpec::Matchers.define :produce do |expected, info|
       "Actual       : #{actual.inspect}\n" +
       "Actual(sse)  : #{actual.to_sxp}\n"
     end +
-    "Processing results:\n#{info.join("\n")}"
+    "Processing results:\n#{log}"
   end
 end

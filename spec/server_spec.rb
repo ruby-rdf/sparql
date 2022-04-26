@@ -95,7 +95,9 @@ describe "SPARQL.server" do
       },
       query_multiple_dataset: {
         query: %(
-          ASK FROM <http://kasei.us/2009/09/sparql/data/data1.rdf> { <http://kasei.us/2009/09/sparql/data/data1.rdf> ?p ?o }
+          ASK
+          FROM <http://kasei.us/2009/09/sparql/data/data1.rdf>
+          { <http://kasei.us/2009/09/sparql/data/data1.rdf> ?p ?o }
         ),
         "default-graph-uri": %w(
           http://kasei.us/2009/09/sparql/data/data2.rdf

@@ -1,13 +1,16 @@
 require 'rdf'
 require 'json/ld'
 require 'sparql/client'
+require 'rack/test'
 
 module SPARQL; module Spec
   class Manifest < JSON::LD::Resource
     FRAME = JSON.parse(%q({
       "@context": {
         "dawgt": "http://www.w3.org/2001/sw/DataAccess/tests/test-dawg#",
+        "cnt": "http://www.w3.org/2011/content#",
         "ent":   "http://www.w3.org/ns/entailment/",
+        "ht": "http://www.w3.org/2011/http#",
         "mf":    "http://www.w3.org/2001/sw/DataAccess/tests/test-manifest#",
         "mq":    "http://www.w3.org/2001/sw/DataAccess/tests/test-query#",
         "pr":    "http://www.w3.org/ns/owl-profile/",
@@ -36,7 +39,11 @@ module SPARQL; module Spec
         "ut:data": {"@type": "@id"},
         "ut:graph": {"@type": "@id"},
         "ut:graphData": {"@type": "@id", "@container": "@set"},
-        "ut:request": {"@type": "@id"}
+        "ut:request": {"@type": "@id"},
+        "headerElements":       {"@id": "ht:headerElements", "@container": "@list"},
+        "headers":              {"@id": "ht:headers", "@container": "@list"},
+        "params":               {"@id": "ht:params", "@container": "@list"},
+        "requests":             {"@id": "ht:requests", "@container": "@list"}
       },
       "@type": "mf:Manifest",
       "entries": {}
@@ -367,12 +374,77 @@ module SPARQL; module Spec
   end
 
   class ProtocolTest < SPARQLTest
+    include Rack::Test::Methods
+
+    def initialize(hash)
+      @action = hash["action"]
+      @logger = Logger.new(StringIO.new)
+      super
+    end
+
+    def app
+      Rack::URLMap.new "/sparql" => SPARQL::Server.application(dataset: RDF::Repository.new)
+    end
+
+    # Execute the protocol sequence
+    def execute
+      # Parse interactions
+      interactions = parse_protocol_test(action)
+
+      interactions.each do |interaction|
+        verb, uri = interaction[:verb], interaction[:uri]
+        params, env = interaction[:params], interaction[:env]
+
+        # Send request
+        custom_request(verb, uri, params, env)
+        dev = last_request.logger.instance_variable_get(:@logdev).instance_variable_get(:@dev)
+        dev.rewind
+        logger << dev.read
+
+        # Parse response
+        # status
+        case interaction[:expected_status]
+        when /2xx/i
+          if last_response.status < 200 || last_response.status >= 400
+            logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body}")
+            return false
+          else
+            logger.debug("status #{last_response.status}")
+          end
+        when /4xx/i
+          if last_response.status < 400
+            logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body}")
+            return false
+          else
+            logger.debug("status #{last_response.status}")
+          end
+        else
+          logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body}")
+          return false
+        end
+
+        # Content-Type
+        if ct = interaction[:expected_env]['CONTENT_TYPE']
+          expected_ct = ct.split(/,|or/).map(&:strip)
+          if ct.include?(last_response.content_type)
+            logger.debug("Content-Type: #{last_response.content_type}")
+          else
+            logger.error("Content-Type: #{last_response.content_type}, expected #{ct}")
+            return false
+          end
+        end
+
+        # Body
+        # XXX
+      end
+      true
+    end
+
     def query_string; ""; end
     def query_file; false; end
 
     def base_uri; nil; end
-
-    def entry; 'no entry'; end
+    def entry; attributes['id'].split('#').last; end
 
     def approved?
       approval.to_s.include? "Approved"
@@ -390,6 +462,59 @@ module SPARQL; module Spec
         "\n  #{k}: #{v.inspect}"
       end.join(" ") +
       ">"
+    end
+
+    protected
+    def parse_protocol_test(action)
+      action['requests'].map do |request|
+        uri, params = request['ht:absolutePath'].split('?', 2)
+        parts = {
+          verb: request['ht:methodName'],
+          uri:  uri,
+          params: Rack::Utils.parse_query(params),
+          env: {},
+          expected_env: {}
+        }
+
+        # Headers
+        request.fetch('headers', []).each do |header|
+          hk = case header['ht:fieldName']
+          when 'Content-Type' then 'CONTENT_TYPE'
+          else 'HTTP_' + header['ht:fieldName'].upcase.gsub('-', '_')
+          end
+          parts[:env][hk] = header['ht:fieldValue']
+        end
+
+        # Make sure there's a content-type, nil if not specified
+        parts[:env]['CONTENT_TYPE'] ||= nil
+
+        # Content
+        if request['ht:body']
+          encoding = Encoding.find(request['ht:body']['cnt:characterEncoding'] || 'UTF-8')
+          parts[:env][:input] = request['ht:body']['cnt:chars'].to_s.encode(encoding)
+        end
+
+        # Response
+        response = request['ht:resp']
+        parts[:expected_status] = Array(response['ht:statusCodeValue']).join(', ')
+
+        # Headers
+        response.fetch('headers', []).each do |header|
+          hk = case header['ht:fieldName']
+          when 'Content-Type' then 'CONTENT_TYPE'
+          else 'HTTP_' + header['ht:fieldName'].upcase.gsub('-', '_')
+          end
+          parts[:expected_env][hk] = header['ht:fieldValue']
+        end
+
+        # Content
+        if request['ht:body']
+          encoding = Encoding.find(request['ht:body']['cnt:characterEncoding'] || 'UTF-8')
+          parts[:expected_env][:input] = request['ht:body']['cnt:chars'].to_s.encode(encoding)
+        end
+
+        parts
+      end
     end
   end
 

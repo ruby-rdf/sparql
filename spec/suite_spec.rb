@@ -7,7 +7,8 @@ shared_examples "SUITE" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
-      next unless t.action || %w(mf:ProtocolTest).include?(t.type)
+      next unless t.action
+      t.logger = RDF::Spec.logger
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
@@ -128,7 +129,15 @@ shared_examples "SUITE" do |id, label, comment, tests|
             SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true, logger: t.logger)
           end.to raise_error(StandardError)
         end
-      when 'mf:ProtocolTest', 'mf:GraphStoreProtocolTest'
+      when 'mf:ProtocolTest'
+        it "#{t.type} #{t.entry} - #{t.name}" do
+          case t.entry
+          when 'bad_query_non_utf8', 'bad_update_non_utf8'
+            skip "Rack doesn't honor input encoding"
+          end
+          expect(t.execute).to produce(true, logger: t.logger)
+        end
+      when 'mf:GraphStoreProtocolTest'
         it "#{t.type} #{t.entry} - #{t.name}" do
           skip t.type
         end
@@ -147,6 +156,7 @@ shared_examples "to_sparql" do |id, label, comment, tests|
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
+      next if %w(mf:ProtocolTest).include?(t.type)
       case t.type
       when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11', 'mf:CSVResultFormatTest'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
@@ -245,7 +255,7 @@ describe SPARQL do
   describe "w3c dawg SPARQL 1.1 tests" do
     SPARQL::Spec.sparql1_1_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
-        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "SUITE", man.attributes['id'], man.label, (path.match?(/protocol/) ? '' : man.comment), man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end

@@ -46,6 +46,8 @@ module SPARQL
                                 logger: request.logger,
                                 **options.merge(params))
             res.is_a?(RDF::Literal::Boolean) ? [res] : res
+          elsif params["update"]
+            halt 406, "Inappropriate update option using GET"
           else
             settings.sparql_options.replace(standard_prefixes: true)
             settings.sparql_options.merge!(prefixes: {
@@ -58,15 +60,20 @@ module SPARQL
         end
 
         post '/' do
+          # Note, this depends on the Rack::SPARQL::ContentNegotiation middleware to rewrite application/x-www-form-urlencoded to be conformat with either application/sparql-query or application/sparql-update.
           query = begin
-            case request.content_type
-            when %r(application/sparql-query)
-              SPARQL.parse(request.body, base_uri: url)
-            when %r(application/sparql-update)
-              SPARQL.parse(request.body, base_uri: url, update: true)
+            update = case request.content_type
+            when %r(application/sparql-query) then false
+            when %r(application/sparql-update) then true
             else
-              halt 500, "No query found for #{request.content_type}"
+              halt 406, "No query found for #{request.content_type}"
             end
+
+            # XXX Rack always sets input to ASCII-8BIT
+            #unless request.body.external_encoding == Encoding::UTF_8
+            #  halt 400, "improper body encoding: #{request.body.external_encoding}"
+            #end
+            SPARQL.parse(request.body, base_uri: url, update: update)
           rescue SPARQL::Grammar::Parser::Error => e
             halt 400, "Error parsing #{update ? 'update' : 'query'}: #{e.message}"
           end
