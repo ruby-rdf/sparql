@@ -42,6 +42,8 @@ module SPARQL; module Algebra
       #
       # If `options` contains any of the Protocol attributes, any `using` clause is removed and a new `using` clause is added with entries taken from the `using-graph-uri` and `using-named-graph-uri`.
       #
+      # It is an error to supply the using-graph-uri or using-named-graph-uri parameters when using this protocol to convey a SPARQL 1.1 Update request that contains an operation that uses the USING, USING NAMED, or WITH clause.
+      #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to write
       # @param  [Hash{Symbol => Object}] options
@@ -58,8 +60,11 @@ module SPARQL; module Algebra
         query = operands.shift
 
         if %w(using-graph-uri using-named-graph-uri).any? {|k| options.key?(k)}
+          raise ArgumentError,
+            "query contains USING/WITH clause, which is incompatible with using-graph-uri or using-named-graph-uri query parameters" if
+            query.is_a?(Operator::Using) || query.is_a?(Operator::With)
+
           debug("=> Insert USING clause", options)
-          query = query.operands.last if query.is_a?(Operator::Using)
           defaults = Array(options.delete('using-graph-uri')).map {|uri| RDF::URI(uri)}
           named = Array(options.delete('using-named-graph-uri')).map {|uri| [:named, RDF::URI(uri)]}
           
