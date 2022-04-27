@@ -147,7 +147,7 @@ module SPARQL; module Algebra
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &base)
         debug(options) {"Dataset"}
-        if %w(default-graph-uri named-graph-uri).any? {|k| options.key?(k)} 
+        if %i(default-graph-uri named-graph-uri).any? {|k| options.key?(k)} 
           debug("=> Skip constructing merge repo due to options", options)
           return queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
         end

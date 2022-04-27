@@ -32,10 +32,11 @@ module SPARQL
         end
 
         get '/' do
-          if params["query"]
-            query = params["query"]
-            halt 403, "Update not possible using GET" if params['update']
-            repo = dataset(logger: request.logger, **params)
+          opts = params.inject({}) {|memo, (k,v)| memo.merge(k.to_sym => v)}
+          if opts[:query]
+            query = opts[:query]
+            halt 403, "Update not possible using GET" if opts[:update]
+            repo = dataset(logger: request.logger, **opts)
             url = RDF::URI(request.url).tap {|u| u.query = nil}
             query = begin
               SPARQL.parse(query, base_uri: url)
@@ -44,9 +45,9 @@ module SPARQL
             end
             res = query.execute(repo, 
                                 logger: request.logger,
-                                **options.merge(params))
+                                **options.merge(opts))
             res.is_a?(RDF::Literal::Boolean) ? [res] : res
-          elsif params["update"]
+          elsif opts[:update]
             halt 406, "Inappropriate update option using GET"
           else
             settings.sparql_options.replace(standard_prefixes: true)
@@ -54,12 +55,13 @@ module SPARQL
               ssd: "http://www.w3.org/ns/sparql-service-description#",
               void: "http://rdfs.org/ns/void#"
             })
-            repo = dataset(**params)
+            repo = dataset(logger: request.logger, **options)
             service_description(repo: repo, endpoint: url)
           end
         end
 
         post '/' do
+          opts = params.inject({}) {|memo, (k,v)| memo.merge(k.to_sym => v)}
           # Note, this depends on the Rack::SPARQL::ContentNegotiation middleware to rewrite application/x-www-form-urlencoded to be conformat with either application/sparql-query or application/sparql-update.
           query = begin
             update = case request.content_type
@@ -77,11 +79,11 @@ module SPARQL
           rescue SPARQL::Grammar::Parser::Error => e
             halt 400, "Error parsing #{update ? 'update' : 'query'}: #{e.message}"
           end
-          repo = dataset(logger: request.logger, **params)
+          repo = dataset(logger: request.logger, **opts)
           url = RDF::URI(request.url).tap {|u| u.query = nil}
           res = query.execute(repo,
                               logger: request.logger,
-                              **options.merge(params))
+                              **options.merge(opts))
           res.is_a?(RDF::Literal::Boolean) ? [res] : res
         end
       end

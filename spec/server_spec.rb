@@ -215,13 +215,13 @@ describe "SPARQL.server" do
         it "POST with URL-encoded parameters" do
           query_params = params.dup.tap do |p|
             p.delete(:update)
-            p.delete('using-graph-uri')
-            p.delete('using-named-graph-uri')
+            p.delete(:'using-graph-uri')
+            p.delete(:'using-named-graph-uri')
           end
           update_params = params.dup.tap do |p|
             p.delete(:query)
-            p.delete('default-graph-uri')
-            p.delete('named-graph-uri')
+            p.delete(:'default-graph-uri')
+            p.delete(:'named-graph-uri')
           end
 
           if update_params.key?(:update)

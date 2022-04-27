@@ -112,9 +112,9 @@ module Sinatra
       def dataset(**options)
         logger = options.fetch(:logger, ::Logger.new(false))
         repo = settings.repository
-        if %w(default-graph-uri named-graph-uri).any? {|k| options.key?(k)}        
-          default_datasets = Array(options['default-graph-uri']).map {|u| RDF::URI(u)}
-          named_datasets = Array(options['named-graph-uri']).map {|u| RDF::URI(u)}
+        if %i(default-graph-uri named-graph-uri).any? {|k| options.key?(k)}        
+          default_datasets = Array(options[:"default-graph-uri"]).map {|u| RDF::URI(u)}
+          named_datasets = Array(options[:"named-graph-uri"]).map {|u| RDF::URI(u)}
 
           (default_datasets + named_datasets).each do |uri|
             load_opts = {logger: logger, graph_name: uri, base_uri: uri}

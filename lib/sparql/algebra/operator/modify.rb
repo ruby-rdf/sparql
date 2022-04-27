@@ -59,14 +59,14 @@ module SPARQL; module Algebra
         debug(options) {"Modify"}
         query = operands.shift
 
-        if %w(using-graph-uri using-named-graph-uri).any? {|k| options.key?(k)}
+        if %i(using-graph-uri using-named-graph-uri).any? {|k| options.key?(k)}
           raise ArgumentError,
             "query contains USING/WITH clause, which is incompatible with using-graph-uri or using-named-graph-uri query parameters" if
             query.is_a?(Operator::Using) || query.is_a?(Operator::With)
 
           debug("=> Insert USING clause", options)
-          defaults = Array(options.delete('using-graph-uri')).map {|uri| RDF::URI(uri)}
-          named = Array(options.delete('using-named-graph-uri')).map {|uri| [:named, RDF::URI(uri)]}
+          defaults = Array(options.delete(:'using-graph-uri')).map {|uri| RDF::URI(uri)}
+          named = Array(options.delete(:'using-named-graph-uri')).map {|uri| [:named, RDF::URI(uri)]}
           
           query = Operator::Using.new((defaults + named), query, **options)
         end

@@ -406,20 +406,20 @@ module SPARQL; module Spec
         case interaction[:expected_status]
         when /2xx/i
           if last_response.status < 200 || last_response.status >= 400
-            logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body}")
+            logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body unless last_response.content_type == 'text/html'}")
             return false
           else
             logger.debug("status #{last_response.status}")
           end
         when /4xx/i
           if last_response.status < 400
-            logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body}")
+            logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body unless last_response.content_type == 'text/html'}")
             return false
           else
             logger.debug("status #{last_response.status}")
           end
         else
-          logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body}")
+          logger.error("status #{last_response.status}, expected #{interaction[:expected_status]}: #{last_response.body unless last_response.content_type == 'text/html'}")
           return false
         end
 
