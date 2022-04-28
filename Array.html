@@ -528,6 +528,30 @@
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#variables-instance_method" title="#variables (instance method)">#<strong>variables</strong>  &#x21d2; Hash{Symbol =&gt; RDF::Query::Variable} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The variables used in this array.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#vars-instance_method" title="#vars (instance method)">#<strong>vars</strong>  &#x21d2; Array&lt;RDF::Query::Variable&gt; </a>
     
 
@@ -595,10 +619,10 @@
       <pre class="lines">
 
 
-136</pre>
+144</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 136</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 144</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_aggregate?'>aggregate?</span><span class='semicolon'>;</span> <span class='kw'>false</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -755,12 +779,12 @@
       <pre class="lines">
 
 
-214
-215
-216</pre>
+222
+223
+224</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 214</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 222</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deep_dup'>deep_dup</span>
   <span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:deep_dup</span><span class='rparen'>)</span>
@@ -807,10 +831,10 @@
       <pre class="lines">
 
 
-134</pre>
+142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 134</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 142</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evaluatable?'>evaluatable?</span><span class='semicolon'>;</span> <span class='kw'>true</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -855,10 +879,10 @@
       <pre class="lines">
 
 
-135</pre>
+143</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 135</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 143</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_executable?'>executable?</span><span class='semicolon'>;</span> <span class='kw'>false</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -1002,12 +1026,12 @@
       <pre class="lines">
 
 
-184
-185
-186</pre>
+192
+193
+194</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 184</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 192</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ndvars'>ndvars</span>
   <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:distinguished?</span><span class='rparen'>)</span>
@@ -1056,12 +1080,12 @@
       <pre class="lines">
 
 
-131
-132
-133</pre>
+139
+140
+141</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 131</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 139</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_node?'>node?</span>
   <span class='id identifier rubyid_any?'>any?</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:node?</span><span class='rparen'>)</span>
@@ -1231,22 +1255,22 @@
       <pre class="lines">
 
 
-167
-168
-169
-170
-171
-172
-173
-174
 175
 176
 177
 178
-179</pre>
+179
+180
+181
+182
+183
+184
+185
+186
+187</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 167</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 175</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_replace_aggregate!'>replace_aggregate!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
@@ -1356,22 +1380,22 @@
       <pre class="lines">
 
 
-146
-147
-148
-149
-150
-151
-152
-153
 154
 155
 156
 157
-158</pre>
+158
+159
+160
+161
+162
+163
+164
+165
+166</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 146</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_replace_vars!'>replace_vars!</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_map!'>map!</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_op'>op</span><span class='op'>|</span>
@@ -1565,12 +1589,12 @@
       <pre class="lines">
 
 
-199
-200
-201</pre>
+207
+208
+209</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 199</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 207</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
   <span class='id identifier rubyid_all?'>all?</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:valid?</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span> <span class='op'>:</span> <span class='kw'>true</span><span class='rbrace'>}</span>
@@ -1642,13 +1666,13 @@
       <pre class="lines">
 
 
-207
-208
-209
-210</pre>
+215
+216
+217
+218</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 207</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 215</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate!'>validate!</span>
   <span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_validate!'>validate!</span> <span class='kw'>if</span> <span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:validate!</span><span class='rparen'>)</span><span class='rbrace'>}</span>
@@ -1726,6 +1750,60 @@
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="variables-instance_method">
+  
+    #<strong>variables</strong>  &#x21d2; <tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The variables used in this array.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+131
+132
+133</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 131</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_variables'>variables</span>
+  <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_hash'>hash</span><span class='comma'>,</span> <span class='id identifier rubyid_o'>o</span><span class='op'>|</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:variables</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='id identifier rubyid_hash'>hash</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_variables'>variables</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_hash'>hash</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="vars-instance_method">
   
     #<strong>vars</strong>  &#x21d2; <tt><span class='object_link'><a href="" title="Array (class)">Array</a></span>&lt;<span class='object_link'><a href="RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>&gt;</tt> 
@@ -1764,12 +1842,12 @@
       <pre class="lines">
 
 
-191
-192
-193</pre>
+199
+200
+201</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 191</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 199</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vars'>vars</span>
   <span class='id identifier rubyid_select'>select</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_o'>o</span><span class='op'>|</span> <span class='id identifier rubyid_o'>o</span><span class='period'>.</span><span class='id identifier rubyid_respond_to?'>respond_to?</span><span class='lparen'>(</span><span class='symbol'>:vars</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:vars</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_flatten'>flatten</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span>
@@ -1784,9 +1862,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:27 2022 by
+  Generated on Thu Apr 28 20:59:45 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

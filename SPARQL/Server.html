@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>
+  Module: SPARQL::Server
+  
+    &mdash; SPARQL - SPARQL for RDF.rb
+  
+</title>
+
+  <link rel="stylesheet" href="../css/style.css" type="text/css" />
+
+  <link rel="stylesheet" href="../css/common.css" type="text/css" />
+
+<script type="text/javascript">
+  pathId = "SPARQL::Server";
+  relpath = '../';
+</script>
+
+
+  <script type="text/javascript" charset="utf-8" src="../js/jquery.js"></script>
+
+  <script type="text/javascript" charset="utf-8" src="../js/app.js"></script>
+
+
+  </head>
+  <body>
+    <div class="nav_wrap">
+      <iframe id="nav" src="../class_list.html?1"></iframe>
+      <div id="resizer"></div>
+    </div>
+
+    <div id="main" tabindex="-1">
+      <div id="header">
+        <div id="menu">
+  
+    <a href="../_index.html">Index (S)</a> &raquo;
+    <span class='title'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span>
+     &raquo; 
+    <span class="title">Server</span>
+  
+</div>
+
+        <div id="search">
+  
+    <a class="full_list_link" id="class_list_link"
+        href="../class_list.html">
+
+        <svg width="24" height="24">
+          <rect x="0" y="4" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="12" width="24" height="4" rx="1" ry="1"></rect>
+          <rect x="0" y="20" width="24" height="4" rx="1" ry="1"></rect>
+        </svg>
+    </a>
+  
+</div>
+        <div class="clear"></div>
+      </div>
+
+      <div id="content"><h1>Module: SPARQL::Server
+  
+  
+  
+</h1>
+<div class="box_info">
+  
+
+  
+  
+  
+  
+  
+
+  
+
+  
+  <dl>
+    <dt>Defined in:</dt>
+    <dd>lib/sparql/server.rb</dd>
+  </dl>
+  
+</div>
+
+
+
+
+
+
+
+
+  
+    <h2>
+      Class Method Summary
+      <small><a href="#" class="summary_toggle">collapse</a></small>
+    </h2>
+
+    <ul class="summary">
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#application-class_method" title="application (class method)">.<strong>application</strong>(dataset: RDF::Repository.new, **options)  &#x21d2; Sinatra::Base </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>A SPARQL Protocol and Graph Store server.</p>
+</div></span>
+  
+</li>
+
+      
+    </ul>
+  
+
+
+
+  <div id="class_method_details" class="method_details_list">
+    <h2>Class Method Details</h2>
+
+    
+      <div class="method_details first">
+  <h3 class="signature first" id="application-class_method">
+  
+    .<strong>application</strong>(dataset: RDF::Repository.new, **options)  &#x21d2; <tt>Sinatra::Base</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>A SPARQL Protocol and Graph Store server.</p>
+
+<p>Note, this is a trivial server and implementations may consider implementing integrating it into their own Rack or Sinatra server using <span class='object_link'><a href="../Rack/SPARQL.html" title="Rack::SPARQL (module)">Rack::SPARQL</a></span> or <span class='object_link'><a href="../Sinatra/SPARQL.html" title="Sinatra::SPARQL (module)">Sinatra::SPARQL</a></span>.</p>
+
+<p>Implements <a href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">SPARQL 1.1 Protocol</a> and <a href="https://www.w3.org/TR/2013/REC-sparql11-http-rdf-update-20130321/">SPARQL 1.1 Graph Store HTTP Protocol</a>.</p>
+
+<p>Protocol-specified dataset parameters create a merged repository as described in <span class='object_link'><a href="../Sinatra/SPARQL/Helpers.html#dataset-instance_method" title="Sinatra::SPARQL::Helpers#dataset (method)">Sinatra::SPARQL::Helpers#dataset</a></span> and <span class='object_link'><a href="Algebra/Operator/Dataset.html" title="SPARQL::Algebra::Operator::Dataset (class)">Algebra::Operator::Dataset</a></span>.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  <p class="tag_title">Parameters:</p>
+<ul class="param">
+  
+    <li>
+      
+        <span class='name'>dataset</span>
+      
+      
+        <span class='type'>(<tt>RDF::Dataset</tt>)</span>
+      
+      
+        <em class="default">(defaults to: <tt>RDF::Repository.new</tt>)</em>
+      
+      
+        &mdash;
+        <div class='inline'>
+<p>(RDF::Repository.new)</p>
+</div>
+      
+    </li>
+  
+    <li>
+      
+        <span class='name'>options</span>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../Object.html" title="Object (class)">Object</a></span>}</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt>Sinatra::Base</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31
+32
+33
+34
+35
+36
+37
+38
+39
+40
+41
+42
+43
+44
+45
+46
+47
+48
+49
+50
+51
+52
+53
+54
+55
+56
+57
+58
+59
+60
+61
+62
+63
+64
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+85
+86
+87
+88
+89
+90</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/server.rb', line 17</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_application'>application</span><span class='lparen'>(</span><span class='label'>dataset:</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='const'><span class='object_link'><a href="../Sinatra.html" title="Sinatra (module)">Sinatra</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span> <span class='kw'>do</span>
+    <span class='id identifier rubyid_register'>register</span> <span class='const'><span class='object_link'><a href="../Sinatra.html" title="Sinatra (module)">Sinatra</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="../Sinatra/SPARQL.html" title="Sinatra::SPARQL (module)">SPARQL</a></span></span>
+    <span class='id identifier rubyid_set'>set</span> <span class='symbol'>:repository</span><span class='comma'>,</span> <span class='id identifier rubyid_dataset'>dataset</span>
+    <span class='id identifier rubyid_enable'>enable</span> <span class='symbol'>:logging</span>
+    <span class='id identifier rubyid_disable'>disable</span> <span class='symbol'>:raise_errors</span><span class='comma'>,</span> <span class='symbol'>:show_exceptions</span> <span class='kw'>if</span> <span class='id identifier rubyid_settings'>settings</span><span class='period'>.</span><span class='id identifier rubyid_production?'>production?</span>
+
+    <span class='id identifier rubyid_mime_type'>mime_type</span> <span class='symbol'>:jsonld</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>application/ld+json</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_mime_type'>mime_type</span> <span class='symbol'>:normalize</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>application/normalized+n-quads</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_mime_type'>mime_type</span> <span class='symbol'>:sparql</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>application/sparql-query</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_mime_type'>mime_type</span> <span class='symbol'>:ttl</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>text/turtle</span><span class='tstring_end'>&quot;</span></span>
+    <span class='id identifier rubyid_mime_type'>mime_type</span> <span class='symbol'>:sse</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>application/sse+sparql-query</span><span class='tstring_end'>&quot;</span></span>
+
+    <span class='id identifier rubyid_configure'>configure</span> <span class='symbol'>:development</span><span class='comma'>,</span> <span class='symbol'>:test</span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_set'>set</span> <span class='symbol'>:logging</span><span class='comma'>,</span> <span class='int'>0</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_get'>get</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span> <span class='id identifier rubyid_memo'>memo</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+      <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:query</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_halt'>halt</span> <span class='int'>403</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Update not possible using GET</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:update</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_repo'>repo</span> <span class='op'>=</span> <span class='id identifier rubyid_dataset'>dataset</span><span class='lparen'>(</span><span class='label'>logger:</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_u'>u</span><span class='op'>|</span> <span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rbrace'>}</span>
+        <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='kw'>begin</span>
+          <span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="../SPARQL.html#parse-class_method" title="SPARQL.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='label'>base_uri:</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+        <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Grammar.html" title="SPARQL::Grammar (module)">Grammar</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Grammar/Parser.html" title="SPARQL::Grammar::Parser (class)">Parser</a></span></span><span class='op'>::</span><span class='const'>Error</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+          <span class='id identifier rubyid_halt'>halt</span> <span class='int'>400</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error parsing query: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+        <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_repo'>repo</span><span class='comma'>,</span> 
+                            <span class='label'>logger:</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='comma'>,</span>
+                            <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='id identifier rubyid_res'>res</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_res'>res</span>
+      <span class='kw'>elsif</span> <span class='id identifier rubyid_opts'>opts</span><span class='lbracket'>[</span><span class='symbol'>:update</span><span class='rbracket'>]</span>
+        <span class='id identifier rubyid_halt'>halt</span> <span class='int'>406</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Inappropriate update option using GET</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>else</span>
+        <span class='id identifier rubyid_settings'>settings</span><span class='period'>.</span><span class='id identifier rubyid_sparql_options'>sparql_options</span><span class='period'>.</span><span class='id identifier rubyid_replace'>replace</span><span class='lparen'>(</span><span class='label'>standard_prefixes:</span> <span class='kw'>true</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_settings'>settings</span><span class='period'>.</span><span class='id identifier rubyid_sparql_options'>sparql_options</span><span class='period'>.</span><span class='id identifier rubyid_merge!'>merge!</span><span class='lparen'>(</span><span class='label'>prefixes:</span> <span class='lbrace'>{</span>
+          <span class='label'>ssd:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://www.w3.org/ns/sparql-service-description#</span><span class='tstring_end'>&quot;</span></span><span class='comma'>,</span>
+          <span class='label'>void:</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>http://rdfs.org/ns/void#</span><span class='tstring_end'>&quot;</span></span>
+        <span class='rbrace'>}</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_repo'>repo</span> <span class='op'>=</span> <span class='id identifier rubyid_dataset'>dataset</span><span class='lparen'>(</span><span class='label'>logger:</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+        <span class='id identifier rubyid_service_description'>service_description</span><span class='lparen'>(</span><span class='label'>repo:</span> <span class='id identifier rubyid_repo'>repo</span><span class='comma'>,</span> <span class='label'>endpoint:</span> <span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span>
+      <span class='kw'>end</span>
+    <span class='kw'>end</span>
+
+    <span class='id identifier rubyid_post'>post</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>/</span><span class='tstring_end'>&#39;</span></span> <span class='kw'>do</span>
+      <span class='id identifier rubyid_opts'>opts</span> <span class='op'>=</span> <span class='id identifier rubyid_params'>params</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span> <span class='id identifier rubyid_memo'>memo</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='period'>.</span><span class='id identifier rubyid_to_sym'>to_sym</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+      <span class='comment'># Note, this depends on the Rack::SPARQL::ContentNegotiation middleware to rewrite application/x-www-form-urlencoded to be conformat with either application/sparql-query or application/sparql-update.
+</span>      <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='kw'>begin</span>
+        <span class='id identifier rubyid_update'>update</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_content_type'>content_type</span>
+        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>%r(</span><span class='tstring_content'>application/sparql-query</span><span class='regexp_end'>)</span></span> <span class='kw'>then</span> <span class='kw'>false</span>
+        <span class='kw'>when</span> <span class='tstring'><span class='regexp_beg'>%r(</span><span class='tstring_content'>application/sparql-update</span><span class='regexp_end'>)</span></span> <span class='kw'>then</span> <span class='kw'>true</span>
+        <span class='kw'>else</span>
+          <span class='id identifier rubyid_halt'>halt</span> <span class='int'>406</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>No query found for </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_content_type'>content_type</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+        <span class='kw'>end</span>
+
+        <span class='comment'># XXX Rack always sets input to ASCII-8BIT
+</span>        <span class='comment'>#unless request.body.external_encoding == Encoding::UTF_8
+</span>        <span class='comment'>#  halt 400, &quot;improper body encoding: #{request.body.external_encoding}&quot;
+</span>        <span class='comment'>#end
+</span>        <span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="../SPARQL.html#parse-class_method" title="SPARQL.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_body'>body</span><span class='comma'>,</span> <span class='label'>base_uri:</span> <span class='id identifier rubyid_url'>url</span><span class='comma'>,</span> <span class='label'>update:</span> <span class='id identifier rubyid_update'>update</span><span class='rparen'>)</span>
+      <span class='kw'>rescue</span> <span class='const'><span class='object_link'><a href="../SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Grammar.html" title="SPARQL::Grammar (module)">Grammar</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="Grammar/Parser.html" title="SPARQL::Grammar::Parser (class)">Parser</a></span></span><span class='op'>::</span><span class='const'>Error</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_e'>e</span>
+        <span class='id identifier rubyid_halt'>halt</span> <span class='int'>400</span><span class='comma'>,</span> <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>Error parsing </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_update'>update</span> <span class='op'>?</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>update</span><span class='tstring_end'>&#39;</span></span> <span class='op'>:</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>query</span><span class='tstring_end'>&#39;</span></span><span class='embexpr_end'>}</span><span class='tstring_content'>: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_e'>e</span><span class='period'>.</span><span class='id identifier rubyid_message'>message</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
+      <span class='kw'>end</span>
+      <span class='id identifier rubyid_repo'>repo</span> <span class='op'>=</span> <span class='id identifier rubyid_dataset'>dataset</span><span class='lparen'>(</span><span class='label'>logger:</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_url'>url</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>URI</span><span class='lparen'>(</span><span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_url'>url</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_tap'>tap</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_u'>u</span><span class='op'>|</span> <span class='id identifier rubyid_u'>u</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rbrace'>}</span>
+      <span class='id identifier rubyid_res'>res</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_repo'>repo</span><span class='comma'>,</span>
+                          <span class='label'>logger:</span> <span class='id identifier rubyid_request'>request</span><span class='period'>.</span><span class='id identifier rubyid_logger'>logger</span><span class='comma'>,</span>
+                          <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_opts'>opts</span><span class='rparen'>)</span><span class='rparen'>)</span>
+      <span class='id identifier rubyid_res'>res</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='op'>::</span><span class='const'>Boolean</span><span class='rparen'>)</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='id identifier rubyid_res'>res</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='id identifier rubyid_res'>res</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+  </div>
+
+</div>
+
+      <div id="footer">
+  Generated on Thu Apr 28 20:59:37 2022 by
+  <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
+  0.9.27 (ruby-3.1.2).
+</div>
+
+    </div>
+  </body>
+</html>

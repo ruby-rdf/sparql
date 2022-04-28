@@ -472,13 +472,13 @@
       <pre class="lines">
 
 
-396
-397
-398
-399</pre>
+404
+405
+406
+407</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 396</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 404</span>
 
 <span class='kw'>def</span> <span class='op'>==</span><span class='lparen'>(</span><span class='id identifier rubyid_other'>other</span><span class='rparen'>)</span>
   <span class='comment'># FIXME: this should be graph_name == other.graph_name
@@ -543,13 +543,13 @@
       <pre class="lines">
 
 
-463
-464
-465
-466</pre>
+471
+472
+473
+474</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 463</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 471</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_bind'>bind</span><span class='lparen'>(</span><span class='id identifier rubyid_solution'>solution</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_patterns'>patterns</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_p'>p</span><span class='op'>|</span> <span class='id identifier rubyid_p'>p</span><span class='period'>.</span><span class='id identifier rubyid_bind'>bind</span><span class='lparen'>(</span><span class='id identifier rubyid_solution'>solution</span><span class='rparen'>)</span><span class='rbrace'>}</span>
@@ -604,10 +604,10 @@
       <pre class="lines">
 
 
-524</pre>
+532</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 524</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 532</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_executable?'>executable?</span><span class='semicolon'>;</span> <span class='kw'>true</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -654,12 +654,12 @@
       <pre class="lines">
 
 
-489
-490
-491</pre>
+497
+498
+499</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 489</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 497</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ndvars'>ndvars</span>
   <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:distinguished?</span><span class='rparen'>)</span>
@@ -715,22 +715,22 @@
       <pre class="lines">
 
 
-506
-507
-508
-509
-510
-511
-512
-513
 514
 515
 516
 517
-518</pre>
+518
+519
+520
+521
+522
+523
+524
+525
+526</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 506</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 514</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_optimize!'>optimize!</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='ivar'>@patterns</span> <span class='op'>=</span> <span class='ivar'>@patterns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_pattern'>pattern</span><span class='op'>|</span>
@@ -765,10 +765,10 @@
       <pre class="lines">
 
 
-500</pre>
+508</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 500</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 508</span>
 
 <span class='id identifier rubyid_alias_method'>alias_method</span> <span class='symbol'>:optimize_without_expression!</span><span class='comma'>,</span> <span class='symbol'>:optimize!</span></pre>
     </td>
@@ -815,12 +815,12 @@
       <pre class="lines">
 
 
-470
-471
-472</pre>
+478
+479
+480</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 470</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 478</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_query_yields_boolean?'>query_yields_boolean?</span>
   <span class='kw'>false</span>
@@ -869,12 +869,12 @@
       <pre class="lines">
 
 
-482
-483
-484</pre>
+490
+491
+492</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 482</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 490</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_query_yields_solutions?'>query_yields_solutions?</span>
   <span class='kw'>true</span>
@@ -923,12 +923,12 @@
       <pre class="lines">
 
 
-476
-477
-478</pre>
+484
+485
+486</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 476</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 484</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_query_yields_statements?'>query_yields_statements?</span>
   <span class='kw'>false</span>
@@ -982,12 +982,12 @@
       <pre class="lines">
 
 
-404
-405
-406</pre>
+412
+413
+414</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 404</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 412</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_rewrite'>rewrite</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='kw'>self</span>
@@ -1076,14 +1076,6 @@
       <pre class="lines">
 
 
-433
-434
-435
-436
-437
-438
-439
-440
 441
 442
 443
@@ -1099,10 +1091,18 @@
 453
 454
 455
-456</pre>
+456
+457
+458
+459
+460
+461
+462
+463
+464</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 433</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 441</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sparql'>to_sparql</span><span class='lparen'>(</span><span class='label'>top_level:</span> <span class='kw'>true</span><span class='comma'>,</span> <span class='label'>filter_ops:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='ivar'>@patterns</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_e'>e</span><span class='op'>|</span>
@@ -1174,17 +1174,17 @@
       <pre class="lines">
 
 
-415
-416
-417
-418
-419
-420
-421
-422</pre>
+423
+424
+425
+426
+427
+428
+429
+430</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 415</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 423</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sxp_bin'>to_sxp_bin</span>
   <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:as_container</span><span class='rbracket'>]</span>
@@ -1238,12 +1238,12 @@
       <pre class="lines">
 
 
-496
-497
-498</pre>
+504
+505
+506</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 496</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 504</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vars'>vars</span>
   <span class='id identifier rubyid_variables'>variables</span><span class='period'>.</span><span class='id identifier rubyid_values'>values</span>
@@ -1258,9 +1258,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:44 2022 by
+  Generated on Thu Apr 28 21:00:01 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

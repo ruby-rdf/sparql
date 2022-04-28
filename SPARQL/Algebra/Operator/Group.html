@@ -283,6 +283,30 @@ GROUP BY ?g</code></pre>
         <li class="public ">
   <span class="summary_signature">
     
+      <a href="#internal_variables-instance_method" title="#internal_variables (instance method)">#<strong>internal_variables</strong>  &#x21d2; Hash{Symbol =&gt; RDF::Query::Variable} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The variables used within the query.</p>
+</div></span>
+  
+</li>
+
+      
+        <li class="public ">
+  <span class="summary_signature">
+    
       <a href="#to_sparql-instance_method" title="#to_sparql (instance method)">#<strong>to_sparql</strong>(extensions: {}, filter_ops: [], **options)  &#x21d2; String </a>
     
 
@@ -328,6 +352,30 @@ GROUP BY ?g</code></pre>
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#variables-instance_method" title="#variables (instance method)">#<strong>variables</strong>  &#x21d2; Hash{Symbol =&gt; RDF::Query::Variable} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The variables used in the extension.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -341,7 +389,7 @@ GROUP BY ?g</code></pre>
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Query.html" title="SPARQL::Algebra::Query (module)">Query</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Query.html#each_solution-instance_method" title="SPARQL::Algebra::Query#each_solution (method)">#each_solution</a></span>, <span class='object_link'><a href="../Query.html#empty%3F-instance_method" title="SPARQL::Algebra::Query#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="../Query.html#failed%3F-instance_method" title="SPARQL::Algebra::Query#failed? (method)">#failed?</a></span>, <span class='object_link'><a href="../Query.html#graph_name=-instance_method" title="SPARQL::Algebra::Query#graph_name= (method)">#graph_name=</a></span>, <span class='object_link'><a href="../Query.html#matched%3F-instance_method" title="SPARQL::Algebra::Query#matched? (method)">#matched?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_boolean%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_boolean? (method)">#query_yields_boolean?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_solutions%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_solutions? (method)">#query_yields_solutions?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_statements%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_statements? (method)">#query_yields_statements?</a></span>, <span class='object_link'><a href="../Query.html#unshift-instance_method" title="SPARQL::Algebra::Query#unshift (method)">#unshift</a></span>, <span class='object_link'><a href="../Query.html#variables-instance_method" title="SPARQL::Algebra::Query#variables (method)">#variables</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../Query.html#each_solution-instance_method" title="SPARQL::Algebra::Query#each_solution (method)">#each_solution</a></span>, <span class='object_link'><a href="../Query.html#empty%3F-instance_method" title="SPARQL::Algebra::Query#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="../Query.html#failed%3F-instance_method" title="SPARQL::Algebra::Query#failed? (method)">#failed?</a></span>, <span class='object_link'><a href="../Query.html#graph_name=-instance_method" title="SPARQL::Algebra::Query#graph_name= (method)">#graph_name=</a></span>, <span class='object_link'><a href="../Query.html#matched%3F-instance_method" title="SPARQL::Algebra::Query#matched? (method)">#matched?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_boolean%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_boolean? (method)">#query_yields_boolean?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_solutions%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_solutions? (method)">#query_yields_solutions?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_statements%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_statements? (method)">#query_yields_statements?</a></span>, <span class='object_link'><a href="../Query.html#unshift-instance_method" title="SPARQL::Algebra::Query#unshift (method)">#unshift</a></span></p>
 
   
   
@@ -651,6 +699,60 @@ GROUP BY ?g</code></pre>
 </div>
     
       <div class="method_details ">
+  <h3 class="signature " id="internal_variables-instance_method">
+  
+    #<strong>internal_variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../../../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The variables used within the query</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+189
+190
+191</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/group.rb', line 189</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_internal_variables'>internal_variables</span>
+  <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_variables'>variables</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
   <h3 class="signature " id="to_sparql-instance_method">
   
     #<strong>to_sparql</strong>(extensions: {}, filter_ops: [], **options)  &#x21d2; <tt>String</tt> 
@@ -729,34 +831,6 @@ GROUP BY ?g</code></pre>
       <pre class="lines">
 
 
-174
-175
-176
-177
-178
-179
-180
-181
-182
-183
-184
-185
-186
-187
-188
-189
-190
-191
-192
-193
-194
-195
-196
-197
-198
-199
-200
-201
 202
 203
 204
@@ -776,10 +850,38 @@ GROUP BY ?g</code></pre>
 218
 219
 220
-221</pre>
+221
+222
+223
+224
+225
+226
+227
+228
+229
+230
+231
+232
+233
+234
+235
+236
+237
+238
+239
+240
+241
+242
+243
+244
+245
+246
+247
+248
+249</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/group.rb', line 174</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/group.rb', line 202</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sparql'>to_sparql</span><span class='lparen'>(</span><span class='label'>extensions:</span> <span class='lbrace'>{</span><span class='rbrace'>}</span><span class='comma'>,</span> <span class='label'>filter_ops:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_having_ops'>having_ops</span> <span class='op'>=</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -905,14 +1007,90 @@ GROUP BY ?g</code></pre>
 </table>
 </div>
     
+      <div class="method_details ">
+  <h3 class="signature " id="variables-instance_method">
+  
+    #<strong>variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../../../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The variables used in the extension. Includes grouped variables and temporary, but not those in the query, itself</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+170
+171
+172
+173
+174
+175
+176
+177
+178
+179
+180
+181
+182
+183</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/group.rb', line 170</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_variables'>variables</span>
+  <span class='id identifier rubyid_group_vars'>group_vars</span> <span class='op'>=</span> <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+
+  <span class='id identifier rubyid_aggregate_vars'>aggregate_vars</span> <span class='op'>=</span> <span class='lparen'>(</span><span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_length'>length</span> <span class='op'>==</span> <span class='int'>3</span> <span class='op'>?</span> <span class='id identifier rubyid_operand'>operand</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span><span class='rparen'>)</span>
+
+  <span class='comment'># Extract first element of each and merge it&#39;s variables
+</span>  <span class='lparen'>(</span><span class='id identifier rubyid_group_vars'>group_vars</span> <span class='op'>+</span> <span class='id identifier rubyid_aggregate_vars'>aggregate_vars</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_map'>map</span> <span class='kw'>do</span>  <span class='op'>|</span><span class='id identifier rubyid_o'>o</span><span class='op'>|</span>
+      <span class='id identifier rubyid_v'>v</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="../../../Array.html" title="Array (class)">Array</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_o'>o</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span>
+      <span class='id identifier rubyid_v'>v</span> <span class='kw'>if</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'>RDF</span><span class='op'>::</span><span class='const'>Query</span><span class='op'>::</span><span class='const'>Variable</span><span class='rparen'>)</span>
+    <span class='kw'>end</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='period'>.</span>
+    <span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:variables</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_memo'>memo</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span><span class='rbrace'>}</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
   </div>
 
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:33 2022 by
+  Generated on Thu Apr 28 20:59:50 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

@@ -626,7 +626,7 @@
       <td>[93]</td>
       <td><code>PathMod</code></td>
       <td>::=</td>
-      <td>"<code class="grammar-literal">*</code>" <code>|</code> "<code class="grammar-literal">?</code>" <code>|</code> "<code class="grammar-literal">+</code>"</td>
+      <td>"<code class="grammar-literal">*</code>" <code>|</code> "<code class="grammar-literal">?</code>" <code>|</code> "<code class="grammar-literal">+</code>" <code>|</code> <code>(</code> "<code class="grammar-literal">{</code>" <a href="#grammar-production-INTEGER">INTEGER</a><code>?</code>  <code>(</code> "<code class="grammar-literal">,</code>" <a href="#grammar-production-INTEGER">INTEGER</a><code>?</code> <code>)</code> <code>?</code>  "<code class="grammar-literal">}</code>"<code>)</code> </td>
     </tr>
     <tr id="grammar-production-PathPrimary">
       <td>[94]</td>
@@ -1094,6 +1094,11 @@
     <tr>
       <td colspan=2></td>
       <td>|</td>
+      <td><code>(</code> &quot;ADJUST&quot; "<code class="grammar-literal">(</code>" <a href="#grammar-production-Expression">Expression</a> "<code class="grammar-literal">,</code>" <a href="#grammar-production-Expression">Expression</a> "<code class="grammar-literal">)</code>"<code>)</code></td>
+    </tr>
+    <tr>
+      <td colspan=2></td>
+      <td>|</td>
       <td><a href="#grammar-production-RegexExpression">RegexExpression</a></td>
     </tr>
     <tr>
@@ -1506,7 +1511,7 @@
     <tr>
       <td colspan=2></td>
       <td>|</td>
-      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#xF900</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Reserved'">#xFDCF</abbr></code><code>]</code></td>
+      <td><code>[</code> <code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#xF900</abbr></code><code class="grammar-literal">-</code><code class="grammar-char-escape"><abbr title="unicode 'Graphic'">#xFDCF</abbr></code><code>]</code></td>
     </tr>
     <tr>
       <td colspan=2></td>
@@ -1577,9 +1582,9 @@
     </div></div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:18 2022 by
+  Generated on Thu Apr 28 20:59:35 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

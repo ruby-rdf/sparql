@@ -208,12 +208,12 @@
       <pre class="lines">
 
 
-233
-234
-235</pre>
+241
+242
+243</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 233</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 241</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_deep_dup'>deep_dup</span>
   <span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span><span class='comma'>,</span> <span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span><span class='op'>|</span> <span class='id identifier rubyid_memo'>memo</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_k'>k</span> <span class='op'>=&gt;</span> <span class='id identifier rubyid_v'>v</span><span class='period'>.</span><span class='id identifier rubyid_deep_dup'>deep_dup</span><span class='rparen'>)</span><span class='rbrace'>}</span>
@@ -274,12 +274,12 @@
       <pre class="lines">
 
 
-227
-228
-229</pre>
+235
+236
+237</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 227</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 235</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_optimize'>optimize</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_deep_dup'>deep_dup</span>
@@ -294,9 +294,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:27 2022 by
+  Generated on Thu Apr 28 20:59:45 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

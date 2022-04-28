@@ -318,10 +318,10 @@
       <pre class="lines">
 
 
-252</pre>
+260</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 252</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 260</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_aggregate?'>aggregate?</span><span class='semicolon'>;</span> <span class='kw'>false</span><span class='semicolon'>;</span> <span class='kw'>end</span></pre>
     </td>
@@ -402,12 +402,12 @@
       <pre class="lines">
 
 
-248
-249
-250</pre>
+256
+257
+258</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 248</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 256</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_evaluate'>evaluate</span><span class='lparen'>(</span><span class='id identifier rubyid_bindings'>bindings</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='kw'>self</span>
@@ -456,12 +456,12 @@
       <pre class="lines">
 
 
-257
-258
-259</pre>
+265
+266
+267</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 257</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 265</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_ndvars'>ndvars</span>
   <span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_reject'>reject</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:distinguished?</span><span class='rparen'>)</span>
@@ -522,14 +522,14 @@
       <pre class="lines">
 
 
-273
-274
-275
-276
-277</pre>
+281
+282
+283
+284
+285</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 273</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 281</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_optimize'>optimize</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_optimized'>optimized</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_deep_dup'>deep_dup</span>
@@ -580,12 +580,12 @@
       <pre class="lines">
 
 
-284
-285
-286</pre>
+292
+293
+294</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 284</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 292</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sparql'>to_sparql</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_to_sxp'>to_sxp</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -634,12 +634,12 @@
       <pre class="lines">
 
 
-264
-265
-266</pre>
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 264</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 272</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_vars'>vars</span>
   <span class='id identifier rubyid_variable?'>variable?</span> <span class='op'>?</span> <span class='lbracket'>[</span><span class='kw'>self</span><span class='rbracket'>]</span> <span class='op'>:</span> <span class='lbracket'>[</span><span class='rbracket'>]</span>
@@ -654,9 +654,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:24 2022 by
+  Generated on Thu Apr 28 20:59:43 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

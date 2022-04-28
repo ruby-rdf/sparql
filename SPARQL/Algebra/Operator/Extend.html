@@ -335,6 +335,30 @@ SELECT ?z ?s1
 </li>
 
       
+        <li class="public ">
+  <span class="summary_signature">
+    
+      <a href="#variables-instance_method" title="#variables (instance method)">#<strong>variables</strong>  &#x21d2; Hash{Symbol =&gt; RDF::Query::Variable} </a>
+    
+
+    
+  </span>
+  
+  
+  
+  
+  
+  
+  
+
+  
+    <span class="summary_desc"><div class='inline'>
+<p>The variables used in the extension.</p>
+</div></span>
+  
+</li>
+
+      
     </ul>
   
 
@@ -348,7 +372,7 @@ SELECT ?z ?s1
   
   
   <h3 class="inherited">Methods included from <span class='object_link'><a href="../Query.html" title="SPARQL::Algebra::Query (module)">Query</a></span></h3>
-  <p class="inherited"><span class='object_link'><a href="../Query.html#each_solution-instance_method" title="SPARQL::Algebra::Query#each_solution (method)">#each_solution</a></span>, <span class='object_link'><a href="../Query.html#empty%3F-instance_method" title="SPARQL::Algebra::Query#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="../Query.html#failed%3F-instance_method" title="SPARQL::Algebra::Query#failed? (method)">#failed?</a></span>, <span class='object_link'><a href="../Query.html#graph_name=-instance_method" title="SPARQL::Algebra::Query#graph_name= (method)">#graph_name=</a></span>, <span class='object_link'><a href="../Query.html#matched%3F-instance_method" title="SPARQL::Algebra::Query#matched? (method)">#matched?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_boolean%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_boolean? (method)">#query_yields_boolean?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_solutions%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_solutions? (method)">#query_yields_solutions?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_statements%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_statements? (method)">#query_yields_statements?</a></span>, <span class='object_link'><a href="../Query.html#unshift-instance_method" title="SPARQL::Algebra::Query#unshift (method)">#unshift</a></span>, <span class='object_link'><a href="../Query.html#variables-instance_method" title="SPARQL::Algebra::Query#variables (method)">#variables</a></span></p>
+  <p class="inherited"><span class='object_link'><a href="../Query.html#each_solution-instance_method" title="SPARQL::Algebra::Query#each_solution (method)">#each_solution</a></span>, <span class='object_link'><a href="../Query.html#empty%3F-instance_method" title="SPARQL::Algebra::Query#empty? (method)">#empty?</a></span>, <span class='object_link'><a href="../Query.html#failed%3F-instance_method" title="SPARQL::Algebra::Query#failed? (method)">#failed?</a></span>, <span class='object_link'><a href="../Query.html#graph_name=-instance_method" title="SPARQL::Algebra::Query#graph_name= (method)">#graph_name=</a></span>, <span class='object_link'><a href="../Query.html#matched%3F-instance_method" title="SPARQL::Algebra::Query#matched? (method)">#matched?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_boolean%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_boolean? (method)">#query_yields_boolean?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_solutions%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_solutions? (method)">#query_yields_solutions?</a></span>, <span class='object_link'><a href="../Query.html#query_yields_statements%3F-instance_method" title="SPARQL::Algebra::Query#query_yields_statements? (method)">#query_yields_statements?</a></span>, <span class='object_link'><a href="../Query.html#unshift-instance_method" title="SPARQL::Algebra::Query#unshift (method)">#unshift</a></span></p>
 
   
   
@@ -635,19 +659,19 @@ SELECT ?z ?s1
       <pre class="lines">
 
 
-125
-126
-127
-128
-129
-130
-131
-132
-133
-134</pre>
+154
+155
+156
+157
+158
+159
+160
+161
+162
+163</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/extend.rb', line 125</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/extend.rb', line 154</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sparql'>to_sparql</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_extensions'>extensions</span> <span class='op'>=</span> <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span><span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='lbrace'>{</span><span class='rbrace'>}</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='lparen'>(</span><span class='id identifier rubyid_as'>as</span><span class='comma'>,</span> <span class='id identifier rubyid_expression'>expression</span><span class='rparen'>)</span><span class='op'>|</span>
@@ -678,6 +702,8 @@ SELECT ?z ?s1
     
 <p>The variable introduced by the BIND clause must not have been used in the group graph pattern up to the point of use in BIND</p>
 
+<p>Also, variables used in a binding expression must be projected by the query.</p>
+
 
   </div>
 </div>
@@ -690,8 +716,6 @@ SELECT ?z ?s1
       <pre class="lines">
 
 
-107
-108
 109
 110
 111
@@ -699,20 +723,112 @@ SELECT ?z ?s1
 113
 114
 115
-116</pre>
+116
+117
+118
+119
+120
+121
+122
+123
+124
+125
+126
+127
+128
+129
+130
+131
+132
+133</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/extend.rb', line 107</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/extend.rb', line 109</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_validate!'>validate!</span>
   <span class='id identifier rubyid_bind_vars'>bind_vars</span> <span class='op'>=</span> <span class='id identifier rubyid_operand'>operand</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:first</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_query_vars'>query_vars</span> <span class='op'>=</span> <span class='id identifier rubyid_operand'>operand</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_vars'>vars</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:name</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query_vars'>query_vars</span> <span class='op'>=</span> <span class='id identifier rubyid_operand'>operand</span><span class='lparen'>(</span><span class='int'>1</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_variables'>variables</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
   
   <span class='kw'>unless</span> <span class='lparen'>(</span><span class='id identifier rubyid_bind_vars'>bind_vars</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span> <span class='op'>&amp;</span> <span class='id identifier rubyid_query_vars'>query_vars</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_empty?'>empty?</span>
     <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span>
          <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>bound variable used in query: </span><span class='embexpr_beg'>#{</span><span class='lparen'>(</span><span class='id identifier rubyid_bind_vars'>bind_vars</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span> <span class='op'>&amp;</span> <span class='id identifier rubyid_query_vars'>query_vars</span><span class='period'>.</span><span class='id identifier rubyid_compact'>compact</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_to_sse'>to_sse</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span>
   <span class='kw'>end</span>
+
+  <span class='comment'># Special case for group variables
+</span>  <span class='kw'>if</span> <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_is_a?'>is_a?</span><span class='lparen'>(</span><span class='const'><span class='object_link'><a href="Group.html" title="SPARQL::Algebra::Operator::Group (class)">Group</a></span></span><span class='rparen'>)</span>
+    <span class='id identifier rubyid_bind_expr_vars'>bind_expr_vars</span> <span class='op'>=</span> <span class='id identifier rubyid_operand'>operand</span><span class='lparen'>(</span><span class='int'>0</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:last</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_variables'>variables</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
+    <span class='id identifier rubyid_group_vars'>group_vars</span> <span class='op'>=</span> <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_variables'>variables</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
+    <span class='id identifier rubyid_group_internal_vars'>group_internal_vars</span> <span class='op'>=</span> <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_internal_variables'>internal_variables</span><span class='period'>.</span><span class='id identifier rubyid_keys'>keys</span>
+
+    <span class='id identifier rubyid_bind_expr_vars'>bind_expr_vars</span><span class='period'>.</span><span class='id identifier rubyid_each'>each</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_v'>v</span><span class='op'>|</span>
+      <span class='id identifier rubyid_raise'>raise</span> <span class='const'>ArgumentError</span><span class='comma'>,</span>
+           <span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>extension expression uses variable not in scope: </span><span class='embexpr_beg'>#{</span><span class='id identifier rubyid_v'>v</span><span class='embexpr_end'>}</span><span class='tstring_end'>&quot;</span></span> <span class='kw'>if</span>
+           <span class='id identifier rubyid_group_internal_vars'>group_internal_vars</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span> <span class='op'>&amp;&amp;</span>
+           <span class='op'>!</span><span class='id identifier rubyid_group_vars'>group_vars</span><span class='period'>.</span><span class='id identifier rubyid_include?'>include?</span><span class='lparen'>(</span><span class='id identifier rubyid_v'>v</span><span class='rparen'>)</span>
+    <span class='kw'>end</span>
+  <span class='kw'>end</span>
+
   <span class='kw'>super</span>
+<span class='kw'>end</span></pre>
+    </td>
+  </tr>
+</table>
+</div>
+    
+      <div class="method_details ">
+  <h3 class="signature " id="variables-instance_method">
+  
+    #<strong>variables</strong>  &#x21d2; <tt><span class='object_link'><a href="../../../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt> 
+  
+
+  
+
+  
+</h3><div class="docstring">
+  <div class="discussion">
+    
+<p>The variables used in the extension. Includes extended variables.</p>
+
+
+  </div>
+</div>
+<div class="tags">
+  
+<p class="tag_title">Returns:</p>
+<ul class="return">
+  
+    <li>
+      
+      
+        <span class='type'>(<tt><span class='object_link'><a href="../../../Hash.html" title="Hash (class)">Hash</a></span>{Symbol =&gt; <span class='object_link'><a href="../../../RDF/Query/Variable.html" title="RDF::Query::Variable (class)">RDF::Query::Variable</a></span>}</tt>)</span>
+      
+      
+      
+    </li>
+  
+</ul>
+
+</div><table class="source_code">
+  <tr>
+    <td>
+      <pre class="lines">
+
+
+140
+141
+142
+143
+144
+145</pre>
+    </td>
+    <td>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra/operator/extend.rb', line 140</span>
+
+<span class='kw'>def</span> <span class='id identifier rubyid_variables'>variables</span>
+  <span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_first'>first</span><span class='period'>.</span>
+    <span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:first</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_map'>map</span><span class='lparen'>(</span><span class='op'>&amp;</span><span class='symbol'>:variables</span><span class='rparen'>)</span><span class='period'>.</span>
+    <span class='id identifier rubyid_inject'>inject</span><span class='lparen'>(</span><span class='id identifier rubyid_operands'>operands</span><span class='period'>.</span><span class='id identifier rubyid_last'>last</span><span class='period'>.</span><span class='id identifier rubyid_variables'>variables</span><span class='rparen'>)</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_memo'>memo</span><span class='comma'>,</span> <span class='id identifier rubyid_h'>h</span><span class='op'>|</span> <span class='id identifier rubyid_memo'>memo</span><span class='period'>.</span><span class='id identifier rubyid_merge'>merge</span><span class='lparen'>(</span><span class='id identifier rubyid_h'>h</span><span class='rparen'>)</span><span class='rbrace'>}</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -724,9 +840,9 @@ SELECT ?z ?s1
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:35 2022 by
+  Generated on Thu Apr 28 20:59:53 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

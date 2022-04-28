@@ -317,6 +317,115 @@
           
         </li>
       
+        <li>
+          <span class="name">:all_vars</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If <code>true</code>, emits on empty <code>project</code> operator when parsing <code>SELECT *</code>, which will emit all in-scope variables, rather than just those used in solutions. In the next minor release, the default for this option will change to <code>true</code>.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:anon_base</span>
+          <span class="type">(<tt>#to_s</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>&quot;b0&quot;</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Basis for generating anonymous Nodes</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:base_uri</span>
+          <span class="type">(<tt>#to_s</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the base URI to use when resolving relative URIs (for acessing intermediate parser productions)</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:logger</span>
+          <span class="type">(<tt>Logger</tt>, <tt>#write</tt>, <tt>#&lt;&lt;</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Record error/info/debug output</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:prefixes</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Hash.new</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the prefix mappings to use (for acessing intermediate parser productions)</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:resolve_iris</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Resolve prefix and relative IRIs, otherwise, when serializing the parsed SSE as S-Expressions, use the original prefixed and relative URIs along with <code>base</code> and <code>prefix</code> definitions.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:validate</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>whether to validate the parsed statements and values</p>
+</div>
+          
+        </li>
+      
     </ul>
   
 
@@ -391,14 +500,14 @@
       <pre class="lines">
 
 
-268
-269
 270
 271
-272</pre>
+272
+273
+274</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 268</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 270</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Util</span><span class='op'>::</span><span class='const'>File</span><span class='period'>.</span><span class='id identifier rubyid_open_file'>open_file</span><span class='lparen'>(</span><span class='id identifier rubyid_filename'>filename</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span> <span class='kw'>do</span> <span class='op'>|</span><span class='id identifier rubyid_file'>file</span><span class='op'>|</span>
@@ -468,6 +577,128 @@
   
 </ul>
 
+  
+    
+    
+    
+    
+    <p class="tag_title">Options Hash (<tt>**options</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:all_vars</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>If <code>true</code>, emits on empty <code>project</code> operator when parsing <code>SELECT *</code>, which will emit all in-scope variables, rather than just those used in solutions. In the next minor release, the default for this option will change to <code>true</code>.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:anon_base</span>
+          <span class="type">(<tt>#to_s</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>&quot;b0&quot;</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Basis for generating anonymous Nodes</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:base_uri</span>
+          <span class="type">(<tt>#to_s</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>nil</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the base URI to use when resolving relative URIs (for acessing intermediate parser productions)</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:logger</span>
+          <span class="type">(<tt>Logger</tt>, <tt>#write</tt>, <tt>#&lt;&lt;</tt>)</span>
+          <span class="default">
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Record error/info/debug output</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:prefixes</span>
+          <span class="type">(<tt><span class='object_link'><a href="../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Hash.new</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the prefix mappings to use (for acessing intermediate parser productions)</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:resolve_iris</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Resolve prefix and relative IRIs, otherwise, when serializing the parsed SSE as S-Expressions, use the original prefixed and relative URIs along with <code>base</code> and <code>prefix</code> definitions.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:validate</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>whether to validate the parsed statements and values</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+    
+    
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -506,12 +737,12 @@
       <pre class="lines">
 
 
-253
 254
-255</pre>
+255
+256</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 253</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 254</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Grammar/Parser.html" title="SPARQL::Grammar::Parser (class)">Parser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Grammar/Parser.html#initialize-instance_method" title="SPARQL::Grammar::Parser#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Grammar/Parser.html#parse-instance_method" title="SPARQL::Grammar::Parser#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:update</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='symbol'>:UpdateUnit</span> <span class='op'>:</span> <span class='symbol'>:QueryUnit</span><span class='rparen'>)</span>
@@ -643,12 +874,12 @@
       <pre class="lines">
 
 
-303
-304
-305</pre>
+305
+306
+307</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 303</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 305</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_tokenize'>tokenize</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='const'>Lexer</span><span class='period'>.</span><span class='id identifier rubyid_tokenize'>tokenize</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
@@ -732,12 +963,12 @@
       <pre class="lines">
 
 
-284
-285
-286</pre>
+286
+287
+288</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 284</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar.rb', line 286</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_valid?'>valid?</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Grammar/Parser.html" title="SPARQL::Grammar::Parser (class)">Parser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="Grammar/Parser.html#initialize-instance_method" title="SPARQL::Grammar::Parser#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_valid?'><span class='object_link'><a href="Grammar/Parser.html#valid%3F-instance_method" title="SPARQL::Grammar::Parser#valid? (method)">valid?</a></span></span>
@@ -752,9 +983,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:19 2022 by
+  Generated on Thu Apr 28 20:59:38 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>

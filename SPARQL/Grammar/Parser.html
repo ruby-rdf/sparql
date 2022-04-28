@@ -148,7 +148,7 @@
 </div>
         </dt>
         <dd><pre class="code"><span class='qwords_beg'>%w{</span><span class='words_sep'>
-  </span><span class='tstring_content'>ABS</span><span class='words_sep'>  </span><span class='tstring_content'>BNODE</span><span class='words_sep'> </span><span class='tstring_content'>CEIL</span><span class='words_sep'> </span><span class='tstring_content'>COALESCE</span><span class='words_sep'> </span><span class='tstring_content'>CONCAT</span><span class='words_sep'>
+  </span><span class='tstring_content'>ABS</span><span class='words_sep'> </span><span class='tstring_content'>ADJUST</span><span class='words_sep'> </span><span class='tstring_content'>BNODE</span><span class='words_sep'> </span><span class='tstring_content'>CEIL</span><span class='words_sep'> </span><span class='tstring_content'>COALESCE</span><span class='words_sep'> </span><span class='tstring_content'>CONCAT</span><span class='words_sep'>
   </span><span class='tstring_content'>CONTAINS</span><span class='words_sep'> </span><span class='tstring_content'>DATATYPE</span><span class='words_sep'> </span><span class='tstring_content'>DAY</span><span class='words_sep'> </span><span class='tstring_content'>ENCODE_FOR_URI</span><span class='words_sep'>
   </span><span class='tstring_content'>FLOOR</span><span class='words_sep'> </span><span class='tstring_content'>HOURS</span><span class='words_sep'> </span><span class='tstring_content'>IF</span><span class='words_sep'> </span><span class='tstring_content'>IRI</span><span class='words_sep'> </span><span class='tstring_content'>LANGMATCHES</span><span class='words_sep'> </span><span class='tstring_content'>LANG</span><span class='words_sep'> </span><span class='tstring_content'>LCASE</span><span class='words_sep'>
   </span><span class='tstring_content'>MD5</span><span class='words_sep'> </span><span class='tstring_content'>MINUTES</span><span class='words_sep'> </span><span class='tstring_content'>MONTH</span><span class='words_sep'> </span><span class='tstring_content'>NOW</span><span class='words_sep'> </span><span class='tstring_content'>RAND</span><span class='words_sep'> </span><span class='tstring_content'>ROUND</span><span class='words_sep'> </span><span class='tstring_content'>SECONDS</span><span class='words_sep'>
@@ -366,7 +366,7 @@
         <li class="public ">
   <span class="summary_signature">
     
-      <a href="#parse-instance_method" title="#parse (instance method)">#<strong>parse</strong>(prod = START)  &#x21d2; Array </a>
+      <a href="#parse-instance_method" title="#parse (instance method)">#<strong>parse</strong>(prod = START)  &#x21d2; RDF::Queryable </a>
     
 
     
@@ -530,17 +530,33 @@
     <ul class="option">
       
         <li>
-          <span class="name">:prefixes</span>
-          <span class="type">(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+          <span class="name">:all_vars</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
           <span class="default">
             
               &mdash; default:
-              <tt>Hash.new</tt>
+              <tt>false</tt>
             
           </span>
           
             &mdash; <div class='inline'>
-<p>the prefix mappings to use (for acessing intermediate parser productions)</p>
+<p>If <code>true</code>, emits on empty <code>project</code> operator when parsing <code>SELECT *</code>, which will emit all in-scope variables, rather than just those used in solutions. In the next minor release, the default for this option will change to <code>true</code>.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:anon_base</span>
+          <span class="type">(<tt>#<span class='object_link'><a href="#to_s-instance_method" title="SPARQL::Grammar::Parser#to_s (method)">to_s</a></span></tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>&quot;b0&quot;</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Basis for generating anonymous Nodes</p>
 </div>
           
         </li>
@@ -562,17 +578,30 @@
         </li>
       
         <li>
-          <span class="name">:anon_base</span>
-          <span class="type">(<tt>#<span class='object_link'><a href="#to_s-instance_method" title="SPARQL::Grammar::Parser#to_s (method)">to_s</a></span></tt>)</span>
+          <span class="name">:logger</span>
+          <span class="type">(<tt>Logger</tt>, <tt>#write</tt>, <tt>#&lt;&lt;</tt>)</span>
           <span class="default">
-            
-              &mdash; default:
-              <tt>&quot;b0&quot;</tt>
             
           </span>
           
             &mdash; <div class='inline'>
-<p>Basis for generating anonymous Nodes</p>
+<p>Record error/info/debug output</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:prefixes</span>
+          <span class="type">(<tt><span class='object_link'><a href="../../Hash.html" title="Hash (class)">Hash</a></span></tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>Hash.new</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>the prefix mappings to use (for acessing intermediate parser productions)</p>
 </div>
           
         </li>
@@ -605,19 +634,6 @@
           
             &mdash; <div class='inline'>
 <p>whether to validate the parsed statements and values</p>
-</div>
-          
-        </li>
-      
-        <li>
-          <span class="name">:logger</span>
-          <span class="type">(<tt>Logger</tt>, <tt>#write</tt>, <tt>#&lt;&lt;</tt>)</span>
-          <span class="default">
-            
-          </span>
-          
-            &mdash; <div class='inline'>
-<p>Record error/info/debug output</p>
 </div>
           
         </li>
@@ -683,30 +699,30 @@
       <pre class="lines">
 
 
-1571
-1572
-1573
-1574
-1575
-1576
-1577
-1578
-1579
-1580
-1581
-1582
-1583
-1584
-1585
-1586
-1587
-1588
-1589
-1590
-1591</pre>
+2055
+2056
+2057
+2058
+2059
+2060
+2061
+2062
+2063
+2064
+2065
+2066
+2067
+2068
+2069
+2070
+2071
+2072
+2073
+2074
+2075</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 1571</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 2055</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_initialize'>initialize</span><span class='lparen'>(</span><span class='id identifier rubyid_input'>input</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='ivar'>@input</span> <span class='op'>=</span> <span class='kw'>case</span> <span class='id identifier rubyid_input'>input</span>
@@ -985,10 +1001,10 @@
       <pre class="lines">
 
 
-1613</pre>
+2097</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 1613</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 2097</span>
 
 <span class='id identifier rubyid_alias_method'>alias_method</span> <span class='symbol'>:ll1_parse</span><span class='comma'>,</span> <span class='symbol'>:parse</span></pre>
     </td>
@@ -999,7 +1015,7 @@
       <div class="method_details ">
   <h3 class="signature " id="parse-instance_method">
   
-    #<strong>parse</strong>(prod = START)  &#x21d2; <tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt> 
+    #<strong>parse</strong>(prod = START)  &#x21d2; <tt><span class='object_link'><a href="../../RDF/Queryable.html" title="RDF::Queryable (module)">RDF::Queryable</a></span></tt> 
   
 
   
@@ -1047,7 +1063,7 @@
     <li>
       
       
-        <span class='type'>(<tt><span class='object_link'><a href="../../Array.html" title="Array (class)">Array</a></span></tt>)</span>
+        <span class='type'>(<tt><span class='object_link'><a href="../../RDF/Queryable.html" title="RDF::Queryable (module)">RDF::Queryable</a></span></tt>)</span>
       
       
       
@@ -1070,38 +1086,38 @@
       <pre class="lines">
 
 
-1630
-1631
-1632
-1633
-1634
-1635
-1636
-1637
-1638
-1639
-1640
-1641
-1642
-1643
-1644
-1645
-1646
-1647
-1648
-1649
-1650
-1651
-1652
-1653
-1654
-1655
-1656
-1657
-1658</pre>
+2114
+2115
+2116
+2117
+2118
+2119
+2120
+2121
+2122
+2123
+2124
+2125
+2126
+2127
+2128
+2129
+2130
+2131
+2132
+2133
+2134
+2135
+2136
+2137
+2138
+2139
+2140
+2141
+2142</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 1630</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 2114</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_prod'>prod</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Meta.html#START-constant" title="SPARQL::Grammar::Meta::START (constant)">START</a></span></span><span class='rparen'>)</span>
   <span class='id identifier rubyid_ll1_parse'>ll1_parse</span><span class='lparen'>(</span><span class='ivar'>@input</span><span class='comma'>,</span>
@@ -1152,12 +1168,12 @@
       <pre class="lines">
 
 
-1609
-1610
-1611</pre>
+2093
+2094
+2095</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 1609</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 2093</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_s'>to_s</span>
   <span class='ivar'>@result</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span>
@@ -1204,12 +1220,12 @@
       <pre class="lines">
 
 
-1605
-1606
-1607</pre>
+2089
+2090
+2091</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 1605</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 2089</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sxp_bin'>to_sxp_bin</span>
   <span class='ivar'>@result</span>
@@ -1258,15 +1274,15 @@
       <pre class="lines">
 
 
-1597
-1598
-1599
-1600
-1601
-1602</pre>
+2081
+2082
+2083
+2084
+2085
+2086</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 1597</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/grammar/parser11.rb', line 2081</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_valid?'>valid?</span>
   <span class='id identifier rubyid_parse'>parse</span>
@@ -1284,9 +1300,9 @@
 </div>
 
       <div id="footer">
-  Generated on Thu Jan 27 23:58:26 2022 by
+  Generated on Thu Apr 28 20:59:45 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.27 (ruby-3.1.0).
+  0.9.27 (ruby-3.1.2).
 </div>
 
     </div>
