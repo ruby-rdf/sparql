@@ -85,7 +85,7 @@ Turtle
 <dd property='earl:testSubjects' resource='https://rubygems.org/gems/sparql' typeof='doap:Project TestSubject Software'>
 <dl>
 <dt>Description</dt>
-<dd lang='en' property='doap:description'>SPARQL Implements SPARQL 1.1 Query, Update and result formats for the Ruby RDF.rb library suite.</dd>
+<dd lang='en' property='doap:description'>SPARQL Implements SPARQL 1.1 Query, Update, Protocol and result formats for the Ruby RDF.rb library suite.</dd>
 <dt>Programming Language</dt>
 <dd property='doap:programming-language'>Ruby</dd>
 <dt>Home Page</dt>
@@ -331,8 +331,8 @@ Test Suite Compliance
 <td>
 <a href='#entailment regime test cases'>entailment regime test cases</a>
 </td>
-<td class='passed-none'>
-Untested
+<td class='passed-some'>
+25/70 (35.7%)
 </td>
 </tr>
 <tr>
@@ -485,6 +485,22 @@ Untested
 </td>
 <td class='passed-all'>
 13/13 (100.0%)
+</td>
+</tr>
+<tr>
+<td>
+<a href='#SPARQL Graph Store Protocol'>SPARQL Graph Store Protocol</a>
+</td>
+<td class='passed-none'>
+Untested
+</td>
+</tr>
+<tr>
+<td>
+<a href='#SPARQL Protocol'>SPARQL Protocol</a>
+</td>
+<td class='passed-all'>
+35/35 (100.0%)
 </td>
 </tr>
 <tr>
@@ -6520,360 +6536,1136 @@ Percentage passed out of 4 Tests
 <th>
 Test
 </th>
+<th>
+<a href='#subj_0'>Ruby SPARQL</a>
+</th>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind01' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind01: bind01 - BIND fixed data for OWL DL
+Test bind01: bind01 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind01' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind02' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind02: bind02 - BIND fixed data for OWL DL
+Test bind02: bind02 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind02' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind03' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind03: bind03 - BIND fixed data for OWL DL
+Test bind03: bind03 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind03' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind04' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind04: bind04 - BIND fixed data for OWL DL
+Test bind04: bind04 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind04' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind05' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind05: bind05 - BIND fixed data for OWL DL
+Test bind05: bind05 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind05' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind06' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind06: bind06 - BIND fixed data for OWL DL
+Test bind06: bind06 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind06' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind07' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind07: bind07 - BIND fixed data for OWL DL
+Test bind07: bind07 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind07' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind08' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test bind08: bind08 - BIND fixed data for OWL DL
+Test bind08: bind08 - BIND fixed data for OWL DL (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#bind08' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#d-ent-01' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test d-ent-01: D-Entailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers
+Test d-ent-01: D-Entailment test to show that  neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#d-ent-01' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#lang' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test lang: Literal with language tag test
+Test lang: Literal with language tag test (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#lang' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#owlds01' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test owlds01: bnodes are not existentials
+Test owlds01: bnodes are not existentials (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#owlds01' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#owlds02' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test owlds02: bnodes are not existentials with answer
+Test owlds02: bnodes are not existentials with answer (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#owlds02' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q1' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test paper-sparqldl-Q1: paper-sparqldl-Q1
+Test paper-sparqldl-Q1: paper-sparqldl-Q1 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q1' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q1-rdfs' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test paper-sparqldl-Q1-rdfs: paper-sparqldl-Q1-rdfs
+Test paper-sparqldl-Q1-rdfs: paper-sparqldl-Q1-rdfs (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q1-rdfs' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q2' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test paper-sparqldl-Q2: paper-sparqldl-Q2
+Test paper-sparqldl-Q2: paper-sparqldl-Q2 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q2' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q3' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test paper-sparqldl-Q3: paper-sparqldl-Q3
+Test paper-sparqldl-Q3: paper-sparqldl-Q3 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q3' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q4' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test paper-sparqldl-Q4: paper-sparqldl-Q4
+Test paper-sparqldl-Q4: paper-sparqldl-Q4 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q4' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q5' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test paper-sparqldl-Q5: paper-sparqldl-Q5
+Test paper-sparqldl-Q5: paper-sparqldl-Q5 (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#paper-sparqldl-Q5' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent10' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent10: filtered subclass query with (hasChild some Thing) restriction
+Test parent10: filtered subclass query with (hasChild some Thing) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent10' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent2' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent2: parent query with distinguished variable
+Test parent2: parent query with distinguished variable (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent2' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent3' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent3: parent query with (hasChild some Thing) restriction
+Test parent3: parent query with (hasChild some Thing) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent3' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent4' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent4: parent query with (hasChild min 1) restriction
+Test parent4: parent query with (hasChild min 1) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent4' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent5' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent5: parent query with (hasChild some Female) restriction
+Test parent5: parent query with (hasChild some Female) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent5' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent6' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent6: parent query with (hasChild min 1 Female) restriction
+Test parent6: parent query with (hasChild min 1 Female) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent6' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent7' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent7: parent query with (hasChild max 1 Female) restriction
+Test parent7: parent query with (hasChild max 1 Female) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent7' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent8' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent8: parent query with (hasChild exactly 1 Female) restriction
+Test parent8: parent query with (hasChild exactly 1 Female) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent8' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent9' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test parent9: subclass query with (hasChild some Thing) restriction
+Test parent9: subclass query with (hasChild some Thing) restriction (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#parent9' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#plainLit' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test plainLit: Plain literals with language tag are not the same as the same literal without
+Test plainLit: Plain literals with language tag are not the same as the same literal without (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#plainLit' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf01' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdf01: RDF inference test
+Test rdf01: RDF inference test (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf01' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf02' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdf02: RDF inference test
+Test rdf02: RDF inference test (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf02' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf03' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdf03: RDF test for blank node cardinalities
+Test rdf03: RDF test for blank node cardinalities (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf03' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf04' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdf04: simple triple pattern match
+Test rdf04: simple triple pattern match (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdf04' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs01' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs01: RDFS inference test rdfs:subPropertyOf
+Test rdfs01: RDFS inference test rdfs:subPropertyOf (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs01' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs02' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs02: RDFS inference test rdfs:subPropertyOf
+Test rdfs02: RDFS inference test rdfs:subPropertyOf (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs02' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs03' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs03: RDFS inference test combining subPropertyOf and domain
+Test rdfs03: RDFS inference test combining subPropertyOf and domain (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs03' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs04' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs04: RDFS inference test subClassOf
+Test rdfs04: RDFS inference test subClassOf (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs04' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs05' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs05: RDFS inference test subClassOf
+Test rdfs05: RDFS inference test subClassOf (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs05' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs06' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs06: RDFS inference test domain
+Test rdfs06: RDFS inference test domain (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs06' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs07' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs07: RDFS inference test range
+Test rdfs07: RDFS inference test range (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs07' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs08' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs08: RDFS inference test rdf:XMLLiteral subclass of rdfs:Literal
+Test rdfs08: RDFS inference test rdf:XMLLiteral subclass of rdfs:Literal (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs08' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs09' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs09: RDFS inference test transitivity of subClassOf
+Test rdfs09: RDFS inference test transitivity of subClassOf (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs09' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs10' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs10: RDFS inference test transitivity of subPropertyOf
+Test rdfs10: RDFS inference test transitivity of subPropertyOf (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs10' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs11' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs11: RDFS inference test subProperty and instances
+Test rdfs11: RDFS inference test subProperty and instances (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs11' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs12' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs12: RDFS inference test containers
+Test rdfs12: RDFS inference test containers (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs12' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs13' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rdfs13: RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers
+Test rdfs13: RDFS inference test to show that neither literals in subject position nor newly introduced surrogate blank nodes are to be returned in query answers (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rdfs13' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif01' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rif01: RIF Logical Entailment (referencing RIF XML)
+Test rif01: RIF Logical Entailment (referencing RIF XML) (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif01' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif03' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rif03: RIF Core WG tests: Frames
+Test rif03: RIF Core WG tests: Frames (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif03' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif04' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rif04: RIF Core WG tests: Modeling Brain Anatomy
+Test rif04: RIF Core WG tests: Modeling Brain Anatomy (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif04' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif06' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test rif06: RIF Core WG tests: RDF Combination Blank Node
+Test rif06: RIF Core WG tests: RDF Combination Blank Node (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#rif06' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple1' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple1: simple 1
+Test simple1: simple 1 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple1' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple2' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple2: simple 2
+Test simple2: simple 2 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple2' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple3' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple3: simple 3
+Test simple3: simple 3 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple3' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple4' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple4: simple 4
+Test simple4: simple 4 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple4' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple5' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple5: simple 5
+Test simple5: simple 5 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple5' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple6' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple6: simple 6
+Test simple6: simple 6 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple6' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple7' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple7: simple 7
+Test simple7: simple 7 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple7' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple8' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test simple8: simple 8
+Test simple8: simple 8 (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#simple8' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-01' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-01: sparqldl-01.rq: triple pattern
+Test sparqldl-01: sparqldl-01.rq: triple pattern (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-01' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-02' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-02: sparqldl-02.rq: simple combined query
+Test sparqldl-02: sparqldl-02.rq: simple combined query (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-02' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-03' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-03: sparqldl-03.rq: combined query with complex class description
+Test sparqldl-03: sparqldl-03.rq: combined query with complex class description (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-03' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-04' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-04: sparqldl-04.rq: bug fixing test
+Test sparqldl-04: sparqldl-04.rq: bug fixing test (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-04' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-05' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-05: sparqldl-05.rq: simple undistinguished variable test.
+Test sparqldl-05: sparqldl-05.rq: simple undistinguished variable test. (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-05' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-06' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-06: sparqldl-06.rq: cycle of undistinguished variables
+Test sparqldl-06: sparqldl-06.rq: cycle of undistinguished variables (<span class="info">Entailment</span>)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-06' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-07' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-07: sparqldl-07.rq: two distinguished variables + undist.
+Test sparqldl-07: sparqldl-07.rq: two distinguished variables + undist. (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-07' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-08' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-08: sparqldl-08.rq: two distinguished variables + undist.
+Test sparqldl-08: sparqldl-08.rq: two distinguished variables + undist. (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-08' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-09' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-09: sparqldl-09.rq: undist vars test
+Test sparqldl-09: sparqldl-09.rq: undist vars test (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-09' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-10' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-10: sparqldl-10.rq: undist vars test
+Test sparqldl-10: sparqldl-10.rq: undist vars test (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-10' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-11' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-11: sparqldl-11.rq: domain test
+Test sparqldl-11: sparqldl-11.rq: domain test (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-11' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-12' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-12: sparqldl-12.rq: range test
+Test sparqldl-12: sparqldl-12.rq: range test (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-12' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-13' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test sparqldl-13: sparqldl-13.rq: sameAs
+Test sparqldl-13: sparqldl-13.rq: sameAs (<span class="info">Entailment</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/entailment/manifest#sparqldl-13' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr class='summary'>
 <td>
 Percentage passed out of 70 Tests
+</td>
+<td class='passed-some'>
+35.7%
 </td>
 </tr>
 </table>
@@ -10017,6 +10809,697 @@ Percentage passed out of 13 Tests
 </tr>
 </table>
 </section>
+<section id='SPARQL Graph Store Protocol' resource='http://w3c.github.io/rdf-tests/sparql11/data-sparql11/http-rdf-update/manifest.ttl' typeof='mf:Manifest Report'>
+<h2 property='dc:title mf:name'>SPARQL Graph Store Protocol</h2>
+<table class='report'>
+<tr>
+<th>
+Test
+</th>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#put__initial_state' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test put__initial_state: PUT - Initial state
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_put__initial_state' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_put__initial_state: GET of PUT - Initial state
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#put__graph_already_in_store' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test put__graph_already_in_store: PUT - graph already in store
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_put__graph_already_in_store' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_put__graph_already_in_store: GET of PUT - graph already in store
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#put__default_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test put__default_graph: PUT - default graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_put__default_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_put__default_graph: GET of PUT - default graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#put__mismatched_payload' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test put__mismatched_payload: PUT - mismatched payload
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#delete__existing_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test delete__existing_graph: DELETE - existing graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_delete__existing_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_delete__existing_graph: GET of DELETE - existing graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#delete__nonexistent_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test delete__nonexistent_graph: DELETE - non-existent graph)
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#post__existing_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test post__existing_graph: POST - existing graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_post__existing_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_post__existing_graph: GET of POST - existing graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#post__multipart_formdata' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test post__multipart_formdata: POST - multipart/form-data
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_post__multipart_formdata' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_post__multipart_formdata: GET of POST - multipart/form-data
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#post__create__new_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test post__create__new_graph: POST - create new graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_post__create__new_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_post__create__new_graph: GET of POST - create new graph
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#get_of_post__after_noop' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test get_of_post__after_noop: GET of POST - after noop
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#head_on_an_existing_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test head_on_an_existing_graph: 
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/http-rdf-update/manifest#head_on_a_nonexisting_graph' typeof='mf:mf:GraphStoreProtocolTest TestCriterion TestCase'>
+<td>
+Test head_on_a_nonexisting_graph: HEAD on a non-existing graph
+</td>
+</tr>
+<tr class='summary'>
+<td>
+Percentage passed out of 19 Tests
+</td>
+</tr>
+</table>
+</section>
+<section id='SPARQL Protocol' resource='http://w3c.github.io/rdf-tests/sparql11/data-sparql11/protocol/manifest.ttl' typeof='mf:Manifest Report'>
+<h2 property='dc:title mf:name'>SPARQL Protocol</h2>
+<table class='report'>
+<tr>
+<th>
+Test
+</th>
+<th>
+<a href='#subj_0'>Ruby SPARQL</a>
+</th>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_get' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_get: query via GET
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_get' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_form' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_post_form: query via URL-encoded POST
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_form' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_direct' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_post_direct: query via POST directly
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_post_direct' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graph' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_dataset_default_graph: query with protocol-specified default graph
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graph' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_get' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_dataset_default_graphs_get: GET query with protocol-specified default graphs
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_get' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_post' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_dataset_default_graphs_post: POST query with protocol-specified default graphs
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_default_graphs_post' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_post' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_dataset_named_graphs_post: POST query with protocol-specified named graphs
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_post' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_get' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_dataset_named_graphs_get: GET query with protocol-specified named graphs
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_named_graphs_get' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_full' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_dataset_full: query with protocol-specified dataset (both named and default graphs)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_dataset_full' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_multiple_dataset' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_multiple_dataset: query specifying dataset in both query string and protocol; test for use of protocol-specified dataset
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_multiple_dataset' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_select' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_content_type_select: SELECT query appropriate content type (expect one of: XML, JSON, CSV, TSV)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_select' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_ask' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_content_type_ask: ASK query appropriate content type (expect one of: XML, JSON)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_ask' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_describe' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_content_type_describe: DESCRIBE query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa, JSON-LD)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_describe' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_construct' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test query_content_type_construct: CONSTRUCT query appropriate content type (expect one of: RDF/XML, Turtle, N-Triples, RDFa, JSON-LD))
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#query_content_type_construct' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graph' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test update_dataset_default_graph: update with protocol-specified default graph
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graph' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graphs' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test update_dataset_default_graphs: update with protocol-specified default graphs
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_default_graphs' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_named_graphs' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test update_dataset_named_graphs: update with protocol-specified named graphs
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_named_graphs' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_full' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test update_dataset_full: update with protocol-specified dataset (both named and default graphs)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_dataset_full' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_form' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test update_post_form: update via URL-encoded POST
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_form' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_direct' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test update_post_direct: update via POST directly
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_post_direct' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_base_uri' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test update_base_uri: test for service-defined BASE URI (&quot;which MAY be the service endpoint&quot;)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#update_base_uri' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_method' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_query_method: invoke query operation with a method other than GET or POST
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_method' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_queries' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_multiple_queries: invoke query operation with more than one query string
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_queries' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_wrong_media_type' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_query_wrong_media_type: invoke query operation with a POST with media type that&#39;s not url-encoded or application/sparql-query
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_wrong_media_type' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_form_type' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_query_missing_form_type: invoke query operation with url-encoded body, but without application/x-www-form-urlencoded media type
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_form_type' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_direct_type' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_query_missing_direct_type: invoke query operation with SPARQL body, but without application/sparql-query media type
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_missing_direct_type' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_non_utf8' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_query_non_utf8: invoke query operation with direct POST, but with a non-UTF8 encoding (UTF-16)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_non_utf8' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_syntax' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_query_syntax: invoke query operation with invalid query syntax (4XX result)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_query_syntax' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_get' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_update_get: invoke update operation with GET
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_get' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_updates' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_multiple_updates: invoke update operation with more than one update string
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_multiple_updates' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_wrong_media_type' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_update_wrong_media_type: invoke update operation with a POST with media type that&#39;s not url-encoded or application/sparql-update
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_wrong_media_type' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_missing_form_type' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_update_missing_form_type: invoke update operation with url-encoded body, but without application/x-www-form-urlencoded media type
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_missing_form_type' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_non_utf8' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_update_non_utf8: invoke update operation with direct POST, but with a non-UTF8 encoding
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_non_utf8' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_syntax' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_update_syntax: invoke update operation with invalid update syntax (4XX result)
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_syntax' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_dataset_conflict' typeof='mf:ProtocolTest TestCriterion TestCase'>
+<td>
+Test bad_update_dataset_conflict: invoke update with both using-graph-uri/using-named-graph-uri parameter and USING/WITH clause
+</td>
+<td class='PASS' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/protocol/manifest#bad_update_dataset_conflict' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:passed'>
+PASS
+</span>
+</span>
+</td>
+</tr>
+<tr class='summary'>
+<td>
+Percentage passed out of 35 Tests
+</td>
+<td class='passed-all'>
+100.0%
+</td>
+</tr>
+</table>
+</section>
 <section id='SPARQL Service' resource='http://w3c.github.io/rdf-tests/sparql11/data-sparql11/service/manifest.ttl' typeof='mf:Manifest Report'>
 <h2 property='dc:title mf:name'>SPARQL Service</h2>
 <table class='report'>
@@ -10024,45 +11507,128 @@ Percentage passed out of 13 Tests
 <th>
 Test
 </th>
+<th>
+<a href='#subj_0'>Ruby SPARQL</a>
+</th>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service1' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test service1: SERVICE test 1
+Test service1: SERVICE test 1 (<span class="info">Federated Query</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service1' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service2' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test service2: SERVICE test 2
+Test service2: SERVICE test 2 (<span class="info">Federated Query</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service2' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service3' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test service3: SERVICE test 3
+Test service3: SERVICE test 3 (<span class="info">Federated Query</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service3' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service4a' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test service4a: SERVICE test 4a with VALUES clause
+Test service4a: SERVICE test 4a with VALUES clause (<span class="info">Federated Query</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service4a' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service5' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test service5: SERVICE test 5
+Test service5: SERVICE test 5 (<span class="info">Federated Query</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service5' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service6' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test service6: SERVICE test 6
+Test service6: SERVICE test 6 (<span class="info">Federated Query</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service6' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr inlist='inlist' rel='mf:entries' resource='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service7' typeof='mf:QueryEvaluationTest TestCriterion TestCase'>
 <td>
-Test service7: SERVICE test 7
+Test service7: SERVICE test 7 (<span class="info">Federated Query</span>)
+</td>
+<td class='FAIL' property='earl:assertions' typeof='Assertion'>
+<link href='https://greggkellogg.net/foaf#me' property='earl:assertedBy' />
+<link href='http://www.w3.org/2009/sparql/docs/tests/data-sparql11/service/manifest#service7' property='earl:test' />
+<link href='https://rubygems.org/gems/sparql' property='earl:subject' />
+<link href='earl:automatic' property='earl:mode' />
+<span property='earl:result' typeof='TestResult'>
+<span property='earl:outcome' resource='earl:failed'>
+FAIL
+</span>
+</span>
 </td>
 </tr>
 <tr class='summary'>
 <td>
 Percentage passed out of 7 Tests
+</td>
+<td class='passed-some'>
+0.0%
 </td>
 </tr>
 </table>
