@@ -29,12 +29,12 @@ module SPARQL; module Algebra
       ##
       # Returns the timezone part of arg as a simple literal. Returns the empty string if there is no timezone.
       #
-      # @param  [RDF::Literal] operand
+      # @param  [RDF::Literal::Temporal] operand
       #   the operand
       # @return [RDF::Literal]
       # @raise  [TypeError] if the operand is not a simple literal
       def apply(operand, **options)
-        raise TypeError, "expected an RDF::Literal::DateTime, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::DateTime)
+        raise TypeError, "expected an RDF::Literal::Temporal, but got #{operand.inspect}" unless operand.is_a?(RDF::Literal::Temporal)
         operand.tz
       end
       ##

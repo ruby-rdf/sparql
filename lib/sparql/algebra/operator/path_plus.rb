@@ -3,8 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path+` (OneOrMorePath) operator.
     #
-    # [91]  PathElt                 ::= PathPrimary PathMod?
-    # [93]  PathMod                 ::= '*' | '?' | '+'
+    # [91]  PathElt ::= PathPrimary PathMod?
+    # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
     
     # @example SPARQL Grammar
     #   PREFIX : <http://example/> 
@@ -24,6 +24,16 @@ module SPARQL; module Algebra
 
       ##
       # Match on simple relation of subject to object, and then recurse on solutions
+      #
+      # Path including at least one:
+      #
+      #    (path :a (path+ :p) :b)
+      #
+      # into
+      #
+      #    (union
+      #     (bgp (triple :a :p :b))
+      #     (path :a (path* :p) :b))
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -62,10 +72,8 @@ module SPARQL; module Algebra
 
         # Keep track of solutions
         # Recurse into query
-        immediate_solutions = []
-        queryable.query(query, depth: options[:depth].to_i + 1, **options) do |solution|
-          immediate_solutions << solution
-        end
+        immediate_solutions = 
+          query.execute(queryable, depth: options[:depth].to_i + 1, **options)
 
         # For all solutions, if they are not in the accumulator, add them and recurse, otherwise skip
         recursive_solutions = RDF::Query::Solutions.new
@@ -76,23 +84,23 @@ module SPARQL; module Algebra
           case
           when subject.variable? && object.variable?
             # Query starting with bound object as subject, but replace result with subject
-            rs = queryable.query(self, **options.merge(
+            rs = self.execute(queryable, **options.merge(
               subject: solution[object],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).map {|s| s.merge(subject.to_sym => solution[subject])}
             # Query starting with bound subject as object, but replace result with subject
-            ro = queryable.query(self, **options.merge(
+            ro = self.execute(queryable, **options.merge(
               object: solution[subject],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).map {|s| s.merge(object.to_sym => solution[object])}
             recursive_solutions += (rs + ro).uniq
           when subject.variable?
-            recursive_solutions += queryable.query(self, **options.merge(
+            recursive_solutions += self.execute(queryable, **options.merge(
               object: solution[subject],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).uniq
           when object.variable?
-            recursive_solutions += queryable.query(self, **options.merge(
+            recursive_solutions += self.execute(queryable, **options.merge(
               subject: solution[object],
               accumulator: (cumulative_solutions + immediate_solutions),
               depth: options[:depth].to_i + 1)).uniq

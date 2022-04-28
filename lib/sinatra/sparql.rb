@@ -1,6 +1,7 @@
 require 'sinatra/base'
 require 'sinatra/sparql/extensions'
 require 'rack/sparql'
+require 'rdf/aggregate_repo'
 
 module Sinatra
   ##
@@ -13,6 +14,7 @@ module Sinatra
     ##
     # Helper methods.
     module Helpers
+
       ##
       # This is useful when a GET request is performed against a SPARQL endpoint and no query is performed. Provide a set of datasets, including a default dataset along with optional triple count, dump location, and description of the dataset.
       #
@@ -36,23 +38,36 @@ module Sinatra
       
         node = RDF::Node.new
         g << [node, RDF.type, sd.join("#Service")]
-        g << [node, sd.join("#endpoint"), options[:endpoint] || url("/sparql")]
+        g << [node, sd.join("#endpoint"), RDF::URI(url(options.fetch(:endpoint, "/sparql")))]
+        g << [node, sd.join("#supportedLanguage"), sd.join("#SPARQL10Query")]
         g << [node, sd.join("#supportedLanguage"), sd.join("#SPARQL11Query")]
+        g << [node, sd.join("#supportedLanguage"), sd.join("#SPARQL11Update")]
+        g << [node, sd.join("#supportedLanguage"), RDF::URI('http://www.w3.org/ns/rdf-star#SPARQLStarQuery')]
+        g << [node, sd.join("#supportedLanguage"), RDF::URI('http://www.w3.org/ns/rdf-star#SPARQLStarUpdate')]
       
+        # Input formats
+        RDF::Reader.map(&:format).select(&:to_uri).each do |format|
+          g << [node, sd.join("#inputFormat"), format.to_uri]
+        end
+
         # Result formats, both RDF and SPARQL Results.
-        # FIXME: We should get this from the avaliable serializers
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/RDF_XML")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/Turtle")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/RDFa")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/N-Triples")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_XML")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_JSON")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_CSV")]
-        g << [node, sd.join("#resultFormat"), RDF::URI("http://www.w3.org/ns/formats/SPARQL_Results_TSV")]
-      
+        %w(
+          http://www.w3.org/ns/formats/SPARQL_Results_XML
+          http://www.w3.org/ns/formats/SPARQL_Results_JSON
+          http://www.w3.org/ns/formats/SPARQL_Results_CSV
+          http://www.w3.org/ns/formats/SPARQL_Results_TSV
+        ).each do |uri|
+          g << [node, sd.join("#resultFormat"), uri]
+        end
+
+        RDF::Writer.map(&:format).select(&:to_uri).each do |format|
+          g << [node, sd.join("#resultFormat"), format.to_uri]
+        end
+
         # Features
         g << [node, sd.join("#feature"), sd.join("#DereferencesURIs")]
-      
+        #g << [node, sd.join("#feature"), sd.join("#BasicFederatedQuery")]
+
         # Datasets
         ds = RDF::Node.new
         g << [node, sd.join("#defaultDataset"), ds]
@@ -85,6 +100,36 @@ module Sinatra
           end
         end
         g
+      end
+
+      ##
+      # This either creates a merge repo, or uses the standard repository for performing the query, based on the parameters passed (`default-graph-uri` and `named-graph-uri`).
+      # Loads from the datasource, unless a graph named by
+      # the datasource URI already exists in the repository.
+      #
+      # @return [RDF::Dataset]
+      # @see Algebra::Operator::Dataset
+      def dataset(**options)
+        logger = options.fetch(:logger, ::Logger.new(false))
+        repo = settings.repository
+        if %i(default-graph-uri named-graph-uri).any? {|k| options.key?(k)}        
+          default_datasets = Array(options[:"default-graph-uri"]).map {|u| RDF::URI(u)}
+          named_datasets = Array(options[:"named-graph-uri"]).map {|u| RDF::URI(u)}
+
+          (default_datasets + named_datasets).each do |uri|
+            load_opts = {logger: logger, graph_name: uri, base_uri: uri}
+            unless repo.has_graph?(uri)
+              logger.debug(options) {"=> load #{uri}"}
+              repo.load(uri.to_s, **load_opts)
+            end
+          end
+
+          # Create an aggregate based on queryable having just the bits we want
+          aggregate = RDF::AggregateRepo.new(repo)
+          named_datasets.each {|name| aggregate.named(name) if repo.has_graph?(name)}
+          aggregate.default(*default_datasets.select {|name| repo.has_graph?(name)})
+          aggregate
+        end || settings.repository
       end
     end
 

@@ -10,7 +10,7 @@ describe SPARQL::Algebra::Query do
 
   context "shortcuts" do
     it "translates 'a' to rdf:type" do
-      sse = SPARQL::Algebra.parse(%q((triple <a> a <b>)))
+      sse = SPARQL::Algebra.parse(%q((bgp (triple <a> a <b>)))).patterns.first
       expect(sse).to be_a(RDF::Statement)
       expect(sse.predicate).to eq RDF.type
       expect(sse.predicate.lexical).to eq 'a'
@@ -1257,8 +1257,7 @@ describe SPARQL::Algebra::Query do
 
 
       # @see http://www.w3.org/TR/sparql11-query/#sparqlTriplePatterns
-      %q((triple <a> <b> <c>)) => RDF::Query::Pattern.new(RDF::URI("a"), RDF::URI("b"), RDF::URI("c")),
-      %q((triple ?a _:b "c")) => RDF::Query::Pattern.new(RDF::Query::Variable.new("a"), RDF::Node.new("b"), RDF::Literal.new("c")),
+      %q((bgp (triple ?a _:b "c"))) => RDF::Query.new { pattern [RDF::Query::Variable.new("a"), RDF::Node.new("b"), RDF::Literal.new("c")]},
 
       # @see http://www.w3.org/TR/sparql11-query/#sparqlBasicGraphPatterns
       %q((bgp (triple <a> <b> <c>))) => RDF::Query.new { pattern [RDF::URI("a"), RDF::URI("b"), RDF::URI("c")]},

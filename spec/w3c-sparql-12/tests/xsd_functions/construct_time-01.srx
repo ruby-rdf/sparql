@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+<head>
+	<variable name="time"/>
+</head>
+<results>
+		<result>
+			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">00:00:00</literal></binding>
+		</result>
+		<result>
+			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">00:00:00</literal></binding>
+		</result>
+		<result>
+			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">01:02:03</literal></binding>
+		</result>
+		<result>
+			<binding name="time"><literal datatype="http://www.w3.org/2001/XMLSchema#time">23:59:60</literal></binding>
+		</result>
+</results>
+</sparql>

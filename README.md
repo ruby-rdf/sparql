@@ -73,6 +73,14 @@ Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb]
 
 Additionally, queries now take a block, or return an `Enumerator`; this is in keeping with much of the behavior of [RDF.rb][] methods, including `Queryable#query`, and with version 1.1 or [RDF.rb][], Query#execute. As a consequence, all queries which used to be of the form `query.execute(repository)` may equally be called as `repository.query(query)`. Previously, results were returned as a concrete class implementing `RDF::Queryable` or `RDF::Query::Solutions`, these are now `Enumerators`.
 
+### SPARQL 1.2
+The gem supports some of the extensions proposed by the [SPARQL 1.2 Community Group](https://github.com/w3c/sparql-12). In particular, the following extensions are now implemented:
+
+* [SEP-0002: better support for Durations, Dates, and Times](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0002/sep-0002.md)
+  * This includes full support for `xsd:date`, `xsd:time`, `xsd:duration`, `xsd:dayTimeDuration`, and `xsd:yearMonthDuration` along with associated XPath/XQuery functions including a new `ADJUST` builtin. (**Note: This feature is subject to change or elimination as the standards process progresses.**)
+* [SEP-0003: Property paths with a min/max hop](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0003/sep-0003.md)
+  * This includes support for non-counting path forms such as `rdf:rest{1,3}` to match the union of paths `rdf:rest`, `rdf:rest/rdf:rest`, and `rdf:rest/rdf:rest/rdf:rest`.  (**Note: This feature is subject to change or elimination as the standards process progresses.**)
+
 ### SPARQL Extension Functions
 Extension functions may be defined, which will be invoked during query evaluation. For example:
 
@@ -162,44 +170,31 @@ Note that results can be serialized only when the format supports [RDF-star][].
 
 #### SPARQL results
 
-The SPARQL results formats are extended to serialize embedded triples as described for [RDF4J](https://rdf4j.org/documentation/programming/rdfstar/):
+The SPARQL results formats are extended to serialize quoted triples as described for [RDF4J](https://rdf4j.org/documentation/programming/rdfstar/):
 
     {
       "head" : {
-        "vars" : [
-          "a",
-          "b",
-          "c"
-        ]
+        "vars" : ["a", "b", "c"]
       },
       "results" : {
         "bindings": [
           { "a" : {
               "type" : "triple",
               "value" : {
-                "s" : {
-                  "type" : "uri",
-                  "value" : "http://example.org/bob"
-                },
-                "p" : {
-                  "type" : "uri",
-                  "value" : "http://xmlns.com/foaf/0.1/name"
-                },
+                "s" : {"value" : "http://example.org/bob", "type": "uri"},
+                "p" : {"value" : "http://xmlns.com/foaf/0.1/name", "type": "uri"},
                 "o" : {
-                  "datatype" : "http://www.w3.org/2001/XMLSchema#integer",
+                  "value" : "23",
                   "type" : "literal",
-                  "value" : "23"
+                  "datatype" : "http://www.w3.org/2001/XMLSchema#integer"
                 }
               }
             },
-            "b": { 
-              "type": "uri",
-              "value": "http://example.org/certainty"
-            },
+            "b": {"value": "http://example.org/certainty", "type": "uri"},
             "c" : {
-              "datatype" : "http://www.w3.org/2001/XMLSchema#decimal",
+              "value" : "0.9",
               "type" : "literal",
-              "value" : "0.9"
+              "datatype" : "http://www.w3.org/2001/XMLSchema#decimal"
             }
           }
         ]
@@ -214,16 +209,22 @@ You would typically return an instance of `RDF::Graph`, `RDF::Repository` or an 
 from your Rack application, and let the `Rack::SPARQL::ContentNegotiation` middleware
 take care of serializing your response into whatever format the HTTP
 client requested and understands.
+Content negotiation also transforms `application/x-www-form-urlencoded` to either `application/sparql-query`
+or `application/sparql-update` as appropriate for [SPARQL 1.1 Protocol][].
 
 {Sinatra::SPARQL} is a thin Sinatra-specific wrapper around the
 {Rack::SPARQL} middleware, which implements SPARQL
  content negotiation for Rack applications. {Sinatra::SPARQL} also supports
- [SPARQL 1.1 Service Description][].
+ [SPARQL 1.1 Service Description][] (via {Sinatra::SPARQL::Helpers.service_description} and protocol-based dataset mangement via {Sinatra::SPARQL::Helpers.dataset} for `default-graph-uri` and `named-graph-uri` The `using-graph-uri` and `using-named-graph-uri` query parameters are managed through {SPARQL::Algebra::Operator::Modify#execute}.
 
 The middleware queries [RDF.rb][] for the MIME content types of known RDF
 serialization formats, so it will work with whatever serialization extensions
 that are currently available for RDF.rb. (At present, this includes support
 for N-Triples, N-Quads, Turtle, RDF/XML, RDF/JSON, JSON-LD, RDFa, TriG and TriX.)
+
+### Server
+
+A simple [Sinatra][]-based server is implemented in {SPARQL::Server.application} using {Rack::SPARQL} and {Sinatra::SPARQL} completes the implementation of [SPARQL 1.1 Protocol][] and can be used to compose a server including other capabilities.
 
 ### Remote datasets
 
@@ -454,14 +455,14 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [SPARQL 1.0 tests]:https://www.w3.org/2001/sw/DataAccess/tests/
 [SPARQL 1.1 tests]: https://www.w3.org/2009/sparql/docs/tests/
 [SSE]:              https://jena.apache.org/documentation/notes/sse.html
-[SXP]:              https://www.rubydoc.info/github/dryruby/sxp
+[SXP]:              https://dryruby.github.io/sxp
 [grammar]:          https://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          https://www.w3.org/TR/rdf11-concepts
-[RDF.rb]:           https://rubydoc.info/github/ruby-rdf/rdf
+[RDF.rb]:           https://ruby-rdf.github.io/rdf
 [RDF-star]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
 [SPARQL-star]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
 [Linked Data]:      https://rubygems.org/gems/linkeddata
-[SPARQL doc]:       https://rubydoc.info/github/ruby-rdf/sparql/frames
+[SPARQL doc]:       https://ruby-rdf.github.io/sparql/frames
 [SPARQL XML]:       https://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      https://www.w3.org/TR/rdf-sparql-json-res/
 [SPARQL EBNF]:      https://www.w3.org/TR/sparql11-query/#sparqlGrammar

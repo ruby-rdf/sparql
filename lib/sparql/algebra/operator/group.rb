@@ -40,13 +40,13 @@ module SPARQL; module Algebra
     #       (group (?s) ((??.0 (avg ?o)))
     #        (bgp (triple ?s ?p ?o)))))) )
     #
-    # @example SPARQL Grammar (non-triveal filters)
+    # @example SPARQL Grammar (non-trivial filters)
     #   PREFIX : <http://example.com/data/#>
     #   SELECT ?g (AVG(?p) AS ?avg) ((MIN(?p) + MAX(?p)) / 2 AS ?c)
     #   WHERE { ?g :p ?p . }
     #   GROUP BY ?g
     #
-    # @example SSE (non-triveal filters)
+    # @example SSE (non-trivial filters)
     #   (prefix ((: <http://example.com/data/#>))
     #    (project (?g ?avg ?c)
     #     (extend ((?avg ??.0) (?c (/ (+ ??.1 ??.2) 2)))
@@ -163,10 +163,38 @@ module SPARQL; module Algebra
       end
 
       ##
+      # The variables used in the extension.
+      # Includes grouped variables and temporary, but not those in the query, itself
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        group_vars = operands.first
+
+        aggregate_vars = (operands.length == 3 ? operand(1) : [])
+
+        # Extract first element of each and merge it's variables
+        (group_vars + aggregate_vars).
+          map do  |o|
+            v = Array(o).first
+            v if v.is_a?(RDF::Query::Variable)
+          end.compact.
+          map(&:variables).
+          inject({}) {|memo, h| memo.merge(h)}
+      end
+
+      ##
+      # The variables used within the query
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def internal_variables
+        operands.last.variables
+      end
+
+      ##
       #
       # Returns a partial SPARQL grammar for this operator.
       #
-      # @param [Hash{Symbol => Operator}] extensions
+      # @param [Hash{String => Operator}] extensions
       #   Variable bindings
       # @param [Array<Operator>] filter_ops ([])
       #   Filter Operations
@@ -188,12 +216,12 @@ module SPARQL; module Algebra
                     operand
                   end
                 end
-                memo.merge(ext_var => new_op)
+                memo.merge(ext_var.to_s => new_op)
               elsif ext_op.is_a?(Variable) && ext_op.to_sym == var.to_sym
-                memo.merge(ext_var => op)
+                memo.merge(ext_var.to_s => op)
               else
                 # Doesn't match this variable, so don't change
-                memo.merge(ext_var => ext_op)
+                memo.merge(ext_var.to_s => ext_op)
               end
             end
 

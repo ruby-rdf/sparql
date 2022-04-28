@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+<head>
+	<variable name="datetime"/>
+</head>
+<results>
+		<result>
+			<binding name="datetime"><literal datatype="http://www.w3.org/2001/XMLSchema#dateTime">2000-11-02T12:27:00</literal></binding>
+		</result>
+		<result>
+			<binding name="datetime"><literal datatype="http://www.w3.org/2001/XMLSchema#date">2000-11-02</literal></binding>
+		</result>
+		<result>
+			<binding name="datetime"><literal datatype="http://www.w3.org/2001/XMLSchema#time">12:27:00</literal></binding>
+		</result>
+</results>
+</sparql>

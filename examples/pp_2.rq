@@ -1,0 +1,4 @@
+SELECT * {
+  ?x foaf:mbox <mailto:alice@example> .
+  ?x foaf:knows{,2}/foaf:name ?name .
+}

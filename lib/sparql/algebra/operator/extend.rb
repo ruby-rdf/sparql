@@ -104,15 +104,44 @@ module SPARQL; module Algebra
       end
 
       # The variable introduced by the BIND clause must not have been used in the group graph pattern up to the point of use in BIND
+      #
+      # Also, variables used in a binding expression must be projected by the query.
       def validate!
         bind_vars = operand(0).map(&:first).map(&:name)
-        query_vars = operand(1).vars.map(&:name)
+        query_vars = operand(1).variables.keys
         
         unless (bind_vars.compact & query_vars.compact).empty?
           raise ArgumentError,
                "bound variable used in query: #{(bind_vars.compact & query_vars.compact).to_sse}"
         end
+
+        # Special case for group variables
+        if operands.last.is_a?(Group)
+          bind_expr_vars = operand(0).map(&:last).variables.keys
+          group_vars = operands.last.variables.keys
+          group_internal_vars = operands.last.internal_variables.keys
+
+          bind_expr_vars.each do |v|
+            raise ArgumentError,
+                 "extension expression uses variable not in scope: #{v}" if
+                 group_internal_vars.include?(v) &&
+                 !group_vars.include?(v)
+          end
+        end
+
         super
+      end
+
+      ##
+      # The variables used in the extension.
+      # Includes extended variables.
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        operands.first.
+          map(&:first).
+          map(&:variables).
+          inject(operands.last.variables) {|memo, h| memo.merge(h)}
       end
 
       ##
@@ -124,7 +153,8 @@ module SPARQL; module Algebra
       # @return [String]
       def to_sparql(**options)
         extensions = operands.first.inject({}) do |memo, (as, expression)|
-          memo.merge(as => expression)
+          # Use string/name of variable "as" to aid in later matching
+          memo.merge(as.to_s => expression)
         end
 
         # Merge any inherited extensions from options

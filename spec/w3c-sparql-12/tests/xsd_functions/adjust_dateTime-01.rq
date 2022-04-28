@@ -1,0 +1,11 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?id ?adjusted WHERE {
+	VALUES (?id ?tz ?d) {
+		(1 "-PT10H"^^xsd:dayTimeDuration "2002-03-07T10:00:00"^^xsd:dateTime)
+		(2 "-PT10H"^^xsd:dayTimeDuration "2002-03-07T10:00:00-07:00"^^xsd:dateTime)
+		(3 "PT10H"^^xsd:dayTimeDuration  "2002-03-07T10:00:00-07:00"^^xsd:dateTime)
+		(4 "-PT8H"^^xsd:dayTimeDuration "2002-03-07T00:00:00+01:00"^^xsd:dateTime)
+		(5 "" "2002-03-07T10:00:00-07:00"^^xsd:dateTime)
+	}
+	BIND(ADJUST(?d, ?tz) AS ?adjusted)
+}

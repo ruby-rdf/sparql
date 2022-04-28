@@ -89,8 +89,18 @@ module SPARQL; module Algebra
           end
           @solutions << RDF::Query::Solution.new(bindings)
         end
+        @solutions.variable_names = self.variables.keys
         @solutions.each(&block) if block_given?
         @solutions
+      end
+    
+      ##
+      # In-scope variables for a table are the variables operand
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        in_scope = operands.first.is_a?(Array) ? operands.first[1..-1] : []
+        in_scope.inject({}) {|memo, v| memo.merge(v.variables)}
       end
 
       ##
@@ -105,8 +115,7 @@ module SPARQL; module Algebra
         operands[1..-1].each do |row|
           line = '('
           row[1..-1].each do |col|
-            v = col[1].to_sparql(as_statement: true, **options)
-            v = "<< #{v} >>" if col[1].is_a?(RDF::Statement)
+            v = col[1].to_sparql(**options)
             line << v + ' '
           end
           line = line.chomp(' ')

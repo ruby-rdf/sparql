@@ -3,8 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path?` (ZeroOrOnePath) operator.
     #
-    # [91]  PathElt                 ::= PathPrimary PathMod?
-    # [93]  PathMod                 ::= '*' | '?' | '+'
+    # [91]  PathElt ::= PathPrimary PathMod?
+    # [93]  PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
     
     # @example SPARQL Grammar
     #   PREFIX : <http://example/> 
@@ -23,11 +23,10 @@ module SPARQL; module Algebra
       NAME = :path?
 
       ##
-      # Equivalent to:
+      # Optional path:
       #
       #    (path x (path? :p) y)
-      #     => (union (bgp ((x :p y))) (filter (x = x) (solution x y)))
-      #        
+      #     => (union (bgp ((x :p y))) (filter (x = y) (solution x y)))
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -44,76 +43,21 @@ module SPARQL; module Algebra
         subject, object = options[:subject], options[:object]
         debug(options) {"Path? #{[subject, operands, object].to_sse}"}
 
-        solutions = RDF::Query::Solutions.new
-        # Solutions where subject == object with no predicate
-        case
-        when subject.variable? && object.variable?
-          # Nodes is the set of all subjects and objects in queryable
-          # FIXME: should this be Queryable#enum_nodes?
-          # All subjects which are `object`
-          query = RDF::Query.new {|q| q.pattern({subject: subject})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(object.to_sym => solution[subject])
-            debug(options) {"(solution-s0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-
-          # All objects which are `object`
-          query = RDF::Query.new {|q| q.pattern({object: object})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(subject.to_sym => solution[object])
-            debug(options) {"(solution-o0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-        when subject.variable?
-          # All subjects which are `object`
-          query = RDF::Query.new {|q| q.pattern({subject: object})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(subject.to_sym => object)
-            debug(options) {"(solution-s0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-
-          # All objects which are `object`
-          query = RDF::Query.new {|q| q.pattern({object: object})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(subject.to_sym => object)
-            debug(options) {"(solution-o0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-        when object.variable?
-          # All subjects which are `subject`
-          query = RDF::Query.new {|q| q.pattern({subject: subject})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(object.to_sym => subject)
-            debug(options) {"(solution-s0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-
-          # All objects which are `subject
-          query = RDF::Query.new {|q| q.pattern({object: subject})}
-          queryable.query(query, **options) do |solution|
-            solution.merge!(object.to_sym => subject)
-            debug(options) {"(solution-o0)-> #{solution.to_h.to_sse}"}
-            solutions << solution
-          end if query.valid?
-        else
-          # Otherwise, if subject == object, an empty solution
-          solutions << RDF::Query::Solution.new if subject == object
-        end
+        query = PathZero.new(operand)
+        solutions = query.execute(queryable, **options.merge(depth: options[:depth].to_i + 1))
 
         # Solutions where predicate exists
         query = if operand.is_a?(RDF::Term)
           RDF::Query.new do |q|
             q.pattern [subject, operand, object]
           end
-        else
+        else # path
           operand
         end
 
         # Recurse into query
-        solutions += 
-        queryable.query(query, depth: options[:depth].to_i + 1, **options)
+        solutions += query.execute(queryable, **options.merge(depth: options[:depth].to_i + 1))
+        debug(options) {"(path?)=> #{solutions.to_sxp}"}
         solutions.each(&block) if block_given?
         solutions
       end

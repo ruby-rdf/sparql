@@ -7,6 +7,7 @@ require 'rdf/spec'
 require 'rdf/isomorphic'
 require 'rdf/turtle'
 require 'rdf/vocab'
+require 'strscan'
 
 begin
   require 'simplecov'
@@ -91,17 +92,15 @@ def repr(term)
   end
 end
 
-def sparql_query(opts)
-  raise "A query is required to be run" if opts[:query].nil?
-
+def load_repo(opts)
   # Load default and named graphs into repository
-  repo = case opts[:graphs]
+  case opts[:graphs]
   when RDF::Queryable
     opts[:graphs]
   when Array
     RDF::Repository.new do |r|
       opts[:graphs].each do |info|
-        data, format, default = info[:data], info[:format]
+        data, format = info[:data], info[:format]
         if data
           RDF::Reader.for(format).new(data, rdfstar: true, **info).each_statement do |st|
             st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
@@ -114,7 +113,7 @@ def sparql_query(opts)
     RDF::Repository.new do |r|
       opts[:graphs].each do |key, info|
         next if key == :result
-        data, format, default = info[:data], info[:format], info[:default]
+        data, format = info[:data], info[:format]
         if data
           RDF::Reader.for(format).new(data, rdfstar: true, **info).each_statement do |st|
             st.graph_name = RDF::URI(info[:base_uri]) if info[:base_uri]
@@ -126,18 +125,29 @@ def sparql_query(opts)
   else
     RDF::Repository.new
   end
+end
+
+def sparql_query(opts)
+  raise "A query is required to be run" if opts[:query].nil?
+
+  repo = load_repo(opts)
 
   query_str = opts[:query]
+  parser_opts = {
+    update: opts[:form] == :update,
+    base_uri: opts[:base_uri],
+    all_vars: opts[:all_vars]
+  }
   query_opts = {logger: opts.fetch(:logger, RDF::Spec.logger)}
-  query_opts[:update] = true if opts[:form] == :update
   query_opts[:base_uri] = opts[:base_uri]
 
   query = if opts[:sse]
-    SPARQL::Algebra.parse(query_str, **query_opts)
+    SPARQL::Algebra.parse(query_str, **parser_opts)
   else
-    SPARQL.parse(query_str, **query_opts)
+    SPARQL.parse(query_str, **parser_opts)
   end
 
   query = query.optimize if opts[:optimize]
   repo.query(query, logger: opts.fetch(:logger, RDF::Spec.logger))
 end
+

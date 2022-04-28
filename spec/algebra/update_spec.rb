@@ -903,7 +903,33 @@ describe SPARQL::Algebra::Update do
         # FIXME
       },
       modify: {
-        
+        "update_dataset_default_graph": {
+          query: %(
+            (prefix ((dc: <http://purl.org/dc/terms/>)
+                     (foaf: <http://xmlns.com/foaf/0.1/>))
+             (update
+              (clear all)
+              (insertData (
+               (triple <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document)
+               (graph <http://kasei.us/2009/09/sparql/data/data1.rdf>
+                ((triple <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document)))))
+              (modify
+               (bgp (triple ?s a foaf:Document))
+               (insert (
+                (graph <http://example.org/protocol-update-dataset-test/>
+                 ((triple ?s a dc:BibliographicResource))))))))),
+          expected: %(
+            prefix dc: <http://purl.org/dc/terms/>
+            prefix foaf: <http://xmlns.com/foaf/0.1/>
+            <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document .
+            <http://kasei.us/2009/09/sparql/data/data1.rdf> {
+              <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document
+            }
+            <http://example.org/protocol-update-dataset-test/> {
+              <http://kasei.us/2009/09/sparql/data/data1.rdf> a dc:BibliographicResource
+            }
+          )
+        }
       },
       move: {
         "move default to default" => {
@@ -1056,7 +1082,6 @@ describe SPARQL::Algebra::Update do
               expect {sparql_query({sse: true, graphs: repo}.merge(opts))}.to raise_error(opts[:error])
             else
               expected = RDF::Repository.new << RDF::TriG::Reader.new(opts[:expected])
-              sxp = SPARQL::Algebra.parse(opts[:query])
               actual = sparql_query({sse: true, graphs: repo, optimize: true}.merge(opts))
               expect(actual).to describe_solutions(expected, nil)
             end

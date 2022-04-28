@@ -1,0 +1,12 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (xsd:duration(?literal) AS ?duration) WHERE {
+	VALUES ?literal {
+		"P"
+		"-P"
+		"PT"
+		"-PT"
+		"PS"
+		""
+		"T1S"
+	}
+}

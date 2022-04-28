@@ -12,6 +12,7 @@ require_relative "../spec/suite_helper"
 require_relative "../spec/support/extensions/comparitors"
 require_relative "../spec/support/extensions/isomorphic"
 require 'getoptlong'
+require 'amazing_print'
 
 # Extend RDF::Enumerables with these functions.
 class RDF::Repository 
@@ -42,24 +43,30 @@ def run_tc(tc, **options)
   options[:msg] ||= {}
   options[:tests] ||= 0
   options[:tests] += 1
+  info = nil
 
-  id = tc.attributes['id'].sub('http://www.w3.org/2001/sw/DataAccess/tests/', '')
+  id = tc.attributes['id'].
+    sub('http://www.w3.org/2001/sw/DataAccess/tests/', '').
+    sub('http://www.w3.org/2009/sparql/docs/tests/', '').
+    sub('https://w3c.github.io/rdf-star/tests/', '').
+    sub('https://w3c.github.io/sparql-12/tests/', '')
   STDERR.write "run #{id}" unless options[:quiet]
 
   result = "untested"
+
   query_string = tc.query_string || tc.action.query_string
-  sxp = SPARQL.parse(query_string,
-                     update: tc.type.include?('Update'),
-                     base_uri: RDF::URI(tc.action.query_file),
-                     logger: options[:logger]) rescue "(error)"
+  query = SPARQL.parse(query_string,
+                      update: tc.type.include?('Update'),
+                      base_uri: RDF::URI(tc.action.query_file),
+                      logger: options[:logger]) rescue "(error)"
 
   options[:logger].clear
 
   if options[:verbose]
     STDERR.puts "\nTestCase: #{tc.inspect}"
     STDERR.puts "\nInput:\n" + query_string
-    STDERR.puts "\nSSE:\n" + sxp.to_sse
-    STDERR.puts "\nSSE (optimized):\n" + sxp.optimize.to_sse if options[:optimize]
+    STDERR.puts "\nSSE:\n" + query.to_sse
+    STDERR.puts "\nSSE (optimized):\n" + query.optimize.to_sse if options[:optimize]
     STDERR.puts "\nData:\n" + tc.data_string if tc.respond_to?(:data) && tc.data
     STDERR.puts "\nTest Data:\n" + tc.test_data_string if tc.respond_to?(:test_data_string) && tc.test_data_string
     STDERR.puts "\nExpected:\n" + (
@@ -67,35 +74,44 @@ def run_tc(tc, **options)
       tc.expected.dump(:trig, standard_prefixes: true) :
     (tc.solutions.is_a?(RDF::Enumerable) ?
       tc.solutions.dump(:trig, standard_prefixes: true) :
-      tc.solutions.to_sse))
+      (tc.solutions ? "Vars: #{tc.solutions.variable_names}\n" + tc.solutions.to_sse : '')))
   end
 
   case tc.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
-    # Decimal format changed in SPARQL 1.1
+    info = "Decimal format changed in SPARQL 1.1"
   when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
-    # PNAME_LN changed in SPARQL 1.1
+    info = "PNAME_LN changed in SPARQL 1.1"
   when 'datatype-2 : Literals with a datatype'
-    # datatype now returns rdf:langString for language-tagged literals
+    info = "datatype now returns rdf:langString for language-tagged literals"
   when /REDUCED/
-    # REDUCED equivalent to DISTINCT
+    info = "REDUCED equivalent to DISTINCT"
   when 'Strings: Distinct', 'All: Distinct'
-    # More compact representation
-  when /pp11|pp31/
-    # Expects multiple equivalent property path solutions
+    info = "More compact representation"
   when /syntax-update-(26|27|28|36).ru/
-    # Whitespace in string tokens
-  when 'date-1', 'dawg-optional-filter-005-not-simplified'
-    # Different results on unapproved tests
-  when /COUNT (8|9|10|11|12)$/, /syn-bad-0[12].rq/, 'syn-bad-pname-06', /Group-[67]$/
-    # Better Error Detection
-  when /sq03/
-    # Graph variable binding differences
+    info = "Whitespace in string tokens"
   else
+    case tc.name
+    when 'date-1', 'dawg-optional-filter-005-not-simplified'
+      info = "Different results on unapproved tests"
+    when /pp11|pp31/
+      info = "Expects multiple equivalent property path solutions"
+    when 'syn-bad-pname-06'
+      info = "Raw PNAME validation"
+    when /sq03/
+      info = "Graph variable binding differences"
+    when /tvs02/
+      info = "Empty vs. Unbound"
+    end
+
+    info = "Entailment" if tc.entailment?
+    info = "Federated Query" if Array(tc.feature).include?('sd:BasicFederatedQuery')
+
     case tc.type
     when 'mf:QueryEvaluationTest'
       actual = sparql_query(graphs: tc.graphs, query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
+                            all_vars: true,
                             form: tc.form, to_hash: false,
                             optimize: options[:optimize],
                             logger: options[:logger])
@@ -104,7 +120,7 @@ def run_tc(tc, **options)
         STDERR.puts "\nActual:\n" + (
           actual.is_a?(RDF::Enumerable) ?
             actual.dump(:trig, standard_prefixes: true) :
-            actual.to_sse)
+            "Vars: #{actual.variable_names}\n" + actual.to_sse)
       end
 
       case tc.form
@@ -112,7 +128,9 @@ def run_tc(tc, **options)
         if actual.isomorphic_with?(tc.solutions)
           result = "passed"
         else
-          if options[:verbose] && tc.solutions.respond_to?(:_)
+          if options[:verbose] && tc.solutions.respond_to?(:-)
+            STDERR.puts "Vars: #{tc.solutions.variable_names} vs #{actual.variable_names}" unless
+              tc.solutions.variable_names.sort == actual.variable_names.sort
             STDERR.puts "Missing:\n#{(tc.solutions - actual).to_sse}" unless (tc.solutions - actual).empty?
             STDERR.puts "Extra:\n#{(actual - tc.solutions).to_sse}" unless (actual - tc.solutions).empty?
           end
@@ -131,11 +149,12 @@ def run_tc(tc, **options)
       actual = sparql_query(graphs: tc.graphs,
                             query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
+                            all_vars: true,
                             optimize: options[:optimize],
                             form: tc.form,
                             logger: options[:logger])
 
-      STDERR.puts "Actual: #{actual.to_sse}" if options[:verbose]
+      STDERR.puts "Actual: Vars: #{tc.solutions.variable_names}\n#{actual.to_sse}" if options[:verbose]
 
       simplified_solutions = RDF::Query::Solutions.new
       actual.each do |solution|
@@ -151,6 +170,8 @@ def run_tc(tc, **options)
         result = "passed"
       else
         if options[:verbose]
+          STDERR.puts "Vars: #{tc.solutions.variable_names} vs #{actual.variable_names}" unless
+            tc.solutions.variable_names.sort == actual.variable_names.sort
           STDERR.puts "Missing:\n#{(tc.solutions - actual).to_sse}" unless (tc.solutions - actual).empty?
           STDERR.puts "Extra:\n#{(tc.solutions - actual).to_sse}" unless (actual - tc.solutions).empty?
         end
@@ -173,6 +194,7 @@ def run_tc(tc, **options)
       actual = sparql_query(graphs: tc.action.graphs,
                             query: query_string,
                             base_uri: RDF::URI(tc.action.query_file),
+                            all_vars: true,
                             optimize: options[:optimize],
                             form: tc.form,
                             logger: options[:logger])
@@ -181,6 +203,12 @@ def run_tc(tc, **options)
       if actual.isomorphic_with?(expected)
         result = "passed"
       else
+        if options[:verbose] && tc.solutions.respond_to?(:-)
+          STDERR.puts "Vars: #{tc.solutions.variable_names} vs #{actual.variable_names}" unless
+            tc.solutions.variable_names.sort == actual.variable_names.sort
+          STDERR.puts "Missing:\n#{(tc.solutions - actual).to_sse}" unless (tc.solutions - actual).empty?
+          STDERR.puts "Extra:\n#{(actual - tc.solutions).to_sse}" unless (actual - tc.solutions).empty?
+        end
         result = "failed"
       end
     when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
@@ -189,7 +217,11 @@ def run_tc(tc, **options)
       result = "passed"
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
       begin
-        SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, logger: options[:logger])
+        SPARQL.parse(query_string,
+                     base_uri: tc.base_uri,
+                     all_vars: true,
+                     validate: true,
+                     logger: options[:logger])
       rescue Exception => e
         result = "passed"
       end
@@ -209,6 +241,11 @@ def run_tc(tc, **options)
       unless result == "passed"
         result = "failed"
       end
+    when 'mf:ProtocolTest'
+      tc.logger = options[:logger] if options[:verbose]
+      result = tc.execute ? "passed" : "failed"
+    when 'mf:GraphStoreProtocolTest'
+      info = "Graph Store Protocol Test"
     else
       STDERR.puts "unknown test type #{tc.type}"
     end
@@ -239,8 +276,8 @@ ensure
   earl:test <#{tc.attributes['id']}>;
   earl:result [
     a earl:TestResult;
-    earl:outcome earl:#{result};
-    dc:name """#{tc.name}""";
+    earl:outcome earl:#{result};#{info ? "\n    earl:info " + info.inspect + ";" : ""}
+    dc:name #{RDF::Literal(tc.name).to_base};
     dc:date "#{RUN_TIME.xmlschema}"^^xsd:dateTime];
   earl:mode earl:automatic ] .
 }
@@ -249,7 +286,7 @@ ensure
   if options[:quiet]
     STDERR.write(result == 'passed' ? '.' : result[0,1])
   else
-    puts " #{result}"
+    puts " #{result} #{info}"
   end
 end
 
@@ -274,6 +311,8 @@ OPT_ARGS = [
   ["--output", "-o",    GetoptLong::REQUIRED_ARGUMENT, "Output to specified file"],
   ["--quiet", "-q",     GetoptLong::NO_ARGUMENT, "Minimal output"],
   ["--rdfstar",         GetoptLong::NO_ARGUMENT, "Run RDF* tests"],
+  ["--sparql11",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.1 tests"],
+  ["--sparql12",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.2 tests"],
   ["--validate",        GetoptLong::NO_ARGUMENT, "Validate input"],
   ["--verbose", "-v",   GetoptLong::NO_ARGUMENT, "Verbose output"],
   #["--write-manifests", GetoptLong::NO_ARGUMENT, "Write out the parsed manifests for earl reporting"],
@@ -315,6 +354,7 @@ opts.each do |opt, arg|
     options[:quiet] = true
     logger.level = Logger::FATAL
   when '--rdfstar'      then options[:rdfstar] = true
+  when '--sparql12'      then options[:sparql12] = true
   when '--validate'     then options[:validate] = true
   when '--verbose'      then options[:verbose] = true
   end
@@ -324,18 +364,28 @@ earl_preamble(options) if options[:earl]
 
 manifests = if options[:rdfstar]
   SPARQL::Spec.sparql_star_tests
-else
+elsif options[:sparql11]
   [SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests]
+elsif options[:sparql12]
+  SPARQL::Spec.sparql_12_tests
+else
+  [
+    SPARQL::Spec.sparql1_0_syntax_tests,
+    SPARQL::Spec.sparql1_0_tests,
+    SPARQL::Spec.sparql1_1_tests,
+    SPARQL::Spec.sparql_12_tests,
+    SPARQL::Spec.sparql_star_tests,
+  ]
 end.flatten
 manifests.each do |path|
     SPARQL::Spec::Manifest.open(path) do |man|
       puts ["Suite", man.attributes['rdfs:label'], man.attributes['rdfs:comment'], man.comment].compact.join(" - ") if options[:verbose] && ARGV.empty?
       man.entries.each do |tc|
-        next unless tc.action
+        next unless tc.action || %w(mf:GraphStoreProtocolTest).include?(tc.type)
         name = Array(tc.name).join("") + Array(tc.entry).join("")
         next unless ARGV.empty? || ARGV.any? do |n|
           tc.attributes['id'].include?(n) ||
-          tc.action.is_a?(Hash) && tc.action['mq:query'].include?(n) ||
+          tc.action.is_a?(Hash) && tc.action['mq:query'].to_s.include?(n) ||
           name.include?(n)
         end
         run_tc(tc, **options)

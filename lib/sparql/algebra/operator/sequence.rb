@@ -51,6 +51,16 @@ module SPARQL; module Algebra
         @solutions.each(&block) if block_given?
         @solutions
       end
+
+      ##
+      #
+      # Returns a partial SPARQL grammar for this operator.
+      #
+      # @return [String]
+      def to_sparql(**options)
+        str = "{\n" + operands.to_sparql(top_level: false, **options) + "\n}"
+        Operator.to_sparql(str, **options)
+      end
     end # Sequence
   end # Operator
 end; end # SPARQL::Algebra

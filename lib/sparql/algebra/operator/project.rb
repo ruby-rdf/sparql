@@ -58,8 +58,36 @@ module SPARQL; module Algebra
       NAME = [:project]
 
       ##
+      # Can only project in-scope variables.
+      #
+      # @return (see Algebra::Operator#initialize)
+      def validate!
+        if (group = descendants.detect {|o| o.is_a?(Group)})
+          raise ArgumentError, "project * on group is illegal" if operands.first.empty?
+          query_vars = operands.last.variables
+          variables.keys.each do |v|
+            raise ArgumentError,
+              "projecting #{v.to_sse} not projected from group" unless
+              query_vars.key?(v.to_sym)
+          end
+        end
+
+        super
+      end
+
+      ##
+      # The projected variables.
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        operands(1).inject({}) {|hash, o| hash.merge(o.variables)}
+      end
+
+      ##
       # Executes this query on the given `queryable` graph or repository.
       # Reduces the result set to the variables listed in the first operand
+      #
+      # If the first operand is empty, this indicates a `SPARQL *`, and all in-scope variables are projected.
       #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
@@ -74,9 +102,22 @@ module SPARQL; module Algebra
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options)
-        @solutions = @solutions.project(*(operands.first))
+        @solutions.variable_names = self.variables.keys
+        @solutions = @solutions.project(*(operands.first)) unless operands.first.empty?
         @solutions.each(&block) if block_given?
         @solutions
+      end
+    
+      ##
+      # In-scope variables for a select are limited to those projected.
+      #
+      # @return [Hash{Symbol => RDF::Query::Variable}]
+      def variables
+        in_scope = operands.first.empty? ?
+          operands.last.variables.values :
+          operands.first
+
+        in_scope.inject({}) {|memo, v| memo.merge(v.variables)}
       end
 
       ##

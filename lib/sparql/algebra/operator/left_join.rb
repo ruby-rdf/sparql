@@ -44,8 +44,8 @@ module SPARQL; module Algebra
       # @return [RDF::Query::Solutions]
       #   the resulting solution sequence
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#merge-instance_method
-      # @see    https://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Solution#compatible%3F-instance_method
+      # @see    https://ruby-rdf.github.io/rdf/RDF/Query/Solution#merge-instance_method
+      # @see    https://ruby-rdf.github.io/rdf/RDF/Query/Solution#compatible%3F-instance_method
       def execute(queryable, **options, &block)
         filter = operand(2)
 
@@ -131,7 +131,7 @@ module SPARQL; module Algebra
       #
       # @param [Boolean] top_level (true)
       #   Treat this as a top-level, generating SELECT ... WHERE {}
-      # @param [Hash{Symbol => Operator}] extensions
+      # @param [Hash{String => Operator}] extensions
       #   Variable bindings
       # @param [Array<Operator>] filter_ops ([])
       #   Filter Operations

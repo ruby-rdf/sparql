@@ -100,7 +100,7 @@ module SPARQL; module Algebra
       #
       # Returns a partial SPARQL grammar for this operator.
       #
-      # @param [Hash{Symbol => Operator}] extensions
+      # @param [Hash{String => Operator}] extensions
       #   Variable bindings
       # @param [Array<Operator>] filter_ops ([])
       #   Filter Operations

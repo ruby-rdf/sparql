@@ -6,6 +6,19 @@ module SPARQL; module Algebra
   module Expression
     include RDF::Util::Logger
 
+    # Operators for which `:triple` denotes a pattern, not a builtin
+    PATTERN_PARENTS = [
+      Operator::BGP,
+      Operator::Construct,
+      Operator::Delete,
+      Operator::DeleteData,
+      Operator::DeleteWhere,
+      Operator::Graph,
+      Operator::Insert,
+      Operator::InsertData,
+      Operator::Path,
+    ].freeze
+
     ##
     # @example
     #   Expression.parse('(isLiteral 3.1415)')
@@ -84,7 +97,7 @@ module SPARQL; module Algebra
     #   any additional options (see {Operator#initialize})
     # @return [Expression]
     # @raise  [TypeError] if any of the operands is invalid
-    def self.new(sse, **options)
+    def self.new(sse, parent_operator: nil, **options)
       raise ArgumentError, "invalid SPARQL::Algebra::Expression form: #{sse.inspect}" unless sse.is_a?(Array)
 
       operator = Operator.for(sse.first, sse.length - 1)
@@ -99,12 +112,12 @@ module SPARQL; module Algebra
         return case sse.first
         when Array
           debug(options) {"Map array elements #{sse}"}
-          sse.map {|s| self.new(s, depth: options[:depth].to_i + 1, **options)}
+          sse.map {|s| self.new(s, parent_operator: parent_operator, depth: options[:depth].to_i + 1, **options)}
         else
           debug(options) {"No operator found for #{sse.first}"}
           sse.map do |s|
             s.is_a?(Array) ?
-              self.new(s, depth: options[:depth].to_i + 1) :
+              self.new(s, parent_operator: parent_operator, depth: options[:depth].to_i + 1) :
               s
           end
         end
@@ -114,7 +127,7 @@ module SPARQL; module Algebra
         debug(options) {"Operator=#{operator.inspect}, Operand=#{operand.inspect}"}
         case operand
           when Array
-            self.new(operand, depth: options[:depth].to_i + 1, **options)
+            self.new(operand, parent_operator: operator, depth: options[:depth].to_i + 1, **options)
           when Operator, Variable, RDF::Term, RDF::Query, Symbol
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time
@@ -127,7 +140,13 @@ module SPARQL; module Algebra
       logger = options[:logger]
       options.delete_if {|k, v| [:debug, :logger, :depth, :prefixes, :base_uri, :update, :validate].include?(k) }
       begin
-        operator.new(*operands, **options)
+        # Due to confusiong over (triple) and special-case for (qtriple)
+        if operator == RDF::Query::Pattern
+          options = options.merge(quoted: true) if sse.first == :qtriple
+        elsif operator == Operator::Triple && PATTERN_PARENTS.include?(parent_operator)
+          operator = RDF::Query::Pattern
+        end
+        operator.new(*operands, parent_operator: operator, **options)
       rescue ArgumentError => e
         if logger
           logger.error("Operator=#{operator.inspect}: #{e}")
@@ -215,7 +234,7 @@ module SPARQL; module Algebra
     #
     # @param [RDF::URI] datatype
     #   Datatype to evaluate, one of:
-    #   xsd:integer, xsd:decimal xsd:float, xsd:double, xsd:string, xsd:boolean, or xsd:dateTime
+    #   xsd:integer, xsd:decimal xsd:float, xsd:double, xsd:string, xsd:boolean, xsd:dateTime, xsd:duration, xsd:dayTimeDuration, xsd:yearMonthDuration
     # @param [RDF::Term] value
     #   Value, which should be a typed literal, where the type must be that specified
     # @raise [TypeError] if datatype is not a URI or value cannot be cast to datatype
@@ -223,7 +242,7 @@ module SPARQL; module Algebra
     # @see https://www.w3.org/TR/sparql11-query/#FunctionMapping
     def self.cast(datatype, value)
       case datatype
-      when RDF::XSD.dateTime
+      when RDF::XSD.date, RDF::XSD.time, RDF::XSD.dateTime
         case value
         when RDF::Literal::DateTime, RDF::Literal::Date, RDF::Literal::Time
           RDF::Literal.new(value, datatype: datatype)
@@ -231,6 +250,15 @@ module SPARQL; module Algebra
           raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
         else
           RDF::Literal.new(value.value, datatype: datatype, validate: true)
+        end
+      when RDF::XSD.duration, RDF::XSD.dayTimeDuration, RDF::XSD.yearMonthDuration
+        case value
+        when RDF::Literal::Duration, RDF::Literal::DayTimeDuration, RDF::Literal::YearMonthDuration
+          RDF::Literal.new(value, datatype: datatype, validate: true, canonicalize: true)
+        when RDF::Literal::Numeric, RDF::Literal::Boolean, RDF::URI, RDF::Node
+          raise TypeError, "Value #{value.inspect} cannot be cast as #{datatype}"
+        else
+          RDF::Literal.new(value.value, datatype: datatype, validate: true, canonicalize: true)
         end
       when RDF::XSD.float, RDF::XSD.double
         case value

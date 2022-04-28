@@ -1,0 +1,619 @@
+{
+	"entries": {
+		"compare_duration01": {
+			"tests": [
+				{
+					"operator": "=",
+					"operands": [{"@value": "P1Y", "@type": "xsd:duration"}, {"@value": "P1Y", "@type": "xsd:duration"}],
+					"result":     true
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "P1Y", "@type": "xsd:duration"}, {"@value": "P12M", "@type": "xsd:duration"}],
+					"result":     true
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "P1Y", "@type": "xsd:duration"}, {"@value": "P365D", "@type": "xsd:duration"}],
+					"result":     false
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "P0Y", "@type": "xsd:duration"}, {"@value": "PT0S", "@type": "xsd:duration"}],
+					"result":     true
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "PT1D", "@type": "xsd:duration"}, {"@value": "PT24H", "@type": "xsd:duration"}],
+					"result":     true
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "PT1D", "@type": "xsd:duration"}, {"@value": "PT23H", "@type": "xsd:duration"}],
+					"result":     false
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "PT1H", "@type": "xsd:duration"}, {"@value": "PT60M", "@type": "xsd:duration"}],
+					"result":     true
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "PT1H", "@type": "xsd:duration"}, {"@value": "PT3600S", "@type": "xsd:duration"}],
+					"result":     true
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "-P1Y", "@type": "xsd:duration"}, {"@value": "P1Y", "@type": "xsd:duration"}],
+					"result":     false
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "-P0Y", "@type": "xsd:duration"}, {"@value": "PT0S", "@type": "xsd:duration"}],
+					"result":     true
+				}
+			]
+		},
+		"compare_yearMonthDuration01": {
+			"tests": [
+				{
+					"operator": "<",
+					"operands": [{"@value": "P1Y", "@type": "xsd:yearMonthDuration"}, {"@value": "P1Y", "@type": "xsd:yearMonthDuration"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "P1Y", "@type": "xsd:yearMonthDuration"}, {"@value": "P1Y", "@type": "xsd:yearMonthDuration"}],
+					"result":     false
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "P1Y", "@type": "xsd:yearMonthDuration"}, {"@value": "P12M", "@type": "xsd:yearMonthDuration"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "P1Y", "@type": "xsd:yearMonthDuration"}, {"@value": "P12M", "@type": "xsd:yearMonthDuration"}],
+					"result":     false
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "P1Y1M", "@type": "xsd:yearMonthDuration"}, {"@value": "P12M", "@type": "xsd:yearMonthDuration"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "P1Y1M", "@type": "xsd:yearMonthDuration"}, {"@value": "P12M", "@type": "xsd:yearMonthDuration"}],
+					"result":     true
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "P1M", "@type": "xsd:yearMonthDuration"}, {"@value": "-P2M", "@type": "xsd:yearMonthDuration"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "P1M", "@type": "xsd:yearMonthDuration"}, {"@value": "-P2M", "@type": "xsd:yearMonthDuration"}],
+					"result":     true
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "-P1Y", "@type": "xsd:yearMonthDuration"}, {"@value": "P13M", "@type": "xsd:yearMonthDuration"}],
+					"result":     true
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "-P1Y", "@type": "xsd:yearMonthDuration"}, {"@value": "P13M", "@type": "xsd:yearMonthDuration"}],
+					"result":     false
+				}
+			]
+		},
+		"compare_dayTimeDuration01": {
+			"tests": [
+				{
+					"operator": "<",
+					"operands": [{"@value": "PT1H", "@type": "xsd:dayTimeDuration"}, {"@value": "PT63M", "@type": "xsd:dayTimeDuration"}],
+					"result":     true
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "PT1H", "@type": "xsd:dayTimeDuration"}, {"@value": "PT63M", "@type": "xsd:dayTimeDuration"}],
+					"result":     false
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "PT3S", "@type": "xsd:dayTimeDuration"}, {"@value": "PT2M", "@type": "xsd:dayTimeDuration"}],
+					"result":     true
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "PT3S", "@type": "xsd:dayTimeDuration"}, {"@value": "PT2M", "@type": "xsd:dayTimeDuration"}],
+					"result":     false
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "-PT1H1M", "@type": "xsd:dayTimeDuration"}, {"@value": "-PT62M", "@type": "xsd:dayTimeDuration"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "-PT1H1M", "@type": "xsd:dayTimeDuration"}, {"@value": "-PT62M", "@type": "xsd:dayTimeDuration"}],
+					"result":     true
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "PT0S", "@type": "xsd:dayTimeDuration"}, {"@value": "-PT0.1S", "@type": "xsd:dayTimeDuration"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "PT0S", "@type": "xsd:dayTimeDuration"}, {"@value": "-PT0.1S", "@type": "xsd:dayTimeDuration"}],
+					"result":     true
+				}
+			]
+		},
+		"compare_time01": {
+			"tests": [
+				{
+					"operator": "<",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "00:00:00", "@type": "xsd:time"}],
+					"result":     true
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "00:00:00", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "00:00:00", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "00:00:01", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "00:00:01", "@type": "xsd:time"}],
+					"result":     true
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "00:00:00", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "00:00:02", "@type": "xsd:time"}, {"@value": "00:00:01", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "00:00:02", "@type": "xsd:time"}, {"@value": "00:00:01", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "00:00:02", "@type": "xsd:time"}, {"@value": "00:00:02", "@type": "xsd:time"}],
+					"result":     true
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "10:00:00", "@type": "xsd:time"}, {"@value": "00:59:01", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "10:00:00", "@type": "xsd:time"}, {"@value": "00:59:01", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "10:00:00", "@type": "xsd:time"}, {"@value": "10:00:00", "@type": "xsd:time"}],
+					"result":     true
+				},
+				{
+					"operator": "<",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "24:00:00", "@type": "xsd:time"}],
+					"result":     true
+				},
+				{
+					"operator": ">",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "24:00:00", "@type": "xsd:time"}],
+					"result":     false
+				},
+				{
+					"operator": "=",
+					"operands": [{"@value": "00:00:00", "@type": "xsd:time"}, {"@value": "00:00:00", "@type": "xsd:time"}],
+					"result":     false
+				}
+			]
+		},
+		"extract_date01": {
+			"tests": [
+				{
+					"function": "YEAR",
+					"operands": [{"@value": "2000-11-02", "@type": "xsd:date"}],
+					"result":     2000
+				},
+				{
+					"function": "MONTH",
+					"operands": [{"@value": "2000-11-02", "@type": "xsd:date"}],
+					"result":     11
+				},
+				{
+					"function": "DAY",
+					"operands": [{"@value": "2000-11-02", "@type": "xsd:date"}],
+					"result":     2
+				}
+			]
+		},
+		"extract_time01": {
+			"tests": [
+				{
+					"function": "HOURS",
+					"operands": [{"@value": "02:12:59", "@type": "xsd:time"}],
+					"result":     2
+				},
+				{
+					"function": "MINUTES",
+					"operands": [{"@value": "02:12:59", "@type": "xsd:time"}],
+					"result":     12
+				},
+				{
+					"function": "SECONDS",
+					"operands": [{"@value": "02:12:59", "@type": "xsd:time"}],
+					"result":     {"@value": "59.0", "@type": "xsd:decimal"}
+				}
+			]
+		},
+		"adjust_dateTime01": {
+			"tests": [
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07T10:00:00", "@type": "xsd:dateTime"}, {"@value": "-PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2002-03-07T10:00:00-10:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07T10:00:00-07:00", "@type": "xsd:dateTime"}, {"@value": "-PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2002-03-07T07:00:00-10:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07T10:00:00-07:00", "@type": "xsd:dateTime"}, {"@value": "PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2002-03-08T03:00:00+10:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07T00:00:00+01:00", "@type": "xsd:dateTime"}, {"@value": "-PT8H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2002-03-06T15:00:00-08:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07T10:00:00-07:00", "@type": "xsd:dateTime"}, ""],
+					"result":     {"@value": "2002-03-07T10:00:00", "@type": "xsd:dateTime"}
+				}
+			]
+		},
+		"adjust_date01": {
+			"tests": [
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07", "@type": "xsd:date"}, {"@value": "-PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2002-03-07-10:00", "@type": "xsd:date"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07-07:00", "@type": "xsd:date"}, {"@value": "-PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2002-03-06-10:00", "@type": "xsd:date"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07", "@type": "xsd:date"}, ""],
+					"result":     {"@value": "2002-03-07", "@type": "xsd:date"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "2002-03-07-07:00", "@type": "xsd:date"}, ""],
+					"result":     {"@value": "2002-03-07", "@type": "xsd:date"}
+				}
+			]
+		},
+		"adjust_time01": {
+			"tests": [
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "10:00:00", "@type": "xsd:time"}, {"@value": "-PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "10:00:00-10:00", "@type": "xsd:time"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "10:00:00-07:00", "@type": "xsd:time"}, {"@value": "-PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "07:00:00-10:00", "@type": "xsd:time"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "10:00:00-07:00", "@type": "xsd:time"}, {"@value": "PT10H", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "03:00:00+10:00", "@type": "xsd:time"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "10:00:00", "@type": "xsd:time"}, ""],
+					"result":     {"@value": "10:00:00", "@type": "xsd:time"}
+				},
+				{
+					"function": "ADJUST",
+					"operands": [{"@value": "10:00:00-07:00", "@type": "xsd:time"}, ""],
+					"result":     {"@value": "10:00:00", "@type": "xsd:time"}
+				}
+			]
+		},
+		"dateTime_subtract01": {
+			"tests": [
+				{
+					"operator": "-",
+					"operands": [{"@value": "2000-10-30T06:12:00-05:00", "@type": "xsd:dateTime"}, {"@value": "1999-11-28T09:00:00Z", "@type": "xsd:dateTime"}],
+					"result":     {"@value": "P337DT2H12M", "@type": "xsd:dayTimeDuration"}
+				},
+				{
+					"operator": "-",
+					"operands": [{"@value": "2000-10-30", "@type": "xsd:date"}, {"@value": "1999-11-28", "@type": "xsd:date"}],
+					"result":     {"@value": "P337D", "@type": "xsd:dayTimeDuration"}
+				},
+				{
+					"operator": "-",
+					"operands": [{"@value": "11:12:00Z", "@type": "xsd:time"}, {"@value": "04:00:00-05:00", "@type": "xsd:time"}],
+					"result":     {"@value": "PT2H12M", "@type": "xsd:dayTimeDuration"}
+				}
+			]
+		},
+		"duration_yearMonth_add01": {
+			"tests": [
+				{
+					"operator": "+",
+					"operands": [{"@value": "2019-05-28T12:14:45Z", "@type": "xsd:dateTime"}, {"@value": "P1Y", "@type": "xsd:yearMonthDuration"}],
+					"result":     {"@value": "2020-05-28T12:14:45Z", "@type": "xsd:dateTime"}
+				},
+				{
+					"operator": "+",
+					"operands": [{"@value": "2019-05-28", "@type": "xsd:date"}, {"@value": "P1Y", "@type": "xsd:yearMonthDuration"}],
+					"result":     {"@value": "2020-05-28", "@type": "xsd:dateTime"}
+				}
+			]
+		},
+		"duration_dayTime_add01": {
+			"tests": [
+				{
+					"operator": "+",
+					"operands": [{"@value": "2000-10-30T11:12:00", "@type": "xsd:dateTime"}, {"@value": "P3DT1H15M", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2000-11-02T12:27:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"operator": "+",
+					"operands": [{"@value": "2000-10-30", "@type": "xsd:date"}, {"@value": "P3DT1H15M", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2000-11-02T01:15:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"operator": "+",
+					"operands": [{"@value": "11:12:00", "@type": "xsd:time"}, {"@value": "P3DT1H15M", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "12:27:00", "@type": "xsd:time"}
+				}
+			]
+		},
+		"duration_yearMonth_subtract01": {
+			"tests": [
+				{
+					"operator": "-",
+					"operands": [{"@value": "2019-05-28T12:14:45Z", "@type": "xsd:dateTime"}, {"@value": "P1Y", "@type": "xsd:yearMonthDuration"}],
+					"result":     {"@value": "2018-05-28T12:14:45Z", "@type": "xsd:dateTime"}
+				},
+				{
+					"operator": "-",
+					"operands": [{"@value": "2019-05-28", "@type": "xsd:date"}, {"@value": "P1Y", "@type": "xsd:yearMonthDuration"}],
+					"result":     {"@value": "2018-05-28", "@type": "xsd:dateTime"}
+				}
+			]
+		},
+		"duration_dayTime_subtract01": {
+			"tests": [
+				{
+					"operator": "-",
+					"operands": [{"@value": "2000-10-30T11:12:00", "@type": "xsd:dateTime"}, {"@value": "P3DT1H15M", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2000-10-27T09:57:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"operator": "-",
+					"operands": [{"@value": "2000-10-30", "@type": "xsd:date"}, {"@value": "P3DT1H15M", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "2000-10-26T22:45:00", "@type": "xsd:dateTime"}
+				},
+				{
+					"operator": "-",
+					"operands": [{"@value": "11:12:00", "@type": "xsd:time"}, {"@value": "P3DT1H15M", "@type": "xsd:dayTimeDuration"}],
+					"result":     {"@value": "09:57:00", "@type": "xsd:time"}
+				}
+			]
+		},
+		"constructor_date01": {
+			"tests": [
+				{
+					"construct": "xsd:date",
+					"operands": ["2000-11-02"],
+					"error":     {"@value": "2000-11-02", "@type": "xsd:date"}
+				}
+			]
+		},
+		"constructor_date02": {
+			"tests": [
+				{
+					"construct": "xsd:date",
+					"operands": ["2000-00-01"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:date",
+					"operands": ["2000-13-01"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:date",
+					"operands": ["2000-06-00"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:date",
+					"operands": ["2000-06-32"],
+					"error":     true
+				}
+			]
+		},
+		"constructor_time01": {
+			"tests": [
+				{
+					"construct": "xsd:time",
+					"operands": ["00:00:00"],
+					"result":     {"@value": "00:00:00", "@type": "xsd:time"}
+				},
+				{
+					"construct": "xsd:time",
+					"operands": ["24:00:00"],
+					"result":     {"@value": "00:00:00", "@type": "xsd:time"}
+				},
+				{
+					"construct": "xsd:time",
+					"operands": ["01:02:03"],
+					"result":     {"@value": "01:02:03", "@type": "xsd:time"}
+				},
+				{
+					"construct": "xsd:time",
+					"operands": ["23:59:60"],
+					"result":     {"@value": "23:59:60", "@type": "xsd:time"}
+				}
+			]
+		},
+		"constructor_time02": {
+			"tests": [
+				{
+					"construct": "xsd:time",
+					"operands": ["24:00:01"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:time",
+					"operands": ["05:60:00"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:time",
+					"operands": ["00:00:61"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:time",
+					"operands": [""],
+					"error":     true
+				}
+			]
+		},
+		"constructor_duration01": {
+			"tests": [
+				{
+					"construct": "xsd:duration",
+					"operands": ["PT0S"],
+					"result":     {"@value": "PT0S", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["-P0M"],
+					"result":     {"@value": "PT0S", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["P1Y"],
+					"result":     {"@value": "P1Y", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["-P1Y"],
+					"result":     {"@value": "-P1Y", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["P1M"],
+					"result":     {"@value": "P1M", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["P1D"],
+					"result":     {"@value": "P1D", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["PT1H"],
+					"result":     {"@value": "PT1H", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["PT1M"],
+					"result":     {"@value": "PT1M", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["PT1S"],
+					"result":     {"@value": "PT1S", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["P3Y1DT2H7S"],
+					"result":     {"@value": "P3Y1DT2H7S", "@type": "xsd:duration"}
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["P36MT120M"],
+					"result":     {"@value": "P3YT2H", "@type": "xsd:duration"}
+				}
+			]
+		},
+		"constructor_duration02": {
+			"tests": [
+				{
+					"construct": "xsd:duration",
+					"operands": ["P"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["-P"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["PT"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["-PT"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["PS"],
+					"error":     true
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": [""],
+					"error":     true
+				},
+				{
+					"construct": "xsd:duration",
+					"operands": ["T1S"],
+					"error":     true
+				}
+			]
+		}
+	}
+}

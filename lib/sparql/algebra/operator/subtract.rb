@@ -31,17 +31,21 @@ module SPARQL; module Algebra
       ##
       # Returns the arithmetic difference of the operands.
       #
-      # @param  [RDF::Literal::Numeric] left
+      # @param  [RDF::Literal::Numeric, RDF::Literal::Temporal] left
       #   a numeric literal
-      # @param  [RDF::Literal::Numeric] right
+      # @param  [RDF::Literal::Numeric, RDF::Literal::Temporal, RDF::Literal::Duration] right
       #   a numeric literal
-      # @return [RDF::Literal::Numeric]
-      # @raise  [TypeError] if either operand is not a numeric literal
+      # @return [RDF::Literal::Numeric, RDF::Literal::Temporal, RDF::Literal::Duration]
+      # @raise  [TypeError] if either operand is neither a numeric nor a temporal literal
       def apply(left, right, **options)
         case
           when left.is_a?(RDF::Literal::Numeric) && right.is_a?(RDF::Literal::Numeric)
             left - right
-          else raise TypeError, "expected two RDF::Literal::Numeric operands, but got #{left.inspect} and #{right.inspect}"
+          when left.is_a?(RDF::Literal::Temporal) && right.is_a?(RDF::Literal::Temporal)
+            left - right
+          when left.is_a?(RDF::Literal::Temporal) && right.is_a?(RDF::Literal::Duration)
+            left - right
+          else raise TypeError, "expected two RDF::Literal::Numeric, Temporal operands, or a Temporal and a Duration, but got #{left.inspect} and #{right.inspect}"
         end
       end
 

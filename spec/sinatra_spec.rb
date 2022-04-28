@@ -57,6 +57,9 @@ describe Sinatra::SPARQL do
       expect(last_response.body).to match(/^@prefix ssd: <.*> \.$/)
       expect(last_response.body).to match(/\[\s+a ssd:Service;/m)
       expect(last_response.body).to match(%r{ssd:name <http://example/e>})
+      expect(last_response.body).to match(%r{ssd:supportedLanguage ssd:SPARQL10Query})
+      expect(last_response.body).to match(%r{ssd:supportedLanguage.*ssd:SPARQL11Query}m)
+      expect(last_response.body).to match(%r{ssd:supportedLanguage.*ssd:SPARQL11Update}m)
     end
   end
   

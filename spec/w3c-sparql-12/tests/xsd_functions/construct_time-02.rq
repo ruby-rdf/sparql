@@ -1,0 +1,9 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT (xsd:time(?literal) AS ?time) WHERE {
+	VALUES ?literal {
+		"24:00:01"
+		"05:60:00"
+		"00:00:61"
+		""
+	}
+}

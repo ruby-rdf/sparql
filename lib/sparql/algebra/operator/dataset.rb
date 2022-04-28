@@ -129,6 +129,11 @@ module SPARQL; module Algebra
       #
       # Datasets are specified in operand(1), which is an array of default or named graph URIs.
       #
+      # If `options` contains any of the Protocol attributes, the dataset is constructed on creation, and these operations should be ignored:
+      #
+      # * `default-graph-uri`
+      # * `named-graph-uri`
+      #
       # @param  [RDF::Queryable] queryable
       #   the graph or repository to query
       # @param  [Hash{Symbol => Object}] options
@@ -142,6 +147,11 @@ module SPARQL; module Algebra
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &base)
         debug(options) {"Dataset"}
+        if %i(default-graph-uri named-graph-uri).any? {|k| options.key?(k)} 
+          debug("=> Skip constructing merge repo due to options", options)
+          return queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
+        end
+ 
         default_datasets = []
         named_datasets = []
         operand(0).each do |uri|

@@ -1,0 +1,9 @@
+PREFIX : <http://example/>
+SELECT * {
+  ?a :b/:b [ :c :d] .
+}
+
+# =>
+# (join
+#  (path ?a (seq <b> <b>) ??0)
+#  (bgp (triple ??0 <c> <d>)))

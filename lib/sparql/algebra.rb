@@ -233,7 +233,7 @@ module SPARQL
   # scarcity.
   # 
   # [memoization]:      http://en.wikipedia.org/wiki/Memoization
-  # [RDF::Util::Cache]: http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Util/Cache
+  # [RDF::Util::Cache]: https://ruby-rdf.github.io/rdf/RDF/Util/Cache
   # 
   # ## Documentation
   # 
@@ -246,12 +246,15 @@ module SPARQL
   #   * {SPARQL::Algebra::Operator}
   #     * {SPARQL::Algebra::Operator::Abs}
   #     * {SPARQL::Algebra::Operator::Add}
+  #     * {SPARQL::Algebra::Operator::Adjust}
+  #     * {SPARQL::Algebra::Operator::Alt}
   #     * {SPARQL::Algebra::Operator::And}
   #     * {SPARQL::Algebra::Operator::Asc}
   #     * {SPARQL::Algebra::Operator::Ask}
   #     * {SPARQL::Algebra::Operator::Avg}
   #     * {SPARQL::Algebra::Operator::Base}
   #     * {SPARQL::Algebra::Operator::BGP}
+  #     * {SPARQL::Algebra::Operator::Bnode}
   #     * {SPARQL::Algebra::Operator::Bound}
   #     * {SPARQL::Algebra::Operator::Ceil}
   #     * {SPARQL::Algebra::Operator::Clear}
@@ -266,9 +269,9 @@ module SPARQL
   #     * {SPARQL::Algebra::Operator::Dataset}
   #     * {SPARQL::Algebra::Operator::Datatype}
   #     * {SPARQL::Algebra::Operator::Day}
-  #     * {SPARQL::Algebra::Operator::Delete}
   #     * {SPARQL::Algebra::Operator::DeleteData}
   #     * {SPARQL::Algebra::Operator::DeleteWhere}
+  #     * {SPARQL::Algebra::Operator::Delete}
   #     * {SPARQL::Algebra::Operator::Desc}
   #     * {SPARQL::Algebra::Operator::Describe}
   #     * {SPARQL::Algebra::Operator::Distinct}
@@ -276,6 +279,7 @@ module SPARQL
   #     * {SPARQL::Algebra::Operator::Drop}
   #     * {SPARQL::Algebra::Operator::EncodeForURI}
   #     * {SPARQL::Algebra::Operator::Equal}
+  #     * {SPARQL::Algebra::Operator::Exists}
   #     * {SPARQL::Algebra::Operator::Exprlist}
   #     * {SPARQL::Algebra::Operator::Extend}
   #     * {SPARQL::Algebra::Operator::Filter}
@@ -296,9 +300,11 @@ module SPARQL
   #     * {SPARQL::Algebra::Operator::IsIRI}
   #     * {SPARQL::Algebra::Operator::IsLiteral}
   #     * {SPARQL::Algebra::Operator::IsNumeric}
+  #     * {SPARQL::Algebra::Operator::IsTriple}
   #     * {SPARQL::Algebra::Operator::Join}
   #     * {SPARQL::Algebra::Operator::Lang}
   #     * {SPARQL::Algebra::Operator::LangMatches}
+  #     * {SPARQL::Algebra::Operator::LCase}
   #     * {SPARQL::Algebra::Operator::LeftJoin}
   #     * {SPARQL::Algebra::Operator::LessThan}
   #     * {SPARQL::Algebra::Operator::LessThanOrEqual}
@@ -316,20 +322,32 @@ module SPARQL
   #     * {SPARQL::Algebra::Operator::NotEqual}
   #     * {SPARQL::Algebra::Operator::NotExists}
   #     * {SPARQL::Algebra::Operator::NotIn}
+  #     * {SPARQL::Algebra::Operator::NotOneOf}
   #     * {SPARQL::Algebra::Operator::Now}
+  #     * {SPARQL::Algebra::Operator::Object}
   #     * {SPARQL::Algebra::Operator::Or}
   #     * {SPARQL::Algebra::Operator::Order}
+  #     * {SPARQL::Algebra::Operator::Path}
+  #     * {SPARQL::Algebra::Operator::PathOpt}
+  #     * {SPARQL::Algebra::Operator::PathPlus}
+  #     * {SPARQL::Algebra::Operator::PathRange}
+  #     * {SPARQL::Algebra::Operator::PathStar}
+  #     * {SPARQL::Algebra::Operator::PathZero}
   #     * {SPARQL::Algebra::Operator::Plus}
+  #     * {SPARQL::Algebra::Operator::Predicate}
   #     * {SPARQL::Algebra::Operator::Prefix}
   #     * {SPARQL::Algebra::Operator::Project}
   #     * {SPARQL::Algebra::Operator::Rand}
   #     * {SPARQL::Algebra::Operator::Reduced}
   #     * {SPARQL::Algebra::Operator::Regex}
   #     * {SPARQL::Algebra::Operator::Replace}
+  #     * {SPARQL::Algebra::Operator::Reverse}
   #     * {SPARQL::Algebra::Operator::Round}
   #     * {SPARQL::Algebra::Operator::SameTerm}
   #     * {SPARQL::Algebra::Operator::Sample}
   #     * {SPARQL::Algebra::Operator::Seconds}
+  #     * {SPARQL::Algebra::Operator::Seq}
+  #     * {SPARQL::Algebra::Operator::Sequence}
   #     * {SPARQL::Algebra::Operator::SHA1}
   #     * {SPARQL::Algebra::Operator::SHA256}
   #     * {SPARQL::Algebra::Operator::SHA384}
@@ -349,6 +367,7 @@ module SPARQL
   #     * {SPARQL::Algebra::Operator::Sum}
   #     * {SPARQL::Algebra::Operator::Table}
   #     * {SPARQL::Algebra::Operator::Timezone}
+  #     * {SPARQL::Algebra::Operator::Triple}
   #     * {SPARQL::Algebra::Operator::TZ}
   #     * {SPARQL::Algebra::Operator::Ucase}
   #     * {SPARQL::Algebra::Operator::Union}
@@ -436,7 +455,7 @@ module SPARQL
     #
     # @param  [Symbol, #to_sym] name
     # @return [Variable]
-    # @see    http://www.rubydoc.info/github/ruby-rdf/rdf/RDF/Query/Variable
+    # @see    https://ruby-rdf.github.io/rdf/RDF/Query/Variable
     def Variable(name)
       Variable.new(name)
     end

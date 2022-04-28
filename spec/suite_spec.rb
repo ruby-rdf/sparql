@@ -8,6 +8,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
+      t.logger = RDF::Spec.logger
       case t.type
       when 'mf:QueryEvaluationTest'
         it "evaluates #{t.entry} - #{t.name}: #{t.comment}" do
@@ -26,13 +27,18 @@ shared_examples "SUITE" do |id, label, comment, tests|
             pending "Expects multiple equivalent property path solutions"
           when 'date-1.rq', 'expr-5.rq'
             pending "Different results on unapproved tests" unless t.name.include?('dawg-optional-filter-005-simplified')
+          when 'csvtsv02.rq'
+            pending "empty values are the same as missing values"
           end
 
-          t.logger = RDF::Spec.logger
+          skip 'Entailment Regimes' if t.entailment?
+          skip "Federated Query" if Array(t.feature).include?('sd:BasicFederatedQuery')
+
           result = sparql_query(graphs: t.graphs,
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
                                 optimize: true,
+                                all_vars: true,
                                 form: t.form,
                                 logger: t.logger)
 
@@ -41,7 +47,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
             expect(result).to be_a(RDF::Query::Solutions)
             if id.to_s =~ /sort/
               skip "JRuby sorting issue" if RUBY_ENGINE == 'jruby'
-              expect(result).to describe_ordered_solutions(t.solutions)
+              expect(result).to describe_ordered_solutions(t.solutions, t)
             else
               expect(result).to describe_solutions(t.solutions, t)
             end
@@ -58,6 +64,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
                                 form: t.form,
+                                all_vars: true,
                                 logger: t.logger)
 
           expect(result).to describe_csv_solutions(t.solutions)
@@ -72,20 +79,22 @@ shared_examples "SUITE" do |id, label, comment, tests|
             skip "PNAME_LN changed in SPARQL 1.1"
           end
           expect do
-            SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true, logger: t.logger)
+            SPARQL.parse(t.action.query_string,
+                         base_uri: t.base_uri,
+                         all_vars: true,
+                         validate: true,
+                         logger: t.logger)
           end.not_to raise_error(StandardError)
         end
       when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
         it "detects syntax error for #{t.entry} - #{t.name} - #{t.comment}" do
-          pending("Better Error Detection") if %w(
-            agg08.rq agg09.rq agg10.rq agg11.rq agg12.rq
-            syn-bad-pname-06.rq group06.rq group07.rq
-          ).include?(t.entry)
-          pending("Better Error Detection") if %w(
-            syn-bad-01.rq syn-bad-02.rq
-          ).include?(t.entry) && man_name == 'syntax-query'
+          pending("Raw PNAME validation") if %w(syn-bad-pname-06.rq).include?(t.entry)
           expect do
-            SPARQL.parse(t.action.query_string, base_uri: t.base_uri, validate: true, logger: t.logger)
+            SPARQL.parse(t.action.query_string,
+                         base_uri: t.base_uri,
+                         all_vars: true,
+                         validate: true,
+                         logger: t.logger)
           end.to raise_error(StandardError)
         end
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest'
@@ -93,6 +102,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
           result = sparql_query(graphs: t.action.graphs,
                                 query: t.action.query_string,
                                 base_uri: t.base_uri,
+                                all_vars: true,
                                 form: t.form,
                                 logger: t.logger)
 
@@ -105,7 +115,12 @@ shared_examples "SUITE" do |id, label, comment, tests|
             syntax-update-36.ru
           ).include?(t.entry)
           expect do
-            SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true, logger: t.logger)
+            SPARQL.parse(t.action.query_string,
+                         base_uri: t.base_uri,
+                         all_vars: true,
+                         update: true,
+                         validate: true,
+                         logger: t.logger)
           end.not_to raise_error(StandardError)
         end
       when 'mf:NegativeUpdateSyntaxTest11'
@@ -114,9 +129,18 @@ shared_examples "SUITE" do |id, label, comment, tests|
             SPARQL.parse(t.action.query_string, base_uri: t.base_uri, update: true, validate: true, logger: t.logger)
           end.to raise_error(StandardError)
         end
-      when 'mf:ServiceDescriptionTest', 'mf:ProtocolTest',
-           'mf:GraphStoreProtocolTest'
-        # Skip Other
+      when 'mf:ProtocolTest'
+        it "#{t.type} #{t.entry} - #{t.name}" do
+          case t.entry
+          when 'bad_query_non_utf8', 'bad_update_non_utf8'
+            skip "Rack doesn't honor input encoding"
+          end
+          expect(t.execute).to produce(true, logger: t.logger)
+        end
+      when 'mf:GraphStoreProtocolTest'
+        it "#{t.type} #{t.entry} - #{t.name}" do
+          skip t.type
+        end
       else
         it "??? #{t.entry} - #{t.name}" do
           puts t.inspect
@@ -132,8 +156,9 @@ shared_examples "to_sparql" do |id, label, comment, tests|
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
+      next if %w(mf:ProtocolTest).include?(t.type)
       case t.type
-      when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
+      when 'mf:QueryEvaluationTest', 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11', 'mf:CSVResultFormatTest'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
           case t.entry
           when 'syntax-expr-05.rq', 'syntax-order-05.rq', 'syntax-function-04.rq'
@@ -142,17 +167,19 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "Decimal format changed in SPARQL 1.1"
           when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
             skip "PNAME_LN changed in SPARQL 1.1"
-          when 'syn-pp-in-collection.rq'
-            pending "CollectionPath"
           when 'bind05.rq', 'bind08.rq', 'syntax-bind-02.rq', 'strbefore02.rq',
                'agg-groupconcat-1.rq', 'agg-groupconcat-2.rq',
                'sq08.rq', 'sq12.rq', 'sq13.rq',
-               'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq'
+               'syntax-SELECTscope1.rq', 'syntax-SELECTscope3.rq',
+               'sparql-star-annotation-06.rq'
             skip "Equivalent form"
           when 'sq09.rq', 'sq14.rq'
             pending("SubSelect")
           when 'sparql-star-order-by.rq'
             pending("OFFSET/LIMIT in sub-select")
+          when 'compare_time-01.rq',
+               'adjust_dateTime-01.rq', 'adjust_date-01.rq', 'adjust_time-01.rq'
+            skip "Equivalent form"
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
@@ -175,7 +202,8 @@ shared_examples "to_sparql" do |id, label, comment, tests|
                'syntax-update-36.ru'
             pending("Whitespace in string tokens")
           when 'insert-05a.ru', 'insert-data-same-bnode.ru', 
-               'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru'
+               'insert-where-same-bnode.ru', 'insert-where-same-bnode2.ru',
+               'sparql-star-syntax-update-7.ru'
             skip "Equivalent form"
           when 'delete-insert-04.ru'
             pending("SubSelect")
@@ -227,7 +255,7 @@ describe SPARQL do
   describe "w3c dawg SPARQL 1.1 tests" do
     SPARQL::Spec.sparql1_1_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
-        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "SUITE", man.attributes['id'], man.label, (path.match?(/protocol/) ? '' : man.comment), man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
@@ -235,6 +263,15 @@ describe SPARQL do
 
   describe "SPARQL-star tests" do
     SPARQL::Spec.sparql_star_tests.each do |path|
+      SPARQL::Spec::Manifest.open(path) do |man|
+        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
+      end
+    end
+  end
+
+  describe "SPARQL-12 tests" do
+    SPARQL::Spec.sparql_12_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries

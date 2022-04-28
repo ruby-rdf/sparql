@@ -55,12 +55,14 @@ module SPARQL; module Algebra
     autoload :Timezone,           'sparql/algebra/operator/timezone'
     autoload :TZ,                 'sparql/algebra/operator/tz'
     autoload :Year,               'sparql/algebra/operator/year'
+    autoload :Triple,             'sparql/algebra/operator/triple'
     autoload :IsTriple,           'sparql/algebra/operator/is_triple'
     autoload :Subject,            'sparql/algebra/operator/subject'
     autoload :Predicate,          'sparql/algebra/operator/predicate'
     autoload :Object,             'sparql/algebra/operator/object'
 
     # Binary operators
+    autoload :Adjust,             'sparql/algebra/operator/adjust'
     autoload :And,                'sparql/algebra/operator/and'
     autoload :Compare,            'sparql/algebra/operator/compare'
     autoload :Concat,             'sparql/algebra/operator/concat'
@@ -95,7 +97,9 @@ module SPARQL; module Algebra
     autoload :NotOneOf,           'sparql/algebra/operator/notoneof'
     autoload :PathOpt,            'sparql/algebra/operator/path_opt'
     autoload :PathPlus,           'sparql/algebra/operator/path_plus'
+    autoload :PathRange,          'sparql/algebra/operator/path_range'
     autoload :PathStar,           'sparql/algebra/operator/path_star'
+    autoload :PathZero,            'sparql/algebra/operator/path_zero'
     autoload :Path,               'sparql/algebra/operator/path'
     autoload :Reverse,            'sparql/algebra/operator/reverse'
     autoload :Seq,                'sparql/algebra/operator/seq'
@@ -173,6 +177,7 @@ module SPARQL; module Algebra
         when :>               then GreaterThan
         when :>=              then GreaterThanOrEqual
         when :abs             then Abs
+        when :adjust          then Adjust
         when :alt             then Alt
         when :and, :'&&'      then And
         when :avg             then Avg
@@ -215,9 +220,11 @@ module SPARQL; module Algebra
         when :now             then Now
         when :or, :'||'       then Or
         when :path            then Path
+        when :path0           then PathZero
         when :path?           then PathOpt
-        when :"path*"         then PathStar
         when :"path+"         then PathPlus
+        when :"path*"         then PathStar
+        when :pathrange       then PathRange
         when :plus            then Plus
         when :rand            then Rand
         when :regex           then Regex
@@ -302,7 +309,9 @@ module SPARQL; module Algebra
 
         # RDF-star
         when :istriple        then IsTriple
-        when :triple          then RDF::Query::Pattern
+        when :triple          then Triple
+        when :qtriple         then RDF::Query::Pattern
+        when :quad            then RDF::Query::Pattern
         when :subject         then Subject
         when :predicate       then Predicate
         when :object          then Object
@@ -340,7 +349,7 @@ module SPARQL; module Algebra
     # @param [String] content
     # @param [Operator] datasets ([])
     # @param [Operator] distinct (false)
-    # @param [Hash{Symbol => Operator}] extensions
+    # @param [Hash{String => Operator}] extensions
     #   Variable bindings
     # @param [Array<Operator>] filter_ops ([])
     #   Filter Operations
@@ -383,10 +392,9 @@ module SPARQL; module Algebra
         str << "REDUCED " if reduced
 
         str << project.map do |p|
-          if expr = extensions.delete(p)
-            v = expr.to_sparql(as_statement: true, **options)
-            v = "<< #{v} >>" if expr.is_a?(RDF::Statement)
-            pp = p.to_sparql(**options)
+          if expr = extensions.delete(p.to_s)
+            v = expr.to_sparql(**options)
+            pp = RDF::Query::Variable.new(p).to_sparql(**options)
             # Replace projected variables with their extension, if any
             '(' + v + ' AS ' + pp + ')'
           else
@@ -402,9 +410,9 @@ module SPARQL; module Algebra
 
       # Bind
       extensions.each do |as, expression|
-        v = expression.to_sparql(as_statement: true, **options)
-        v = "<< #{v} >>" if expression.is_a?(RDF::Statement)
-        content << "\nBIND (" << v << " AS " << as.to_sparql(**options) << ") ."
+        v = expression.to_sparql(**options)
+        pp = RDF::Query::Variable.new(as).to_sparql(**options)
+        content << "\nBIND (" << v << " AS " << pp << ") ."
       end
 
       # Filter
@@ -793,6 +801,15 @@ module SPARQL; module Algebra
       operands.each {|op| op.validate! if op.respond_to?(:validate!)}
       self
     end
+
+    ##
+    # The variables used in this query.
+    #
+    # @return [Hash{Symbol => RDF::Query::Variable}]
+    def variables
+      operands.inject({}) {|hash, o| o.respond_to?(:variables) ? hash.merge(o.variables) : hash}
+    end
+
   protected
 
     ##

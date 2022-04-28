@@ -1,0 +1,8 @@
+CONSTRUCT {
+  ?uri <http://prop3> ?anotherURI .
+}
+WHERE
+{
+  ?uri a ?type ;
+    <http://prop1> / <http://prop2> ?anotherURI
+}

@@ -1,0 +1,16 @@
+PREFIX xsd: <http://www.w3.org/2001/XMLSchema#>
+SELECT ?id ?eq WHERE {
+	VALUES (?id ?l ?r) {
+		(1 "P1Y"^^xsd:duration "P1Y"^^xsd:duration)
+		(2 "P1Y"^^xsd:duration "P12M"^^xsd:duration)
+		(3 "P1Y"^^xsd:duration "P365D"^^xsd:duration)
+		(4 "P0Y"^^xsd:duration "PT0S"^^xsd:duration)
+		(5 "P1D"^^xsd:duration "PT24H"^^xsd:duration)
+		(6 "P1D"^^xsd:duration "PT23H"^^xsd:duration)
+		(7 "PT1H"^^xsd:duration "PT60M"^^xsd:duration)
+		(8 "PT1H"^^xsd:duration "PT3600S"^^xsd:duration)
+		(9 "-P1Y"^^xsd:duration "P1Y"^^xsd:duration)
+		(10 "-P0Y"^^xsd:duration "PT0S"^^xsd:duration)
+	}
+	BIND(?l = ?r AS ?eq)
+}

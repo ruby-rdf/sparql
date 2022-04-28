@@ -63,39 +63,10 @@ def run(input, **options)
 end
 
 def server(options)
-  require 'sinatra/sparql'
-  repository = options.fetch(:dataset, RDF::Repository.new)
-
-  app = Sinatra.new do
-    register Sinatra::SPARQL
-    set :repository, repository
-
-    before do
-      options[:logger].info "#{request.request_method} [#{request.path_info}], " +
-        params.merge(Accept: request.accept.map(&:to_s)).map {|k,v| "#{k}=#{v}" unless k.to_s == "content"}.join(" ")
-    end
-
-    get '/' do
-      if params["query"]
-        query = params["query"].to_s.match(/^http:/) ? RDF::Util::File.open_file(params["query"]) : ::CGI.unescape(params["query"].to_s)
-        SPARQL.execute(query, settings.repository)
-      else
-        settings.sparql_options.replace(standard_prefixes: true)
-        settings.sparql_options.merge!(:prefixes => {
-          ssd: "http://www.w3.org/ns/sparql-service-description#",
-          void: "http://rdfs.org/ns/void#"
-        })
-        service_description(repo: settings.repository, endpoint: url)
-      end
-    end
-
-    post '/' do
-      SPARQL.execute(params['query'], settings.repository)
-    end
-  end
+  app = SPARQL::Server.application(**options)
   Rack::Server.start(app: app, Port: options.fetch(:port, 9292))
 rescue LoadError
-  $stderr.puts "Running SPARQL server requires Rack to be in environment: #{$!.message}"
+  $stderr.puts "Running SPARQL server requires Rack and Sinatra to be in environment: #{$!.message}"
 end
 
 def usage

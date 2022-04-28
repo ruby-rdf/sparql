@@ -19,7 +19,7 @@ module SPARQL; module Algebra
     #
     # @example SSE (sparql-star)
     #   (prefix ((: <http://example.com/ns#>))
-    #    (bgp (triple (triple :a :b :c) :p1 :o1)))
+    #    (bgp (triple (qtriple :a :b :c) :p1 :o1)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class BGP < Operator

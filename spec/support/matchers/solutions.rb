@@ -13,12 +13,16 @@ RSpec::Matchers.define :describe_solutions do |expected_solutions, info|
     res = actual_solutions.is_a?(RDF::Enumerable) ? actual_solutions.dump(:trig, standard_prefixes: true) : actual_solutions.to_sse
     msg = "expected solutions to be isomorphic\n" +
     (initial ? "initial:\n#{initial}" : "\n") +
-    "expected:\n#{exp}" +
-    "\nactual:\n#{res}"
+    "expected:\nvars:#{expected_solutions.variable_names.inspect rescue nil}\n#{exp}" +
+    "\nactual:\nvars:#{actual_solutions.variable_names.inspect rescue nil}\n#{res}"
     missing = (expected_solutions - actual_solutions) rescue []
     extra = (actual_solutions - expected_solutions) rescue []
     msg += "\ninfo:\n#{info.ai}"
-    msg += "\nquery:\n#{info.query}" if info.respond_to?(:query)
+    if info.respond_to?(:query)
+      msg += "\nquery:\n#{info.query}"
+    elsif info.respond_to?(:action) && info.action.respond_to?(:query_string)
+      msg += "\nquery:\n#{info.action.query_string}"
+    end
     msg += "\nsse:\n#{info.action.sse_string}" if info.respond_to?(:action)
     msg += "\nmissing:\n#{missing.ai}" unless missing.empty?
     msg += "\nextra:\n#{extra.ai}" unless extra.empty?

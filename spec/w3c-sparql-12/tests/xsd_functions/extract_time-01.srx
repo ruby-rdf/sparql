@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<sparql xmlns="http://www.w3.org/2005/sparql-results#">
+<head>
+	<variable name="h"/>
+	<variable name="m"/>
+	<variable name="s"/>
+</head>
+<results>
+		<result>
+			<binding name="h"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">2</literal></binding>
+			<binding name="m"><literal datatype="http://www.w3.org/2001/XMLSchema#integer">12</literal></binding>
+			<binding name="s"><literal datatype="http://www.w3.org/2001/XMLSchema#decimal">59.0</literal></binding>
+		</result>
+</results>
+</sparql>
