@@ -1,6 +1,6 @@
-# SPARQL for RDF.rb
+# SPARQL Query and Update library for Ruby
 
-This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
+An implementation of [SPARQL][] for [RDF.rb][].
 
 [![Gem Version](https://badge.fury.io/rb/sparql.png)](https://badge.fury.io/rb/sparql)
 [![Build Status](https://github.com/ruby-rdf/sparql/workflows/CI/badge.svg?branch=develop)](https://github.com/ruby-rdf/sparql/actions?query=workflow%3ACI)
@@ -17,11 +17,13 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
   or HTML.
 * SPARQL CONSTRUCT or DESCRIBE serialized based on Format, Extension of Mime Type
   using available RDF Writers (see [Linked Data][])
-* SPARQL Client for accessing remote SPARQL endpoints.
-* SPARQL Update
+* SPARQL Client for accessing remote SPARQL endpoints (via [sparql-client](https://github.com/ruby-rdf/sparql-client)).
+* [SPARQL 1.1 Protocol][] (via {SPARQL::Server}).
+* [SPARQL 1.1 Update][]
 * [Rack][] and [Sinatra][] middleware to perform [HTTP content negotiation][conneg] for result formats
   * Compatible with any [Rack][] or [Sinatra][] application and any Rack-based framework.
   * Helper method for describing [SPARQL Service Description][SSD]
+  * Helper method for setting up datasets as part of the [SPARQL 1.1 Protocol][].
 * Implementation Report: {file:etc/earl.html EARL}
 * Compatible with Ruby >= 2.6.
 * Supports Unicode query strings both on all versions of Ruby.
@@ -29,11 +31,12 @@ This is a [Ruby][] implementation of [SPARQL][] for [RDF.rb][].
 
 ## Description
 
-The {SPARQL} gem implements [SPARQL 1.1 Query][], and [SPARQL 1.1 Update][], and provides [Rack][] and [Sinatra][] middleware to provide results using [HTTP Content Negotiation][conneg].
+The {SPARQL} gem implements [SPARQL 1.1 Query][], and [SPARQL 1.1 Update][], and provides [Rack][] and [Sinatra][] middleware to provide results using [HTTP Content Negotiation][conneg] and to support [SPARQL 1.1 Protocol][].
 
 * {SPARQL::Grammar} implements a [SPARQL 1.1 Query][] and [SPARQL 1.1 Update][] parser generating [SPARQL S-Expressions (SSE)][SSE].
 * {SPARQL::Algebra} executes SSE against Any `RDF::Graph` or `RDF::Repository`, including compliant [RDF.rb][] repository adaptors such as [RDF::DO][] and [RDF::Mongo][].
 * {Rack::SPARQL} and {Sinatra::SPARQL} provide middleware components to format results using an appropriate format based on [HTTP content negotiation][conneg].
+* {SPARQL::Server} implements the [SPARQL 1.1 Protocol][] using {Sinatra::SPARQL}.
 
 ### [SPARQL 1.1 Query][] Extensions and Limitations
 The {SPARQL} gem uses the [SPARQL 1.1 Query][] {file:etc/sparql11.html EBNF grammar}, which provides much more capability than [SPARQL 1.0][], but has a few limitations:
@@ -62,11 +65,8 @@ The gem also includes the following [SPARQL 1.1 Update][] operations:
 Not supported:
 
 * [Federated Query][SPARQL 1.1 Federated Query],
-* [Entailment Regimes][SPARQL 1.1 Entailment Regimes],
-* [Protocol][SPARQL 1.1 Protocol], and
-* [Graph Store HTTP Protocol][SPARQL 1.1 Graph Store HTTP Protocol]
-
-either in this, or related gems.
+* [Entailment Regimes][SPARQL 1.1 Entailment Regimes], and
+* [Graph Store HTTP Protocol][SPARQL 1.1 Graph Store HTTP Protocol] but the closely related [Linked Data Platform][] implemented in [rdf-ldp](https://github.com/ruby-rdf/rdf-ldp) supports these use cases.
 
 ### Updates for RDF 1.1
 Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb][], which adheres to [RDF 1.1 Concepts](https://www.w3.org/TR/rdf11-concepts/) rather than [RDF 1.0](https://www.w3.org/TR/rdf-concepts/). The main difference is that there is now no difference between a _Simple Literal_ (a literal with no datatype or language) and a Literal with datatype _xsd:string_; this causes some minor differences in the way in which queries are understood, and when expecting different results.
@@ -436,7 +436,7 @@ This repository uses [Git Flow](https://github.com/nvie/gitflow) to mange develo
 ## License
 
 This is free and unencumbered public domain software. For more information,
-see <https://unlicense.org/> or the accompanying {file:UNLICENSE} file.
+see <https://unlicense.org/> or the accompanying {file:UNLICENSE}.
 
 A copy of the [SPARQL EBNF][] and derived parser files are included in the repository, which are not covered under the UNLICENSE. These files are covered via the [W3C Document License](https://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231).
 
@@ -482,4 +482,4 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [SPARQL 1.1 Entailment Regimes]:                https://www.w3.org/TR/sparql11-entailment/
 [SPARQL 1.1 Protocol]:                          https://www.w3.org/TR/sparql11-protocol/
 [SPARQL 1.1 Graph Store HTTP Protocol]:         https://www.w3.org/TR/sparql11-http-rdf-update/
-
+[Linked Data Platform]: https://www.w3.org/TR/ldp/
