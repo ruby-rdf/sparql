@@ -38,7 +38,9 @@ module SPARQL; module Algebra
     #   the graph or repository to query
     # @param  [Hash{Symbol => Object}] options
     #   any additional keyword options
-    # @option options [Boolean] debug
+    # @option options  [RDF::Query::Solution] :bindings
+    #   a query solution containing zero or more variable bindings
+    # @option options [Boolean] :debug
     #   Query execution debugging
     # @option options [RDF::Term, RDF::Query::Variable] :graph_name
     # @yield  [solution]

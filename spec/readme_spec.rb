@@ -16,7 +16,7 @@ describe "README" do
       case title
       when "Command line processing"
         code.split("\n").reject {|c| c =~ /^\s*(?:#.*)?$/}.each do |command|
-          examples << {title: command, sh: command}
+          examples << {title: "#{title}: #{command.strip}", sh: command}
         end
       else
         examples << {title: title, eval_true: code}
