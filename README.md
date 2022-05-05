@@ -103,6 +103,10 @@ Then, use the function in a query:
 
 See {SPARQL::Algebra::Expression.register_extension} for details.
 
+### Variable Pre-binding
+
+A call to execute a parsed query can include pre-bound variables, which cause queries to be executed with matching variables bound as defined. Variable pre-binding can be done using a Hash structure, or a Query Solution.  See [Query with Binding example](#query-with-binding) and {SPARQL::Algebra::Query#execute}.
+
 ### SPARQLStar (SPARQL-star)
 
 The gem supports [SPARQL-star][] where patterns may include sub-patterns recursively, for a kind of Reification.
@@ -286,6 +290,20 @@ a full set of RDF formats.
 
     query = SPARQL::Algebra.parse(%{(bgp (triple ?s ?p ?o))})
     sparql = query.to_sparql #=> "SELECT * WHERE { ?s ?p ?o }"
+
+### Query with Binding
+
+    bindings = {page: RDF::URI("https://greggkellogg.net/")}
+    queryable = RDF::Repository.load("etc/doap.ttl")
+    query = SPARQL.parse(%(
+      PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+      SELECT ?person
+      WHERE {
+        ?person foaf:homepage ?page .
+      }
+    ))
+    solutions = query.execute(queryable, bindings: bindings)
+    solutions.to_sxp #=> (((person <https://greggkellogg.net/foaf#me>)))
 
 ### Command line processing
 
