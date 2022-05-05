@@ -136,6 +136,10 @@ SELECT ?crypted
 
 <p>See {SPARQL::Algebra::Expression.register_extension} for details.</p>
 
+<h3 id="label-Variable+Pre-binding">Variable Pre-binding</h3>
+
+<p>A call to execute a parsed query can include pre-bound variables, which cause queries to be executed with matching variables bound as defined. Variable pre-binding can be done using a Hash structure, or a Query Solution. See <a href="#query-with-binding">Query with Binding example</a> and {SPARQL::Algebra::Query#execute}.</p>
+
 <h3 id="label-SPARQLStar+-28SPARQL-star-29">SPARQLStar (SPARQL-star)</h3>
 
 <p>The gem supports <a href="https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language">SPARQL-star</a> where patterns may include sub-patterns recursively, for a kind of Reification.</p>
@@ -314,6 +318,21 @@ WHERE {
 </span>
 <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SPARQL/Algebra.html" title="SPARQL::Algebra (module)">Algebra</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL/Algebra.html#parse-class_method" title="SPARQL::Algebra.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>%{</span><span class='tstring_content'>(bgp (triple ?s ?p ?o))</span><span class='tstring_end'>}</span></span><span class='rparen'>)</span>
 <span class='id identifier rubyid_sparql'>sparql</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_to_sparql'>to_sparql</span> <span class='comment'>#=&gt; &quot;SELECT * WHERE { ?s ?p ?o }&quot;
+</span></code></pre>
+
+<h3 id="label-Query+with+Binding">Query with Binding</h3>
+
+<pre class="code ruby"><code class="ruby"><span class='id identifier rubyid_bindings'>bindings</span> <span class='op'>=</span> <span class='lbrace'>{</span><span class='label'>page:</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>URI</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>https://greggkellogg.net/</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span><span class='rbrace'>}</span>
+<span class='id identifier rubyid_queryable'>queryable</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_load'>load</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>etc/doap.ttl</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="SPARQL.html" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL.html#parse-class_method" title="SPARQL.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>%(</span><span class='tstring_content'>
+  PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+  SELECT ?person
+  WHERE {
+    ?person foaf:homepage ?page .
+  }
+</span><span class='tstring_end'>)</span></span><span class='rparen'>)</span>
+<span class='id identifier rubyid_solutions'>solutions</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_queryable'>queryable</span><span class='comma'>,</span> <span class='label'>bindings:</span> <span class='id identifier rubyid_bindings'>bindings</span><span class='rparen'>)</span>
+<span class='id identifier rubyid_solutions'>solutions</span><span class='period'>.</span><span class='id identifier rubyid_to_sxp'>to_sxp</span> <span class='comment'>#=&gt; (((person &lt;https://greggkellogg.net/foaf#me&gt;)))
 </span></code></pre>
 
 <h3 id="label-Command+line+processing">Command line processing</h3>
@@ -502,7 +521,7 @@ sparql server etc/doap.ttl
 </div></div>
 
       <div id="footer">
-  Generated on Fri Apr 29 17:47:14 2022 by
+  Generated on Thu May  5 21:56:50 2022 by
   <a href="http://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.27 (ruby-3.1.2).
 </div>
