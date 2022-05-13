@@ -84,6 +84,11 @@ module SPARQL; module Algebra
         debug(options) {"Extend"}
         @solutions = operand(1).execute(queryable, depth: options[:depth].to_i + 1, **options)
         @solutions.each do |solution|
+          # Re-bind to bindings, if defined, as they might not be found in solution
+          options[:bindings].each_binding do |name, value|
+            solution[name] = value if operands.first.variables.include?(name)
+          end if options[:bindings] && operands.first.respond_to?(:variables)
+
           debug(options) {"===> soln #{solution.to_h.inspect}"}
           operand(0).each do |(var, expr)|
             begin

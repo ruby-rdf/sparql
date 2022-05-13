@@ -508,6 +508,11 @@ describe SPARQL::Algebra::Query do
     let(:graph) {RDF::Graph.new}
 
     {
+      "extend unbound": {
+        query: %{(project (?z) (extend ((?z (+ ?o 1))) (bgp)))},
+        bindings: {o: RDF::Literal(1)},
+        result: [{z: RDF::Literal(2)}]
+      },
       "filter unbound": {
         query: %{(project (?this) (filter (= ?this <http://example.org/this>) (bgp)))},
         bindings: {this: RDF::URI("http://example.org/this")},
