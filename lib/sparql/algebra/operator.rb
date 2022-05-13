@@ -134,6 +134,7 @@ module SPARQL; module Algebra
     autoload :Prefix,             'sparql/algebra/operator/prefix'
     autoload :Project,            'sparql/algebra/operator/project'
     autoload :Reduced,            'sparql/algebra/operator/reduced'
+    autoload :Service,            'sparql/algebra/operator/service'
     autoload :Slice,              'sparql/algebra/operator/slice'
     autoload :Table,              'sparql/algebra/operator/table'
     autoload :Union,              'sparql/algebra/operator/union'
@@ -236,6 +237,7 @@ module SPARQL; module Algebra
         when :seconds         then Seconds
         when :seq             then Seq
         when :sequence        then Sequence
+        when :service         then Service
         when :sha1            then SHA1
         when :sha256          then SHA256
         when :sha384          then SHA384

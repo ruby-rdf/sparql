@@ -175,6 +175,8 @@ shared_examples "to_sparql" do |id, label, comment, tests|
             skip "Equivalent form"
           when 'sq09.rq', 'sq14.rq'
             pending("SubSelect")
+          when 'service03.rq', 'service06.rq', 'syntax-service-01.rq'
+            pending("Service")
           when 'sparql-star-order-by.rq'
             pending("OFFSET/LIMIT in sub-select")
           when 'compare_time-01.rq',
