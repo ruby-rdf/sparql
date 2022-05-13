@@ -66,6 +66,11 @@ module SPARQL; module Algebra
           load_left = true
           right.each do |s2|
             s = s2.merge(s1)
+            # Re-bind to bindings, if defined, as they might not be found in solution
+            options[:bindings].each_binding do |name, value|
+              s[name] = value if filter.variables.include?(name)
+            end if options[:bindings] && filter.respond_to?(:variables)
+
             expr = filter ? boolean(filter.evaluate(s)).true? : true rescue false
             debug(options) {"===>(evaluate) #{s.inspect}"} if filter
 
