@@ -916,6 +916,19 @@ module SPARQL::Grammar
       end
     end
 
+    # [59]  ServiceGraphPattern ::= 'SERVICE' 'SILENT'? VarOrIri GroupGraphPattern
+    #
+    # Input from `data` is TODO.
+    # Output to prod_data is TODO.
+    production(:ServiceGraphPattern) do |input, data, callback|
+      args = []
+      args << :silent if data[:silent]
+      args << (data[:VarOrIri]).last
+      args << data.fetch(:query, [SPARQL::Algebra::Operator::BGP.new]).first
+      service = SPARQL::Algebra::Expression.for(:service, *args)
+      add_prod_data(:query, service)
+    end
+
     # [60]  Bind ::= 'BIND' '(' Expression 'AS' Var ')'
     #
     # Input from `data` is TODO.

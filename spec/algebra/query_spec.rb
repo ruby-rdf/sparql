@@ -503,6 +503,38 @@ describe SPARQL::Algebra::Query do
     end
   end
 
+  context "with variable pre-binding" do
+    # Only test exceptions, as pre-binding is handled in RDF::Query.execute.
+    let(:graph) {RDF::Graph.new}
+
+    {
+      "extend unbound": {
+        query: %{(project (?z) (extend ((?z (+ ?o 1))) (bgp)))},
+        bindings: {o: RDF::Literal(1)},
+        result: [{z: RDF::Literal(2)}]
+      },
+      "filter unbound": {
+        query: %{(project (?this) (filter (= ?this <http://example.org/this>) (bgp)))},
+        bindings: {this: RDF::URI("http://example.org/this")},
+        result: [{this: RDF::URI("http://example.org/this")}]
+      },
+      "left_join unbound": {
+        query: %{
+          (project (?this)
+            (leftjoin (bgp) (bgp) (= ?this <http://example.org/this>)))
+        },
+        bindings: {this: RDF::URI("http://example.org/this")},
+        result: [{this: RDF::URI("http://example.org/this")}]
+      },
+    }.each do |name, params|
+      it name do
+        query = SPARQL::Algebra::Expression.parse(params[:query])
+        bindings = RDF::Query::Solution.new(params[:bindings])
+        expect(query.execute(graph, bindings: bindings)).to have_result_set params[:result]
+      end
+    end
+  end
+
   context "aggregates" do
     let(:graph) {
       RDF::Graph.new do |g|

@@ -140,7 +140,7 @@ module SPARQL; module Algebra
       logger = options[:logger]
       options.delete_if {|k, v| [:debug, :logger, :depth, :prefixes, :base_uri, :update, :validate].include?(k) }
       begin
-        # Due to confusiong over (triple) and special-case for (qtriple)
+        # Due to confusion over (triple) and special-case for (qtriple)
         if operator == RDF::Query::Pattern
           options = options.merge(quoted: true) if sse.first == :qtriple
         elsif operator == Operator::Triple && PATTERN_PARENTS.include?(parent_operator)
