@@ -26,6 +26,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
           when 'pp11.rq', 'path-p2.rq'
             pending "Expects multiple equivalent property path solutions"
           when 'date-1.rq', 'expr-5.rq'
+            # See https://github.com/w3c/rdf-tests/pull/83#issuecomment-1324220844 for @afs's discussion of the simplified/not-simplified issue.
             pending "Different results on unapproved tests" unless t.name.include?('dawg-optional-filter-005-simplified')
           when 'csvtsv02.rq'
             pending "empty values are the same as missing values"
