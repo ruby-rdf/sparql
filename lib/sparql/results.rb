@@ -280,7 +280,8 @@ module SPARQL
     end
 
     content_type ||= SPARQL::Results::MIME_TYPES[format] if format
-    
+
+    serialization = serialization.dup if serialization.frozen?
     serialization.instance_eval do
       define_singleton_method(:content_type) { content_type }
     end
