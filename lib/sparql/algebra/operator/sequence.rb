@@ -31,11 +31,11 @@ module SPARQL; module Algebra
       def execute(queryable, **options)
         debug(options) {"Sequence #{operands.to_sse}"}
 
-        last = queryable.query(operands.shift, depth: options[:depth].to_i + 1, **options)
+        last = queryable.query(operands.shift, **options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"(sequence)=>(last) #{last.map(&:to_h).to_sse}"}
 
         operands.each do |op|
-          this = queryable.query(op, depth: options[:depth].to_i + 1, **options)
+          this = queryable.query(op, **options.merge(depth: options[:depth].to_i + 1))
           debug(options) {"(sequence)=>(this) #{this.map(&:to_h).to_sse}"}
 
           last = last.map do |s1|

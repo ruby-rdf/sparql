@@ -4,7 +4,7 @@ require 'amazing_print'
 RSpec::Matchers.define :generate do |expected, options|
   def parser(**options)
     Proc.new do |query|
-      parser = SPARQL::Grammar::Parser.new(query, logger: options[:logger], resolve_iris: true, **options)
+      parser = SPARQL::Grammar::Parser.new(query, resolve_iris: true, **options)
       options[:production] ? parser.parse(options[:production]) : parser.parse
     end
   end

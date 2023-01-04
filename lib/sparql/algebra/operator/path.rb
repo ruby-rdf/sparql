@@ -50,8 +50,7 @@ module SPARQL; module Algebra
           subject: subject,
           object: object,
           graph_name: options.fetch(:graph_name, false),
-          depth: options[:depth].to_i + 1,
-          **options
+          **options.merge(depth: options[:depth].to_i + 1)
         ) do |solution|
           @solutions << solution
         end

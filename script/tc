@@ -80,8 +80,8 @@ def run_tc(tc, **options)
   case tc.name
   when 'Basic - Term 6', 'Basic - Term 7', 'syntax-lit-08.rq'
     info = "Decimal format changed in SPARQL 1.1"
-  when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
-    info = "PNAME_LN changed in SPARQL 1.1"
+  #when 'syntax-esc-04.rq', 'syntax-esc-05.rq'
+  #  info = "PNAME_LN changed in SPARQL 1.1"
   when 'datatype-2 : Literals with a datatype'
     info = "datatype now returns rdf:langString for language-tagged literals"
   when /REDUCED/
@@ -92,7 +92,8 @@ def run_tc(tc, **options)
     info = "Whitespace in string tokens"
   else
     case tc.name
-    when 'date-1', 'dawg-optional-filter-005-not-simplified'
+    when 'date-1', 'expr-5.rq'
+      # See https://github.com/w3c/rdf-tests/pull/83#issuecomment-1324220844 for @afs's discussion of the simplified/not-simplified issue.
       info = "Different results on unapproved tests"
     when /pp11|pp31/
       info = "Expects multiple equivalent property path solutions"

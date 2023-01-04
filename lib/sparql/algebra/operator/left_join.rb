@@ -54,10 +54,10 @@ module SPARQL; module Algebra
           operands.length < 2 || operands.length > 3
 
         debug(options) {"LeftJoin"}
-        left = queryable.query(operand(0), depth: options[:depth].to_i + 1, **options)
+        left = queryable.query(operand(0), **options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"=>(leftjoin left) #{left.inspect}"}
 
-        right = queryable.query(operand(1), depth: options[:depth].to_i + 1, **options)
+        right = queryable.query(operand(1), **options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"=>(leftjoin right) #{right.inspect}"}
 
         # LeftJoin(Ω1, Ω2, expr) =
@@ -71,6 +71,30 @@ module SPARQL; module Algebra
               s[name] = value if filter.variables.include?(name)
             end if options[:bindings] && filter.respond_to?(:variables)
 
+            # See https://github.com/w3c/rdf-tests/pull/83#issuecomment-1324220844 for @afs's discussion of the simplified/not-simplified issue.
+            #
+            # The difference is when simplification is applied. It matters for OPTIONAL because OPTIONAL { ... FILTER(...) } puts the filter into the LeftJoin expressions. In LeftJoin, the FILTER can see the left-hand-side variables. (SQL: LEFT JOIN ... ON ...)
+            # 
+            # For OPTIONAL { { ... FILTER(...) } }, the inner part is Join({}, {.... FILTER }).
+            # 
+            # if simplify happens while coming back up the tree generating algebra operations, it removes the join i.e. the inner of {{ }}, and passes "... FILTER()" to the OPTIONAL. The effect of the extra nesting in {{ }} is lost and it exposes the filter to the OPTIONAL rule.
+            # 
+            # if simplification happens as a step after the whole algebra is converted, this does not happen. Compiling the OPTIONAL see a join and the filter is not at the top level of the OPTIONAl block and so not handled in the LeftJoin.
+            # 
+            # Use case:
+            # 
+            # # Include name if person over 18
+            # SELECT *
+            # { ?person :age ?age 
+            #    OPTIONAL { ?person :name ?name. FILTER(?age > 18) }
+            # }
+            # Hindsight: a better syntax would be call out if the filter needed access to the LHS.
+            # 
+            # OPTIONAL FILTER(....) { }
+            # 
+            # But we are where we are.
+            # 
+            # (a "no conditions on LeftJoin" approach would mean users having to duplicate parts of their query - possibly quite large parts.)
             expr = filter ? boolean(filter.evaluate(s)).true? : true rescue false
             debug(options) {"===>(evaluate) #{s.inspect}"} if filter
 

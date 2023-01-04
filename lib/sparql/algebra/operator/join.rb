@@ -66,10 +66,10 @@ module SPARQL; module Algebra
         # Generate solutions independently, merge based on solution compatibility
         debug(options) {"Join #{operands.to_sse}"}
  
-        left = queryable.query(operand(0), depth: options[:depth].to_i + 1, **options)
+        left = queryable.query(operand(0), **options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"(join)=>(left) #{left.map(&:to_h).to_sse}"}
 
-        right = queryable.query(operand(1), depth: options[:depth].to_i + 1, **options)
+        right = queryable.query(operand(1), **options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"(join)=>(right) #{right.map(&:to_h).to_sse}"}
 
         @solutions = RDF::Query::Solutions(left.map do |s1|

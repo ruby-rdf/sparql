@@ -41,7 +41,7 @@ module SPARQL; module Algebra
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
         @solutions = operands.last.
-          execute(queryable, depth: options[:depth].to_i + 1, **options).reduced
+          execute(queryable, **options.merge(depth: options[:depth].to_i + 1)).reduced
         @solutions.each(&block) if block_given?
         @solutions
       end

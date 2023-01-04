@@ -112,7 +112,7 @@ module SPARQL; module Algebra
         return case sse.first
         when Array
           debug(options) {"Map array elements #{sse}"}
-          sse.map {|s| self.new(s, parent_operator: parent_operator, depth: options[:depth].to_i + 1, **options)}
+          sse.map {|s| self.new(s, parent_operator: parent_operator, **options.merge(depth: options[:depth].to_i + 1))}
         else
           debug(options) {"No operator found for #{sse.first}"}
           sse.map do |s|
@@ -127,7 +127,7 @@ module SPARQL; module Algebra
         debug(options) {"Operator=#{operator.inspect}, Operand=#{operand.inspect}"}
         case operand
           when Array
-            self.new(operand, parent_operator: operator, depth: options[:depth].to_i + 1, **options)
+            self.new(operand, parent_operator: operator, **options.merge(depth: options[:depth].to_i + 1))
           when Operator, Variable, RDF::Term, RDF::Query, Symbol
             operand
           when TrueClass, FalseClass, Numeric, String, DateTime, Date, Time

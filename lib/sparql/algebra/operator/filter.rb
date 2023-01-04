@@ -48,7 +48,7 @@ module SPARQL; module Algebra
         debug(options) {"Filter #{operands.first.to_sxp}"}
         opts = options.merge(queryable: queryable, depth: options[:depth].to_i + 1)
         @solutions = RDF::Query::Solutions()
-        queryable.query(operands.last, depth: options[:depth].to_i + 1, **options) do |solution|
+        queryable.query(operands.last, **options.merge(depth: options[:depth].to_i + 1)) do |solution|
           # Re-bind to bindings, if defined, as they might not be found in solution
           options[:bindings].each_binding do |name, value|
             solution[name] ||= value if operands.first.variables.include?(name)

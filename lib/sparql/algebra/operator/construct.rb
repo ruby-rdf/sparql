@@ -51,7 +51,7 @@ module SPARQL; module Algebra
         patterns = operands.first
         query = operands.last
 
-        queryable.query(query, depth: options[:depth].to_i + 1, **options).each do |solution|
+        queryable.query(query, **options.merge(depth: options[:depth].to_i + 1)).each do |solution|
           debug(options) {"(construct apply) #{solution.inspect} to BGP"}
           
           # Create a mapping from BNodes within the pattern list to newly constructed BNodes

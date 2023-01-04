@@ -70,7 +70,7 @@ module SPARQL; module Algebra
         end
 
         query = Union.new(qa, qb)
-        queryable.query(query, depth: options[:depth].to_i + 1, **options, &block)
+        queryable.query(query, **options.merge(depth: options[:depth].to_i + 1), &block)
       end
 
       ##
