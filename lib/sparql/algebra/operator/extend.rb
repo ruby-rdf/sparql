@@ -93,8 +93,7 @@ module SPARQL; module Algebra
           operand(0).each do |(var, expr)|
             begin
               val = expr.evaluate(solution, queryable: queryable,
-                                            depth: options[:depth].to_i + 1,
-                                            **options)
+                                            **options.merge(depth: options[:depth].to_i + 1))
               debug(options) {"===> + #{var} => #{val.inspect}"}
               val = val.dup.bind(solution) if val.is_a?(RDF::Query::Pattern)
               solution.bindings[var.to_sym] = val
