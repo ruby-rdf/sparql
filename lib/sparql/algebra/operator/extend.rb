@@ -82,7 +82,7 @@ module SPARQL; module Algebra
       # @see https://www.w3.org/TR/sparql11-query/#evaluation
       def execute(queryable, **options, &block)
         debug(options) {"Extend"}
-        @solutions = operand(1).execute(queryable, depth: options[:depth].to_i + 1, **options)
+        @solutions = operand(1).execute(queryable, **options.merge(depth: options[:depth].to_i + 1))
         @solutions.each do |solution|
           # Re-bind to bindings, if defined, as they might not be found in solution
           options[:bindings].each_binding do |name, value|

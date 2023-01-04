@@ -38,7 +38,7 @@ module SPARQL; module Algebra
       def execute(queryable, **options, &block)
         debug(options) {"Base #{operands.first}"}
         Operator.base_uri = operands.first
-        queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &block)
+        queryable.query(operands.last, **options.merge(depth: options[:depth].to_i + 1), &block)
       end
 
       ##

@@ -54,10 +54,10 @@ module SPARQL; module Algebra
           operands.length < 2 || operands.length > 3
 
         debug(options) {"LeftJoin"}
-        left = queryable.query(operand(0), depth: options[:depth].to_i + 1, **options)
+        left = queryable.query(operand(0), **options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"=>(leftjoin left) #{left.inspect}"}
 
-        right = queryable.query(operand(1), depth: options[:depth].to_i + 1, **options)
+        right = queryable.query(operand(1), **options.merge(depth: options[:depth].to_i + 1))
         debug(options) {"=>(leftjoin right) #{right.inspect}"}
 
         # LeftJoin(Ω1, Ω2, expr) =

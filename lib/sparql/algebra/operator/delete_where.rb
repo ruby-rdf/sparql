@@ -53,7 +53,7 @@ module SPARQL; module Algebra
         end
         query = RDF::Query.new(*patterns, **{}) # FIXME: added hash argument needed until Statement#to_hash removed.
         debug(options) {"DeleteWhere query #{query.to_sse}"}
-        query.execute(queryable, depth: options[:depth].to_i + 1, **options) do |solution|
+        query.execute(queryable, **options.merge(depth: options[:depth].to_i + 1)) do |solution|
           debug(options) {"DeleteWhere solution #{solution.to_sse}"}
           query.each_statement do |pattern|
             pattern = pattern.dup.bind(solution)

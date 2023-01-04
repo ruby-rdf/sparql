@@ -68,7 +68,7 @@ module SPARQL; module Algebra
         debug(options) {"Update"}
         raise IOError, "queryable is not mutable" unless queryable.mutable?
         operands.each do |op|
-          op.execute(queryable, depth: options[:depth].to_i + 1, **options)
+          op.execute(queryable, **options.merge(depth: options[:depth].to_i + 1))
         end
         queryable
       end

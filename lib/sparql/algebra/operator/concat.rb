@@ -48,7 +48,7 @@ module SPARQL; module Algebra
       # @return [RDF::Term]
       # @raise  [TypeError] if any operand is not a literal
       def evaluate(bindings, **options)
-        ops = operands.map {|op| op.evaluate(bindings, depth: options[:depth].to_i + 1, **options)}
+        ops = operands.map {|op| op.evaluate(bindings, **options.merge(depth: options[:depth].to_i + 1))}
 
         raise TypeError, "expected all plain literal operands" unless ops.all? {|op| op.literal? && op.plain?}
 

@@ -73,7 +73,7 @@ module SPARQL; module Algebra
         # Keep track of solutions
         # Recurse into query
         immediate_solutions = 
-          query.execute(queryable, depth: options[:depth].to_i + 1, **options)
+          query.execute(queryable, **options.merge(depth: options[:depth].to_i + 1))
 
         # For all solutions, if they are not in the accumulator, add them and recurse, otherwise skip
         recursive_solutions = RDF::Query::Solutions.new

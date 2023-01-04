@@ -48,7 +48,7 @@ module SPARQL; module Algebra
 
         # (:x :p* :y) => (:x (:p+)? :y)
         query = PathOpt.new(PathPlus.new(*operands))
-        query.execute(queryable, depth: options[:depth].to_i + 1, **options, &block)
+        query.execute(queryable, **options.merge(depth: options[:depth].to_i + 1), &block)
       end
       ##
       #

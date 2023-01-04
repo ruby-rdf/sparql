@@ -101,7 +101,7 @@ module SPARQL; module Algebra
       #   the resulting solution sequence
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
       def execute(queryable, **options, &block)
-        @solutions = queryable.query(operands.last, depth: options[:depth].to_i + 1, **options)
+        @solutions = queryable.query(operands.last, **options.merge(depth: options[:depth].to_i + 1))
         @solutions.variable_names = self.variables.keys
         @solutions = @solutions.project(*(operands.first)) unless operands.first.empty?
         @solutions.each(&block) if block_given?

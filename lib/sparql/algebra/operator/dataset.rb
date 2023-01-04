@@ -149,7 +149,7 @@ module SPARQL; module Algebra
         debug(options) {"Dataset"}
         if %i(default-graph-uri named-graph-uri).any? {|k| options.key?(k)} 
           debug("=> Skip constructing merge repo due to options", options)
-          return queryable.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
+          return queryable.query(operands.last, **options.merge(depth: options[:depth].to_i + 1), &base)
         end
  
         default_datasets = []
@@ -180,7 +180,7 @@ module SPARQL; module Algebra
         aggregate = RDF::AggregateRepo.new(queryable)
         named_datasets.each {|name| aggregate.named(name) if queryable.has_graph?(name)}
         aggregate.default(*default_datasets.select {|name| queryable.has_graph?(name)})
-        aggregate.query(operands.last, depth: options[:depth].to_i + 1, **options, &base)
+        aggregate.query(operands.last, **options.merge(depth: options[:depth].to_i + 1), &base)
       end
 
       ##

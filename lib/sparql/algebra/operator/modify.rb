@@ -71,12 +71,12 @@ module SPARQL; module Algebra
           query = Operator::Using.new((defaults + named), query, **options)
         end
 
-        queryable.query(query, depth: options[:depth].to_i + 1, **options) do |solution|
+        queryable.query(query, **options.merge(depth: options[:depth].to_i + 1)) do |solution|
           debug(options) {"(solution)=>#{solution.inspect}"}
 
           # Execute each operand with queryable and solution
           operands.each do |op|
-            op.execute(queryable, solutions: solution, depth: options[:depth].to_i + 1, **options)
+            op.execute(queryable, solutions: solution, **options.merge(depth: options[:depth].to_i + 1))
           end
         end
         queryable
