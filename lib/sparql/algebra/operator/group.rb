@@ -35,10 +35,10 @@ module SPARQL; module Algebra
     # @example SSE (HAVING aggregate)
     #   (prefix ((: <http://www.example.org/>))
     #    (project (?s ?avg)
-    #     (filter (<= ??.0 2.0)
+    #     (filter (<= ??.1 2.0)
     #      (extend ((?avg ??.0))
-    #       (group (?s) ((??.0 (avg ?o)))
-    #        (bgp (triple ?s ?p ?o)))))) )
+    #       (group (?s) ((??.0 (avg ?o)) (??.1 (avg ?o)))
+    #        (bgp (triple ?s ?p ?o)))))))
     #
     # @example SPARQL Grammar (non-trivial filters)
     #   PREFIX : <http://example.com/data/#>
