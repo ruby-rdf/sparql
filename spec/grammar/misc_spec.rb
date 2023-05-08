@@ -124,6 +124,22 @@ describe SPARQL::Grammar do
            (bgp (triple ??0 <http://example/c> <http://example/d>))
         )}
       },
+      "issue 46" => {
+        query: %(
+          PREFIX ex: <http://example.org/>
+
+          SELECT ?ev (MIN(?a) as ?a_min) (MIN(?b) as ?b_min)
+          WHERE {?ev ex:a ?a ; ex:b ?b . }
+          GROUP BY ?ev
+        ),
+        sse: %{(project (?ev ?a_min ?b_min)
+                (extend ((?a_min ??.0) (?b_min ??.1))
+                 (group (?ev) ((??.0 (min ?a)) (??.1 (min ?b)))
+                  (bgp
+                   (triple ?ev <http://example.org/a> ?a)
+                   (triple ?ev <http://example.org/b> ?b)))))
+        }
+      }
     }.each do |test, options|
       it "parses #{test}" do
         expect(options[:query]).to generate(options[:sse], logger: logger)
