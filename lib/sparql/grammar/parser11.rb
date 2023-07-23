@@ -1610,7 +1610,7 @@ module SPARQL::Grammar
       if data[:_Compare_Numeric]
         add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(data[:_Compare_Numeric].insert(1, *data[:Expression])))
       elsif data[:in]
-        expr = (data[:Expression] + data[:in]).reject {|v| v.equal?(RDF.nil)}
+        expr = (data[:Expression] + data[:in]).reject {|v| v.eql?(RDF.nil)}
         add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(expr.unshift(:in)))
       elsif data[:notin]
         expr = (data[:Expression] + data[:notin]).reject {|v| v.equal?(RDF.nil)}
@@ -2452,7 +2452,7 @@ module SPARQL::Grammar
 
           # Replace aggregates in expr as above
           expr.replace_aggregate! do |function|
-            if avf = aggregates.detect {|(_, f)| f == function}
+            if avf = aggregates.detect {|(_, f)| f.equal?(function)}
               avf.first
             else
               # Allocate a temporary variable for this function, and retain the mapping for outside the group
