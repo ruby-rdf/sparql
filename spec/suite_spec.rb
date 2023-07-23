@@ -238,7 +238,7 @@ shared_examples "to_sparql" do |id, label, comment, tests|
 end
 
 describe SPARQL do
-  BASE = "http://w3c.github.io/rdf-tests/sparql11/"
+  BASE = "http://w3c.github.io/rdf-tests/sparql/sparql11/"
   describe "w3c dawg SPARQL 1.0 syntax tests" do
     SPARQL::Spec.sparql1_0_syntax_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|

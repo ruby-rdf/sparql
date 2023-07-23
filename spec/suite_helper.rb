@@ -9,8 +9,8 @@ require_relative 'support/models'
 # For now, override RDF::Utils::File.open_file to look for the file locally before attempting to retrieve it
 module RDF::Util
   module File
-    REMOTE_PATH = "http://w3c.github.io/rdf-tests/sparql11/"
-    LOCAL_PATH = ::File.expand_path("../w3c-rdf-tests/sparql11", __FILE__) + '/'
+    REMOTE_PATH = "http://w3c.github.io/rdf-tests/sparql/"
+    LOCAL_PATH = ::File.expand_path("../w3c-rdf-tests/sparql/", __FILE__) + '/'
     REMOTE_PATH_STAR = "https://w3c.github.io/rdf-star/"
     LOCAL_PATH_STAR = ::File.expand_path("../w3c-rdf-star/", __FILE__) + '/'
     REMOTE_PATH_12 = "https://w3c.github.io/sparql-12/"
@@ -172,7 +172,7 @@ module RDF::Util
 end
 
 module SPARQL::Spec
-  BASE = "http://w3c.github.io/rdf-tests/sparql11/"
+  BASE = "http://w3c.github.io/rdf-tests/sparql/"
   def self.sparql1_0_syntax_tests
     %w(
       syntax-sparql1
@@ -181,7 +181,7 @@ module SPARQL::Spec
       syntax-sparql4
       syntax-sparql5
     ).map do |partial|
-      "#{BASE}data-r2/#{partial}/manifest.ttl"
+      "#{BASE}sparql10/#{partial}/manifest.ttl"
     end
   end
 
@@ -212,7 +212,7 @@ module SPARQL::Spec
       triple-match
       type-promotion
     ).map do |partial|
-      "#{BASE}data-r2/#{partial}/manifest.ttl"
+      "#{BASE}sparql10/#{partial}/manifest.ttl"
     end
   end
 
@@ -253,7 +253,7 @@ module SPARQL::Spec
       protocol
       http-rdf-update
     ).map do |partial|
-      "#{BASE}data-sparql11/#{partial}/manifest.ttl"
+      "#{BASE}sparql11/#{partial}/manifest.ttl"
     end
   end
 
