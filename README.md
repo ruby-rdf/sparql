@@ -308,7 +308,7 @@ a full set of RDF formats.
 ### Command line processing
 
     sparql execute --dataset etc/doap.ttl etc/from_default.rq
-    sparql execute -e "SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }"
+    sparql execute --dataset etc/doap.ttl -e "SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }"
 
     # Generate SPARQL Algebra Expression (SSE) format
     sparql parse etc/input.rq
@@ -316,7 +316,7 @@ a full set of RDF formats.
 
     # Generate SPARQL Query from SSE
     sparql parse --sse etc/input.sse --format sparql
-    sparql parse --sse --format sparql -e "(dataset (<http://usefulinc.com/ns/doap>) (bgp (triple ?s ?p ?o))))"
+    sparql parse --sse --format sparql -e "(dataset (<etc/doap.ttl>) (bgp (triple ?s ?p ?o))))"
 
     # Run query using SSE input
     sparql execute --dataset etc/doap.ttl --sse etc/input.sse
