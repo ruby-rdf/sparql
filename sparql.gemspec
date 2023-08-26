@@ -27,21 +27,21 @@ Gem::Specification.new do |gem|
   gem.executables        = %w(sparql)
   gem.require_paths      = %w(lib)
 
-  gem.required_ruby_version      = '>= 2.6'
+  gem.required_ruby_version      = '>= 3.0'
   gem.requirements               = []
-  gem.add_runtime_dependency     'rdf',                '~> 3.2', '>= 3.2.11'
-  gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.2', '>= 3.2.1'
-  gem.add_runtime_dependency     'ebnf',               '~> 2.3', '>= 2.3.5'
+  gem.add_runtime_dependency     'rdf',                '~> 3.3'
+  gem.add_runtime_dependency     'rdf-aggregate-repo', '~> 3.3'
+  gem.add_runtime_dependency     'ebnf',               '~> 2.4'
   gem.add_runtime_dependency     'builder',            '~> 3.2', '>= 3.2.4'
   gem.add_runtime_dependency     'logger',             '~> 1.5'
   gem.add_runtime_dependency     'sxp',                '~> 1.2', '>= 1.2.4'
   gem.add_runtime_dependency     'sparql-client',      '~> 3.2', '>= 3.2.2'
-  gem.add_runtime_dependency     'rdf-xsd',            '~> 3.2'
+  gem.add_runtime_dependency     'rdf-xsd',            '~> 3.3'
 
-  gem.add_development_dependency 'sinatra',            '~> 3.0', '>= 3.0.5'
+  gem.add_development_dependency 'sinatra',            '~> 3.1'
   gem.add_development_dependency 'rack',               '>= 2.2', '< 4'
   gem.add_development_dependency 'rack-test',          '~> 2.1'
-  gem.add_development_dependency 'rdf-spec',           '~> 3.2'
+  gem.add_development_dependency 'rdf-spec',           '~> 3.3'
   gem.add_development_dependency 'linkeddata',         '~> 3.2'
   gem.add_development_dependency 'rspec',              '~> 3.12'
   gem.add_development_dependency 'rspec-its',          '~> 1.3'
