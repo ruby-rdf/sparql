@@ -338,7 +338,7 @@ WHERE {
 <h3 id="label-Command+line+processing">Command line processing</h3>
 
 <pre class="code ruby"><code class="ruby">sparql execute --dataset etc/doap.ttl etc/from_default.rq
-sparql execute -e &quot;SELECT * FROM &lt;etc/doap.ttl&gt; WHERE { ?s ?p ?o }&quot;
+sparql execute --dataset etc/doap.ttl -e &quot;SELECT * FROM &lt;etc/doap.ttl&gt; WHERE { ?s ?p ?o }&quot;
 
 # Generate SPARQL Algebra Expression (SSE) format
 sparql parse etc/input.rq
@@ -346,7 +346,7 @@ sparql parse -e &quot;SELECT * WHERE { ?s ?p ?o }&quot;
 
 # Generate SPARQL Query from SSE
 sparql parse --sse etc/input.sse --format sparql
-sparql parse --sse --format sparql -e &quot;(dataset (&lt;http://usefulinc.com/ns/doap&gt;) (bgp (triple ?s ?p ?o))))&quot;
+sparql parse --sse --format sparql -e &quot;(dataset (&lt;etc/doap.ttl&gt;) (bgp (triple ?s ?p ?o))))&quot;
 
 # Run query using SSE input
 sparql execute --dataset etc/doap.ttl --sse etc/input.sse
@@ -443,11 +443,11 @@ sparql server etc/doap.ttl
 
 <h2 id="label-Dependencies">Dependencies</h2>
 <ul><li>
-<p><a href="https://ruby-lang.org/">Ruby</a> (&gt;= 2.6)</p>
+<p><a href="https://ruby-lang.org/">Ruby</a> (&gt;= 3.0)</p>
 </li><li>
-<p><a href="https://rubygems.org/gems/rdf">RDF.rb</a> (~&gt; 3.2)</p>
+<p><a href="https://rubygems.org/gems/rdf">RDF.rb</a> (~&gt; 3.3)</p>
 </li><li>
-<p><a href="https://rubygems.org/gems/sparql-client">SPARQL::Client</a> (~&gt; 3.1)</p>
+<p><a href="https://rubygems.org/gems/sparql-client">SPARQL::Client</a> (~&gt; 3.3)</p>
 </li><li>
 <p><a href="https://rubygems.org/gems/sxp">SXP</a> (~&gt; 1.2)</p>
 </li><li>
@@ -455,9 +455,9 @@ sparql server etc/doap.ttl
 </li><li>
 <p><a href="https://rubygems.org/gems/json">JSON</a> (~&gt; 2.6)</p>
 </li><li>
-<p>Soft dependency on <a href="https://rubygems.org/gems/linkeddata">Linked Data</a> (&gt;= 3.1)</p>
+<p>Soft dependency on <a href="https://rubygems.org/gems/linkeddata">Linked Data</a> (&gt;= 3.3)</p>
 </li><li>
-<p>Soft dependency on <a href="https://rubygems.org/gems/nokogiri">Nokogiri</a> (~&gt; 1.12)  Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient</p>
+<p>Soft dependency on <a href="https://rubygems.org/gems/nokogiri">Nokogiri</a> (~&gt; 1.15)  Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient</p>
 </li><li>
 <p>Soft dependency on <a href="https://rubygems.org/gems/equivalent-xml">Equivalent XML</a> (&gt;= 0.6)  Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included</p>
 </li><li>
@@ -521,7 +521,7 @@ sparql server etc/doap.ttl
 </div></div>
 
       <div id="footer">
-  Generated on Sun Jul 23 22:30:03 2023 by
+  Generated on Fri Sep  1 20:51:23 2023 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
   0.9.34 (ruby-3.1.4).
 </div>
