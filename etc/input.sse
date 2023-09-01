@@ -1,1 +1,1 @@
-(dataset (<http://usefulinc.com/ns/doap>) (bgp (triple ?s ?p ?o))))
+(dataset (<etc/doap.ttl>) (bgp (triple ?s ?p ?o))))

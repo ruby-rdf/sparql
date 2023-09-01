@@ -308,7 +308,7 @@ a full set of RDF formats.
 ### Command line processing
 
     sparql execute --dataset etc/doap.ttl etc/from_default.rq
-    sparql execute -e "SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }"
+    sparql execute --dataset etc/doap.ttl -e "SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }"
 
     # Generate SPARQL Algebra Expression (SSE) format
     sparql parse etc/input.rq
@@ -316,7 +316,7 @@ a full set of RDF formats.
 
     # Generate SPARQL Query from SSE
     sparql parse --sse etc/input.sse --format sparql
-    sparql parse --sse --format sparql -e "(dataset (<http://usefulinc.com/ns/doap>) (bgp (triple ?s ?p ?o))))"
+    sparql parse --sse --format sparql -e "(dataset (<etc/doap.ttl>) (bgp (triple ?s ?p ?o))))"
 
     # Run query using SSE input
     sparql execute --dataset etc/doap.ttl --sse etc/input.sse
@@ -397,14 +397,14 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 
 ## Dependencies
 
-* [Ruby](https://ruby-lang.org/) (>= 2.6)
-* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.2)
-* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.1)
+* [Ruby](https://ruby-lang.org/) (>= 3.0)
+* [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.3)
+* [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.3)
 * [SXP](https://rubygems.org/gems/sxp) (~> 1.2)
 * [Builder](https://rubygems.org/gems/builder) (~> 3.2)
 * [JSON](https://rubygems.org/gems/json) (~> 2.6)
-* Soft dependency on [Linked Data][] (>= 3.1)
-* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (~> 1.12)
+* Soft dependency on [Linked Data][] (>= 3.3)
+* Soft dependency on [Nokogiri](https://rubygems.org/gems/nokogiri) (~> 1.15)
   Falls back to REXML for XML parsing Builder for XML serializing. Nokogiri is much more efficient
 * Soft dependency on [Equivalent XML](https://rubygems.org/gems/equivalent-xml) (>= 0.6)
   Equivalent XML performs more efficient comparisons of XML Literals when Nokogiri is included

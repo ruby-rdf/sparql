@@ -1,1 +1,1 @@
-SELECT * FROM <http://usefulinc.com/ns/doap> WHERE { ?s ?p ?o }
+SELECT * FROM <etc/doap.ttl> WHERE { ?s ?p ?o }
