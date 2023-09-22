@@ -25,7 +25,7 @@ An implementation of [SPARQL][] for [RDF.rb][].
   * Helper method for describing [SPARQL Service Description][SSD]
   * Helper method for setting up datasets as part of the [SPARQL 1.1 Protocol][].
 * Implementation Report: {file:etc/earl.html EARL}
-* Compatible with Ruby >= 2.6.
+* Compatible with Ruby >= 3.0.
 * Supports Unicode query strings both on all versions of Ruby.
 * Provisional support for [SPARQL-star][].
 
