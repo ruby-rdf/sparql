@@ -10,9 +10,9 @@ require_relative 'support/models'
 module RDF::Util
   module File
     REMOTE_PATH = "http://w3c.github.io/rdf-tests/sparql/"
-    LOCAL_PATH = ::File.expand_path("../w3c-rdf-tests/sparql/", __FILE__) + '/'
-    REMOTE_PATH_STAR = "https://w3c.github.io/rdf-star/"
-    LOCAL_PATH_STAR = ::File.expand_path("../w3c-rdf-star/", __FILE__) + '/'
+    LOCAL_PATH = ::File.expand_path("../rdf-tests/sparql/", __FILE__) + '/'
+    REMOTE_PATH_STAR = "https://w3c.github.io/rdf-star-cg/"
+    LOCAL_PATH_STAR = ::File.expand_path("../rdf-star-cg/", __FILE__) + '/'
     REMOTE_PATH_12 = "https://w3c.github.io/sparql-12/"
     LOCAL_PATH_12 = ::File.expand_path("../w3c-sparql-12/", __FILE__) + '/'
     REMOTE_PATH_PROTO = "http://kasei.us/2009/09/sparql/data/"
@@ -259,7 +259,7 @@ module SPARQL::Spec
 
   def self.sparql_star_tests
     %w(syntax/manifest eval/manifest).map do |man|
-      "https://w3c.github.io/rdf-star/tests/sparql/#{man}.jsonld"
+      "https://w3c.github.io/rdf-star-cg/tests/sparql/#{man}.jsonld"
     end
   end
 
