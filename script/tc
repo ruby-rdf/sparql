@@ -103,6 +103,9 @@ def run_tc(tc, **options)
       info = "Graph variable binding differences"
     when /tvs02/
       info = "Empty vs. Unbound"
+    when 'Negated Property Set with inverse properties',
+         'Negated Property Set with both direct and inverse properties'
+      info = "new SPARQL tests"
     end
 
     info = "Entailment" if tc.entailment?

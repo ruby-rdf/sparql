@@ -32,6 +32,8 @@ shared_examples "SUITE" do |id, label, comment, tests|
             pending "empty values are the same as missing values"
           when 'construct_date-02.rq', 'construct_time-01.rq'
             pending "failed when simplifying whitespace in terminals"
+          when 'nps_inverse.rq', 'nps_direct_and_inverse.rq'
+            pending("New SPARQL tests")
           end
 
           skip 'Entailment Regimes' if t.entailment?
@@ -185,6 +187,10 @@ shared_examples "to_sparql" do |id, label, comment, tests|
           when 'compare_time-01.rq',
                'adjust_dateTime-01.rq', 'adjust_date-01.rq', 'adjust_time-01.rq'
             skip "Equivalent form"
+          when 'nps_inverse.rq', 'nps_direct_and_inverse.rq'
+            pending("New SPARQL tests")
+          when 'values04.rq', 'values05.rq', 'values08.rq'
+            skip("Invalid VALUES Syntax")
           end
           t.logger = RDF::Spec.logger
           t.logger.debug "Source:\n#{t.action.query_string}"
