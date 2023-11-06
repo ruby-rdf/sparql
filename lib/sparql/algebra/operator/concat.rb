@@ -50,6 +50,11 @@ module SPARQL; module Algebra
       def evaluate(bindings, **options)
         ops = operands.map {|op| op.evaluate(bindings, **options.merge(depth: options[:depth].to_i + 1))}
 
+        # rdf:nil is like empty string
+        if ops == [RDF.nil]
+          return RDF::Literal.new("")
+        end
+
         raise TypeError, "expected all plain literal operands" unless ops.all? {|op| op.literal? && op.plain?}
 
         ops.inject do |memo, op|
