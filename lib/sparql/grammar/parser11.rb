@@ -974,6 +974,11 @@ module SPARQL::Grammar
         add_prod_data :row, [:row]
       else
         Array(data[:rowdata]).each do |ds|
+          if ds.length < data[:Var].length
+            raise Error, "Too few values in a VALUE clause compared to the number of variables"
+          elsif ds.length > data[:Var].length
+            raise Error, "Too many values in a VALUE clause compared to the number of variables"
+          end
           r = [:row]
           ds.each_with_index do |d, i|
             r << [vars[i], d] if d
