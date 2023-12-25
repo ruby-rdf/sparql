@@ -38,6 +38,7 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'sparql-client',      '~> 3.3'
   gem.add_runtime_dependency     'rdf-xsd',            '~> 3.3'
 
+  gem.add_development_dependency 'getoptlong',         '~> 0.2'
   gem.add_development_dependency 'sinatra',            '~> 3.1'
   gem.add_development_dependency 'rack',               '>= 2.2', '< 4'
   gem.add_development_dependency 'rack-test',          '~> 2.1'
