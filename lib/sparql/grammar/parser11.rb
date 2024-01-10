@@ -2330,6 +2330,8 @@ module SPARQL::Grammar
 
     def ns(prefix, suffix)
       base = prefix(prefix).to_s
+      suffix = suffix.to_s.gsub(PN_LOCAL_ESC) {|esc| esc[1]} if
+        suffix.to_s.match?(PN_LOCAL_ESC)
       suffix = suffix.to_s.sub(/^\#/, "") if base.index("#")
       debug {"ns(#{prefix.inspect}): base: '#{base}', suffix: '#{suffix}'"}
       iri(base + suffix.to_s)

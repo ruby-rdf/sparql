@@ -33,6 +33,6 @@ jobs:
         run: ruby --version; bundle exec rspec spec || $ALLOW_FAILURES
       - name: Coveralls GitHub Action
         uses: coverallsapp/github-action@v2
-        if: "matrix.ruby == '3.2'"
+        if: "matrix.ruby == '3.3'"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
