@@ -974,6 +974,11 @@ module SPARQL::Grammar
         add_prod_data :row, [:row]
       else
         Array(data[:rowdata]).each do |ds|
+          if ds.length < data[:Var].length
+            raise Error, "Too few values in a VALUE clause compared to the number of variables"
+          elsif ds.length > data[:Var].length
+            raise Error, "Too many values in a VALUE clause compared to the number of variables"
+          end
           r = [:row]
           ds.each_with_index do |d, i|
             r << [vars[i], d] if d
@@ -2325,6 +2330,8 @@ module SPARQL::Grammar
 
     def ns(prefix, suffix)
       base = prefix(prefix).to_s
+      suffix = suffix.to_s.gsub(PN_LOCAL_ESC) {|esc| esc[1]} if
+        suffix.to_s.match?(PN_LOCAL_ESC)
       suffix = suffix.to_s.sub(/^\#/, "") if base.index("#")
       debug {"ns(#{prefix.inspect}): base: '#{base}', suffix: '#{suffix}'"}
       iri(base + suffix.to_s)

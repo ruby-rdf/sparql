@@ -31,7 +31,7 @@ namespace :spec do
   desc "Generate test caches"
   task :prepare do
     $:.unshift(File.join(File.dirname(__FILE__), 'spec'))
-    require 'dawg_helper'
+    require 'suite_helper'
     
     puts "load 1.0 tests"
     SPARQL::Spec.sparql1_0_tests(true)

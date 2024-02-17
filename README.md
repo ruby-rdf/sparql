@@ -25,7 +25,7 @@ An implementation of [SPARQL][] for [RDF.rb][].
   * Helper method for describing [SPARQL Service Description][SSD]
   * Helper method for setting up datasets as part of the [SPARQL 1.1 Protocol][].
 * Implementation Report: {file:etc/earl.html EARL}
-* Compatible with Ruby >= 2.6.
+* Compatible with Ruby >= 3.0.
 * Supports Unicode query strings both on all versions of Ruby.
 * Provisional support for [SPARQL-star][].
 
@@ -382,6 +382,10 @@ Find more examples in {SPARQL::Grammar} and {SPARQL::Algebra}.
 
 Full documentation available on [Rubydoc.info][SPARQL doc]
 
+## Change Log
+
+See [Release Notes on GitHub](https://github.com/ruby-rdf/sparql/releases)
+
 ### Principle Classes
 
 * {SPARQL}
@@ -400,7 +404,7 @@ Full documentation available on [Rubydoc.info][SPARQL doc]
 * [Ruby](https://ruby-lang.org/) (>= 3.0)
 * [RDF.rb](https://rubygems.org/gems/rdf) (~> 3.3)
 * [SPARQL::Client](https://rubygems.org/gems/sparql-client) (~> 3.3)
-* [SXP](https://rubygems.org/gems/sxp) (~> 1.2)
+* [SXP](https://rubygems.org/gems/sxp) (~> 2.0)
 * [Builder](https://rubygems.org/gems/builder) (~> 3.2)
 * [JSON](https://rubygems.org/gems/json) (~> 2.6)
 * Soft dependency on [Linked Data][] (>= 3.3)
