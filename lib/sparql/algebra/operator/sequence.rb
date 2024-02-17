@@ -28,7 +28,7 @@ module SPARQL; module Algebra
       # @yieldparam  [RDF::Query::Solution] solution
       # @yieldreturn [void] ignored
       # @see    https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
-      def execute(queryable, **options)
+      def execute(queryable, **options, &block)
         debug(options) {"Sequence #{operands.to_sse}"}
 
         last = queryable.query(operands.shift, **options.merge(depth: options[:depth].to_i + 1))
