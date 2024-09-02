@@ -355,7 +355,7 @@ class RDF::Statement
   # Transform Statement Pattern into an SXP
   # @return [Array]
   def to_sxp_bin
-    [ (has_graph? ? :quad : (quoted? ? :qtriple : :triple)),
+    [ (has_graph? ? :quad : (tripleTerm? ? :qtriple : :triple)),
       (:inferred if inferred?),
       subject,
       predicate,
@@ -381,7 +381,7 @@ class RDF::Statement
   # @return [String]
   def to_sparql(**options)
     str = to_triple.map {|term| term.to_sparql(**options)}.join(" ")
-    quoted? ? ('<<' + str + '>>') : str
+    tripleTerm? ? ('<<(' + str + ')>>') : str
   end
 
   ##

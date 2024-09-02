@@ -8,7 +8,7 @@ class SPARQL::Grammar::Parser
   end
 end
 
-# [70]	FunctionCall
+#	FunctionCall
 shared_examples "FunctionCall" do
   context "FunctionCall nonterminal" do
     {
@@ -26,7 +26,7 @@ shared_examples "FunctionCall" do
   end
 end
 
-# [108]	Var
+#	Var
 shared_examples "Var" do
   context "Var" do
     it "recognizes Var1" do |example|
@@ -38,26 +38,26 @@ shared_examples "Var" do
   end
 end
 
-# [109] GraphTerm
-shared_examples "GraphTerm" do
-  context "GraphTerm" do
-    include_examples "iri"
-    include_examples "RDFLiteral"
-    include_examples "NumericLiteral"
-    include_examples "BooleanLiteral"
-    include_examples "BlankNode"
-    include_examples "NIL"
-  end
+#	VarOrTerm
+shared_examples "VarOrTerm" do
+  include_examples "Var"
+  include_examples "iri"
+  include_examples "RDFLiteral"
+  include_examples "NumericLiteral"
+  include_examples "BooleanLiteral"
+  include_examples "BlankNode"
+  include_examples "NIL"
+  #include_examples "TripleTerm"
 end
 
-# [110]    Expression
+# Expression
 shared_examples "Expression" do
   context "Expression" do
     include_examples "ConditionalOrExpression"
   end
 end
 
-# [111]    ConditionalOrExpression
+#    ConditionalOrExpression
 shared_examples "ConditionalOrExpression" do
   context "ConditionalOrExpression" do
     {
@@ -74,7 +74,7 @@ shared_examples "ConditionalOrExpression" do
   end
 end
 
-# [112]    ConditionalAndExpression
+#    ConditionalAndExpression
 shared_examples "ConditionalAndExpression" do
   context "ConditionalAndExpression" do
     {
@@ -90,14 +90,14 @@ shared_examples "ConditionalAndExpression" do
   end
 end
 
-# [113]    ValueLogical
+#    ValueLogical
 shared_examples "ValueLogical" do
   context "ValueLogical" do
     include_examples "RelationalExpression"
   end
 end
 
-# [114] RelationalExpression
+# RelationalExpression
 shared_examples "RelationalExpression" do
   context "RelationalExpression" do
     {
@@ -121,14 +121,14 @@ shared_examples "RelationalExpression" do
   end
 end
 
-# [115]    NumericExpression
+#    NumericExpression
 shared_examples "NumericExpression" do
   context "NumericExpression" do
     include_examples "AdditiveExpression"
   end
 end
 
-# [116]    AdditiveExpression
+#    AdditiveExpression
 shared_examples "AdditiveExpression" do
   context "AdditiveExpression" do
     {
@@ -147,7 +147,7 @@ shared_examples "AdditiveExpression" do
   end
 end
 
-# [117]    MultiplicativeExpression
+#    MultiplicativeExpression
 shared_examples "MultiplicativeExpression" do
   context "MultiplicativeExpression" do
     {
@@ -166,7 +166,7 @@ shared_examples "MultiplicativeExpression" do
   end
 end
 
-# [118] UnaryExpression
+# UnaryExpression
 shared_examples "UnaryExpression" do
   context "UnaryExpression" do
     {
@@ -185,7 +185,7 @@ shared_examples "UnaryExpression" do
   end
 end
 
-# [119]    PrimaryExpression
+#    PrimaryExpression
 shared_examples "PrimaryExpression" do
   context "PrimaryExpression" do
     include_examples "BrackettedExpression"
@@ -195,10 +195,11 @@ shared_examples "PrimaryExpression" do
     include_examples "NumericLiteral"
     include_examples "BooleanLiteral"
     include_examples "Var"
+    #include_examples "ExprTripleTerm"
   end
 end
 
-# [120]    BrackettedExpression
+#    BrackettedExpression
 shared_examples "BrackettedExpression" do
   context "BrackettedExpression" do
     {
@@ -211,7 +212,7 @@ shared_examples "BrackettedExpression" do
   end
 end
 
-# [121] BuiltInCall
+# BuiltInCall
 shared_examples "BuiltInCall" do
   context "BuiltInCall" do
     {
@@ -242,7 +243,7 @@ shared_examples "BuiltInCall" do
   end
 end
 
-# [122]    RegexExpression
+#    RegexExpression
 shared_examples "RegexExpression" do |**options|
   context "RegexExpression" do
     {
@@ -257,7 +258,7 @@ shared_examples "RegexExpression" do |**options|
   end
 end
 
-# [123] BooleanLiteral
+# BooleanLiteral
 shared_examples "BooleanLiteral" do
   context "BooleanLiteral" do
     {
@@ -271,7 +272,7 @@ shared_examples "BooleanLiteral" do
   end
 end
 
-# [127] Aggregate
+# Aggregate
 shared_examples "Aggregate" do
   context "Aggregate" do
     {
@@ -302,7 +303,7 @@ shared_examples "Aggregate" do
   end
 end
 
-# [128]    iriOrFunction
+#    iriOrFunction
 shared_examples "iriOrFunction" do
   context "iriOrFunction" do
     include_examples "iri"
@@ -310,7 +311,7 @@ shared_examples "iriOrFunction" do
   end
 end
 
-# [129] RDFLiteral
+# RDFLiteral
 shared_examples "RDFLiteral" do
   context "RDFLiteral" do
     {
@@ -331,7 +332,7 @@ shared_examples "RDFLiteral" do
   end
 end
 
-# [130] NumericLiteral
+# NumericLiteral
 shared_examples "NumericLiteral" do
   context "NumericLiteral" do
     {
@@ -405,7 +406,7 @@ shared_examples "NumericLiteral" do
   end
 end
 
-# [136] iri
+# iri
 shared_examples "iri" do
   context "iri" do
     {
@@ -430,7 +431,7 @@ shared_examples "iri" do
   end
 end
 
-# [138] BlankNode
+# BlankNode
 shared_examples "BlankNode" do
   context "BlankNode" do
     it %q(_:foobar) do |example|
@@ -440,7 +441,7 @@ shared_examples "BlankNode" do
   end
 end
 
-# [161] NIL
+# NIL
 shared_examples "NIL" do
   context "NIL" do
     specify {|example| expect(parser(example.metadata[:production]).call(%q(())).last).to eq RDF.nil}
@@ -630,7 +631,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [1] QueryUnit production rule", production: :QueryUnit, all_vars: true do
+  describe "when matching the QueryUnit production rule", production: :QueryUnit, all_vars: true do
     {
       empty: ["", nil],
       select: [
@@ -656,7 +657,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [2] Query production rule", production: :Query, all_vars: true do
+  describe "when matching the Query production rule", production: :Query, all_vars: true do
     {
       "base" => [
         "BASE <foo/> SELECT * WHERE { <a> <b> <c> }",
@@ -774,7 +775,102 @@ describe SPARQL::Grammar::Parser do
       "illegal bind variable (graph name)" => [
         %q(SELECT * WHERE { GRAPH ?g {?s ?p ?o} . BIND (?p AS ?g) }),
         EBNF::LL1::Parser::Error
-      ]
+      ],
+      "Empty Annotation with IRI reifier" => [
+        %q(SELECT * WHERE {:s :p :o ~ :r}),
+        %[(project ()
+           (bgp (triple <s> <p> <o>)
+            (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))))]
+      ],
+      "Multiple Empty Annotations with IRI reifiers" => [
+        %q(SELECT * WHERE {:s :p :o ~ :r1 ~ :r2}),
+        %[(project ()
+           (bgp (triple <s> <p> <o>)
+            (triple <r1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))
+            (triple <r2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))))]
+      ],
+      "Annotation with IRI reifier" => [
+        %q(SELECT * WHERE {:s :p :o ~ :r {| :p1 :o1 |}}),
+        %[(project ()
+           (bgp (triple <s> <p> <o>)
+            (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))
+            (triple <r> <p1> <o1>)))]
+      ],
+      "Multiple Annotations with IRI reifiers" => [
+        %q(SELECT * WHERE {:s :p :o ~ :id1 {| :r :z |} ~ :id2 {| :s :w |} }),
+        %[(project ()
+           (bgp (triple <s> <p> <o>)
+            (triple <id1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))
+            (triple <id1> <r> <z>)
+            (triple <id2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))
+            (triple <id2> <s> <w>)))]
+      ],
+      "Multiple Annotations with empty reifiers" => [
+        %q(SELECT * WHERE {:s :p :o ~ {| :r :z |} ~ {| :s :w |} }),
+        %[(project ()
+           (bgp (triple <s> <p> <o>)
+            (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))
+            (triple ??0 <r> <z>)
+            (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))
+            (triple ??1 <s> <w>)))]
+      ],
+      #"Reified Triple with IRI reifier as subject" => [
+      #  %q(SELECT * WHERE {<<:s :p :o ~ :r>> :p1 :o1}),
+      #  %[(bgp
+      #       (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple <s> <p> <o>))
+      #       (triple <r> <p1> <o1>)))]
+      #],
+      "Construct Empty Annotation with IRI reifier" => [
+        %q(CONSTRUCT { :s :p :o ~:r {| :y :z |}} WHERE {:s :p :o}),
+        %[(construct
+           (
+            (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>))
+            (triple <r> <y> <z>)
+            (triple <s> <p> <o>))
+           (bgp
+            (triple <s> <p> <o>)))]
+      ],
+      "Construct Empty Annotation with IRI reifier and annotation block" => [
+        %q(CONSTRUCT { :s :p :o ~:r} WHERE {:s :p :o ~ :r}),
+        %[(construct
+           (
+            (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>))
+            (triple <s> <p> <o>))
+           (bgp
+            (triple <s> <p> <o>)
+            (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>)) ))]
+      ],
+      "Construct Multiple Empty Annotations with IRI reifiers" => [
+        %q(CONSTRUCT { :s :p :o ~:r1 ~:r2} WHERE {:s :p :o ~ :r1 ~ :r2}),
+        %[(construct
+           ((triple <r1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>))
+            (triple <r2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>))
+            (triple <s> <p> <o>))
+           (bgp
+            (triple <s> <p> <o>)
+            (triple <r1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>))
+            (triple <r2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>)) ))
+          ]
+      ],
+      "Construct Multiple Annotations with IRI reifiers" => [
+        %q(CONSTRUCT {:s :p :o ~ :id1 {| :r :z |} ~ :id2 {| :s :w |} } WHERE {:s :p :o }),
+        %[(construct
+           ((triple <id1> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>))
+            (triple <id1> <r> <z>)
+            (triple <id2> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (qtriple <s> <p> <o>))
+            (triple <id2> <s> <w>)
+            (triple <s> <p> <o>))
+           (bgp (triple <s> <p> <o>)))]
+      ],
     }.each do |title, (input, output)|
       it title do |example|
         expect(input).to generate(output, logger: RDF::Spec.logger, **example.metadata.merge(resolve_iris: false))
@@ -784,7 +880,7 @@ describe SPARQL::Grammar::Parser do
     include_examples "BGP Patterns", "SELECT * WHERE {%s}"
   end
 
-  describe "when matching the [4] Prologue production rule", production: :Prologue do
+  describe "when matching the Prologue production rule", production: :Prologue do
     it "sets base_uri to <http://example.org> given 'BASE <http://example.org/>'" do |example|
       p = parser(nil, resolve_iris: true).call(%q(BASE <http://example.org/>))
       p.parse(example.metadata[:production])
@@ -832,7 +928,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [7] SelectQuery production rule", production: :SelectQuery, all_vars: true do
+  describe "when matching the SelectQuery production rule", production: :SelectQuery, all_vars: true do
     {
       "from" => [
         "SELECT * FROM <a> WHERE {?a ?b ?c}",
@@ -951,7 +1047,7 @@ describe SPARQL::Grammar::Parser do
     include_examples "BGP Patterns", "SELECT * WHERE {%s}"
   end
 
-  describe "when matching the [9] SelectClause production rule", production: :SelectClause do
+  describe "when matching the SelectClause production rule", production: :SelectClause do
     {
       "var" => [
         "SELECT ?a", %q((Var ?a))
@@ -972,7 +1068,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [10] ConstructQuery production rule", production: :ConstructQuery do
+  describe "when matching the ConstructQuery production rule", production: :ConstructQuery do
     {
       "construct from" => [
         "CONSTRUCT {?a ?b ?c} FROM <a> WHERE {?a ?b ?c}", %q((construct ((triple ?a ?b ?c)) (dataset (<a>) (bgp (triple ?a ?b ?c)))))
@@ -1002,7 +1098,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [11] DescribeQuery production rule", production: :DescribeQuery do
+  describe "when matching the DescribeQuery production rule", production: :DescribeQuery do
     {
       "describe" => [
         "DESCRIBE * WHERE {?a ?b ?c}", %q((describe () (bgp (triple ?a ?b ?c))))
@@ -1053,7 +1149,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [12] AskQuery production rule", production: :AskQuery do
+  describe "when matching the AskQuery production rule", production: :AskQuery do
     {
       "ask" => [
         "ASK WHERE {?a ?b ?c}", %q((ask (bgp (triple ?a ?b ?c))))
@@ -1086,7 +1182,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [13] DatasetClause production rule", production: :DatasetClause do
+  describe "when matching the DatasetClause production rule", production: :DatasetClause do
     {
       "from" => [
         %q(FROM <http://example.org/foaf/aliceFoaf>),
@@ -1107,7 +1203,7 @@ describe SPARQL::Grammar::Parser do
   #   [14] DefaultGraphClause
   #   [15] NamedGraphClause
   #   [16] SourceSelector
-  describe "when matching the [17] WhereClause production rule", production: :WhereClause do
+  describe "when matching the WhereClause production rule", production: :WhereClause do
     {
       "where" => [
         "WHERE {?a ?b ?c}", %q((bgp (triple ?a ?b ?c)))
@@ -1136,7 +1232,7 @@ describe SPARQL::Grammar::Parser do
     include_examples "BGP Patterns", "WHERE {%s}"
   end
 
-  describe "when matching the [18] SolutionModifier production rule", production: :SolutionModifier do
+  describe "when matching the SolutionModifier production rule", production: :SolutionModifier do
     {
       "group" => [
         "GROUP BY ?s", %q((group (?s)))
@@ -1172,7 +1268,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [19] GroupClause production rule", production: :GroupClause do
+  describe "when matching the GroupClause production rule", production: :GroupClause do
     {
       "Var" => [
         "GROUP BY ?s", %q((group (?s)))
@@ -1187,7 +1283,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [20] GroupCondition production rule", production: :GroupCondition do
+  describe "when matching the GroupCondition production rule", production: :GroupCondition do
     {
       "BuiltInCall" => [
         %q(STR ("foo")), %q((GroupCondition (str "foo")))
@@ -1213,7 +1309,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [23] OrderClause production rule", production: :OrderClause do
+  describe "when matching the OrderClause production rule", production: :OrderClause do
     {
       "order asc" => [
         "ORDER BY ASC (1)", [:order, [SPARQL::Algebra::Operator::Asc.new(RDF::Literal(1))]]
@@ -1234,7 +1330,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [24] OrderCondition production rule", production: :OrderCondition do
+  describe "when matching the OrderCondition production rule", production: :OrderCondition do
     {
       "asc" => [
         "ASC (1)", [:OrderCondition, SPARQL::Algebra::Expression[:asc, RDF::Literal(1)]]
@@ -1253,7 +1349,7 @@ describe SPARQL::Grammar::Parser do
     include_examples "Var"
   end
 
-  describe "when matching the [25] LimitOffsetClauses production rule", production: :LimitOffsetClauses do
+  describe "when matching the LimitOffsetClauses production rule", production: :LimitOffsetClauses do
     {
       "limit" => [
         "LIMIT 1", [:slice, :_, RDF::Literal(1)]
@@ -1274,7 +1370,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [26] LimitClause production rule", production: :LimitClause do
+  describe "when matching the LimitClause production rule", production: :LimitClause do
     {
       "limit" => [
         %q(LIMIT 10), [:limit, RDF::Literal.new(10)]
@@ -1286,7 +1382,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [27] OffsetClause production rule", production: :OffsetClause do
+  describe "when matching the OffsetClause production rule", production: :OffsetClause do
     {
       "offset" => [
         %q(OFFSET 10), [:offset, RDF::Literal.new(10)]
@@ -1298,7 +1394,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [29] Update production rule", production: :Update do
+  describe "when matching the Update production rule", production: :Update do
     {
       "insert" => [
         "INSERT DATA {<a> <b> <c>}",
@@ -1323,7 +1419,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [31] Load production rule", production: :Load do
+  describe "when matching the Load production rule", production: :Load do
     {
       "load iri" => [%q(LOAD <a>), %((load <a>))],
       "load iri silent" => [%q(LOAD SILENT <a>), %((load silent <a>))],
@@ -1335,7 +1431,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [32] Clear production rule", production: :Clear do
+  describe "when matching the Clear production rule", production: :Clear do
     {
       "clear all" => [%q(CLEAR ALL), %((clear all))],
       "clear all (LC)" => [%q(clear all), %((clear all))],
@@ -1351,7 +1447,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [33] Drop production rule", production: :Drop do
+  describe "when matching the Drop production rule", production: :Drop do
     {
       "drop all" => [%q(DROP ALL), %((drop all))],
       "drop all silent" => [%q(DROP SILENT ALL), %((drop silent all))],
@@ -1365,7 +1461,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [34] Create production rule", production: :Create do
+  describe "when matching the Create production rule", production: :Create do
     {
       "create graph" => [%q(CREATE GRAPH <g1>), %((create <g1>))],
       "create graph silent" => [%q(CREATE SILENT GRAPH <g1>), %((create silent <g1>))],
@@ -1376,7 +1472,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [35] Add production rule", production: :Add do
+  describe "when matching the Add production rule", production: :Add do
     {
       "add default default" => [%q(ADD DEFAULT TO DEFAULT), %q((add default default))],
       "add iri default" => [%q(ADD <a> TO DEFAULT), %q((add <a> default))],
@@ -1391,7 +1487,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [36] Move production rule", production: :Move do
+  describe "when matching the Move production rule", production: :Move do
     {
       "move default default" => [%q(MOVE DEFAULT TO DEFAULT), %q((move default default))],
       "move iri default" => [%q(MOVE <a> TO DEFAULT), %q((move <a> default))],
@@ -1406,7 +1502,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [37] Copy production rule", production: :Copy do
+  describe "when matching the Copy production rule", production: :Copy do
     {
       "copy default default" => [%q(COPY DEFAULT TO DEFAULT), %q((copy default default))],
       "copy iri default" => [%q(COPY <a> TO DEFAULT), %q((copy <a> default))],
@@ -1421,7 +1517,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [45] UsingClause production rule", production: :UsingClause do
+  describe "when matching the UsingClause production rule", production: :UsingClause do
     {
       "using iri" => [
         %q(USING <a>), [:using, RDF::URI("a")]
@@ -1439,7 +1535,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [38] InsertData production rule", production: :InsertData do
+  describe "when matching the InsertData production rule", production: :InsertData do
     {
       "empty triple" => [
         %q(INSERT DATA {}),
@@ -1464,7 +1560,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [39] DeleteData production rule", production: :DeleteData do
+  describe "when matching the DeleteData production rule", production: :DeleteData do
     {
       "empty triple" => [
         %q(DELETE DATA {}),
@@ -1495,7 +1591,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [53] GroupGraphPattern production rule", production: :GroupGraphPattern do
+  describe "when matching the GroupGraphPattern production rule", production: :GroupGraphPattern do
     {
       # From data/Optional/q-opt-1.rq
       "q-opt-1.rq" => [
@@ -1610,11 +1706,11 @@ describe SPARQL::Grammar::Parser do
     include_examples "BGP Patterns", "{%s}"
   end
 
-  describe "when matching the [55] TriplesBlock production rule", production: :TriplesBlock do
+  describe "when matching the TriplesBlock production rule", production: :TriplesBlock do
     include_examples "BGP Patterns", "%s"
   end
 
-  describe "when matching the [56] GraphPatternNotTriples production rule", production: :GraphPatternNotTriples do
+  describe "when matching the GraphPatternNotTriples production rule", production: :GraphPatternNotTriples do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       "OptionalGraphPattern" => [
@@ -1661,7 +1757,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [57] OptionalGraphPattern production rule", production: :OptionalGraphPattern do
+  describe "when matching the OptionalGraphPattern production rule", production: :OptionalGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       "OptionalGraphPattern" => [
@@ -1682,7 +1778,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [58] GraphGraphPattern production rule", production: :GraphGraphPattern do
+  describe "when matching the GraphGraphPattern production rule", production: :GraphGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       "var" => [
@@ -1701,7 +1797,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [60] Bind production rule", production: :Bind do
+  describe "when matching the Bind production rule", production: :Bind do
     {
       "Expression" => [
         "BIND(?o+10 AS ?z)", %q((extend (?z (+ ?o 10)))),
@@ -1713,7 +1809,106 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [67] GroupOrUnionGraphPattern production rule", production: :GroupOrUnionGraphPattern do
+  describe "when matching the TripleTerm production rule", production: :TripleTerm do
+    {
+      %[<<( :s :p :o )>>] => %[(pattern (triple <s> <p> <o>))],
+      %[<<( _:s :p _:o )>>] => %[(pattern (triple ??s <p> ??o))],
+      %[<<( ?s :p ?o )>>] => %[(pattern (triple ?s <p> ?o))],
+      %[<<( ?s :p "o" )>>] => %[(pattern (triple ?s <p> "o"))],
+      %[<<( :s :p <<( :s1 :p1 :o1)>> )>>] => %[(pattern (triple <s> <p> (triple <s1> <p1> <o1>)))],
+    }.each do |input, output|
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
+      end
+    end
+  end
+
+  describe "when matching the TripleTermData production rule", production: :TripleTermData do
+    {
+      %[<<( :s :p :o )>>] => %[(pattern (triple <s> <p> <o>))],
+      %[<<( :s :p <<( :s1 :p1 :o1)>> )>>] => %[(pattern (triple <s> <p> (triple <s1> <p1> <o1>)))],
+    }.each do |input, output|
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
+      end
+    end
+  end
+
+  describe "when matching the ReifiedTriple production rule", production: :ReifiedTriple do
+    {
+#      %[<< :s :p :o >>] => %[(pattern
+#                              (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+#                                (triple <s> <p> <o>)))],
+#      %[<< :s :p :o ~ >>] => %[(pattern
+#                                (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+#                                  (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~:r >>] => %[(pattern
+                                  (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~_:r >>] => %[(pattern
+                                  (triple ??r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>)))],
+      %[<< ?s :p ?o >>] => %[(pattern
+                              (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                (triple ?s <p> ?o)))],
+    }.each do |input, output|
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
+      end
+    end
+  end
+
+  describe "when matching the ReifiedTripleBlock production rule", production: :ReifiedTripleBlock do
+    {
+      %[<< :s :p :o >>] => %[(pattern
+                              (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~ >>] => %[(pattern
+                                (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                  (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~:r >>] => %[(pattern
+                                  (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~_:r >>] => %[(pattern
+                                  (triple ??r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~:r >> :p2 :o2] => %[(pattern
+                                  (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>))
+                                  (triple <r> <p2> <o2>))],
+    }.each do |input, output|
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
+      end
+    end
+  end
+
+  describe "when matching the ReifiedTripleBlockPath production rule", production: :ReifiedTripleBlockPath do
+    {
+      %[<< :s :p :o >>] => %[(pattern
+                              (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~ >>] => %[(pattern
+                                (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                  (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~:r >>] => %[(pattern
+                                  (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~_:r >>] => %[(pattern
+                                  (triple ??r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>)))],
+      %[<< :s :p :o ~:r >> :p2 :o2] => %[(pattern
+                                  (triple <r> <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+                                    (triple <s> <p> <o>))
+                                  (triple <r> <p2> <o2>))],
+    }.each do |input, output|
+      it input do |example|
+        expect(input).to generate(output, example.metadata.merge(resolve_iris: true))
+      end
+    end
+  end
+
+  describe "when matching the GroupOrUnionGraphPattern production rule", production: :GroupOrUnionGraphPattern do
     {
       "empty" => ["", EBNF::LL1::Parser::Error],
       # From data/Optional/q-opt-3.rq
@@ -1741,7 +1936,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [68] Filter production rule", production: :Filter do
+  describe "when matching the Filter production rule", production: :Filter do
     # Can't test against SSE, as filter also requires a BGP or other query operator
     {
       "1" => [
@@ -1784,17 +1979,17 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [69] Constraint production rule", production: :Constraint do
+  describe "when matching the Constraint production rule", production: :Constraint do
     include_examples "FunctionCall"
     include_examples "BrackettedExpression"
     include_examples "BuiltInCall"
   end
 
-  describe "when matching the [70] FunctionCall production rule", production: :FunctionCall do
+  describe "when matching the FunctionCall production rule", production: :FunctionCall do
     include_examples "FunctionCall"
   end
 
-  describe "when matching the [71] ArgList production rule", production: :ArgList do
+  describe "when matching the ArgList production rule", production: :ArgList do
     {
       %q(())             => [:ArgList, RDF["nil"]],
       %q(("foo"))        => [:ArgList, RDF::Literal("foo")],
@@ -1806,7 +2001,7 @@ describe SPARQL::Grammar::Parser do
     end
   end
 
-  describe "when matching the [73] ConstructTemplate production rule", production: :ConstructTemplate do
+  describe "when matching the ConstructTemplate production rule", production: :ConstructTemplate do
     {
       "syntax-basic-03.rq" => [
         %q(?x ?y ?z),
@@ -1857,7 +2052,7 @@ describe SPARQL::Grammar::Parser do
 
   # Not testing [74] ConstructTriples
 
-  describe "when matching the [77] PropertyListNotEmpty production rule", production: :PropertyListNotEmpty do
+  describe "when matching the PropertyListNotEmpty production rule", production: :PropertyListNotEmpty do
     {
       %q(<p> <o>) => [
         %q(<p> <o>),
@@ -1908,97 +2103,100 @@ describe SPARQL::Grammar::Parser do
 
   # Productions that can be tested individually
   describe "individual nonterminal productions" do
-    describe "when matching the [104] GraphNode production rule", production: :GraphNode do
-      include_examples "Var"
-      include_examples "GraphTerm"
+    describe "when matching the GraphNode production rule", production: :GraphNode do
+      include_examples "VarOrTerm"
+      #include_examples "TriplesNode"
+      #include_examples "ReifiedTriple"
     end
 
-    describe "when matching the [106] VarOrTermOrQuotedTP production rule", production: :VarOrTermOrQuotedTP do
+    describe "when matching the VarOrTerm production rule", production: :VarOrTerm do
       include_examples "Var"
-      include_examples "GraphTerm"
+      include_examples "iri"
+      include_examples "RDFLiteral"
+      include_examples "NumericLiteral"
+      include_examples "BooleanLiteral"
+      include_examples "BlankNode"
+      include_examples "NIL"
+      #include_examples "TripleTerm"
     end
 
-    describe "when matching the [107] VarOrIri production rule", production: :VarOrIri do
+    describe "when matching the VarOrIri production rule", production: :VarOrIri do
       include_examples "Var"
       include_examples "iri"
     end
 
-    describe "when matching the [108] Var production rule", production: :Var do
+    describe "when matching the Var production rule", production: :Var do
       include_examples "Var"
     end
 
-    describe "when matching the [109] GraphTerm production rule", production: :GraphTerm do
-      include_examples "GraphTerm"
-    end
-
-    describe "when matching the [110] Expression production rule", production: :Expression do
+    describe "when matching the Expression production rule", production: :Expression do
       include_examples "Expression"
     end
 
-    describe "when matching the [111] ConditionalOrExpression production rule", production: :ConditionalOrExpression do
+    describe "when matching the ConditionalOrExpression production rule", production: :ConditionalOrExpression do
       include_examples "ConditionalOrExpression"
     end
 
-    describe "when matching the [112] ConditionalAndExpression production rule", production: :ConditionalAndExpression do
+    describe "when matching the ConditionalAndExpression production rule", production: :ConditionalAndExpression do
       include_examples "ConditionalAndExpression"
     end
 
-    describe "when matching the [113] ValueLogical production rule", production: :ValueLogical do
+    describe "when matching the ValueLogical production rule", production: :ValueLogical do
       include_examples "ValueLogical"
     end
 
-    describe "when matching the [114] RelationalExpression production rule", production: :RelationalExpression do
+    describe "when matching the RelationalExpression production rule", production: :RelationalExpression do
       include_examples "RelationalExpression"
     end
 
-    describe "when matching the [115] NumericExpression production rule", production: :NumericExpression do
+    describe "when matching the NumericExpression production rule", production: :NumericExpression do
       include_examples "NumericExpression"
     end
 
-    describe "when matching the [116] AdditiveExpression production rule", production: :AdditiveExpression do
+    describe "when matching the AdditiveExpression production rule", production: :AdditiveExpression do
       include_examples "AdditiveExpression"
     end
 
-    describe "when matching the [117] MultiplicativeExpression production rule", production: :MultiplicativeExpression do
+    describe "when matching the MultiplicativeExpression production rule", production: :MultiplicativeExpression do
       include_examples "MultiplicativeExpression"
     end
 
-    describe "when matching the [118] UnaryExpression production rule", production: :UnaryExpression do
+    describe "when matching the UnaryExpression production rule", production: :UnaryExpression do
       include_examples "UnaryExpression"
     end
 
-    describe "when matching the [119] PrimaryExpression production rule", production: :PrimaryExpression do
+    describe "when matching the PrimaryExpression production rule", production: :PrimaryExpression do
       include_examples "PrimaryExpression"
     end
 
-    describe "when matching the [120] BrackettedExpression production rule", production: :BrackettedExpression do
+    describe "when matching the BrackettedExpression production rule", production: :BrackettedExpression do
       include_examples "BrackettedExpression"
     end
 
-    describe "when matching the [122] BuiltInCall production rule", production: :BuiltInCall do
+    describe "when matching the BuiltInCall production rule", production: :BuiltInCall do
       include_examples "BuiltInCall"
     end
 
-    describe "when matching the [128] iriOrFunction production rule", production: :iriOrFunction do
+    describe "when matching the iriOrFunction production rule", production: :iriOrFunction do
       include_examples "iriOrFunction"
     end
 
-    describe "when matching the [129] RDFLiteral production rule", production: :RDFLiteral do
+    describe "when matching the RDFLiteral production rule", production: :RDFLiteral do
       include_examples "RDFLiteral"
     end
 
-    describe "when matching the [130] NumericLiteral production rule", production: :NumericLiteral do
+    describe "when matching the NumericLiteral production rule", production: :NumericLiteral do
       include_examples "NumericLiteral"
     end
   end
 
   # Individual terminal productions
   describe "individual terminal productions" do
-    describe "when matching the [136] iri production rule", production: :iri do
+    describe "when matching the iri production rule", production: :iri do
       include_examples "iri"
     end
 
-    describe "when matching the [137] PrefixedName production rule", production: :PrefixedName do
+    describe "when matching the PrefixedName production rule", production: :PrefixedName do
       {
         PNAME_LN: {
           ":bar"    => RDF::URI("http://example.com/bar"),
@@ -2022,7 +2220,7 @@ describe SPARQL::Grammar::Parser do
       end
     end
 
-    describe "when matching the [138] BlankNode production rule", production: :BlankNode do
+    describe "when matching the BlankNode production rule", production: :BlankNode do
       it "recognizes the BlankNode terminal" do |example|
         if output = parser(example.metadata[:production]).call(%q(_:foobar))
           v = RDF::Query::Variable.new("foobar", distinguished: false)

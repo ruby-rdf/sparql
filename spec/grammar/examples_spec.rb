@@ -30,7 +30,7 @@ describe SPARQL::Grammar do
         subject {parse(example[:sparql], update: update)}
 
         it "parses to #{example[:sxp]}" do
-          is_expected.to eq SPARQL::Algebra.parse(example[:sxp])
+          is_expected.to generate(example[:sxp], {})
         end
       end
     end

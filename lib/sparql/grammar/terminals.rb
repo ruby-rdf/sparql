@@ -111,9 +111,10 @@ module SPARQL::Grammar
                  |isTRIPLE|TRIPLE|SUBJECT|PREDICATE|OBJECT
                  |true
                  |false
+                 |<<\(|\)>>
                  |<<|>>
                  |\{\||\|\}
-                 |&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a]
+                 |~|&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a]
               )xim.freeze
 
     # Map terminals to canonical form

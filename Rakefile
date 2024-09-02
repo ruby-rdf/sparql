@@ -73,41 +73,42 @@ file "etc/manifest-cache.nt" do
 end
 
 desc 'Create versions of ebnf files in etc'
-task etc: %w{etc/sparql11.sxp etc/sparql11.html etc/sparql11.ll1.sxp}
+task etc: %w{etc/sparql12.sxp etc/sparql12.html etc/sparql12.ll1.sxp}
 
 desc 'Build first, follow and branch tables'
 task meta: "lib/sparql/grammar/meta.rb"
 
-file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
+file "lib/sparql/grammar/meta.rb" => "etc/sparql12.bnf" do |t|
   sh %{
     ebnf --ll1 QueryUnit --ll1 UpdateUnit --format rb \
       --mod-name SPARQL::Grammar::Meta \
       --output lib/sparql/grammar/meta.rb \
-      etc/sparql11.bnf
+      etc/sparql12.bnf
   }
 end
 
-file "etc/sparql11.ll1.sxp" => "etc/sparql11.bnf" do |t|
+file "etc/sparql12.ll1.sxp" => "etc/sparql12.bnf" do |t|
   sh %{
     ebnf --ll1 QueryUnit --ll1 UpdateUnit --format sxp \
-      --output etc/sparql11.ll1.sxp \
-      etc/sparql11.bnf
+      --output etc/sparql12.ll1.sxp \
+      etc/sparql12.bnf
   }
 end
 
-file "etc/sparql11.sxp" => "etc/sparql11.bnf" do |t|
+file "etc/sparql12.sxp" => "etc/sparql12.bnf" do |t|
   sh %{
     ebnf --bnf --format sxp \
-      --output etc/sparql11.sxp \
-      etc/sparql11.bnf
+      --output etc/sparql12.sxp \
+      etc/sparql12.bnf
   }
 end
 
-file "etc/sparql11.html" => "etc/sparql11.bnf" do |t|
+file "etc/sparql12.html" => "etc/sparql12.bnf" do |t|
   sh %{
     ebnf --format html \
-      --output etc/sparql11.html \
-      etc/sparql11.bnf
+      --output etc/sparql12.html \
+      --renumber \
+      etc/sparql12.bnf
   }
 end
 

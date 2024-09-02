@@ -167,6 +167,7 @@ module SPARQL
   #     PREFIX : <http://bigdata.com>
   #     PREFIX foaf: <http://xmlns.com/foaf/0.1/>
   #     PREFIX dct:  <http://purl.org/dc/elements/1.1/>
+  #     PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
   #     
   #     SELECT ?age ?src WHERE {
   #        ?bob foaf:name "Bob" .
@@ -176,15 +177,15 @@ module SPARQL
   # SXP:
   # 
   #     (prefix
-  #      (
-  #       (: <http://bigdata.com>)
-  #       (foaf: <http://xmlns.com/foaf/0.1/>)
-  #       (dct: <http://purl.org/dc/elements/1.1/>))
-  #      (project
-  #       (?age ?src)
-  #       (bgp
-  #        (triple ?bob foaf:name "Bob")
-  #        (triple (qtriple ?bob foaf:age ?age) dct:source ?src)) ))
+  #       ((: <http://bigdata.com>)
+  #        (foaf: <http://xmlns.com/foaf/0.1/>)
+  #        (dct: <http://purl.org/dc/elements/1.1/>)
+  #        (rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>))
+  #       (project (?age ?src)
+  #         (bgp
+  #           (triple ?bob foaf:name "Bob")
+  #           (triple ??0 rdf:reifies (qtriple ?bob foaf:age ?age))
+  #           (triple ??0 dct:source ?src))))
   #
   # SPARQL:
   #
@@ -205,20 +206,19 @@ module SPARQL
   # SXP:
   #
   #     (prefix
-  #      (
-  #       (: <http://bigdata.com>)
-  #       (foaf: <http://xmlns.com/foaf/0.1/>)
-  #       (dct: <http://purl.org/dc/elements/1.1/>))
-  #      (construct
-  #       (
-  #        (triple ?bob foaf:name "Bob")
-  #        (triple (qtriple ?bob foaf:age ?age) dct:creator <http://example.com/crawlers#c1>)
-  #        (triple (qtriple ?bob foaf:age ?age) dct:source ?src))
+  #       ((: <http://bigdata.com>)
+  #        (foaf: <http://xmlns.com/foaf/0.1/>)
+  #        (dct: <http://purl.org/dc/elements/1.1/>))
+  #       (construct
+  #         ((triple ?bob foaf:name "Bob")
+  #         (triple _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ?bob foaf:age ?age))
+  #         (triple _:b0 dct:creator <http://example.com/crawlers#c1>)
+  #         (triple _:b0 dct:source ?src))
   #       (bgp
-  #        (triple ?bob foaf:name "Bob")
-  #        (triple (qtriple ?bob foaf:age ?age) dct:source ?src)) ))
-  
-
+  #         (triple ?bob foaf:name "Bob")
+  #         (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ?bob foaf:age ?age))
+  #         (triple ??0 dct:source ?src))))
+  #
   # ## Implementation Notes
   # The parser is driven through a rules table contained in lib/sparql/grammar/meta.rb. This includes branch rules to indicate productions to be taken based on a current production.
   # 
@@ -232,8 +232,8 @@ module SPARQL
   # @see http://www.w3.org/TR/sparql11-query/#grammar
   # @see https://rubygems.org/gems/ebnf
   module Grammar
-    autoload :Parser,     'sparql/grammar/parser11'
-    autoload :Terminals,  'sparql/grammar/terminals11'
+    autoload :Parser,     'sparql/grammar/parser'
+    autoload :Terminals,  'sparql/grammar/terminals'
 
     # Make all defined non-autoloaded constants immutable:
     constants.each { |name| const_get(name).freeze unless autoload?(name) }

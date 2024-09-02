@@ -428,7 +428,7 @@ module SPARQL; module Algebra
     # @return [SPARQL::Algebra::Expression] `self`
     # @raise  [ArgumentError] if the value is invalid
     def validate!
-      raise ArgumentError if invalid?
+      raise ArgumentError, "#{self.inspect} is invalid" if invalid?
       self
     end
     alias_method :validate, :validate!

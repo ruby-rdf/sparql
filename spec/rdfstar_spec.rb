@@ -4,12 +4,15 @@ require 'nokogiri'
 require 'equivalent-xml'
 
 describe "SPARQL-star" do
+  let(:logger) {RDF::Spec.logger.tap {|l| l.level = Logger::INFO}}
+
   let(:data) do
     RDF::Graph.new do |g|
       g << RDF::NTriples::Reader.new(%(
         <http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/name> "Bob" .
         <http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer> .
-        <<<http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer>>> <http://example.org/certainty> "0.9"^^<http://www.w3.org/2001/XMLSchema#decimal> .
+        _:r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> <<(<http://bigdata.com/bob> <http://xmlns.com/foaf/0.1/age> "23"^^<http://www.w3.org/2001/XMLSchema#integer>)>> .
+        _:r <http://example.org/certainty> "0.9"^^<http://www.w3.org/2001/XMLSchema#decimal> .
       ), rdfstar: true)
     end
   end
@@ -31,11 +34,12 @@ describe "SPARQL-star" do
           (prefix ((: <http://bigdata.com/>)
             (foaf: <http://xmlns.com/foaf/0.1/>)
             (ex: <http://example.org/>))
-          (project
-           (?age ?c)
-           (bgp
-            (triple ?bob foaf:name "Bob")
-            (triple (qtriple ?bob foaf:age ?age) ex:certainty ?c)) ))),
+           (project (?age ?c)
+            (bgp
+             (triple ?bob foaf:name "Bob")
+             (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+              (qtriple ?bob foaf:age ?age))
+             (triple ??0 ex:certainty ?c))))),
         json: JSON.parse(%({
           "head": {"vars": ["age", "c"]},
           "results": {
@@ -87,7 +91,8 @@ describe "SPARQL-star" do
            (bgp
             (triple ?bob foaf:name "Bob")
             (triple ?bob foaf:age ?age)
-            (triple (qtriple ?bob foaf:age ?age) ex:certainty ?c)) ))),
+            (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ?bob foaf:age ?age)) 
+            (triple ??0 ex:certainty ?c)) ))),
         json: JSON.parse(%({
           "head": {"vars": ["age", "c"]},
           "results": {
@@ -130,8 +135,11 @@ describe "SPARQL-star" do
         sxp: %{
           (prefix ((: <http://example.com/ns#>))
            (sequence
-            (bgp (triple ?s ?p ?o))
-            (path (qtriple ?s ?p ?o) (seq :r :q) "ABC")))
+            (bgp
+             (triple ?s ?p ?o)
+             (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+              (qtriple ?bob <http://xmlns.com/foaf/0.1/age> ?age)))
+            (path ??0 (seq :r :q) "ABC")))
         }
       }
     },
@@ -146,9 +154,11 @@ describe "SPARQL-star" do
         sxp: %{
           (prefix ((: <http://example.com/ns#>))
            (construct
-            ((triple (qtriple ?s ?p ?o) :source ?g)
+            ((triple _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+              (qtriple ?bob <http://xmlns.com/foaf/0.1/age> ?age))
+             (triple _:b0 :source ?g)
              (triple ?s ?p ?o))
-            (graph ?g (bgp (triple ?s ?p ?o)))) )
+           (graph ?g (bgp (triple ?s ?p ?o)))))
         }
       }
     },
@@ -174,7 +184,7 @@ describe "SPARQL-star" do
       query: %(
         PREFIX : <http://example.com/ns#>
 
-        INSERT DATA { :s :p :o {| :y :z |} }
+        INSERT DATA { :s :p :o  ~ :r {| :y :z |} }
       ),
       update: true,
       result: {
@@ -182,8 +192,10 @@ describe "SPARQL-star" do
           (prefix ((: <http://example.com/ns#>))
            (update
             (insertData
-             ((triple (qtriple :s :p :o) :y :z)
-             (triple :s :p :o)))))
+             ((triple :r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+               (qtriple :s :p :o))
+              (triple :r :y :z)
+              (triple :s :p :o)))))
         }
       }
     },
@@ -192,9 +204,9 @@ describe "SPARQL-star" do
         PREFIX : <http://example.com/ns#>
 
         INSERT {
-            << :a :b :c >> ?P :o2  {| ?Y <<:s1 :p1 ?Z>> |}
+          << :a :b :c >> ?P :o2 {| ?Y << :s1 :p1 ?Z >> |}
         } WHERE {
-           << :a :b :c >> ?P :o1 {| ?Y <<:s1 :p1 ?Z>> |}
+          << :a :b :c >> ?P :o1 {| ?Y << :s1 :p1 ?Z >> |}
         }
       ),
       update: true,
@@ -204,18 +216,23 @@ describe "SPARQL-star" do
            (update
             (modify
              (bgp
-              (triple (qtriple :a :b :c) ?P :o1)
-              (triple (qtriple (qtriple :a :b :c) ?P :o1) ?Y (qtriple :s1 :p1 ?Z)))
+              (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :a :b :c))
+              (triple ??0 ?P :o1)
+              (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ??0 ?P :o1))
+              (triple ??1 ?Y ??2)
+              (triple ??2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :s1 :p1 ?Z)))
              (insert
-              (
-               (triple (qtriple (qtriple :a :b :c) ?P :o2) ?Y (qtriple :s1 :p1 ?Z))
-               (triple (qtriple :a :b :c) ?P :o2))))))
+              ((triple _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :a :b :c))
+               (triple _:b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple _:b0 ?P :o2))
+               (triple _:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :s1 :p1 ?Z))
+               (triple _:b1 ?Y _:b2)
+               (triple _:b0 ?P :o2))))))
         }
       }
     }
   }.each do |name, params|
     context name do
-      let(:query) { SPARQL.parse(params[:query], update: params[:update]) }
+      let(:query) { SPARQL.parse(params[:query], update: params[:update], logger: logger) }
       let(:result) { data.query(query) }
       subject {result}
 
@@ -235,7 +252,7 @@ describe "SPARQL-star" do
         end
 
         it "produces equivalent SXP" do
-          expect(query).to produce(SPARQL::Algebra.parse(params[:result][:sxp]), [])
+          expect(query).to generate(params[:result][:sxp], logger: logger)
         end
       end
 
