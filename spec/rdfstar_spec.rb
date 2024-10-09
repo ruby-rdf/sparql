@@ -37,9 +37,9 @@ describe "SPARQL-star" do
            (project (?age ?c)
             (bgp
              (triple ?bob foaf:name "Bob")
-             (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
               (qtriple ?bob foaf:age ?age))
-             (triple ??0 ex:certainty ?c))))),
+             (triple ??1 ex:certainty ?c))))),
         json: JSON.parse(%({
           "head": {"vars": ["age", "c"]},
           "results": {
@@ -138,7 +138,7 @@ describe "SPARQL-star" do
             (bgp
              (triple ?s ?p ?o)
              (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
-              (qtriple ?bob <http://xmlns.com/foaf/0.1/age> ?age)))
+              (qtriple ?s ?p ?o)))
             (path ??0 (seq :r :q) "ABC")))
         }
       }
@@ -154,10 +154,10 @@ describe "SPARQL-star" do
         sxp: %{
           (prefix ((: <http://example.com/ns#>))
            (construct
-            ((triple _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
-              (qtriple ?bob <http://xmlns.com/foaf/0.1/age> ?age))
-             (triple _:b0 :source ?g)
-             (triple ?s ?p ?o))
+            ((triple ?s ?p ?o)
+             (triple _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+              (qtriple ?s ?p ?o))
+             (triple _:b0 :source ?g))
            (graph ?g (bgp (triple ?s ?p ?o)))))
         }
       }
@@ -192,10 +192,10 @@ describe "SPARQL-star" do
           (prefix ((: <http://example.com/ns#>))
            (update
             (insertData
-             ((triple :r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+             ((triple :s :p :o)
+              (triple :r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
                (qtriple :s :p :o))
-              (triple :r :y :z)
-              (triple :s :p :o)))))
+              (triple :r :y :z)))))
         }
       }
     },
@@ -216,17 +216,17 @@ describe "SPARQL-star" do
            (update
             (modify
              (bgp
-              (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :a :b :c))
-              (triple ??0 ?P :o1)
-              (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ??0 ?P :o1))
-              (triple ??1 ?Y ??2)
-              (triple ??2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :s1 :p1 ?Z)))
-             (insert
-              ((triple _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :a :b :c))
-               (triple _:b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple _:b0 ?P :o2))
-               (triple _:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :s1 :p1 ?Z))
-               (triple _:b1 ?Y _:b2)
-               (triple _:b0 ?P :o2))))))
+              (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :a :b :c))
+              (triple ??1 ?P :o1)
+              (triple ??2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ??1 ?P :o1))
+              (triple ??2 ?Y ??4)
+              (triple ??4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :s1 :p1 ?Z)) )
+             (insert (
+              (triple _:b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :a :b :c))
+              (triple _:b1 ?P :o2)
+              (triple _:b2 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple _:b1 ?P :o2))
+              (triple _:b2 ?Y _:b4)
+              (triple _:b4 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple :s1 :p1 ?Z)))))))
         }
       }
     }

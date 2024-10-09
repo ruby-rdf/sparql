@@ -812,6 +812,14 @@ module SPARQL; module Algebra
       operands.inject({}) {|hash, o| o.respond_to?(:variables) ? hash.merge(o.variables) : hash}
     end
 
+    # In generall, two operands cannot be merged
+    #
+    # @param [RDF::Query] other
+    # @return [Boolean]
+    def mergable?(other)
+      false
+    end
+
   protected
 
     ##

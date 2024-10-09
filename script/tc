@@ -55,10 +55,16 @@ def run_tc(tc, **options)
   result = "untested"
 
   query_string = tc.query_string || tc.action.query_string
-  query = SPARQL.parse(query_string,
-                      update: tc.type.include?('Update'),
-                      base_uri: RDF::URI(tc.action.query_file),
-                      logger: options[:logger]) rescue "(error)"
+  parser = if options[:use11]
+    SPARQL::Grammar::Parser11.new(query_string,
+                                  base_uri: RDF::URI(tc.action.query_file),
+                                  logger: options[:logger]) rescue "(error)"
+  else
+    SPARQL::Grammar::Parser.new(query_string,
+                                base_uri: RDF::URI(tc.action.query_file),
+                                logger: options[:logger]) rescue "(error)"
+  end
+  query = parser.parse(tc.type.include?('Update') ? :UpdateUnit : :QueryUnit)
 
   options[:logger].clear
 
@@ -317,6 +323,7 @@ OPT_ARGS = [
   ["--rdfstar",         GetoptLong::NO_ARGUMENT, "Run RDF* tests"],
   ["--sparql11",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.1 tests"],
   ["--sparql12",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.2 tests"],
+  ["--use11",           GetoptLong::NO_ARGUMENT, "Use the SPARQL 1.1 version of the parser"],
   ["--validate",        GetoptLong::NO_ARGUMENT, "Validate input"],
   ["--verbose", "-v",   GetoptLong::NO_ARGUMENT, "Verbose output"],
   #["--write-manifests", GetoptLong::NO_ARGUMENT, "Write out the parsed manifests for earl reporting"],
@@ -358,7 +365,8 @@ opts.each do |opt, arg|
     options[:quiet] = true
     logger.level = Logger::FATAL
   when '--rdfstar'      then options[:rdfstar] = true
-  when '--sparql12'      then options[:sparql12] = true
+  when '--sparql12'     then options[:sparql12] = true
+  when '--use11'        then options[:use11] = true
   when '--validate'     then options[:validate] = true
   when '--verbose'      then options[:verbose] = true
   end

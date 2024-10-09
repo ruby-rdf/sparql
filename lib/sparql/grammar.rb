@@ -184,8 +184,8 @@ module SPARQL
   #       (project (?age ?src)
   #         (bgp
   #           (triple ?bob foaf:name "Bob")
-  #           (triple ??0 rdf:reifies (qtriple ?bob foaf:age ?age))
-  #           (triple ??0 dct:source ?src))))
+  #           (triple ??1 rdf:reifies (qtriple ?bob foaf:age ?age))
+  #           (triple ??1 dct:source ?src))))
   #
   # SPARQL:
   #
@@ -211,20 +211,20 @@ module SPARQL
   #        (dct: <http://purl.org/dc/elements/1.1/>))
   #       (construct
   #         ((triple ?bob foaf:name "Bob")
-  #         (triple _:b0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ?bob foaf:age ?age))
-  #         (triple _:b0 dct:creator <http://example.com/crawlers#c1>)
-  #         (triple _:b0 dct:source ?src))
+  #         (triple _:b1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ?bob foaf:age ?age))
+  #         (triple _:b1 dct:creator <http://example.com/crawlers#c1>)
+  #         (triple _:b1 dct:source ?src))
   #       (bgp
   #         (triple ?bob foaf:name "Bob")
-  #         (triple ??0 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ?bob foaf:age ?age))
-  #         (triple ??0 dct:source ?src))))
+  #         (triple ??1 <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies> (qtriple ?bob foaf:age ?age))
+  #         (triple ??1 dct:source ?src))))
   #
   # ## Implementation Notes
   # The parser is driven through a rules table contained in lib/sparql/grammar/meta.rb. This includes branch rules to indicate productions to be taken based on a current production.
   # 
   # The meta.rb file is generated from etc/sparql11.bnf using the `ebnf` gem.
   # 
-  #     ebnf --ll1 Query --format rb \
+  #     ebnf --peg --format rb \
   #       --mod-name SPARQL::Grammar::Meta \
   #       --output lib/sparql/grammar/meta.rb \
   #       etc/sparql11.bnf
@@ -232,6 +232,7 @@ module SPARQL
   # @see http://www.w3.org/TR/sparql11-query/#grammar
   # @see https://rubygems.org/gems/ebnf
   module Grammar
+    autoload :Parser11,   'sparql/grammar/parser11'
     autoload :Parser,     'sparql/grammar/parser'
     autoload :Terminals,  'sparql/grammar/terminals'
 
@@ -248,11 +249,16 @@ module SPARQL
     #   Query may be an array of lexed tokens, a lexer, or a
     #   string or open file.
     # @param  [Hash{Symbol => Object}] options
+    # @option options [Boolean] :use11 SPARQL 1.1 version parser
     # @option options (see SPARQL::Grammar::Parser#initialize)
     # @return [Parser]
     # @raise  [Parser::Error] on invalid input
     def self.parse(query, **options, &block)
-      Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+      if options[:use11]
+        Parser11.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+      else
+        Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+      end
     end
 
     ##
@@ -262,6 +268,7 @@ module SPARQL
     # @param  [Hash{Symbol => Object}] options
     #   any additional options (see `RDF::Reader#initialize` and `RDF::Format.for`)
     # @option options [Symbol] :format (:ntriples)
+    # @option options [Boolean] :use11 SPARQL 1.1 version parser
     # @option options (see parse)
     # @yield  [reader]
     # @yieldparam  [RDF::Reader] reader

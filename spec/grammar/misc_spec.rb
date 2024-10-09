@@ -53,7 +53,7 @@ describe SPARQL::Grammar do
             (?class ?keys)
             (extend ((?keys ??.0))
               (group (?class ?key)
-                ((??.0 (group_concat (separator ",") distinct ?item)))
+                ((??.0 (group_concat distinct (separator ",") ?item)))
                 (sequence
                   (bgp
                    (triple ?class <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class>)

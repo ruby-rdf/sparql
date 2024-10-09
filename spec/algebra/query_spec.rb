@@ -501,6 +501,80 @@ describe SPARQL::Algebra::Query do
         ]
       end
     end
+
+    describe "#merge" do
+      subject { RDF::Query.new {|q| q.pattern [:s1, :p1, :o1]}}
+      let(:q1) { RDF::Query.new {|q| q.pattern [:s2, :p2, :o2]}}
+
+      context "with no graph name" do
+        it "can be merged" do
+          expect(subject).to be_mergable(q1)
+        end
+
+        it "has all patterns" do
+          q2 = subject.merge(q1)
+          expect(q2.patterns).to eq(subject.patterns + q1.patterns)
+        end
+      end
+
+      context "with the same graph name" do
+        before {subject.graph_name = q1.graph_name = :gn}
+        it "can be merged" do
+          expect(subject).to be_mergable(q1)
+        end
+
+        it "has all patterns" do
+          q2 = subject.merge(q1)
+          expect(q2.patterns).to eq(subject.patterns + q1.patterns)
+        end
+      end
+
+      context "named subject and default target" do
+        before {
+          subject.graph_name = :gn
+        }
+        it "cannnot be merged" do
+          expect(subject).not_to be_mergable(q1)
+        end
+
+        it "raises ArgumentError" do
+          expect {
+            subject.merge(q1)
+          }.to raise_error(ArgumentError)
+        end
+      end
+
+      context "with default subject and named target" do
+        before {
+          q1.graph_name = :gn1
+        }
+        it "cannnot be merged" do
+          expect(subject).not_to be_mergable(q1)
+        end
+
+        it "raises ArgumentError" do
+          expect {
+            subject.merge(q1)
+          }.to raise_error(ArgumentError)
+        end
+      end
+
+      context "with the different graph names" do
+        before {
+          subject.graph_name = :gn
+          q1.graph_name = :gn1
+        }
+        it "cannnot be merged" do
+          expect(subject).not_to be_mergable(q1)
+        end
+
+        it "raises ArgumentError" do
+          expect {
+            subject.merge(q1)
+          }.to raise_error(ArgumentError)
+        end
+      end
+    end
   end
 
   context "with variable pre-binding" do

@@ -31,6 +31,14 @@ describe SPARQL::Algebra do
       # TODO
     end
 
+    describe "#mergable?" do
+      it "returns false for arbitrary operators" do
+        op1 = SPARQL::Algebra::Operator.new
+        op2 = SPARQL::Algebra::Operator.new
+        expect(op1.mergable?(op2)).to be_falsy
+      end
+    end
+
     describe "#variable?" do
       it "returns true if any of the operands are variables" do
         expect(@op1.new(RDF::Query::Variable.new(:foo))).to be_variable

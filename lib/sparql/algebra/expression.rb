@@ -142,7 +142,7 @@ module SPARQL; module Algebra
       begin
         # Due to confusion over (triple) and special-case for (qtriple)
         if operator == RDF::Query::Pattern
-          options = options.merge(quoted: true) if sse.first == :qtriple
+          options = options.merge(tripleTerm: true) if sse.first == :qtriple
         elsif operator == Operator::Triple && PATTERN_PARENTS.include?(parent_operator)
           operator = RDF::Query::Pattern
         end

@@ -22,7 +22,7 @@ describe EBNF::LL1::Lexer do
       [:DOUBLE,               SPARQL::Grammar::Terminals::DOUBLE],
       [:DECIMAL,              SPARQL::Grammar::Terminals::DECIMAL],
       [:INTEGER,              SPARQL::Grammar::Terminals::INTEGER],
-      [:LANGTAG,              SPARQL::Grammar::Terminals::LANGTAG],
+      [:LANG_DIR,             SPARQL::Grammar::Terminals::LANG_DIR],
       [:PNAME_LN,             SPARQL::Grammar::Terminals::PNAME_LN],
       [:PNAME_NS,             SPARQL::Grammar::Terminals::PNAME_NS],
       [:STRING_LITERAL_LONG1, SPARQL::Grammar::Terminals::STRING_LITERAL_LONG1],
@@ -38,7 +38,7 @@ describe EBNF::LL1::Lexer do
                                 |DESCRIBE|DESC|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
                                 |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
                                 |HOURS|IF|INSERT\sDATA|INSERT|INTO|IN|IRI
-                                |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
+                                |LANGMATCHES|LANG_DIR|LANG|LCASE|LIMIT|LOAD
                                 |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
                                 |NAMED|NOT|NOW|OFFSET|OPTIONAL
                                 |ORDER|PREFIX|RAND|REDUCED|REGEX|ROUND|SAMPLE|SECONDS
@@ -346,14 +346,14 @@ describe EBNF::LL1::Lexer do
         expect(tokens.length).to eq 2
         expect(tokens[0].type).to eq :STRING_LITERAL2
         expect(tokens[0].value).to eq %q("Hello, world!")
-        expect(tokens[1].type).to eq :LANGTAG
+        expect(tokens[1].type).to eq :LANG_DIR
         expect(tokens[1].value).to eq "@en"
       end
       tokenize(%q("Hello, world!"@en-US)) do |tokens|
         expect(tokens.length).to eq 2
         expect(tokens[0].type).to eq :STRING_LITERAL2
         expect(tokens[0].value).to eq %q("Hello, world!")
-        expect(tokens[1].type).to eq :LANGTAG
+        expect(tokens[1].type).to eq :LANG_DIR
         expect(tokens[1].value).to eq "@en-US"
       end
     end
@@ -414,7 +414,7 @@ describe EBNF::LL1::Lexer do
        DESCRIBE DISTINCT DROP ENCODE_FOR_URI EXISTS
        FILTER FLOOR FROM GRAPH GROUP_CONCAT GROUP HAVING
        HOURS IF INSERT INTO IN IRI
-       LANGMATCHES LANGTAG LANG LCASE LIMIT LOAD
+       LANGMATCHES LANG_DIR LANG LCASE LIMIT LOAD
        MAX MD5 MINUS MINUTES MIN MONTH MOVE
        NAMED NOT NOW OFFSET OPTIONAL
        ORDER PREFIX RAND REDUCED REGEX ROUND SAMPLE SECONDS

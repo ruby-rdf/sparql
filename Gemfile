@@ -14,13 +14,13 @@ group :development do
   gem 'json-ld-preloaded',github: 'ruby-rdf/json-ld-preloaded',   branch: 'develop'
   gem 'ld-patch',         github: 'ruby-rdf/ld-patch',            branch: 'develop'
   gem 'linkeddata',       github: 'ruby-rdf/linkeddata',          branch: 'develop'
-  gem 'rdf-hamster-repo',   github: 'ruby-rdf/rdf-hamster-repo',    branch: 'develop'
+  gem 'rdf-hamster-repo', github: 'ruby-rdf/rdf-hamster-repo',    branch: 'develop'
   gem 'rdf-isomorphic',   github: 'ruby-rdf/rdf-isomorphic',      branch: 'develop'
   gem 'rdf-json',         github: 'ruby-rdf/rdf-json',            branch: 'develop'
   gem 'rdf-microdata',    github: 'ruby-rdf/rdf-microdata',       branch: 'develop'
   gem 'rdf-n3',           github: 'ruby-rdf/rdf-n3',              branch: 'develop'
   gem 'rdf-normalize',    github: 'ruby-rdf/rdf-normalize',       branch: 'develop'
-  gem 'rdf-ordered-repo',   github: 'ruby-rdf/rdf-ordered-repo',    branch: 'develop'
+  gem 'rdf-ordered-repo', github: 'ruby-rdf/rdf-ordered-repo',    branch: 'develop'
   gem 'rdf-rdfa',         github: 'ruby-rdf/rdf-rdfa',            branch: 'develop'
   gem 'rdf-rdfxml',       github: 'ruby-rdf/rdf-rdfxml',          branch: 'develop'
   gem 'rdf-reasoner',     github: 'ruby-rdf/rdf-reasoner',        branch: 'develop'
@@ -35,6 +35,8 @@ group :development do
   gem 'erubis',           '>= 2.7.0'
   gem 'htmlentities',     '>= 4.3.4'
   gem 'equivalent-xml',   '>= 0.6.0'
+  gem 'ostruct',          '>= 0.6.0'
+  gem 'ruby-prof',        platforms: :mri
 end
 
 group :debug do

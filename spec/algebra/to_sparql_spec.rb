@@ -9,7 +9,7 @@ shared_examples "SXP to SPARQL" do |name, sxp, **options|
   it(name) do
     sse = SPARQL::Algebra.parse(sxp)
     sparql_result = sse.to_sparql
-    production = sparql_result.match?(/ASK|SELECT|CONSTRUCT|DESCRIBE/) ? :QueryUnit : :UpdateUnit
+    production = sparql_result.match?(/ASK|SELECT|CONSTRUCT|DESCRIBE/i) ? :QueryUnit : :UpdateUnit
     expect(sparql_result).to generate(sxp, resolve_iris: false, production: production, validate: true, **options)
   end
 end
@@ -17,7 +17,7 @@ end
 describe SPARQL::Algebra::Operator do
   it_behaves_like "SXP to SPARQL", "simple query",
     %{(prefix ((: <http://example/>))
-          (bgp (triple :s :p :o)))}
+       (bgp (triple :s :p :o)))}
 
   context "Examples" do
     def self.read_examples
@@ -41,7 +41,9 @@ describe SPARQL::Algebra::Operator do
       describe "Operator #{op}:" do
         examples.each do |example|
           sxp, sparql, ctx = example[:sxp], example[:sparql], example[:ctx]
-          it_behaves_like "SXP to SPARQL", (ctx || ('sxp: ' + sxp)), sxp, logger: "Source:\n#{sparql}"
+          logger = RDF::Spec.logger.tap {|l| l.level = Logger::INFO}
+          logger.info "Source:\n#{sparql}"
+          it_behaves_like "SXP to SPARQL", (ctx || ('sxp: ' + sxp)), sxp, logger: logger
         end
       end
     end

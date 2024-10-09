@@ -429,6 +429,23 @@ class RDF::Query
     end
   end
 
+  # Two queries can be merged if they share the same graph_name
+  #
+  # @param [RDF::Query] other
+  # @return [Boolean]
+  def mergable?(other)
+    other.is_a?(RDF::Query) && self.graph_name == other.graph_name
+  end
+
+  # Two queries are merged by 
+  #
+  # @param [RDF::Query] other
+  # @return [RDF::Query]
+  def merge(other)
+    raise ArgumentError, "Can't merge with #{other.class}" unless mergable?(other)
+    self.dup.tap {|q| q.instance_variable_set(:@patterns, q.patterns + other.patterns)}
+  end
+
   ##
   #
   # Returns a partial SPARQL grammar for this query.
@@ -552,6 +569,16 @@ class RDF::Query::Pattern
   #
   # @return [Boolean] `true`
   def executable?; true; end
+
+  ##
+  # Returns an S-Expression (SXP) representation
+  #
+  # @param [Hash{Symbol => RDF::URI}] prefixes (nil)
+  # @param [RDF::URI] base_uri (nil)
+  # @return [String]
+  def to_sxp(prefixes: nil, base_uri: nil)
+    to_sxp_bin.to_sxp(prefixes: prefixes, base_uri: base_uri)
+  end
 end
 
 ##

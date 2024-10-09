@@ -34,11 +34,13 @@ Gem::Specification.new do |gem|
   gem.add_runtime_dependency     'ebnf',               '~> 2.5'
   gem.add_runtime_dependency     'builder',            '~> 3.2', '>= 3.2.4'
   gem.add_runtime_dependency     'logger',             '~> 1.5'
+  gem.add_runtime_dependency     'readline',           '~> 0.0'
   gem.add_runtime_dependency     'sxp',                '~> 2.0'
   gem.add_runtime_dependency     'sparql-client',      '~> 3.3'
   gem.add_runtime_dependency     'rdf-xsd',            '~> 3.3'
 
   gem.add_development_dependency 'getoptlong',         '~> 0.2'
+  gem.add_development_dependency 'ostruct',            '~> 0.6'
   gem.add_development_dependency 'sinatra',            '~> 3.1'
   gem.add_development_dependency 'rack',               '>= 2.2', '< 4'
   gem.add_development_dependency 'rack-test',          '~> 2.1'

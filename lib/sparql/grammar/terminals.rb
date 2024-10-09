@@ -1,4 +1,4 @@
-require 'ebnf/ll1/lexer'
+require 'ebnf/unescape'
 
 module SPARQL::Grammar
   module Terminals
@@ -16,7 +16,7 @@ module SPARQL::Grammar
     IRI_RANGE        = Regexp.compile("[[^<>\"{}|^`\\\\]&&[^\\x00-\\x20]]").freeze
 
     # 26
-    UCHAR                = EBNF::LL1::Lexer::UCHAR
+    UCHAR                = EBNF::Unescape::UCHAR
     # 170s
     PERCENT              = /%[0-9A-Fa-f]{2}/.freeze
     # 172s
@@ -56,6 +56,7 @@ module SPARQL::Grammar
     VAR2                 = /\$#{VARNAME}/.freeze
     # 134
     LANGTAG              = /@[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/.freeze
+    LANG_DIR             = /@([a-zA-Z]+(?:-[a-zA-Z0-9]+)*(?:--[a-zA-Z]+)?)/u.freeze
     # 135
     INTEGER              = /[0-9]+/.freeze
     # 136
@@ -98,7 +99,7 @@ module SPARQL::Grammar
                  |DESCRIBE|DESC|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
                  |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
                  |HOURS|IF|INSERT\s+DATA|INSERT|INTO|IN|IRI
-                 |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
+                 |LANGMATCHES|LANGTAG|LANG_DIR|LANG|LCASE|LIMIT|LOAD
                  |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
                  |NAMED|NOT|NOW|OFFSET|OPTIONAL
                  |ORDER|PREFIX|RAND|REDUCED|REGEX|REPLACE|ROUND|SAMPLE|SECONDS
@@ -125,7 +126,7 @@ module SPARQL::Grammar
       DESCRIBE DESC DISTINCT DROP ENCODE_FOR_URI EXISTS
       FILTER FLOOR FROM GRAPH GROUP_CONCAT GROUP HAVING
       HOURS IF INSERT INTO IN IRI
-      LANGMATCHES LANGTAG LANG LCASE LIMIT LOAD
+      LANGMATCHES LANGTAG LANG_DIR LANG LCASE LIMIT LOAD
       MAX MD5 MINUS MINUTES MIN MONTH MOVE
       NAMED NOT NOW OFFSET OPTIONAL
       ORDER PREFIX RAND REDUCED REGEX REPLACE ROUND SAMPLE SECONDS

@@ -1,5 +1,5 @@
 require 'ebnf'
-require 'ebnf/ll1/parser'
+require 'ebnf/peg/parser'
 require 'sparql/grammar/meta'
 
 module SPARQL::Grammar
@@ -11,24 +11,8 @@ module SPARQL::Grammar
   class Parser
     include SPARQL::Grammar::Meta
     include SPARQL::Grammar::Terminals
-    include EBNF::LL1::Parser
+    include EBNF::PEG::Parser
 
-    # Builtin functions
-    BUILTINS = %w{
-      ABS ADJUST BNODE CEIL COALESCE CONCAT
-      CONTAINS DATATYPE DAY ENCODE_FOR_URI
-      FLOOR HOURS IF IRI LANGMATCHES LANG LCASE
-      MD5 MINUTES MONTH NOW RAND ROUND SECONDS
-      SHA1 SHA224 SHA256 SHA384 SHA512
-      STRAFTER STRBEFORE STRDT STRENDS STRLANG STRLEN STRSTARTS STRUUID STR
-      TIMEZONE TZ UCASE URI UUID YEAR
-      isBLANK isIRI isURI isLITERAL isNUMERIC sameTerm
-      isTRIPLE TRIPLE SUBJECT PREDICATE OBJECT
-    }.map {|s| s.downcase.to_sym}.freeze
-
-    BUILTIN_RULES = [:aggregate, :regex, :substr, :replace, :exists, :notexists].freeze
-
-    AGGREGATE_RULES = [:count, :sum, :min, :max, :avg, :sample, :group_concat]
     ##
     # Any additional options for the parser.
     #
@@ -42,253 +26,230 @@ module SPARQL::Grammar
     attr_accessor :input
 
     ##
-    # The current input tokens being processed.
-    #
-    # @return [Array<Token>]
-    attr_reader   :tokens
-
-    ##
     # The internal representation of the result using hierarchy of RDF objects and SPARQL::Algebra::Operator
     # objects.
     # @return [Array]
     attr_accessor :result
 
     # Terminals passed to lexer. Order matters!
-    terminal(:ANON,                 ANON) do |prod, token, input|
-      input[:BlankNode] = bnode
+    terminal(:ANON,                 ANON) do |value, prod|
+      bnode
     end
-    terminal(:NIL,                  NIL) do |prod, token, input|
-      input[:NIL] = RDF['nil']
+    terminal(:NIL,                  NIL) do |value, prod|
+      RDF['nil']
     end
-    terminal(:BLANK_NODE_LABEL,     BLANK_NODE_LABEL) do |prod, token, input|
-      input[:BlankNode] = bnode(token.value[2..-1])
+    terminal(:BLANK_NODE_LABEL,     BLANK_NODE_LABEL) do |value, prod|
+      bnode(value[2..-1])
     end
-    terminal(:IRIREF,               IRIREF, unescape: true) do |prod, token, input|
+    terminal(:IRIREF,               IRIREF, unescape: true) do |value, prod|
       begin
-        input[:iri] = iri(token.value[1..-2])
+        iri(value[1..-2])
       rescue ArgumentError => e
         raise Error, e.message
       end
     end
-    terminal(:DOUBLE_POSITIVE,      DOUBLE_POSITIVE) do |prod, token, input|
+    terminal(:DOUBLE_POSITIVE,      DOUBLE_POSITIVE) do |value, prod|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
-      value = token.value.sub(/\.([eE])/, '.0\1')
-      input[:literal] = literal(value, datatype: RDF::XSD.double)
+      value = value.sub(/\.([eE])/, '.0\1')
+      literal(value, datatype: RDF::XSD.double)
     end
-    terminal(:DECIMAL_POSITIVE,     DECIMAL_POSITIVE) do |prod, token, input|
+    terminal(:DECIMAL_POSITIVE,     DECIMAL_POSITIVE) do |value, prod|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
-      value = token.value
-      value = "0#{token.value}" if token.value[0,1] == "."
-      input[:literal] = literal(value, datatype: RDF::XSD.decimal)
+      value = "0#{value}" if value[0,1] == "."
+      literal(value, datatype: RDF::XSD.decimal)
     end
-    terminal(:INTEGER_POSITIVE,     INTEGER_POSITIVE) do |prod, token, input|
-      input[:literal] = literal(token.value, datatype: RDF::XSD.integer)
+    terminal(:INTEGER_POSITIVE,     INTEGER_POSITIVE) do |value, prod|
+      literal(value, datatype: RDF::XSD.integer)
     end
-    terminal(:DOUBLE_NEGATIVE,      DOUBLE_NEGATIVE) do |prod, token, input|
+    terminal(:DOUBLE_NEGATIVE,      DOUBLE_NEGATIVE) do |value, prod|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
-      value = token.value.sub(/\.([eE])/, '.0\1')
-      input[:literal] = literal(value, datatype: RDF::XSD.double)
+      value = value.sub(/\.([eE])/, '.0\1')
+      literal(value, datatype: RDF::XSD.double)
     end
-    terminal(:DECIMAL_NEGATIVE,     DECIMAL_NEGATIVE) do |prod, token, input|
+    terminal(:DECIMAL_NEGATIVE,     DECIMAL_NEGATIVE) do |value, prod|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
-      value = token.value
-      value = "0#{token.value}" if token.value[0,1] == "."
-      input[:literal] = literal(value, datatype: RDF::XSD.decimal)
+      value = "0#{value}" if value[0,1] == "."
+      literal(value, datatype: RDF::XSD.decimal)
     end
-    terminal(:INTEGER_NEGATIVE,     INTEGER_NEGATIVE) do |prod, token, input|
-      input[:literal] = literal(token.value, datatype: RDF::XSD.integer)
+    terminal(:INTEGER_NEGATIVE,     INTEGER_NEGATIVE) do |value, prod|
+      literal(value, datatype: RDF::XSD.integer)
     end
-    terminal(:DOUBLE,               DOUBLE) do |prod, token, input|
+    terminal(:DOUBLE,               DOUBLE) do |value, prod|
       # Note that a Turtle Double may begin with a '.[eE]', so tack on a leading
       # zero if necessary
-      value = token.value.sub(/\.([eE])/, '.0\1')
-      input[:literal] = literal(value, datatype: RDF::XSD.double)
+      value = value.sub(/\.([eE])/, '.0\1')
+      literal(value, datatype: RDF::XSD.double)
     end
-    terminal(:DECIMAL,              DECIMAL) do |prod, token, input|
+    terminal(:DECIMAL,              DECIMAL) do |value, prod|
       # Note that a Turtle Decimal may begin with a '.', so tack on a leading
       # zero if necessary
-      value = token.value
-      #value = "0#{token.value}" if token.value[0,1] == "."
-      input[:literal] = literal(value, datatype: RDF::XSD.decimal)
+      value = value
+      #value = "0#{value}" if value[0,1] == "."
+      literal(value, datatype: RDF::XSD.decimal)
     end
-    terminal(:INTEGER,              INTEGER) do |prod, token, input|
-      input[:literal] = literal(token.value, datatype: RDF::XSD.integer)
+    terminal(:INTEGER,              INTEGER) do |value, prod|
+      literal(value, datatype: RDF::XSD.integer)
     end
-    terminal(:LANGTAG,              LANGTAG) do |prod, token, input|
-      input[:language] = token.value[1..-1]
+    terminal(:LANG_DIR,             LANG_DIR) do |value, prod|
+      value[1..-1]
     end
-    terminal(:PNAME_LN,             PNAME_LN, unescape: true) do |prod, token, input|
-      prefix, suffix = token.value.split(":", 2)
-      input[:iri] = ns(prefix, suffix)
+    terminal(:PNAME_LN,             PNAME_LN, unescape: true) do |value, prod|
+      prefix, suffix = value.split(":", 2)
+      ns(prefix, suffix)
     end
-    terminal(:PNAME_NS,             PNAME_NS) do |prod, token, input|
-      prefix = token.value[0..-2]
-      # PrefixedName ::= PNAME_LN | PNAME_NS
-      input[:iri] = ns(prefix, nil)
-      input[:prefix] = prefix && prefix.to_sym
+    terminal(:PNAME_NS,             PNAME_NS) do |value, prod|
+      value[0..-2].to_sym
     end
-    terminal(:STRING_LITERAL_LONG1, STRING_LITERAL_LONG1, unescape: true) do |prod, token, input|
-      input[:string] = token.value[3..-4]
+    terminal(:STRING_LITERAL_LONG1, STRING_LITERAL_LONG1, unescape: true) do |value, prod|
+      value[3..-4]
     end
-    terminal(:STRING_LITERAL_LONG2, STRING_LITERAL_LONG2, unescape: true) do |prod, token, input|
-      input[:string] = token.value[3..-4]
+    terminal(:STRING_LITERAL_LONG2, STRING_LITERAL_LONG2, unescape: true) do |value, prod|
+      value[3..-4]
     end
-    terminal(:STRING_LITERAL1,      STRING_LITERAL1, unescape: true) do |prod, token, input|
-      input[:string] = token.value[1..-2]
+    terminal(:STRING_LITERAL1,      STRING_LITERAL1, unescape: true) do |value, prod|
+      value[1..-2]
     end
-    terminal(:STRING_LITERAL2,      STRING_LITERAL2, unescape: true) do |prod, token, input|
-      input[:string] = token.value[1..-2]
+    terminal(:STRING_LITERAL2,      STRING_LITERAL2, unescape: true) do |value, prod|
+      value[1..-2]
     end
-    terminal(:VAR1,                 VAR1) do |prod, token, input|
-      add_prod_datum(:Var, variable(token.value[1..-1]))
+    terminal(:VAR1,                 VAR1) do |value, prod|
+      variable(value[1..-1])
     end
-    terminal(:VAR2,                 VAR2) do |prod, token, input|
-      add_prod_datum(:Var, variable(token.value[1..-1]))
-    end
-
-    # Keyword terminals
-    terminal(nil, STR_EXPR, map: STR_MAP) do |prod, token, input|
-      case token.value
-      when '+', '-'
-        case prod
-        when :_AdditiveExpression_1, :_AdditiveExpression_4, :_AdditiveExpression_5
-          add_prod_datum(:AdditiveExpression, token.value)
-        when :_UnaryExpression_2, :_UnaryExpression_3
-          add_prod_datum(:UnaryExpression, token.value)
-        when :PathMod
-          add_prod_datum(:PathMod, token.value)
-        else
-          raise "Unexpected production #{prod} for #{token}"
-        end
-      when '?'             then add_prod_datum(:PathMod, token.value)
-      when '^'             then input[:reverse] = token.value
-      when '*', '/'        then add_prod_datum(:MultiplicativeExpression, token.value)
-      when '=', '!=', '<',
-           '>', '<=', '>=' then add_prod_datum(:RelationalExpression, token.value)
-      when '&&'            then add_prod_datum(:ConditionalAndExpression, token.value)
-      when '||'            then add_prod_datum(:ConditionalOrExpression, token.value)
-      when '!'             then add_prod_datum(:UnaryExpression, token.value)
-      when 'a'             then input[:Verb] = (a = RDF.type.dup; a.lexical = 'a'; a)
-      when /true|false/    then input[:literal] = RDF::Literal::Boolean.new(token.value.downcase)
-      when /ASC|DESC/      then input[:OrderDirection] = token.value.downcase.to_sym
-      when /DISTINCT|REDUCED/  then input[:DISTINCT_REDUCED] = token.value.downcase.to_sym
-      when %r{
-          ABS|ADJUST|ALL|AVG|BNODE|BOUND|CEIL|COALESCE|CONCAT
-         |CONTAINS|COUNT|DATATYPE|DAY|DEFAULT|ENCODE_FOR_URI|EXISTS
-         |FLOOR|HOURS|IF|GRAPH|GROUP_CONCAT|IRI|LANGMATCHES|LANG|LCASE
-         |MAX|MD5|MINUTES|MIN|MONTH|NAMED|NOW|RAND|REPLACE|ROUND|SAMPLE|SECONDS|SEPARATOR
-         |SHA1|SHA224|SHA256|SHA384|SHA512|SILENT
-         |STRAFTER|STRBEFORE|STRDT|STRENDS|STRLANG|STRLEN|STRSTARTS|STRUUID|SUBSTR|STR|SUM
-         |TIMEZONE|TZ|UCASE|UNDEF|URI|UUID|YEAR
-         |isBLANK|isIRI|isURI|isLITERAL|isNUMERIC|sameTerm
-         |isTRIPLE|TRIPLE|SUBJECT|PREDICATE|OBJECT
-        }x
-        add_prod_datum(token.value.downcase.to_sym, token.value.downcase.to_sym)
-      else
-        #add_prod_datum(:string, token.value)
-      end
+    terminal(:VAR2,                 VAR2) do |value, prod|
+      variable(value[1..-1])
     end
 
     # Productions
 
     # Query ::= Prologue ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
     #
-    # Inputs from `data` are `:query` and potentially `:PrefixDecl`.
-    # Output to prod_data is the Queryable object.
-    production(:Query) do |input, data, callback|
-      query = data[:query].first if data[:query]
+    # Result is query
+    start_production(:Query, as_hash: true)
+    production(:Query) do |value|
+      query = value[:_Query_1]
+      prologue = value[:Prologue] || {PrefixDecl: []}
 
       # Add prefix
-      if data[:PrefixDecl]
-        pfx = data[:PrefixDecl].shift
-        data[:PrefixDecl].each {|p| pfx.merge!(p)}
+      unless prologue[:PrefixDecl].empty?
+        pfx = prologue[:PrefixDecl].shift
+        prologue[:PrefixDecl].each {|p| pfx.merge!(p)}
         pfx.operands[1] = query
         query = pfx
       end
 
       # Add base
-      query = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, query] if data[:BaseDecl]
+      query = SPARQL::Algebra::Expression[:base, prologue[:BaseDecl], query] if prologue[:BaseDecl]
 
-      add_prod_datum(:query, query)
+      query
+    end
+
+    # UpdateUnit ::= Update
+    #
+    # Result is update
+    start_production(:UpdateUnit, as_hash: true)
+    production(:UpdateUnit) do |value|
+      value[:Update]
     end
 
     # Prologue ::= ( BaseDecl | PrefixDecl )*
     #
-    # Inputs from `data` are `:PrefixDecl` and `:BaseDecl`.
-    # Output to prod_data is the same, if `#resolve_iris?` is `false`.
-    production(:Prologue) do |input, data, callback|
+    # Result is hash including BaseDecl and PrefixDecl
+    production(:Prologue) do |value|
       unless resolve_iris?
         # Only output if we're not resolving URIs internally
-        add_prod_datum(:BaseDecl, data[:BaseDecl])
-        add_prod_datum(:PrefixDecl, data[:PrefixDecl])
+        {
+          BaseDecl: value.map {|v| v[:BaseDecl]}.compact.last,
+          PrefixDecl: value.map {|v| v[:PrefixDecl]}.compact
+        }.compact
       end
     end
 
-    # BaseDecl ::= 'BASE' IRI_REF
+    # BaseDecl ::= 'BASE' IRIREF
     #
-    # Input from `data` is `:BaseDecl`.
-    # Output to prod_data is the same, if `#resolve_iris?` is `false`.
-    production(:BaseDecl) do |input, data, callback|
-      iri = data[:iri]
+    # Result is hash including BaseDecl, unless we are resolving IRIs
+    start_production(:BaseDecl, as_hash: true, insensitive_srings: :upper)
+    production(:BaseDecl) do |value|
+      iri = value[:IRIREF]
       debug("BaseDecl") {"Defined base as #{iri}"}
       self.base_uri = iri(iri)
-      add_prod_datum(:BaseDecl, iri) unless resolve_iris?
+      resolve_iris? || {BaseDecl: iri}
     end
 
-    # PrefixDecl ::= 'PREFIX' PNAME_NS IRI_REF
+    # PrefixDecl ::= 'PREFIX' PNAME_NS IRIREF
     #
-    # Inputs from `data` are `:iri`, and `:prefix`.
-    # Output to prod_data is the `:PrefixDecl`, and `Operator::Prefix`, unless there is no `:iri`.
-    production(:PrefixDecl) do |input, data, callback|
-      if data[:iri]
-        pfx = data[:prefix]
-        self.prefix(pfx, data[:iri])
-        prefix_op = SPARQL::Algebra::Operator::Prefix.new([["#{pfx}:".to_sym, data[:iri]]], [])
-        add_prod_datum(:PrefixDecl, prefix_op)
-      end
+    # Result is hash including PrefixDecl
+    start_production(:PrefixDecl, as_hash: true, insensitive_srings: :upper)
+    production(:PrefixDecl) do |value|
+      pfx = value[:PNAME_NS]
+      self.prefix(pfx, value[:IRIREF])
+      prefix_op = SPARQL::Algebra::Operator::Prefix.new([["#{pfx}:".to_sym, value[:IRIREF]]], [])
+      {PrefixDecl: prefix_op}
     end
 
-    # SelectQuery ::= SelectClause DatasetClause* WhereClause SolutionModifier
+    # SelectQuery ::= SelectClause DatasetClause* WhereClause SolutionModifier ValuesClause
     #
-    # Inputs from `data` are merged into a Queryable object.
-    # Output to prod_data is `:query`.
-    production(:SelectQuery) do |input, data, callback|
-      query = merge_modifiers(data)
-      add_prod_datum :query, query
+    # Inputs are dataset, query, value, solution modifiers, vars, and extensions.
+    # Result is a query
+    start_production(:SelectQuery, as_hash: true)
+    production(:SelectQuery) do |value|
+      modifiers = {
+        dataset: value[:_SelectQuery_1],
+        query: value[:WhereClause][:query],
+        values: value[:ValuesClause],
+      }.merge(value[:SolutionModifier]).merge(value[:SelectClause])
+      merge_modifiers(modifiers)
     end
 
     # SubSelect ::= SelectClause WhereClause SolutionModifier
     #
-    # Inputs from `data` are merged into a Queryable object.
-    # Output to prod_data is `:query`.
-    production(:SubSelect) do |input, data, callback|
-      query = merge_modifiers(data)
-      add_prod_datum :query, query
+    # Inputs are query, solution modifiers, vars, and extensions.
+    # Result is a hash including query.
+    start_production(:SubSelect, as_hash: true)
+    production(:SubSelect) do |value|
+      modifiers = value[:WhereClause].merge(value[:SolutionModifier]).merge(value[:SelectClause])
+      query = merge_modifiers(modifiers)
+      {query: query}
     end
 
     # SelectClause ::= 'SELECT' ( 'DISTINCT' | 'REDUCED' )? ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
-    # _SelectClause_2 ::= ( ( Var | ( '(' Expression 'AS' Var ')' ) )+ | '*' )
     #
-    # Inputs from `data` are `:Expression` and `:Var`.
-    # Output to prod_data is `:Var`.
-    production(:_SelectClause_2) do |input, data, callback|
-      if data[:MultiplicativeExpression]
-        add_prod_datum :Var, %i(*)
-      else
-        add_prod_datum :extend, data[:extend]
-        add_prod_datum :Var, data[:Var]
+    #   (rule SelectClause (seq 'SELECT' _SelectClause_1 _SelectClause_2))
+    #   (rule _SelectClause_1 (opt _SelectClause_3))
+    #   (rule _SelectClause_3 (alt 'DISTINCT' 'REDUCED'))
+    #   (rule _SelectClause_2 (alt _SelectClause_4 '*'))
+    #   (rule _SelectClause_4 (plus _SelectClause_5))
+    #   (rule _SelectClause_5 (alt Var _SelectClause_6))
+    #   (rule _SelectClause_6 (seq '(' Expression 'AS' Var ')'))
+    #
+    # Result is a hash including distinct/reduced, vars and extensions.
+    start_production(:SelectClause, as_hash: true)
+    production(:SelectClause) do |value|
+      res = {
+        DISTINCT_REDUCED: value[:_SelectClause_1]
+      }
+
+      sc2 = Array(value[:_SelectClause_2])
+      sc2.each do |expr|
+        if expr == '*'
+          res[:Var] = %w(*)
+        elsif expr.is_a?(RDF::Query::Variable)
+          (res[:Var] ||= []) << expr
+        elsif expr.is_a?(Hash) && expr[:extend]
+          (res[:extend] ||= []) << expr[:extend]
+        end
       end
+
+      res
     end
-    # _SelectClause_8 ::= ( '(' Expression 'AS' Var ')' )
-    #
-    # Inputs from `data` are `:Expression` and `:Var`.
-    # Output to prod_data is `:extend`.
-    production(:_SelectClause_8) do |input, data, callback|
-      add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
+
+    # (rule _SelectClause_6 (seq '(' Expression 'AS' Var ')'))
+    start_production(:_SelectClause_6, as_hash: true)
+    production(:_SelectClause_6) do |value|
+      {extend: [value[:Var], value[:Expression]]}
     end
 
     #  ConstructQuery ::= 'CONSTRUCT'
@@ -299,514 +260,739 @@ module SPARQL::Grammar
     #                       'WHERE' '{' TriplesTemplate? '}'
     #                       SolutionModifier
     #                     )
+    #                     ValuesClause
     #
-    # Inputs from `data` are `:pattern` and optionally `:ConstructTemplate`.
-    # If there is no `:query` in data, one is constructed by creating a BGP from all values of `:pattern`.
-    # Output to prod_data is `:query` made by creating a Operator::Construct using any `:ConstructTemplate` or `:pattern` and the query with merged modifiers.
-    production(:ConstructQuery) do |input, data, callback|
-      data[:query] ||= [SPARQL::Algebra::Operator::BGP.new(*data[:pattern])]
-      query = merge_modifiers(data)
-      template = data[:ConstructTemplate] || data[:pattern] || []
-      add_prod_datum :query, SPARQL::Algebra::Expression[:construct, template, query]
+    #   (rule ConstructQuery (seq 'CONSTRUCT' _ConstructQuery_1 ValuesClause))
+    #   (rule _ConstructQuery_1 (alt _ConstructQuery_2 _ConstructQuery_3))
+    #   (rule _ConstructQuery_2
+    #    (seq ConstructTemplate _ConstructQuery_4 WhereClause SolutionModifier))
+    #   (rule _ConstructQuery_4 (star DatasetClause))
+    #   (rule _ConstructQuery_3
+    #    (seq _ConstructQuery_5 'WHERE' '{' _ConstructQuery_6 '}' SolutionModifier))
+    #   (rule _ConstructQuery_5 (star DatasetClause))
+    #   (rule _ConstructQuery_6 (opt TriplesTemplate))
+    #
+    # Result is a query
+    start_production(:ConstructQuery, as_hash: true)
+    production(:ConstructQuery) do |value|
+      modifiers = value[:_ConstructQuery_1].merge(values: value[:ValuesClause])
+      template = modifiers.delete(:template) || []
+      query = merge_modifiers(modifiers)
+      SPARQL::Algebra::Expression[:construct, template, query]
     end
 
+    # (rule _ConstructQuery_2
+    #  (seq ConstructTemplate _ConstructQuery_4 WhereClause SolutionModifier))
+    start_production(:_ConstructQuery_2,  as_hash: true)
+    production(:_ConstructQuery_2) do |value|
+      {
+        template: value[:ConstructTemplate],
+        dataset: value[:_ConstructQuery_4],
+        query: value[:WhereClause][:query]
+      }.merge(value[:SolutionModifier])
+    end
+
+    #   (rule _ConstructQuery_3
+    #    (seq _ConstructQuery_5 'WHERE' '{' _ConstructQuery_6 '}'
+    start_production(:_ConstructQuery_3, as_hash: true)
+    production(:_ConstructQuery_3) do |value|
+      {
+        template: value[:_ConstructQuery_6],
+        dataset: value[:_ConstructQuery_5],
+        query: SPARQL::Algebra::Operator::BGP.new(*value[:_ConstructQuery_6])
+      }.merge(value[:SolutionModifier])
+    end
+    
     # DescribeQuery ::= 'DESCRIBE' ( VarOrIri+ | '*' )
-    #                         DatasetClause* WhereClause? SolutionModifier
+    #                   DatasetClause* WhereClause? SolutionModifier ValuesClause
     #
-    # Inputs from `data` are merged into a Queryable object.
-    # Outputs are created using any `:VarOrIri` in data is used as an argument, along with the Queryable object to create an `Operator::Describe` object, which is added to `:query` in prod datea.
-    production(:DescribeQuery) do |input, data, callback|
-      query = merge_modifiers(data)
-      to_describe = Array(data[:VarOrIri])
-      add_prod_datum :query, SPARQL::Algebra::Expression[:describe, to_describe, query]
+    # Result is a query
+    start_production(:DescribeQuery, as_hash: true)
+    production(:DescribeQuery) do |value|
+      modifiers = {
+        dataset: value[:_DescribeQuery_2],
+        query: value&.dig(:_DescribeQuery_3, :query),
+        values: value[:ValuesClause]
+      }.merge(value[:SolutionModifier])
+      query = merge_modifiers(modifiers)
+      to_describe = Array(value[:_DescribeQuery_1]).reject {|v| v == '*'}
+      SPARQL::Algebra::Expression[:describe, to_describe, query]
     end
 
-    # AskQuery ::= 'ASK' DatasetClause* WhereClause
+    # AskQuery ::= 'ASK' DatasetClause* WhereClause ValuesClause
     #
-    # Inputs from `data` are merged into a Queryable object.
-    # Output to prod_data is `:query` made by creating a Operator::Ask using the query with merged modifiers.
-    production(:AskQuery) do |input, data, callback|
-      query = merge_modifiers(data)
-      add_prod_datum :query, SPARQL::Algebra::Expression[:ask, query]
+    # Result is a query
+    start_production(:AskQuery, as_hash: true)
+    production(:AskQuery) do |value|
+      modifiers = {
+        dataset: value[:_AskQuery_1],
+        query: value&.dig(:WhereClause, :query),
+        values: value[:ValuesClause]
+      }.merge(value[:SolutionModifier])
+      SPARQL::Algebra::Operator::Ask.new(merge_modifiers(modifiers))
     end
 
+    # DatasetClause ::= 'FROM' ( DefaultGraphClause | NamedGraphClause )
+    start_production(:DatasetClause, as_hash: true, insenstive_strings: true)
+    production(:DatasetClause) do |value|
+      value[:_DatasetClause_1]
+    end
+    
     # DefaultGraphClause ::= SourceSelector
     #
     # Input from `data` is `:iri`.
     # Output to prod_data is `:dataset` taken from `:iri`.
-    production(:DefaultGraphClause) do |input, data, callback|
-      add_prod_datum :dataset, data[:iri]
+    production(:DefaultGraphClause) do |value|
+      value.first[:SourceSelector]
     end
 
     # NamedGraphClause ::= 'NAMED' SourceSelector
     #
     # Input from `data` is `:iri`.
     # Output to prod_data is `:dataset` taken from `:iri`.
-    production(:NamedGraphClause) do |input, data, callback|
-      add_prod_data :dataset, [:named, data[:iri]]
+    start_production(:NamedGraphClause, as_hash: true)
+    production(:NamedGraphClause) do |value|
+      [:named, value[:SourceSelector]]
+    end
+
+    # SourceSelector ::= iri
+    production(:SourceSelector) do |value|
+      value.first[:iri]
+    end
+
+    # WhereClause ::= 'WHERE'? GroupGraphPattern
+    start_production(:WhereClause, as_hash: true)
+    production(:WhereClause) do |value|
+      {query: value&.dig(:GroupGraphPattern, :query)}
     end
 
     # SolutionModifier ::= GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
+    start_production(:SolutionModifier, as_hash: true)
+    production(:SolutionModifier) do |value|
+      {
+        group: value[:_SolutionModifier_1],
+        having: value[:_SolutionModifier_2],
+        order: value[:_SolutionModifier_3],
+        slice: value[:_SolutionModifier_4],
+      }
+    end
 
     # GroupClause ::= 'GROUP' 'BY' GroupCondition+
     #
-    # Input from `data` is `:GroupCondition`.
-    # Output to prod_data is `:group` taken from `:GroupCondition`.
-    production(:GroupClause) do |input, data, callback|
-      add_prod_data :group, data[:GroupCondition]
+    # Returns one or more group conditions
+    start_production(:GroupClause, as_hash: true)
+    production(:GroupClause) do |value|
+      value[:_GroupClause_1]
     end
 
     # GroupCondition ::= BuiltInCall | FunctionCall
-    #                       | '(' Expression ( 'AS' Var )? ')' | Var
+    #                  | '(' Expression ( 'AS' Var )? ')' | Var
     #
+    #   (rule GroupCondition (alt BuiltInCall FunctionCall _GroupCondition_1 Var))
+    #   (rule _GroupCondition_1 (seq '(' Expression _GroupCondition_2 ')'))
+    #   (rule _GroupCondition_2 (opt _GroupCondition_3))
+    #   (rule _GroupCondition_3 (seq 'AS' Var))
+    #   
     # Output to prod_data is `:GroupCondition` taken from first value in data.
-    production(:GroupCondition) do |input, data, callback|
-      add_prod_datum :GroupCondition, data.values.first
+    start_production(:GroupCondition, as_hash: true)
+    production(:GroupCondition) do |value|
+      value
     end
 
     # _GroupCondition_1 ::= '(' Expression ( 'AS' Var )? ')'
     #
+    #   (rule _GroupCondition_1 (seq '(' Expression _GroupCondition_2 ')'))
+    #   (rule _GroupCondition_2 (opt _GroupCondition_3))
+    #   (rule _GroupCondition_3 (seq 'AS' Var))
+    #
     # Input from `data` is `:Expression` and optionally `:Var`.
     # Output to prod_data is `:GroupCondition` taken from `:Expression` prepended by any value of `:Var`.
-    production(:_GroupCondition_1) do |input, data, callback|
-      cond = if data[:Var]
-        [data[:Expression].unshift(data[:Var].first)]
+    start_production(:_GroupCondition_1, as_hash: true)
+    production(:_GroupCondition_1) do |value|
+      if value[:_GroupCondition_2]
+        [value[:_GroupCondition_2], value[:Expression]]
       else
-        data[:Expression]
+        value[:Expression]
       end
-      add_prod_datum(:GroupCondition, cond)
     end
+
+    production(:_GroupCondition_3) {|value| value.last[:Var]}
 
     # HavingClause ::= 'HAVING' HavingCondition+
     #
+    #   (rule HavingClause (seq 'HAVING' _HavingClause_1))
+    #   (rule _HavingClause_1 (plus HavingCondition))
+    #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:HavingClause) do |input, data, callback|
-      add_prod_datum(:having, data[:Constraint])
+    start_production(:HavingClause, as_hash: true)
+    production(:HavingClause) do |value|
+      value[:_HavingClause_1]
     end
 
+    # HavingCondition ::= Constraint
+    start_production(:HavingCondition, as_hash: true)
+    production(:HavingCondition) do |value|
+      value[:Constraint]
+    end
+    
     # OrderClause ::= 'ORDER' 'BY' OrderCondition+
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:OrderClause) do |input, data, callback|
-      if res = data[:OrderCondition]
-        res = [res] if [:asc, :desc].include?(res[0]) # Special case when there's only one condition and it's ASC (x) or DESC (x)
-        add_prod_data :order, res
-      end
+    start_production(:OrderClause, as_hash: true)
+    production(:OrderClause) do |value|
+      value[:_OrderClause_1]
     end
 
-    # OrderCondition ::= ( ( 'ASC' | 'DESC' )
-    #                           BrackettedExpression )
-    #                       | ( Constraint | Var )
+    # OrderCondition ::= ( ( 'ASC' | 'DESC' ) BrackettedExpression ) | ( Constraint | Var )
+    #
+    #   (rule OrderCondition (alt _OrderCondition_1 _OrderCondition_2))
+    #   (rule _OrderCondition_1 (seq _OrderCondition_3 BrackettedExpression))
+    #   (rule _OrderCondition_3 (alt 'ASC' 'DESC'))
+    #   (rule _OrderCondition_2 (alt Constraint Var))
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:OrderCondition) do |input, data, callback|
-      if data[:OrderDirection]
-        add_prod_datum(:OrderCondition, SPARQL::Algebra::Expression(data[:OrderDirection], *data[:Expression]))
+    start_production(:OrderCondition, as_hash: true)
+    production(:OrderCondition) do |value|
+      if value.is_a?(Hash) && value[:_OrderCondition_3]
+        SPARQL::Algebra::Expression(value[:_OrderCondition_3].downcase, value[:BrackettedExpression])
       else
-        add_prod_datum(:OrderCondition, data[:Constraint] || data[:Var])
+        value
       end
     end
+    start_production(:_OrderCondition_1, as_hash: true)
 
-    # LimitOffsetClauses ::= LimitClause OffsetClause?
-    #                           | OffsetClause LimitClause?
+    # LimitOffsetClauses ::= LimitClause OffsetClause? | OffsetClause LimitClause?
+    #
+    #   (rule _LimitOffsetClauses_1 (seq LimitClause _LimitOffsetClauses_3))
+    #   (rule _LimitOffsetClauses_3 (opt OffsetClause))
+    #   (rule _LimitOffsetClauses_2 (seq OffsetClause _LimitOffsetClauses_4))
+    #   (rule _LimitOffsetClauses_4 (opt LimitClause))
+
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:LimitOffsetClauses) do |input, data, callback|
-      if data[:limit] || data[:offset]
-        limit = data[:limit] ? data[:limit].last : :_
-        offset = data[:offset] ? data[:offset].last : :_
-        add_prod_data :slice, offset, limit
+    production(:LimitOffsetClauses) do |value|
+      if value[:LimitClause]
+        if value[:_LimitOffsetClauses_3]
+          [value[:_LimitOffsetClauses_3], value[:LimitClause]]
+        else
+          [:_, value[:LimitClause]]
+        end
+      else
+        if value[:_LimitOffsetClauses_4]
+          [value[:OffsetClause], value[:_LimitOffsetClauses_4]]
+        else
+          [value[:OffsetClause], :_]
+        end
       end
     end
+    start_production(:_LimitOffsetClauses_1, as_hash: true)
+    start_production(:_LimitOffsetClauses_2, as_hash: true)
 
     # LimitClause ::= 'LIMIT' INTEGER
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:LimitClause) do |input, data, callback|
-      add_prod_datum(:limit, data[:literal])
+    start_production(:LimitClause, as_hash: true)
+    production(:LimitClause) do |value|
+      value[:INTEGER]
     end
 
     # OffsetClause ::= 'OFFSET' INTEGER
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:OffsetClause) do |input, data, callback|
-      add_prod_datum(:offset, data[:literal])
+    start_production(:OffsetClause, as_hash: true)
+    production(:OffsetClause) do |value|
+      value[:INTEGER]
     end
 
     # ValuesClause ::= ( 'VALUES' DataBlock )?
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ValuesClause) do |input, data, callback|
-      debug("ValuesClause") {"vars: #{data[:Var].inspect}, row: #{data[:row].inspect}"}
-      if data[:row]
-        add_prod_datum :ValuesClause, SPARQL::Algebra::Expression.for(:table,
-          Array(data[:Var]).unshift(:vars),
-          *data[:row]
-        )
-      else
-        add_prod_datum :ValuesClause, SPARQL::Algebra::Expression.for(:table, :empty)
+    # Result is a table operator
+    start_production(:ValuesClause, as_hash: true)
+    production(:ValuesClause) do |value|
+      debug("ValuesClause") {value.inspect}
+      if value
+        args = [Array(value[:DataBlock][:Var]).unshift(:vars)] + value[:DataBlock][:row]
+        table = SPARQL::Algebra::Expression.for(:table, *args)
+        table
       end
     end
 
     # Update ::= Prologue (Update1 (";" Update)? )?
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:Update) do |input, data, callback|
-      update = data[:update] || SPARQL::Algebra::Expression(:update)
+    #   (rule Update (seq Prologue _Update_1))
+    #   (rule _Update_1 (opt _Update_2))
+    #   (rule _Update_2 (seq Update1 _Update_3))
+    #   (rule _Update_3 (opt _Update_4))
+    #   (rule _Update_4 (seq ';' Update))
+    #
+    # Output is algebra Expression
+    start_production(:Update, as_hash: true)
+    production(:Update) do |value|
+      prologue = value[:Prologue] || {PrefixDecl: []}
+      update = value[:_Update_1] || SPARQL::Algebra::Expression(:update)
 
       # Add prefix
-      if data[:PrefixDecl]
-        pfx = data[:PrefixDecl].shift
-        data[:PrefixDecl].each {|p| pfx.merge!(p)}
+      unless prologue[:PrefixDecl].empty?
+        pfx = prologue[:PrefixDecl].shift
+        prologue[:PrefixDecl].each {|p| pfx.merge!(p)}
         pfx.operands[1] = update
         update = pfx
       end
 
       # Add base
-      update = SPARQL::Algebra::Expression[:base, data[:BaseDecl].first, update] if data[:BaseDecl]
-
-      # Don't use update operator twice, if we can help it
-      input[:update] = update
+      update = SPARQL::Algebra::Expression[:base, prologue[:BaseDecl], update] if prologue[:BaseDecl]
+      update
     end
 
+    #   (rule _Update_2 (seq Update1 _Update_3))
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_Update_3) do |input, data, callback|
-      if data[:update]
-        if input[:update].is_a?(SPARQL::Algebra::Operator::Update)
-          # Append operands
-          input[:update] = SPARQL::Algebra::Expression(:update, *(input[:update].operands + data[:update].operands))
-        else
-          add_prod_datum(:update, data[:update])
-        end
+    # Merges update operators
+    #
+    # Returns an update operator
+    start_production(:_Update_2, as_hash: true)
+    production(:_Update_2) do |value|
+      if value[:_Update_3]
+        SPARQL::Algebra::Expression(:update, *(value[:Update1].operands + value[:_Update_3].operands))
+      else
+        value[:Update1]
       end
+    end
+
+    #   (rule _Update_4 (seq ';' Update))
+    production(:_Update_4) do |value|
+      value.last[:Update]
     end
 
     # Update1 ::= Load | Clear | Drop | Add | Move | Copy
     #           | Create | InsertData | DeleteData | DeleteWhere | Modify
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:Update1) do |input, data, callback|
-      input[:update] = SPARQL::Algebra::Expression.for(:update, data[:update_op])
+    # Output is SSE `(update ...)`
+    production(:Update1) do |value|
+      SPARQL::Algebra::Expression.for(:update, value)
     end
 
     # Load ::= "LOAD" "SILENT"? iri ("INTO" GraphRef)?
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:Load) do |input, data, callback|
-      args = []
-      args << :silent if data[:silent]
-      args << data[:iri]
-      args << data[:into] if data[:into]
-      input[:update_op] = SPARQL::Algebra::Expression(:load, *args)
-    end
-
+    #   (rule Load (seq 'LOAD' _Load_1 iri _Load_2))
+    #   (rule _Load_1 (opt 'SILENT'))
+    #   (rule _Load_2 (opt _Load_3))
+    #   (rule _Load_3 (seq 'INTO' GraphRef))
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:_Load_2) do |input, data, callback|
-      input[:into] = data[:iri]
+    start_production(:Load, as_hash: true)
+    production(:Load) do |value|
+      args = []
+      args << :silent if value[:_Load_1]
+      args << value[:iri]
+      args << value[:_Load_2].last[:GraphRef] if value[:_Load_2]
+      SPARQL::Algebra::Expression(:load, *args)
     end
 
     # Clear ::= "CLEAR" "SILENT"? GraphRefAll
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Clear) do |input, data, callback|
+    start_production(:Clear, as_hash: true)
+    production(:Clear) do |value|
       args = []
-      %w(silent default named all).map(&:to_sym).each do |s|
-        args << s if data[s]
-      end
-      args += Array(data[:iri])
-      input[:update_op] = SPARQL::Algebra::Expression(:clear, *args)
+      args << :silent if value[:_Clear_1]
+      args << (value[:GraphRefAll].is_a?(String) ? value[:GraphRefAll].downcase.to_sym : value[:GraphRefAll])
+      SPARQL::Algebra::Expression(:clear, *args)
     end
 
     # Drop ::= "DROP" "SILENT"? GraphRefAll
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Drop) do |input, data, callback|
+    start_production(:Drop, as_hash: true)
+    production(:Drop) do |value|
       args = []
-      %w(silent default named all).map(&:to_sym).each do |s|
-        args << s if data[s]
-      end
-      args += Array(data[:iri])
-      input[:update_op] = SPARQL::Algebra::Expression(:drop, *args)
+      args << :silent if value[:_Drop_1]
+      args << (value[:GraphRefAll].is_a?(String) ? value[:GraphRefAll].downcase.to_sym : value[:GraphRefAll])
+      SPARQL::Algebra::Expression(:drop, *args)
     end
 
     # Create ::= "CREATE" "SILENT"? GraphRef
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Create) do |input, data, callback|
+    start_production(:Create, as_hash: true)
+    production(:Create) do |value|
       args = []
-      args << :silent if data[:silent]
-      args += Array(data[:iri])
-      input[:update_op] = SPARQL::Algebra::Expression(:create, *args)
+      args << :silent if value[:_Create_1]
+      args << (value[:GraphRef].is_a?(String) ? value[:GraphRef].downcase.to_sym : value[:GraphRef])
+      SPARQL::Algebra::Expression(:create, *args)
     end
 
     # Add ::= "ADD" "SILENT"? GraphOrDefault "TO" GraphOrDefault
     #
     # Input from `data` are `GraphOrDefault` and optionally `:silent`.
     # Output to input is `:update_op` with an `Operator::Add` object.
-    production(:Add) do |input, data, callback|
+    production(:Add) do |value|
       args = []
-      args << :silent if data[:silent]
-      args += data[:GraphOrDefault]
-      input[:update_op] = SPARQL::Algebra::Expression(:add, *args)
+      args << :silent if value[1][:_Add_1]
+      args << value[2][:GraphOrDefault]
+      args << value[4][:GraphOrDefault]
+      SPARQL::Algebra::Expression(:add, *args)
     end
 
     # Move ::= "MOVE" "SILENT"? GraphOrDefault "TO" GraphOrDefault
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Move) do |input, data, callback|
+    production(:Move) do |value|
       args = []
-      args << :silent if data[:silent]
-      args += data[:GraphOrDefault]
-      input[:update_op] = SPARQL::Algebra::Expression(:move, *args)
+      args << :silent if value[1][:_Move_1]
+      args << value[2][:GraphOrDefault]
+      args << value[4][:GraphOrDefault]
+      SPARQL::Algebra::Expression(:move, *args)
     end
 
     # Copy ::= "COPY" "SILENT"? GraphOrDefault "TO" GraphOrDefault
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Copy) do |input, data, callback|
+    production(:Copy) do |value|
       args = []
-      args << :silent if data[:silent]
-      args += data[:GraphOrDefault]
-      input[:update_op] = SPARQL::Algebra::Expression(:copy, *args)
+      args << :silent if value[1][:_Copy_1]
+      args << value[2][:GraphOrDefault]
+      args << value[4][:GraphOrDefault]
+      SPARQL::Algebra::Expression(:copy, *args)
     end
 
     # InsertData ::= "INSERT DATA" QuadData
-    start_production(:InsertData) do |input, data, callback|
-      # Freeze existing bnodes, so that if an attempt is made to re-use such a node, and error is raised
-      self.freeze_bnodes
-    end
-
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:InsertData) do |input, data, callback|
-      input[:update_op] = SPARQL::Algebra::Expression(:insertData, data[:pattern])
+    # Freeze existing bnodes, so that if an attempt is made to re-use such a node, and error is raised
+    #
+    # Returns (insertData ...)
+    start_production(:InsertData, as_hash: true) {self.freeze_bnodes}
+    production(:InsertData) do |value|
+      SPARQL::Algebra::Expression(:insertData, value[:QuadData])
     end
 
     # DeleteData ::= "DELETE DATA" QuadData
-    start_production(:DeleteData) do |input, data, callback|
-      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-      self.gen_bnodes
-    end
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:DeleteData) do |input, data, callback|
-      raise Error, "DeleteData contains BNode operands: #{data[:pattern].to_sse}" if Array(data[:pattern]).any?(&:node?)
-      input[:update_op] = SPARQL::Algebra::Expression(:deleteData, Array(data[:pattern]))
+    # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
+    start_production(:DeleteData, as_hash: true) {self.gen_bnodes}
+    production(:DeleteData) do |value|
+      raise Error, "DeleteData contains BNode operands: #{value[:QuadData].to_sse}" if Array(value[:QuadData]).any?(&:node?)
+      SPARQL::Algebra::Expression(:deleteData, value[:QuadData])
     end
 
     # DeleteWhere ::= "DELETE WHERE" QuadPattern
-    start_production(:DeleteWhere) do |input, data, callback|
-      # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-      self.gen_bnodes
-    end
+    # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
+    start_production(:DeleteWhere, as_hash: true) {self.gen_bnodes}
 
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:DeleteWhere) do |input, data, callback|
-      raise Error, "DeleteWhere contains BNode operands: #{data[:pattern].to_sse}" if Array(data[:pattern]).any?(&:node?)
+    production(:DeleteWhere) do |value|
+      raise Error, "DeleteWhere contains BNode operands: #{value[:QuadPattern].to_sse}" if Array(value[:QuadPattern]).any?(&:node?)
       self.gen_bnodes(false)
-      input[:update_op] = SPARQL::Algebra::Expression(:deleteWhere, Array(data[:pattern]))
-    end
-
-    # Modify ::= ("WITH" iri)? ( DeleteClause InsertClause? | InsertClause) UsingClause* "WHERE" GroupGraphPattern
-    start_production(:Modify) do |input, data, callback|
-      self.clear_bnode_cache
+      SPARQL::Algebra::Expression(:deleteWhere, Array(value[:QuadPattern]))
     end
 
     #
-    # Input from `data` are:
-    #   * `:query` from `GroupGraphPattern`,
-    #   * optionally `:using` from `UsingClause`,
-    #   * either `:delete` or `:insert` or both from `DeleteClause` and `InsertClause`, and
-    #   * optionally `:iri` from `WITH`
-    # Output to input is `:update_op`.
-    production(:Modify) do |input, data, callback|
-      query = data[:query].first if data[:query]
-      query = SPARQL::Algebra::Expression.for(:using, data[:using], query) if data[:using]
-      operands = [query, data[:delete], data[:insert]].compact
-      operands = [SPARQL::Algebra::Expression.for(:with, data[:iri], *operands)] if data[:iri]
-      input[:update_op] = SPARQL::Algebra::Expression(:modify, *operands)
+    # Modify::= ( 'WITH' iri )? ( DeleteClause InsertClause? | InsertClause ) UsingClause* 'WHERE' GroupGraphPattern
+    #
+    #   (rule Modify (seq _Modify_1 _Modify_2 _Modify_3 'WHERE' GroupGraphPattern))
+    #   (rule _Modify_1 (opt _Modify_4))
+    #   (rule _Modify_4 (seq 'WITH' iri))
+    #   (rule _Modify_2 (alt _Modify_5 InsertClause))
+    #   (rule _Modify_5 (seq DeleteClause _Modify_6))
+    #   (rule _Modify_6 (opt InsertClause))
+    #   (rule _Modify_3 (star UsingClause))
+    #
+    # Returns modify operand
+    start_production(:Modify, as_hash: true) {self.clear_bnode_cache}
+    production(:Modify) do |value|
+      query = value&.dig(:GroupGraphPattern, :query)
+      query = SPARQL::Algebra::Expression.for(:using, value[:_Modify_3], query) unless value[:_Modify_3].empty?
+      operands = [query, *Array(value[:_Modify_2])].compact
+      operands = [SPARQL::Algebra::Expression.for(:with, value[:_Modify_1], *operands)] if value[:_Modify_1]
+      SPARQL::Algebra::Expression(:modify, *operands)
+    end
+
+    #   (rule _Modify_4 (seq 'WITH' iri))
+    production(:_Modify_4) do |value|
+      value.last[:iri]
+    end
+
+    #   (rule _Modify_5 (seq DeleteClause _Modify_6))
+    start_production(:_Modify_5, as_hash: true)
+    production(:_Modify_5) do |value|
+      [value[:DeleteClause], value[:_Modify_6]]
     end
 
     # DeleteClause ::= "DELETE" QuadPattern
     #
     # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-    start_production(:DeleteClause) do |input, data, callback|
-      self.gen_bnodes
-    end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:DeleteClause) do |input, data, callback|
-      raise Error, "DeleteClause contains BNode operands: #{Array(data[:pattern]).to_sse}" if Array(data[:pattern]).any?(&:node?)
+    start_production(:DeleteClause, as_hash: true) {self.gen_bnodes}
+    production(:DeleteClause) do |value|
+      raise Error, "DeleteClause contains BNode operands: #{Array(value[:QuadPattern]).to_sse}" if Array(value[:QuadPattern]).any?(&:node?)
       self.gen_bnodes(false)
-      input[:delete] = SPARQL::Algebra::Expression(:delete, Array(data[:pattern]))
+      SPARQL::Algebra::Expression(:delete, Array(value[:QuadPattern]))
     end
 
     # InsertClause ::= "INSERT" QuadPattern
     #
     # Generate BNodes instead of non-distinguished variables.
-    start_production(:InsertClause) do |input, data, callback|
-      self.gen_bnodes
-    end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:InsertClause) do |input, data, callback|
+    start_production(:InsertClause, as_hash: true) {self.gen_bnodes}
+    production(:InsertClause) do |value|
       self.gen_bnodes(false)
-      input[:insert] = SPARQL::Algebra::Expression(:insert, Array(data[:pattern]))
+      SPARQL::Algebra::Expression(:insert, Array(value[:QuadPattern]))
     end
 
     # UsingClause ::= "USING" ( iri | "NAMED" iri)
-    production(:UsingClause) do |input, data, callback|
-      add_prod_data(:using, data[:iri])
+    #
+    #   (rule UsingClause (seq 'USING' _UsingClause_1))
+    #   (rule _UsingClause_1 (alt iri _UsingClause_2))
+    #   (rule _UsingClause_2 (seq 'NAMED' iri))
+    #
+    start_production(:UsingClause, as_hash: true)
+    production(:UsingClause) do |value|
+      value[:_UsingClause_1]
     end
 
+    # (rule _UsingClause_2 (seq 'NAMED' iri))
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:_UsingClause_2) do |input, data, callback|
-      input[:iri] = [:named, data[:iri]]
+    start_production(:_UsingClause_2, as_hash: true)
+    production(:_UsingClause_2) do |value|
+      [:named, value[:iri]]
     end
 
     # GraphOrDefault ::= "DEFAULT" | "GRAPH"? iri
     #
+    #   (rule GraphOrDefault (alt 'DEFAULT' _GraphOrDefault_1))
+    #   (rule _GraphOrDefault_1 (seq _GraphOrDefault_2 iri))
+    #   (rule _GraphOrDefault_2 (opt 'GRAPH'))
+    #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:GraphOrDefault) do |input, data, callback|
-      if data[:default]
-        add_prod_datum(:GraphOrDefault, :default)
-      else
-        add_prod_data(:GraphOrDefault, data[:iri])
-      end
+    production(:GraphOrDefault) do |value|
+      value.is_a?(String) ? value.downcase.to_sym : value
     end
+    start_production(:_GraphOrDefault_1, as_hash: true)
+    production(:_GraphOrDefault_1) {|value| value[:iri]}
 
     # GraphRef ::= "GRAPH" iri
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:GraphRef) do |input, data, callback|
-      input[:iri] = data[:iri]
+    production(:GraphRef) do |value|
+      value.last[:iri]
+    end
+
+    # QuadPattern::= '{' Quads '}'
+    # Returns array of patterns
+    start_production(:QuadPattern, as_hash: true) {self.gen_bnodes}
+    production(:QuadPattern) do |value|
+      self.gen_bnodes(false)
+      value[:Quads]
     end
 
     # QuadData ::= "{" Quads "}"
+    #
     # QuadData is like QuadPattern, except without BNodes
-    start_production(:QuadData) do |input, data, callback|
-      # Generate BNodes instead of non-distinguished variables
-      self.gen_bnodes
+    # Generate BNodes instead of non-distinguished variables
+    #
+    # Returns array of patterns
+    start_production(:QuadData, as_hash: true) {self.gen_bnodes}
+    production(:QuadData) do |value|
+      # Transform using statements instead of patterns, and verify there are no variables
+      raise Error, "QuadData contains variable operands: #{Array(value[:Quads]).to_sse}" if Array(value[:Quads]).any?(&:variable?)
+      self.gen_bnodes(false)
+      value[:Quads]
     end
 
+    # Quads ::= TriplesTemplate? ( QuadsNotTriples '.'? TriplesTemplate? )*
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:QuadData) do |input, data, callback|
-      # Transform using statements instead of patterns, and verify there are no variables
-      raise Error, "QuadData contains variable operands: #{Array(data[:pattern]).to_sse}" if Array(data[:pattern]).any?(&:variable?)
-      self.gen_bnodes(false)
-      input[:pattern] = Array(data[:pattern])
+    #   (rule Quads (seq _Quads_1 _Quads_2))
+    #   (rule _Quads_1 (opt TriplesTemplate))
+    #   (rule _Quads_2 (star _Quads_3))
+    #   (rule _Quads_3 (seq QuadsNotTriples _Quads_4 _Quads_5))
+    #   (rule _Quads_4 (opt '.'))
+    #   (rule _Quads_5 (opt TriplesTemplate))
+    #
+    # Returns an array of patterns
+    start_production(:Quads, as_hash: true)
+    production(:Quads) do |value|
+      Array(value[:_Quads_1]) + value[:_Quads_2].flatten
+    end
+
+    #   (rule _Quads_3 (seq QuadsNotTriples _Quads_4 _Quads_5))
+    start_production(:_Quads_3, as_hash: true)
+    production(:_Quads_3) do |value|
+       [value[:QuadsNotTriples]] + Array(value[:_Quads_5])
     end
 
     # QuadsNotTriples ::= "GRAPH" VarOrIri "{" TriplesTemplate? "}"
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:QuadsNotTriples) do |input, data, callback|
-      add_prod_datum(:pattern, [SPARQL::Algebra::Expression.for(:graph, data[:VarOrIri].last, Array(data[:pattern]))])
+    #   (rule QuadsNotTriples (seq 'GRAPH' VarOrIri '{' _QuadsNotTriples_1 '}'))
+    #   (rule _QuadsNotTriples_1 (opt TriplesTemplate))
+    #
+    # Result is Graph operator
+    start_production(:QuadsNotTriples, as_hash: true)
+    production(:QuadsNotTriples) do |value|
+      SPARQL::Algebra::Expression.for(:graph, value[:VarOrIri], Array(value[:_QuadsNotTriples_1]))
     end
 
     # TriplesTemplate ::= TriplesSameSubject ("." TriplesTemplate? )?
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:TriplesTemplate) do |input, data, callback|
-      add_prod_datum(:pattern, Array(data[:pattern]))
+    #   (rule TriplesTemplate (seq TriplesSameSubject _TriplesTemplate_1))
+    #   (rule _TriplesTemplate_1 (opt _TriplesTemplate_2))
+    #   (rule _TriplesTemplate_2 (seq '.' _TriplesTemplate_3))
+    #   (rule _TriplesTemplate_3 (opt TriplesTemplate))
+    #
+    # Returnes patterns
+    start_production(:TriplesTemplate, as_hash: true)
+    production(:TriplesTemplate) do |value|
+      value[:TriplesSameSubject] + Array(value[:_TriplesTemplate_1])
+    end
+    
+    #   (rule _TriplesTemplate_2 (seq '.' _TriplesTemplate_3))
+    production(:_TriplesTemplate_2) do |value|
+      value.last[:_TriplesTemplate_3]
+    end
+
+    # GroupGraphPattern ::= '{' ( SubSelect | GroupGraphPatternSub ) '}'
+    start_production(:GroupGraphPattern, as_hash: true)
+    production(:GroupGraphPattern) do |value|
+      {query: value&.dig(:_GroupGraphPattern_1, :query)}
     end
 
     # GroupGraphPatternSub ::= TriplesBlock? (GraphPatternNotTriples "."? TriplesBlock? )*
     #
+    #   (rule GroupGraphPatternSub (seq _GroupGraphPatternSub_1 _GroupGraphPatternSub_2))
+    #   (rule _GroupGraphPatternSub_1 (opt TriplesBlock))
+    #   (rule _GroupGraphPatternSub_2 (star _GroupGraphPatternSub_3))
+    #   (rule _GroupGraphPatternSub_3
+    #    (seq GraphPatternNotTriples _GroupGraphPatternSub_4 _GroupGraphPatternSub_5))
+    #   (rule _GroupGraphPatternSub_4 (opt '.'))
+    #   (rule _GroupGraphPatternSub_5 (opt TriplesBlock))
+    #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:GroupGraphPatternSub) do |input, data, callback|
-      debug("GroupGraphPatternSub") {"q #{data[:query].inspect}"}
+    start_production(:GroupGraphPatternSub, as_hash: true)
+    production(:GroupGraphPatternSub) do |value|
+      query = value[:_GroupGraphPatternSub_1] || SPARQL::Algebra::Operator::BGP.new
+      extensions = []
+      filters = []
 
-      res = case Array(data[:query]).length
-      when 0 then SPARQL::Algebra::Operator::BGP.new
-      when 1 then data[:query].first
-      when 2
-        SPARQL::Algebra::Operator::Join.new(*data[:query])
-      else
-        error(nil, "Expected 0-2 queryies, got #{data[:query].length}", production: :GroupGraphPatternSub)
-        SPARQL::Algebra::Operator::BGP.new
-      end
-      debug("GroupGraphPatternSub(pre-filter)") {"res: #{res.inspect}"}
+      value[:_GroupGraphPatternSub_2].each do |ggps2|
+        filters << ggps2[:filter] if ggps2[:filter]
 
-      if data[:filter]
-        expr, query = flatten_filter(data[:filter])
-        query = res
-        # query should be nil
-        res = SPARQL::Algebra::Operator::Filter.new(expr, query)
+        bgp = ggps2[:query]
+        query = if bgp && query.mergable?(bgp) && false # XXX No agressive merging
+          query.merge(bgp)
+        elsif query.empty? && bgp
+          bgp
+        elsif !bgp || bgp.empty?
+          query
+        else
+          SPARQL::Algebra::Operator::Join.new(query, bgp)
+        end
+
+        # Extensions
+        if ggps2[:extend]
+          # Extensions will be an array of pairs of variable and expression
+          error(nil,
+                "Internal error on extensions form",
+                production: :GroupGraphPatternSub,
+                fatal: true) unless
+            ggps2[:extend].is_a?(Array) && ggps2[:extend].all? {|e| e.is_a?(Array)}
+
+          # The variable assigned in a BIND clause must not be already in-use within the immediately preceding TriplesBlock within a GroupGraphPattern.
+          # None of the variables on the lhs of data[:extend] may be used in lhs
+          ggps2[:extend].each do |(v, _)|
+            error(nil, "BIND Variable #{v} used in pattern", production: :GraphPatternNotTriples) if query.vars.map(&:to_sym).include?(v.to_sym)
+          end
+          query = if query.is_a?(SPARQL::Algebra::Operator::Extend)
+            # Coalesce extensions
+            lhs = query.dup
+            lhs.operands.first.concat(ggps2[:extend])
+            lhs
+          else
+            SPARQL::Algebra::Expression[:extend, ggps2[:extend], query] unless ggps2[:extend].empty?
+          end
+        end
+
+        # _GroupGraphPatternSub_3 can return patterns from TriplesBlock?
+        if bgp = ggps2[:extra]
+          query = if query.mergable?(bgp) && false # XXX No agressive merging
+            query.merge(bgp)
+          elsif query.empty?
+            bgp
+          elsif bgp.empty?
+            query
+          elsif bgp.is_a?(SPARQL::Algebra::Operator::Path)
+            SPARQL::Algebra::Operator::Sequence.new(query, bgp)
+          else
+            SPARQL::Algebra::Operator::Join.new(query, bgp)
+          end
+        end
+
+        query = if ggps2[:leftjoin]
+          SPARQL::Algebra::Expression.for(:leftjoin, query, *ggps2[:leftjoin])
+        elsif ggps2[:minus]
+          SPARQL::Algebra::Expression.for(:minus, query, ggps2[:minus])
+        else
+          query
+        end
       end
-      add_prod_datum(:query, res)
+
+      # Filters
+      unless filters.empty?
+        expr = filters.length > 1 ? SPARQL::Algebra::Operator::Exprlist.new(*filters) : filters.first
+        query = SPARQL::Algebra::Operator::Filter.new(expr, query)
+      end
+
+      {query: query}
+    end
+
+    # (rule _GroupGraphPatternSub_3
+    #   (seq GraphPatternNotTriples _GroupGraphPatternSub_4 _GroupGraphPatternSub_5))
+    start_production(:_GroupGraphPatternSub_3, as_hash: true)
+    production(:_GroupGraphPatternSub_3) do |value|
+      {
+        extend: value&.dig(:GraphPatternNotTriples, :extend),
+        extra: value[:_GroupGraphPatternSub_5],
+        filter: value&.dig(:GraphPatternNotTriples, :filter),
+        leftjoin: value&.dig(:GraphPatternNotTriples, :leftjoin),
+        minus: value&.dig(:GraphPatternNotTriples, :minus),
+        query: value&.dig(:GraphPatternNotTriples, :query),
+      }
     end
 
     # TriplesBlock ::= TriplesSameSubjectPath
     #                  ( '.' TriplesBlock? )?
     #
-    # Input from `data` is `:pattern` and `:query`. Input from input is also `:pattern`
-    # Patterns are sequenced and segmented into RDF::Query::Pattern and Operator::Path.
-    # Output to prod_data is `:query` either a BGP, a Join, a Sequence, or a combination of any of these. Any path element results in a Sequence.
-    production(:TriplesBlock) do |input, data, callback|
-      raise "TriplesBlock without pattern" if Array(data[:pattern]).empty?
-
-      lhs = Array(input.delete(:query)).first
-
-      # Sequence is existing patterns, plus new patterns, plus patterns from TriplesBlock?
-      sequence = []
-      unless lhs.nil? || lhs.empty?
-        if lhs.is_a?(SPARQL::Algebra::Operator::Sequence)
-          sequence += lhs.operands
-        else
-          sequence << lhs
-        end
-      end
-
-      sequence += data[:pattern]
+    #   (rule TriplesBlock (seq TriplesSameSubjectPath _TriplesBlock_1))
+    #   (rule _TriplesBlock_1 (opt _TriplesBlock_2))
+    #   (rule _TriplesBlock_2 (seq '.' _TriplesBlock_3))
+    #   (rule _TriplesBlock_3 (opt TriplesBlock))
+    start_production(:TriplesBlock, as_hash: true)
+    production(:TriplesBlock) do |value|
+      tb1 = value[:_TriplesBlock_1]
+      sequence = Array(value[:TriplesSameSubjectPath])
 
       # Append triples from ('.' TriplesBlock? )?
-      Array(data[:query]).each do |q|
-        if q.is_a?(SPARQL::Algebra::Operator::Sequence)
-          q.operands.each do |op|
-            sequence += op.respond_to?(:patterns) ? op.patterns : [op]
-          end
-        elsif q.respond_to?(:patterns)
-          sequence += q.patterns
-        else
-          sequence << q
+      if tb1.is_a?(SPARQL::Algebra::Operator::Sequence)
+        tb1.operands.each do |op|
+          sequence += op.respond_to?(:patterns) ? op.patterns : [op]
         end
+      elsif tb1.respond_to?(:patterns)
+        sequence += tb1.patterns
+      elsif tb1
+        sequence << tb1
       end
 
       # Merge runs of patterns into BGPs
@@ -819,16 +1005,16 @@ module SPARQL::Grammar
         when RDF::Queryable
           patterns += element.patterns
         else
-          new_seq << SPARQL::Algebra::Expression.for(:bgp, *patterns) unless patterns.empty?
+          new_seq << SPARQL::Algebra::Operator::BGP.new(*patterns) unless patterns.empty?
           patterns = []
           new_seq << element
         end
       end
-      new_seq << SPARQL::Algebra::Expression.for(:bgp, *patterns) unless patterns.empty?
+      new_seq << SPARQL::Algebra::Operator::BGP.new(*patterns) unless patterns.empty?
 
       # Optionally create a sequence, if there are enough gathered.
       # FIXME: Join?
-      query = if new_seq.length > 1
+      if new_seq.length > 1
         if new_seq.any? {|e| e.is_a?(SPARQL::Algebra::Operator::Path)}
           SPARQL::Algebra::Expression.for(:sequence, *new_seq)
         else
@@ -837,78 +1023,41 @@ module SPARQL::Grammar
       else
         new_seq.first
       end
-
-      add_prod_datum(:query, query)
     end
 
-    # ReifiedTripleBlock
-    production(:ReifiedTripleBlock) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+    #   (rule _TriplesBlock_2 (seq '.' _TriplesBlock_3))
+    start_production(:_TriplesBlock_2, as_hash: true)
+    production(:_TriplesBlock_2) do |value|
+      value[:_TriplesBlock_3]
     end
 
-    # ReifiedTripleBlockPath
-    production(:ReifiedTripleBlockPath) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+    # ReifiedTripleBlock ::= ReifiedTriple PropertyList
+    start_production(:ReifiedTripleBlock, as_hash: true)
+    production(:ReifiedTripleBlock) do |value|
+      {ReifiedTripleBlock: value[:ReifiedTriple][:pattern] + Array(value[:PropertyList])}
     end
 
-    # GraphPatternNotTriples ::= GroupOrUnionGraphPattern
-    #                          | OptionalGraphPattern
-    #                          | MinusGraphPattern
-    #                          | GraphGraphPattern
-    #                          | ServiceGraphPattern
-    #                          | Filter | Bind
-    start_production(:GraphPatternNotTriples) do |input, data, callback|
-      # Modifies previous graph
-      data[:input_query] = input.delete(:query)
-    end
-
+    # ReifiedTripleBlockPath ::= ReifiedTriple PropertyListPath
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:GraphPatternNotTriples) do |input, data, callback|
-      lhs = Array(data[:input_query]).first || SPARQL::Algebra::Operator::BGP.new
-
-      # Filter trickls up to GroupGraphPatternSub
-      add_prod_datum(:filter, data[:filter])
-
-      if data[:extend] && lhs.is_a?(SPARQL::Algebra::Operator::Extend)
-        # Coalesce extensions
-        lhs = lhs.dup
-        lhs.operands.first.concat(data[:extend])
-        add_prod_datum(:query, lhs)
-      elsif data[:extend]
-        # The variable assigned in a BIND clause must not be already in-use within the immediately preceding TriplesBlock within a GroupGraphPattern.
-        # None of the variables on the lhs of data[:extend] may be used in lhs
-        data[:extend].each do |(v, _)|
-          error(nil, "BIND Variable #{v} used in pattern", production: :GraphPatternNotTriples) if lhs.vars.map(&:to_sym).include?(v.to_sym)
-        end
-        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:extend, data[:extend], lhs))
-      elsif data[:leftjoin]
-        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:leftjoin, lhs, *data[:leftjoin]))
-      elsif data[:query] && !lhs.empty?
-        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:join, lhs, *data[:query]))
-      elsif data[:minus]
-        add_prod_datum(:query, SPARQL::Algebra::Expression.for(:minus, lhs, *data[:minus]))
-      elsif data[:query]
-        add_prod_datum(:query, data[:query])
-      else
-        add_prod_datum(:query, lhs)
-      end
+    # Returns `{ReifiedTripleBlockPath: patterns}`
+    start_production(:ReifiedTripleBlockPath, as_hash: true)
+    production(:ReifiedTripleBlockPath) do |value|
+      {ReifiedTripleBlockPath: value[:ReifiedTriple][:pattern] + Array(value[:PropertyListPath])}
     end
 
     # OptionalGraphPattern ::= 'OPTIONAL' GroupGraphPattern
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:OptionalGraphPattern) do |input, data, callback|
-      expr = nil
-      query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
+    start_production(:OptionalGraphPattern, as_hash: true)
+    production(:OptionalGraphPattern) do |value|
+      query = value&.dig(:GroupGraphPattern, :query) || SPARQL::Algebra::Operator::BGP.new
       if query.is_a?(SPARQL::Algebra::Operator::Filter)
         # Change to expression on left-join with query element
         expr, query = query.operands
-        add_prod_data(:leftjoin, query, expr)
+        {leftjoin: [query, expr]}
       elsif !query.empty?
-        add_prod_data(:leftjoin, query)
+        {leftjoin: [query]}
       end
     end
 
@@ -916,134 +1065,128 @@ module SPARQL::Grammar
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:GraphGraphPattern) do |input, data, callback|
-      name = (data[:VarOrIri]).last
-      bgp = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
-      if name
-        add_prod_data(:query, SPARQL::Algebra::Expression.for(:graph, name, bgp))
-      else
-        add_prod_data(:query, bgp)
-      end
+    start_production(:GraphGraphPattern, as_hash: true)
+    production(:GraphGraphPattern) do |value|
+      name = value[:VarOrIri]
+      bgp = value&.dig(:GroupGraphPattern, :query) || SPARQL::Algebra::Operator::BGP.new
+      {
+        query: (name ? SPARQL::Algebra::Expression.for(:graph, name, bgp) : bgp)
+      }
     end
 
     # ServiceGraphPattern ::= 'SERVICE' 'SILENT'? VarOrIri GroupGraphPattern
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:ServiceGraphPattern) do |input, data, callback|
+    start_production(:ServiceGraphPattern, as_hash: true)
+    production(:ServiceGraphPattern) do |value|
+      query = value&.dig(:GroupGraphPattern, :query) || SPARQL::Algebra::Operator::BGP.new
       args = []
-      args << :silent if data[:silent]
-      args << (data[:VarOrIri]).last
-      args << data.fetch(:query, [SPARQL::Algebra::Operator::BGP.new]).first
+      args << :silent if value[:_ServiceGraphPattern_1]
+      args << value[:VarOrIri]
+      args << query
       service = SPARQL::Algebra::Expression.for(:service, *args)
-      add_prod_data(:query, service)
+      {query: service}
     end
 
     # Bind ::= 'BIND' '(' Expression 'AS' Var ')'
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Bind) do |input, data, callback|
-      add_prod_datum :extend, [data[:Expression].unshift(data[:Var].first)]
+    start_production(:Bind, as_hash: true)
+    production(:Bind) do |value|
+      {extend: [[value[:Var], value[:Expression]]]}
     end
 
     # InlineData ::= 'VALUES' DataBlock
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:InlineData) do |input, data, callback|
-      debug("InlineData") {"vars: #{data[:Var].inspect}, row: #{data[:row].inspect}"}
-      add_prod_datum :query, SPARQL::Algebra::Expression.for(:table,
-        Array(data[:Var]).unshift(:vars),
-        *data[:row]
-      )
+    start_production(:InlineData, as_hash: true)
+    production(:InlineData) do |value|
+      debug("InlineData") {value[:DataBlock].inspect}
+      args = [Array(value[:DataBlock][:Var]).unshift(:vars)] + value[:DataBlock][:row]
+      table = SPARQL::Algebra::Expression.for(:table, *args)
+      {query: table}
     end
 
     # InlineDataOneVar ::= Var '{' DataBlockValue* '}'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:InlineDataOneVar) do |input, data, callback|
-      add_prod_datum :Var, data[:Var]
-
-      Array(data[:DataBlockValue]).each do |d|
-        add_prod_datum :row, [[:row, data[:Var].dup << d]]
-      end
+    start_production(:InlineDataOneVar, as_hash: true)
+    production(:InlineDataOneVar) do |value|
+      {
+        Var: value[:Var],
+        row: value[:_InlineDataOneVar_1].map {|dbv| [:row, [value[:Var], dbv]]}
+      }
     end
 
     # InlineDataFull ::= ( NIL | '(' Var* ')' )
     #                    '{' ( '(' DataBlockValue* ')' | NIL )* '}'
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:InlineDataFull) do |input, data, callback|
-      vars = data[:Var]
-      add_prod_datum :Var, vars
+    #   (rule InlineDataFull (seq _InlineDataFull_1 '{' _InlineDataFull_2 '}'))
+    #   (rule _InlineDataFull_1 (alt NIL _InlineDataFull_3))
+    #   (rule _InlineDataFull_3 (seq '(' _InlineDataFull_4 ')'))
+    #   (rule _InlineDataFull_4 (star Var))
+    #   (rule _InlineDataFull_2 (star _InlineDataFull_5))
+    #   (rule _InlineDataFull_5 (alt _InlineDataFull_6 NIL))
+    #   (rule _InlineDataFull_6 (seq '(' _InlineDataFull_7 ')'))
+    #   (rule _InlineDataFull_7 (star DataBlockValue))
+    #
+    start_production(:InlineDataFull, as_hash: true)
+    production(:InlineDataFull) do |value|
+      vars = value[:_InlineDataFull_1]
+      vars = [] if vars == RDF.nil
 
-      if data[:nilrow]
-        add_prod_data :row, [:row]
-      else
-        Array(data[:rowdata]).each do |ds|
-          if ds.length < data[:Var].length
-            raise Error, "Too few values in a VALUE clause compared to the number of variables"
-          elsif ds.length > data[:Var].length
-            raise Error, "Too many values in a VALUE clause compared to the number of variables"
-          end
-          r = [:row]
-          ds.each_with_index do |d, i|
-            r << [vars[i], d] if d
-          end
-          add_prod_data :row, r unless r.empty?
+      rows = value[:_InlineDataFull_2].map do |ds|
+        # XXX what if ds == RDF.nil
+        if ds.length < vars.length
+          raise Error, "Too few values in a VALUE clause compared to the number of variables"
+        elsif ds.length > vars.length
+          raise Error, "Too many values in a VALUE clause compared to the number of variables"
         end
-      end
+        r = [:row]
+        ds.each_with_index do |d, i|
+          r << [vars[i], d] if d
+        end
+        r unless r.empty?
+      end.compact
+
+      {
+        Var: vars,
+        row: rows
+      }
     end
 
-    # _InlineDataFull_6 ::= '(' '(' DataBlockValue* ')' | NIL ')'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_InlineDataFull_6) do |input, data, callback|
-      if data[:DataBlockValue]
-        add_prod_data :rowdata, data[:DataBlockValue].map {|v| v unless v == :undef}
-      else
-        input[:nilrow] = true
-      end
+    # (rule _InlineDataFull_3 (seq '(' _InlineDataFull_4 ')'))
+    start_production(:_InlineDataFull_3, as_hash: true)
+    production(:_InlineDataFull_3) do |value|
+      value[:_InlineDataFull_4]
     end
 
-    # DataBlockValue ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | 'UNDEF' | TripleTermData
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:DataBlockValue) do |input, data, callback|
-      add_prod_datum :DataBlockValue, data.values.first
+    # (rule _InlineDataFull_6 (seq '(' _InlineDataFull_7 ')'))
+    start_production(:_InlineDataFull_6, as_hash: true)
+    production(:_InlineDataFull_6) do |value|
+      value[:_InlineDataFull_7]
     end
 
     # Reifier ::= '~' VarOrReifierId?
     #
     # Beginning the reifier production, the curReifier is taken from the reifier term constructor. Then yield the the RDF triple curReifier rdf:reifies curTripleTerm.
-    production(:Reifier) do |input, data, callback|
-      @curReifier = Array(data[:ReifierId]).first || bnode
-      error(nil, "Current Triple Term not defined", production: :Reifier) unless @curTripleTerm
-      add_prod_datum(:pattern, RDF::Query::Pattern.new(@curReifier, RDF.reifies, @curTripleTerm))
-    end
-
-    # ReifierId ::= iri | BlankNode
-    production(:ReifierId) do |input, data, callback|
-      add_prod_datum :ReifierId, data.values.first
-    end
-
-    # VarOrReifierId ::= Var | ReifierId
-    production(:VarOrReifierId) do |input, data, callback|
-      add_prod_datum :ReifierId, data.values.first
+    #
+    # Returns emitted pattern
+    start_production(:Reifier, as_hash: true)
+    production(:Reifier) do |value|
+      rid = prod_data[:curReifier] = value[:_Reifier_1] || bnode
+      RDF::Query::Pattern.new(rid, RDF.reifies, prod_data[:TripleTerm]) if prod_data[:TripleTerm]
     end
 
     # MinusGraphPattern ::= 'MINUS' GroupGraphPattern
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:MinusGraphPattern) do |input, data, callback|
-      query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
-      add_prod_data(:minus, query)
+    start_production(:MinusGraphPattern, as_hash: true)
+    production(:MinusGraphPattern) do |value|
+      query = value&.dig(:GroupGraphPattern, :query) || SPARQL::Algebra::Operator::BGP.new
+      {minus: query}
     end
 
     # GroupOrUnionGraphPattern ::= GroupGraphPattern
@@ -1051,177 +1194,349 @@ module SPARQL::Grammar
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:GroupOrUnionGraphPattern) do |input, data, callback|
-      res = Array(data[:query]).first
-      if data[:union]
-        while !data[:union].empty?
-          # Join union patterns together as Union operators
-          #puts "res: res: #{res}, input_prod: #{input_prod}, data[:union]: #{data[:union].first}"
-          lhs = res
-          rhs = data[:union].shift
-          res = SPARQL::Algebra::Expression.for(:union, lhs, rhs)
-        end
+    start_production(:GroupOrUnionGraphPattern, as_hash: true)
+    production(:GroupOrUnionGraphPattern) do |value|
+      lhs = value&.dig(:GroupGraphPattern, :query)
+      query = value[:_GroupOrUnionGraphPattern_1].reduce(lhs) do |memo, q|
+        SPARQL::Algebra::Expression.for(:union, memo, q)
       end
-      add_prod_datum(:query, res)
+
+      {query: query}
     end
 
-    # ( 'UNION' GroupGraphPattern )*
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_GroupOrUnionGraphPattern_1) do |input, data, callback|
-      input[:union] = Array(data[:union]).unshift(data[:query].first)
+    # (rule _GroupOrUnionGraphPattern_2 (seq 'UNION' GroupGraphPattern))
+    start_production(:_GroupOrUnionGraphPattern_2, as_hash: true)
+    production(:_GroupOrUnionGraphPattern_2) do |value|
+      value&.dig(:GroupGraphPattern, :query)
     end
 
     # Filter ::= 'FILTER' Constraint
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Filter) do |input, data, callback|
-      add_prod_datum(:filter, data[:Constraint])
-    end
-
-    # Constraint ::= BrackettedExpression | BuiltInCall | FunctionCall
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:Constraint) do |input, data, callback|
-      if data[:Expression]
-        # Resolve expression to the point it is either an atom or an s-exp
-        add_prod_data(:Constraint, Array(data[:Expression]).first)
-      elsif data[:BuiltInCall]
-        add_prod_datum(:Constraint, data[:BuiltInCall])
-      elsif data[:Function]
-        add_prod_datum(:Constraint, data[:Function])
-      end
+    start_production(:Filter, as_hash: true)
+    production(:Filter) do |value|
+      {filter: value[:Constraint]}
     end
 
     # FunctionCall ::= iri ArgList
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:FunctionCall) do |input, data, callback|
-      add_prod_data(:Function, SPARQL::Algebra::Operator::FunctionCall.new(data[:iri], *data[:ArgList]))
+    start_production(:FunctionCall, as_hash: true)
+    production(:FunctionCall) do |value|
+      SPARQL::Algebra::Operator::FunctionCall.new(value[:iri], *value[:ArgList])
     end
 
     # ArgList ::= NIL | '(' 'DISTINCT'? Expression ( ',' Expression )* ')'
     #
+    #   (rule ArgList (alt NIL _ArgList_1))
+    #   (rule _ArgList_1 (seq '(' _ArgList_2 Expression _ArgList_3 ')'))
+    #   (rule _ArgList_2 (opt 'DISTINCT'))
+    #   (rule _ArgList_3 (star _ArgList_4))
+    #   (rule _ArgList_4 (seq ',' Expression))
+    #
+    # XXX handle DISTINCT?
+    #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:ArgList) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:ArgList, v)}
+    production(:ArgList) do |value|
+      Array(value)
+    end
+
+    start_production(:_ArgList_1, as_hash: true)
+    production(:_ArgList_1) do |value|
+      value[:_ArgList_3].unshift(value[:Expression])
+    end
+
+    start_production(:_ArgList_4, as_hash: true)
+    production(:_ArgList_4) do |value|
+      value[:Expression]
     end
 
     # ExpressionList ::= NIL | '(' Expression ( ',' Expression )* ')'
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ExpressionList) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:ExpressionList, v)}
-    end
-
-    # ConstructTemplate ::= '{' ConstructTriples? '}'
-    start_production(:ConstructTemplate) do |input, data, callback|
-      # Generate BNodes instead of non-distinguished variables
-      self.gen_bnodes
-    end
-
+    #   (rule ExpressionList (alt NIL _ExpressionList_1))
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:ConstructTemplate) do |input, data, callback|
+    production(:ExpressionList) do |value|
+      value.is_a?(RDF::Term) ? [] : value.flatten
+    end
+
+    #   (rule _ExpressionList_1 (seq '(' Expression _ExpressionList_2 ')'))
+    production(:_ExpressionList_1) do |value|
+      [value[1][:Expression], value[2][:_ExpressionList_2]].compact
+    end
+
+    #   (rule _ExpressionList_2 (star _ExpressionList_3))
+    #   (rule _ExpressionList_3 (seq ',' Expression))
+    production(:_ExpressionList_2) do |value|
+      value.map {|el3| el3.last[:Expression]}
+    end
+
+    # ConstructTemplate ::= '{' ConstructTriples? '}'
+    #
+    # Input from `data` is TODO.
+    # Output to prod_data is TODO.
+    start_production(:ConstructTemplate, as_hash: true)
+    production(:ConstructTemplate) do |value|
       # Generate BNodes instead of non-distinguished variables
       self.gen_bnodes(false)
-      add_prod_datum(:ConstructTemplate, Array(data[:pattern]))
-      add_prod_datum(:ConstructTemplate, data[:ConstructTemplate])
+      value[:_ConstructTemplate_1]
+    end
+
+    # ConstructTriples  ::= TriplesSameSubject ( '.' ConstructTriples? )?
+    # Returns patterns
+    start_production(:ConstructTriples, as_hash: true) do
+      # Generate BNodes instead of non-distinguished variables
+      self.gen_bnodes
+    end
+    production(:ConstructTriples) do |value|
+      # Generate BNodes instead of non-distinguished variables
+      value[:TriplesSameSubject] + Array(value[:_ConstructTriples_1])
+    end
+
+    # (rule _ConstructTriples_2 (seq '.' _ConstructTriples_3))
+    start_production(:_ConstructTriples_2, as_hash: true)
+    production(:_ConstructTriples_2) do |value|
+      value[:_ConstructTriples_3]
     end
 
     # TriplesSameSubject ::= VarOrTerm PropertyListNotEmpty
     #                      | TriplesNode PropertyList | ReifiedTripleBlock
-    production(:TriplesSameSubject) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+    #
+    #   (rule TriplesSameSubject
+    #    (alt _TriplesSameSubject_1 _TriplesSameSubject_2 ReifiedTripleBlock))
+    #   (rule _TriplesSameSubject_1 (seq VarOrTerm PropertyListNotEmpty))
+    #   (rule _TriplesSameSubject_2 (seq TriplesNode PropertyList))
+    #
+    # Returns patterns
+    production(:TriplesSameSubject) do |value|
+      pattern = if value[:VarOrTerm]
+        value[:PropertyListNotEmpty]
+      elsif value[:TriplesNode]
+        value[:TriplesNode][:pattern] + Array(value[:PropertyList])
+      elsif value[:ReifiedTripleBlock]
+        value[:ReifiedTripleBlock]
+      else
+        []
+      end
+      pattern
     end
 
+    # (rule _TriplesSameSubject_1 (seq VarOrTerm PropertyListNotEmpty))
+    start_production(:_TriplesSameSubject_1, as_hash: true)
+
+    # (rule _TriplesSameSubject_2 (seq TriplesNode PropertyList))
+    start_production(:_TriplesSameSubject_2, as_hash: true)
+
+    # PropertyList ::= PropertyListNotEmpty?
+    
     # PropertyListNotEmpty ::= Verb ObjectList
     #                          ( ';' ( Verb ObjectList )? )*
-    start_production(:PropertyListNotEmpty) do |input, data, callback|
-      subject = input[:VarOrTerm] || input[:TriplesNode] || input[:GraphNode] || input[:Subject] || input[:Reifier]
-      error(nil, "Expected VarOrTerm or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if validate? && !subject
+    #
+    #   (rule PropertyListNotEmpty (seq Verb ObjectList _PropertyListNotEmpty_1))
+    #   (rule _PropertyListNotEmpty_1 (star _PropertyListNotEmpty_2))
+    #   (rule _PropertyListNotEmpty_2 (seq ';' _PropertyListNotEmpty_3))
+    #   (rule _PropertyListNotEmpty_3 (opt _PropertyListNotEmpty_4))
+    #   (rule _PropertyListNotEmpty_4 (seq Verb ObjectList))
+    #
+    # Returns patterns
+    start_production(:PropertyListNotEmpty, as_hash: true) do |data|
+      # If we're in an  AnnotationPathBlock, use reification information
+      if anno_data = prod_data[:AnnotationData]
+        # Allocate a reifier ID, if necessary and use as subject
+        prod_data[:Subject] = anno_data[:curReifier] ||= bnode
+      end
+
+      # If options has a `:_rept_data` entry, use it to get the subject
+      subject =  prod_data[:Subject] || prod_data[:TriplesNode] || data[:_rept_data].last[:VarOrTerm]
+      error(nil, "Expected VarOrTerm or TriplesNode or GraphNode", production: :PropertyListNotEmpty) if !subject
       data[:Subject] = subject
     end
-    production(:PropertyListNotEmpty) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+    production(:PropertyListNotEmpty) do |value|
+      patterns = Array(value[:ObjectList][:pattern])
+      value[:_PropertyListNotEmpty_1].each do |plne|
+        patterns += plne[:pattern]
+      end
+      patterns
+    end
+
+    # (rule _PropertyListNotEmpty_2 (seq ';' _PropertyListNotEmpty_3))
+    start_production(:_PropertyListNotEmpty_2, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+    end
+    production(:_PropertyListNotEmpty_2) do |value|
+      value[:_PropertyListNotEmpty_3]
+    end
+
+    # (rule _PropertyListNotEmpty_4 (seq Verb ObjectList))
+    start_production(:_PropertyListNotEmpty_4, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+    end
+    production(:_PropertyListNotEmpty_4) do |value|
+      value[:ObjectList]
     end
 
     # Verb ::= VarOrIri | 'a'
     #
     # Output to input is `:Verb`.
-    production(:Verb) do |input, data, callback|
-      input[:Verb] = data.values.first
+    start_production(:Verb, as_hash: true, insensitive_strings: false)
+    production(:Verb) do |value|
+      value == 'a' ? RDF.type.dup.tap {|a| a.lexical = 'a'} : value
     end
 
     # ObjectList ::= Object ( ',' Object )*
     #
-    # Adds `:Subject`, `:Verb`, and `:VerbPath` from input to data with error checking.
-    start_production(:ObjectList) do |input, data, callback|
+    #   (rule ObjectList (seq Object _ObjectList_1))
+    #   (rule _ObjectList_1 (star _ObjectList_2))
+    #   (rule _ObjectList_2 (seq ',' Object))
+    #
+    # Returns objects and patterns
+    start_production(:ObjectList, as_hash: true) do |data|
       # Called after Verb. The prod_data stack should have Subject and Verb elements
-      data[:Subject] = input[:Subject]
-      error(nil, "Expected Subject", production: :ObjectList) if !input[:Subject] && validate?
-      error(nil, "Expected Verb", production: :ObjectList) if !(input[:Verb] || input[:VerbPath]) && validate?
-      data[:Verb] = input[:Verb] if input[:Verb]
-      data[:VerbPath] = input[:VerbPath] if input[:VerbPath]
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = data[:_rept_data].last[:Verb]
+      error(nil, "Expected Subject", production: :ObjectList) if !data[:Subject]
+      error(nil, "Expected Verb", production: :ObjectList) if !(data[:Verb])
     end
-    production(:ObjectList) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+    production(:ObjectList) do |value|
+      objects = Array(value[:Object][:object])
+      patterns = Array(value[:Object][:pattern])
+
+      value[:_ObjectList_1].each do |ob|
+        objects << ob[:object]
+        patterns += Array(ob[:pattern])
+      end
+
+      {
+        object: objects,
+        pattern: patterns
+      }
+    end
+
+    # (rule _ObjectList_2 (seq ',' Object))
+    start_production(:_ObjectList_2, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = prod_data[:Verb]
+    end
+    production(:_ObjectList_2) do |value|
+      value[:Object]
     end
 
     # Object ::= GraphNode Annotation
     #
     # Sets `:Subject` and `:Verb` in data from input.
-    start_production(:Object) do |input, data, callback|
-      data[:Subject] = Array(input[:Subject]).first
-      data[:Verb] = Array(input[:Verb]).first
-      @curReifier = @curTripleTerm = nil
+    start_production(:Object, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = prod_data[:Verb]
     end
 
     #
     # Input from `data` is `:Subject`, `:Verb` or `:VerbPath`, and `GraphNode`.
     # Output to prod_data is `:pattern`, either from `:Subject`, `:Verb`, and `GraphNode` or a new path if `VerbPath` is present instead of `Verb`.
-    production(:Object) do |input, data, callback|
-      object = input[:GraphNode] || data[:GraphNode]
-      add_prod_datum(:pattern, data[:pattern])  # Annotations
-      if object
-        if input[:Verb]
-          add_pattern(:Object, subject: input[:Subject], predicate: input[:Verb], object: object)
-        elsif input[:VerbPath]
-          add_prod_datum(:pattern,
-            SPARQL::Algebra::Expression(:path,
-                                        input[:Subject].first,
-                                        input[:VerbPath],
-                                        object.first))
-        end
+    production(:Object) do |value, data|
+      subject = data[:Subject]
+      verb = data[:Verb]
+      object = value[:GraphNode][:object]
+      patterns = [RDF::Query::Pattern.new(subject, verb, object)]
+      {
+        object: object,
+        pattern: patterns + value[:GraphNode][:pattern] + value[:Annotation]
+      }
+    end
+
+
+    # TriplesSameSubjectPath ::= VarOrTerm PropertyListPathNotEmpty
+    #                          | TriplesNodePath PropertyListPath
+    #                          | ReifiedTripleBlockPath
+    #
+    #  (rule TriplesSameSubjectPath
+    #    (alt _TriplesSameSubjectPath_1 _TriplesSameSubjectPath_2 ReifiedTripleBlockPath))
+    #
+    # Returns patterns
+    production(:TriplesSameSubjectPath) do |value|
+      pattern = if value[:VarOrTerm]
+        value[:PropertyListPathNotEmpty]
+      elsif value[:TriplesNodePath]
+        value[:TriplesNodePath][:pattern] + Array(value[:PropertyListPath])
+      elsif value[:ReifiedTripleBlockPath]
+        value[:ReifiedTripleBlockPath]
+      else
+        []
       end
+      pattern
     end
 
+    #  (rule _TriplesSameSubjectPath_1 (seq VarOrTerm PropertyListPathNotEmpty))
+    start_production(:_TriplesSameSubjectPath_1, as_hash: true)
 
-    # TriplesSameSubjectPath ::= VarOrTerm PropertyListPathNotEmpty | TriplesNode PropertyListPath | ReifiedTripleBlockPath
-    production(:TriplesSameSubjectPath) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
-    end
+    #  (rule _TriplesSameSubjectPath_2 (seq TriplesNodePath PropertyListPath))
+    start_production(:_TriplesSameSubjectPath_2, as_hash: true)
 
     # PropertyListPathNotEmpty ::= ( VerbPath | VerbSimple ) ObjectListPath
     #                              ( ';' ( ( VerbPath | VerbSimple )
     #                                      ObjectListPath )? )*
     #
+    #  (rule PropertyListPathNotEmpty
+    #   (seq _PropertyListPathNotEmpty_1 ObjectListPath _PropertyListPathNotEmpty_2))
+    #
     # Sets `:Subject` in data from either `:VarOrTerm`,
     # `:TriplesNode`, or `:GraphNode` in input with error checking.
-    start_production(:PropertyListPathNotEmpty) do |input, data, callback|
-      subject = input[:VarOrTerm] || input[:TriplesNode] || input[:GraphNode] || input[:Subject] || input[:Reifier]
-      error(nil, "Expected VarOrTerm, got nothing", production: :PropertyListPathNotEmpty) if validate? && !subject
+    #
+    # Returns patterns
+    start_production(:PropertyListPathNotEmpty, as_hash: true) do |data|
+      # If we're in an  AnnotationPathBlock, use reification information
+      if anno_data = prod_data[:AnnotationData]
+        # Allocate a reifier ID, if necessary and use as subject
+        prod_data[:Subject] = anno_data[:curReifier] ||= bnode
+      end
+
+      # If options has a `:_rept_data` entry, use it to get the subject
+      subject = prod_data[:Subject] ||
+                prod_data[:TriplesNode] ||
+                data[:_rept_data].last[:VarOrTerm]
+      error(nil, "Expected Subject, got nothing", production: :PropertyListPathNotEmpty) if !subject
       data[:Subject] = subject
     end
-    production(:PropertyListPathNotEmpty) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+    production(:PropertyListPathNotEmpty) do |value|
+      patterns = Array(value[:ObjectListPath][:pattern])
+      value[:_PropertyListPathNotEmpty_2].each do |plpne|
+        patterns += plpne[:pattern]
+      end
+      patterns
+    end
+
+    # (rule _PropertyListPathNotEmpty_1 (alt VerbPath VerbSimple))
+
+    # (rule _PropertyListPathNotEmpty_2 (star _PropertyListPathNotEmpty_3))
+    start_production(:_PropertyListPathNotEmpty_2) do |data|
+      data[:Subject] = prod_data[:Subject]
+    end
+    production(:_PropertyListPathNotEmpty_2) do |value|
+      value.flatten
+    end
+
+    # (rule _PropertyListPathNotEmpty_3 (seq ';' _PropertyListPathNotEmpty_4))
+    start_production(:_PropertyListPathNotEmpty_3, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+    end
+    production(:_PropertyListPathNotEmpty_3) do |value|
+      value[:_PropertyListPathNotEmpty_4]
+    end
+
+    # (rule _PropertyListPathNotEmpty_4 (opt _PropertyListPathNotEmpty_5))
+    start_production(:_PropertyListPathNotEmpty_4) do |data|
+      data[:Subject] = prod_data[:Subject]
+    end
+
+    # (rule _PropertyListPathNotEmpty_5 (seq _PropertyListPathNotEmpty_6 ObjectListPath))
+    start_production(:_PropertyListPathNotEmpty_5, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+    end
+    production(:_PropertyListPathNotEmpty_5) do |value|
+      value[:ObjectListPath]
     end
 
     # VerbPath ::= Path
@@ -1229,525 +1544,544 @@ module SPARQL::Grammar
     # Input from `data` is `:Path` or `:iri`.
     # Output to prod_data is either `:VerbPath` or `:Verb`.
     # If `:VerbPath` is added, then any existing `:Verb` is removed.
-    production(:VerbPath) do |input, data, callback|
-      if data[:Path]
-        input.delete(:Verb)
-        input[:VerbPath] = data[:Path]
-      else
-        input[:Verb] = data[:iri]
-      end
+    start_production(:VerbPath, as_hash: true)
+    production(:VerbPath) do |value|
+      value[:Path]
     end
 
     # VerbSimple ::= Var
-    production(:VerbSimple) do |input, data, callback|
-      input[:Verb] = data.values.flatten.first
+    production(:VerbSimple) do |value|
+      value.first[:Var]
     end
 
     # ObjectListPath ::= ObjectPath ("," ObjectPath)*
     #
     # Addes `:Subject` from input to data with error checking.
     # Also adds either `:Verb` or `:VerbPath`
-    start_production(:ObjectListPath) do |input, data, callback|
+    #
+    # Returns objects and patterns
+    start_production(:ObjectListPath, as_hash: true) do |data|
       # Called after Verb. The prod_data stack should have Subject and Verb elements
-      data[:Subject] = Array(input[:Subject]).first
-      error(nil, "Expected Subject", production: :ObjectListPath) if !input[:Subject] && validate?
-      error(nil, "Expected Verb", production: :ObjectListPath) if !(input[:Verb] || input[:VerbPath]) && validate?
-      if input[:Verb]
-        data[:Verb] = Array(input[:Verb]).last
-      else
-        data[:VerbPath] = input[:VerbPath]
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = data[:_rept_data].last[:_PropertyListPathNotEmpty_1] ||
+                    data[:_rept_data].last[:_PropertyListPathNotEmpty_6]
+      error(nil, "Expected Subject", production: :ObjectListPath) if !data[:Subject]
+      error(nil, "Expected Verb", production: :ObjectListPath) if !(data[:Verb])
+    end
+    production(:ObjectListPath) do |value|
+      objects = Array(value[:ObjectPath][:object])
+      patterns = Array(value[:ObjectPath][:pattern])
+      value[:_ObjectListPath_1].each do |olp|
+        objects << olp[:object]
+        patterns += olp[:pattern]
       end
+      {
+        object: objects,
+        pattern: patterns
+      }
     end
 
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ObjectListPath) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+    # (rule _ObjectListPath_1 (star _ObjectListPath_2))
+    start_production(:_ObjectListPath_1, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = prod_data[:Verb]
+    end
+
+    # (rule _ObjectListPath_2 (seq ',' ObjectPath))
+    start_production(:_ObjectListPath_2, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = prod_data[:Verb]
+    end
+    production(:_ObjectListPath_2) do |value|
+      value[:ObjectPath]
     end
 
     # ObjectPath ::= GraphNodePath AnnotationPath
     #
     # Adds `:Subject` and `:Verb` to data from input.
-    start_production(:ObjectPath) do |input, data, callback|
-      data[:Subject] = Array(input[:Subject]).first
-      data[:Verb] = Array(input[:Verb]).first
-      @curReifier = @curTripleTerm = nil
+    #
+    # Returns patterns and object
+    start_production(:ObjectPath, as_hash: true) do |data|
+      data[:Subject] = prod_data[:Subject]
+      data[:Verb] = prod_data[:Verb]
     end
-
-    # Input from `data` `:Subject`, either `:Verb` or `:VerbPath`, `:GraphNode` from GraphNodePath is used as the object, and `:pattern`.
-    # Output to prod_data is either a pattern including `:Subject`, `:Verb` and `:GraphNode`, or an `Object::Path` using `:VerbPath` instead of `:Verb`. Also, any `:pattern` from data is sent to prod_ddata
-    production(:ObjectPath) do |input, data, callback|
+      
+    production(:ObjectPath) do |value, data|
       subject = data[:Subject]
       verb = data[:Verb]
-      object = Array(data[:GraphNode]).first
-      if verb
-        add_prod_datum(:pattern, RDF::Query::Pattern.new(subject, verb, object))
+      object = value[:GraphNodePath][:object]
+      patterns = if verb.is_a?(SPARQL::Algebra::Query)
+        # It's a path
+        [SPARQL::Algebra::Expression(:path, subject, verb, object)]
       else
-        add_prod_datum(:pattern, SPARQL::Algebra::Expression(:path,
-                                        subject,
-                                        (input[:VerbPath] || input[:Verb]),
-                                        object))
+        [RDF::Query::Pattern.new(subject, verb, object)]
       end
-      add_prod_datum(:pattern, data[:pattern])
-    end
-
-    # AnnotationPatternPath?
-    #
-    # Create `:TriplesNode` in data used as the subject of annotations
-    start_production(:_ObjectPath_1) do |input, data, callback|
-      error("ObjectPath", "Expected Verb",
-        production: :_ObjectPath_1) unless input[:Verb]
-      pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, tripleTerm: true)
-      data[:TriplesNode] = [pattern]
-    end
-
-    #
-    # Input from `data` is `:pattern`.
-    # Output to prod_data is `:pattern`.
-    production(:_ObjectPath_1) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
+      {
+        object: object,
+        pattern: patterns + value[:GraphNodePath][:pattern] + value[:AnnotationPath]
+      }
     end
 
     # Path ::= PathAlternative
     #
     # Input from data is `:Path`
     # Output to input is either `:iri` or `:Path`, depending on if `:Path` is an IRI or not.
-    production(:Path) do |input, data, callback|
-      if data[:Path].is_a?(RDF::URI)
-        input[:iri] = data[:Path]
-      else
-        input[:Path] = data[:Path]
-      end
+    production(:Path) do |value|
+      value.last[:PathAlternative]
     end
 
     # PathAlternative ::= PathSequence ( '|' PathSequence )*
     #
     # Input from `data` is `:PathSequence` containing one or more path objects.
     # Output to prod_data is `:Path`, containing a nested sequence of `Algebra::Alt` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
-    production(:PathAlternative) do |input, data, callback|
-      lhs = Array(data[:PathSequence]).shift
-      while data[:PathSequence] && !data[:PathSequence].empty?
-        rhs = data[:PathSequence].shift
+    start_production(:PathAlternative, as_hash: true)
+    production(:PathAlternative) do |value|
+      lhs = value[:PathSequence]
+      while value[:_PathAlternative_1] && !value[:_PathAlternative_1].empty?
+        rhs = value[:_PathAlternative_1].shift
         lhs = SPARQL::Algebra::Expression[:alt, lhs, rhs]
       end
-      input[:Path] = lhs
+      lhs
     end
 
-    # ( '|' PathSequence )*
-    #
-    # Input from `data` is `:PathSequence`.
-    # Output to prod_data is `:PathSequence` which is accumulated.
-    production(:_PathAlternative_1) do |input, data, callback|
-      input[:PathSequence] += data[:PathSequence]
+    #  (rule _PathAlternative_2 (seq '|' PathSequence))
+    start_production(:_PathAlternative_2, as_hash: true)
+    production(:_PathAlternative_2) do |value|
+      value[:PathSequence]
     end
 
     # PathSequence ::= PathEltOrInverse ( '/' PathEltOrInverse )*
     #
     # Input from `data` is `:PathSequence` containing one or more path objects.
     # Output to prod_data is `:Path`, containing a nested sequence of `Algebra::Seq` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
-    production(:PathSequence) do |input, data, callback|
-      lhs = data[:PathEltOrInverse].shift
-      while data[:PathEltOrInverse] && !data[:PathEltOrInverse].empty?
-        rhs = data[:PathEltOrInverse].shift
+    start_production(:PathSequence, as_hash: true)
+    production(:PathSequence) do |value|
+      lhs = value[:PathEltOrInverse]
+      while value[:_PathSequence_1] && !value[:_PathSequence_1].empty?
+        rhs = value[:_PathSequence_1].shift
         lhs = SPARQL::Algebra::Expression[:seq, lhs, rhs]
       end
-      input[:PathSequence] = [lhs]
+      lhs
     end
 
-    # ( '/' PathEltOrInverse )*
-    #
-    # Input from `data` is `:PathSequence`.
-    # Output to prod_data is `:PathSequence` which is accumulated.
-    production(:_PathSequence_1) do |input, data, callback|
-      input[:PathEltOrInverse] += data[:PathEltOrInverse]
+    #  (rule _PathSequence_2 (seq '/' PathEltOrInverse))
+    start_production(:_PathSequence_2, as_hash: true)
+    production(:_PathSequence_2) do |value|
+      value[:PathEltOrInverse]
     end
 
     # PathElt ::= PathPrimary PathMod?
     #
+    #   (rule PathElt (seq PathPrimary _PathElt_1))
+    #   (rule _PathElt_1 (opt PathMod))
+    #
     # Input from `data` is `:PathMod` and `:PathPrimary`.
     # Output to prod_data is `:Path` a possibly modified `:PathPrimary`.
-    production(:PathElt) do |input, data, callback|
-      path_mod = data.delete(:PathMod) if data.has_key?(:PathMod)
-      path_mod ||= data.delete(:MultiplicativeExpression) if data.has_key?(:MultiplicativeExpression)
-      path_mod = path_mod.first if path_mod
-
-      res = case path_mod
-      when SPARQL::Algebra::Expression
-        # Path range :p{m,n}
-        path_mod.operands[2] = data[:PathPrimary]
+    start_production(:PathElt, as_hash: true)
+    production(:PathElt) do |value|
+      if path_mod = value[:_PathElt_1]
+        # Add primary path to operand
+        op_len = path_mod.operands.length
+        path_mod.operands[op_len-1] = value[:PathPrimary]
         path_mod
-      when nil
-        data[:PathPrimary]
       else
-        SPARQL::Algebra::Expression("path#{path_mod}", data[:PathPrimary])
+        value[:PathPrimary]
       end
-      input[:Path] = res
     end
 
     # PathEltOrInverse ::= PathElt | '^' PathElt
     #
     # Input from `data` is `:reverse` and `:Path`.
     # Output to prod_data is `:Path` a possibly reversed `:Path`.
-    production(:PathEltOrInverse) do |input, data, callback|
-      res = if data[:reverse]
-        SPARQL::Algebra::Expression(:reverse, data[:Path])
+    production(:PathEltOrInverse) do |value|
+      if value.is_a?(Array)
+        SPARQL::Algebra::Expression(:reverse, value.last[:PathElt])
       else
-        data[:Path]
+        value
       end
-      input[:PathEltOrInverse] = [res]
     end
 
     # PathMod ::= '*' | '?' | '+' | '{' INTEGER? (',' INTEGER?)? '}'
-    #             '{' INTEGER? (',' INTEGER?)? '}'
-    start_production(:_PathMod_1) do |input, data, callback|
-      data[:pathRange] = [nil]
+    #
+    #   (rule PathMod (alt '?' '*' '+' _PathMod_1))
+    #   (rule _PathMod_1 (seq '{' _PathMod_2 _PathMod_3 '}'))
+    #   (rule _PathMod_2 (opt INTEGER))
+    #   (rule _PathMod_3 (opt _PathMod_4))
+    #   (rule _PathMod_4 (seq ',' _PathMod_5))
+    #   (rule _PathMod_5 (opt INTEGER))
+    #
+    production(:PathMod) do |value|
+      if value.is_a?(SPARQL::Algebra::Expression)
+        value
+      elsif value
+        # Last operand added in :PathElt
+        SPARQL::Algebra::Expression("path#{value}", RDF.nil)
+      end
     end
-    production(:_PathMod_1) do |input, data, callback|
-      raise Error, "expect property range to have integral elements" if data[:pathRange].all?(&:nil?)
-      min, max = data[:pathRange]
-      min ||= 0
-      max = min if data[:pathRange].length == 1
-      max ||= :*
+
+    start_production(:_PathMod_1, as_hash: true)
+    production(:_PathMod_1) do |value|
+      raise Error, "expect property range to have integral elements" if
+        value[:_PathMod_2].nil? && value[:_PathMod_3] == :*
+      min = value[:_PathMod_2] || 0
+      max = value[:_PathMod_3] || min
 
       # Last operand added in :PathElt
-      add_prod_data(:PathMod, SPARQL::Algebra::Expression(:pathRange, min, max, RDF.nil))
+      SPARQL::Algebra::Expression(:pathRange, min, max, RDF.nil)
     end
 
-    # INTEGER?
-    production(:_PathMod_2) do |input, data, callback|
-      input[:pathRange][0] = data[:literal].object
-    end
-
-    # (',' INTEGER?)
-    start_production(:_PathMod_4) do |input, data, callback|
-      data[:pathRange] = [nil, nil]
-    end
-    production(:_PathMod_4) do |input, data, callback|
-      input[:pathRange][1] ||= data.fetch(:pathRange, [0, nil])[1]
-    end
-
-    # INTEGER?
-    production(:_PathMod_5) do |input, data, callback|
-      input[:pathRange][1] = data[:literal].object
+    #   (rule _PathMod_4 (seq ',' _PathMod_5))
+    start_production(:_PathMod_4, as_hash: true)
+    production(:_PathMod_4) do |value|
+      value[:_PathMod_5] || :*
     end
 
     # PathPrimary ::= iri | 'a' | '!' PathNegatedPropertySet | '(' Path ')'
     #
+    #   (rule PathPrimary (alt iri 'a' _PathPrimary_1 _PathPrimary_2))
+    #   (rule _PathPrimary_1 (seq '!' PathNegatedPropertySet))
+    #   (rule _PathPrimary_2 (seq '(' Path ')'))
+    #
     # Input from `data` is one of `:Verb`, `:iri`, `:PathNegatedPropertySet`, or `:Path`.
     # Output to prod_data is `:PathPrimary`.
-    production(:PathPrimary) do |input, data, callback|
-      input[:PathPrimary] = case
-      when data[:Verb]                   then data[:Verb]
-      when data[:iri]                    then data[:iri]
-      when data[:PathNegatedPropertySet] then data[:PathNegatedPropertySet]
-      when data[:Path]                   then data[:Path]
+    start_production(:PathPrimary, insensitive_strings: false)
+    production(:PathPrimary) do |value|
+      if value == 'a'
+        RDF.type.dup.tap {|a| a.lexical = 'a'}
+      else
+        value
       end
     end
 
-    # PathNegatedPropertySet ::= PathOneInPropertySet | '(' ( PathOneInPropertySet ( '|' PathOneInPropertySet )* )? ')'
+    #   (rule _PathPrimary_1 (seq '!' PathNegatedPropertySet))
+    production(:_PathPrimary_1) {|value| value.last[:PathNegatedPropertySet]}
+
+    #   (rule _PathPrimary_2 (seq '(' Path ')'))
+    production(:_PathPrimary_2) {|value| value[1][:Path]}
+
+    # PathNegatedPropertySet ::= PathOneInPropertySet |
+    #                            '('
+    #                            ( PathOneInPropertySet
+    #                              ( '|' PathOneInPropertySet )*
+    #                            )?
+    #                           ')'
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:PathNegatedPropertySet) do |input, data, callback|
-      input[:Path] = SPARQL::Algebra::Expression(:notoneof, *Array(data[:Path]))
+    #   (rule PathNegatedPropertySet (alt PathOneInPropertySet _PathNegatedPropertySet_1))
+    #   (rule _PathNegatedPropertySet_1 (seq '(' _PathNegatedPropertySet_2 ')'))
+    #   (rule _PathNegatedPropertySet_2 (opt _PathNegatedPropertySet_3))
+    #   (rule _PathNegatedPropertySet_3
+    #    (seq PathOneInPropertySet _PathNegatedPropertySet_4))
+    #   (rule _PathNegatedPropertySet_4 (star _PathNegatedPropertySet_5))
+    #   (rule _PathNegatedPropertySet_5 (seq '|' PathOneInPropertySet))
+    #
+    production(:PathNegatedPropertySet) do |value|
+      SPARQL::Algebra::Expression(:notoneof, *Array(value))
     end
 
-    # ( '|' PathOneInPropertySet )* )?
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_PathNegatedPropertySet_4) do |input, data, callback|
-      add_prod_datum(:Path, data[:Path])
+    #   (rule _PathNegatedPropertySet_1 (seq '(' _PathNegatedPropertySet_2 ')'))
+    production(:_PathNegatedPropertySet_1) do |value|
+      value[1][:_PathNegatedPropertySet_2]
+    end
+
+    #   (rule _PathNegatedPropertySet_3
+    #    (seq PathOneInPropertySet _PathNegatedPropertySet_4))
+    start_production(:_PathNegatedPropertySet_3, as_hash: true)
+    production(:_PathNegatedPropertySet_3) do |value|
+      value[:_PathNegatedPropertySet_4].unshift(value[:PathOneInPropertySet])
+    end
+
+    #   (rule _PathNegatedPropertySet_5 (seq '|' PathOneInPropertySet))
+    production(:_PathNegatedPropertySet_5) do |value|
+      value.last[:PathOneInPropertySet]
     end
 
     # PathOneInPropertySet ::= iri | 'a' | '^' ( iri | 'a' )
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:PathOneInPropertySet) do |input, data, callback|
-      term = (Array(data[:iri]) || data[:Verb]).first
-      term = SPARQL::Algebra::Expression(:reverse, term) if data[:reverse]
-      input[:Path] = [term]
-    end
-
-    # TriplesNode ::= Collection | BlankNodePropertyList
-    start_production(:TriplesNode) do |input, data, callback|
-      # Called after Verb. The prod_data stack should have Subject and Verb elements
-      data[:TriplesNode] = bnode
-    end
-
+    #   (rule PathOneInPropertySet (alt iri 'a' _PathOneInPropertySet_1))
+    #   (rule _PathOneInPropertySet_1 (seq '^' _PathOneInPropertySet_2))
+    #   (rule _PathOneInPropertySet_2 (alt iri 'a'))
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:TriplesNode) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:TriplesNode, data[:TriplesNode])
-    end
-
-    # TriplesNodePath ::= CollectionPath | BlankNodePropertyListPath
-    start_production(:TriplesNodePath) do |input, data, callback|
-      # Called after Verb. The prod_data stack should have Subject and Verb elements
-      data[:TriplesNode] = bnode
-    end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:TriplesNodePath) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:TriplesNode, data[:TriplesNode])
-    end
-
-    # Collection ::= '(' GraphNode+ ')'
-    start_production(:Collection) do |input, data, callback|
-      # Tells the TriplesNode production to collect and not generate statements
-      data[:Collection] = input[:TriplesNode]
-    end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:Collection) do |input, data, callback|
-      expand_collection(data)
-    end
-
-    # CollectionPath ::= "(" GraphNodePath+ ")"
-    start_production(:CollectionPath) do |input, data, callback|
-      # Tells the TriplesNode production to collect and not generate statements
-      data[:Collection] = input[:TriplesNode]
-    end
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:CollectionPath) do |input, data, callback|
-      expand_collection(data)
-    end
-
-    # AnnotationPath ::= ( Reifier | AnnotationBlock )*
-    # Input from `data` is :Subject, :Verb, and :GraphNode
-    # Output is nil
-    # Generates reified triples
-    start_production(:AnnotationPath) do |input, data, callback|
-      data[:SavedSubject], data[:SavedVerb] = input[:Subject], input[:Verb]
-      unless @curTripleTerm # This is defined in the first AnnotationPath in an unwound sequence
-        error("AnnotationPath", "Expected Verb", production: :AnnotationPath) unless input[:Verb]
-        pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, tripleTerm: true)
-        @curTripleTerm = pattern
+    start_production(:PathOneInPropertySet, insensitive_strings: false)
+    production(:PathOneInPropertySet) do |value|
+      if value == 'a'
+        RDF.type.dup.tap {|a| a.lexical = 'a'}
+      elsif value.is_a?(RDF::URI)
+        value
+      else
+        SPARQL::Algebra::Expression(:reverse, value.last[:_PathOneInPropertySet_2])
       end
     end
 
-    production(:AnnotationPath) do |input, data, callback|
-      data[:Subject], data[:Verb] = input[:SavedSubject], input[:SavedVerb]
-      add_prod_datum(:pattern, data[:pattern]) if data[:pattern]
+    # BlankNodePropertyList   ::= '[' PropertyListNotEmpty ']'
+    start_production(:BlankNodePropertyList, as_hash: true) do |data|
+      data[:Subject] = prod_data[:TriplesNode]
+    end
+    production(:BlankNodePropertyList) do |value, data|
+      {
+        object: data[:Subject],
+        pattern: value[:PropertyListNotEmpty]
+      }
+    end
+
+    # TriplesNode ::= Collection | BlankNodePropertyList
+    #
+    # Returns object and patterns
+    start_production(:TriplesNode) do |data|
+      data[:TriplesNode] = bnode
+    end
+    production(:TriplesNode) do |value, data|
+      # Record the node for downstream productions XXX
+      prod_data[:TriplesNode] = data[:TriplesNode]
+
+      value.is_a?(Hash) ? value : {object: data[:TriplesNode], pattern: value}
+    end
+
+    # TriplesNodePath ::= CollectionPath | BlankNodePropertyListPath
+    #
+    # Returns object and patterns
+    start_production(:TriplesNodePath) do |data|
+      # Called after Verb. The prod_data stack should have Subject and Verb elements
+      data[:TriplesNode] = bnode
+    end
+    production(:TriplesNodePath) do |value, data|
+      # Record the node for downstraem productions
+      prod_data[:TriplesNode] = data[:TriplesNode]
+
+      value.is_a?(Hash) ? value : {object: data[:TriplesNode], pattern: value}
+    end
+
+    # BlankNodePropertyListPath ::= '[' PropertyListPathNotEmpty ']'
+    #
+    # Returns object and patterns
+    start_production(:BlankNodePropertyListPath, as_hash: true) do |data|
+      data[:Subject] = prod_data[:TriplesNode]
+    end
+    production(:BlankNodePropertyListPath) do |value, data|
+      {
+        object: data[:Subject],
+        pattern: value[:PropertyListPathNotEmpty]
+      }
+    end
+
+    # Collection ::= '(' GraphNode+ ')'
+    #
+    #   (rule Collection (seq '(' _Collection_1 ')'))
+    #   (rule _Collection_1 (plus GraphNode))
+    #
+    # Returns patterns
+    start_production(:Collection, as_hash: true) do |data|
+      # Tells the TriplesNode production to collect and not generate statements
+      data[:Subject] = prod_data[:TriplesNode]
+    end
+    production(:Collection) do |value, data|
+      expand_collection(data[:Subject], value[:_Collection_1])
+    end
+
+    # CollectionPath ::= "(" GraphNodePath+ ")"
+    #
+    #   (rule CollectionPath (seq '(' _CollectionPath_1 ')'))
+    #   (rule _CollectionPath_1 (plus GraphNodePath))
+    #
+    # Returns patterns
+    start_production(:CollectionPath, as_hash: true) do |data|
+      # Tells the TriplesNode production to collect and not generate statements
+      data[:Subject] = prod_data[:TriplesNode]
+    end
+    production(:CollectionPath) do |value, data|
+      expand_collection(data[:Subject], value[:_CollectionPath_1])
+    end
+
+    # AnnotationPath ::= ( Reifier | AnnotationBlockPath )*
+    #
+    # Returns patterns
+    start_production(:AnnotationPath, as_hash: true) do |data|
+      object = data[:_rept_data].first[:GraphNodePath][:object]
+      error("AnnotationPath", "Expected Subject", production: :AnnotationPath) unless prod_data[:Subject]
+      error("AnnotationPath", "Expected Verb", production: :AnnotationPath) unless prod_data[:Verb]
+      error("AnnotationPath", "Expected Object", production: :AnnotationPath) unless object
+      data[:curReifier] = nil
+      data[:TripleTerm] = RDF::Query::Pattern.new(prod_data[:Subject], prod_data[:Verb], object, tripleTerm: true)
+    end
+
+    production(:AnnotationPath) do |value|
+      value.flatten
     end
 
     # AnnotationBlockPath ::= '{|' PropertyListPathNotEmpty '|}'
     #
     # Beginning the annotationBlock production, if the curReifier is not set, then the curReifier is assigned a fresh RDF blank node and then yields the RDF triple curReifier rdf:reifies curTripleTerm. The curSubject is taken from the curReifier
-    start_production(:AnnotationBlockPath) do |input, data, callback|
-      unless @curReifier
-        @curReifier = bnode
-        add_prod_datum(:pattern, RDF::Query::Pattern.new(@curReifier, RDF.reifies, @curTripleTerm))
-      end
-      data[:Subject] = input[:Subject] = @curReifier
-      @curReifier = nil
+    start_production(:AnnotationBlockPath, as_hash: true) do |data|
+      # Store AnnotationPath data for reference in PropertyListPathNotEmpty
+      data[:AnnotationData] = prod_data
+      data[:emit_tt] = prod_data[:curReifier].nil?
     end
 
-    # Finishing the annotationBlock production, clears the value of the curReifier.
-    production(:AnnotationBlockPath) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern]) if data[:pattern]
+    production(:AnnotationBlockPath) do |value, data|
+      patterns = if data[:emit_tt]
+        reifier = data[:AnnotationData][:curReifier]
+        [RDF::Query::Pattern.new(reifier, RDF.reifies, prod_data[:TripleTerm])]
+      else
+        []
+      end
+      data[:AnnotationData][:curReifier] = nil
+      patterns += value[:PropertyListPathNotEmpty]
+      patterns
     end
 
     # Annotation ::= ( Reifier | AnnotationBlock )*
-    # Input from `data` is :Subject, :Verb, and :GraphNode
-    # Output is nil
-    # Generates reified triples
-    start_production(:Annotation) do |input, data, callback|
-      data[:SavedSubject], data[:SavedVerb] = input[:Subject], input[:Verb]
-      unless @curTripleTerm
-        error("Annotation", "Expected Verb", production: :Annotation) unless input[:Verb]
-        pattern = RDF::Query::Pattern.new(input[:Subject], input[:Verb], input[:GraphNode].first, tripleTerm: true)
-        @curTripleTerm = pattern
-      end
+    #
+    # Returns patterns
+    start_production(:Annotation) do |data|
+      object = data[:_rept_data].first[:GraphNode][:object]
+      error("AnnotationPath", "Expected Subject", production: :AnnotationPath) unless prod_data[:Subject]
+      error("AnnotationPath", "Expected Verb", production: :AnnotationPath) unless prod_data[:Verb]
+      error("AnnotationPath", "Expected Object", production: :AnnotationPath) unless object
+      data[:curReifier] = nil
+      data[:TripleTerm] = RDF::Query::Pattern.new(prod_data[:Subject], prod_data[:Verb], object, tripleTerm: true)
     end
 
-    production(:Annotation) do |input, data, callback|
-      data[:Subject], data[:Verb] = input[:SavedSubject], input[:SavedVerb]
-      add_prod_datum(:pattern, data[:pattern]) if data[:pattern]
+    production(:Annotation) do |value|
+      value.flatten
     end
 
     # AnnotationBlock ::= '{|' PropertyListPathNotEmpty '|}'
     #
     # Beginning the annotationBlock production, if the curReifier is not set, then the curReifier is assigned a fresh RDF blank node and then yields the RDF triple curReifier rdf:reifies curTripleTerm. The curSubject is taken from the curReifier
-    start_production(:AnnotationBlock) do |input, data, callback|
-      unless @curReifier
-        @curReifier = bnode
-        add_prod_datum(:pattern, RDF::Query::Pattern.new(@curReifier, RDF.reifies, @curTripleTerm))
-      end
-      data[:Subject] = input[:Subject] = @curReifier
-      @curReifier = nil
+    start_production(:AnnotationBlock, as_hash: true) do |data|
+      # Store AnnotationPath data for reference in PropertyListPathNotEmpty
+      data[:AnnotationData] = prod_data
+      data[:emit_tt] = prod_data[:curReifier].nil?
     end
 
-    # Finishing the annotationBlock production, clears the value of the curReifier.
-    production(:AnnotationBlock) do |input, data, callback|
-      add_prod_datum(:pattern, data[:pattern]) if data[:pattern]
+    production(:AnnotationBlock) do |value, data|
+      patterns = []
+      if data[:emit_tt]
+        reifier = data[:AnnotationData][:curReifier]
+        patterns = [RDF::Query::Pattern.new(reifier, RDF.reifies, prod_data[:TripleTerm])]
+      end
+      data[:AnnotationData][:curReifier] = nil
+      patterns += value[:PropertyListNotEmpty]
+      patterns
     end
 
     # GraphNode ::= VarOrTerm | TriplesNode
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:GraphNode) do |input, data, callback|
-      term = data[:VarOrTerm] || data[:TriplesNode] || data[:Reifier]
-      add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:GraphNode, term)
+    # Returns object and patterns
+    production(:GraphNode) do |value|
+      value.is_a?(Hash) ? value : {object: value, pattern: []}
     end
 
-    # GraphNodePath ::= VarOrTerm | TriplesNodePath
+    # GraphNodePath ::= VarOrTerm | TriplesNodePath | ReifiedTriple
     #
-    # Input from `data` is either `:VarOrTerm` or `:TriplesNode`.
-    # Additionally, `:pattern`. Also, `:pattern` and `:path`.
-    # Output to prod_data is `:GraphNode`, along with any `:path` and `:pattern`.
-    production(:GraphNodePath) do |input, data, callback|
-      term = data[:VarOrTerm] || data[:TriplesNode] || data[:Reifier]
-      add_prod_datum(:pattern, data[:pattern])
-      add_prod_datum(:GraphNode, term)
+    # Returns object and patterns
+    production(:GraphNodePath) do |value|
+      value.is_a?(Hash) ? value : {object: value, pattern: []}
     end
 
-    # VarOrTerm ::= Var | iri | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL | TripleTerm
+    # ReifiedTriple ::= '<<' ReifiedTripleSubject Verb ReifiedTripleObject Reifier? '>>'
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:VarOrTerm) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
-    end
-
-    # VarOrTerm ::= Var | iri | RDFLiteral | NumericLiteral | BooleanLiteral | BlankNode | NIL | TripleTerm
+    #   (rule ReifiedTriple
+    #    (seq '<<' ReifiedTripleSubject Verb ReifiedTripleObject _ReifiedTriple_1 '>>'))
+    #   (rule _ReifiedTriple_1 (opt Reifier))
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:VarOrTerm) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrTerm, v)}
+    # Returns reifier and pattern. Saves reifier in prod_data
+    start_production(:ReifiedTriple, as_hash: true)
+    production(:ReifiedTriple) do |value, data|
+      subject = value[:ReifiedTripleSubject]
+      predicate = value[:Verb]
+      object = value[:ReifiedTripleObject]
+      reifier = data[:curReifier] || bnode
+      prod_data[:Subject] = reifier
+
+      {
+        object: reifier,
+        pattern: [RDF::Query::Pattern.new(
+                   reifier,
+                   RDF.reifies,
+                   RDF::Query::Pattern.new(subject, predicate, object, tripleTerm: true))]
+      }
     end
 
-    # ReifiedTriple ::= '<<' VarOrTerm Verb VarOrTerm Reifier? '>>'
+    # TripleTerm ::= ::= '<<(' TripleTermSubject Verb TripleTermObject ')>>'
     #
     # Input from `data` is `:VarOrTerm` from which subject and object are extracted and `:Verb` from which predicate is extracted.
     # Output to prod_data is `:TripleTerm` containing subject, predicate, and object.
-    production(:ReifiedTriple) do |input, data, callback|
-      if @curReifier
-        add_prod_datum(:pattern, data[:pattern])
+    start_production(:TripleTerm, as_hash: true)
+    production(:TripleTerm) do |value|
+      RDF::Query::Pattern.new(value[:TripleTermSubject], value[:Verb], value[:TripleTermObject], tripleTerm: true)
+    end
+
+    # TripleTermData ::= '<<(' TripleTermDataSubject ( iri | 'a' ) TripleTermDataObject ')>>'
+    #
+    #   (rule TripleTermData
+    #    (seq '<<(' TripleTermDataSubject _TripleTermData_1 TripleTermDataObject ')>>'))
+    #   (rule _TripleTermData_1 (alt iri 'a'))
+    #
+    # Input from `data` is TODO.
+    # Output to prod_data is TODO.
+    start_production(:TripleTermData, as_hash: true)
+    production(:TripleTermData) do |value|
+      RDF::Query::Pattern.new(value[:TripleTermDataSubject], value[:_TripleTermData_1], value[:TripleTermDataObject], tripleTerm: true)
+    end
+
+    #   (rule _TripleTermData_1 (alt iri 'a'))
+    production(:_TripleTermData_1) do |value|
+      if value == 'a'
+        RDF.type.dup.tap {|a| a.lexical = 'a'}
       else
-        @curReifier = bnode
-        subject, object = data[:VarOrTerm]
-        predicate = data[:Verb].first
-        add_pattern(:ReifiedTriple,
-                    subject: @curReifier,
-                    predicate: RDF.reifies,
-                    object: RDF::Query::Pattern.new(subject, predicate, object, tripleTerm: true))
+        value
       end
-
-      add_prod_datum(:Reifier, @curReifier)
-      @curReifier = nil
-    end
-
-    # Reifier?
-    # Sets curTripleTerm
-    start_production(:_ReifiedTriple_1) do |input, data, callback|
-      subject, object = input[:VarOrTerm]
-      predicate = input[:Verb].first
-      input.delete(:VarOrTerm)
-      input.delete(:Verb)
-      @curTripleTerm = RDF::Query::Pattern.new(subject, predicate, object, tripleTerm: true)
-    end
-
-    # ReifiedTripleData
-
-    # TripleTerm ::= '<<(' VarOrTerm Verb VarOrTerm ')>>'
-    #
-    # Input from `data` is `:VarOrTerm` from which subject and object are extracted and `:Verb` from which predicate is extracted.
-    # Output to prod_data is `:TripleTerm` containing subject, predicate, and object.
-    production(:TripleTerm) do |input, data, callback|
-      subject, object = data[:VarOrTerm]
-      predicate = data[:Verb]
-      add_pattern(:TripleTerm,
-                  subject: subject,
-                  predicate: predicate,
-                  object: object,
-                  tripleTerm: true)
-    end
-
-    # TripleTermData ::= '<<(' DataValueTerm ( iri | 'a' ) DataValueTerm ')>>'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:TripleTermData) do |input, data, callback|
-      subject, object = data[:DataValueTerm]
-      predicate = data[:iri]
-      add_pattern(:TripleTermData,
-                  subject: subject,
-                  predicate: predicate,
-                  object: object,
-                  tripleTerm: true)
-    end
-
-    # DataValueTerm ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | TripleTermData
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:DataValueTerm) do |input, data, callback|
-      add_prod_datum :DataValueTerm, data.values.first
-    end
-
-    # VarOrIri ::= Var | iri
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:VarOrIri) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:VarOrIri, v)}
     end
 
     # Expression ::= ConditionalOrExpression
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Expression) do |input, data, callback|
-      add_prod_datum(:Expression, data[:Expression])
+    production(:Expression) do |value|
+      value.first[:ConditionalOrExpression]
     end
 
     # ConditionalOrExpression ::= ConditionalAndExpression
     #                             ( '||' ConditionalAndExpression )*
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ConditionalOrExpression) do |input, data, callback|
-      add_operator_expressions(:_OR, data)
-    end
-
-    # ( '||' ConditionalAndExpression )*
+    #   (rule ConditionalOrExpression
+    #    (seq ConditionalAndExpression _ConditionalOrExpression_1))
+    #   (rule _ConditionalOrExpression_1 (star _ConditionalOrExpression_2))
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:_ConditionalOrExpression_1) do |input, data, callback|
-      accumulate_operator_expressions(:ConditionalOrExpression, :_OR, data)
+    start_production(:ConditionalOrExpression, as_hash: true)
+    production(:ConditionalOrExpression) do |value|
+      add_operator_expressions(value[:ConditionalAndExpression], *value[:_ConditionalOrExpression_1])
+    end
+
+    #   (rule _ConditionalOrExpression_2 (seq '||' ConditionalAndExpression))
+    production(:_ConditionalOrExpression_2) do |value|
+      [:or, value.last[:ConditionalAndExpression]]
     end
 
     # ConditionalAndExpression ::= ValueLogical ( '&&' ValueLogical )*
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ConditionalAndExpression) do |input, data, callback|
-      add_operator_expressions(:_AND, data)
-    end
-
-    # ( '||' ConditionalAndExpression )*
+    #   (rule ConditionalAndExpression (seq ValueLogical _ConditionalAndExpression_1))
+    #   (rule _ConditionalAndExpression_1 (star _ConditionalAndExpression_2))
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:_ConditionalAndExpression_1) do |input, data, callback|
-      accumulate_operator_expressions(:ConditionalAndExpression, :_AND, data)
+    start_production(:ConditionalAndExpression, as_hash: true)
+    production(:ConditionalAndExpression) do |value|
+      add_operator_expressions(value[:ValueLogical], *value[:_ConditionalAndExpression_1])
+    end
+
+    #   (rule _ConditionalAndExpression_2 (seq '&&' ValueLogical))
+    production(:_ConditionalAndExpression_2) do |value|
+      [:and, value.last[:ValueLogical]]
+    end
+
+    # ValueLogical ::= RelationalExpression
+    production(:ValueLogical) do |value|
+      value.first[:RelationalExpression]
     end
 
     # RelationalExpression ::= NumericExpression
@@ -1761,51 +2095,60 @@ module SPARQL::Grammar
     #                          | 'NOT' 'IN' ExpressionList
     #                          )?
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:RelationalExpression) do |input, data, callback|
-      if data[:_Compare_Numeric]
-        add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(data[:_Compare_Numeric].insert(1, *data[:Expression])))
-      elsif data[:in]
-        expr = (data[:Expression] + data[:in]).reject {|v| v.eql?(RDF.nil)}
-        add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(expr.unshift(:in)))
-      elsif data[:notin]
-        expr = (data[:Expression] + data[:notin]).reject {|v| v.equal?(RDF.nil)}
-        add_prod_datum(:Expression, SPARQL::Algebra::Expression.for(expr.unshift(:notin)))
+    #   (rule RelationalExpression (seq NumericExpression _RelationalExpression_1))
+    #   (rule _RelationalExpression_1 (opt _RelationalExpression_2))
+    #   (rule _RelationalExpression_2
+    #    (alt _RelationalExpression_3 _RelationalExpression_4 _RelationalExpression_5
+    #     _RelationalExpression_6 _RelationalExpression_7 _RelationalExpression_8
+    #     _RelationalExpression_9 _RelationalExpression_10 ))
+    #   (rule _RelationalExpression_3 (seq '=' NumericExpression))
+    #   (rule _RelationalExpression_4 (seq '!=' NumericExpression))
+    #   (rule _RelationalExpression_5 (seq '<' NumericExpression))
+    #   (rule _RelationalExpression_6 (seq '>' NumericExpression))
+    #   (rule _RelationalExpression_7 (seq '<=' NumericExpression))
+    #   (rule _RelationalExpression_8 (seq '>=' NumericExpression))
+    #   (rule _RelationalExpression_9 (seq 'IN' ExpressionList))
+    #   (rule _RelationalExpression_10 (seq 'NOT' 'IN' ExpressionList))
+    #
+    start_production(:RelationalExpression, as_hash: true)
+    production(:RelationalExpression) do |value|
+      if Array(value[:_RelationalExpression_1]).empty?
+        value[:NumericExpression]
       else
-        # NumericExpression with no comparitor
-        add_prod_datum(:Expression, data[:Expression])
+        comparator, rhs = value[:_RelationalExpression_1]
+        SPARQL::Algebra::Expression.for(comparator, value[:NumericExpression], *Array(rhs))
       end
     end
 
-    # ( '=' NumericExpression | '!=' NumericExpression | ... )?
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_RelationalExpression_1) do |input, data, callback|
-      if data[:RelationalExpression]
-        add_prod_datum(:_Compare_Numeric, data[:RelationalExpression] + data[:Expression])
-      elsif data[:in]
-        add_prod_datum(:in, data[:in])
-      elsif data[:notin]
-        add_prod_datum(:notin, data[:notin])
+    # (rule _RelationalExpression_2
+    #   (alt _RelationalExpression_3 _RelationalExpression_4 _RelationalExpression_5
+    #   _RelationalExpression_6 _RelationalExpression_7 _RelationalExpression_8
+    #   _RelationalExpression_9 _RelationalExpression_10 ))
+    production(:_RelationalExpression_2) do |value|
+      if value.last.is_a?(Hash)
+        comparator = value.first.values.first
+        rhs = value.last.values.first
+        [comparator, rhs]
+      else
+        value
       end
     end
 
-    # 'IN' ExpressionList
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_RelationalExpression_9) do |input, data, callback|
-      add_prod_datum(:in, data[:ExpressionList])
+    # (rule _RelationalExpression_9 (seq 'IN' ExpressionList))
+    start_production(:_RelationalExpression_9, as_hash: true, insensitve_strings: :upper)
+    production(:_RelationalExpression_9) do |value|
+      [:in, value[:ExpressionList]]
     end
 
-    # 'NOT' 'IN' ExpressionList
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_RelationalExpression_10) do |input, data, callback|
-      add_prod_datum(:notin, data[:ExpressionList])
+    # (rule _RelationalExpression_10 (seq 'NOT' 'IN' ExpressionList))
+    start_production(:_RelationalExpression_10, as_hash: true, insensitve_strings: :upper)
+    production(:_RelationalExpression_10) do |value|
+      [:notin, value[:ExpressionList]]
+    end
+
+    # NumericExpression::= AdditiveExpression
+    production(:NumericExpression) do |value|
+      value.first[:AdditiveExpression]
     end
 
     # AdditiveExpression ::= MultiplicativeExpression
@@ -1814,38 +2157,45 @@ module SPARQL::Grammar
     #                        | ( NumericLiteralPositive
     #                          | NumericLiteralNegative )
     #                          ( ( '*' UnaryExpression )
-    #                        | ( '/' UnaryExpression ) )?
+    #                          | ( '/' UnaryExpression ) )*
     #                        )*
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:AdditiveExpression) do |input, data, callback|
-      add_operator_expressions(:_Add_Sub, data)
+    start_production(:AdditiveExpression, as_hash: true)
+    production(:AdditiveExpression) do |value|
+      add_operator_expressions(value[:MultiplicativeExpression], *value[:_AdditiveExpression_1])
     end
 
-    # ( '+' MultiplicativeExpression
-    # | '-' MultiplicativeExpression
-    # | ( NumericLiteralPositive | NumericLiteralNegative )
-    #   ( ( '*' UnaryExpression )
-    # | ( '/' UnaryExpression ) )?
-    # )*
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_AdditiveExpression_1) do |input, data, callback|
-      accumulate_operator_expressions(:AdditiveExpression, :_Add_Sub, data)
+    # (rule _AdditiveExpression_3 (seq '+' MultiplicativeExpression))
+    production(:_AdditiveExpression_3) do |value|
+      [:+, value.last[:MultiplicativeExpression]]
     end
 
-    # | ( NumericLiteralPositive | NumericLiteralNegative )
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_AdditiveExpression_7) do |input, data, callback|
-      lit = data[:literal]
-      val = lit.to_s
-      op, val = val[0,1], val[1..-1]
-      add_prod_datum(:AdditiveExpression, op)
-      add_prod_datum(:Expression, [lit.class.new(val)])
+    #  (rule _AdditiveExpression_4 (seq '-' MultiplicativeExpression))
+    production(:_AdditiveExpression_4) do |value|
+      [:-, value.last[:MultiplicativeExpression]]
+    end
+
+    #   (rule _AdditiveExpression_5 (seq _AdditiveExpression_6 _AdditiveExpression_7))
+    #   (rule _AdditiveExpression_6 (alt NumericLiteralPositive NumericLiteralNegative))
+    #   (rule _AdditiveExpression_7 (star _AdditiveExpression_8))
+    #   (rule _AdditiveExpression_8 (alt _AdditiveExpression_9 _AdditiveExpression_10))
+    start_production(:_AdditiveExpression_5, as_hash: true)
+    production(:_AdditiveExpression_5) do |value|
+      op = value[:_AdditiveExpression_6] < 0 ? :- : :+
+      lhs = value[:_AdditiveExpression_6].abs + 0
+      [op, add_operator_expressions(lhs, *value[:_AdditiveExpression_7])]
+    end
+
+    #  (rule _AdditiveExpression_9 (seq '*' UnaryExpression))
+    production(:_AdditiveExpression_9) do |value|
+      [:*, value.last[:UnaryExpression]]
+    end
+
+    #  (rule _AdditiveExpression_10 (seq '/' UnaryExpression))
+    production(:_AdditiveExpression_10) do |value|
+      [:/, value.last[:UnaryExpression]]
     end
 
     # MultiplicativeExpression ::= UnaryExpression
@@ -1854,17 +2204,19 @@ module SPARQL::Grammar
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:MultiplicativeExpression) do |input, data, callback|
-      add_operator_expressions(:_Mul_Div, data)
+    start_production(:MultiplicativeExpression, as_hash: true)
+    production(:MultiplicativeExpression) do |value|
+      add_operator_expressions(value[:UnaryExpression], *value[:_MultiplicativeExpression_1])
     end
 
-    # ( '*' UnaryExpression
-    # | '/' UnaryExpression )*
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:_MultiplicativeExpression_1) do |input, data, callback|
-      accumulate_operator_expressions(:MultiplicativeExpression, :_Mul_Div, data)
+    # (rule _MultiplicativeExpression_3 (seq '*' UnaryExpression))
+    production(:_MultiplicativeExpression_3) do |value|
+      [:*, value.last[:UnaryExpression]]
+    end
+
+    # (rule _MultiplicativeExpression_4 (seq '/' UnaryExpression))
+    production(:_MultiplicativeExpression_4) do |value|
+      [:/, value.last[:UnaryExpression]]
     end
 
     # UnaryExpression ::= '!' PrimaryExpression
@@ -1872,157 +2224,393 @@ module SPARQL::Grammar
     #                   | '-' PrimaryExpression
     #                   | PrimaryExpression
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:UnaryExpression) do |input, data, callback|
-      case data[:UnaryExpression]
-      when ["!"]
-        add_prod_datum(:Expression, SPARQL::Algebra::Expression[:not, data[:Expression].first])
-      when ["-"]
-        e = data[:Expression].first
-        if e.is_a?(RDF::Literal::Numeric)
-          add_prod_datum(:Expression, -e) # Simple optimization to match ARQ generation
-        else
-          add_prod_datum(:Expression, SPARQL::Algebra::Expression[:"-", e])
-        end
+    #   (rule UnaryExpression
+    #    (alt _UnaryExpression_1 _UnaryExpression_2 _UnaryExpression_3 PrimaryExpression))
+    #   (rule _UnaryExpression_1 (seq '!' PrimaryExpression))
+    #   (rule _UnaryExpression_2 (seq '+' PrimaryExpression))
+    #   (rule _UnaryExpression_3 (seq '-' PrimaryExpression))
+
+    #   (rule _UnaryExpression_1 (seq '!' PrimaryExpression))
+    production(:_UnaryExpression_1) do |value|
+      SPARQL::Algebra::Expression[:not, value.last[:PrimaryExpression]]
+    end
+
+    #   (rule _UnaryExpression_2 (seq '+' PrimaryExpression))
+    production(:_UnaryExpression_2) do |value|
+      value.last[:PrimaryExpression]
+    end
+
+    #   (rule _UnaryExpression_3 (seq '-' PrimaryExpression))
+    production(:_UnaryExpression_3) do |value|
+      expr = value.last[:PrimaryExpression]
+      if expr.is_a?(RDF::Literal::Numeric)
+        -expr
       else
-        add_prod_datum(:Expression, data[:Expression])
+        SPARQL::Algebra::Expression[:"-", expr]
       end
     end
 
-    # PrimaryExpression ::= BrackettedExpression | BuiltInCall
-    #                     | iriOrFunction | RDFLiteral
-    #                     | NumericLiteral | BooleanLiteral
-    #                     | Var
-    #                     | ExprTripleTerm
+    # ExprTripleTerm ::= '<<(' ExprTripleTermSubject Verb ExprTripleTermObject ')>>'
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:PrimaryExpression) do |input, data, callback|
-      if data[:Expression]
-        add_prod_datum(:Expression, data[:Expression])
-      elsif data[:BuiltInCall]
-        add_prod_datum(:Expression, data[:BuiltInCall])
-      elsif data[:iri]
-        add_prod_datum(:Expression, data[:iri])
-      elsif data[:Function]
-        add_prod_datum(:Expression, data[:Function]) # Maintain array representation
-      elsif data[:literal]
-        add_prod_datum(:Expression, data[:literal])
-      elsif data[:Var]
-        add_prod_datum(:Expression, data[:Var])
-      elsif data[:pattern]
-        add_prod_datum(:Expression, data[:pattern])
-      end
-
-      # Keep track of this for parent UnaryExpression production
-      add_prod_datum(:UnaryExpression, data[:UnaryExpression])
+    start_production(:ExprTripleTerm, as_hash: true)
+    production(:ExprTripleTerm) do |value|
+      subject = value[:ExprTripleTermSubject]
+      predicate = value[:Verb]
+      object = value[:ExprTripleTermObject]
+      RDF::Query::Pattern.new(subject, predicate, object, tripleTerm: true)
     end
 
-    # ExprVarOrTerm ::= iri | RDFLiteral | NumericLiteral | BooleanLiteral | Var | ExprTripleTerm
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ExprVarOrTerm) do |input, data, callback|
-      data.values.each {|v| add_prod_datum(:ExprVarOrTerm, v)}
+    # BrackettedExpression ::= '(' Expression ')'
+    production(:BrackettedExpression) do |value|
+      value[1][:Expression]
     end
 
-    # ExprTripleTerm ::= '<<(' ExprVarOrTerm Verb ExprVarOrTerm ')>>'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ExprTripleTerm) do |input, data, callback|
-      subject, object = data[:ExprVarOrTerm]
-      predicate = data[:Verb]
-      add_pattern(:ExprTripleTerm,
-                  subject: subject,
-                  predicate: predicate,
-                  object: object,
-                  tripleTerm: true)
+    #   (rule _BuiltInCall_1 (seq 'STR' '(' Expression ')'))
+    start_production(:_BuiltInCall_1, as_hash: true)
+    production(:_BuiltInCall_1) do |value|
+      SPARQL::Algebra::Operator::Str.new(value[:Expression])
     end
 
-    # BuiltInCall ::= Aggregate
-    #               | 'STR' '(' Expression ')'
-    #               | 'LANG' '(' Expression ')'
-    #               | 'LANGMATCHES' '(' Expression ',' Expression ')'
-    #               | 'DATATYPE' '(' Expression ')'
-    #               | 'BOUND' '(' Var ')'
-    #               | 'IRI' '(' Expression ')'
-    #               | 'URI' '(' Expression ')'
-    #               | 'BNODE' ( '(' Expression ')' | NIL )
-    #               | 'RAND' NIL
-    #               | 'ABS' '(' Expression ')'
-    #               | 'CEIL' '(' Expression ')'
-    #               | 'FLOOR' '(' Expression ')'
-    #               | 'ROUND' '(' Expression ')'
-    #               | 'CONCAT' ExpressionList
-    #               | SubstringExpression
-    #               | 'STRLEN' '(' Expression ')'
-    #               | StrReplaceExpression
-    #               | 'UCASE' '(' Expression ')'
-    #               | 'LCASE' '(' Expression ')'
-    #               | 'ENCODE_FOR_URI' '(' Expression ')'
-    #               | 'CONTAINS' '(' Expression ',' Expression ')'
-    #               | 'STRSTARTS' '(' Expression ',' Expression ')'
-    #               | 'STRENDS' '(' Expression ',' Expression ')'
-    #               | 'STRBEFORE' '(' Expression ',' Expression ')'
-    #               | 'STRAFTER' '(' Expression ',' Expression ')'
-    #               | 'YEAR' '(' Expression ')'
-    #               | 'MONTH' '(' Expression ')'
-    #               | 'DAY' '(' Expression ')'
-    #               | 'HOURS' '(' Expression ')'
-    #               | 'MINUTES' '(' Expression ')'
-    #               | 'SECONDS' '(' Expression ')'
-    #               | 'TIMEZONE' '(' Expression ')'
-    #               | 'TZ' '(' Expression ')'
-    #               | 'NOW' NIL
-    #               | 'UUID' NIL
-    #               | 'STRUUID' NIL
-    #               | 'MD5' '(' Expression ')'
-    #               | 'SHA1' '(' Expression ')'
-    #               | 'SHA224' '(' Expression ')'
-    #               | 'SHA256' '(' Expression ')'
-    #               | 'SHA384' '(' Expression ')'
-    #               | 'SHA512' '(' Expression ')'
-    #               | 'COALESCE' ExpressionList
-    #               | 'IF' '(' Expression ',' Expression ',' Expression ')'
-    #               | 'STRLANG' '(' Expression ',' Expression ')'
-    #               | 'STRDT' '(' Expression ',' Expression ')'
-    #               | 'sameTerm' '(' Expression ',' Expression ')'
-    #               | 'isIRI' '(' Expression ')'
-    #               | 'isURI' '(' Expression ')'
-    #               | 'isBLANK' '(' Expression ')'
-    #               | 'isLITERAL' '(' Expression ')'
-    #               | 'isNUMERIC' '(' Expression ')'
-    #               | RegexExpression
-    #               | ExistsFunc
-    #               | NotExistsFunc
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:BuiltInCall) do |input, data, callback|
-      input[:BuiltInCall] = if builtin = data.keys.detect {|k| BUILTINS.include?(k)}
-        SPARQL::Algebra::Expression.for(
-          (data[:ExpressionList] || data[:Expression] || []).
-          unshift(builtin))
-      elsif builtin_rule = data.keys.detect {|k| BUILTIN_RULES.include?(k)}
-        SPARQL::Algebra::Expression.for(data[builtin_rule].unshift(builtin_rule))
-      elsif aggregate_rule = data.keys.detect {|k| AGGREGATE_RULES.include?(k)}
-        data[aggregate_rule].first
-      elsif data[:bound]
-        SPARQL::Algebra::Expression.for(data[:Var].unshift(:bound))
-      elsif data[:BuiltInCall]
-        SPARQL::Algebra::Expression.for(data[:BuiltInCall] + data[:Expression])
+    #   (rule _BuiltInCall_2 (seq 'LANG' '(' Expression ')'))
+    start_production(:_BuiltInCall_2, as_hash: true)
+    production(:_BuiltInCall_2) do |value|
+      SPARQL::Algebra::Operator::Lang.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_3 (seq 'LANGMATCHES' '(' Expression ',' Expression ')'))
+    start_production(:_BuiltInCall_3, as_hash: false)
+    production(:_BuiltInCall_3) do |value|
+      SPARQL::Algebra::Operator::LangMatches.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_4 (seq 'DATATYPE' '(' Expression ')'))
+    start_production(:_BuiltInCall_4, as_hash: true)
+    production(:_BuiltInCall_4) do |value|
+      SPARQL::Algebra::Operator::Datatype.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_5 (seq 'BOUND' '(' Var ')'))
+    start_production(:_BuiltInCall_5, as_hash: true)
+    production(:_BuiltInCall_5) do |value|
+      SPARQL::Algebra::Operator::Bound.new(value[:Var])
+    end
+
+    #   (rule _BuiltInCall_6 (seq 'IRI' '(' Expression ')'))
+    start_production(:_BuiltInCall_6, as_hash: true)
+    production(:_BuiltInCall_6) do |value|
+      SPARQL::Algebra::Operator::IRI.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_7 (seq 'URI' '(' Expression ')'))
+    start_production(:_BuiltInCall_7, as_hash: true)
+    production(:_BuiltInCall_7) do |value|
+      SPARQL::Algebra::Operator::IRI.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_8 (seq 'BNODE' _BuiltInCall_57))
+    #   (rule _BuiltInCall_57 (alt _BuiltInCall_58 NIL))
+    #   (rule _BuiltInCall_58 (seq '(' Expression ')'))
+    start_production(:_BuiltInCall_8, as_hash: true)
+    production(:_BuiltInCall_8) do |value|
+      if value[:_BuiltInCall_57].is_a?(RDF::Term)
+        SPARQL::Algebra::Operator::BNode.new
+      else
+        SPARQL::Algebra::Operator::BNode.new(value[:_BuiltInCall_57][1][:Expression])
       end
     end
+
+    #   (rule _BuiltInCall_9 (seq 'RAND' NIL))
+    start_production(:_BuiltInCall_9, as_hash: true)
+    production(:_BuiltInCall_9) do |value|
+      SPARQL::Algebra::Operator::Rand.new
+    end
+
+    #   (rule _BuiltInCall_10 (seq 'ABS' '(' Expression ')'))
+    start_production(:_BuiltInCall_10, as_hash: true)
+    production(:_BuiltInCall_10) do |value|
+      SPARQL::Algebra::Operator::Abs.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_11 (seq 'CEIL' '(' Expression ')'))
+    start_production(:_BuiltInCall_11, as_hash: true)
+    production(:_BuiltInCall_11) do |value|
+      SPARQL::Algebra::Operator::Ceil.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_12 (seq 'FLOOR' '(' Expression ')'))
+    start_production(:_BuiltInCall_12, as_hash: true)
+    production(:_BuiltInCall_12) do |value|
+      SPARQL::Algebra::Operator::Floor.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_13 (seq 'ROUND' '(' Expression ')'))
+    start_production(:_BuiltInCall_13, as_hash: true)
+    production(:_BuiltInCall_13) do |value|
+      SPARQL::Algebra::Operator::Round.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_14 (seq 'CONCAT' ExpressionList))
+    start_production(:_BuiltInCall_14, as_hash: true)
+    production(:_BuiltInCall_14) do |value|
+      SPARQL::Algebra::Operator::Concat.new(*value[:ExpressionList])
+    end
+
+    #   (rule _BuiltInCall_15 (seq 'STRLEN' '(' Expression ')'))
+    start_production(:_BuiltInCall_15, as_hash: true)
+    production(:_BuiltInCall_15) do |value|
+      SPARQL::Algebra::Operator::StrLen.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_16 (seq 'UCASE' '(' Expression ')'))
+    start_production(:_BuiltInCall_16, as_hash: true)
+    production(:_BuiltInCall_16) do |value|
+      SPARQL::Algebra::Operator::UCase.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_17 (seq 'LCASE' '(' Expression ')'))
+    start_production(:_BuiltInCall_17, as_hash: true)
+    production(:_BuiltInCall_17) do |value|
+      SPARQL::Algebra::Operator::LCase.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_18 (seq 'ENCODE_FOR_URI' '(' Expression ')'))
+    start_production(:_BuiltInCall_18, as_hash: true)
+    production(:_BuiltInCall_18) do |value|
+      SPARQL::Algebra::Operator::EncodeForURI.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_19 (seq 'CONTAINS' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_19) do |value|
+      SPARQL::Algebra::Operator::Contains.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_20 (seq 'STRSTARTS' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_20) do |value|
+      SPARQL::Algebra::Operator::StrStarts.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_21 (seq 'STRENDS' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_21) do |value|
+      SPARQL::Algebra::Operator::StrEnds.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_22 (seq 'STRBEFORE' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_22) do |value|
+      SPARQL::Algebra::Operator::StrBefore.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_23 (seq 'STRAFTER' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_23) do |value|
+      SPARQL::Algebra::Operator::StrAfter.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_24 (seq 'YEAR' '(' Expression ')'))
+    start_production(:_BuiltInCall_24, as_hash: true)
+    production(:_BuiltInCall_24) do |value|
+      SPARQL::Algebra::Operator::Year.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_25 (seq 'MONTH' '(' Expression ')'))
+    start_production(:_BuiltInCall_25, as_hash: true)
+    production(:_BuiltInCall_25) do |value|
+      SPARQL::Algebra::Operator::Month.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_26 (seq 'DAY' '(' Expression ')'))
+    start_production(:_BuiltInCall_26, as_hash: true)
+    production(:_BuiltInCall_26) do |value|
+      SPARQL::Algebra::Operator::Day.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_27 (seq 'HOURS' '(' Expression ')'))
+    start_production(:_BuiltInCall_27, as_hash: true)
+    production(:_BuiltInCall_27) do |value|
+      SPARQL::Algebra::Operator::Hours.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_28 (seq 'MINUTES' '(' Expression ')'))
+    start_production(:_BuiltInCall_28, as_hash: true)
+    production(:_BuiltInCall_28) do |value|
+      SPARQL::Algebra::Operator::Minutes.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_29 (seq 'SECONDS' '(' Expression ')'))
+    start_production(:_BuiltInCall_29, as_hash: true)
+    production(:_BuiltInCall_29) do |value|
+      SPARQL::Algebra::Operator::Seconds.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_30 (seq 'TIMEZONE' '(' Expression ')'))
+    start_production(:_BuiltInCall_30, as_hash: true)
+    production(:_BuiltInCall_30) do |value|
+      SPARQL::Algebra::Operator::Timezone.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_31 (seq 'TZ' '(' Expression ')'))
+    start_production(:_BuiltInCall_31, as_hash: true)
+    production(:_BuiltInCall_31) do |value|
+      SPARQL::Algebra::Operator::TZ.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_32 (seq 'NOW' NIL))
+    start_production(:_BuiltInCall_32, as_hash: true)
+    production(:_BuiltInCall_32) do |value|
+      SPARQL::Algebra::Operator::Now.new
+    end
+
+    #   (rule _BuiltInCall_33 (seq 'UUID' NIL))
+    start_production(:_BuiltInCall_33, as_hash: true)
+    production(:_BuiltInCall_33) do |value|
+      SPARQL::Algebra::Operator::UUID.new
+    end
+
+    #   (rule _BuiltInCall_34 (seq 'STRUUID' NIL))
+    start_production(:_BuiltInCall_34, as_hash: true)
+    production(:_BuiltInCall_34) do |value|
+      SPARQL::Algebra::Operator::StrUUID.new
+    end
+
+    #   (rule _BuiltInCall_35 (seq 'MD5' '(' Expression ')'))
+    start_production(:_BuiltInCall_35, as_hash: true)
+    production(:_BuiltInCall_35) do |value|
+      SPARQL::Algebra::Operator::MD5.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_36 (seq 'SHA1' '(' Expression ')'))
+    start_production(:_BuiltInCall_36, as_hash: true)
+    production(:_BuiltInCall_36) do |value|
+      SPARQL::Algebra::Operator::SHA1.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_37 (seq 'SHA224' '(' Expression ')'))
+    start_production(:_BuiltInCall_37, as_hash: true)
+    production(:_BuiltInCall_37) do |value|
+      SPARQL::Algebra::Operator::SHA224.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_38 (seq 'SHA256' '(' Expression ')'))
+    start_production(:_BuiltInCall_38, as_hash: true)
+    production(:_BuiltInCall_38) do |value|
+      SPARQL::Algebra::Operator::SHA256.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_39 (seq 'SHA384' '(' Expression ')'))
+    start_production(:_BuiltInCall_39, as_hash: true)
+    production(:_BuiltInCall_39) do |value|
+      SPARQL::Algebra::Operator::SHA384.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_40 (seq 'SHA512' '(' Expression ')'))
+    start_production(:_BuiltInCall_40, as_hash: true)
+    production(:_BuiltInCall_40) do |value|
+      SPARQL::Algebra::Operator::SHA512.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_41 (seq 'COALESCE' ExpressionList))
+    start_production(:_BuiltInCall_41, as_hash: true)
+    production(:_BuiltInCall_41) do |value|
+      SPARQL::Algebra::Operator::Coalesce.new(*value[:ExpressionList])
+    end
+
+    #   (rule _BuiltInCall_42 (seq 'IF' '(' Expression ',' Expression ',' Expression ')'))
+    production(:_BuiltInCall_42) do |value|
+      SPARQL::Algebra::Operator::If.new(value[2][:Expression], value[4][:Expression], value[6][:Expression])
+    end
+
+    #   (rule _BuiltInCall_43 (seq 'STRLANG' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_43) do |value|
+      SPARQL::Algebra::Operator::StrLang.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_44 (seq 'STRDT' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_44) do |value|
+      SPARQL::Algebra::Operator::StrDT.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_45 (seq 'sameTerm' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_45) do |value|
+      SPARQL::Algebra::Operator::SameTerm.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_46 (seq 'isIRI' '(' Expression ')'))
+    start_production(:_BuiltInCall_46, as_hash: true)
+    production(:_BuiltInCall_46) do |value|
+      SPARQL::Algebra::Operator::IsIRI.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_47 (seq 'isURI' '(' Expression ')'))
+    start_production(:_BuiltInCall_47, as_hash: true)
+    production(:_BuiltInCall_47) do |value|
+      SPARQL::Algebra::Operator::IsURI.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_48 (seq 'isBLANK' '(' Expression ')'))
+    start_production(:_BuiltInCall_48, as_hash: true)
+    production(:_BuiltInCall_48) do |value|
+      SPARQL::Algebra::Operator::IsBlank.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_49 (seq 'isLITERAL' '(' Expression ')'))
+    start_production(:_BuiltInCall_49, as_hash: true)
+    production(:_BuiltInCall_49) do |value|
+      SPARQL::Algebra::Operator::IsLiteral.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_50 (seq 'isNUMERIC' '(' Expression ')'))
+    start_production(:_BuiltInCall_50, as_hash: true)
+    production(:_BuiltInCall_50) do |value|
+      SPARQL::Algebra::Operator::IsNumeric.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_51 (seq 'ADJUST' '(' Expression ',' Expression ')'))
+    production(:_BuiltInCall_51) do |value|
+      SPARQL::Algebra::Operator::Adjust.new(value[2][:Expression], value[4][:Expression])
+    end
+
+    #   (rule _BuiltInCall_52 (seq 'isTRIPLE' '(' Expression ')'))
+    start_production(:_BuiltInCall_52, as_hash: true)
+    production(:_BuiltInCall_52) do |value|
+      SPARQL::Algebra::Operator::IsTriple.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_53
+    #    (seq 'TRIPLE' '(' Expression ',' Expression ',' Expression ')'))
+    production(:_BuiltInCall_53) do |value|
+      SPARQL::Algebra::Operator::Triple.new(value[2][:Expression], value[4][:Expression], value[6][:Expression])
+    end
+
+    #   (rule _BuiltInCall_54 (seq 'SUBJECT' '(' Expression ')'))
+    start_production(:_BuiltInCall_54, as_hash: true)
+    production(:_BuiltInCall_54) do |value|
+      SPARQL::Algebra::Operator::Subject.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_55 (seq 'PREDICATE' '(' Expression ')'))
+    start_production(:_BuiltInCall_55, as_hash: true)
+    production(:_BuiltInCall_55) do |value|
+      SPARQL::Algebra::Operator::Predicate.new(value[:Expression])
+    end
+
+    #   (rule _BuiltInCall_56 (seq 'OBJECT' '(' Expression ')'))
+    start_production(:_BuiltInCall_56, as_hash: true)
+    production(:_BuiltInCall_56) do |value|
+      SPARQL::Algebra::Operator::Object.new(value[:Expression])
+    end
+
 
     # RegexExpression ::= 'REGEX' '(' Expression ',' Expression
     #                     ( ',' Expression )? ')'
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:RegexExpression) do |input, data, callback|
-      add_prod_datum(:regex, data[:Expression])
+    production(:RegexExpression) do |value|
+      expr_list = [value[2][:Expression], value[4][:Expression]]
+      if value[5][:_RegexExpression_1]
+        expr_list << value[5][:_RegexExpression_1].last[:Expression]
+      end
+      SPARQL::Algebra::Operator::Regex.new(*expr_list)
     end
 
     # SubstringExpression ::= 'SUBSTR'
@@ -2031,8 +2619,12 @@ module SPARQL::Grammar
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:SubstringExpression) do |input, data, callback|
-      add_prod_datum(:substr, data[:Expression])
+    production(:SubstringExpression) do |value|
+      expr_list = [value[2][:Expression], value[4][:Expression]]
+      if value[5][:_SubstringExpression_1]
+        expr_list << value[5][:_SubstringExpression_1].last[:Expression]
+      end
+      SPARQL::Algebra::Operator::SubStr.new(*expr_list)
     end
 
     # StrReplaceExpression ::= 'REPLACE'
@@ -2042,24 +2634,24 @@ module SPARQL::Grammar
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:StrReplaceExpression) do |input, data, callback|
-      add_prod_datum(:replace, data[:Expression])
+    production(:StrReplaceExpression) do |value|
+      expr_list = [value[2][:Expression], value[4][:Expression], value[6][:Expression]]
+      if value[7][:_StrReplaceExpression_1]
+        expr_list << value[7][:_StrReplaceExpression_1].last[:Expression]
+      end
+      SPARQL::Algebra::Operator::Replace.new(*expr_list)
     end
 
     # ExistsFunc ::= 'EXISTS' GroupGraphPattern
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:ExistsFunc) do |input, data, callback|
-      add_prod_datum(:exists, data[:query])
+    start_production(:ExistsFunc, as_hash: true)
+    production(:ExistsFunc) do |value|
+      SPARQL::Algebra::Operator::Exists.new(value&.dig(:GroupGraphPattern, :query))
     end
 
     # NotExistsFunc ::= 'NOT' 'EXISTS' GroupGraphPattern
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:NotExistsFunc) do |input, data, callback|
-      add_prod_datum(:notexists, data[:query])
+    start_production(:NotExistsFunc, as_hash: true)
+    production(:NotExistsFunc) do |value|
+      SPARQL::Algebra::Operator::NotExists.new(value&.dig(:GroupGraphPattern, :query))
     end
 
     # Aggregate ::= 'COUNT' '(' 'DISTINCT'? ( '*' | Expression ) ')'
@@ -2073,69 +2665,105 @@ module SPARQL::Grammar
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:Aggregate) do |input, data, callback|
-      if aggregate_rule = data.keys.detect {|k| AGGREGATE_RULES.include?(k)}
-        parts = [aggregate_rule]
-        parts << [:separator, RDF::Literal(data[:string])] if data[:separator] && data[:string]
-        parts << :distinct if data[:DISTINCT_REDUCED]
-        parts << data[:Expression].first if data[:Expression]
-        add_prod_data(aggregate_rule, SPARQL::Algebra::Expression.for(parts))
-      end
+    production(:Aggregate) do |value|
+      SPARQL::Algebra::Expression.for(*value)
     end
+
+    # (rule _Aggregate_1 (seq 'COUNT' '(' _Aggregate_8 _Aggregate_9 ')'))
+    start_production(:_Aggregate_1, as_hash: true, insensitive_strings: :upper)
+    production(:_Aggregate_1) do |value|
+      expr = value[:_Aggregate_9] unless value[:_Aggregate_9] == '*'
+      [:count, (value[:_Aggregate_8] ? :distinct : nil), expr].compact
+    end
+
+    # (rule _Aggregate_2 (seq 'SUM' '(' _Aggregate_10 Expression ')'))
+    start_production(:_Aggregate_2, as_hash: true, insensitive_strings: :upper)
+    production(:_Aggregate_2) do |value|
+      [:sum, (value[:_Aggregate_10] ? :distinct : nil), value[:Expression]].compact
+    end
+
+    # (rule _Aggregate_3 (seq 'MIN' '(' _Aggregate_11 Expression ')'))
+    start_production(:_Aggregate_3, as_hash: true, insensitive_strings: :upper)
+    production(:_Aggregate_3) do |value|
+      [:min, (value[:_Aggregate_11] ? :distinct : nil), value[:Expression]].compact
+    end
+
+    # (rule _Aggregate_4 (seq 'MAX' '(' _Aggregate_12 Expression ')'))
+    start_production(:_Aggregate_4, as_hash: true, insensitive_strings: :upper)
+    production(:_Aggregate_4) do |value|
+      [:max, (value[:_Aggregate_12] ? :distinct : nil), value[:Expression]].compact
+    end
+
+    # (rule _Aggregate_5 (seq 'AVG' '(' _Aggregate_13 Expression ')'))
+    start_production(:_Aggregate_5, as_hash: true, insensitive_strings: :upper)
+    production(:_Aggregate_5) do |value|
+      [:avg, (value[:_Aggregate_13] ? :distinct : nil), value[:Expression]].compact
+    end
+
+    # (rule _Aggregate_6 (seq 'SAMPLE' '(' _Aggregate_14 Expression ')'))
+    start_production(:_Aggregate_6, as_hash: true, insensitive_strings: :upper)
+    production(:_Aggregate_6) do |value|
+      [:sample, (value[:_Aggregate_14] ? :distinct : nil), value[:Expression]].compact
+    end
+
+    # (rule _Aggregate_7
+    #   (seq 'GROUP_CONCAT' '(' _Aggregate_15 Expression _Aggregate_16 ')'))
+    start_production(:_Aggregate_7, as_hash: true, insensitive_strings: :upper)
+    production(:_Aggregate_7) do |value|
+      separator = value&.dig(:_Aggregate_16, :String)
+      [:group_concat,
+        (value[:_Aggregate_15] ? :distinct : nil),
+        ([:separator, separator] if separator),
+        value[:Expression]
+      ].compact
+    end
+
+    # (rule _Aggregate_17 (seq ';' 'SEPARATOR' '=' String))
+    start_production(:_Aggregate_17, as_hash: true, insensitive_strings: :upper)
 
     # iriOrFunction ::= iri ArgList?
     #
+    #   (rule iriOrFunction (seq iri _iriOrFunction_1))
+    #   (rule _iriOrFunction_1 (opt ArgList))
+    #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:iriOrFunction) do |input, data, callback|
-      if data.has_key?(:ArgList)
-        # Function is (func arg1 arg2 ...)
-        add_prod_data(:Function, SPARQL::Algebra::Operator::FunctionCall.new(data[:iri], *data[:ArgList]))
+    start_production(:iriOrFunction, as_hash: true)
+    production(:iriOrFunction) do |value|
+      if value[:_iriOrFunction_1]
+        SPARQL::Algebra::Operator::FunctionCall.new(value[:iri], *value[:_iriOrFunction_1])
       else
-        input[:iri] = data[:iri]
+        value[:iri]
       end
     end
 
-    # RDFLiteral ::= String ( LANGTAG | ( '^^' iri ) )?
+    # RDFLiteral ::= String ( LANG_DIR | '^^' iri )?
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
-    production(:RDFLiteral) do |input, data, callback|
-      if data[:string]
-        lit = data.dup
-        str = lit.delete(:string)
-        lit[:datatype] = lit.delete(:iri) if lit[:iri]
-        lit[:language] = lit.delete(:language).downcase if lit[:language]
-        input[:literal] = RDF::Literal.new(str, **lit) if str
-      end
+    start_production(:RDFLiteral, as_hash: true)
+    production(:RDFLiteral) do |value|
+      str = value[:String]
+      dt = value[:_RDFLiteral_1] if value[:_RDFLiteral_1].is_a?(RDF::URI)
+      lang = value[:_RDFLiteral_1] if value[:_RDFLiteral_1].is_a?(String)
+      RDF::Literal.new(str, datatype: dt, language: lang)
     end
 
-    # NumericLiteralPositive ::= INTEGER_POSITIVE
-    #                          | DECIMAL_POSITIVE
-    #                          | DOUBLE_POSITIVE
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:NumericLiteralPositive) do |input, data, callback|
-      num = data.values.flatten.last
-      input[:literal] = num
-
-      # Keep track of this for parent UnaryExpression production
-      add_prod_datum(:UnaryExpression, data[:UnaryExpression])
+    # (rule _RDFLiteral_3 (seq '^^' iri))
+    production(:_RDFLiteral_3) do |value|
+      value.last[:iri]
     end
 
-    # NumericLiteralNegative ::= INTEGER_NEGATIVE
-    #                          | DECIMAL_NEGATIVE
-    #                          | DOUBLE_NEGATIVE
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
-    production(:NumericLiteralNegative) do |input, data, callback|
-      num = data.values.flatten.last
-      input[:literal] = num
+    # BooleanLiteral ::= 'true' | 'false'
+    start_production(:BooleanLiteral, insensitive_strings: false)
+    production(:BooleanLiteral) do |value|
+      RDF::Literal::Boolean.new(value.downcase)
+    end
 
-      # Keep track of this for parent UnaryExpression production
-      add_prod_datum(:UnaryExpression, data[:UnaryExpression])
+    # PrefixedName::= PNAME_LN | PNAME_NS
+    production(:PrefixedName) do |value|
+      # PNAME_NS is just the symbol, PNAME_LN is a resolved IRI
+      value.is_a?(Symbol) ? self.prefix(value) : value
     end
 
     ##
@@ -2206,7 +2834,7 @@ module SPARQL::Grammar
       @result.to_sxp
     end
 
-    alias_method :ll1_parse, :parse
+    alias_method :peg_parse, :parse
 
     # Parse query
     #
@@ -2223,29 +2851,30 @@ module SPARQL::Grammar
     # @return [RDF::Queryable]
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     # @see https://axel.deri.ie/sparqltutorial/ESWC2007_SPARQL_Tutorial_unit2b.pdf
-    def parse(prod = START)
-      ll1_parse(@input,
-        prod.to_sym,
-        branch: BRANCH,
-        first: FIRST,
-        follow: FOLLOW,
+    def parse(prod = :QueryUnit)
+      res = peg_parse(@input,
+        start: prod.to_sym,
+        rules: SPARQL::Grammar::Meta::RULES,
         whitespace: WS,
+        insensitive_strings: :upper,
         **@options
       )
 
       # The last thing on the @prod_data stack is the result
       @result = case
-      when !prod_data.is_a?(Hash)
-        prod_data
-      when prod_data.empty?
+      when !res.is_a?(Hash)
+        res
+      when res.empty?
         nil
-      when prod_data[:query]
-        Array(prod_data[:query]).length == 1 ? prod_data[:query].first : prod_data[:query]
-      when prod_data[:update]
-        prod_data[:update]
+      when res[:query]
+        res[:query]
+      when res[:update]
+        res[:update]
       else
-        key = prod_data.keys.first
-        [key] + Array(prod_data[key])  # Creates [:key, [:triple], ...]
+        key = res.keys.first
+        value = res[key]
+        value = [value] unless value.is_a?(Array)
+        value.unshift(key)
       end
 
       # Validate resulting expression
@@ -2446,26 +3075,27 @@ module SPARQL::Grammar
 
     # Take collection of objects and create RDF Collection using rdf:first, rdf:rest and rdf:nil
     # @param [Hash] data Production Data
-    def expand_collection(data)
+    # @return [Array] list of patterns
+    def expand_collection(first, values)
       # Add any triples generated from deeper productions
-      add_prod_datum(:pattern, data[:pattern])
+      patterns = values.map {|v| v[:pattern]}.flatten.compact
 
       # Create list items for each element in data[:GraphNode]
-      first = data[:Collection]
-      list = Array(data[:GraphNode]).flatten.compact
+      list = values.map {|v| v[:object]}.compact
       last = list.pop
 
       list.each do |r|
-        add_pattern(:Collection, subject: first, predicate: RDF["first"], object: r)
+        patterns << add_pattern(:Collection, subject: first, predicate: RDF["first"], object: r)
         rest = bnode()
-        add_pattern(:Collection, subject: first, predicate: RDF["rest"], object: rest)
+        patterns << add_pattern(:Collection, subject: first, predicate: RDF["rest"], object: rest)
         first = rest
       end
 
       if last
-        add_pattern(:Collection, subject: first, predicate: RDF["first"], object: last)
+        patterns << add_pattern(:Collection, subject: first, predicate: RDF["first"], object: last)
       end
-      add_pattern(:Collection, subject: first, predicate: RDF["rest"], object: RDF["nil"])
+      patterns << add_pattern(:Collection, subject: first, predicate: RDF["rest"], object: RDF["nil"])
+      patterns
     end
 
     # add a pattern
@@ -2487,15 +3117,7 @@ module SPARQL::Grammar
         end
         triple[r] = v
       end
-      add_prod_datum(:pattern, RDF::Query::Pattern.new(triple))
-    end
-
-    # Flatten a Data in form of filter: [op+ bgp?], without a query into filter and query creating exprlist, if necessary
-    # @return [Array[:expr, query]]
-    def flatten_filter(data)
-      query = data.pop if data.last.is_a?(SPARQL::Algebra::Query)
-      expr = data.length > 1 ? SPARQL::Algebra::Operator::Exprlist.new(*data) : data.first
-      [expr, query]
+      RDF::Query::Pattern.new(triple)
     end
 
     ##
@@ -2506,13 +3128,13 @@ module SPARQL::Grammar
     # @see http://www.w3.org/TR/sparql11-query/#convertGroupAggSelectExpressions
     def merge_modifiers(data)
       debug("merge modifiers") {data.inspect}
-      query = data[:query] ? data[:query].first : SPARQL::Algebra::Operator::BGP.new
+      query = data[:query] || SPARQL::Algebra::Operator::BGP.new
 
-      vars = data[:Var] || []
-      order = data[:order] ? data[:order].first : []
-      extensions = data.fetch(:extend, [])
-      having = data.fetch(:having, [])
-      values = data.fetch(:ValuesClause, []).first
+      vars = Array(data[:Var])
+      order = Array(data[:order])
+      extensions = data[:extend] || []
+      having = data[:having] || []
+      values = data[:values] || []
 
       # extension variables must not appear in projected variables.
       # Add them to the projection otherwise
@@ -2526,12 +3148,12 @@ module SPARQL::Grammar
          extensions.any? {|(_, function)| function.aggregate?} ||
          having.any? {|c| c.aggregate? }
         debug {"Implicit group"}
-        data[:group] = [[]]
+        data[:group] = []
       end
 
       # Add datasets and modifiers in order
       if data[:group]
-        group_vars = data[:group].first
+        group_vars = data[:group]
 
         # For creating temporary variables
         agg = 0
@@ -2583,18 +3205,16 @@ module SPARQL::Grammar
         end
       end
 
-      if values
-        query = query ? SPARQL::Algebra::Expression[:join, query, values] : values
-      end
+      query = SPARQL::Algebra::Expression[:join, query, values] unless values.empty?
 
       query = SPARQL::Algebra::Expression[:extend, extensions, query] unless extensions.empty?
 
       query = SPARQL::Algebra::Expression[:filter, *having, query] unless having.empty?
 
-      query = SPARQL::Algebra::Expression[:order, data[:order].first, query] unless order.empty?
+      query = SPARQL::Algebra::Expression[:order, data[:order], query] unless order.empty?
 
       # If SELECT * was used, emit a projection with empty variables, vs no projection at all. Only if :all_vars is true
-      query = if vars == %i(*)
+      query = if vars == %w(*)
         options[:all_vars] ? SPARQL::Algebra::Expression[:project, [], query] : query
       elsif !vars.empty?
         SPARQL::Algebra::Expression[:project, vars, query]
@@ -2606,33 +3226,18 @@ module SPARQL::Grammar
 
       query = SPARQL::Algebra::Expression[:slice, data[:slice][0], data[:slice][1], query] if data[:slice]
 
-      query = SPARQL::Algebra::Expression[:dataset, data[:dataset], query] if data[:dataset]
+      query = SPARQL::Algebra::Expression[:dataset, data[:dataset], query] if data[:dataset] && !data[:dataset].empty?
 
       query
     end
 
     # Add joined expressions in for prod1 (op prod2)* to form (op (op 1 2) 3)
-    def add_operator_expressions(production, data)
+    def add_operator_expressions(lhs, *exprs)
       # Iterate through expression to create binary operations
-      lhs = data[:Expression]
-      while data[production] && !data[production].empty?
-        op, rhs = data[production].shift, data[production].shift
-        lhs = SPARQL::Algebra::Expression[op + lhs + rhs]
+      exprs.each do |op, rhs|
+        lhs = SPARQL::Algebra::Expression.for(op, lhs, rhs)
       end
-      add_prod_datum(:Expression, lhs)
-    end
-
-    # Accumulate joined expressions in for prod1 (op prod2)* to form (op (op 1 2) 3)
-    def accumulate_operator_expressions(operator, production, data)
-      if data[operator]
-        # Add [op data] to stack based on "production"
-        add_prod_datum(production, [data[operator], data[:Expression]])
-        # Add previous [op data] information
-        add_prod_datum(production, data[production])
-      else
-        # No operator, forward :Expression
-        add_prod_datum(:Expression, data[:Expression])
-      end
+      lhs
     end
   end # class Parser
 end # module SPARQL::Grammar
