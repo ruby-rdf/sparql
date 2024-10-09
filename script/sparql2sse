@@ -7,24 +7,48 @@ require 'sparql'
 require 'getoptlong'
 require 'open-uri'
 require 'amazing_print'
+require 'ruby-prof'
 
 def run(input, parser_options)
+  if parser_options[:profile]
+    output_dir = File.expand_path("../../doc/profiles/#{File.basename __FILE__, ".rb"}", __FILE__)
+    FileUtils.mkdir_p(output_dir)
+    profile = RubyProf::Profile.new
+    profile.exclude_methods!(Array, :each, :map)
+    profile.exclude_method!(Hash, :each)
+    profile.exclude_method!(Kernel, :require)
+    profile.exclude_method!(Object, :run)
+    profile.exclude_common_methods!
+    profile.start
+    run(input, **parser_options.merge(profile: false))
+    result = profile.stop
+    
+    # Print a graph profile to text
+    printer = RubyProf::MultiPrinter.new(result)
+    printer.print(path: output_dir, profile: "profile")
+    puts "output saved in #{output_dir}"
+    return
+  end
   start = Time.new
   num = 0
-  puts  "#{input.read}\n---\n\n" unless $quiet
+  puts  "#{input.read}\n---\n\n" unless parser_options[:quiet]
   input.rewind
-  if $quiet
+  if parser_options[:quiet]
     $stdout = StringIO.new
   end
-  parser = SPARQL::Grammar::Parser.new(input.read, **parser_options)
+  parser = if parser_options[:use11]
+    SPARQL::Grammar::Parser11.new(input.read, **parser_options)
+  else
+    SPARQL::Grammar::Parser.new(input.read, **parser_options)
+  end
   res = parser.parse(parser_options[:production])
   res.optimize! if parser_options[:optimize]
-  if $quiet
+  if parser_options[:quiet]
     $stdout = STDOUT
     print "."
-  elsif $dump
+  elsif parser_options[:dump]
     puts res.inspect
-  elsif $to_sparql
+  elsif parser_options[:to_sparql]
     puts res.to_sparql
   else
     puts res.to_sse
@@ -55,62 +79,71 @@ logger.formatter = lambda {|severity, datetime, progname, msg| "%5s %s\n" % [sev
 parser_options = {
   progress:   false,
   production: :QueryUnit,
+  profile:    false,
   prefixes:   {},
-  logger: logger,
+  logger:     logger,
 }
 
-opts = GetoptLong.new(
-  ["--dump", GetoptLong::NO_ARGUMENT],
-  ["--debug", GetoptLong::NO_ARGUMENT],
-  ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
-  ["--help", "-?", GetoptLong::NO_ARGUMENT],
-  ["--optimize", GetoptLong::NO_ARGUMENT],
-  ["--parse-only", GetoptLong::NO_ARGUMENT],
-  ["--production", GetoptLong::REQUIRED_ARGUMENT],
-  ["--progress", GetoptLong::NO_ARGUMENT],
-  ["--quiet", GetoptLong::NO_ARGUMENT],
-  ["--resolve-uris", GetoptLong::NO_ARGUMENT],
-  ["--standard-prefixes", GetoptLong::NO_ARGUMENT],
-  ["--to-sparql", GetoptLong::NO_ARGUMENT],
-  ["--uri", GetoptLong::REQUIRED_ARGUMENT],
-  ["--validate", GetoptLong::NO_ARGUMENT]
-)
+OPT_ARGS = [
+  ["--debug", GetoptLong::NO_ARGUMENT,                "Debug output"],
+  ["--dump", GetoptLong::NO_ARGUMENT,                 "Dump raw output, otherwise serialize to SSE"],
+  ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT,  "Use option argument as the patch input"],
+  ["--help", "-?", GetoptLong::NO_ARGUMENT,           "This message"],
+  ["--optimize", GetoptLong::NO_ARGUMENT,             "Optimize operands"],
+  ["--production", GetoptLong::REQUIRED_ARGUMENT,     "Begin parsing with specific BNF production, defaults to Query"],
+  ["--profile", GetoptLong::NO_ARGUMENT,              "Run profiler with output to doc/profiles/"],
+  ["--progress", GetoptLong::NO_ARGUMENT,             "Display parser progress when running productions"],
+  ["--quiet", GetoptLong::NO_ARGUMENT,                "Reduce output"],
+  ["--rdfstar", GetoptLong::NO_ARGUMENT,              "RDF-star mode"],
+  ["--resolve-uris", GetoptLong::NO_ARGUMENT,         "Resolve URIs and QNames in output rather than generating (base ...) or (prefix ...)"],
+  ["--standard-prefixes", GetoptLong::NO_ARGUMENT,    "Apply standard prefixes to parser (for non-standard productions)"],
+  ["--to-sparql", GetoptLong::NO_ARGUMENT,            "Convert back to SPARQL Grammar"],
+  ["--uri", GetoptLong::REQUIRED_ARGUMENT,            "Run with argument value as base"],
+  ["--use11", GetoptLong::NO_ARGUMENT,                "Use the SPARQL 1.1 version of the parser"],
+  ["--validate", GetoptLong::NO_ARGUMENT,             "Validate input"],
+]
+
+opts = GetoptLong.new(*OPT_ARGS.map {|o| o[0..-2]})
+
+def usage
+  STDERR.puts %{Usage: #{$0} [options] file ...}
+  width = OPT_ARGS.map do |o|
+    l = o.first.length
+    l += o[1].length + 2 if o[1].is_a?(String)
+    l
+  end.max
+  OPT_ARGS.each do |o|
+    s = "  %-*s  " % [width, (o[1].is_a?(String) ? "#{o[0,2].join(', ')}" : o[0])]
+    s += o.last
+    STDERR.puts s
+  end
+  exit(1)
+end
 
 opts.each do |opt, arg|
   case opt
-  when '--debug' then logger.level = Logger::DEBUG
-  when '--dump' then $dump = true
-  when '--execute' then input = arg
-  when '--quiet' then $quiet = true
-  when '--optimize' then parser_options[:optimize] = true
-  when '--production' then parser_options[:production] = arg.to_sym
-  when '--progress' then logger.level = Logger::INFO
-  when '--resolve-uris' then parser_options[:resolve_iris] = true
+  when '--debug'              then logger.level = Logger::DEBUG
+  when '--dump'               then parser_options[:dump] = true
+  when '--execute'            then input = arg
+  when "--help"               then usage
+  when '--optimize'           then parser_options[:optimize] = true
+  when '--production'         then parser_options[:production] = arg.to_sym
+  when '--profile'            then parser_options[:profile] = true
+  when '--progress'           then logger.level = Logger::INFO
+  when '--quiet'
+    parser_options[:quiet] = true
+    logger.level = Logger::FATAL    
+  when '--resolve-uris'       then parser_options[:resolve_iris] = true
   when '--standard-prefixes'
     # Use a standard prefixes
     RDF::Vocabulary.each do |v|
       prefix = v.__name__.to_s.split('::').last.downcase.to_sym
       parser_options[:prefixes][prefix] = v.to_uri
     end
-  when '--to-sparql' then $to_sparql = true
-  when '--uri' then parser_options[:base_uri] = arg
-  when '--validate' then parser_options[:validate] = true
-  when "--help"
-    puts "Usage: #{$0} [options] file-or-uri ..."
-    puts "Options:"
-    puts "      --debug:              Display detailed debug output"
-    puts "      --dump:               Dump raw output, otherwise serialize to SSE"
-    puts "      --execute,-e:         Use option argument as the input if no files are given"
-    puts "      --production:         Begin parsing with specific BNF production, defaults to Query"
-    puts "      --progress:           Display parser progress when running productions"
-    puts "      --quiet:              Output '.' when parsing files, except on error"
-    puts "      --resolve-uris:       Resolve URIs and QNames in output rather than generating (base ...) or (prefix ...)"
-    puts "      --standard-prefixes:  Apply standard prefixes to parser (for non-standard productions)"
-    puts "      --to-sparql:          Convert back to SPARQL Grammar"
-    puts "      --uri:                Use argument as default BASE (for non-standard productions)"
-    puts "      --validate:           Run in validation mode"
-    puts "      --help,-?:            This message"
-    exit(0)
+  when '--to-sparql'          then parser_options[:to_sparql] = true
+  when '--uri'                then parser_options[:base_uri] = arg
+  when '--use11'              then parser_options[:use11] = true
+  when '--validate'           then parser_options[:validate] = true
   end
 end
 
