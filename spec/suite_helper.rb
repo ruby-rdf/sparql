@@ -175,7 +175,7 @@ end
 
 module SPARQL::Spec
   BASE = "http://w3c.github.io/rdf-tests/sparql/"
-  def self.sparql1_0_syntax_tests
+  def self.sparql_10_syntax_tests
     %w(
       syntax-sparql1
       syntax-sparql2
@@ -187,7 +187,7 @@ module SPARQL::Spec
     end
   end
 
-  def self.sparql1_0_tests
+  def self.sparql_10_tests
     %w(
       algebra
       ask
@@ -218,7 +218,7 @@ module SPARQL::Spec
     end
   end
 
-  def self.sparql1_1_tests
+  def self.sparql_11_tests
     %w(
       add
       aggregates

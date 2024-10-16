@@ -33,7 +33,8 @@ module SPARQL
   #   or RDF::Repository. 
   # @raise  [SPARQL::Grammar::Parser::Error] on invalid input
   def self.parse(query, **options)
-    Grammar::Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+    parser_class = options[:use11] ? Grammar::Parser11 : Grammar::Parser
+    parser_class.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
   end
 
   ##

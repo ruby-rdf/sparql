@@ -672,14 +672,14 @@ module SPARQL::Grammar
     # Freeze existing bnodes, so that if an attempt is made to re-use such a node, and error is raised
     #
     # Returns (insertData ...)
-    start_production(:InsertData, as_hash: true) {self.freeze_bnodes}
+    start_production(:InsertData, as_hash: true)
     production(:InsertData) do |value|
       SPARQL::Algebra::Expression(:insertData, value[:QuadData])
     end
 
     # DeleteData ::= "DELETE DATA" QuadData
     # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-    start_production(:DeleteData, as_hash: true) {self.gen_bnodes}
+    start_production(:DeleteData, as_hash: true)
     production(:DeleteData) do |value|
       raise Error, "DeleteData contains BNode operands: #{value[:QuadData].to_sse}" if Array(value[:QuadData]).any?(&:node?)
       SPARQL::Algebra::Expression(:deleteData, value[:QuadData])
@@ -687,14 +687,13 @@ module SPARQL::Grammar
 
     # DeleteWhere ::= "DELETE WHERE" QuadPattern
     # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-    start_production(:DeleteWhere, as_hash: true) {self.gen_bnodes}
+    start_production(:DeleteWhere, as_hash: true)
 
     #
     # Input from `data` is TODO.
     # Output to prod_data is TODO.
     production(:DeleteWhere) do |value|
       raise Error, "DeleteWhere contains BNode operands: #{value[:QuadPattern].to_sse}" if Array(value[:QuadPattern]).any?(&:node?)
-      self.gen_bnodes(false)
       SPARQL::Algebra::Expression(:deleteWhere, Array(value[:QuadPattern]))
     end
 
@@ -710,7 +709,7 @@ module SPARQL::Grammar
     #   (rule _Modify_3 (star UsingClause))
     #
     # Returns modify operand
-    start_production(:Modify, as_hash: true) {self.clear_bnode_cache}
+    start_production(:Modify, as_hash: true)
     production(:Modify) do |value|
       query = value&.dig(:GroupGraphPattern, :query)
       query = SPARQL::Algebra::Expression.for(:using, value[:_Modify_3], query) unless value[:_Modify_3].empty?
@@ -718,6 +717,13 @@ module SPARQL::Grammar
       operands = [SPARQL::Algebra::Expression.for(:with, value[:_Modify_1], *operands)] if value[:_Modify_1]
       SPARQL::Algebra::Expression(:modify, *operands)
     end
+
+    #   (rule _Modify_2 (alt _Modify_5 InsertClause))
+    #
+    # Clear cached bnodes here to be able to detect illegal attempt to re-define
+    #
+    # XXX Doe we really need to clear the cache?
+    start_production(:_Modify_2) {self.clear_bnode_cache}
 
     #   (rule _Modify_4 (seq 'WITH' iri))
     production(:_Modify_4) do |value|
@@ -733,19 +739,17 @@ module SPARQL::Grammar
     # DeleteClause ::= "DELETE" QuadPattern
     #
     # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
-    start_production(:DeleteClause, as_hash: true) {self.gen_bnodes}
+    start_production(:DeleteClause, as_hash: true)
     production(:DeleteClause) do |value|
       raise Error, "DeleteClause contains BNode operands: #{Array(value[:QuadPattern]).to_sse}" if Array(value[:QuadPattern]).any?(&:node?)
-      self.gen_bnodes(false)
       SPARQL::Algebra::Expression(:delete, Array(value[:QuadPattern]))
     end
 
     # InsertClause ::= "INSERT" QuadPattern
     #
     # Generate BNodes instead of non-distinguished variables.
-    start_production(:InsertClause, as_hash: true) {self.gen_bnodes}
+    start_production(:InsertClause, as_hash: true)
     production(:InsertClause) do |value|
-      self.gen_bnodes(false)
       SPARQL::Algebra::Expression(:insert, Array(value[:QuadPattern]))
     end
 
@@ -805,7 +809,11 @@ module SPARQL::Grammar
     # Generate BNodes instead of non-distinguished variables
     #
     # Returns array of patterns
-    start_production(:QuadData, as_hash: true) {self.gen_bnodes}
+    start_production(:QuadData, as_hash: true) do |data|
+      # Freeze bnodes if called from INSERT DATA
+      self.freeze_bnodes if data[:_rept_data].first.key?(:"INSERT DATA")
+      self.gen_bnodes
+    end
     production(:QuadData) do |value|
       # Transform using statements instead of patterns, and verify there are no variables
       raise Error, "QuadData contains variable operands: #{Array(value[:Quads]).to_sse}" if Array(value[:Quads]).any?(&:variable?)

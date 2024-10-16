@@ -64,7 +64,7 @@ def run_tc(tc, **options)
                                 base_uri: RDF::URI(tc.action.query_file),
                                 logger: options[:logger]) rescue "(error)"
   end
-  query = parser.parse(tc.type.include?('Update') ? :UpdateUnit : :QueryUnit)
+  query = parser.parse(tc.type.include?('Update') ? :UpdateUnit : :QueryUnit) rescue '(exception)'
 
   options[:logger].clear
 
@@ -124,6 +124,7 @@ def run_tc(tc, **options)
                             all_vars: true,
                             form: tc.form, to_hash: false,
                             optimize: options[:optimize],
+                            use11: options[:use11],
                             logger: options[:logger])
 
       if options[:verbose]
@@ -162,6 +163,7 @@ def run_tc(tc, **options)
                             all_vars: true,
                             optimize: options[:optimize],
                             form: tc.form,
+                            use11: options[:use11],
                             logger: options[:logger])
 
       STDERR.puts "Actual: Vars: #{tc.solutions.variable_names}\n#{actual.to_sse}" if options[:verbose]
@@ -207,6 +209,7 @@ def run_tc(tc, **options)
                             all_vars: true,
                             optimize: options[:optimize],
                             form: tc.form,
+                            use11: options[:use11],
                             logger: options[:logger])
 
       STDERR.puts "Actual: #{actual.dump(:trig, standard_prefixes: true)}" if options[:verbose]
@@ -222,7 +225,7 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
-      SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, logger: options[:logger])
+      SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, use11: options[:use11], logger: options[:logger])
       # No exception means it passes
       result = "passed"
     when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
@@ -231,6 +234,7 @@ def run_tc(tc, **options)
                      base_uri: tc.base_uri,
                      all_vars: true,
                      validate: true,
+                     use11: options[:use11],
                      logger: options[:logger])
       rescue Exception => e
         result = "passed"
@@ -239,12 +243,12 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:PositiveUpdateSyntaxTest11'
-      SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, logger: options[:logger])
+      SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, use11: options[:use11], logger: options[:logger])
       # No exception means it passes
       result = "passed"
     when 'mf:NegativeUpdateSyntaxTest11'
       begin
-        SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, logger: options[:logger])
+        SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, use11: options[:use11], logger: options[:logger])
       rescue Exception => e
         result = "passed"
       end
@@ -375,18 +379,18 @@ end
 earl_preamble(options) if options[:earl]
 
 manifests = if options[:rdfstar]
-  SPARQL::Spec.sparql_star_tests
+  [] # SPARQL::Spec.sparql_star_tests
 elsif options[:sparql11]
-  [SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests]
+  [SPARQL::Spec.sparql_10_syntax_tests, SPARQL::Spec.sparql_10_tests, SPARQL::Spec.sparql_11_tests]
 elsif options[:sparql12]
   SPARQL::Spec.sparql_12_tests
 else
   [
-    SPARQL::Spec.sparql1_0_syntax_tests,
-    SPARQL::Spec.sparql1_0_tests,
-    SPARQL::Spec.sparql1_1_tests,
+    SPARQL::Spec.sparql_10_syntax_tests,
+    SPARQL::Spec.sparql_10_tests,
+    SPARQL::Spec.sparql_11_tests,
     SPARQL::Spec.sparql_12_tests,
-    SPARQL::Spec.sparql_star_tests,
+    #SPARQL::Spec.sparql_star_tests,
   ]
 end.flatten
 manifests.each do |path|

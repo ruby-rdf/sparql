@@ -136,7 +136,8 @@ def sparql_query(opts)
   parser_opts = {
     update: opts[:form] == :update,
     base_uri: opts[:base_uri],
-    all_vars: opts[:all_vars]
+    all_vars: opts[:all_vars],
+    use11: opts[:use11]
   }
   query_opts = {logger: opts.fetch(:logger, RDF::Spec.logger)}
   query_opts[:base_uri] = opts[:base_uri]

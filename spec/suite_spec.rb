@@ -5,6 +5,7 @@ require 'rdf/rdfxml'
 
 shared_examples "SUITE" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
+  label = label['@value'] if label.is_a?(Hash)
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
@@ -158,6 +159,7 @@ end
 
 shared_examples "to_sparql" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
+  label = label['@value'] if label.is_a?(Hash)
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
@@ -205,8 +207,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest', 'mf:PositiveUpdateSyntaxTest11'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
           case t.entry
-          when 'syntax-update-38.ru'
-            pending "empty query"
           when 'large-request-01.ru'
             skip "large request"
           when 'syntax-update-26.ru', 'syntax-update-27.ru', 'syntax-update-28.ru',
@@ -246,7 +246,7 @@ end
 describe SPARQL do
   BASE = "http://w3c.github.io/rdf-tests/sparql/sparql11/"
   describe "w3c dawg SPARQL 1.0 syntax tests" do
-    SPARQL::Spec.sparql1_0_syntax_tests.each do |path|
+    SPARQL::Spec.sparql_10_syntax_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
@@ -255,7 +255,7 @@ describe SPARQL do
   end
 
   describe "w3c dawg SPARQL 1.0 tests" do
-    SPARQL::Spec.sparql1_0_tests.each do |path|
+    SPARQL::Spec.sparql_10_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
@@ -264,7 +264,7 @@ describe SPARQL do
   end
 
   describe "w3c dawg SPARQL 1.1 tests" do
-    SPARQL::Spec.sparql1_1_tests.each do |path|
+    SPARQL::Spec.sparql_11_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, (path.match?(/protocol/) ? '' : man.comment), man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
@@ -272,7 +272,7 @@ describe SPARQL do
     end
   end
 
-  describe "SPARQL-star tests" do
+  describe "SPARQL-star tests", skip: "Not stable until added to rdf-tests suite" do
     SPARQL::Spec.sparql_star_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries

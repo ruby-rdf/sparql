@@ -34,11 +34,11 @@ namespace :spec do
     require 'suite_helper'
     
     puts "load 1.0 tests"
-    SPARQL::Spec.sparql1_0_tests(true)
+    SPARQL::Spec.sparql_11_tests(true)
     puts "load 1.0 syntax tests"
-    SPARQL::Spec.sparql1_0_syntax_tests(true)
+    SPARQL::Spec.sparql_11_syntax_tests(true)
     puts "load 1.1 tests"
-    SPARQL::Spec.sparql1_1_tests(true)
+    SPARQL::Spec.sparql_11_tests(true)
   end
 end
 
