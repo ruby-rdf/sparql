@@ -127,6 +127,7 @@ module SPARQL::Grammar
 
     # Query ::= Prologue ( SelectQuery | ConstructQuery | DescribeQuery | AskQuery )
     #
+    # Inputs from value include :Prologe and :_Query_1
     # Result is query
     start_production(:Query, as_hash: true)
     production(:Query) do |value|
@@ -157,6 +158,7 @@ module SPARQL::Grammar
 
     # Prologue ::= ( BaseDecl | PrefixDecl )*
     #
+    # Inputs from value include :BaseDecl and :PrefixDecl
     # Result is hash including BaseDecl and PrefixDecl
     production(:Prologue) do |value|
       unless resolve_iris?
@@ -170,6 +172,7 @@ module SPARQL::Grammar
 
     # BaseDecl ::= 'BASE' IRIREF
     #
+    # Inputs from value includes :IRIREF
     # Result is hash including BaseDecl, unless we are resolving IRIs
     start_production(:BaseDecl, as_hash: true, insensitive_srings: :upper)
     production(:BaseDecl) do |value|
@@ -181,6 +184,7 @@ module SPARQL::Grammar
 
     # PrefixDecl ::= 'PREFIX' PNAME_NS IRIREF
     #
+    # Inputs from value include :PNAME_NS and :IRIREF
     # Result is hash including PrefixDecl
     start_production(:PrefixDecl, as_hash: true, insensitive_srings: :upper)
     production(:PrefixDecl) do |value|
@@ -192,7 +196,7 @@ module SPARQL::Grammar
 
     # SelectQuery ::= SelectClause DatasetClause* WhereClause SolutionModifier ValuesClause
     #
-    # Inputs are dataset, query, value, solution modifiers, vars, and extensions.
+    # Inputs are dataset, query, values, solution modifiers, vars, and extensions.
     # Result is a query
     start_production(:SelectQuery, as_hash: true)
     production(:SelectQuery) do |value|
@@ -225,6 +229,7 @@ module SPARQL::Grammar
     #   (rule _SelectClause_5 (alt Var _SelectClause_6))
     #   (rule _SelectClause_6 (seq '(' Expression 'AS' Var ')'))
     #
+    # Inputs from value includes :_SelectClause_2 (a list of :variables and extensions).
     # Result is a hash including distinct/reduced, vars and extensions.
     start_production(:SelectClause, as_hash: true)
     production(:SelectClause) do |value|
@@ -272,6 +277,7 @@ module SPARQL::Grammar
     #   (rule _ConstructQuery_5 (star DatasetClause))
     #   (rule _ConstructQuery_6 (opt TriplesTemplate))
     #
+    # Inputs from value includes :_ConstructQuery_1 (query modifiers) and :ValuesClause.
     # Result is a query
     start_production(:ConstructQuery, as_hash: true)
     production(:ConstructQuery) do |value|
@@ -306,6 +312,7 @@ module SPARQL::Grammar
     # DescribeQuery ::= 'DESCRIBE' ( VarOrIri+ | '*' )
     #                   DatasetClause* WhereClause? SolutionModifier ValuesClause
     #
+    # Inputs from value includes dataset, query, values, and other merge modifiers.
     # Result is a query
     start_production(:DescribeQuery, as_hash: true)
     production(:DescribeQuery) do |value|
@@ -321,6 +328,7 @@ module SPARQL::Grammar
 
     # AskQuery ::= 'ASK' DatasetClause* WhereClause ValuesClause
     #
+    # Inputs from value includes dataset, query, values, and other merge modifiers.
     # Result is a query
     start_production(:AskQuery, as_hash: true)
     production(:AskQuery) do |value|
@@ -340,16 +348,14 @@ module SPARQL::Grammar
     
     # DefaultGraphClause ::= SourceSelector
     #
-    # Input from `data` is `:iri`.
-    # Output to prod_data is `:dataset` taken from `:iri`.
+    # Output is the source selector
     production(:DefaultGraphClause) do |value|
       value.first[:SourceSelector]
     end
 
     # NamedGraphClause ::= 'NAMED' SourceSelector
     #
-    # Input from `data` is `:iri`.
-    # Output to prod_data is `:dataset` taken from `:iri`.
+    # Output is the named source selector.
     start_production(:NamedGraphClause, as_hash: true)
     production(:NamedGraphClause) do |value|
       [:named, value[:SourceSelector]]
@@ -367,6 +373,8 @@ module SPARQL::Grammar
     end
 
     # SolutionModifier ::= GroupClause? HavingClause? OrderClause? LimitOffsetClauses?
+    #
+    # Result is a query modifier including group, having, order, and slice.
     start_production(:SolutionModifier, as_hash: true)
     production(:SolutionModifier) do |value|
       {
@@ -393,7 +401,7 @@ module SPARQL::Grammar
     #   (rule _GroupCondition_2 (opt _GroupCondition_3))
     #   (rule _GroupCondition_3 (seq 'AS' Var))
     #   
-    # Output to prod_data is `:GroupCondition` taken from first value in data.
+    # Result is an expression
     start_production(:GroupCondition, as_hash: true)
     production(:GroupCondition) do |value|
       value
@@ -405,8 +413,7 @@ module SPARQL::Grammar
     #   (rule _GroupCondition_2 (opt _GroupCondition_3))
     #   (rule _GroupCondition_3 (seq 'AS' Var))
     #
-    # Input from `data` is `:Expression` and optionally `:Var`.
-    # Output to prod_data is `:GroupCondition` taken from `:Expression` prepended by any value of `:Var`.
+    # Returns the expression, or an array of the var and expression.
     start_production(:_GroupCondition_1, as_hash: true)
     production(:_GroupCondition_1) do |value|
       if value[:_GroupCondition_2]
@@ -422,9 +429,6 @@ module SPARQL::Grammar
     #
     #   (rule HavingClause (seq 'HAVING' _HavingClause_1))
     #   (rule _HavingClause_1 (plus HavingCondition))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:HavingClause, as_hash: true)
     production(:HavingClause) do |value|
       value[:_HavingClause_1]
@@ -437,9 +441,6 @@ module SPARQL::Grammar
     end
     
     # OrderClause ::= 'ORDER' 'BY' OrderCondition+
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:OrderClause, as_hash: true)
     production(:OrderClause) do |value|
       value[:_OrderClause_1]
@@ -451,9 +452,6 @@ module SPARQL::Grammar
     #   (rule _OrderCondition_1 (seq _OrderCondition_3 BrackettedExpression))
     #   (rule _OrderCondition_3 (alt 'ASC' 'DESC'))
     #   (rule _OrderCondition_2 (alt Constraint Var))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:OrderCondition, as_hash: true)
     production(:OrderCondition) do |value|
       if value.is_a?(Hash) && value[:_OrderCondition_3]
@@ -470,10 +468,6 @@ module SPARQL::Grammar
     #   (rule _LimitOffsetClauses_3 (opt OffsetClause))
     #   (rule _LimitOffsetClauses_2 (seq OffsetClause _LimitOffsetClauses_4))
     #   (rule _LimitOffsetClauses_4 (opt LimitClause))
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:LimitOffsetClauses) do |value|
       if value[:LimitClause]
         if value[:_LimitOffsetClauses_3]
@@ -493,18 +487,12 @@ module SPARQL::Grammar
     start_production(:_LimitOffsetClauses_2, as_hash: true)
 
     # LimitClause ::= 'LIMIT' INTEGER
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:LimitClause, as_hash: true)
     production(:LimitClause) do |value|
       value[:INTEGER]
     end
 
     # OffsetClause ::= 'OFFSET' INTEGER
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:OffsetClause, as_hash: true)
     production(:OffsetClause) do |value|
       value[:INTEGER]
@@ -583,9 +571,6 @@ module SPARQL::Grammar
     #   (rule _Load_1 (opt 'SILENT'))
     #   (rule _Load_2 (opt _Load_3))
     #   (rule _Load_3 (seq 'INTO' GraphRef))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:Load, as_hash: true)
     production(:Load) do |value|
       args = []
@@ -596,9 +581,6 @@ module SPARQL::Grammar
     end
 
     # Clear ::= "CLEAR" "SILENT"? GraphRefAll
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:Clear, as_hash: true)
     production(:Clear) do |value|
       args = []
@@ -608,9 +590,6 @@ module SPARQL::Grammar
     end
 
     # Drop ::= "DROP" "SILENT"? GraphRefAll
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:Drop, as_hash: true)
     production(:Drop) do |value|
       args = []
@@ -620,9 +599,6 @@ module SPARQL::Grammar
     end
 
     # Create ::= "CREATE" "SILENT"? GraphRef
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:Create, as_hash: true)
     production(:Create) do |value|
       args = []
@@ -633,8 +609,8 @@ module SPARQL::Grammar
 
     # Add ::= "ADD" "SILENT"? GraphOrDefault "TO" GraphOrDefault
     #
-    # Input from `data` are `GraphOrDefault` and optionally `:silent`.
-    # Output to input is `:update_op` with an `Operator::Add` object.
+    # Input is `GraphOrDefault` and optionally `:silent`.
+    # Output is an `Operator::Add` object.
     production(:Add) do |value|
       args = []
       args << :silent if value[1][:_Add_1]
@@ -644,9 +620,6 @@ module SPARQL::Grammar
     end
 
     # Move ::= "MOVE" "SILENT"? GraphOrDefault "TO" GraphOrDefault
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:Move) do |value|
       args = []
       args << :silent if value[1][:_Move_1]
@@ -656,9 +629,6 @@ module SPARQL::Grammar
     end
 
     # Copy ::= "COPY" "SILENT"? GraphOrDefault "TO" GraphOrDefault
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:Copy) do |value|
       args = []
       args << :silent if value[1][:_Copy_1]
@@ -688,10 +658,6 @@ module SPARQL::Grammar
     # DeleteWhere ::= "DELETE WHERE" QuadPattern
     # Generate BNodes instead of non-distinguished variables. BNodes are not legal, but this will generate them rather than non-distinguished variables so they can be detected.
     start_production(:DeleteWhere, as_hash: true)
-
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:DeleteWhere) do |value|
       raise Error, "DeleteWhere contains BNode operands: #{value[:QuadPattern].to_sse}" if Array(value[:QuadPattern]).any?(&:node?)
       SPARQL::Algebra::Expression(:deleteWhere, Array(value[:QuadPattern]))
@@ -765,9 +731,6 @@ module SPARQL::Grammar
     end
 
     # (rule _UsingClause_2 (seq 'NAMED' iri))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:_UsingClause_2, as_hash: true)
     production(:_UsingClause_2) do |value|
       [:named, value[:iri]]
@@ -778,9 +741,6 @@ module SPARQL::Grammar
     #   (rule GraphOrDefault (alt 'DEFAULT' _GraphOrDefault_1))
     #   (rule _GraphOrDefault_1 (seq _GraphOrDefault_2 iri))
     #   (rule _GraphOrDefault_2 (opt 'GRAPH'))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:GraphOrDefault) do |value|
       value.is_a?(String) ? value.downcase.to_sym : value
     end
@@ -788,9 +748,6 @@ module SPARQL::Grammar
     production(:_GraphOrDefault_1) {|value| value[:iri]}
 
     # GraphRef ::= "GRAPH" iri
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:GraphRef) do |value|
       value.last[:iri]
     end
@@ -886,9 +843,6 @@ module SPARQL::Grammar
     #    (seq GraphPatternNotTriples _GroupGraphPatternSub_4 _GroupGraphPatternSub_5))
     #   (rule _GroupGraphPatternSub_4 (opt '.'))
     #   (rule _GroupGraphPatternSub_5 (opt TriplesBlock))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:GroupGraphPatternSub, as_hash: true)
     production(:GroupGraphPatternSub) do |value|
       query = value[:_GroupGraphPatternSub_1] || SPARQL::Algebra::Operator::BGP.new
@@ -1055,8 +1009,7 @@ module SPARQL::Grammar
 
     # OptionalGraphPattern ::= 'OPTIONAL' GroupGraphPattern
     #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
+    # FIXME: This should not extract a filter if there is more than one level of curly braces.
     start_production(:OptionalGraphPattern, as_hash: true)
     production(:OptionalGraphPattern) do |value|
       query = value&.dig(:GroupGraphPattern, :query) || SPARQL::Algebra::Operator::BGP.new
@@ -1070,9 +1023,6 @@ module SPARQL::Grammar
     end
 
     # GraphGraphPattern ::= 'GRAPH' VarOrIri GroupGraphPattern
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:GraphGraphPattern, as_hash: true)
     production(:GraphGraphPattern) do |value|
       name = value[:VarOrIri]
@@ -1083,9 +1033,6 @@ module SPARQL::Grammar
     end
 
     # ServiceGraphPattern ::= 'SERVICE' 'SILENT'? VarOrIri GroupGraphPattern
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:ServiceGraphPattern, as_hash: true)
     production(:ServiceGraphPattern) do |value|
       query = value&.dig(:GroupGraphPattern, :query) || SPARQL::Algebra::Operator::BGP.new
@@ -1098,18 +1045,12 @@ module SPARQL::Grammar
     end
 
     # Bind ::= 'BIND' '(' Expression 'AS' Var ')'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:Bind, as_hash: true)
     production(:Bind) do |value|
       {extend: [[value[:Var], value[:Expression]]]}
     end
 
     # InlineData ::= 'VALUES' DataBlock
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:InlineData, as_hash: true)
     production(:InlineData) do |value|
       debug("InlineData") {value[:DataBlock].inspect}
@@ -1188,9 +1129,6 @@ module SPARQL::Grammar
     end
 
     # MinusGraphPattern ::= 'MINUS' GroupGraphPattern
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:MinusGraphPattern, as_hash: true)
     production(:MinusGraphPattern) do |value|
       query = value&.dig(:GroupGraphPattern, :query) || SPARQL::Algebra::Operator::BGP.new
@@ -1199,9 +1137,6 @@ module SPARQL::Grammar
 
     # GroupOrUnionGraphPattern ::= GroupGraphPattern
     #                              ( 'UNION' GroupGraphPattern )*
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:GroupOrUnionGraphPattern, as_hash: true)
     production(:GroupOrUnionGraphPattern) do |value|
       lhs = value&.dig(:GroupGraphPattern, :query)
@@ -1219,18 +1154,12 @@ module SPARQL::Grammar
     end
 
     # Filter ::= 'FILTER' Constraint
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:Filter, as_hash: true)
     production(:Filter) do |value|
       {filter: value[:Constraint]}
     end
 
     # FunctionCall ::= iri ArgList
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:FunctionCall, as_hash: true)
     production(:FunctionCall) do |value|
       SPARQL::Algebra::Operator::FunctionCall.new(value[:iri], *value[:ArgList])
@@ -1245,9 +1174,6 @@ module SPARQL::Grammar
     #   (rule _ArgList_4 (seq ',' Expression))
     #
     # XXX handle DISTINCT?
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:ArgList) do |value|
       Array(value)
     end
@@ -1265,9 +1191,6 @@ module SPARQL::Grammar
     # ExpressionList ::= NIL | '(' Expression ( ',' Expression )* ')'
     #
     #   (rule ExpressionList (alt NIL _ExpressionList_1))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:ExpressionList) do |value|
       value.is_a?(RDF::Term) ? [] : value.flatten
     end
@@ -1284,9 +1207,6 @@ module SPARQL::Grammar
     end
 
     # ConstructTemplate ::= '{' ConstructTriples? '}'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:ConstructTemplate, as_hash: true)
     production(:ConstructTemplate) do |value|
       # Generate BNodes instead of non-distinguished variables
@@ -1440,10 +1360,6 @@ module SPARQL::Grammar
       data[:Subject] = prod_data[:Subject]
       data[:Verb] = prod_data[:Verb]
     end
-
-    #
-    # Input from `data` is `:Subject`, `:Verb` or `:VerbPath`, and `GraphNode`.
-    # Output to prod_data is `:pattern`, either from `:Subject`, `:Verb`, and `GraphNode` or a new path if `VerbPath` is present instead of `Verb`.
     production(:Object) do |value, data|
       subject = data[:Subject]
       verb = data[:Verb]
@@ -1548,10 +1464,6 @@ module SPARQL::Grammar
     end
 
     # VerbPath ::= Path
-    #
-    # Input from `data` is `:Path` or `:iri`.
-    # Output to prod_data is either `:VerbPath` or `:Verb`.
-    # If `:VerbPath` is added, then any existing `:Verb` is removed.
     start_production(:VerbPath, as_hash: true)
     production(:VerbPath) do |value|
       value[:Path]
@@ -1632,16 +1544,15 @@ module SPARQL::Grammar
 
     # Path ::= PathAlternative
     #
-    # Input from data is `:Path`
-    # Output to input is either `:iri` or `:Path`, depending on if `:Path` is an IRI or not.
+    # Output an IRI or path.
     production(:Path) do |value|
       value.last[:PathAlternative]
     end
 
     # PathAlternative ::= PathSequence ( '|' PathSequence )*
     #
-    # Input from `data` is `:PathSequence` containing one or more path objects.
-    # Output to prod_data is `:Path`, containing a nested sequence of `Algebra::Alt` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
+    # Input is `:PathSequence` containing one or more path objects.
+    # Output is the resulting path, containing a nested sequence of `Algebra::Alt` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
     start_production(:PathAlternative, as_hash: true)
     production(:PathAlternative) do |value|
       lhs = value[:PathSequence]
@@ -1660,8 +1571,8 @@ module SPARQL::Grammar
 
     # PathSequence ::= PathEltOrInverse ( '/' PathEltOrInverse )*
     #
-    # Input from `data` is `:PathSequence` containing one or more path objects.
-    # Output to prod_data is `:Path`, containing a nested sequence of `Algebra::Seq` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
+    # Input is `:PathSequence` containing one or more path objects.
+    # Output a path containing a nested sequence of `Algebra::Seq` connecting the elements from `:PathSequence`, unless there is only one such element, in which case it is added directly.
     start_production(:PathSequence, as_hash: true)
     production(:PathSequence) do |value|
       lhs = value[:PathEltOrInverse]
@@ -1683,8 +1594,7 @@ module SPARQL::Grammar
     #   (rule PathElt (seq PathPrimary _PathElt_1))
     #   (rule _PathElt_1 (opt PathMod))
     #
-    # Input from `data` is `:PathMod` and `:PathPrimary`.
-    # Output to prod_data is `:Path` a possibly modified `:PathPrimary`.
+    # Output is a path, a possibly modified `:PathPrimary`.
     start_production(:PathElt, as_hash: true)
     production(:PathElt) do |value|
       if path_mod = value[:_PathElt_1]
@@ -1699,8 +1609,8 @@ module SPARQL::Grammar
 
     # PathEltOrInverse ::= PathElt | '^' PathElt
     #
-    # Input from `data` is `:reverse` and `:Path`.
-    # Output to prod_data is `:Path` a possibly reversed `:Path`.
+    # Input is `:Path`, or a reversed path if it is an array.
+    # Output is a possibly reversed path.
     production(:PathEltOrInverse) do |value|
       if value.is_a?(Array)
         SPARQL::Algebra::Expression(:reverse, value.last[:PathElt])
@@ -1717,7 +1627,6 @@ module SPARQL::Grammar
     #   (rule _PathMod_3 (opt _PathMod_4))
     #   (rule _PathMod_4 (seq ',' _PathMod_5))
     #   (rule _PathMod_5 (opt INTEGER))
-    #
     production(:PathMod) do |value|
       if value.is_a?(SPARQL::Algebra::Expression)
         value
@@ -1749,9 +1658,6 @@ module SPARQL::Grammar
     #   (rule PathPrimary (alt iri 'a' _PathPrimary_1 _PathPrimary_2))
     #   (rule _PathPrimary_1 (seq '!' PathNegatedPropertySet))
     #   (rule _PathPrimary_2 (seq '(' Path ')'))
-    #
-    # Input from `data` is one of `:Verb`, `:iri`, `:PathNegatedPropertySet`, or `:Path`.
-    # Output to prod_data is `:PathPrimary`.
     start_production(:PathPrimary, insensitive_strings: false)
     production(:PathPrimary) do |value|
       if value == 'a'
@@ -1808,9 +1714,6 @@ module SPARQL::Grammar
     #   (rule PathOneInPropertySet (alt iri 'a' _PathOneInPropertySet_1))
     #   (rule _PathOneInPropertySet_1 (seq '^' _PathOneInPropertySet_2))
     #   (rule _PathOneInPropertySet_2 (alt iri 'a'))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:PathOneInPropertySet, insensitive_strings: false)
     production(:PathOneInPropertySet) do |value|
       if value == 'a'
@@ -2014,8 +1917,8 @@ module SPARQL::Grammar
 
     # TripleTerm ::= ::= '<<(' TripleTermSubject Verb TripleTermObject ')>>'
     #
-    # Input from `data` is `:VarOrTerm` from which subject and object are extracted and `:Verb` from which predicate is extracted.
-    # Output to prod_data is `:TripleTerm` containing subject, predicate, and object.
+    # Input is subject, verb and object.
+    # Output is a triple term.
     start_production(:TripleTerm, as_hash: true)
     production(:TripleTerm) do |value|
       RDF::Query::Pattern.new(value[:TripleTermSubject], value[:Verb], value[:TripleTermObject], tripleTerm: true)
@@ -2026,9 +1929,6 @@ module SPARQL::Grammar
     #   (rule TripleTermData
     #    (seq '<<(' TripleTermDataSubject _TripleTermData_1 TripleTermDataObject ')>>'))
     #   (rule _TripleTermData_1 (alt iri 'a'))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:TripleTermData, as_hash: true)
     production(:TripleTermData) do |value|
       RDF::Query::Pattern.new(value[:TripleTermDataSubject], value[:_TripleTermData_1], value[:TripleTermDataObject], tripleTerm: true)
@@ -2044,9 +1944,6 @@ module SPARQL::Grammar
     end
 
     # Expression ::= ConditionalOrExpression
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:Expression) do |value|
       value.first[:ConditionalOrExpression]
     end
@@ -2057,9 +1954,6 @@ module SPARQL::Grammar
     #   (rule ConditionalOrExpression
     #    (seq ConditionalAndExpression _ConditionalOrExpression_1))
     #   (rule _ConditionalOrExpression_1 (star _ConditionalOrExpression_2))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:ConditionalOrExpression, as_hash: true)
     production(:ConditionalOrExpression) do |value|
       add_operator_expressions(value[:ConditionalAndExpression], *value[:_ConditionalOrExpression_1])
@@ -2074,9 +1968,6 @@ module SPARQL::Grammar
     #
     #   (rule ConditionalAndExpression (seq ValueLogical _ConditionalAndExpression_1))
     #   (rule _ConditionalAndExpression_1 (star _ConditionalAndExpression_2))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:ConditionalAndExpression, as_hash: true)
     production(:ConditionalAndExpression) do |value|
       add_operator_expressions(value[:ValueLogical], *value[:_ConditionalAndExpression_1])
@@ -2167,9 +2058,6 @@ module SPARQL::Grammar
     #                          ( ( '*' UnaryExpression )
     #                          | ( '/' UnaryExpression ) )*
     #                        )*
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:AdditiveExpression, as_hash: true)
     production(:AdditiveExpression) do |value|
       add_operator_expressions(value[:MultiplicativeExpression], *value[:_AdditiveExpression_1])
@@ -2209,9 +2097,6 @@ module SPARQL::Grammar
     # MultiplicativeExpression ::= UnaryExpression
     #                              ( '*' UnaryExpression
     #                              | '/' UnaryExpression )*
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:MultiplicativeExpression, as_hash: true)
     production(:MultiplicativeExpression) do |value|
       add_operator_expressions(value[:UnaryExpression], *value[:_MultiplicativeExpression_1])
@@ -2259,9 +2144,6 @@ module SPARQL::Grammar
     end
 
     # ExprTripleTerm ::= '<<(' ExprTripleTermSubject Verb ExprTripleTermObject ')>>'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:ExprTripleTerm, as_hash: true)
     production(:ExprTripleTerm) do |value|
       subject = value[:ExprTripleTermSubject]
@@ -2610,9 +2492,6 @@ module SPARQL::Grammar
 
     # RegexExpression ::= 'REGEX' '(' Expression ',' Expression
     #                     ( ',' Expression )? ')'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:RegexExpression) do |value|
       expr_list = [value[2][:Expression], value[4][:Expression]]
       if value[5][:_RegexExpression_1]
@@ -2624,9 +2503,6 @@ module SPARQL::Grammar
     # SubstringExpression ::= 'SUBSTR'
     #                         '(' Expression ',' Expression
     #                         ( ',' Expression )? ')'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:SubstringExpression) do |value|
       expr_list = [value[2][:Expression], value[4][:Expression]]
       if value[5][:_SubstringExpression_1]
@@ -2639,9 +2515,6 @@ module SPARQL::Grammar
     #                          '(' Expression ','
     #                          Expression ',' Expression
     #                          ( ',' Expression )? ')'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:StrReplaceExpression) do |value|
       expr_list = [value[2][:Expression], value[4][:Expression], value[6][:Expression]]
       if value[7][:_StrReplaceExpression_1]
@@ -2670,9 +2543,6 @@ module SPARQL::Grammar
     #             | 'SAMPLE' '(' 'DISTINCT'? Expression ')'
     #             | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression
     #               ( ';' 'SEPARATOR' '=' String )? ')'
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     production(:Aggregate) do |value|
       SPARQL::Algebra::Expression.for(*value)
     end
@@ -2733,9 +2603,6 @@ module SPARQL::Grammar
     #
     #   (rule iriOrFunction (seq iri _iriOrFunction_1))
     #   (rule _iriOrFunction_1 (opt ArgList))
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:iriOrFunction, as_hash: true)
     production(:iriOrFunction) do |value|
       if value[:_iriOrFunction_1]
@@ -2746,9 +2613,6 @@ module SPARQL::Grammar
     end
 
     # RDFLiteral ::= String ( LANG_DIR | '^^' iri )?
-    #
-    # Input from `data` is TODO.
-    # Output to prod_data is TODO.
     start_production(:RDFLiteral, as_hash: true)
     production(:RDFLiteral) do |value|
       str = value[:String]

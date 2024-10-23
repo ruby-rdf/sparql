@@ -139,6 +139,31 @@ describe SPARQL::Grammar do
                    (triple ?ev <http://example.org/a> ?a)
                    (triple ?ev <http://example.org/b> ?b)))))
         }
+      },
+      "dawg-optional-filter-005-not-simplified" => {
+        query: %(
+          # Double curly braces do NOT get simplified to single curly braces early on, before filters are scoped
+          PREFIX  dc: <http://purl.org/dc/elements/1.1/>
+          PREFIX  x: <http://example.org/ns#>
+          SELECT  ?title ?price
+          WHERE
+              { ?book dc:title ?title . 
+                OPTIONAL
+                  {
+                    { 
+                      ?book x:price ?price . 
+                      FILTER (?title = "TITLE 2") .
+                    }
+                  } .
+              }
+        ),
+        sse: %{(prefix ((dc: <http://purl.org/dc/elements/1.1/>) (x: <http://example.org/ns#>))
+                (project (?title ?price)
+                 (leftjoin
+                  (bgp (triple ?book dc:title ?title))
+                  (filter (= ?title "TITLE 2")
+                    (bgp (triple ?book x:price ?price))))))
+             }
       }
     }.each do |test, options|
       it "parses #{test}" do
