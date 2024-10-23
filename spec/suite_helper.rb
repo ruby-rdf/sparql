@@ -9,13 +9,11 @@ require_relative 'support/models'
 # For now, override RDF::Utils::File.open_file to look for the file locally before attempting to retrieve it
 module RDF::Util
   module File
-    REMOTE_PATH = "http://w3c.github.io/rdf-tests/sparql/"
+    REMOTE_PATH = "https://w3c.github.io/rdf-tests/sparql/"
     LOCAL_PATH = ::File.expand_path("../rdf-tests/sparql/", __FILE__) + '/'
-    REMOTE_PATH_STAR = "https://w3c.github.io/rdf-star/"
-    LOCAL_PATH_STAR = ::File.expand_path("../rdf-star/", __FILE__) + '/'
-    REMOTE_PATH_12 = "https://w3c.github.io/sparql-12/"
-    LOCAL_PATH_12 = ::File.expand_path("../w3c-sparql-12/", __FILE__) + '/'
-    REMOTE_PATH_PROTO = "http://kasei.us/2009/09/sparql/data/"
+    REMOTE_PATH_12 = "https://w3c.github.io/sparql-dev/"
+    LOCAL_PATH_12 = ::File.expand_path("../w3c-sparql-dev/", __FILE__) + '/'
+    REMOTE_PATH_PROTO = "https://kasei.us/2009/09/sparql/data/"
     LOCAL_PATH_PROTO = ::File.expand_path("../fixtures/", __FILE__) + '/'
 
     class << self
@@ -100,38 +98,6 @@ module RDF::Util
         else
           remote_document
         end
-      when (filename_or_url.to_s =~ %r{^#{REMOTE_PATH_STAR}} && Dir.exist?(LOCAL_PATH_STAR))
-        #puts "attempt to open #{filename_or_url} locally"
-        localpath = filename_or_url.to_s.sub(REMOTE_PATH_STAR, LOCAL_PATH_STAR)
-        response = begin
-          ::File.open(localpath)
-        rescue Errno::ENOENT => e
-          raise IOError, e.message
-        end
-        document_options = {
-          base_uri:     RDF::URI(filename_or_url),
-          charset:      Encoding::UTF_8,
-          code:         200,
-          headers:      {}
-        }
-        #puts "use #{filename_or_url} locally"
-        document_options[:headers][:content_type] = case filename_or_url.to_s
-        when /\.ttl$/    then 'text/turtle'
-        when /\.nt$/     then 'application/n-triples'
-        when /\.jsonld$/ then 'application/ld+json'
-        else                  'unknown'
-        end
-
-        document_options[:headers][:content_type] = response.content_type if response.respond_to?(:content_type)
-        # For overriding content type from test data
-        document_options[:headers][:content_type] = options[:contentType] if options[:contentType]
-
-        remote_document = RDF::Util::File::RemoteDocument.new(response.read, **document_options)
-        if block_given?
-          yield remote_document
-        else
-          remote_document
-        end
       when (filename_or_url.to_s =~ %r{^#{REMOTE_PATH_PROTO}} && Dir.exist?(LOCAL_PATH_PROTO))
         #puts "attempt to open #{filename_or_url} locally"
         localpath = filename_or_url.to_s.sub(REMOTE_PATH_PROTO, LOCAL_PATH_PROTO)
@@ -174,7 +140,7 @@ module RDF::Util
 end
 
 module SPARQL::Spec
-  BASE = "http://w3c.github.io/rdf-tests/sparql/"
+  BASE = "https://w3c.github.io/rdf-tests/sparql/"
   def self.sparql_10_syntax_tests
     %w(
       syntax-sparql1
@@ -259,15 +225,15 @@ module SPARQL::Spec
     end
   end
 
-  def self.sparql_star_tests
-    %w(syntax/manifest eval/manifest).map do |man|
-      "https://w3c.github.io/rdf-star/tests/sparql/#{man}.jsonld"
+  def self.sparql_12_tests
+    %w(grouping syntax-triple-terms-negative syntax-triple-terms-positive).map do |partial|
+      "#{BASE}sparql12/#{partial}/manifest.ttl"
     end
   end
 
-  def self.sparql_12_tests
-    %w(xsd_functions property-path-min-max).map do |partial|
-      "https://w3c.github.io/sparql-12/tests/#{partial}/manifest.ttl"
+  def self.sparql_dev_tests
+    %w().map do |partial|
+      "https://w3c.github.io/sparql-dev/tests/#{partial}/manifest.ttl"
     end
   end
 end

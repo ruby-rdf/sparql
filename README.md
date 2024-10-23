@@ -27,7 +27,7 @@ An implementation of [SPARQL][] for [RDF.rb][].
 * Implementation Report: {file:etc/earl.html EARL}
 * Compatible with Ruby >= 3.0.
 * Supports Unicode query strings both on all versions of Ruby.
-* Provisional support for [SPARQL-star][].
+* Provisional support for [SPARQL 1.2][].
 
 ## Description
 
@@ -73,12 +73,12 @@ Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb]
 
 Additionally, queries now take a block, or return an `Enumerator`; this is in keeping with much of the behavior of [RDF.rb][] methods, including `Queryable#query`, and with version 1.1 or [RDF.rb][], Query#execute. As a consequence, all queries which used to be of the form `query.execute(repository)` may equally be called as `repository.query(query)`. Previously, results were returned as a concrete class implementing `RDF::Queryable` or `RDF::Query::Solutions`, these are now `Enumerators`.
 
-### SPARQL 1.2
-The gem supports some of the extensions proposed by the [SPARQL 1.2 Community Group](https://github.com/w3c/sparql-12). In particular, the following extensions are now implemented:
+### SPARQL Dev
+The gem supports some of the extensions proposed by the [SPARQL Dev Community Group](https://github.com/w3c/sparql-dev). In particular, the following extensions are now implemented:
 
-* [SEP-0002: better support for Durations, Dates, and Times](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0002/sep-0002.md)
+* [SEP-0002: better support for Durations, Dates, and Times](https://github.com/w3c/sparql-dev/blob/main/SEP/SEP-0002/sep-0002.md)
   * This includes full support for `xsd:date`, `xsd:time`, `xsd:duration`, `xsd:dayTimeDuration`, and `xsd:yearMonthDuration` along with associated XPath/XQuery functions including a new `ADJUST` builtin. (**Note: This feature is subject to change or elimination as the standards process progresses.**)
-* [SEP-0003: Property paths with a min/max hop](https://github.com/w3c/sparql-12/blob/main/SEP/SEP-0003/sep-0003.md)
+* [SEP-0003: Property paths with a min/max hop](https://github.com/w3c/sparql-dev/blob/main/SEP/SEP-0003/sep-0003.md)
   * This includes support for non-counting path forms such as `rdf:rest{1,3}` to match the union of paths `rdf:rest`, `rdf:rest/rdf:rest`, and `rdf:rest/rdf:rest/rdf:rest`.  (**Note: This feature is subject to change or elimination as the standards process progresses.**)
 
 ### SPARQL Extension Functions
@@ -107,9 +107,9 @@ See {SPARQL::Algebra::Expression.register_extension} for details.
 
 A call to execute a parsed query can include pre-bound variables, which cause queries to be executed with matching variables bound as defined. Variable pre-binding can be done using a Hash structure, or a Query Solution.  See [Query with Binding example](#query-with-binding) and {SPARQL::Algebra::Query#execute}.
 
-### SPARQLStar (SPARQL-star)
+### SPARQL 1.2
 
-The gem supports [SPARQL-star][] where patterns may include sub-patterns recursively, for a kind of Reification.
+The gem supports [SPARQL 1.2][] where patterns may include sub-patterns recursively, for a kind of Reification.
 
 For example, the following Turtle* file uses a statement as the subject of another statement:
 
@@ -170,7 +170,7 @@ As well as a `CONSTRUCT`:
       <<?bob foaf:age ?age>> ?b ?c .
     }
 
-Note that results can be serialized only when the format supports [RDF-star][].
+Note that results can be serialized only when the format supports [SPARQL 1,2][].
 
 #### SPARQL results
 
@@ -481,13 +481,12 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [grammar]:          https://www.w3.org/TR/sparql11-query/#grammar
 [RDF 1.1]:          https://www.w3.org/TR/rdf11-concepts
 [RDF.rb]:           https://ruby-rdf.github.io/rdf
-[RDF-star]:             https://w3c.github.io/rdf-star/rdf-star-cg-spec.html
-[SPARQL-star]:          https://w3c.github.io/rdf-star/rdf-star-cg-spec.html#sparql-query-language
+[SPARQL 1.2]:          https://www.w3.org/TR/sparql12-query
 [Linked Data]:      https://rubygems.org/gems/linkeddata
 [SPARQL doc]:       https://ruby-rdf.github.io/sparql/frames
 [SPARQL XML]:       https://www.w3.org/TR/rdf-sparql-XMLres/
 [SPARQL JSON]:      https://www.w3.org/TR/rdf-sparql-json-res/
-[SPARQL EBNF]:      https://www.w3.org/TR/sparql11-query/#sparqlGrammar
+[SPARQL EBNF]:      https://www.w3.org/TR/sparql12-query/#sparqlGrammar
 
 [SSD]:              https://www.w3.org/TR/sparql11-service-description/
 [Rack]:             https://rack.github.io

@@ -59,8 +59,7 @@ file "etc/manifest-cache.nt" do
   graph = RDF::Graph.new do |g|
     {
       "http://w3c.github.io/rdf-tests/sparql/" => "../w3c-rdf-tests/sparql/",
-      "https://w3c.github.io/rdf-star/tests/sparql/" => "../w3c-rdf-star/tests/sparql/",
-      "https://w3c.github.io/sparql-12/tests/" => "spec/w3c-sparql-12/tests/"
+      "https://w3c.github.io/sparql-dev/tests/" => "../w3c-sparql-dev/tests/"
     }.each do |base, path|
       Dir.glob("#{path}**/manifest.ttl").each do |man|
         puts "load #{man}"

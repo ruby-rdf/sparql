@@ -77,6 +77,7 @@ module SPARQL; module Spec
         when "mf:UpdateEvaluationTest", "ut:UpdateEvaluationTest"
           UpdateTest.new(e)
         when "mf:PositiveSyntaxTest", "mf:NegativeSyntaxTest",
+             "mf:PositiveSyntaxTestSparql", "mf:NegativeSyntaxTestSparql",
              "mf:PositiveSyntaxTest11", "mf:NegativeSyntaxTest11",
              "mf:PositiveUpdateSyntaxTest11", "mf:NegativeUpdateSyntaxTest11"
           SyntaxTest.new(e)
