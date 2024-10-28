@@ -15,8 +15,6 @@ module SPARQL::Grammar
     U_CHARS2         = Regexp.compile("\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040]").freeze
     IRI_RANGE        = Regexp.compile("[[^<>\"{}|^`\\\\]&&[^\\x00-\\x20]]").freeze
 
-    # 26
-    UCHAR                = EBNF::Unescape::UCHAR
     # 170s
     PERCENT              = /%[0-9A-Fa-f]{2}/.freeze
     # 172s
@@ -43,7 +41,7 @@ module SPARQL::Grammar
     # 149
     ECHAR                = /\\[tbnrf\\"']/.freeze
     # 18
-    IRIREF               = /<(?:#{IRI_RANGE}|#{UCHAR})*>/.freeze
+    IRIREF               = /<(?:#{IRI_RANGE})*>/.freeze
     # 129
     PNAME_NS             = /#{PN_PREFIX}?:/.freeze
     # 130
@@ -76,13 +74,13 @@ module SPARQL::Grammar
     # 143
     DOUBLE_NEGATIVE      = /(\-)([0-9]+\.[0-9]*#{EXPONENT}|\.?[0-9]+#{EXPONENT})/.freeze
     # 145
-    STRING_LITERAL1      = /'([^\'\\\n\r]|#{ECHAR}|#{UCHAR})*'/.freeze
+    STRING_LITERAL1      = /'([^\'\\\n\r]|#{ECHAR})*'/.freeze
     # 146
-    STRING_LITERAL2      = /"([^\"\\\n\r]|#{ECHAR}|#{UCHAR})*"/.freeze
+    STRING_LITERAL2      = /"([^\"\\\n\r]|#{ECHAR})*"/.freeze
     # 147
-    STRING_LITERAL_LONG1 = /'''((?:'|'')?(?:[^'\\]|#{ECHAR}|#{UCHAR}))*'''/m.freeze
+    STRING_LITERAL_LONG1 = /'''((?:'|'')?(?:[^'\\]|#{ECHAR}))*'''/m.freeze
     # 148
-    STRING_LITERAL_LONG2 = /"""((?:"|"")?(?:[^"\\]|#{ECHAR}|#{UCHAR}))*"""/m.freeze
+    STRING_LITERAL_LONG2 = /"""((?:"|"")?(?:[^"\\]|#{ECHAR}))*"""/m.freeze
 
     # 151
     WS                   = /(?:\s|(?:#[^\n\r]*))+/m.freeze

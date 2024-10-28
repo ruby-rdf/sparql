@@ -278,6 +278,8 @@ describe SPARQL do
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
+    rescue IOError => e
+      skip(e.message)
     end
   end
 
@@ -287,6 +289,8 @@ describe SPARQL do
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
+    rescue IOError => e
+      skip(e.message)
     end
   end
 end unless ENV['CI']

@@ -47,8 +47,8 @@ def run_tc(tc, **options)
 
   id = tc.attributes['id'].
     sub('http://www.w3.org/2001/sw/DataAccess/tests/', '').
-    sub('http://www.w3.org/2009/sparql/docs/tests/', '').
-    sub('https://w3c.github.io/rdf-star/tests/', '').
+    sub('https://www.w3.org/2009/sparql/docs/tests/', '').
+    sub('https://w3c.github.io/rdf-tests/sparql/', '').
     sub('https://w3c.github.io/sparql-12/tests/', '')
   STDERR.write "run #{id}" unless options[:quiet]
 
@@ -413,6 +413,8 @@ manifests.each do |path|
         run_tc(tc, **options)
       end
     end
+  rescue IOError => e
+    STDERR.puts "skip #{path}: IOError"
   end
 
 STDERR.puts "" if options[:quiet]

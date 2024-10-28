@@ -41,7 +41,7 @@ module SPARQL::Grammar
     terminal(:BLANK_NODE_LABEL,     BLANK_NODE_LABEL) do |value, prod|
       bnode(value[2..-1])
     end
-    terminal(:IRIREF,               IRIREF, unescape: true) do |value, prod|
+    terminal(:IRIREF,               IRIREF) do |value, prod|
       begin
         iri(value[1..-2])
       rescue ArgumentError => e
@@ -2666,8 +2666,8 @@ module SPARQL::Grammar
     # @return [SPARQL::Grammar::Parser]
     def initialize(input = nil, **options, &block)
       @input = case input
-      when IO, StringIO then input.read
-      else input.to_s.dup
+      when IO, StringIO then EBNF::Unescape.unescape_codepoints(input.read)
+      else EBNF::Unescape.unescape_codepoints(input.to_s)
       end
       @input.encode!(Encoding::UTF_8) if @input.respond_to?(:encode!)
       @options = {anon_base: "b0", validate: false}.merge(options)
