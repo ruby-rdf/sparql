@@ -232,7 +232,7 @@ module SPARQL::Spec
   end
 
   def self.sparql_dev_tests
-    %w().map do |partial|
+    %w(SEP-0004).map do |partial|
       "https://w3c.github.io/sparql-dev/tests/#{partial}/manifest.ttl"
     end
   end
