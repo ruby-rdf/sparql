@@ -80,7 +80,9 @@ def run_tc(tc, **options)
       tc.expected.dump(:trig, standard_prefixes: true) :
     (tc.solutions.is_a?(RDF::Enumerable) ?
       tc.solutions.dump(:trig, standard_prefixes: true) :
-      (tc.solutions ? "Vars: #{tc.solutions.variable_names}\n" + tc.solutions.to_sse : '')))
+      (tc.solutions.respond_to?(:variable_names) ?
+        ("Vars: #{tc.solutions.variable_names}\n" + tc.solutions.to_sse) :
+        (tc.solutions ? tc.solutions.to_sse : ''))))
   end
 
   case tc.name
@@ -131,7 +133,9 @@ def run_tc(tc, **options)
         STDERR.puts "\nActual:\n" + (
           actual.is_a?(RDF::Enumerable) ?
             actual.dump(:trig, standard_prefixes: true) :
-            "Vars: #{actual.variable_names}\n" + actual.to_sse)
+            (actual.respond_to?(:variable_names) ?
+              ("Vars: #{actual.variable_names}\n" + actual.to_sse) :
+              (actual ? actual.to_sse : '')))
       end
 
       case tc.form
@@ -368,12 +372,12 @@ opts.each do |opt, arg|
   when '--optimize'     then options[:optimize] = true
   when '--output'       then options[:output] = File.open(arg, "w")
   when '--quiet'
-    options[:quiet] = true
-    logger.level = Logger::FATAL
+                             options[:quiet] = true
+                             logger.level = Logger::FATAL
   when '--sparql10'     then options[:sparql10] = true
   when '--sparql11'     then options[:sparql11] = true
   when '--sparql12'     then options[:sparql12] = true
-  when '--sparqldev'     then options[:sparqldev] = true
+  when '--sparqldev'    then options[:sparqldev] = true
   when '--use11'        then options[:use11] = true
   when '--validate'     then options[:validate] = true
   when '--verbose'      then options[:verbose] = true

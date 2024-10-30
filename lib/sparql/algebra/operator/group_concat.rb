@@ -5,6 +5,8 @@ module SPARQL; module Algebra
     #
     # GroupConcat is a set function which performs a string concatenation across the values of an expression with a group. The order of the strings is not specified. The separator character used in the concatenation may be given with the scalar argument SEPARATOR.
     #
+    # If all operands are language-tagged strings with the same language (and direction), the result shares the language (and direction).
+    #
     # [127] Aggregate::= ... | 'GROUP_CONCAT' '(' 'DISTINCT'? Expression ( ';' 'SEPARATOR' '=' String )? ')'
     #
     # @example SPARQL Grammar
@@ -72,7 +74,9 @@ module SPARQL; module Algebra
       # @return [RDF::Term] An arbitrary term
       # @raise  [TypeError] If enum is empty
       def apply(enum, separator, **options)
-        RDF::Literal(enum.flatten.map(&:to_s).join(separator.to_s))
+        op1_lang = enum.first.language
+        lang = op1_lang if op1_lang && enum.all? {|v| v.language == op1_lang}
+        RDF::Literal(enum.flatten.map(&:to_s).join(separator.to_s), language: lang)
       end
 
       ##
