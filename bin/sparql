@@ -3,6 +3,7 @@ require 'rubygems'
 $:.unshift("../../lib", __FILE__)
 require 'logger'
 require 'sparql'
+require 'rack'
 begin
   require 'linkeddata'
 rescue LoadError

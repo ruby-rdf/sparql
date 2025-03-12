@@ -35,16 +35,14 @@ group :development do
   gem 'erubis',           '>= 2.7.0'
   gem 'htmlentities',     '>= 4.3.4'
   gem 'equivalent-xml',   '>= 0.6.0'
-  gem 'ostruct',          '>= 0.6.0'
-  gem 'ruby-prof',        platforms: :mri
 end
 
 group :debug do
   gem 'shotgun'  unless ENV['CI']
   gem 'pry'
   gem 'pry-byebug', platforms: :mri
-  gem 'redcarpet', platforms: :ruby
-  gem 'ruby-prof', platforms: :mri
+  gem 'redcarpet',  platforms: :ruby
+  gem 'ruby-prof',  platforms: :mri
 end
 
 group :test do
