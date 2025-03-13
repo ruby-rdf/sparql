@@ -50,13 +50,13 @@ describe "SPARQL.server" do
       query_dataset_default_graphs: {
         query: %(
           ASK {
-            <http://kasei.us/2009/09/sparql/data/data1.rdf> a ?type .
-            <http://kasei.us/2009/09/sparql/data/data2.rdf> a ?type .
+            <https://kasei.us/2009/09/sparql/data/data1.rdf> a ?type .
+            <https://kasei.us/2009/09/sparql/data/data2.rdf> a ?type .
           }
         ),
         "default-graph-uri": %w(
-          http://kasei.us/2009/09/sparql/data/data1.rdf
-          http://kasei.us/2009/09/sparql/data/data2.rdf
+          https://kasei.us/2009/09/sparql/data/data1.rdf
+          https://kasei.us/2009/09/sparql/data/data2.rdf
         ),
         expected: true
       },
@@ -65,7 +65,7 @@ describe "SPARQL.server" do
           ASK { GRAPH ?g { ?s ?p ?o } }
         ),
         "named-graph-uri": %w(
-          http://kasei.us/2009/09/sparql/data/data2.rdf
+          https://kasei.us/2009/09/sparql/data/data2.rdf
         ),
         expected: true
       },
@@ -74,33 +74,33 @@ describe "SPARQL.server" do
           SELECT ?g ?x ?s { ?x ?y ?o  GRAPH ?g { ?s ?p ?o } }
         ),
         "default-graph-uri": %w(
-          http://kasei.us/2009/09/sparql/data/data3.rdf
+          https://kasei.us/2009/09/sparql/data/data3.rdf
         ),
         "named-graph-uri": %w(
-          http://kasei.us/2009/09/sparql/data/data1.rdf
-          http://kasei.us/2009/09/sparql/data/data2.rdf
+          https://kasei.us/2009/09/sparql/data/data1.rdf
+          https://kasei.us/2009/09/sparql/data/data2.rdf
         ),
         expected: RDF::Query::Solutions(
           RDF::Query::Solution.new(
-            g: RDF::URI('http://kasei.us/2009/09/sparql/data/data1.rdf'),
-            x: RDF::URI('http://kasei.us/2009/09/sparql/data/data3.rdf'),
-            s: RDF::URI('http://kasei.us/2009/09/sparql/data/data1.rdf')
+            g: RDF::URI('https://kasei.us/2009/09/sparql/data/data1.rdf'),
+            x: RDF::URI('https://kasei.us/2009/09/sparql/data/data3.rdf'),
+            s: RDF::URI('https://kasei.us/2009/09/sparql/data/data1.rdf')
           ),
           RDF::Query::Solution.new(
-            g: RDF::URI('http://kasei.us/2009/09/sparql/data/data2.rdf'),
-            x: RDF::URI('http://kasei.us/2009/09/sparql/data/data3.rdf'),
-            s: RDF::URI('http://kasei.us/2009/09/sparql/data/data2.rdf')
+            g: RDF::URI('https://kasei.us/2009/09/sparql/data/data2.rdf'),
+            x: RDF::URI('https://kasei.us/2009/09/sparql/data/data3.rdf'),
+            s: RDF::URI('https://kasei.us/2009/09/sparql/data/data2.rdf')
           )
         )
       },
       query_multiple_dataset: {
         query: %(
           ASK
-          FROM <http://kasei.us/2009/09/sparql/data/data1.rdf>
-          { <http://kasei.us/2009/09/sparql/data/data1.rdf> ?p ?o }
+          FROM <https://kasei.us/2009/09/sparql/data/data1.rdf>
+          { <https://kasei.us/2009/09/sparql/data/data1.rdf> ?p ?o }
         ),
         "default-graph-uri": %w(
-          http://kasei.us/2009/09/sparql/data/data2.rdf
+          https://kasei.us/2009/09/sparql/data/data2.rdf
         ),
         expected: true,
         pending: "use data2 but query data1"
@@ -127,8 +127,8 @@ describe "SPARQL.server" do
           PREFIX foaf: <http://xmlns.com/foaf/0.1/>
           CLEAR ALL ;
           INSERT DATA {
-              GRAPH <http://kasei.us/2009/09/sparql/data/data1.rdf> {
-                  <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document
+              GRAPH <https://kasei.us/2009/09/sparql/data/data1.rdf> {
+                  <https://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document
               }
           } ;
           INSERT {
@@ -143,11 +143,11 @@ describe "SPARQL.server" do
         query: %(
           ASK {
               GRAPH <http://example.org/protocol-update-dataset-test/> {
-                  <http://kasei.us/2009/09/sparql/data/data1.rdf> a <http://purl.org/dc/terms/BibliographicResource>
+                  <https://kasei.us/2009/09/sparql/data/data1.rdf> a <http://purl.org/dc/terms/BibliographicResource>
               }
           }
         ),
-        'using-graph-uri': %(http://kasei.us/2009/09/sparql/data/data1.rdf),
+        'using-graph-uri': %(https://kasei.us/2009/09/sparql/data/data1.rdf),
         expected: true
       },
       update_dataset_named_graphs: {
@@ -156,9 +156,9 @@ describe "SPARQL.server" do
           PREFIX foaf: <http://xmlns.com/foaf/0.1/>
           CLEAR ALL ;
           INSERT DATA {
-              GRAPH <http://kasei.us/2009/09/sparql/data/data1.rdf> { <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document }
-              GRAPH <http://kasei.us/2009/09/sparql/data/data2.rdf> { <http://kasei.us/2009/09/sparql/data/data2.rdf> a foaf:Document }
-              GRAPH <http://kasei.us/2009/09/sparql/data/data3.rdf> { <http://kasei.us/2009/09/sparql/data/data3.rdf> a foaf:Document }
+              GRAPH <https://kasei.us/2009/09/sparql/data/data1.rdf> { <https://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document }
+              GRAPH <https://kasei.us/2009/09/sparql/data/data2.rdf> { <https://kasei.us/2009/09/sparql/data/data2.rdf> a foaf:Document }
+              GRAPH <https://kasei.us/2009/09/sparql/data/data3.rdf> { <https://kasei.us/2009/09/sparql/data/data3.rdf> a foaf:Document }
           } ;
           INSERT {
               GRAPH <http://example.org/protocol-update-dataset-named-graphs-test/> {
@@ -174,19 +174,19 @@ describe "SPARQL.server" do
         query: %(
           ASK {
               GRAPH <http://example.org/protocol-update-dataset-named-graphs-test/> {
-                  <http://kasei.us/2009/09/sparql/data/data1.rdf> a <http://purl.org/dc/terms/BibliographicResource> .
-                  <http://kasei.us/2009/09/sparql/data/data2.rdf> a <http://purl.org/dc/terms/BibliographicResource> .
+                  <https://kasei.us/2009/09/sparql/data/data1.rdf> a <http://purl.org/dc/terms/BibliographicResource> .
+                  <https://kasei.us/2009/09/sparql/data/data2.rdf> a <http://purl.org/dc/terms/BibliographicResource> .
               }
               FILTER NOT EXISTS {
                   GRAPH <http://example.org/protocol-update-dataset-named-graphs-test/> {
-                      <http://kasei.us/2009/09/sparql/data/data3.rdf> a <http://purl.org/dc/terms/BibliographicResource> .
+                      <https://kasei.us/2009/09/sparql/data/data3.rdf> a <http://purl.org/dc/terms/BibliographicResource> .
                   }
               }
           }
         ),
         'using-named-graph-uri': %w(
-          http://kasei.us/2009/09/sparql/data/data1.rdf
-          http://kasei.us/2009/09/sparql/data/data2.rdf
+          https://kasei.us/2009/09/sparql/data/data1.rdf
+          https://kasei.us/2009/09/sparql/data/data2.rdf
         ),
         expected: true
       },
