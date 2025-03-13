@@ -16,7 +16,8 @@ describe "SPARQL.server" do
   end
 
   def app
-    SPARQL::Server.application dataset: dataset
+    SPARQL::Server.application dataset: dataset,
+      host_authorization: { permitted_hosts: [] }
   end
 
   describe "service_description" do

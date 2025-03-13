@@ -13,6 +13,8 @@ module SPARQL
     #
     # @param [RDF::Dataset] dataset (RDF::Repository.new)
     # @param [Hash{Symbol => Object}] options
+    # @option options [Hash] :host_authorization
+    #   A hash of options to host_authorization, to be used by the Rack::Protection::HostAuthorization middleware.
     # @return [Sinatra::Base]
     def application(dataset: RDF::Repository.new, **options)
       Sinatra.new do
@@ -20,6 +22,10 @@ module SPARQL
         set :repository, dataset
         enable :logging
         disable :raise_errors, :show_exceptions if settings.production?
+
+        if options[:host_authorization]
+          set :host_authorization, options[:host_authorization]
+        end
 
         mime_type :jsonld, "application/ld+json"
         mime_type :normalize, "application/normalized+n-quads"
