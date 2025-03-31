@@ -98,6 +98,12 @@ def run_tc(tc, **options)
     info = "More compact representation"
   when /syntax-update-(26|27|28|36).ru/
     info = "Whitespace in string tokens"
+  when 'graph-empty', 'graph-exist', 'graph-not-exist'
+    info = "Graphs with empty BGP"
+  when 'REGEX with the q option'
+    info = "REGEX flag q – no meta-characters"
+  when 'REGEX with the ignore spacing (x) option', 'REGEX with the ignore spacing (x) option with class expression'
+    info = "REGEX flag x – remove whitespace"
   else
     case tc.name
     when 'date-1', 'expr-5.rq'
@@ -268,21 +274,16 @@ def run_tc(tc, **options)
       STDERR.puts "unknown test type #{tc.type}"
     end
   end
-  STDERR.puts options[:logger].to_s if options[:logger].level <= Logger::INFO
 rescue Interrupt
   exit(1)
 rescue Exception => e
   result = 'exception'
   unless options[:quiet]
     STDERR.puts(" Exception: #{e.message}")
-    if options[:verbose]
-      STDERR.puts e.backtrace
-      STDERR.puts options[:logger].to_s
-    else
-      STDERR.puts options[:logger].to_s #if options[:logger].level <= Logger::INFO
-    end
+    STDERR.puts e.backtrace if options[:verbose]
   end
 ensure
+  STDERR.puts options[:logger].to_s if options[:logger].level <= Logger::INFO
   options[:results][result] ||= 0
   options[:results][result] += 1
 

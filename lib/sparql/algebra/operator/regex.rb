@@ -56,11 +56,19 @@ module SPARQL; module Algebra
         flags = flags.to_s
         # TODO: validate flag syntax
 
+        # 's' mode in XPath is like ruby MUTLILINE
+        # 'm' mode in XPath is like ruby /^$/ vs /\A\z/
+        unless flags.include?(?m)
+          pattern = '\A' + pattern[1..-1] if pattern.start_with?('^')
+          pattern = pattern[0..-2] + '\z' if pattern.end_with?('$')
+        end
+
         options = 0
-        raise NotImplementedError, "unsupported regular expression flag: /s" if flags.include?(?s) # FIXME
-        options |= Regexp::MULTILINE  if flags.include?(?m)
+        %w(q x).each do |flag|
+          raise NotImplementedError, "unsupported regular expression flag: /#{flag}" if flags.include?(flag) # FIXME
+        end
+        options |= Regexp::MULTILINE  if flags.include?(?s) # dot-all mode
         options |= Regexp::IGNORECASE if flags.include?(?i)
-        options |= Regexp::EXTENDED   if flags.include?(?x)
         RDF::Literal(Regexp.new(pattern, options) === text)
       end
 

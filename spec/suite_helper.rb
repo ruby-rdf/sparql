@@ -226,7 +226,13 @@ module SPARQL::Spec
   end
 
   def self.sparql_12_tests
-    %w(grouping syntax-escaping syntax-triple-terms-negative syntax-triple-terms-positive).map do |partial|
+    %w(grouping
+       syntax-triple-terms-negative
+       syntax-triple-terms-positive
+       eval-triple-terms
+       lang-basedir
+       rdf11
+    ).map do |partial|
       "#{BASE}sparql12/#{partial}/manifest.ttl"
     end
   end

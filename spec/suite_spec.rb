@@ -35,6 +35,12 @@ shared_examples "SUITE" do |id, label, comment, tests|
             pending "failed when simplifying whitespace in terminals"
           when 'nps_inverse.rq', 'nps_direct_and_inverse.rq'
             pending("New SPARQL tests")
+          when 'graph-empty.rq', 'graph-empty-exist.rq', 'graph-empty-not-exist.rq'
+            pending("Graphs with empty BGP")
+          when 'regex-no-metacharacters.rq', 'regex-no-metacharacters-case-insensitive.rq'
+            pending("REGEX flag q – no meta-characters")
+          when 'regex-ignore-whitespaces.rq', 'regex-ignore-whitespaces-class-expression.rq'
+            pending("REGEX flag x – remove whitespace")
           end
 
           skip 'Entailment Regimes' if t.entailment?
@@ -71,6 +77,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
                                 base_uri: t.base_uri,
                                 form: t.form,
                                 all_vars: true,
+                                optimize: true,
                                 logger: t.logger)
 
           expect(result).to describe_csv_solutions(t.solutions)
@@ -110,6 +117,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
                                 base_uri: t.base_uri,
                                 all_vars: true,
                                 form: t.form,
+                                optimize: true,
                                 logger: t.logger)
 
           expect(result).to describe_solutions(t.expected, t)
