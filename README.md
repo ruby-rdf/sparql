@@ -68,6 +68,9 @@ Not supported:
 * [Entailment Regimes][SPARQL 1.1 Entailment Regimes], and
 * [Graph Store HTTP Protocol][SPARQL 1.1 Graph Store HTTP Protocol] but the closely related [Linked Data Platform][] implemented in [rdf-ldp](https://github.com/ruby-rdf/rdf-ldp) supports these use cases.
 
+### Optimizations
+Generally, optimizing a query can lead to improved performance, sometimes dramatically (e.g., `?s rdf:rest*/rdf:first ?o`). Optimization can be done when parsing a query using the `:optimize` option, or the `optimize` method on a parsed query.
+
 ### Updates for RDF 1.1
 Starting with version 1.1.2, the SPARQL gem uses the 1.1 version of the [RDF.rb][], which adheres to [RDF 1.1 Concepts](https://www.w3.org/TR/rdf11-concepts/) rather than [RDF 1.0](https://www.w3.org/TR/rdf-concepts/). The main difference is that there is now no difference between a _Simple Literal_ (a literal with no datatype or language) and a Literal with datatype _xsd:string_; this causes some minor differences in the way in which queries are understood, and when expecting different results.
 
