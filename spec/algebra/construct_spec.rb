@@ -8,6 +8,8 @@ include SPARQL::Algebra
 describe SPARQL::Algebra::Query do
   EX = RDF::EX = RDF::Vocabulary.new('http://example.org/') unless const_defined?(:EX)
 
+  let(:logger) {RDF::Spec.logger.tap {|l| l.level = Logger::INFO}}
+
   context "construct" do
     {
       "query-construct-optional" => [
@@ -86,12 +88,15 @@ describe SPARQL::Algebra::Query do
           @prefix ex: <http://example.com/> .
           ex:s ex:p1 [ex:p2 ex:o1] .
         ),
-        %q((prefix
+        %q{(prefix
            ((ex: <http://example.com/>))
-           (construct ((triple ex:s ex:p1 _:b1) (triple _:b1 ex:p2 ex:o1)) (bgp)))),
+           (construct ((triple ex:s ex:p1 _:b1) (triple _:b1 ex:p2 ex:o1)) (bgp)))},
       ]
     }.each do |example, (source, result, query)|
       it "constructs #{example}" do
+        logger.info "Source:\n#{source}"
+        logger.info "Result:\n#{result}"
+        logger.info "Query:\n#{query}"
         graph_r = RDF::Graph.new << RDF::Turtle::Reader.new(result)
 
         expect(
@@ -99,10 +104,14 @@ describe SPARQL::Algebra::Query do
             form: :construct, sse: true,
             graphs: {default: {data: source, format: :ttl}},
             query: query)
-        ).to be_isomorphic(graph_r)
+        ).to be_isomorphic(graph_r), logger.to_s
       end
 
       it "constructs #{example} (with optimization)" do
+        logger.info "Source:\n#{source}"
+        logger.info "Result:\n#{result}"
+        logger.info "Query:\n#{query}"
+        logger.info "Optimized:\n#{SXP::Generator.string(SPARQL::Algebra.parse(query, optimize: true).to_sxp_bin)}"
         graph_r = RDF::Graph.new << RDF::Turtle::Reader.new(result)
 
         expect(
@@ -110,7 +119,7 @@ describe SPARQL::Algebra::Query do
             form: :construct, sse: true, optimize: true,
             graphs: {default: {data: source, format: :ttl}},
             query: query)
-        ).to be_isomorphic(graph_r)
+        ).to be_isomorphic(graph_r), logger.to_s
       end
     end
   end

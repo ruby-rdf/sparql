@@ -101,11 +101,17 @@ module SPARQL; module Algebra
       #
       # @return [Join, RDF::Query] `self`
       # @return [self]
-      # @see SPARQL::Algebra::Expression#optimize!
-      def optimize!(**options)
+      # @see SPARQL::Algebra::Expression#optimize
+      def optimize(**options)
         ops = operands.map {|o| o.optimize(**options) }.reject {|o| o.respond_to?(:empty?) && o.empty?}
-        @operands = ops
-        self
+        case ops.length
+        when 0
+          SPARQL::Algebra::Expression[:bgp]
+        when 1
+          ops.first
+        else
+          self.class.new(ops)
+        end
       end
 
       ##

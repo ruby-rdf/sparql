@@ -181,10 +181,10 @@ describe SPARQL::Algebra::Query do
           { s: EX.x1, o: RDF::Literal.new(1) },
           { s: EX.x2, o: RDF::Literal.new(2) },
           { s: EX.x3, o: RDF::Literal.new(3) }]
-          expect(query.optimize.execute(graph)).to have_result_set [
-            { s: EX.x1, o: RDF::Literal.new(1) },
-            { s: EX.x2, o: RDF::Literal.new(2) },
-            { s: EX.x3, o: RDF::Literal.new(3) }]
+        expect(query.optimize.execute(graph)).to have_result_set [
+          { s: EX.x1, o: RDF::Literal.new(1) },
+          { s: EX.x2, o: RDF::Literal.new(2) },
+          { s: EX.x3, o: RDF::Literal.new(3) }]
       end
 
       it "(filter (< ?o 3))" do
