@@ -64,9 +64,39 @@ module SPARQL; module Algebra
         end
 
         options = 0
-        %w(q x).each do |flag|
-          raise NotImplementedError, "unsupported regular expression flag: /#{flag}" if flags.include?(flag) # FIXME
+        if flags.include?('x')
+          flags = flags.sub('x', '')
+          # If present, whitespace characters (#x9, #xA, #xD and #x20) in the regular expression are removed prior to matching with one exception: whitespace characters within character class expressions (charClassExpr) are not removed. This flag can be used, for example, to break up long regular expressions into readable lines.
+          # Scan pattern entering a state when scanning `[` that does nto remove whitespace and exit that state when scanning `]`.
+          in_charclass = false
+          pattern = pattern.chars.map do |c|
+            case c
+            when '['
+              in_charclass = true
+              c
+            when ']'
+              in_charclass = false
+              c
+            else
+              c.match?(/\s/) && !in_charclass ? '' : c
+            end
+          end.join('')
         end
+
+        if flags.include?('q')
+          flags = flags.sub('x', '')
+          # if present, all characters in the regular expression are treated as representing themselves, not as metacharacters. In effect, every character that would normally have a special meaning in a regular expression is implicitly escaped by preceding it with a backslash.
+          # Simply replace every character with an escaped version of that character
+          pattern = pattern.chars.map do |c|
+            case c
+            when '.', '?', '*', '^', '$', '+', '(', ')', '[', ']', '{', '}'
+              "\\#{c}"
+            else
+              c
+            end
+          end.join("")
+        end
+
         options |= Regexp::MULTILINE  if flags.include?(?s) # dot-all mode
         options |= Regexp::IGNORECASE if flags.include?(?i)
         RDF::Literal(Regexp.new(pattern, options) === text)

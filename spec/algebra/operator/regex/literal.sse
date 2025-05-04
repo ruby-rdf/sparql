@@ -25,11 +25,22 @@
 (equal (regex "abracadabra" "^bra" "")                          false)
 
 # @see http://www.w3.org/TR/xpath-functions/#flags
-# FIXME: re-enable tests which "x" matcher is implemented
-#(equal (regex "helloworld" "hello world" "x")                   true)
-#(equal (regex "helloworld" "hello[ ]world" "x")                 false)
-#(equal (regex "hello world" "hello\\sworld" "x")                true)
-#(equal (regex "hello world" "hello world" "x")                  false)
+(equal (regex "helloworld" "hello world" "x")                   true)
+(equal (regex "helloworld" "hello[ ]world" "x")                 false)
+(equal (regex "hello world" "hello\\sworld" "x")                true)
+(equal (regex "hello world" "hello world" "x")                  false)
+
+(equal (regex "ac"            "a?+*.{}()[]c" "q")               false)
+(equal (regex "abc"           "a?+*.{}()[]c" "q")               false)
+(equal (regex "abbbc"         "a?+*.{}()[]c" "q")               false)
+(equal (regex "a\nc"          "a?+*.{}()[]c" "q")               false)
+(equal (regex "a\nb\nc"       "a?+*.{}()[]c" "q")               false)
+(equal (regex "a.c"           "a?+*.{}()[]c" "q")               false)
+(equal (regex "ABC"           "a?+*.{}()[]c" "q")               false)
+(equal (regex "a?+*.{}()[]c"  "a?+*.{}()[]c" "q")               true)
+(equal (regex "b"             "a?+*.{}()[]c" "q")               false)
+(equal (regex "abcd"          ".*" "q")                         false)
+(equal (regex "Mr. B. Obama"  "B. OBAMA" "iq")                  true)
 
 (error (regex _:a _:b _:c) TypeError)
 (error (regex <mailto:alice@example.org> "example" "") TypeError)

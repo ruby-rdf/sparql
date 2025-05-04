@@ -465,8 +465,6 @@ see <https://unlicense.org/> or the accompanying {file:UNLICENSE}.
 
 A copy of the [SPARQL EBNF][] and derived parser files are included in the repository, which are not covered under the UNLICENSE. These files are covered via the [W3C Document License](https://www.w3.org/Consortium/Legal/2002/copyright-documents-20021231).
 
-A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in the repository, which are not covered under the UNLICENSE; see the references for test copyright information.
-
 [Ruby]:             https://ruby-lang.org/
 [RDF]:              https://www.w3.org/RDF/
 [RDF::DO]:          https://rubygems.org/gems/rdf-do
@@ -477,8 +475,6 @@ A copy of the [SPARQL 1.0 tests][] and [SPARQL 1.1 tests][] are also included in
 [PDD]:              https://unlicense.org/#unlicensing-contributions
 [SPARQL]:           https://en.wikipedia.org/wiki/SPARQL
 [SPARQL 1.0]:       https://www.w3.org/TR/sparql11-query/
-[SPARQL 1.0 tests]:https://www.w3.org/2001/sw/DataAccess/tests/
-[SPARQL 1.1 tests]: https://www.w3.org/2009/sparql/docs/tests/
 [SSE]:              https://jena.apache.org/documentation/notes/sse.html
 [SXP]:              https://dryruby.github.io/sxp
 [grammar]:          https://www.w3.org/TR/sparql11-query/#grammar

@@ -47,6 +47,7 @@ def run_tc(tc, **options)
 
   id = tc.attributes['id'].
     sub('http://www.w3.org/2001/sw/DataAccess/tests/', '').
+    sub('http://www.w3.org/2009/sparql/docs/tests/', '').
     sub('https://www.w3.org/2009/sparql/docs/tests/', '').
     sub('https://w3c.github.io/rdf-tests/sparql/', '').
     sub('https://w3c.github.io/sparql-12/tests/', '')
@@ -102,8 +103,6 @@ def run_tc(tc, **options)
     info = "Graphs with empty BGP"
   when 'REGEX with the q option'
     info = "REGEX flag q – no meta-characters"
-  when 'REGEX with the ignore spacing (x) option', 'REGEX with the ignore spacing (x) option with class expression'
-    info = "REGEX flag x – remove whitespace"
   else
     case tc.name
     when 'date-1', 'expr-5.rq'
