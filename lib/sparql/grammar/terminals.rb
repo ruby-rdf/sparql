@@ -1,4 +1,4 @@
-require 'ebnf/ll1/lexer'
+require 'ebnf/unescape'
 
 module SPARQL::Grammar
   module Terminals
@@ -15,8 +15,6 @@ module SPARQL::Grammar
     U_CHARS2         = Regexp.compile("\\u00B7|[\\u0300-\\u036F]|[\\u203F-\\u2040]").freeze
     IRI_RANGE        = Regexp.compile("[[^<>\"{}|^`\\\\]&&[^\\x00-\\x20]]").freeze
 
-    # 26
-    UCHAR                = EBNF::LL1::Lexer::UCHAR
     # 170s
     PERCENT              = /%[0-9A-Fa-f]{2}/.freeze
     # 172s
@@ -43,7 +41,7 @@ module SPARQL::Grammar
     # 149
     ECHAR                = /\\[tbnrf\\"']/.freeze
     # 18
-    IRIREF               = /<(?:#{IRI_RANGE}|#{UCHAR})*>/.freeze
+    IRIREF               = /<(?:#{IRI_RANGE})*>/.freeze
     # 129
     PNAME_NS             = /#{PN_PREFIX}?:/.freeze
     # 130
@@ -56,6 +54,7 @@ module SPARQL::Grammar
     VAR2                 = /\$#{VARNAME}/.freeze
     # 134
     LANGTAG              = /@[a-zA-Z]+(?:-[a-zA-Z0-9]+)*/.freeze
+    LANG_DIR             = /@([a-zA-Z]+(?:-[a-zA-Z0-9]+)*(?:--[a-zA-Z]+)?)/u.freeze
     # 135
     INTEGER              = /[0-9]+/.freeze
     # 136
@@ -75,13 +74,13 @@ module SPARQL::Grammar
     # 143
     DOUBLE_NEGATIVE      = /(\-)([0-9]+\.[0-9]*#{EXPONENT}|\.?[0-9]+#{EXPONENT})/.freeze
     # 145
-    STRING_LITERAL1      = /'([^\'\\\n\r]|#{ECHAR}|#{UCHAR})*'/.freeze
+    STRING_LITERAL1      = /'([^\'\\\n\r]|#{ECHAR})*'/.freeze
     # 146
-    STRING_LITERAL2      = /"([^\"\\\n\r]|#{ECHAR}|#{UCHAR})*"/.freeze
+    STRING_LITERAL2      = /"([^\"\\\n\r]|#{ECHAR})*"/.freeze
     # 147
-    STRING_LITERAL_LONG1 = /'''((?:'|'')?(?:[^'\\]|#{ECHAR}|#{UCHAR}))*'''/m.freeze
+    STRING_LITERAL_LONG1 = /'''((?:'|'')?(?:[^'\\]|#{ECHAR}))*'''/m.freeze
     # 148
-    STRING_LITERAL_LONG2 = /"""((?:"|"")?(?:[^"\\]|#{ECHAR}|#{UCHAR}))*"""/m.freeze
+    STRING_LITERAL_LONG2 = /"""((?:"|"")?(?:[^"\\]|#{ECHAR}))*"""/m.freeze
 
     # 151
     WS                   = /(?:\s|(?:#[^\n\r]*))+/m.freeze
@@ -98,7 +97,7 @@ module SPARQL::Grammar
                  |DESCRIBE|DESC|DISTINCT|DROP|ENCODE_FOR_URI|EXISTS
                  |FILTER|FLOOR|FROM|GRAPH|GROUP_CONCAT|GROUP|HAVING
                  |HOURS|IF|INSERT\s+DATA|INSERT|INTO|IN|IRI
-                 |LANGMATCHES|LANGTAG|LANG|LCASE|LIMIT|LOAD
+                 |LANGMATCHES|LANGTAG|LANG_DIR|LANG|LCASE|LIMIT|LOAD
                  |MAX|MD5|MINUS|MINUTES|MIN|MONTH|MOVE
                  |NAMED|NOT|NOW|OFFSET|OPTIONAL
                  |ORDER|PREFIX|RAND|REDUCED|REGEX|REPLACE|ROUND|SAMPLE|SECONDS
@@ -111,9 +110,10 @@ module SPARQL::Grammar
                  |isTRIPLE|TRIPLE|SUBJECT|PREDICATE|OBJECT
                  |true
                  |false
+                 |<<\(|\)>>
                  |<<|>>
                  |\{\||\|\}
-                 |&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a]
+                 |~|&&|!=|!|<=|>=|\^\^|\|\||[\(\),.;\[\]\{\}\+\-=<>\?\^\|\*\/a]
               )xim.freeze
 
     # Map terminals to canonical form
@@ -124,7 +124,7 @@ module SPARQL::Grammar
       DESCRIBE DESC DISTINCT DROP ENCODE_FOR_URI EXISTS
       FILTER FLOOR FROM GRAPH GROUP_CONCAT GROUP HAVING
       HOURS IF INSERT INTO IN IRI
-      LANGMATCHES LANGTAG LANG LCASE LIMIT LOAD
+      LANGMATCHES LANGTAG LANG_DIR LANG LCASE LIMIT LOAD
       MAX MD5 MINUS MINUTES MIN MONTH MOVE
       NAMED NOT NOW OFFSET OPTIONAL
       ORDER PREFIX RAND REDUCED REGEX REPLACE ROUND SAMPLE SECONDS

@@ -3,6 +3,8 @@ module SPARQL; module Algebra
     ##
     # The SPARQL Property Path `path` operator.
     #
+    # The second element represents a set of predicates which ar associated with the first (subject) and last (object) operands.
+    #
     # [88]  Path ::= PathAlternative
     #
     # @example SPARQL Grammar
@@ -70,6 +72,42 @@ module SPARQL; module Algebra
       def to_sparql(top_level: true, **options)
         str = operands.to_sparql(top_level: false, **options) + " ."
         top_level ? Operator.to_sparql(str, **options) : str
+      end
+
+      ##
+      # Special cases for optimizing a path based on its operands.
+      #
+      # @param  [Hash{Symbol => Object}] options
+      #   any additional options for optimization
+      # @return [SPARQL::Algebra::Operator]
+      #   May returnn a different operator
+      # @see    RDF::Query#optimize!
+      def optimize(**options)
+        op = super
+        while true
+          decon = op.to_sxp_bin
+          op = case decon
+          # Reverse
+          in [:path, subject, [:reverse, path], object]
+            Path.new(object, path, subject)
+          # Path* (seq (seq p0 (path* p1)) p2)
+          in [:path, subject, [:seq, [:seq, p0, [:'path*', p1]], p2], object]
+            pp1 = Variable.new(nil, distinguished: false)
+            pp2 = Variable.new(nil, distinguished: false)
+            pp3 = Variable.new(nil, distinguished: false)
+            # Bind variables used in Path*
+            bgp = BGP.new(
+              Triple.new(pp2, p2, subject),
+              Triple.new(object, p1, pp3))
+            # New path with pre-bound variables
+            path = Path.new(pp3, PathStar.new(p2), pp2)
+            Sequence.new(bgp, path)
+          else
+            # No matching patterns
+            break
+          end
+        end
+        op
       end
     end # Path
   end # Operator

@@ -15,11 +15,15 @@ module SPARQL; module Algebra
     #
     # @example SPARQL Grammar (sparql-star)
     #   PREFIX : <http://example.com/ns#>
-    #   SELECT * {<< :a :b :c >> :p1 :o1.}
+    #   SELECT * {<< :a :b :c ~ :r >> :p1 :o1.}
     #
     # @example SSE (sparql-star)
-    #   (prefix ((: <http://example.com/ns#>))
-    #    (bgp (triple (qtriple :a :b :c) :p1 :o1)))
+    #   (prefix
+    #    ((: <http://example.com/ns#>))
+    #    (bgp
+    #     (triple :r <http://www.w3.org/1999/02/22-rdf-syntax-ns#reifies>
+    #      (qtriple :a :b :c))
+    #     (triple :r :p1 :o1)))
     #
     # @see https://www.w3.org/TR/sparql11-query/#sparqlAlgebra
     class BGP < Operator

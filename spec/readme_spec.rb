@@ -32,7 +32,7 @@ describe "README" do
           gsub('etc', File.join(File.dirname(__FILE__), '..', 'etc'))
         eval(cmd)
       elsif example[:sh] =~ /sparql server/m
-        skip "running server"
+        skip "running server until there is a strategy for testing a Rackup::Server"
       else
         cmd = example[:sh].
           sub('sparql', File.join(File.dirname(__FILE__), '..', 'bin', 'sparql')).

@@ -3,6 +3,8 @@ require 'rubygems'
 $:.unshift("../../lib", __FILE__)
 require 'logger'
 require 'sparql'
+require 'rack'
+require 'rackup'
 begin
   require 'linkeddata'
 rescue LoadError
@@ -45,6 +47,8 @@ def run(input, **options)
     SPARQL::Grammar.parse(input, **options)
   end
 
+  query = query.optimize if options[:optimize]
+
   puts ("\nSSE:\n" + query.to_sse) if options[:debug]
 
   if options[:parse_only]
@@ -64,10 +68,25 @@ end
 
 def server(options)
   app = SPARQL::Server.application(**options)
-  Rack::Server.start(app: app, Port: options.fetch(:port, 9292))
+  Rackup::Server.start(app: app, Port: options.fetch(:port, 9292))
 rescue LoadError
-  $stderr.puts "Running SPARQL server requires Rack and Sinatra to be in environment: #{$!.message}"
+  $stderr.puts "Running SPARQL server requires Rack, Rackup, and Sinatra to be in environment: #{$!.message}"
 end
+
+cmd, input = ARGV.shift, nil
+
+OPT_ARGS = [
+  ["--dataset", GetoptLong::REQUIRED_ARGUMENT, "File containing RDF graph or dataset"],
+  ["--debug", GetoptLong::NO_ARGUMENT, "Debugging output"],
+  ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT, "Run against source in argument"],
+  ["--format", GetoptLong::REQUIRED_ARGUMENT, "Output format for results (json, xml, csv, tsv, html, sparql, sse, or another RDF format)"],
+  ["--help", "-?", GetoptLong::NO_ARGUMENT, "print this message"],
+  ["--optimize", GetoptLong::NO_ARGUMENT, "Perform query optimizations"],
+  ["--port", "-p", GetoptLong::REQUIRED_ARGUMENT, "Port on which to run server; defaults to 9292"],
+  ["--sse", GetoptLong::NO_ARGUMENT, "Query input is in SSE format"],
+  ["--update", GetoptLong::NO_ARGUMENT, "Process query as a SPARQL Update"],
+  ["--verbose", GetoptLong::NO_ARGUMENT, "Verbose output"],
+]
 
 def usage
   puts "Usage: #{File.basename($0)} execute [options] query-file         Execute a query against the specified dataset"
@@ -75,31 +94,20 @@ def usage
   puts "       #{File.basename($0)} query [options] end-point query-file Run the query against a remote end-point"
   puts "       #{File.basename($0)} server [options] dataset-file        Start a server initialized from the specified dataset"
   puts "Options:"
-  puts "      --dataset:            File containing RDF graph or dataset"
-  puts "      --debug:              Display detailed debug output"
-  puts "      --execute,-e:         Use option argument as the SPARQL input if no query-file given"
-  puts "      --format:             Output format for results (json, xml, csv, tsv, html, sparql, sse, or another RDF format)"
-  puts "      --port,-p             Port on which to run server; defaults to 9292"
-  puts "      --sse:                Query input is in SSE format"
-  puts "      --update:             Process query as a SPARQL Update"
-  puts "      --verbose:            Display details of processing"
-  puts "      --help,-?:            This message"
+  width = OPT_ARGS.map do |o|
+    l = o.first.length
+    l += o[1].length + 2 if o[1].is_a?(String)
+    l
+  end.max
+  OPT_ARGS.each do |o|
+    s = "  %-*s  " % [width, (o[1].is_a?(String) ? "#{o[0,2].join(', ')}" : o[0])]
+    s += o.last
+    puts s
+  end
   exit(0)
 end
 
-cmd, input = ARGV.shift, nil
-
-opts = GetoptLong.new(
-  ["--dataset", GetoptLong::REQUIRED_ARGUMENT],
-  ["--debug", GetoptLong::NO_ARGUMENT],
-  ["--execute", "-e", GetoptLong::REQUIRED_ARGUMENT],
-  ["--format", GetoptLong::REQUIRED_ARGUMENT],
-  ["--port", "-p", GetoptLong::REQUIRED_ARGUMENT],
-  ["--sse", GetoptLong::NO_ARGUMENT],
-  ["--update", GetoptLong::NO_ARGUMENT],
-  ["--verbose", GetoptLong::NO_ARGUMENT],
-  ["--help", "-?", GetoptLong::NO_ARGUMENT]
-)
+opts = GetoptLong.new(*OPT_ARGS.map {|o| o[0..-2]})
 
 logger = Logger.new(STDERR)
 logger.level = Logger::WARN
@@ -116,6 +124,7 @@ opts.each do |opt, arg|
   when '--debug'         then options[:debug] = true ; logger.level = Logger::DEBUG
   when '--execute'       then input = arg
   when '--format'        then options[:format] = arg.to_sym
+  when '--optimize'      then options[:optimize] = true
   when '--port'          then options[:port] = arg.to_i
   when '--sse'           then options[:sse] = true
   when '--update'        then options[:update] = true

@@ -13,6 +13,8 @@ module SPARQL
     #
     # @param [RDF::Dataset] dataset (RDF::Repository.new)
     # @param [Hash{Symbol => Object}] options
+    # @option options [Hash] :host_authorization
+    #   A hash of options to host_authorization, to be used by the Rack::Protection::HostAuthorization middleware.
     # @return [Sinatra::Base]
     def application(dataset: RDF::Repository.new, **options)
       Sinatra.new do
@@ -20,6 +22,10 @@ module SPARQL
         set :repository, dataset
         enable :logging
         disable :raise_errors, :show_exceptions if settings.production?
+
+        if options[:host_authorization]
+          set :host_authorization, options[:host_authorization]
+        end
 
         mime_type :jsonld, "application/ld+json"
         mime_type :normalize, "application/normalized+n-quads"
@@ -43,7 +49,7 @@ module SPARQL
             rescue SPARQL::Grammar::Parser::Error => e
               halt 400, "Error parsing query: #{e.message}"
             end
-            res = query.execute(repo, 
+            res = query.execute(repo,
                                 logger: request.logger,
                                 **options.merge(opts))
             res.is_a?(RDF::Literal::Boolean) ? [res] : res
@@ -61,8 +67,12 @@ module SPARQL
         end
 
         post '/' do
-          opts = params.inject({}) {|memo, (k,v)| memo.merge(k.to_sym => v)}
-          # Note, this depends on the Rack::SPARQL::ContentNegotiation middleware to rewrite application/x-www-form-urlencoded to be conformat with either application/sparql-query or application/sparql-update.
+          request_body = request.body.read
+          opts = params.inject({}) { |memo, (k,v)| memo.merge(k.to_sym => v) }
+          # Note, this depends on the Rack::SPARQL::ContentNegotiation
+          # middleware to rewrite application/x-www-form-urlencoded to be
+          # conformant with either application/sparql-query or
+          # application/sparql-update.
           query = begin
             update = case request.content_type
             when %r(application/sparql-query) then false
@@ -70,12 +80,11 @@ module SPARQL
             else
               halt 406, "No query found for #{request.content_type}"
             end
-
             # XXX Rack always sets input to ASCII-8BIT
             #unless request.body.external_encoding == Encoding::UTF_8
             #  halt 400, "improper body encoding: #{request.body.external_encoding}"
             #end
-            SPARQL.parse(request.body, base_uri: url, update: update)
+            SPARQL.parse(request_body, base_uri: url, update: update)
           rescue SPARQL::Grammar::Parser::Error => e
             halt 400, "Error parsing #{update ? 'update' : 'query'}: #{e.message}"
           end

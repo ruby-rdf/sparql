@@ -91,7 +91,7 @@ module SPARQL; module Algebra
       # @return [self]
       # @see SPARQL::Algebra::Expression#optimize!
       def optimize!(**options)
-        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
+        ops = operands.map {|o| o.optimize(**options) }.reject {|o| o.respond_to?(:empty?) && o.empty?}
         @operands = ops
         self
       end

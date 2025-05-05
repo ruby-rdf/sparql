@@ -48,17 +48,24 @@ def run_tc(tc, **options)
   id = tc.attributes['id'].
     sub('http://www.w3.org/2001/sw/DataAccess/tests/', '').
     sub('http://www.w3.org/2009/sparql/docs/tests/', '').
-    sub('https://w3c.github.io/rdf-star/tests/', '').
+    sub('https://www.w3.org/2009/sparql/docs/tests/', '').
+    sub('https://w3c.github.io/rdf-tests/sparql/', '').
     sub('https://w3c.github.io/sparql-12/tests/', '')
   STDERR.write "run #{id}" unless options[:quiet]
 
   result = "untested"
 
   query_string = tc.query_string || tc.action.query_string
-  query = SPARQL.parse(query_string,
-                      update: tc.type.include?('Update'),
-                      base_uri: RDF::URI(tc.action.query_file),
-                      logger: options[:logger]) rescue "(error)"
+  parser = if options[:use11]
+    SPARQL::Grammar::Parser11.new(query_string,
+                                  base_uri: RDF::URI(tc.action.query_file),
+                                  logger: options[:logger]) rescue "(error)"
+  else
+    SPARQL::Grammar::Parser.new(query_string,
+                                base_uri: RDF::URI(tc.action.query_file),
+                                logger: options[:logger]) rescue "(error)"
+  end
+  query = parser.parse(tc.type.include?('Update') ? :UpdateUnit : :QueryUnit) rescue '(exception)'
 
   options[:logger].clear
 
@@ -74,7 +81,9 @@ def run_tc(tc, **options)
       tc.expected.dump(:trig, standard_prefixes: true) :
     (tc.solutions.is_a?(RDF::Enumerable) ?
       tc.solutions.dump(:trig, standard_prefixes: true) :
-      (tc.solutions ? "Vars: #{tc.solutions.variable_names}\n" + tc.solutions.to_sse : '')))
+      (tc.solutions.respond_to?(:variable_names) ?
+        ("Vars: #{tc.solutions.variable_names}\n" + tc.solutions.to_sse) :
+        (tc.solutions ? tc.solutions.to_sse : ''))))
   end
 
   case tc.name
@@ -90,6 +99,10 @@ def run_tc(tc, **options)
     info = "More compact representation"
   when /syntax-update-(26|27|28|36).ru/
     info = "Whitespace in string tokens"
+  when 'graph-empty', 'graph-exist', 'graph-not-exist'
+    info = "Graphs with empty BGP"
+  when 'REGEX with the q option'
+    info = "REGEX flag q – no meta-characters"
   else
     case tc.name
     when 'date-1', 'expr-5.rq'
@@ -118,13 +131,16 @@ def run_tc(tc, **options)
                             all_vars: true,
                             form: tc.form, to_hash: false,
                             optimize: options[:optimize],
+                            use11: options[:use11],
                             logger: options[:logger])
 
       if options[:verbose]
         STDERR.puts "\nActual:\n" + (
           actual.is_a?(RDF::Enumerable) ?
             actual.dump(:trig, standard_prefixes: true) :
-            "Vars: #{actual.variable_names}\n" + actual.to_sse)
+            (actual.respond_to?(:variable_names) ?
+              ("Vars: #{actual.variable_names}\n" + actual.to_sse) :
+              (actual ? actual.to_sse : '')))
       end
 
       case tc.form
@@ -156,6 +172,7 @@ def run_tc(tc, **options)
                             all_vars: true,
                             optimize: options[:optimize],
                             form: tc.form,
+                            use11: options[:use11],
                             logger: options[:logger])
 
       STDERR.puts "Actual: Vars: #{tc.solutions.variable_names}\n#{actual.to_sse}" if options[:verbose]
@@ -201,6 +218,7 @@ def run_tc(tc, **options)
                             all_vars: true,
                             optimize: options[:optimize],
                             form: tc.form,
+                            use11: options[:use11],
                             logger: options[:logger])
 
       STDERR.puts "Actual: #{actual.dump(:trig, standard_prefixes: true)}" if options[:verbose]
@@ -215,16 +233,17 @@ def run_tc(tc, **options)
         end
         result = "failed"
       end
-    when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11'
-      SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, logger: options[:logger])
+    when 'mf:PositiveSyntaxTest', 'mf:PositiveSyntaxTest11', 'mf:PositiveSyntaxTestSparql'
+      SPARQL.parse(query_string, base_uri: tc.base_uri, validate: true, use11: options[:use11], logger: options[:logger])
       # No exception means it passes
       result = "passed"
-    when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11'
+    when 'mf:NegativeSyntaxTest', 'mf:NegativeSyntaxTest11', 'mf:NegativeSyntaxTestSparql'
       begin
         SPARQL.parse(query_string,
                      base_uri: tc.base_uri,
                      all_vars: true,
                      validate: true,
+                     use11: options[:use11],
                      logger: options[:logger])
       rescue Exception => e
         result = "passed"
@@ -233,12 +252,12 @@ def run_tc(tc, **options)
         result = "failed"
       end
     when 'mf:PositiveUpdateSyntaxTest11'
-      SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, logger: options[:logger])
+      SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, use11: options[:use11], logger: options[:logger])
       # No exception means it passes
       result = "passed"
     when 'mf:NegativeUpdateSyntaxTest11'
       begin
-        SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, logger: options[:logger])
+        SPARQL.parse(query_string, base_uri: tc.base_uri, update: true, validate: true, use11: options[:use11], logger: options[:logger])
       rescue Exception => e
         result = "passed"
       end
@@ -254,21 +273,16 @@ def run_tc(tc, **options)
       STDERR.puts "unknown test type #{tc.type}"
     end
   end
-  STDERR.puts options[:logger].to_s if options[:logger].level <= Logger::INFO
 rescue Interrupt
   exit(1)
 rescue Exception => e
   result = 'exception'
   unless options[:quiet]
-    STDERR.puts("Exception: #{e.message}")
-    if options[:verbose]
-      STDERR.puts e.backtrace
-      STDERR.puts options[:logger].to_s
-    else
-      STDERR.puts options[:logger].to_s #if options[:logger].level <= Logger::INFO
-    end
+    STDERR.puts(" Exception: #{e.message}")
+    STDERR.puts e.backtrace if options[:verbose]
   end
 ensure
+  STDERR.puts options[:logger].to_s if options[:logger].level <= Logger::INFO
   options[:results][result] ||= 0
   options[:results][result] += 1
 
@@ -315,8 +329,11 @@ OPT_ARGS = [
   ["--output", "-o",    GetoptLong::REQUIRED_ARGUMENT, "Output to specified file"],
   ["--quiet", "-q",     GetoptLong::NO_ARGUMENT, "Minimal output"],
   ["--rdfstar",         GetoptLong::NO_ARGUMENT, "Run RDF* tests"],
+  ["--sparql10",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.0 tests"],
   ["--sparql11",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.1 tests"],
   ["--sparql12",        GetoptLong::NO_ARGUMENT, "Run SPARQL 1.2 tests"],
+  ["--sparqldev",       GetoptLong::NO_ARGUMENT, "Run SPARQL Dev tests"],
+  ["--use11",           GetoptLong::NO_ARGUMENT, "Use the SPARQL 1.1 version of the parser"],
   ["--validate",        GetoptLong::NO_ARGUMENT, "Validate input"],
   ["--verbose", "-v",   GetoptLong::NO_ARGUMENT, "Verbose output"],
   #["--write-manifests", GetoptLong::NO_ARGUMENT, "Write out the parsed manifests for earl reporting"],
@@ -355,10 +372,13 @@ opts.each do |opt, arg|
   when '--optimize'     then options[:optimize] = true
   when '--output'       then options[:output] = File.open(arg, "w")
   when '--quiet'
-    options[:quiet] = true
-    logger.level = Logger::FATAL
-  when '--rdfstar'      then options[:rdfstar] = true
-  when '--sparql12'      then options[:sparql12] = true
+                             options[:quiet] = true
+                             logger.level = Logger::FATAL
+  when '--sparql10'     then options[:sparql10] = true
+  when '--sparql11'     then options[:sparql11] = true
+  when '--sparql12'     then options[:sparql12] = true
+  when '--sparqldev'    then options[:sparqldev] = true
+  when '--use11'        then options[:use11] = true
   when '--validate'     then options[:validate] = true
   when '--verbose'      then options[:verbose] = true
   end
@@ -366,19 +386,21 @@ end
 
 earl_preamble(options) if options[:earl]
 
-manifests = if options[:rdfstar]
-  SPARQL::Spec.sparql_star_tests
+manifests = if options[:sparql10]
+  [SPARQL::Spec.sparql_10_syntax_tests, SPARQL::Spec.sparql_10_tests]
 elsif options[:sparql11]
-  [SPARQL::Spec.sparql1_0_syntax_tests, SPARQL::Spec.sparql1_0_tests, SPARQL::Spec.sparql1_1_tests]
+  [SPARQL::Spec.sparql_11_tests]
 elsif options[:sparql12]
   SPARQL::Spec.sparql_12_tests
+elsif options[:sparqldev]
+  SPARQL::Spec.sparql_dev_tests
 else
   [
-    SPARQL::Spec.sparql1_0_syntax_tests,
-    SPARQL::Spec.sparql1_0_tests,
-    SPARQL::Spec.sparql1_1_tests,
+    SPARQL::Spec.sparql_10_syntax_tests,
+    SPARQL::Spec.sparql_10_tests,
+    SPARQL::Spec.sparql_11_tests,
     SPARQL::Spec.sparql_12_tests,
-    SPARQL::Spec.sparql_star_tests,
+    SPARQL::Spec.sparql_dev_tests,
   ]
 end.flatten
 manifests.each do |path|
@@ -395,6 +417,8 @@ manifests.each do |path|
         run_tc(tc, **options)
       end
     end
+  rescue IOError => e
+    STDERR.puts "skip #{path}: IOError"
   end
 
 STDERR.puts "" if options[:quiet]

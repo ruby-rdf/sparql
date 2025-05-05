@@ -53,7 +53,7 @@ describe SPARQL::Grammar do
             (?class ?keys)
             (extend ((?keys ??.0))
               (group (?class ?key)
-                ((??.0 (group_concat (separator ",") distinct ?item)))
+                ((??.0 (group_concat distinct (separator ",") ?item)))
                 (sequence
                   (bgp
                    (triple ?class <http://www.w3.org/1999/02/22-rdf-syntax-ns#type> <http://www.w3.org/2002/07/owl#Class>)
@@ -139,7 +139,32 @@ describe SPARQL::Grammar do
                    (triple ?ev <http://example.org/a> ?a)
                    (triple ?ev <http://example.org/b> ?b)))))
         }
-      }
+      },
+      #"dawg-optional-filter-005-not-simplified" => {
+      #  query: %(
+      #    # Double curly braces do NOT get simplified to single curly braces early on, before filters are scoped
+      #    PREFIX  dc: <http://purl.org/dc/elements/1.1/>
+      #    PREFIX  x: <http://example.org/ns#>
+      #    SELECT  ?title ?price
+      #    WHERE
+      #        { ?book dc:title ?title . 
+      #          OPTIONAL
+      #            {
+      #              { 
+      #                ?book x:price ?price . 
+      #                FILTER (?title = "TITLE 2") .
+      #              }
+      #            } .
+      #        }
+      #  ),
+      #  sse: %{(prefix ((dc: <http://purl.org/dc/elements/1.1/>) (x: <http://example.org/ns#>))
+      #          (project (?title ?price)
+      #           (leftjoin
+      #            (bgp (triple ?book dc:title ?title))
+      #            (filter (= ?title "TITLE 2")
+      #              (bgp (triple ?book x:price ?price))))))
+      #       }
+      #},
     }.each do |test, options|
       it "parses #{test}" do
         expect(options[:query]).to generate(options[:sse], logger: logger)

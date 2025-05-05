@@ -5,6 +5,7 @@ require 'rdf/rdfxml'
 
 shared_examples "SUITE" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
+  label = label['@value'] if label.is_a?(Hash)
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
@@ -34,6 +35,12 @@ shared_examples "SUITE" do |id, label, comment, tests|
             pending "failed when simplifying whitespace in terminals"
           when 'nps_inverse.rq', 'nps_direct_and_inverse.rq'
             pending("New SPARQL tests")
+          when 'graph-empty.rq', 'graph-empty-exist.rq', 'graph-empty-not-exist.rq'
+            pending("Graphs with empty BGP")
+          when 'regex-no-metacharacters.rq', 'regex-no-metacharacters-case-insensitive.rq'
+            pending("REGEX flag q – no meta-characters")
+          when 'regex-ignore-whitespaces.rq', 'regex-ignore-whitespaces-class-expression.rq'
+            pending("REGEX flag x – remove whitespace")
           end
 
           skip 'Entailment Regimes' if t.entailment?
@@ -70,6 +77,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
                                 base_uri: t.base_uri,
                                 form: t.form,
                                 all_vars: true,
+                                optimize: true,
                                 logger: t.logger)
 
           expect(result).to describe_csv_solutions(t.solutions)
@@ -109,6 +117,7 @@ shared_examples "SUITE" do |id, label, comment, tests|
                                 base_uri: t.base_uri,
                                 all_vars: true,
                                 form: t.form,
+                                optimize: true,
                                 logger: t.logger)
 
           expect(result).to describe_solutions(t.expected, t)
@@ -158,6 +167,7 @@ end
 
 shared_examples "to_sparql" do |id, label, comment, tests|
   man_name = id.to_s.split("/")[-2]
+  label = label['@value'] if label.is_a?(Hash)
   describe [man_name, label, comment].compact.join(" - ") do
     tests.each do |t|
       next unless t.action
@@ -205,8 +215,6 @@ shared_examples "to_sparql" do |id, label, comment, tests|
       when 'ut:UpdateEvaluationTest', 'mf:UpdateEvaluationTest', 'mf:PositiveUpdateSyntaxTest11'
         it "Round Trips #{t.entry} - #{t.name}: #{t.comment}" do
           case t.entry
-          when 'syntax-update-38.ru'
-            pending "empty query"
           when 'large-request-01.ru'
             skip "large request"
           when 'syntax-update-26.ru', 'syntax-update-27.ru', 'syntax-update-28.ru',
@@ -245,8 +253,8 @@ end
 
 describe SPARQL do
   BASE = "http://w3c.github.io/rdf-tests/sparql/sparql11/"
-  describe "w3c dawg SPARQL 1.0 syntax tests" do
-    SPARQL::Spec.sparql1_0_syntax_tests.each do |path|
+  describe "w3c SPARQL 1.0 syntax tests" do
+    SPARQL::Spec.sparql_10_syntax_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
@@ -254,8 +262,8 @@ describe SPARQL do
     end
   end
 
-  describe "w3c dawg SPARQL 1.0 tests" do
-    SPARQL::Spec.sparql1_0_tests.each do |path|
+  describe "w3c SPARQL 1.0 tests" do
+    SPARQL::Spec.sparql_10_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
@@ -263,19 +271,10 @@ describe SPARQL do
     end
   end
 
-  describe "w3c dawg SPARQL 1.1 tests" do
-    SPARQL::Spec.sparql1_1_tests.each do |path|
+  describe "w3c SPARQL 1.1 tests" do
+    SPARQL::Spec.sparql_11_tests.each do |path|
       SPARQL::Spec::Manifest.open(path) do |man|
         it_behaves_like "SUITE", man.attributes['id'], man.label, (path.match?(/protocol/) ? '' : man.comment), man.entries
-        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
-      end
-    end
-  end
-
-  describe "SPARQL-star tests" do
-    SPARQL::Spec.sparql_star_tests.each do |path|
-      SPARQL::Spec::Manifest.open(path) do |man|
-        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
     end
@@ -287,6 +286,19 @@ describe SPARQL do
         it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
         it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
       end
+    rescue IOError => e
+      skip(e.message)
+    end
+  end
+
+  describe "SPARQL-dev tests" do
+    SPARQL::Spec.sparql_dev_tests.each do |path|
+      SPARQL::Spec::Manifest.open(path) do |man|
+        it_behaves_like "SUITE", man.attributes['id'], man.label, man.comment, man.entries
+        it_behaves_like "to_sparql", man.attributes['id'], man.label, man.comment, man.entries
+      end
+    rescue IOError => e
+      skip(e.message)
     end
   end
 end unless ENV['CI']

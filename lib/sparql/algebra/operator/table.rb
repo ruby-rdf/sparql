@@ -31,7 +31,7 @@ module SPARQL; module Algebra
     #    SELECT * { } VALUES () { }
     #
     # @example SSE (empty query no values)
-    #    (join (bgp) (table empty))
+    #    (join (bgp) (table (vars)))
     #
     # [61]  InlineData              ::= 'VALUES' DataBlock
     #

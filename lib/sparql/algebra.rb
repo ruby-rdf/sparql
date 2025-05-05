@@ -402,9 +402,13 @@ module SPARQL
     #   a SPARQL S-Expression (SSE) string
     # @param  [Hash{Symbol => Object}] options
     #   any additional options (see {Operator#initialize})
+    # @option options [Boolean] :optimize (false)
+    #   Run query optimizer after parsing.
     # @return [SPARQL::Algebra::Operator]
     def parse(sse, **options)
-      Expression.parse(sse, **options)
+      query = Expression.parse(sse, **options)
+      query = query.optimize if options[:optimize]
+      query
     end
     module_function :parse
 

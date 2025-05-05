@@ -24,6 +24,8 @@ module SPARQL
   #
   # @param  [IO, StringIO, String, #to_s]  query
   # @param  [Hash{Symbol => Object}] options
+  # @option options [Boolean] :optimize (false)
+  #   Run query optimizer after parsing.
   # @option options [Boolean] :update (false)
   #   Parse starting with UpdateUnit production, QueryUnit otherwise.
   # @option options (see SPARQL::Grammar::Parser#initialize)
@@ -33,7 +35,10 @@ module SPARQL
   #   or RDF::Repository. 
   # @raise  [SPARQL::Grammar::Parser::Error] on invalid input
   def self.parse(query, **options)
-    Grammar::Parser.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+    parser_class = options[:use11] ? Grammar::Parser11 : Grammar::Parser
+    query = parser_class.new(query, **options).parse(options[:update] ? :UpdateUnit : :QueryUnit)
+    query = query.optimize if options[:optimize]
+    query
   end
 
   ##

@@ -34,11 +34,11 @@ namespace :spec do
     require 'suite_helper'
     
     puts "load 1.0 tests"
-    SPARQL::Spec.sparql1_0_tests(true)
+    SPARQL::Spec.sparql_11_tests(true)
     puts "load 1.0 syntax tests"
-    SPARQL::Spec.sparql1_0_syntax_tests(true)
+    SPARQL::Spec.sparql_11_syntax_tests(true)
     puts "load 1.1 tests"
-    SPARQL::Spec.sparql1_1_tests(true)
+    SPARQL::Spec.sparql_11_tests(true)
   end
 end
 
@@ -59,8 +59,7 @@ file "etc/manifest-cache.nt" do
   graph = RDF::Graph.new do |g|
     {
       "http://w3c.github.io/rdf-tests/sparql/" => "../w3c-rdf-tests/sparql/",
-      "https://w3c.github.io/rdf-star/tests/sparql/" => "../w3c-rdf-star/tests/sparql/",
-      "https://w3c.github.io/sparql-12/tests/" => "spec/w3c-sparql-12/tests/"
+      "https://w3c.github.io/sparql-dev/tests/" => "../w3c-sparql-dev/tests/"
     }.each do |base, path|
       Dir.glob("#{path}**/manifest.ttl").each do |man|
         puts "load #{man}"
@@ -73,41 +72,42 @@ file "etc/manifest-cache.nt" do
 end
 
 desc 'Create versions of ebnf files in etc'
-task etc: %w{etc/sparql11.sxp etc/sparql11.html etc/sparql11.ll1.sxp}
+task etc: %w{etc/sparql12.sxp etc/sparql12.html etc/sparql12.peg.sxp}
 
 desc 'Build first, follow and branch tables'
 task meta: "lib/sparql/grammar/meta.rb"
 
-file "lib/sparql/grammar/meta.rb" => "etc/sparql11.bnf" do |t|
+file "lib/sparql/grammar/meta.rb" => "etc/sparql12.bnf" do |t|
   sh %{
-    ebnf --ll1 QueryUnit --ll1 UpdateUnit --format rb \
+    ebnf --peg --format rb \
       --mod-name SPARQL::Grammar::Meta \
       --output lib/sparql/grammar/meta.rb \
-      etc/sparql11.bnf
+      etc/sparql12.bnf
   }
 end
 
-file "etc/sparql11.ll1.sxp" => "etc/sparql11.bnf" do |t|
-  sh %{
-    ebnf --ll1 QueryUnit --ll1 UpdateUnit --format sxp \
-      --output etc/sparql11.ll1.sxp \
-      etc/sparql11.bnf
-  }
-end
-
-file "etc/sparql11.sxp" => "etc/sparql11.bnf" do |t|
+file "etc/sparql12.sxp" => "etc/sparql12.bnf" do |t|
   sh %{
     ebnf --bnf --format sxp \
-      --output etc/sparql11.sxp \
-      etc/sparql11.bnf
+      --output etc/sparql12.sxp \
+      etc/sparql12.bnf
   }
 end
 
-file "etc/sparql11.html" => "etc/sparql11.bnf" do |t|
+file "etc/sparql12.peg.sxp" => "etc/sparql12.bnf" do |t|
+  sh %{
+    ebnf --peg --format sxp \
+      --output etc/sparql12.peg.sxp \
+      etc/sparql12.bnf
+  }
+end
+
+file "etc/sparql12.html" => "etc/sparql12.bnf" do |t|
   sh %{
     ebnf --format html \
-      --output etc/sparql11.html \
-      etc/sparql11.bnf
+      --output etc/sparql12.html \
+      --renumber \
+      etc/sparql12.bnf
   }
 end
 

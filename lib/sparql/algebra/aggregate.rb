@@ -40,7 +40,7 @@ module SPARQL; module Algebra
     end
 
     ##
-    # @param  [Enumerable<Array<RDF::Term>>] enum
+    # @param  [Enumerable<Array<RDF::Term>] enum
     #   Enumerable yielding evaluated operands
     # @return [RDF::Term]
     # @abstract

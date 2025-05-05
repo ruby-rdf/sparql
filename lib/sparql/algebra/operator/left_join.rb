@@ -136,21 +136,22 @@ module SPARQL; module Algebra
       # @return [Object] a copy of `self`
       # @see SPARQL::Algebra::Expression#optimize
       # FIXME
-      def optimize!(**options)
-        return self
-        ops = operands.map {|o| o.optimize(**options) }.select {|o| o.respond_to?(:empty?) && !o.empty?}
-        expr = ops.pop unless ops.last.executable?
+      def optimize(**options)
+        lhs, rhs, expr = operands.map {|o| o.optimize(**options) }
         expr = nil if expr.respond_to?(:true?) && expr.true?
-        
-        # ops now is one or two executable operators
-        # expr is a filter expression, which may have been optimized to 'true'
-        case ops.length
-        when 0
+
+        if lhs.empty? && rhs.empty?
           RDF::Query.new  # Empty query, expr doesn't matter
-        when 1
-          expr ? Filter.new(expr, ops.first) : ops.first
+        elsif rhs.empty?
+          # Expression doesn't matter, just use the first operand
+          lhs
+        elsif lhs.empty?
+          # Result is the filter of the second operand if there is an expression
+          # FIXME: doesn't seem to work
+          #expr ? Filter.new(expr, rhs) : rhs
+          self.dup
         else
-          expr ? LeftJoin.new(ops[0], ops[1], expr) : LeftJoin.new(ops[0], ops[1])
+          expr ? LeftJoin.new(rhs, lhs, expr) : LeftJoin.new(lhs, rhs)
         end
       end
 

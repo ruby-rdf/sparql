@@ -38,7 +38,7 @@ RSpec::Matchers.define :generate do |expected, options|
     when expected.nil?
       @actual.nil?
     when expected.is_a?(String)
-      @actual = @actual.to_sxp
+      @actual = SXP::Generator.string(@actual.to_sxp_bin)
       normalize(@actual) == normalize(expected)
     when expected.is_a?(Symbol)
       @actual.to_sxp == expected.to_s
@@ -57,14 +57,14 @@ RSpec::Matchers.define :generate do |expected, options|
       "Expected:\n#{expected}\n"
     else
       "Expected:\n#{expected.ai}\n" +
-      "Expected(sse):\n#{expected.to_sxp}\n"
+      "Expected(sse):\n#{expected.to_sse}\n"
     end +
     case input
     when String
       "Actual:\n#{actual}\n"
     else
       "Actual:\n#{actual.ai}\n" +
-      "Actual(sse):\n#{actual.to_sxp}\n"
+      "Actual(sse):\n#{actual.to_sse}\n"
     end +
     (@exception ? "Exception: #{@exception}" : "") +
     "Processing results:\n#{options[:logger].to_s}"

@@ -910,9 +910,9 @@ describe SPARQL::Algebra::Update do
              (update
               (clear all)
               (insertData (
-               (triple <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document)
-               (graph <http://kasei.us/2009/09/sparql/data/data1.rdf>
-                ((triple <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document)))))
+               (triple <https://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document)
+               (graph <https://kasei.us/2009/09/sparql/data/data1.rdf>
+                ((triple <https://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document)))))
               (modify
                (bgp (triple ?s a foaf:Document))
                (insert (
@@ -921,12 +921,12 @@ describe SPARQL::Algebra::Update do
           expected: %(
             prefix dc: <http://purl.org/dc/terms/>
             prefix foaf: <http://xmlns.com/foaf/0.1/>
-            <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document .
-            <http://kasei.us/2009/09/sparql/data/data1.rdf> {
-              <http://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document
+            <https://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document .
+            <https://kasei.us/2009/09/sparql/data/data1.rdf> {
+              <https://kasei.us/2009/09/sparql/data/data1.rdf> a foaf:Document
             }
             <http://example.org/protocol-update-dataset-test/> {
-              <http://kasei.us/2009/09/sparql/data/data1.rdf> a dc:BibliographicResource
+              <https://kasei.us/2009/09/sparql/data/data1.rdf> a dc:BibliographicResource
             }
           )
         }

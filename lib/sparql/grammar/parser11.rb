@@ -1,6 +1,6 @@
 require 'ebnf'
 require 'ebnf/ll1/parser'
-require 'sparql/grammar/meta'
+require 'sparql/grammar/meta11'
 
 module SPARQL::Grammar
   ##
@@ -8,8 +8,8 @@ module SPARQL::Grammar
   #
   # @see https://www.w3.org/TR/sparql11-query/#grammar
   # @see https://en.wikipedia.org/wiki/LR_parser
-  class Parser
-    include SPARQL::Grammar::Meta
+  class Parser11
+    include SPARQL::Grammar::Meta11
     include SPARQL::Grammar::Terminals
     include EBNF::LL1::Parser
 
