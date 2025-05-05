@@ -4,6 +4,7 @@ $:.unshift("../../lib", __FILE__)
 require 'logger'
 require 'sparql'
 require 'rack'
+require 'rackup'
 begin
   require 'linkeddata'
 rescue LoadError
@@ -67,9 +68,9 @@ end
 
 def server(options)
   app = SPARQL::Server.application(**options)
-  Rack::Server.start(app: app, Port: options.fetch(:port, 9292))
+  Rackup::Server.start(app: app, Port: options.fetch(:port, 9292))
 rescue LoadError
-  $stderr.puts "Running SPARQL server requires Rack and Sinatra to be in environment: #{$!.message}"
+  $stderr.puts "Running SPARQL server requires Rack, Rackup, and Sinatra to be in environment: #{$!.message}"
 end
 
 cmd, input = ARGV.shift, nil
