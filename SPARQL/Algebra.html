@@ -633,12 +633,12 @@ SELECT *
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
-        <p class="example_title"><div class='inline'>
+        <h5 class="example_title"><div class='inline'>
 <p>Optimizations</p>
-</div></p>
+</div></h5>
       
       <pre class="example code"><code></code></pre>
     
@@ -837,7 +837,7 @@ SELECT *
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lparen'>(</span><span class='symbol'>:isLiteral</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Literal</span><span class='lparen'>(</span><span class='float'>3.1415</span><span class='rparen'>)</span><span class='rparen'>)</span></code></pre>
@@ -884,12 +884,12 @@ SELECT *
       <pre class="lines">
 
 
-436
-437
-438</pre>
+440
+441
+442</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 436</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 440</span>
 
 <span class='kw'>def</span> <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sse'>sse</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_for'><span class='object_link'><a href="Algebra/Expression.html#for-class_method" title="SPARQL::Algebra::Expression.for (method)">for</a></span></span><span class='lparen'>(</span><span class='op'>*</span><span class='id identifier rubyid_sse'>sse</span><span class='rparen'>)</span>
@@ -1039,12 +1039,12 @@ SELECT *
       <pre class="lines">
 
 
-424
-425
-426</pre>
+428
+429
+430</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 424</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 428</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_open'>open</span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_open'><span class='object_link'><a href="Algebra/Expression.html#open-class_method" title="SPARQL::Algebra::Expression.open (method)">open</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -1072,7 +1072,7 @@ SELECT *
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='symbol'>:isLiteral</span><span class='rparen'>)</span></code></pre>
@@ -1114,12 +1114,12 @@ SELECT *
       <pre class="lines">
 
 
-447
-448
-449</pre>
+451
+452
+453</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 447</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 451</span>
 
 <span class='kw'>def</span> <span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_arity'>arity</span> <span class='op'>=</span> <span class='kw'>nil</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="Algebra/Operator.html" title="SPARQL::Algebra::Operator (class)">Operator</a></span></span><span class='period'>.</span><span class='id identifier rubyid_for'><span class='object_link'><a href="Algebra/Operator.html#for-class_method" title="SPARQL::Algebra::Operator.for (method)">for</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='comma'>,</span> <span class='id identifier rubyid_arity'>arity</span><span class='rparen'>)</span>
@@ -1147,7 +1147,7 @@ SELECT *
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code>sse = (prefix ((foaf: &lt;http://xmlns.com/foaf/0.1/&gt;))
@@ -1195,6 +1195,33 @@ SELECT *
   
 </ul>
 
+  
+    
+    
+    
+    
+    <p class="tag_title">Options Hash (<tt>**options</tt>):</p>
+    <ul class="option">
+      
+        <li>
+          <span class="name">:optimize</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Run query optimizer after parsing.</p>
+</div>
+          
+        </li>
+      
+    </ul>
+  
+
 <p class="tag_title">Returns:</p>
 <ul class="return">
   
@@ -1215,15 +1242,19 @@ SELECT *
       <pre class="lines">
 
 
-406
-407
-408</pre>
+408
+409
+410
+411
+412</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 406</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 408</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="Algebra/Expression.html" title="SPARQL::Algebra::Expression (module)">Expression</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="Algebra/Expression.html#parse-class_method" title="SPARQL::Algebra::Expression.parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_sse'>sse</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_optimize'>optimize</span> <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:optimize</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_query'>query</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1248,7 +1279,7 @@ SELECT *
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='const'><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></span><span class='lparen'>(</span><span class='symbol'>:foobar</span><span class='rparen'>)</span></code></pre>
@@ -1297,12 +1328,12 @@ SELECT *
       <pre class="lines">
 
 
-459
-460
-461</pre>
+463
+464
+465</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 459</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql/algebra.rb', line 463</span>
 
 <span class='kw'>def</span> <span class='const'><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
   <span class='const'><span class='object_link'><a href="#Variable-constant" title="SPARQL::Algebra::Variable (constant)">Variable</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_name'>name</span><span class='rparen'>)</span>
@@ -1317,9 +1348,9 @@ SELECT *
 </div>
 
       <div id="footer">
-  Generated on Sat Feb 17 20:47:20 2024 by
+  Generated on Mon May  5 18:40:00 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.4).
+  0.9.37 (ruby-3.4.3).
 </div>
 
     </div>

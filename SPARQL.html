@@ -312,7 +312,7 @@
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='id identifier rubyid_repository'>repository</span> <span class='op'>=</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>Repository</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span>
@@ -411,6 +411,22 @@
           
             &mdash; <div class='inline'>
 <p>One or more URIs used to initialize the <code>queryable</code> as a named graph.</p>
+</div>
+          
+        </li>
+      
+        <li>
+          <span class="name">:optimize</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Run query optimizer after parsing.</p>
 </div>
           
         </li>
@@ -637,11 +653,6 @@
       <pre class="lines">
 
 
-76
-77
-78
-79
-80
 81
 82
 83
@@ -660,10 +671,15 @@
 96
 97
 98
-99</pre>
+99
+100
+101
+102
+103
+104</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql.rb', line 76</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql.rb', line 81</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_execute'>execute</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='id identifier rubyid_queryable'>queryable</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='comma'>,</span> <span class='op'>&amp;</span><span class='id identifier rubyid_block'>block</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
@@ -813,7 +829,7 @@
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='const'><span class='object_link'><a href="" title="SPARQL (module)">SPARQL</a></span></span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'>SELECT * WHERE { ?s ?p ?o }</span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span></code></pre>
@@ -853,6 +869,22 @@
     
     <p class="tag_title">Options Hash (<tt>**options</tt>):</p>
     <ul class="option">
+      
+        <li>
+          <span class="name">:optimize</span>
+          <span class="type">(<tt>Boolean</tt>)</span>
+          <span class="default">
+            
+              &mdash; default:
+              <tt>false</tt>
+            
+          </span>
+          
+            &mdash; <div class='inline'>
+<p>Run query optimizer after parsing.</p>
+</div>
+          
+        </li>
       
         <li>
           <span class="name">:update</span>
@@ -1025,15 +1057,21 @@
       <pre class="lines">
 
 
-35
-36
-37</pre>
+37
+38
+39
+40
+41
+42</pre>
     </td>
     <td>
-      <pre class="code"><span class="info file"># File 'lib/sparql.rb', line 35</span>
+      <pre class="code"><span class="info file"># File 'lib/sparql.rb', line 37</span>
 
 <span class='kw'>def</span> <span class='kw'>self</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
-  <span class='const'><span class='object_link'><a href="SPARQL/Grammar.html" title="SPARQL::Grammar (module)">Grammar</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SPARQL/Grammar/Parser.html" title="SPARQL::Grammar::Parser (class)">Parser</a></span></span><span class='period'>.</span><span class='id identifier rubyid_new'><span class='object_link'><a href="SPARQL/Grammar/Parser.html#initialize-instance_method" title="SPARQL::Grammar::Parser#initialize (method)">new</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_parse'><span class='object_link'><a href="SPARQL/Grammar/Parser.html#parse-instance_method" title="SPARQL::Grammar::Parser#parse (method)">parse</a></span></span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:update</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='symbol'>:UpdateUnit</span> <span class='op'>:</span> <span class='symbol'>:QueryUnit</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_parser_class'>parser_class</span> <span class='op'>=</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:use11</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='const'><span class='object_link'><a href="SPARQL/Grammar.html" title="SPARQL::Grammar (module)">Grammar</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SPARQL/Grammar/Parser11.html" title="SPARQL::Grammar::Parser11 (class)">Parser11</a></span></span> <span class='op'>:</span> <span class='const'><span class='object_link'><a href="SPARQL/Grammar.html" title="SPARQL::Grammar (module)">Grammar</a></span></span><span class='op'>::</span><span class='const'><span class='object_link'><a href="SPARQL/Grammar/Parser.html" title="SPARQL::Grammar::Parser (class)">Parser</a></span></span>
+  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_parser_class'>parser_class</span><span class='period'>.</span><span class='id identifier rubyid_new'>new</span><span class='lparen'>(</span><span class='id identifier rubyid_query'>query</span><span class='comma'>,</span> <span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='period'>.</span><span class='id identifier rubyid_parse'>parse</span><span class='lparen'>(</span><span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:update</span><span class='rbracket'>]</span> <span class='op'>?</span> <span class='symbol'>:UpdateUnit</span> <span class='op'>:</span> <span class='symbol'>:QueryUnit</span><span class='rparen'>)</span>
+  <span class='id identifier rubyid_query'>query</span> <span class='op'>=</span> <span class='id identifier rubyid_query'>query</span><span class='period'>.</span><span class='id identifier rubyid_optimize'>optimize</span> <span class='kw'>if</span> <span class='id identifier rubyid_options'>options</span><span class='lbracket'>[</span><span class='symbol'>:optimize</span><span class='rbracket'>]</span>
+  <span class='id identifier rubyid_query'>query</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -1505,9 +1543,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Feb 17 20:47:19 2024 by
+  Generated on Mon May  5 18:40:00 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.4).
+  0.9.37 (ruby-3.4.3).
 </div>
 
     </div>

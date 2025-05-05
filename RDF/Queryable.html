@@ -230,11 +230,11 @@
 
 <p>Given a particular node (the starting node) in a particular RDF graph (the source graph), a subgraph of that particular graph, taken to comprise a concise bounded description of the resource denoted by the starting node, can be identified as follows:</p>
 <ol><li>
-<p>Include in the subgraph all statements in the source graph where the subject of the statement is the  starting node;</p>
+<p>Include in the subgraph all statements in the source graph where the subject of the statement is the starting node;</p>
 </li><li>
-<p>Recursively, for all statements identified in the subgraph thus far having a blank node object,  include in the subgraph all statements in the source graph where the subject of the statement is the  blank node in question and which are not already included in the subgraph.</p>
+<p>Recursively, for all statements identified in the subgraph thus far having a blank node object, include in the subgraph all statements in the source graph where the subject of the statement is the blank node in question and which are not already included in the subgraph.</p>
 </li><li>
-<p>Recursively, for all statements included in the subgraph thus far, for all reifications of each  statement in the source graph, include the concise bounded description beginning from the  rdf:Statement node of each reification. (we skip this step)</p>
+<p>Recursively, for all statements included in the subgraph thus far, for all reifications of each statement in the source graph, include the concise bounded description beginning from the rdf:Statement node of each reification. (we skip this step)</p>
 </li></ol>
 
 <p>This results in a subgraph where the object nodes are either URI references, literals, or blank nodes not serving as the subject of any statement in the graph.</p>
@@ -536,7 +536,7 @@
 <div class="tags">
   
   <div class="examples">
-    <p class="tag_title">Examples:</p>
+    <h4 class="tag_title">Examples:</h4>
     
       
       <pre class="example code"><code><span class='id identifier rubyid_queryable'>queryable</span><span class='period'>.</span><span class='id identifier rubyid_query'>query</span><span class='lparen'>(</span><span class='lbracket'>[</span><span class='kw'>nil</span><span class='comma'>,</span> <span class='const'>RDF</span><span class='op'>::</span><span class='const'>DOAP</span><span class='period'>.</span><span class='id identifier rubyid_developer'>developer</span><span class='comma'>,</span> <span class='kw'>nil</span><span class='rbracket'>]</span><span class='rparen'>)</span>
@@ -806,9 +806,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Feb 17 20:47:20 2024 by
+  Generated on Mon May  5 18:40:01 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.4).
+  0.9.37 (ruby-3.4.3).
 </div>
 
     </div>

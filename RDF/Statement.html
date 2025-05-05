@@ -404,7 +404,7 @@
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sparql'>to_sparql</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span>
   <span class='id identifier rubyid_str'>str</span> <span class='op'>=</span> <span class='id identifier rubyid_to_triple'>to_triple</span><span class='period'>.</span><span class='id identifier rubyid_map'>map</span> <span class='lbrace'>{</span><span class='op'>|</span><span class='id identifier rubyid_term'>term</span><span class='op'>|</span> <span class='id identifier rubyid_term'>term</span><span class='period'>.</span><span class='id identifier rubyid_to_sparql'>to_sparql</span><span class='lparen'>(</span><span class='op'>**</span><span class='id identifier rubyid_options'>options</span><span class='rparen'>)</span><span class='rbrace'>}</span><span class='period'>.</span><span class='id identifier rubyid_join'>join</span><span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&quot;</span><span class='tstring_content'> </span><span class='tstring_end'>&quot;</span></span><span class='rparen'>)</span>
-  <span class='id identifier rubyid_quoted?'>quoted?</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;&lt;</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_str'>str</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&gt;&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_str'>str</span>
+  <span class='id identifier rubyid_tripleTerm?'>tripleTerm?</span> <span class='op'>?</span> <span class='lparen'>(</span><span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>&lt;&lt;(</span><span class='tstring_end'>&#39;</span></span> <span class='op'>+</span> <span class='id identifier rubyid_str'>str</span> <span class='op'>+</span> <span class='tstring'><span class='tstring_beg'>&#39;</span><span class='tstring_content'>)&gt;&gt;</span><span class='tstring_end'>&#39;</span></span><span class='rparen'>)</span> <span class='op'>:</span> <span class='id identifier rubyid_str'>str</span>
 <span class='kw'>end</span></pre>
     </td>
   </tr>
@@ -558,7 +558,7 @@
       <pre class="code"><span class="info file"># File 'lib/sparql/algebra/extensions.rb', line 357</span>
 
 <span class='kw'>def</span> <span class='id identifier rubyid_to_sxp_bin'>to_sxp_bin</span>
-  <span class='lbracket'>[</span> <span class='lparen'>(</span><span class='id identifier rubyid_has_graph?'>has_graph?</span> <span class='op'>?</span> <span class='symbol'>:quad</span> <span class='op'>:</span> <span class='lparen'>(</span><span class='id identifier rubyid_quoted?'>quoted?</span> <span class='op'>?</span> <span class='symbol'>:qtriple</span> <span class='op'>:</span> <span class='symbol'>:triple</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span>
+  <span class='lbracket'>[</span> <span class='lparen'>(</span><span class='id identifier rubyid_has_graph?'>has_graph?</span> <span class='op'>?</span> <span class='symbol'>:quad</span> <span class='op'>:</span> <span class='lparen'>(</span><span class='id identifier rubyid_tripleTerm?'>tripleTerm?</span> <span class='op'>?</span> <span class='symbol'>:qtriple</span> <span class='op'>:</span> <span class='symbol'>:triple</span><span class='rparen'>)</span><span class='rparen'>)</span><span class='comma'>,</span>
     <span class='lparen'>(</span><span class='symbol'>:inferred</span> <span class='kw'>if</span> <span class='id identifier rubyid_inferred?'>inferred?</span><span class='rparen'>)</span><span class='comma'>,</span>
     <span class='id identifier rubyid_subject'>subject</span><span class='comma'>,</span>
     <span class='id identifier rubyid_predicate'>predicate</span><span class='comma'>,</span>
@@ -576,9 +576,9 @@
 </div>
 
       <div id="footer">
-  Generated on Sat Feb 17 20:47:39 2024 by
+  Generated on Mon May  5 18:40:20 2025 by
   <a href="https://yardoc.org" title="Yay! A Ruby Documentation Tool" target="_parent">yard</a>
-  0.9.34 (ruby-3.1.4).
+  0.9.37 (ruby-3.4.3).
 </div>
 
     </div>
