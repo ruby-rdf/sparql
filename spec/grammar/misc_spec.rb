@@ -140,6 +140,48 @@ describe SPARQL::Grammar do
                    (triple ?ev <http://example.org/b> ?b)))))
         }
       },
+      "issue 53": {
+        query: %(
+          SELECT ?s
+          WHERE {
+            ?s a skos:Concept .
+            ?s skos:related|^skos:related ?c .
+          }
+        ),
+        sse: %{(project (?s)
+                (sequence
+                  (bgp (triple ?s a <Concept>))
+                  (path ?s (alt <related> (reverse <related>)) ?c)))}
+      },
+      "issue 53 full": {
+        query: %(
+          PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
+          DESCRIBE ?s
+          WHERE {
+            VALUES ?c {
+              <urn:uuid:f5a254ac-4a2b-405e-91be-7de9fbf7174d>
+            }
+            ?s a skos:Concept .
+            ?s (skos:related|^skos:related|skos:broader|^skos:broader|skos:narrower|^skos:narrower)* ?c .
+          }
+        ),
+        sse: %{(describe (?s)
+                 (sequence
+                  (table (vars ?c) (row (?c <urn:uuid:f5a254ac-4a2b-405e-91be-7de9fbf7174d>)))
+                  (bgp (triple ?s a <http://www.w3.org/2004/02/skos/core#Concept>))
+                  (path ?s
+                   (path*
+                    (alt
+                     (alt
+                      (alt
+                       (alt
+                        (alt <http://www.w3.org/2004/02/skos/core#related>
+                         (reverse <http://www.w3.org/2004/02/skos/core#related>))
+                        <http://www.w3.org/2004/02/skos/core#broader> )
+                       (reverse <http://www.w3.org/2004/02/skos/core#broader>))
+                      <http://www.w3.org/2004/02/skos/core#narrower> )
+                     (reverse <http://www.w3.org/2004/02/skos/core#narrower>)) ) ?c )) )}
+      }
       #"dawg-optional-filter-005-not-simplified" => {
       #  query: %(
       #    # Double curly braces do NOT get simplified to single curly braces early on, before filters are scoped

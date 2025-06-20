@@ -25,6 +25,11 @@ module SPARQL; module Algebra
       operands.inject({}) {|hash, o| o.executable? ? hash.merge(o.variables) : hash}
     end
 
+    # Determine if this is an empty query, having no operands
+    def empty?
+      self.operands.empty?
+    end
+
     ##
     # Executes this upate on the given `queryable` graph or repository.
     #

@@ -895,6 +895,8 @@ module SPARQL::Grammar
             bgp
           elsif bgp.empty?
             query
+          elsif bgp.is_a?(SPARQL::Algebra::Operator::Sequence)
+            SPARQL::Algebra::Operator::Sequence.new(query, *bgp.operands)
           elsif bgp.is_a?(SPARQL::Algebra::Operator::Path)
             SPARQL::Algebra::Operator::Sequence.new(query, bgp)
           else
