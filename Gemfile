@@ -13,7 +13,6 @@ group :development do
   gem 'json-ld',          github: 'ruby-rdf/json-ld',             branch: 'develop'
   gem 'json-ld-preloaded',github: 'ruby-rdf/json-ld-preloaded',   branch: 'develop'
   gem 'ld-patch',         github: 'ruby-rdf/ld-patch',            branch: 'develop'
-  gem 'linkeddata',       github: 'ruby-rdf/linkeddata',          branch: 'develop'
   gem 'rdf-hamster-repo', github: 'ruby-rdf/rdf-hamster-repo',    branch: 'develop'
   gem 'rdf-isomorphic',   github: 'ruby-rdf/rdf-isomorphic',      branch: 'develop'
   gem 'rdf-json',         github: 'ruby-rdf/rdf-json',            branch: 'develop'
@@ -35,6 +34,11 @@ group :development do
   gem 'erubis',           '>= 2.7.0'
   gem 'htmlentities',     '>= 4.3.4'
   gem 'equivalent-xml',   '>= 0.6.0'
+
+  if RUBY_VERSION >= '3.1'
+    # Linkeddata depends on nokogiri ~> 1.18, which doesn't run on Ruby 3.0
+    gem 'linkeddata',     github: 'ruby-rdf/linkeddata',          branch: 'develop'
+  end
 end
 
 group :debug do
