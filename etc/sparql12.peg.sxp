@@ -281,19 +281,21 @@
   (seq '<<' ReifiedTripleSubject Verb ReifiedTripleObject _ReifiedTriple_1 '>>'))
  (rule _ReifiedTriple_1 (opt Reifier))
  (rule ReifiedTripleSubject
-  (alt Var iri RDFLiteral NumericLiteral BooleanLiteral BlankNode ReifiedTriple))
+  (alt Var iri RDFLiteral NumericLiteral BooleanLiteral BlankNode ReifiedTriple
+   TripleTerm ))
  (rule ReifiedTripleObject
   (alt Var iri RDFLiteral NumericLiteral BooleanLiteral BlankNode ReifiedTriple
    TripleTerm ))
  (rule TripleTerm (seq '<<(' TripleTermSubject Verb TripleTermObject ')>>'))
  (rule TripleTermSubject
-  (alt Var iri RDFLiteral NumericLiteral BooleanLiteral BlankNode))
+  (alt Var iri RDFLiteral NumericLiteral BooleanLiteral BlankNode TripleTerm))
  (rule TripleTermObject
   (alt Var iri RDFLiteral NumericLiteral BooleanLiteral BlankNode TripleTerm))
  (rule TripleTermData
   (seq '<<(' TripleTermDataSubject _TripleTermData_1 TripleTermDataObject ')>>'))
  (rule _TripleTermData_1 (alt iri 'a'))
- (rule TripleTermDataSubject (alt iri RDFLiteral NumericLiteral BooleanLiteral))
+ (rule TripleTermDataSubject
+  (alt iri RDFLiteral NumericLiteral BooleanLiteral TripleTermData))
  (rule TripleTermDataObject
   (alt iri RDFLiteral NumericLiteral BooleanLiteral TripleTermData))
  (rule VarOrIri (alt Var iri))
@@ -350,7 +352,8 @@
    BooleanLiteral Var ExprTripleTerm ))
  (rule ExprTripleTerm
   (seq '<<(' ExprTripleTermSubject Verb ExprTripleTermObject ')>>'))
- (rule ExprTripleTermSubject (alt iri RDFLiteral NumericLiteral BooleanLiteral Var))
+ (rule ExprTripleTermSubject
+  (alt iri RDFLiteral NumericLiteral BooleanLiteral Var ExprTripleTerm))
  (rule ExprTripleTermObject
   (alt iri RDFLiteral NumericLiteral BooleanLiteral Var ExprTripleTerm))
  (rule BrackettedExpression (seq '(' Expression ')'))
